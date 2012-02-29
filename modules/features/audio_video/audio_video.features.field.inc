@@ -2166,7 +2166,7 @@ function audio_video_field_default_fields() {
       'label' => 'Date Created',
       'required' => 0,
       'settings' => array(
-        'default_value' => 'now',
+        'default_value' => 'blank',
         'default_value2' => 'blank',
         'default_value_code' => '',
         'default_value_code2' => '',
@@ -2185,7 +2185,7 @@ function audio_video_field_default_fields() {
           'year_range' => '-3:+3',
         ),
         'type' => 'date_popup',
-        'weight' => '0',
+        'weight' => 0,
       ),
     ),
   );
@@ -2243,7 +2243,7 @@ function audio_video_field_default_fields() {
       'label' => 'Date Issued',
       'required' => 0,
       'settings' => array(
-        'default_value' => 'now',
+        'default_value' => 'blank',
         'default_value2' => 'blank',
         'default_value_code' => '',
         'default_value_code2' => '',
@@ -5182,7 +5182,7 @@ function audio_video_field_default_fields() {
       'label' => 'Available From (date)',
       'required' => 0,
       'settings' => array(
-        'default_value' => 'now',
+        'default_value' => 'blank',
         'default_value2' => 'blank',
         'default_value_code' => '',
         'default_value_code2' => '',
@@ -6972,7 +6972,7 @@ function audio_video_field_default_fields() {
       'label' => 'Available From (date)',
       'required' => 0,
       'settings' => array(
-        'default_value' => 'now',
+        'default_value' => 'blank',
         'default_value2' => 'blank',
         'default_value_code' => '',
         'default_value_code2' => '',

@@ -38,7 +38,7 @@ projects[views][version] = "3.2"
 ; Themes
 projects[omega][version] = "3.0"
 
-;  ; Git REpositories
+;  ; Git Repositories THESE ARE NOW BEING PULLED FROM THE SHELL SCRIPT  
 ;  projects[mediabase][download][type] = "git"
 ;  projects[mediabase][download][url] = "ssh://git@github.com/pinedrop/mediabase.git"
 ;  ; Uncomment the line below if you don't have ssh access to the git repository
@@ -60,7 +60,7 @@ projects[omega][version] = "3.0"
 ;  projects[mb_html5][type] = "theme"
 
 
-;Libraries
+; Libraries  THESE ARE RIGHT IN THE GIT REPO NOW
 ; libraries[saxon9he.jar][download][type] = "file"
 ; libraries[saxon9he.jar][download][url] = "http://sourceforge.net/projects/saxon/files/Saxon-B/9.1.0.8/saxonb9-1-0-8j.zip/download"
 ; libraries[saxon9he.jar][destination] = "sites/lib/saxon"

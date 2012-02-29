@@ -1,0 +1,7 @@
+; $Id$
+name = "Mediabase"
+description = "Mediabase customizations to drupal."
+core = 7.x
+package = SHANTI Mediabase
+
+

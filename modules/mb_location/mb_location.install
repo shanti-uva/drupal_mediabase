@@ -1,0 +1,60 @@
+<?php 
+
+/**
+* Create a Location Vocab and attach location fields to it
+**/
+function mb_location_install() {
+   
+   if (! taxonomy_vocabulary_machine_name_load('mb_location')) {
+      $vocab = new stdClass();
+      $vocab->machine_name = 'mb_location';
+      $vocab->module = 'mb_location';
+      $vocab->name = t('Mediabase Location Taxonomy');
+      $vocab->description = t('A taxonomy vocabulary for locations.');
+      taxonomy_vocabulary_save($vocab);
+      $km_vocab = taxonomy_vocabulary_machine_name_load('mb_location');
+      variable_set('mb_location_vid', $km_vocab->vid);
+      drupal_set_message('Created new Mediabase Location Taxonomy Vocabulary with id of: ' . $km_vocab->vid);
+   }
+   
+   // Create a field for uva place dictionary feature id'
+   $field_name = 'place_dictionary_id';
+   $field = field_info_field($field_name);
+   if (empty($field)) {
+      $field = array(
+         'field_name' => 'place_dictionary_id',
+         'type' => 'number_integer',
+         'cardinality' => 1,
+         'settings' => array(
+            'allowed_values' => array(
+               0 => array(
+                  'vocabulary' => 'mb_location',
+                  'parent' => 0, // FIXME & TODO
+                  ),
+               ),
+            ),
+         );
+      field_create_field($field);
+   }
+   
+   // Attach the field to vocab entity
+   $instance = array(
+      'field_name' => $field['field_name'],
+      'entity_type' => 'taxonomy_term',
+      'bundle' => 'mb_location', //the vocab machine name
+      'label' => t('Place Dictionary Id'),
+      'required' => TRUE,
+      'widget' => array(
+         'type' => 'textfield',
+         ),
+      'settings' => array(
+         // 'user_register_form' => TRUE,
+         ),
+      'display' => array(
+         'default' => array(
+            // 'type' => 'taxonomy_term_reference_plain',
+            ),
+         ),
+      );
+   field_create_instance($instance);
+}

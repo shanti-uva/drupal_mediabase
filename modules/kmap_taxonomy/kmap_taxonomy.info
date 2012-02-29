@@ -1,0 +1,6 @@
+name = Kmap Taxonomy
+description = Provide a Taxonomy Vocabulary and Form widget for Kmaps
+package = SHANTI Mediabase
+core = 7.x
+files[] = kmap.inc
+dependencies[] = taxonomy

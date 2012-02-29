@@ -1,0 +1,48 @@
+<?php
+
+/**
+* If Shibboleth first/last name attributes are present then add them to the user profile on login 
+* but only if both profile fields are empty
+**/
+function mb_shibboleth_user_login(&$edit, &$account) {
+   global $user;
+   if (  (isset($_SERVER['givenName']) && isset($_SERVER['sn'])) 
+      && (empty($user->profile_firstname) && empty($user->profile_lastname)) ) 
+   {
+      $edit['profile_firstname'] = $_SERVER['givenName'];
+      $edit['profile_lastname'] =  $_SERVER['sn'];
+      profile_save_profile($edit, $user, 'Personal Information');
+   }
+}
+
+function mb_shibboleth_form_alter(&$form, &$form_state, $form_id) {
+   switch ($form_id) {
+   case 'user_login':
+      $form['drupal-login'] = array(
+         '#type' => 'fieldset', 
+         '#title' => t('Drupal Login'), 
+         '#weight' => -5, 
+         '#collapsible' => TRUE, 
+         '#collapsed' => TRUE, 
+         'name' => $form['name'], 
+         'pass' => $form['pass'], 
+         );
+      unset($form['name']);
+      unset($form['pass']);
+      break;
+   }
+}
+
+function mb_shibboleth_username_alter(&$name, $account) {
+  /*  $username = $name;
+   $profile = (array)array_shift(profile2_load_by_user($account));
+   if ( isset($profile['field_firstname']['und'][0]['safe_value']) && isset($profile['field_lastname']['und'][0]['safe_value'])) {
+      $username = $profile['field_firstname']['und'][0]['safe_value'] . " " . $profile['field_lastname']['und'][0]['safe_value'];
+   }
+   dpm($profile, "profile");
+   dpm($username, "username");
+   return $username;
+   // dpm($name, "name");
+   // dpm($account, "account"); */
+}
+

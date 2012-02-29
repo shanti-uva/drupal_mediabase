@@ -1,0 +1,13 @@
+; $Id$
+name = "Mediabase Structure"
+description = "This module provides functionality related to the Collection / Members / Group Structure
+               1) blocks for  Collection pages. 
+               2) provide utilities for adding users and objects.
+               3) manage the tandem noderef/taxo-term set up."
+core = 7.x
+package = SHANTI Mediabase
+
+dependencies[] = og
+
+
+

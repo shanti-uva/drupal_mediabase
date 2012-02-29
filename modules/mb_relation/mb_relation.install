@@ -1,0 +1,126 @@
+<?php
+
+/**
+* Some relation API help
+* http://drupal.org/node/1276284 for creating relating relation types
+**/
+function mb_relation_install() {
+   $relation_types = array();
+   //HAS PART
+   $relation_type = new stdClass();
+   $relation_type->disabled = FALSE; /* Edit this to true to make a default relation_type disabled initially */
+   $relation_type->api_version = 1;
+   $relation_type->relation_type = 'has_part';
+   $relation_type->label = 'has part';
+   $relation_type->reverse_label = 'is part of';
+   $relation_type->directional = 1;
+   $relation_type->transitive = 1;
+   $relation_type->r_unique = 1;
+   $relation_type->min_arity = 2;
+   $relation_type->max_arity = 0; //infinite
+   $relation_type->source_bundles = array(
+      0 => 'node:audio',
+      1 => 'node:video',
+      );
+   $relation_type->target_bundles = array(
+      0 => 'node:audio',
+      1 => 'node:video',
+      );
+   $relation_types[] = $relation_type;
+   
+   //HAS VERSION
+   $relation_type = new stdClass();
+   $relation_type->disabled = FALSE; /* Edit this to true to make a default relation_type disabled initially */
+   $relation_type->api_version = 1;
+   $relation_type->relation_type = 'has_version';
+   $relation_type->label = 'has version';
+   $relation_type->reverse_label = 'is version of';
+   $relation_type->directional = 1;
+   $relation_type->transitive = 0;
+   $relation_type->r_unique = 1;
+   $relation_type->min_arity = 2;
+   $relation_type->max_arity = 0; //infinite
+   $relation_type->source_bundles = array(
+      0 => 'node:audio',
+      1 => 'node:video',
+      );
+   $relation_type->target_bundles = array(
+      0 => 'node:audio',
+      1 => 'node:video',
+      );
+   $relation_types[] = $relation_type;
+   
+   // HAS FORMAT
+   $relation_type = new stdClass();
+   $relation_type->disabled = FALSE; /* Edit this to true to make a default relation_type disabled initially */
+   $relation_type->api_version = 1;
+   $relation_type->relation_type = 'has_format';
+   $relation_type->label = 'has format';
+   $relation_type->reverse_label = 'is format of';
+   $relation_type->directional = 1;
+   $relation_type->transitive = 0;
+   $relation_type->r_unique = 0;
+   $relation_type->min_arity = 2;
+   $relation_type->max_arity = 0; //infinite
+   $relation_type->source_bundles = array(
+      0 => 'node:audio',
+      1 => 'node:video',
+      );
+   $relation_type->target_bundles = array(
+      0 => 'node:audio',
+      1 => 'node:video',
+      );
+   $relation_types[] = $relation_type;
+   
+   //REFERENCE
+   $relation_type = new stdClass();
+   $relation_type->disabled = FALSE; /* Edit this to true to make a default relation_type disabled initially */
+   $relation_type->api_version = 1;
+   $relation_type->relation_type = 'references';
+   $relation_type->label = 'references';
+   $relation_type->reverse_label = 'is referenced by';
+   $relation_type->directional = 1;
+   $relation_type->transitive = 0;
+   $relation_type->r_unique = 1;
+   $relation_type->min_arity = 2;
+   $relation_type->max_arity = 0; //infinite
+   $relation_type->source_bundles = array(
+      0 => 'node:audio',
+      1 => 'node:video',
+      );
+   $relation_type->target_bundles = array(
+      0 => 'node:audio',
+      1 => 'node:video',
+      );
+   $relation_types[] = $relation_type;
+   
+   //REQUIRES
+   $relation_type = new stdClass();
+   $relation_type->disabled = FALSE; /* Edit this to true to make a default relation_type disabled initially */
+   $relation_type->api_version = 1;
+   $relation_type->relation_type = 'requires';
+   $relation_type->label = 'requires';
+   $relation_type->reverse_label = 'is required by';
+   $relation_type->directional = 1;
+   $relation_type->transitive = 1;
+   $relation_type->r_unique = 1;
+   $relation_type->min_arity = 2;
+   $relation_type->max_arity = 0; //infinite
+   $relation_type->source_bundles = array(
+      0 => 'node:audio',
+      1 => 'node:video',
+      );
+   $relation_type->target_bundles = array(
+      0 => 'node:audio',
+      1 => 'node:video',
+      );
+   $relation_types[] = $relation_type;
+   
+   foreach ($relation_types as $r_type) {
+      $rid =   relation_type_save($r_type, array());
+      drupal_set_message( "Creating relation type: ". $rid);
+   }
+}
+
+
+

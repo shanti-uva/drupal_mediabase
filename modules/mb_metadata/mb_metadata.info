@@ -1,0 +1,6 @@
+; $Id
+name = Mediabase Metadata
+description = "Provides customizations for handling PBCore Metadata"
+core = 7.x
+dependencies[] = kaltura
+package = SHANTI Mediabase

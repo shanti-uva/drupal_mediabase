@@ -1,0 +1,3 @@
+[submodule "modules/transcripts"]
+	path = modules/transcripts
+	url = git@github.com:pinedrop/transcripts.git

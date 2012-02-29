@@ -1,0 +1,7 @@
+; $Id
+name = Mediabase Relation
+description = "Provides a PBCore Relation field for audio/video objects"
+core = 7.x
+dependencies[] = relation
+dependencies[] = relation_select
+package = SHANTI Mediabase

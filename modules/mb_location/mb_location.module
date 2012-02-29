@@ -1,0 +1,256 @@
+<?php
+/**
+* Create a taxonomy term reference field type widget for location selection
+* @todo un-hardcode server address
+**/   
+
+function mb_location_menu() {
+   $items['geonames/search'] = array(
+      'title'            => 'jQuery Autocomplete URL',
+      'access arguments' => array('access content'),
+      'page callback'    => 'geonames_search',
+      'type'             => MENU_CALLBACK,
+      );
+   $items['place-dictionary/search'] = array(
+      'title'            => 'jQuery Autocomplete URL',
+      'access arguments' => array('access content'),
+      'page callback'    => 'place_dict_search',
+      'type'             => MENU_CALLBACK,
+      );
+   return $items;
+}
+
+/**
+* Implements hook_field_widget_info().
+*/
+function mb_location_field_widget_info() {
+   return array(
+      'mb_location' => array (
+         'label' => 'Mediabase Location Widget',
+         'field types' => array('taxonomy_term_reference'),
+         'behaviors' => array(
+            'multiple values' => FIELD_BEHAVIOR_CUSTOM, 
+            'default value' => FIELD_BEHAVIOR_DEFAULT,
+            ),
+         'settings' => array(
+            'show_place_dictionary' => true,
+            'show_geonames' => false,
+            'show_map' => false,
+            ),
+         ),
+      );
+}
+
+/**
+* Implements hook_field_settings_form().
+*/
+function mb_location_field_widget_settings_form($field, $instance) {
+   $widget = $instance['widget'];
+   $settings = $widget['settings'];
+   $form = array();
+   
+   $form['location_selector_settings'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Locations Selector Settings'),
+      );
+   $form['location_selector_settings']['help'] = array(
+      '#markup' => t('<p>The Location Selector Widget provides three methods to choose location: UVa Place Dictionary, Geonames and via a map.</p>')
+      );
+   $form['location_selector_settings']['show_place_dictionary'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Show Place Dictionary'),
+      '#default_value' => isset($settings['location_selector_settings']) ? $settings['location_selector_settings']['show_place_dictionary'] : $settings['show_place_dictionary'],
+      );
+   $form['location_selector_settings']['show_geonames'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Show Tree Selector'),
+      '#default_value' => isset($settings['location_selector_settings']) ? $settings['location_selector_settings']['show_geonames'] : $settings['show_geonames'],
+      );
+   $form['location_selector_settings']['show_map'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Show Branch Filter'),
+      '#default_value' => isset($settings['location_selector_settings']) ? $settings['location_selector_settings']['show_map'] : $settings['show_map'],
+      );
+   return $form;
+}
+
+/**
+* Implements hook_widget_field_form().
+*/
+function mb_location_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
+   $widget = $instance['widget'];
+   $settings = $widget['settings'];
+   $value_key = key($field['columns']);
+   $type = $widget['type'];
+   
+   $default_value = array();
+   foreach($items as $item) {
+      $key = $item[$value_key];
+      if($key === 0) {
+         $default_value[$key] = '0';
+      }
+      else {
+         $default_value[$key] = $key;
+      }
+   }
+   
+   $multiple = $field['cardinality'] > 1 || $field['cardinality'] == FIELD_CARDINALITY_UNLIMITED;
+   $properties = array();
+   
+   if(!array_key_exists('#value', $element))
+      $element['#value'] = array();
+   
+   // A switch statement, in case we ever add more widgets to this module.
+   switch($instance['widget']['type']) {
+   case 'mb_location':
+      $element['#parent_tid'] = $field['settings']['allowed_values'][0]['parent'];
+      $voc = taxonomy_vocabulary_machine_name_load($field['settings']['allowed_values'][0]['vocabulary']);
+      $element['#vocabulary'] = $voc->vid;
+      
+      global $base_path;
+      $field_name = $field['field_name'];
+      $location_selector_target_div = $field_name . "_location_selector";
+      $location_selector_hidden_input = str_replace("_", "-", "edit-$field_name-und-place-dictionary-id");
+      
+      $element['location_selector'] = array(
+         '#markup' => "<div id='$location_selector_target_div' class='form-item'></div>",
+         );
+      // Get locations for pre-populating the location widget
+      $locations = array();
+      foreach($items as $item) {
+         $key = $item[$value_key];
+         if($key > 0) {
+            $term = taxonomy_term_load($key);
+            $locations["tid:$term->tid"] = array('id' => "tid:$term->tid", 'label' => $term->name);
+         }
+      }
+      $element['location_id'] = array(
+         '#type' => 'hidden',
+        /*  '#type' => 'textfield', 
+         '#title' => 'Location Id', */
+         '#default_value' => '', // Form is prepopulated by the js widget based on 
+         '#attributes' => array('id'=>$location_selector_hidden_input),
+         );
+      
+      // Add the Javascript
+      drupal_add_library('system', 'ui');
+      drupal_add_library('system', 'ui.autocomplete');
+      drupal_add_library('system', 'ui.position');
+      drupal_add_library('system', 'ui.dialog');
+      drupal_add_library('system', 'ui.draggable');
+      drupal_add_library('system', 'ui.resizable');
+      drupal_add_js(drupal_get_path('module', 'mb_location') .'/location-selector.js');
+      drupal_add_js(drupal_get_path('module', 'mb_location') .'/add-location-selectors.js');
+      
+      //  Settings for the js selector widget config in add-location-selectors.js
+      $js_settings = array(
+         'target_div' => $location_selector_target_div,
+         'hidden_input' => $location_selector_hidden_input,
+         'prepopulate_values' => $locations,
+         'show_place_dictionary' =>  isset($settings['location_selector_settings']) ? $settings['location_selector_settings']['show_place_dictionary']  : $settings['show_place_dictionary'],
+         'show_geonames' => isset($settings['location_selector_settings']) ? $settings['location_selector_settings']['show_geonames'] : $settings['show_geonames'],
+         'show_map' => isset($settings['location_selector_settings']) ? $settings['location_selector_settings']['show_map'] : $settings['show_map'],
+         'selector_title' => $instance['label'],
+         );
+      $js_field_settings = array( // add unique settings for each field
+         $field['field_name'] => $js_settings
+         );
+      drupal_add_js(array('mb_location' => $js_field_settings), 'setting');
+      break;
+   }
+   
+   $element += array(
+      '#value_key' => $value_key,
+      '#element_validate' => array('_mb_location_widget_validate'),
+      '#properties' => $properties,
+      );
+   
+   $form['#submit'][] = '_mb_location_submit';
+   
+   return $element;
+}
+
+/**
+* Implementation of hook_field_formatter_info().
+*/
+function mb_location_field_formatter_info() {
+   return array(
+      'mb_location' => array(
+         'label' => t('Mediabase Location Default'),
+         'field types' => array('taxonomy_term_reference'),
+         'settings' => array(),
+         ),
+      );
+}
+
+
+/**
+* Implements hook_field_formatter_view().
+*/
+function mb_location_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+   module_load_include( 'inc','mb_location','mb_location');
+   $elements = array();
+  foreach ($items as $delta => $item) {
+    $elements[$delta] = array(
+      '#markup' => _mb_location_format_item($item),
+    );
+  }
+  return $elements;
+}
+
+
+/**
+* Theme function for 'default' mb_location field formatter.
+*/
+function theme_mb_location_formatter_default($element) {
+   $field = content_fields($element['#field_name'], $element['#type_name']);
+   $keys = array_filter(array_keys($element), "is_numeric");
+   $output = '<ul>';
+   $field_is_empty = TRUE;
+   foreach ( $keys as $idx ) {
+      if ( ! mb_location_content_is_empty($element[$idx]['#item'], $field) ) {
+         $field_is_empty = FALSE;
+         $output .= '<li>' . format_element($element[$idx]['#item']) . '</li>';
+      }
+   }
+   $output .= '</ul>';
+   $output = $field_is_empty ? '' : $output;
+   return $output;
+}
+
+function _mb_location_get_parent($tid) {
+   $query = db_query("select h.parent from {taxonomy_term_hierarchy} h where h.tid = :tid limit 1", array(':tid'  => $tid));
+   $parent_tid = 0;
+   foreach($query as $term) {
+      $parent_tid = $term->parent;
+   }
+   return $parent_tid;
+}
+
+function _mb_location_submit(&$form, &$form_state) {
+}
+
+function _mb_location_widget_validate($element, &$form_state, $form) {
+   module_load_include( 'inc','mb_location','mb_location');
+   $field_name = $element['#field_name'];
+   $location_ids = explode(",",$form_state['values'][$field_name]['und']['location_id']);
+   $value = array();
+   foreach($location_ids as $loc_id) {
+      if (empty( $loc_id ) ) {
+         continue;
+      }
+      $loc_struct = explode(':', $loc_id);
+      $location_type = $loc_struct[0];
+      $location_id = $loc_struct[1];
+      if ($location_id > 0) {
+         $location = new MediabaseLocation($loc_id);
+         $term = $location->getTerm();
+         $value[] = (array)$term;
+      }
+   }
+   form_set_value($element, $value, $form_state);
+}
+
+
+function mb_location_entity_presave($entity, $type) {
+}

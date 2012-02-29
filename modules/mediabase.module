@@ -1,0 +1,86 @@
+<?php
+
+/**
+* This module provides assorted and miscellaneous customizations for the Mediabase Drupal application
+*/
+
+function mediabase_init() {
+   //dd('WELCOME TO MEDIABASE');   
+}
+
+function mediabase_menu() {
+   $items = array();
+   $items['admin/config/media/mediabase'] = array(
+   'title' => 'Mediabase Settings',
+   'description' => 'Settings for Mediabase',
+   'page callback' => 'drupal_get_form',
+   'page arguments' => array('mediabase_settings_form'),
+   'access arguments' => array('administer mediabase'),
+   'type' => MENU_NORMAL_ITEM,
+   );
+   return $items;
+}
+
+function mediabase_perm() {
+   return array(
+      'administer mediabase',
+      );
+}
+
+function mediabase_node_presave($node) {
+   switch ($node->type) {
+   case 'video':
+   case 'audio':
+      //dpm($node, "node");
+   }
+}
+
+function mediabase_node_view($node) {
+   switch ($node->type) {
+   case 'video':
+   case 'audio':
+      $node->content['mb_identifier'] = array(
+         '#markup' => "<div class='mb-identifier'><label>" . t('Mediabase Id') . ": </label><span>$node->nid</span></div>",
+         '#weight' => 0,
+         );
+   }
+}
+
+function mediabase_node_load($nodes, $types) {
+   $node = array_shift($nodes);
+    switch ($node->type) {
+   case 'video':
+   case 'audio':
+      //dpm($node, "the first node in \$nodes");
+   }
+}
+
+function mediabase_settings_form($form_id, $form_state) {
+   $form['partner_data'] = array(
+      '#type' => 'textarea',
+      '#title' => t('Partner data prefix patterns'),
+      '#description' => t('A list of pipe-delimited values (prefix | label | delimiter). Prefix is the prefix used in a Kaltura Batch Upload CSV in the partner data field, e.g. thl-3918.'),
+      '#default_value'=> variable_get('mediabase_partner_data_prefixes'),
+      '#rows' => 10,
+      );
+   $form['submit'] = array(
+      '#type' => 'submit',
+      '#value' => t('Save settings'),
+      );
+return $form;
+}
+
+ function mediabase_settings_form_submit($form, &$form_state) {
+ variable_set('mediabase_partner_data_prefixes', $form_state['values']['partner_data']);
+ drupal_set_message(t('The settings have been saved'));
+}
+
+function mediabase_form_alter(&$form, &$form_state, $form_id) {
+   switch($form_id) {
+   case 'node_type_form':
+      //$form['type']['#disabled'] = FALSE;
+   }
+}
+
+
+

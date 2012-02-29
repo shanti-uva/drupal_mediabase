@@ -1,0 +1,41 @@
+<?php
+
+/**
+* This is a hackish way of dealing with the competing title fields: drupal titles and pbcore titles
+* The first PBCore title is always copied to the drupal title.
+**/
+function mb_metadata_form_alter(&$form, &$form_state, $form_id) {
+   switch ($form_id) {
+   case 'video_node_form':
+      // Deliberate Fall-through
+   case 'audio_node_form':
+      $validators = isset($form['title']['#element_validate']) ? $form['title']['#element_validate'] : array();
+      array_unshift($validators, 'mb_metadata_validate_title');
+      $form['title']['#element_validate'] = $validators;
+      $form['title']['#type'] = 'hidden';
+      $form['title']['#value'] = 'autotitle';
+      break;
+   case 'field_collection_item_form':
+      /* if ( isset($form['field_title']) ) {
+         $validators = isset($form['title']['#element_validate']) ? $form['title']['#element_validate'] : array();
+         array_unshift($validators, 'mb_metadata_validate_pbcore_title');
+         $form['title']['#element_validate'] = $validators;
+      }
+      break; */
+   }
+}
+
+function mb_metadata_validate_title($element, &$form_state) {
+   // pbcore_title is a field_collection containing field_title: good grief;
+   $pbcore_title = $form_state['values']['field_pbcore_title']['und'][0]['field_title']['und'][0]['value'];
+   $form_state['values']['title'] = $pbcore_title;
+}
+
+/* function mb_metadata_validate_pbcore_title($element, &$form_state) {
+   dpm($element, "element");
+   dpm($form_state, "form_state");
+   
+   // pbcore_title is a field_collection containing field_title: good grief;
+   $pbcore_title = $form_state['values']['field_pbcore_title']['und'][0]['field_title']['und'][0]['value'];
+   $form_state['values']['title'] = $pbcore_title;
+} */

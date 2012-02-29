@@ -1,0 +1,335 @@
+<?php
+// $Id:$
+/**
+* @file
+* This module is an interface between Kaltura Entries and PBCore Fields for UVA SHANTI group's Mediabase application.
+* 
+* It autopopulates aome pbcore fields
+* It saves pbcore metadata to Kaltura
+* It creates Mediabase node types (video,audio, image) when importing entries from Kaltura
+*
+* THE PBCORE FIELDS
+* PbCoreIdentifier
+* PbCoreTitle
+* PBCoreSubject
+* PBCoreDescription
+* PBCoreGenre
+* PBCoreRelation
+* PBCoreCoverage
+* PBCoreCreator
+* PBCoreInstantiations
+*    -PBCoreDateAvailable
+*    -PBCoreFormatID
+*    -PBCoreAnnotation
+* PBCoreExtension        
+*/
+
+function mb_kaltura_init() {
+   drupal_add_js(drupal_get_path('module', 'mb_kaltura') . '/js/mb-kaltura.js');
+   /* error_reporting(E_ALL); 
+   ini_set("display_errors", 1);
+   ini_set('memory_limit','200M');
+   define("METADATA_PROFILE_ID", 2631);
+   define("METADATA_OBJECT_TYPE", 1);
+   module_load_include('inc', 'mb_kaltura', 'mb_kaltura'); */
+}
+
+function mb_kaltura_menu() {
+   $items = array();
+   //This item overrides the menu item of same path defined in kaltura.module.
+   //Their import mechanism is broken so we re-do it here
+   //since we need extra behaviour anyway.
+   //This means this module MUST BE HEAVIER WEIGHT than kaltura.module
+   $items['admin/config/media/kaltura/entries/import'] = array(
+      'title' => 'Import Kaltura Items',
+      'description' => 'import your partner\'s entries from kaltura\'s server to drupal, as nodes',
+      'page callback' => 'drupal_get_form',
+      'page arguments' => array('mb_kaltura_import_form'),
+      'access arguments' => array('administer kaltura'),
+      'type' => MENU_NORMAL_ITEM,
+      'file' => 'mb_kaltura.inc',
+      );
+   //THIS IS A DUPLICATE OF admin/settings/kaltura/entries/import 
+   //so that it appears in the admin/content menu. If you change one, change the other too :] ... please.
+   $items['admin/content/mediabase/import'] = array(
+      'title' => 'Import Kaltura Items',
+      'description' => 'import your partner\'s entries from kaltura\'s server to drupal, as nodes',
+      'page callback' => 'drupal_get_form',
+      'page arguments' => array('mb_kaltura_import_form'),
+      'access arguments' => array('administer mediabase'), //THIS LINE IS ALLOWED TO DIFFER
+      'type' => MENU_LOCAL_TASK,
+      'file' => 'mb_kaltura.inc',
+      );
+   $items['xml/pbcore/%'] = array(
+      'title' => 'PBCore XML',
+      'description' => 'Modify items in PBCore elements are enabled.',
+      'page callback' => 'xml_pbcore',
+      'page arguments' => array(2),
+      'access arguments' => array('access content'), 
+      'type' => MENU_CALLBACK,
+      'file' => 'mb_kaltura.inc',
+      );
+   $items['mb_kaltura/autocomplete/collection'] = array(
+      'title'            => 'Ahah callback',
+      'access arguments' => array('access content'),
+      'page callback'    => 'mb_kaltura_autocomplete_collection',
+      'type'             => MENU_CALLBACK,
+      'file' => 'mb_kaltura.inc',
+      );
+   $items['mb_kaltura/autocomplete/user'] = array(
+      'title' => 'Ahah callback',
+      'access arguments' => array('access content'),
+      'page callback' => 'mb_kaltura_autocomplete_user',
+      'type' => MENU_CALLBACK,
+      'file' => 'mb_kaltura.inc',
+      );
+   return $items;
+}
+
+function mb_kaltura_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
+   /*    $kaltura_node_type_names = array('video', 'audio', 'image', 'video2');
+   if ( ! isset($node->no_sync_kaltura) && in_array( $node->type , $kaltura_node_type_names) )  {
+   switch ($op) {
+   case 'presave':
+   autopopulate_pbcore_identifier($node);
+   autopopulate_pbcore_title($node);
+   autopopulate_pbcore_instantiation($node);
+   break;
+   case 'insert':
+   case 'update':
+   //$results = _save_kaltura_metadata($node);
+   //_clear_node_cache($node);
+   break;
+   case 'delete':
+   $entry_id = $node->{"field_kaltura_$node->type"}[0]['value'];
+   $result=db_query("DELETE FROM {node_kaltura} WHERE kaltura_entryId = '%s'", $entry_id);
+   foreach ($node->field_instantiation_noderef as $noderef){
+   if ( is_numeric($noderef['nid'] ) ) {
+   node_delete($noderef['nid']);
+   }
+   }
+   }
+   } */
+}
+
+
+function mb_kaltura_form_alter(&$form, &$form_state, $form_id){
+   /*    switch ($form_id) {
+   case 'node_delete_confirm':
+   $node = node_load($form['nid']['#value']);
+   if ( in_array($node->type, array( 'video', 'audio'))) {
+   $newform = array();
+   $newform['delete_from_kaltura'] = array( 
+   '#type'=>'checkbox',
+   '#title' => t('Delete Kaltura version also.'),
+   );
+   // add the option before the buttons
+   $pos = array_search('nid', array_keys($form));
+   $form = array_merge(array_slice($form, 0, $pos), $newform, array_slice($form, $pos));
+   array_unshift($form['#submit'], 'check_delete_from_kaltura');
+   }
+   break;
+   case 'video_node_form':
+   case 'audio_node_form':
+   break;
+   }  */
+}
+
+/**
+*  check recent media nodes 
+*  compare how many instantiations we are expecting (per type)
+*  check for timeouts somehow
+*  probably we can fetch the flavor profile for expected flavor sets
+*/
+function mb_kaltura_cron() {
+   /*    watchdog('cron', "pbcore kaltura cron invoked...", WATCHDOG_WARNING);
+   $minimum_inst_count = 2;
+   $result_limit = 2;
+   // actually kaltura transcoding settings list 6 
+   // but only two seem to ever get compressed
+   
+   // TODO un-hardcode content_field_instantiation_noderef
+   $sql = "SELECT node.nid
+   FROM {content_field_instantiation_noderef} as noderef
+   INNER JOIN {node} as node ON node.nid = noderef.nid
+   AND node.type in ('video', 'audio')
+   GROUP BY node.nid
+   HAVING (max(delta)+1) < %d
+   LIMIT 0,%d";
+   
+   $results=db_query($sql, $minimum_inst_count, $result_limit);
+   $counter = 0;
+   $nids = '';
+   while ( $row = db_fetch_array($results) ) {
+   $node = node_load($row['nid']);
+   node_save($node);
+   $counter++;
+   $nids .= "$node->nid, ";
+   }
+   if ($counter) {
+   watchdog('cron', "pbcore kaltura cron updated $count nodes: $nids", WATCHDOG_WARNING);
+   } */
+}
+
+function mb_kaltura_field_formatter_info() {
+   return array(
+      'field_kaltura_player_html5_video' => array(
+         'label' => t('Raw Video Tag for Html5 Video'),
+         'field types' => array('field_kaltura_entryid'),
+         'setting' => array(
+            ),
+         ),
+      'field_kaltura_player_html5_audio' => array(
+         'label' => t('Raw Video Tag for Html5 Audio'),
+         'field types' => array('field_kaltura_entryid'),
+         'setting' => array(
+            ),
+         ),
+      );
+}
+
+function mb_kaltura_theme() {
+   return array(
+      'kaltura_player_html5_video' => array(
+         'variables' => array(),
+         //'file' => 'mb_kaltura.theme.inc',
+         ),
+      'kaltura_player_html5_audio' => array(
+         'variables' => array(),
+         ),
+      'mb_kaltura_import_form' => array(
+         'function' => 'theme_mb_kaltura_import_form',
+         'file' => 'mb_kaltura.inc',
+         ),
+      );
+}
+
+function mb_kaltura_video_tag($entry_id) {
+   $client=KalturaHelpers::getKalturaClient($isAdmin=TRUE);
+   // $result = $client->media->get($entry_id);
+   // dpm($result, "result");
+   try {
+      $flavors=$client->flavorAsset->getByEntryId($entry_id);
+   }
+   catch (Exception $e) {
+      watchdog('mb_kaltura', t('Kaltura Exception: %message, backtrace: <pre>!trace</pre>'), array('%message' => $e->getMessage(), '!trace' => $e->getTrace()));
+      $msg = t("Had trouble retrieving flavors for Kaltura entry $entry_id.");
+      $msg .= sprintf( "%s: %s %s <br/> %s %s", get_class($e), $e->getMessage(), $e->getCode(), $e->getFile(), $e->getLine());
+      drupal_set_message( $msg, "error" );
+   }
+   
+   $html5_sources = array();
+   foreach ($flavors as $flavor) {
+      if ( !($flavor->status == KalturaFlavorAssetStatus::READY) || $flavor->isOriginal ) {
+         continue;
+      }
+		
+      if ( in_array( $flavor->fileExt, array('webm', 'mp4', 'ogg') ) ) {
+         	if ( $flavor->fileExt == 'mp4' 
+         		&& ( !in_array( 'h264', explode(",",$flavor->tags) ) ) ) {
+                 //|| $flavor->bitrate < 600 ) ) {
+         					continue;
+                 }
+         $location = $client->flavorAsset->getDownloadUrl($flavor->id);
+         $html5_sources[] = (object)array(
+            'type' => $flavor->fileExt,
+            'src' => $location,
+            'width' => $flavor->width,
+            'height' => $flavor->height,
+            );
+      }
+   }
+   
+   return theme('kaltura_player_html5_video', array('html5_sources' => $html5_sources));
+}
+
+
+function mb_kaltura_audio_tag($entry_id) {
+   $client=KalturaHelpers::getKalturaClient($isAdmin=TRUE);
+   // $result = $client->media->get($entry_id);
+   // dpm($result, "result");
+   try {
+      $flavors=$client->flavorAsset->getByEntryId($entry_id);
+   }
+   catch (Exception $e) {
+      watchdog('mb_kaltura', t('Kaltura Exception: %message, backtrace: <pre>!trace</pre>'), array('%message' => $e->getMessage(), '!trace' => $e->getTrace()));
+      $msg = t("Had trouble retrieving flavors for Kaltura entry $entry_id.");
+      $msg .= sprintf( "%s: %s %s <br/> %s %s", get_class($e), $e->getMessage(), $e->getCode(), $e->getFile(), $e->getLine());
+      drupal_set_message( $msg, "error" );
+   }
+   
+      $html5_sources = array();
+   foreach ($flavors as $flavor) {
+      if ( !($flavor->status == KalturaFlavorAssetStatus::READY) || $flavor->isOriginal ) {
+         continue;
+      }
+		
+      if ( in_array( $flavor->fileExt, array('mp3', 'ogg') ) ) {
+         $location = $client->flavorAsset->getDownloadUrl($flavor->id);
+         $html5_sources[] = (object)array(
+            'type' => $flavor->fileExt,
+            'src' => $location,
+            );
+         
+      }
+   }
+   
+   return theme('kaltura_player_html5_audio', array('html5_sources' => $html5_sources));
+}
+
+function mb_kaltura_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+   $element = array();
+   $settings = $field['settings'];
+   $entry_id = $items[0]['entryid'];
+   $type = !empty($items[0]['mediatype']) ? $items[0]['mediatype'] : $query['kaltura_media_type'];
+   /* $query = db_select('node_kaltura', 'k')
+   ->fields('k')
+   ->condition('kaltura_entryid', $item, '=')
+   ->execute()
+   ->fetchAssoc();
+   dpm($query, "query"); */
+   
+   switch ($display['type']) {
+   case 'field_kaltura_player_html5_video':
+      $element[0]['#markup'] = mb_kaltura_video_tag($entry_id);
+      break;
+   case 'field_kaltura_player_html5_audio':
+      $element[0]['#markup'] = mb_kaltura_audio_tag($entry_id);
+      break;
+   }
+   return $element;
+}
+
+function theme_kaltura_player_html5_video($vars) {
+   /*   if (variable_get('kaltura_add_html5', 1) == 1 && !empty($vars['embed']['js'])) {
+   drupal_add_js($vars['embed']['js'], 'external');
+   drupal_add_js('mw.setConfig( \'EmbedPlayer.EnableIframeApi\', false );', 'inline');
+   } */
+   $out = '<div class="kaltura">';
+   $out .= '<div class="kaltura-html5-video">
+   <video controls="controls">';
+   foreach ($vars['html5_sources'] as $src) {
+      $out .= "<source type='video/$src->type' src='$src->src' width='$src->width' height='$src->height' />";      
+   }
+   $out .= '</video>
+   </div>';
+   $out .= '</div>';
+   return $out;
+}
+
+function theme_kaltura_player_html5_audio($vars) {
+   /*   if (variable_get('kaltura_add_html5', 1) == 1 && !empty($vars['embed']['js'])) {
+   drupal_add_js($vars['embed']['js'], 'external');
+   drupal_add_js('mw.setConfig( \'EmbedPlayer.EnableIframeApi\', false );', 'inline');
+   } */
+   $out = '<div class="kaltura">';
+   $out .= '<div class="kaltura-html5-audio">
+   <audio controls="controls">';
+   foreach ($vars['html5_sources'] as $src) {
+      $out .= "<source type='audio/$src->type' src='$src->src'  />";      
+   }
+   $out .= '</audio>
+   </div>';
+   $out .= '</div>';
+   return $out;
+}

@@ -1,0 +1,12 @@
+; $Id$
+name = "Mediabase Shibboleth"
+description = "This module looks for Shibboleth Attributes in the $_SERVER variable
+               when a user logs in and prompts user to create shibboleth groups that
+               do not yet exist in Mediase. In addition it adds shibboleth group members
+                  to their corresponding drupal groups. It also integrates with Realname 
+               to grab the user's realname and use it to populate the user profile."
+core = 7.x
+package = SHANTI Mediabase
+
+
+

@@ -15,7 +15,7 @@ function collection_context_default_contexts() {
   $context->api_version = 3;
   $context->name = 'collection';
   $context->description = 'Collection';
-  $context->tag = '';
+  $context->tag = 'collection';
   $context->conditions = array(
     'node' => array(
       'values' => array(
@@ -50,6 +50,7 @@ function collection_context_default_contexts() {
   // Translatables
   // Included for use with string extractors like potx.
   t('Collection');
+  t('collection');
   $export['collection'] = $context;
 
   return $export;

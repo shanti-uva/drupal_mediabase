@@ -15,7 +15,7 @@ function audio_video_context_default_contexts() {
   $context->api_version = 3;
   $context->name = 'homepage';
   $context->description = 'Home Page';
-  $context->tag = '';
+  $context->tag = 'homepage';
   $context->conditions = array(
     'path' => array(
       'values' => array(
@@ -46,6 +46,7 @@ function audio_video_context_default_contexts() {
   // Translatables
   // Included for use with string extractors like potx.
   t('Home Page');
+  t('homepage');
   $export['homepage'] = $context;
 
   return $export;

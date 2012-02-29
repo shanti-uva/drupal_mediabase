@@ -36,30 +36,6 @@ function mb_kaltura_init() {
 
 function mb_kaltura_menu() {
    $items = array();
-   //This item overrides the menu item of same path defined in kaltura.module.
-   //Their import mechanism is broken so we re-do it here
-   //since we need extra behaviour anyway.
-   //This means this module MUST BE HEAVIER WEIGHT than kaltura.module
-   $items['admin/config/media/kaltura/entries/import'] = array(
-      'title' => 'Import Kaltura Items',
-      'description' => 'import your partner\'s entries from kaltura\'s server to drupal, as nodes',
-      'page callback' => 'drupal_get_form',
-      'page arguments' => array('mb_kaltura_import_form'),
-      'access arguments' => array('administer kaltura'),
-      'type' => MENU_NORMAL_ITEM,
-      'file' => 'mb_kaltura.inc',
-      );
-   //THIS IS A DUPLICATE OF admin/settings/kaltura/entries/import 
-   //so that it appears in the admin/content menu. If you change one, change the other too :] ... please.
-   $items['admin/content/mediabase/import'] = array(
-      'title' => 'Import Kaltura Items',
-      'description' => 'import your partner\'s entries from kaltura\'s server to drupal, as nodes',
-      'page callback' => 'drupal_get_form',
-      'page arguments' => array('mb_kaltura_import_form'),
-      'access arguments' => array('administer mediabase'), //THIS LINE IS ALLOWED TO DIFFER
-      'type' => MENU_LOCAL_TASK,
-      'file' => 'mb_kaltura.inc',
-      );
    $items['xml/pbcore/%'] = array(
       'title' => 'PBCore XML',
       'description' => 'Modify items in PBCore elements are enabled.',
@@ -85,6 +61,23 @@ function mb_kaltura_menu() {
       );
    return $items;
 }
+
+function mb_kaltura_menu_alter(&$items) {
+   //This alter overrides the menu item of same path defined in kaltura.module.
+   //Their import mechanism is broken so we re-do it here since we need extra behaviour anyway.
+   $items['admin/config/media/kaltura/import']['title'] =  'Import Kaltura Items';
+   $items['admin/config/media/kaltura/import']['page callback'] =  'drupal_get_form';
+   $items['admin/config/media/kaltura/import']['page arguments'] =   array('mb_kaltura_import_form');
+   $items['admin/config/media/kaltura/import']['access arguments'] =  array('administer mediabase');
+   $items['admin/config/media/kaltura/import']['file'] =  'mb_kaltura.inc';
+   $items['admin/config/media/kaltura/import']['module'] =  'mb_kaltura';
+
+   //THIS IS A DUPLICATE OF admin/settings/kaltura/entries/import 
+   $items['admin/content/mediabase/import'] = $items['admin/config/media/kaltura/import'];
+   $items['admin/content/mediabase/import']['type'] =   MENU_LOCAL_TASK;
+   
+}
+
 
 function mb_kaltura_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
    /*    $kaltura_node_type_names = array('video', 'audio', 'image', 'video2');

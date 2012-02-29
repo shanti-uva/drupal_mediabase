@@ -14,6 +14,8 @@ function mb_structure_block_info() {
    $blocks['lets_get_started'] = array(
       'info' => 'Let\'s get started!',
       'custom' => FALSE,
+      'visibility' => BLOCK_VISIBILITY_PHP,
+      'pages' => 'user_is_logged_in()'
       );
    return $blocks;
 }
@@ -25,6 +27,9 @@ function mb_structure_block_view($delta) {
       $block['content'] = collection_block_details();
       return $block;
    case 'lets_get_started':
+      if(!user_is_logged_in()) { // is there a better way to do this?
+         return null; 
+      }
       $block['subject'] = t('Let\'s get started!');
       $block['content'] = drupal_get_form('mb_structure_create_collection_form');
       return $block;

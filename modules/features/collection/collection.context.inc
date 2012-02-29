@@ -53,5 +53,38 @@ function collection_context_default_contexts() {
   t('collection');
   $export['collection'] = $context;
 
+  $context = new stdClass();
+  $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */
+  $context->api_version = 3;
+  $context->name = 'collections';
+  $context->description = 'Collection Listing';
+  $context->tag = 'collection';
+  $context->conditions = array(
+    'views' => array(
+      'values' => array(
+        'collections:page' => 'collections:page',
+      ),
+    ),
+  );
+  $context->reactions = array(
+    'block' => array(
+      'blocks' => array(
+        'mb_structure-lets_get_started' => array(
+          'module' => 'mb_structure',
+          'delta' => 'lets_get_started',
+          'region' => 'sidebar_second',
+          'weight' => '-10',
+        ),
+      ),
+    ),
+  );
+  $context->condition_mode = 0;
+
+  // Translatables
+  // Included for use with string extractors like potx.
+  t('Collection Listing');
+  t('collection');
+  $export['collections'] = $context;
+
   return $export;
 }

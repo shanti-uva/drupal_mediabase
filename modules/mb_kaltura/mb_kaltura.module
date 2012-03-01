@@ -59,6 +59,12 @@ function mb_kaltura_menu() {
       'type' => MENU_CALLBACK,
       'file' => 'mb_kaltura.inc',
       );
+   $items['upload-keepalive'] = array(
+      'title' => 'A Keep-alive callback to be called by js during long uploads',
+      'page callback' => 'mb_upload_keepalive',
+      'access arguments' => array('access content'),
+      'type' => MENU_CALLBACK
+      );
    return $items;
 }
 
@@ -72,10 +78,9 @@ function mb_kaltura_menu_alter(&$items) {
    $items['admin/config/media/kaltura/import']['file'] =  'mb_kaltura.inc';
    $items['admin/config/media/kaltura/import']['module'] =  'mb_kaltura';
 
-   //THIS IS A DUPLICATE OF admin/settings/kaltura/entries/import 
+   // This is a copy of  admin/settings/kaltura/entries/import  to go in the content menu
    $items['admin/content/mediabase/import'] = $items['admin/config/media/kaltura/import'];
    $items['admin/content/mediabase/import']['type'] =   MENU_LOCAL_TASK;
-   
 }
 
 
@@ -107,6 +112,8 @@ function mb_kaltura_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
 
 
 function mb_kaltura_form_alter(&$form, &$form_state, $form_id){
+      drupal_add_js(drupal_get_path('module', 'mb_kaltura') . '/js/keepalive.js');
+
    /*    switch ($form_id) {
    case 'node_delete_confirm':
    $node = node_load($form['nid']['#value']);
@@ -135,33 +142,6 @@ function mb_kaltura_form_alter(&$form, &$form_state, $form_id){
 *  probably we can fetch the flavor profile for expected flavor sets
 */
 function mb_kaltura_cron() {
-   /*    watchdog('cron', "pbcore kaltura cron invoked...", WATCHDOG_WARNING);
-   $minimum_inst_count = 2;
-   $result_limit = 2;
-   // actually kaltura transcoding settings list 6 
-   // but only two seem to ever get compressed
-   
-   // TODO un-hardcode content_field_instantiation_noderef
-   $sql = "SELECT node.nid
-   FROM {content_field_instantiation_noderef} as noderef
-   INNER JOIN {node} as node ON node.nid = noderef.nid
-   AND node.type in ('video', 'audio')
-   GROUP BY node.nid
-   HAVING (max(delta)+1) < %d
-   LIMIT 0,%d";
-   
-   $results=db_query($sql, $minimum_inst_count, $result_limit);
-   $counter = 0;
-   $nids = '';
-   while ( $row = db_fetch_array($results) ) {
-   $node = node_load($row['nid']);
-   node_save($node);
-   $counter++;
-   $nids .= "$node->nid, ";
-   }
-   if ($counter) {
-   watchdog('cron', "pbcore kaltura cron updated $count nodes: $nids", WATCHDOG_WARNING);
-   } */
 }
 
 function mb_kaltura_field_formatter_info() {
@@ -199,8 +179,6 @@ function mb_kaltura_theme() {
 
 function mb_kaltura_video_tag($entry_id) {
    $client=KalturaHelpers::getKalturaClient($isAdmin=TRUE);
-   // $result = $client->media->get($entry_id);
-   // dpm($result, "result");
    try {
       $flavors=$client->flavorAsset->getByEntryId($entry_id);
    }
@@ -232,15 +210,12 @@ function mb_kaltura_video_tag($entry_id) {
             );
       }
    }
-   
    return theme('kaltura_player_html5_video', array('html5_sources' => $html5_sources));
 }
 
 
 function mb_kaltura_audio_tag($entry_id) {
    $client=KalturaHelpers::getKalturaClient($isAdmin=TRUE);
-   // $result = $client->media->get($entry_id);
-   // dpm($result, "result");
    try {
       $flavors=$client->flavorAsset->getByEntryId($entry_id);
    }
@@ -266,7 +241,6 @@ function mb_kaltura_audio_tag($entry_id) {
          
       }
    }
-   
    return theme('kaltura_player_html5_audio', array('html5_sources' => $html5_sources));
 }
 
@@ -275,12 +249,6 @@ function mb_kaltura_field_formatter_view($entity_type, $entity, $field, $instanc
    $settings = $field['settings'];
    $entry_id = $items[0]['entryid'];
    $type = !empty($items[0]['mediatype']) ? $items[0]['mediatype'] : $query['kaltura_media_type'];
-   /* $query = db_select('node_kaltura', 'k')
-   ->fields('k')
-   ->condition('kaltura_entryid', $item, '=')
-   ->execute()
-   ->fetchAssoc();
-   dpm($query, "query"); */
    
    switch ($display['type']) {
    case 'field_kaltura_player_html5_video':
@@ -294,10 +262,6 @@ function mb_kaltura_field_formatter_view($entity_type, $entity, $field, $instanc
 }
 
 function theme_kaltura_player_html5_video($vars) {
-   /*   if (variable_get('kaltura_add_html5', 1) == 1 && !empty($vars['embed']['js'])) {
-   drupal_add_js($vars['embed']['js'], 'external');
-   drupal_add_js('mw.setConfig( \'EmbedPlayer.EnableIframeApi\', false );', 'inline');
-   } */
    $out = '<div class="kaltura">';
    $out .= '<div class="kaltura-html5-video">
    <video controls="controls">';
@@ -311,10 +275,6 @@ function theme_kaltura_player_html5_video($vars) {
 }
 
 function theme_kaltura_player_html5_audio($vars) {
-   /*   if (variable_get('kaltura_add_html5', 1) == 1 && !empty($vars['embed']['js'])) {
-   drupal_add_js($vars['embed']['js'], 'external');
-   drupal_add_js('mw.setConfig( \'EmbedPlayer.EnableIframeApi\', false );', 'inline');
-   } */
    $out = '<div class="kaltura">';
    $out .= '<div class="kaltura-html5-audio">
    <audio controls="controls">';

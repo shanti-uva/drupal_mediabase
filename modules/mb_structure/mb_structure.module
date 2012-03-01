@@ -49,13 +49,12 @@ function collection_block_details() {
          $create_video_link = l("Upload a Video", "node/add/video", array('query' => array('gids_node[]' => $node->nid))); 
          $output .= "<li>$create_video_link</li>";
       }
-      // create audio
-      /* $create_audio_link = l("Upload Audio", "node/add/audio", array('query' => array('gids_node[]' => $node->nid))); 
-      $output .= "<li>$create_audio_link</li>"; */
       
-      // create exhibit
-      /* $create_exhibit_link = l("Create an Exhibit", "node/add/exhibit", array('query' => array('gids_node[]' => $node->nid)));
-      $output .= "<li>$create_exhibit_link</li>"; */
+      // create audio
+      if(og_is_member($gid, 'user') /* && og_user_access($gid, 'create video content') */){
+         $create_audio_link = l("Upload Audio", "node/add/audio", array('query' => array('gids_node[]' => $node->nid))); 
+         $output .= "<li>$create_audio_link</li>";
+      }
       
       if (og_user_access_by_entity('add user', 'node', $node->nid)) {
          // Add members
@@ -71,26 +70,23 @@ function collection_block_details() {
       $owner = user_load($node->uid);
       $output .= "<li>" . t("Collection Manager: ") . l($owner->name, "user/$owner->uid") . "</li>";
       
-      /*       //count objects
-      // TODO: Rewrite query based on: http://drewish.com/content/2010/06/correctly_accessing_cck_fields_in_sql_queries
-      $sql = "SELECT count(pp.nid) AS count 
-      FROM  {content_field_collection} pp
-      INNER JOIN node n ON n.nid = pp.nid
-      AND n.type IN ('audio','video')
-      WHERE field_collection_nid = %d";
-      $results = db_query($sql, $node->nid);
-      if ( $row = db_fetch_object($results) ) {
-      $s = $row->count == 1 ? '' : 's';
-      $text = t("$row->count Media Object$s");
+      //count objects
+      $query = new EntityFieldQuery();
+      $result = $query
+      ->entityCondition('entity_type', 'node')
+      ->propertyCondition('type', array('audio','video'), 'IN')
+      ->fieldCondition('group_audience', 'state', array(1), 'IN', 0)
+      ->fieldCondition('group_audience', 'gid', $gid, '=', 0)
+      ->execute();
+      
+      $count = isset($result['node']) ? sizeof($result['node']) : 0;
+      $text = t("@count media item(s)", array('@count' => $count));
       $output .= "<li>$text</li>";
-      } 
-      */
-      
-      $output .= "</ul>";
-      
-      return $output;
-   }
+   } 
+   $output .= "</ul>";
+   return $output;
 }
+
 
 function get_node_from_path(){
    $item = menu_get_item();

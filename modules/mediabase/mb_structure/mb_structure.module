@@ -38,7 +38,9 @@ function mb_structure_block_view($delta) {
 
 
 function collection_block_details() {
-   $node = get_node_from_path();
+   if ( ! $node = get_node_from_path() ) {
+      return;
+   }
    if ( "collection" == $node->type ) {
       $output = "<ul>";
       
@@ -97,9 +99,8 @@ function get_node_from_path(){
    
    // Check if this is an existing node.
    if (!empty($object->nid)) {
-      $node = $object;
+      return $object;
    }
-   return $node;
 }
 
 /**

@@ -58,25 +58,11 @@ drush --yes features-revert  site_config
 # drush --yes features-revert  solr_search_site_transcripts 
 
 #ENABLE OTHER BITS
-drush --yes pm-enable  diff admin_menu
+drush --yes pm-enable  diff admin_menu context_ui
 
 if [ `command -v say` ]; then
    say "Your mediabase install is finished"
 fi
 
-# TRANSCRIPTS
-# See sites/mediabase/modules/transcripts/README for info on setting up saxon and XSLT transformations of transcripts
 
-# NEXT STEPS TO CONFIGURE MANUALLY
-# admin/config/media/kaltura
-# admin/config/media/mediabase - here, you set a key-value pair for partner data prefixes to urls to be used in the pbcore identifier field
-# admin/content/mediabase/import?filter=<partner-data-prefix>
-# admin/structure/types/manage/video/fields/field_video  
-#     Set the Content Ingestion to "Use Existing Only"
-#     Set the Media Player to Mediabase Video Player
-# admin/structure/types/manage/audio/fields/field_audio  
-#     Set the Content Ingestion to "Use Existing Only"
-#     Set the Media Player to Mediabase Audio Player
-# admin/config/search/apachesolr/transcripts
-# admin/config/search/apachesolr/settings
 

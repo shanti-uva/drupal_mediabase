@@ -1,0 +1,41 @@
+There is an install script you can run from your webroot that builds a mediabase instance in a directory called drupal_mediabase.
+
+The install script does the following:
+1. download a set of modules and themes from drupal.org (using drush make and the mediabase.make make file
+2. checks out the mediabase git repository and submodules from github
+3. Does a site install which creates the database and creates a settings.php in sites/mediabase. NOTE: Edit the install file to add your own database credentials and desired drupal username/password
+4. Installs three Features (features module)
+
+Once the site is installed, login at <mediabase_root>/user. 
+mediabase_root should be http://yourserver.com/drupal_mediabase/. You may need to edit sites.php to tell drupal that the supdirectory, 'drupal_mediabase', points to the sites/mediabase directory.
+
+SITE CONFIGURATIONS
+
+BASIC
+Create a home page with a blurb at: <mediabase_root>/node/add/page
+Set that page as the site front page here: <mediabase_root>/admin/config/system/site-information
+
+
+KALTURA
+<mediabase_root>/admin/config/media/kaltura
+
+MEDIABASE
+<mediabase_root>/admin/config/media/mediabase - here, you set a key-value pair for partner data prefixes to urls to be used in the pbcore identifier field. for example for thl|thlib.org.  In the kaltura bulk upload csv, partner data was set to thl-5032 (to correspond to old id 5032)
+
+<mediabase_root>/admin/content/mediabase/import?filter=<partner-data-prefix>
+
+<mediabase_root>/admin/structure/types/manage/video/fields/field_video  
+    Set the Content Ingestion to "Use Existing Only"
+    Set the Media Player to Mediabase Video Player
+
+<mediabase_root>/admin/structure/types/manage/audio/fields/field_audio  
+    Set the Content Ingestion to "Use Existing Only"
+    Set the Media Player to Mediabase Audio Player
+
+TRANSCRIPTS
+<mediabase_root>/admin/config/search/apachesolr/transcripts
+<mediabase_root>/admin/config/search/apachesolr/settings
+
+ORGANIC GROUPS
+<mediabase_root>/admin/config/group/permissions
+Set default group permissions (In the future, og will get features integration but for now we must re-configure; see http://drupal.org/node/1349754)

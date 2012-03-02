@@ -91,12 +91,7 @@ function collection_block_details() {
 
 
 function get_node_from_path(){
-   $item = menu_get_item();
    $object = menu_get_object();
-   
-   // Use the menu system to get the path.
-   $path = $item['path'];
-   
    // Check if this is an existing node.
    if (!empty($object->nid)) {
       return $object;

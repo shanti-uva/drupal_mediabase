@@ -1,7 +1,0 @@
-<?php
-/**
- * @file
- * Code for the Mediabase Config feature.
- */
-
-include_once('mediabase_config.features.inc');

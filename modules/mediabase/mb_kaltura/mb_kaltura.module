@@ -84,32 +84,34 @@ function mb_kaltura_menu_alter(&$items) {
 }
 
 
-function mb_kaltura_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
-   /*    $kaltura_node_type_names = array('video', 'audio', 'image', 'video2');
-   if ( ! isset($node->no_sync_kaltura) && in_array( $node->type , $kaltura_node_type_names) )  {
-   switch ($op) {
-   case 'presave':
-   autopopulate_pbcore_identifier($node);
-   autopopulate_pbcore_title($node);
-   autopopulate_pbcore_instantiation($node);
-   break;
-   case 'insert':
-   case 'update':
-   //$results = _save_kaltura_metadata($node);
-   //_clear_node_cache($node);
-   break;
-   case 'delete':
+function mb_kaltura_node_presave(&$node) {
+   module_load_include('inc', 'mb_kaltura', 'mb_kaltura');
+   $kaltura_node_types = array('video', 'audio');
+   if ( in_array( $node->type , $kaltura_node_types) )  {
+      _write_to_node_kaltura($node);
+      //autopopulate_pbcore_identifier($node);
+      //autopopulate_pbcore_title($node);
+      //autopopulate_pbcore_instantiation($node);
+   }
+}
+
+function mb_kaltura_node_delete(&$node) {
+   /* $kaltura_node_type_names = array('video', 'audio', 'image', 'video2');
    $entry_id = $node->{"field_kaltura_$node->type"}[0]['value'];
    $result=db_query("DELETE FROM {node_kaltura} WHERE kaltura_entryId = '%s'", $entry_id);
    foreach ($node->field_instantiation_noderef as $noderef){
-   if ( is_numeric($noderef['nid'] ) ) {
-   node_delete($noderef['nid']);
-   }
-   }
-   }
+      if ( is_numeric($noderef['nid'] ) ) {
+         node_delete($noderef['nid']);
+      }
    } */
 }
 
+function mb_kaltura_node_update(&$node) {
+   /* $results = _save_kaltura_metadata($node); */
+}
+function mb_kaltura_node_insert(&$node) {
+   /* $results = _save_kaltura_metadata($node); */
+}
 
 function mb_kaltura_form_alter(&$form, &$form_state, $form_id){
       drupal_add_js(drupal_get_path('module', 'mb_kaltura') . '/js/keepalive.js');

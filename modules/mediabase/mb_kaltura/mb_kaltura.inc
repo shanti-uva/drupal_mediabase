@@ -276,15 +276,9 @@ function _get_media_from_entry_id($entry_id) {
       $result = $client->media->get($entry_id);
       return $result;
    } 
-   catch ( Exception $ex ) {
-      watchdog('field_kaltura', t('Kaltura Exception: %message, backtrace: <pre>!trace</pre>'), array('%message' => $ex->getMessage(), '!trace' => $ex->getTrace()));
-      switch ( $ex->getCode() ) {
-      case 'ENTRY_ID_NOT_FOUND' :
-         drupal_set_message( t('Entry not found on Kaltura server: @message', array('@message' => $ex->getMessage())));
-         break ;
-         default :
-         drupal_set_message( t('Kaltura client exception: @message', array('@message' => $ex->getMessage()))); 
-      }
+   catch ( Exception $e ) {
+      $msg = t("Had trouble getting remote Kaltura entry: @entry_id", array('@entry_id' => $entry_id));
+      _report_kaltura_exception( $e, $msg);
    }
 }
 
@@ -366,12 +360,8 @@ function _fetch_remote_pbcore( $entry_id ) {
       return $results;
    }
    catch (Exception $e) {
-      watchdog('mb_kaltura', t('Kaltura Exception: %message, backtrace: <pre>!trace</pre>'), array('%message' => $e->getMessage(), '!trace' => $e->getTrace()));
-      $msg = t("Had trouble listing metadata records for Kaltura entry $entry_id.");
-      $msg .= sprintf( "%s: %s %s <br/> %s %s", get_class($e), $e->getMessage(), $e->getCode(), $e->getFile(), $e->getLine());
-      drupal_set_message( $msg, "error" );
-      if (module_exists('devel')) {
-      }
+      $msg = t("Had trouble listing metadata records for Kaltura entry: @entry_id", array('@entry_id' => $entry_id));
+      _report_kaltura_exception( $e, $msg);
    }
 }
 
@@ -606,6 +596,9 @@ UTILITIES
 =========
 */
 
+/**
+* Convert a media node to pbcore xml and send it to kaltura server
+**/
 function _save_kaltura_metadata($node) {
    $client=KalturaHelpers::getKalturaClient($isAdmin=true);
    $xmlData = _render_kaltura_xml($node);
@@ -618,7 +611,6 @@ function _save_kaltura_metadata($node) {
    /// List metadata for entry_id
    $results = _fetch_remote_pbcore($objectId);
    
-   
    // ADD metadata for entry_id to Kaltura
    if ( sizeof($results->objects) == 0 ) { 
       try {
@@ -626,12 +618,8 @@ function _save_kaltura_metadata($node) {
          //drupal_set_message(t('Added a new PBCore record on Kaltura server.'));
       }
       catch (Exception $e) {
-         watchdog('mb_kaltura', t('Kaltura Exception: %message, backtrace: <pre>!trace</pre>'), array('%message' => $e->getMessage(), '!trace' => $e->getTrace()));
-         $msg = t("Had trouble adding metadata record to Kaltura entry. ");
-         $msg .= sprintf( "%s: %s %s <br/> %s %s", get_class($e), $e->getMessage(), $e->getCode(), $e->getFile(), $e->getLine());
-         drupal_set_message( $msg, "error" );
-         if (module_exists('devel')) {
-         }
+         $msg = t("Had trouble adding metadata record to Kaltura entry: @entry_id", array('@entry_id' => $entry_id));
+         _report_kaltura_exception( $e, $msg);
       }
    } 
    // UPDATE metadata for entry_id to Kaltura
@@ -643,17 +631,13 @@ function _save_kaltura_metadata($node) {
          drupal_set_message(t('Updated the PBCore record on Kaltura server.'));
       }
       catch (Exception $e) {
-         watchdog('mb_kaltura', t('Kaltura Exception: %message, backtrace: <pre>!trace</pre>'), array('%message' => $e->getMessage(), '!trace' => $e->getTrace()));
-         $msg = t("Had trouble updating metadata record for Kaltura entry $objectId.");
-         $msg .= sprintf( "%s: %s %s <br/> %s %s", get_class($e), $e->getMessage(), $e->getCode(), $e->getFile(), $e->getLine());
-         drupal_set_message( $msg, "error" );
+         $msg = t("Had trouble updating metadata record for Kaltura entry: @entry_id", array('@entry_id' => $entry_id));
+         _report_kaltura_exception( $e, $msg);
       }
    }   
    // DO NOTHING to metadata for entry_id to Kaltura
    else if (sizeof($results->objects) > 1 ) {
       drupal_set_message(t('Did not expect more than one metadata object on the Kaltura site. <b>No updates were made</b>'),'warning' );
-      if (module_exists('devel')) {
-      }
    } 
 }
 
@@ -751,10 +735,8 @@ function _populate_pbcore_instantiation(&$node) {
       $flavors=$client->flavorAsset->getByEntryId($objectId);
    }
    catch (Exception $e) {
-      watchdog('mb_kaltura', t('Kaltura Exception: %message, backtrace: <pre>!trace</pre>'), array('%message' => $e->getMessage(), '!trace' => $e->getTrace()));
-      $msg = t("Had trouble retrieving flavors for Kaltura entry $objectId.");
-      $msg .= sprintf( "%s: %s %s <br/> %s %s", get_class($e), $e->getMessage(), $e->getCode(), $e->getFile(), $e->getLine());
-      drupal_set_message( $msg, "error" );
+      $msg = t("Had trouble retrieving flavors for Kaltura entry: @entry_id", array('@entry_id' => $entry_id));
+      _report_kaltura_exception( $e, $msg);
    }
    if (! is_array($flavors) ) {
       return;
@@ -812,10 +794,8 @@ function _populate_pbcore_instantiation(&$node) {
          $inst_fc_values['field_location'][$node->language][]['value']  = $client->flavorAsset->getDownloadUrl($flavor->id);
       }
       catch (Exception $e) {
-         watchdog('mb_kaltura', t('Kaltura Exception: %message, backtrace: <pre>!trace</pre>'), array('%message' => $e->getMessage(), '!trace' => $e->getTrace()));
-         $msg = t("Had trouble retrieving the download URL for $flavor->id.");
-         $msg .= sprintf( "%s: %s %s <br/> %s %s", get_class($e), $e->getMessage(), $e->getCode(), $e->getFile(), $e->getLine());
-         drupal_set_message( $msg, "error" );
+         $msg = t("Had trouble retrieving the download URL for: @flavor_id", array('@flavor_id' => $flavor->id));
+         _report_kaltura_exception( $e, $msg);
       }
       $inst_fc = new FieldCollectionItemEntity($inst_fc_values);
       $inst_fc->setHostEntity('node', $node);
@@ -1254,12 +1234,8 @@ function get_importable_entries($order = NULL, $sort = NULL, $limit = 500) {
       }
    }
    catch ( Exception $e ) {
-      watchdog('mb_kaltura', t('Kaltura Exception: %message, backtrace: <pre>!trace</pre>'), array('%message' => $e->getMessage(), '!trace' => $e->getTrace()));
       $msg = t("Had trouble listing remote entries from Kaltura.");
-      $msg .= sprintf( "%s: %s %s <br/> %s %s", get_class($e), $e->getMessage(), $e->getCode(), $e->getFile(), $e->getLine());
-      drupal_set_message( $msg, "error" );
-      if (module_exists('devel')) {
-      }
+      _report_kaltura_exception( $e, $msg);
    }
    // Unset entries that already exist locally
    $local_entries = get_local_entries();
@@ -1340,4 +1316,52 @@ function xml_pbcore($nid) {
    $document = _render_kaltura_xml($node);
    header("Content-type: text/xml"); 
    print $document;
+}
+
+/**
+* when saving a new media item, sometimes the node_kaltura 
+* table row details (like thumbnail_url) don't get written.
+* Kaltura should be doing this but it isn't so we do it ourselves.
+* @todo post this as an issue on d.o
+**/
+function _write_to_node_kaltura($node) {
+   $entry_id = $node->{"field_$node->type"}['und'][0]['entryid'];
+   dpm($node, "node");
+   dpm($entry_id, "entry_id");
+   
+   $kaltura_client = KalturaHelpers::getKalturaClient($isAdmin = true);
+   $session_user = KalturaHelpers::getSessionUser();
+   $entry_details = _get_media_from_entry_id($entry_id);
+   
+   // check if a row already exists for this entry id
+   module_load_include('inc','kaltura','includes/kaltura.admin');
+   $entry = kaltura_kmc_obj_to_drupal_array($entry_details);
+   $query = db_select('node_kaltura', 'k')
+   ->fields('k', array('kaltura_entryid'))
+   ->condition('kaltura_entryid', $entry['kaltura_entryid'], '=')
+   ->execute()
+   ->fetchCol();
+
+   if (empty($query)) {
+      $entry['kaltura_created_date'] = REQUEST_TIME; //we have no way when the entry was created on the KMC so the create date is when we received the notifcation
+      drupal_write_record('node_kaltura', $entry);
+   }
+   else {
+      drupal_write_record('node_kaltura', $entry, 'kaltura_entryid');
+   }
+}
+
+/**
+* report all kaltura exceptions to watchdog with stack trace and messages
+**/
+function _report_kaltura_exception($e, $msg) {
+   watchdog('mb_kaltura', t('Kaltura Exception: @message, backtrace: <pre>@trace</pre>'), array('@message' => $e->getMessage(), '@trace' => $e->getTrace()));
+   $msg .= sprintf( "%s: %s %s <br/> %s %s", get_class($e), $e->getMessage(), $e->getCode(), $e->getFile(), $e->getLine());
+   switch ( $e->getCode() ) {
+   case 'ENTRY_ID_NOT_FOUND' :
+      drupal_set_message( t('Entry not found on Kaltura server: @message', array('@message' => $e->getMessage())));
+      break ;
+      default :
+      drupal_set_message( $msg, "error" ); 
+   }
 }

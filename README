@@ -39,3 +39,7 @@ TRANSCRIPTS
 ORGANIC GROUPS
 <mediabase_root>/admin/config/group/permissions
 Set default group permissions (In the future, og will get features integration but for now we must re-configure; see http://drupal.org/node/1349754)
+
+LOGO
+This is set in the mb_html5 theme's css/global.css. This should probably be changed to work with the standard drupal site logo.
+

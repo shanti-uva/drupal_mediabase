@@ -5,7 +5,7 @@ AND kaltura_thumbnail_url IS NULL";
 $entry_ids = db_query($sql)->fetchCol();
 $count=0;
 foreach ($entry_ids as $entry_id) {
-    $kaltura_client = KalturaHelpers::getKalturaClient($isAdmin);
+    $kaltura_client = KalturaHelpers::getKalturaClient($isAdmin = TRUE);
     $session_user = KalturaHelpers::getSessionUser();
     $entry_details = $kaltura_client->media->get($entry_id);
    kaltura_update_entry($entry_details);

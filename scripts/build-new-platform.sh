@@ -8,7 +8,7 @@ $script_dir=`dirname "$0"`
 #DOWNLOAD MODULES
 drush make $script_dir/mediabase.make  $mediabase_dir
 
-#CLONE THE MEDIABASE GIT REPOSITORY AND SUBMODULES
+#GET THE MEDIABASE GIT REPOSITORY AND SUBMODULES
 wget -O - --no-check-certificate "https://github.com/pinedrop/mediabase/zipball/master" > /tmp/$mediabase_dir.zip
 mkdir -p $mediabase_dir/sites
 cd $mediabase_dir/sites

@@ -1,9 +1,13 @@
 #!/bin/bash
 
 # This script has been tested with drush version 4.5 and drush make version 6.x-2.3
+the_date=`date +"%Y-%m-%d"`
+mediabase_dir="mediabase-$the_date"
+transcripts_dir="transcripts-$the_date"
+$script_dir=`dirname "$0"`
 
 #DOWNLOAD MODULES
-drush make ~/Sites/mb7/sites/mediabase/scripts/mediabase.make  drupal_mediabase  --force-complete --no-clean
+drush make $script_dir/mediabase.make  $mediabase_dir  --force-complete --no-clean
 
 #CLONE THE MEDIABASE GIT REPOSITORY AND SUBMODULES
 cd drupal_mediabase/sites

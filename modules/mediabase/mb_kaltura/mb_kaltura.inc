@@ -999,7 +999,7 @@ function theme_mb_kaltura_import_form(&$form) {
 }
 
 /**
-* This submit handler is set in this module and overrides the callback for 
+* This submit handler overrides the callback for 
 * /admin/settings/kaltura/entries/import set in kaltura module
 */
 function _import_entries_page($form, &$form_state) {
@@ -1254,12 +1254,6 @@ function get_importable_entries($order = NULL, $sort = NULL, $limit = 500) {
 MENU CALLBACKS
 ==============
 */
-function serve_pbcore_xml($nid) {
-   header("Content-Type: text/xml");
-   print _render_kaltura_xml(node_load($nid));
-   die;
-}
-
 
 function mb_kaltura_autocomplete_collection( $string ) {
    $matches = array();

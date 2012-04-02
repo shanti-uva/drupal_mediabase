@@ -106,9 +106,9 @@ projects[transcripts][download][url] = "git://github.com/pinedrop/transcripts.gi
 projects[transcripts][type] = "module"
 
 ; Custom Themes
-projects[transcripts][download][type] = "git"
-projects[transcripts][download][url] = "git://github.com/pinedrop/mediabase-theme.git"
-projects[transcripts][type] = "module"
+projects[mb-html5][download][type] = "git"
+projects[mb-html5][download][url] = "git://github.com/pinedrop/mediabase-theme.git"
+projects[mb-html5][type] = "theme"
 
 ; Libraries
 libraries[saxon][download][type] = "file"

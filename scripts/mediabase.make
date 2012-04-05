@@ -53,7 +53,7 @@ projects[field_collection][subdir] = "contrib"
 projects[field_group][version] = "1.x-dev"
 projects[field_group][subdir] = "contrib"
 
-projects[kaltura][version] = "2.0-beta1"
+projects[kaltura][version] = "2.0-dev"
 projects[kaltura][subdir] = "contrib"
 
 projects[job_scheduler][version] = "2.0-alpha2"

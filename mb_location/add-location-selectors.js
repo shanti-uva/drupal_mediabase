@@ -16,7 +16,8 @@ Drupal.behaviors.mb_location={attach:function(context){
          treeSelectorLabel: 'Select one or more places',
          // services
          placeDictionaryServerUri: 'http://places.thlib.org/', //This should end in a '/'
-         placeDictionarySearchService:  'features/by_fid/{id}.json',
+         placeDictionaryFidService:  'features/by_fid/{id}.json',
+         placeDictionaryNameService:  'features/by_name/{term}.json',
 
          // toggle widgets
          showPlaceDictionary: settings.show_place_dictionary,

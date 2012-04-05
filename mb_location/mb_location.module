@@ -240,9 +240,9 @@ function _mb_location_widget_validate($element, &$form_state, $form) {
          continue;
       }
       $loc_struct = explode(':', $loc_id);
-      $location_type = $loc_struct[0];
-      $location_id = $loc_struct[1];
-      if ($location_id > 0) {
+      $loc_type = $loc_struct[0];
+      $loc_num_id = $loc_struct[1];
+      if ($loc_num_id > 0) {
          $location = new MediabaseLocation($loc_id);
          $term = $location->getTerm();
          $value[] = (array)$term;

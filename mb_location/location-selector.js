@@ -13,12 +13,12 @@
 * @todo
 */
 
+
 /**
 * LocationSelector class constructor
 * @todo Throw Exceptions in the Constructor to prevent breakage and confusion
 **/
 function LocationSelector(options) {
-   "use strict";
    var scripts, i;
    // L10n translation function (e.g. function (str) { return my_l10n_translation(str))
    // Initialize l10n first so we can use it in the constructor
@@ -39,7 +39,6 @@ function LocationSelector(options) {
       this.selectedValues = {};
    }
 
-
    // Form element names, classes and labels
    this.targetDivId = typeof (options.targetDivId) !== "undefined" ? options.targetDivId : null;
    this.hiddenInputId = typeof (options.hiddenInputId) !== "undefined" ? options.hiddenInputId : null;
@@ -49,7 +48,8 @@ function LocationSelector(options) {
 
    // Location service options
    this.placeDictionaryServerUri = typeof (options.placeDictionaryServerUri) !== "undefined" ? options.placeDictionaryServerUri : 'http://places.thlib.org/';
-   this.placeDictionarySearchService = typeof (options.placeDictionarySearchService) !== "undefined" ? this.placeDictionaryServerUri + options.placeDictionarySearchService :  'features/by_name/{term}.json';
+   this.placeDictionaryNameService = typeof (options.placeDictionaryNameService) !== "undefined" ? this.placeDictionaryServerUri + options.placeDictionaryNameService :  'features/by_name/{term}.json';
+   this.placeDictionaryFidService = typeof (options.placeDictionaryFidService) !== "undefined" ? this.placeDictionaryServerUri + options.placeDictionaryFidService :  'features/by_fid/{id}.json';
 
    // Show Location Services
    this.showPlaceDictionary = typeof (options.showPlaceDictionary) !== "undefined" ? options.showPlaceDictionary : true;
@@ -63,14 +63,12 @@ function LocationSelector(options) {
          this.scriptBasePath = scripts[i].src.split('?')[0].split('/').slice(0, -1).join('/') + '/';
       }
    }
-
 }
 
 /**
 *  initialize this widget
 **/
 LocationSelector.prototype.init = function () {
-   "use strict";
    if (!(this.showPlaceDictionary || this.showGeonames)) {
       return;
    }
@@ -78,8 +76,6 @@ LocationSelector.prototype.init = function () {
    this.initWidgetMarkup();
    this.initItems();
 
-   // Place Dictionary
-   //this.initPlaceDictionary();
    // Geonames
    // Map
 };
@@ -88,25 +84,88 @@ LocationSelector.prototype.init = function () {
 * add the form markup
 **/
 LocationSelector.prototype.initWidgetMarkup = function () {
+   var formInputClass = this.formInputClass;
+   var acSource = this.placeDictionaryNameService;
+   var locSelector = this;
+   
+   // top-level container
    var target="#"+this.targetDivId;
    jQuery(target).addClass('location-selector')
    this.placeDictionaryInput = jQuery("<input/>").attr({
          id: "autocomplete_" + this.targetDivId,
-         class : this.formInputClass,
+         class: formInputClass,
          type: 'text',
          size: 60,
    });
-   this.selectionResult = jQuery("<div/>").attr('id', "results_" + this.targetDivId).attr('class', 'results');
-   this.hiddenInput = document.getElementById(this.hiddenInputId);
-   if (this.showPlaceDictionary) {
-      var pdTarget = jQuery('<div class="autocomplete-input"/>');
-      jQuery(target).append(pdTarget);
-      // UNCOMMENT LABEL jQuery(pdTarget).html(jQuery("<label>").html(this.t(this.placeDictionaryLabel)));
-   }
-   jQuery(pdTarget).append(this.placeDictionaryInput);
-   jQuery(target).append(this.selectionResult);
-   jQuery(this.placeDictionaryInput).after(jQuery('<img/>').attr('src', this.scriptBasePath + '/throbber.gif'));
    jQuery(target).before(jQuery('<label/>').text(this.selectorTitle))
+   
+   // results display
+   this.selectionResult = jQuery("<div/>").attr('id', "results_" + this.targetDivId).attr('class', 'results');
+   
+   // hidden results
+   this.hiddenInput = document.getElementById(this.hiddenInputId);
+   
+   if (this.showPlaceDictionary) {
+      
+      // autocomplete container
+      var pdTarget = jQuery('<div class="autocomplete-input"/>');
+      
+      // autocomplete label
+      jQuery(pdTarget).html(jQuery("<label>").html(this.t(this.placeDictionaryLabel)));
+      
+      // add autocomplete input to autocomplete container
+      jQuery(pdTarget).append(this.placeDictionaryInput);
+      
+      // autocomplete search button
+      jQuery(pdTarget).append(jQuery("<input/>").attr({
+            value:this.t('Search the Place Dictionary'),
+            type: 'button',
+            class: 'form-submit',
+      }).click( function() {
+         // add the autocomplete config to the input
+         var acInput = jQuery( this ).siblings( '.' + formInputClass )
+         acInput.autocomplete( {
+               source: function( request, response ) {
+                  jQuery.ajax({
+                        url: acSource.replace('{term}', acInput.val()),                                                   
+                        dataType: "jsonp",
+                        success: function( data ) {
+                           response( jQuery.map( data.features.feature, function( selection ) {
+                                 return {
+                                    label: selection.header + " — " + selection.feature_type.title,
+                                    // value: item.header + " [fid:" + item.fid + "]"
+                                    value: selection.fid,
+                                    id: "fid:" + selection.fid,
+                                    placeDictLabel: selection.header,
+                                 }
+                           }));
+                        }
+                  });
+               },
+               minLength: 2,
+                select: function (event, ui) {
+                   locSelector.addItem(ui.item);
+                   ui.item.value=''; // We have to clear this value otherwise it will be written to the visible input field 
+                   jQuery(event.target).autocomplete('destroy')
+                },
+               open: function (event, ui) { 
+                  jQuery(event.target).removeClass('throbber');
+                  //jQuery(this).removeClass("ui-corner-all").addClass("ui-corner-top"); 
+               },
+               close: function (event, ui) { 
+                 // jQuery(this).removeClass("ui-corner-top").addClass("ui-corner-all"); 
+                  // jQuery(this).autocomplete('destroy')
+               }
+         });
+         acInput.autocomplete('search');
+         acInput.addClass('throbber');
+      }
+      ));
+      
+      // add selection and display divs to to top-level container
+      jQuery(target).append(pdTarget);
+      jQuery(target).append(this.selectionResult);
+   }
 }
 
 
@@ -114,43 +173,22 @@ LocationSelector.prototype.initWidgetMarkup = function () {
 * populate the widget
 **/
 LocationSelector.prototype.initItems = function () {
+   // Add the existing values
    if (typeof (this.selectedValues) == 'object') {
       for (var locId in this.selectedValues) {
-         this.displayItem(this.selectedValues[locId]);
-         // Add locId to the hidden input
-         var origVal = jQuery(this.hiddenInput).val()
+         var item = this.selectedValues[locId]
+         console.log('item', item)
+         
+         item.placeDictLabel = item.label
+         this.displayItem(item);
+         var origVal = jQuery(this.hiddenInput).val()          // Add locId to the hidden input
          var values = this.empty(origVal) ? [] : jQuery(this.hiddenInput).val().split(',');
          if (values.indexOf(locId) == -1) {
             values.push(locId);
             jQuery(this.hiddenInput).val(values.join(','));
          }
-
       }
    }
-}
-
-/**
-* initialize the autocomplete input
-* called in 'success' method of the $.ajax() call for the data
-**/
-LocationSelector.prototype.initPlaceDictionary = function () {
-
-   this.placeDictionaryInput.autocomplete({
-         source: this.placeDictionaryServerUri + this.placeDictionarySearchService,
-         minLength: 2,
-         select: this.bind(function (event, ui) {
-               this.addItem(ui.item);
-         }),
-         open: function () {
-            jQuery(this).removeClass("ui-corner-all").addClass("ui-corner-top");
-         },
-         close: function () {
-            jQuery(this).removeClass("ui-corner-top").addClass("ui-corner-all");
-         }
-   });
-
-   // Remove the throbber if this is a re-init
-   jQuery('#'+this.targetDivId+ ' .autocomplete-input img').remove();
 }
 
 /**
@@ -186,11 +224,9 @@ LocationSelector.prototype.bind = function (fnMethod){
 * Add an item to selected values
 **/
 LocationSelector.prototype.addItem = function (item){
-
    if (this.selectedValues[item.id]) {
       return;
    }
-   
    this.displayItem(item);
 
    // Add locationId to the hidden input
@@ -204,31 +240,28 @@ LocationSelector.prototype.addItem = function (item){
 }
 
 LocationSelector.prototype.displayItem = function (item){
-   console.log('item', item)
-   
-   var removeFunc = this.bind(function (element){
-         var spanId = jQuery(element).parent().attr('id') // get the span parent of the link
-         console.log('spanId', spanId)
-         var locId = spanId.split('_').pop();
-         console.log('locId', locId)
-         this.removeItem(locId); //remove the values
-         jQuery(element).parent().remove(); //remove the display span
-   });
+   locSelector = this;
 
-   // Display the newly added location in the 'selectionResult' next to a remove link
+   // Location container span
    var spanId = "item_" + item.id;
    var spanSel = "span[id='" + spanId + "']";
    var itemSpan = jQuery('<span>').addClass('location-selector-item').attr('id',spanId);
    jQuery(this.selectionResult).append(itemSpan);
-   var removeLink = jQuery('<a>').attr('href', '#').attr('title', this.t('Remove ' + item.label)).click(function (){
-         removeFunc(this) ; // 'this' here is the a element not the location selector instance
-   });
+   
+   // Remove link
+   var removeLink = jQuery('<a>').attr('href', '#').attr('title', this.t('Remove ' + item.placeDictLabel))
    jQuery(spanSel).html(removeLink);
-   jQuery(spanSel+" a").append(jQuery('<img>').attr('src', this.scriptBasePath+'images/delete.png'));
-   jQuery(spanSel+" a").after(item.label);
-console.log('jQuery(spanSel)', jQuery(spanSel))
-      console.log('spanSel', spanSel)
-      
+   jQuery(spanSel+" a").click( function (event){
+         var spanId = jQuery(this).parent().attr('id') // get the span parent of the link
+         var locId = spanId.split('_').pop();
+         locSelector.removeItem(locId); //remove loc ids from form input
+         jQuery(this).parent().remove(); //remove the display span 
+         event.preventDefault()
+   } );
+   jQuery(spanSel+" a").append(jQuery('<img>').attr('src', this.scriptBasePath+'delete.png'));
+   
+   // Location label
+   jQuery(spanSel+" a").after(item.placeDictLabel);
 }
 
 LocationSelector.prototype.removeItem = function (locationId)  {

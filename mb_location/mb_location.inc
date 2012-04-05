@@ -14,6 +14,9 @@ class MediabaseLocation
       if ( empty($this->location_id)  ) {
          throw new Exception(' Could not create a valid mb_location: no location id was provided');
       }
+      if ( empty($this->location_type)  ) {
+         throw new Exception(' Could not create a valid mb_location: no location id was provided');
+      }
       if ( empty($this->location_vid) ) {
          throw new Exception(' Could not create a valid mb_location: no vocab id was provided');
       }
@@ -27,13 +30,14 @@ class MediabaseLocation
          
          switch ( $this->location_type ) {
          case 'place-dictionary' :
+         case 'fid' : // deliberate pass through
             $entities = $query
             ->fieldCondition('place_dictionary_id', 'value', $this->location_id, '=')
             ->execute();
             break;
          case 'tid' :
             $entities = $query
-            ->propertyCondition('tid', $this->location_vid)
+            ->propertyCondition('tid', $this->location_id)
             ->execute();
             break;
          }
@@ -52,6 +56,7 @@ class MediabaseLocation
       $term->vid = $this->location_vid; 
       switch ( $this->location_type ) {
       case 'place-dictionary' :
+      case 'fid' :
          if  (empty($this->name)) {
             $json = file_get_contents("http://places.thlib.org/features/by_fid/$this->location_id.json");
             $place_data = json_decode($json);

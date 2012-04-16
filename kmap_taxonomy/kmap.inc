@@ -5,14 +5,15 @@
 **/
 class Kmap {
    
-   const KMAP_PARENTAGE_FIRST_LAST = 'first_last'; 
-   const KMAP_PARENTAGE_LAST = 'last';
-   const KMAP_PARENTAGE_LAST_PLUS_PARENT = 'last_plus_parent';
-   const KMAP_PARENTAGE_FULL = 'full';
+   const KMAP_LINEAGE_FIRST_LAST = 'first_last'; 
+   const KMAP_LINEAGE_LAST = 'last';
+   const KMAP_LINEAGE_LAST_PLUS_PARENT = 'last_plus_parent';
+   const KMAP_LINEAGE_FULL = 'full';
    
    private $kmap_id = NULL;
    private $vid = NULL;
    private $term = NULL;
+   private $lineage = NULL;
    
    /**
    * Kmap constructor
@@ -26,6 +27,15 @@ class Kmap {
       else if ( null == $this->vid ) {
          throw new Exception( t('Could not create a Kmap node because there is no vocabulary id specified'));
       }
+   }
+   
+   /**
+   * Construct a kmap from a tid
+   **/
+   public static function createKmapByTid($tid) {
+      $term = taxonomy_term_load($tid);
+      $kmap = new Kmap( $term->kmap_id[LANGUAGE_NONE][0]['value']);   
+      return $kmap;
    }
 
    
@@ -42,66 +52,96 @@ class Kmap {
       return $this->term;
    }
    
+      /**
+   * Return a taxonomy term for a kmap id
+   * populate function will fetch and store remote kmaps as taxonomy terms
+   * if they are not already in there.
+   **/
+   public function get_kmap_id() {
+      return $this->kmap_id;
+   }
+   
    /**
    * Return the parents of a kmap id in order of ancestor->child. 
    * i.e. the passed in kmap_id is the last item in the returned array
    * Returned array values contains the kmap_id, kmap_parent_id and the taxonomy term_id
    **/
-   public function get_kmap_parentage($kmap_id, &$lineage = NULL) {
-      $lineage = $lineage ? $lineage : array();
-      $row = db_fetch_array(db_query("SELECT kmap_parent_id, term_id FROM {kmap_taxonomy} WHERE kmap_id = %d", $kmap_id));
-      
-      //TODO START HERE
-      //need an array where $kmap_id => $kmap_titles
-      
-      array_unshift($lineage, array('kmap_id' => $kmap_id, 
-         'kmap_parent_id' => $row['kmap_parent_id'], 
-         'term_id' => $row['term_id']));
-      if ($row['kmap_parent_id'] > 0) {
-         get_kmap_parentage($row['kmap_parent_id'], $lineage); //Recurse up the tree
-      }
-      return $lineage;
+   public function get_kmap_lineage($kmap_id = NULL, &$lineage = NULL) {    
+      $kmap_id = empty($kmap_id) ? $this->kmap_id : $kmap_id;
+         $term=null;
+         $lineage = $lineage ? $lineage : array();
+         
+         $query = new EntityFieldQuery();
+         $entities = $query->entityCondition('entity_type', 'taxonomy_term')
+         ->entityCondition('bundle', 'kmap_taxonomy')
+         ->fieldCondition('kmap_id', 'value', $kmap_id, '=')
+         ->execute();
+         
+         if ( !empty($entities) ) {
+            $tid = array_pop(array_keys($entities['taxonomy_term']));
+            $term = (array)taxonomy_term_load($tid);
+            $kmap_parent_id = $term['kmap_parent_id']['und'][0]['value'];
+            array_unshift($lineage, array(
+               'kmap_id' => $kmap_id, 
+               'kmap_parent_id' => $kmap_parent_id, 
+               'tid' => $tid,
+               'name' => $term['name']));
+            if ($kmap_parent_id > 0) {
+               $this->get_kmap_lineage($kmap_parent_id, $lineage); //Recurse up the tree
+            }
+         }
+   return $lineage;
    }
    
-   
-   public function render_kmap_parentage( $taxo_links = FALSE, $parentage_format = KMAP_PARENTAGE_FIRST_LAST) {
-      if (! is_numeric($kmap_id) ) {
+   public function render_kmap_lineage( $lineage_format = Kmap::KMAP_LINEAGE_FIRST_LAST, $taxo_links = FALSE, $view_path = 'taxonomy/term/%tid') {
+      if (! is_numeric($this->kmap_id) ) {
          return;
       }
-      $lineage = get_kmap_parentage($this->kmap_id);
-      $render_lineage = array();
-      switch ( $parentage_format ) {
-      case KMAP_PARENTAGE_FULL:
-         $render_lineage = $lineage;
+      $lineage = $this->get_kmap_lineage();
+      $rendered_lineage = array();
+      switch ( $lineage_format ) {
+      case Kmap::KMAP_LINEAGE_FULL:
+         $rendered_lineage = $lineage;
          break;
-      case KMAP_PARENTAGE_LAST:
-         $render_lineage[] = array_pop($lineage);
+      case Kmap::KMAP_LINEAGE_LAST:
+         $rendered_lineage[] = array_pop($lineage);
          break;
-      case KMAP_PARENTAGE_FIRST_LAST:
-         $render_lineage[] = array_shift($lineage);
+      case Kmap::KMAP_LINEAGE_FIRST_LAST:
+         $rendered_lineage[] = array_shift($lineage);
          if ( ! empty($lineage) ) {
-            $render_lineage[] = array_pop($lineage);
+            $rendered_lineage[] = array_pop($lineage);
          }
          break;
-      case KMAP_PARENTAGE_LAST_PLUS_PARENT:
-         $render_lineage[] = array_pop($lineage);
+      case Kmap::KMAP_LINEAGE_LAST_PLUS_PARENT:
+         $rendered_lineage[] = array_pop($lineage);
          if ( ! empty($lineage) ) {
-            array_unshift($render_lineage, array_pop($lineage));
+            array_unshift($rendered_lineage, array_pop($lineage));
          }
          break;
       }
-      $output='';
       
-      foreach ( $render_lineage as $index => $term ) {
+      $output='';
+      foreach ( $rendered_lineage as $index => $term ) {
+         $view_path_processed = str_replace('%tid', $term['tid'], $view_path);
+         $view_path_processed = str_replace('%kmap_id', $term['kmap_id'], $view_path_processed);
          $output .= ! empty($output) ? ' > ' : ''; 
-         $output .= $taxo_links ? l($term->name, "taxonomy/term/$term->tid") : $term->name;
+         $output .= $taxo_links ? l($term['name'], $view_path_processed) : $term['name'];
       }
       return $output;
    }
    
-   public function external_kmap_page_link($kmap_id) {
+   public function get_lineage_types() {
+      return array (
+         Kmap::KMAP_LINEAGE_FIRST_LAST,
+         Kmap::KMAP_LINEAGE_LAST,
+         Kmap::KMAP_LINEAGE_LAST_PLUS_PARENT,
+         Kmap::KMAP_LINEAGE_FULL,
+         );
+   }
+   
+/*    public function external_kmap_page_link($kmap_id) {
       //We need a path in this format tmb.thlib.org/categories/%d/children/%d where the first %d is the highest level parent
-      $lineage = get_kmap_parentage($kmap_id);
+      $lineage = get_kmap_lineage($kmap_id);
       if (sizeof($lineage) > 1) {
          $ancestor = array_shift($lineage);
          $ancestor_id = $ancestor['kmap_id'];
@@ -111,7 +151,7 @@ class Kmap {
       }
       return $external_kmap_path;
    }
-   
+    */
    
    private function populate() {
       
@@ -123,17 +163,14 @@ class Kmap {
       ->execute();
       
       if ( !empty($entities) ) {
-         // dpm("AAA", "expr");
          $tid = array_pop(array_keys($entities['taxonomy_term']));
          $term = taxonomy_term_load($tid);
       }
       else {
-         // dpm("BBB", "");
          
          $term  = $this->add_to_taxonomy();
       }
       $this->term = $term;
-      // dpm($term, "term B" );
    }
    
    private function add_to_taxonomy() {
@@ -146,7 +183,7 @@ class Kmap {
       // dpm( $results , 'xml ancestor results');
       $results = $results ? $results : array();
       
-      // Loop through the kmap parentage from ancestor to child
+      // Loop through the kmap lineage from ancestor to child
       // saving taxonomy terms as needed
       
       $kmap_parent_id = 0; //The top level kmap never has a parent
@@ -184,11 +221,8 @@ class Kmap {
    private function get_remote_kmap_tree() {
       $tree = &drupal_static(__FUNCTION__);
       if (!isset($tree)) {
-         //Get the full Kmap tree
          $uri = 'http://tmb.thlib.org/categories/all.xml';
-         $str_xml = file_get_contents($uri);
-         // dpm($str_xml, "str_xm");
-         
+         $str_xml = file_get_contents($uri); // get the full Kmap tree
          $tree = simplexml_load_string($str_xml);
       }
       return $tree;
@@ -249,7 +283,7 @@ class Kmap {
          drupal_set_title((string)$simpleXml->title);
          
          //Set Kmap Crumbs
-         $terms = get_kmap_parentage_with_terms($kmap_id);
+         $terms = get_kmap_lineage_with_terms($kmap_id);
          $crumbs = array();
          foreach ( $terms as $kid => $term ) {
             $crumbs[] = l(  $term->name, "kmap/$kid/detail");

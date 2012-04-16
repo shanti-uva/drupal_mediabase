@@ -1,0 +1,162 @@
+<?php
+
+/* function kmap_annotation_node_update (&$node) {
+if ( in_array( $node->type, array('audio','video')) ) {
+delete_kmap_annotations($node);
+insert_kmap_annotations($node);
+}
+}
+function kmap_annotation_node_insert (&$node) {
+if ( in_array( $node->type, array('audio','video') ) ) {
+insert_kmap_annotations($node);
+}
+} */
+
+
+/**
+* Check the form_state for the textarea field named kmap_annotation_json and add those items to the node
+**/
+function kmap_annotation_widget_validate($element, &$form_state, $form) {
+}
+
+function kmap_annotation_submit(&$form, &$form_state) {
+   if ( isset($form_state['input']['kmap_annotation_json']) ) {
+      $node = $form_state['node'];
+      $node->kmap_annotations = json_decode($form_state['input']['kmap_annotation_json']);
+      delete_kmap_annotations($node);
+      insert_kmap_annotations($node);
+   }
+}
+
+function insert_kmap_annotations(&$node) {
+   foreach ($node->kmap_annotations as $field_name => $items) {
+      foreach ($items as $kmap_id => $item) {
+         $k = new Kmap($kmap_id);
+         $tid = $k->get_term()->tid;
+         $fc_values = array();
+         $fc_values['field_name'] = 'field_kmap_annotation'; // HACK: hardcoded field names are bad
+         $fc_values['is_new'] = 1;
+         $fc_values['field_tid'][$node->language][]['value'] = $tid;                                                                             
+         $fc_values['kmap_id'][$node->language][]['value'] = $kmap_id;                                                                             
+         $fc_values['field_annot_text_label'][$node->language][]['value'] = $item->textLabel;
+         $fc_values['field_annot_numeric_label'][$node->language][]['value'] = $item->numLabel;
+         $fc_values['field_annot_note'][$node->language][]['value'] = $item->note;
+         $fc_values['field_annot_format'][$node->language][]['value'] = $item->selectedFormat;
+         $fc = new FieldCollectionItemEntity($fc_values);
+         $fc->setHostEntity('node', $node);
+         $fc->save();
+      }
+   }
+}
+
+/**
+* Each time we save a node, we delete and rewrite its kmap annotations,
+* just like drupal does with with taxonomy terms
+**/
+function delete_kmap_annotations(&$node) {
+   // First look for existing annotation field collection entities
+   foreach ($node->field_kmap_annotation[LANGUAGE_NONE] as $entity_id) {
+      $fc = new FieldCollectionItemEntity(array($entity_id['value']));
+      $fc->delete();
+   } 
+   unset( $node->field_kmap_annotation[LANGUAGE_NONE]);
+}
+
+/**
+*  When loading the kmap widget, we need to add annotations to items 
+*  that will be sent to the slector widget via Drupal.settings js object
+*  properties are named and structured as expected by the js widget.
+**/
+function get_node_annotations_by_kmap_id($kmap_id, $node) {
+   foreach ($node->field_kmap_annotation[LANGUAGE_NONE] as $annot_item) {
+      $entity_id = $annot_item['value'];
+      $entities = entity_load('field_collection_item', array($entity_id));
+      $entity=$entities[$entity_id];
+      if ($entity->kmap_id[LANGUAGE_NONE][0]['value'] == $kmap_id) {
+         return array(
+            'textLabel' => $entity->field_annot_text_label[LANGUAGE_NONE][0]['value'],
+            'numLabel' => $entity->field_annot_numeric_label[LANGUAGE_NONE][0]['value'],
+            'note' => $entity->field_annot_note[LANGUAGE_NONE][0]['value'],
+            'selectedFormat' => $entity->field_annot_format[LANGUAGE_NONE][0]['value'],
+            );                                                                                          
+      }
+   }
+}
+
+/* DISPLAY FORMATTER(S) */
+/**
+* Implements hook_field_formatter_info().
+*/
+function kmap_annotation_field_formatter_info() {
+   return array(
+      'kmap_taxonomy_annotated' => array(
+         'label' => 'Kmap Taxonomy Annotated',
+         'field types' => array('taxonomy_term_reference'),
+         ),
+      );
+}
+
+/**
+* Implements hook_field_formatter_view().
+* @todo un-hardcode entity_id as nid;
+* @todo get $entity->field_kmap_annotation field name from a field setting
+*/
+function kmap_annotation_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+   $elements = array();
+   switch ($display['type']) {
+   case 'kmap_taxonomy_annotated':
+      foreach ($items as $delta => $item) {
+         $tid = $item['tid'];
+         
+         // find our item tid among annotation entities
+         foreach ($entity->field_kmap_annotation[LANGUAGE_NONE] as $annot_item) {
+            $entity_id = $annot_item['value'];
+            $entities = entity_load('field_collection_item', array($entity_id));
+            $entity=$entities[$entity_id];
+            
+            if ( $tid == $entity->field_tid[LANGUAGE_NONE][0]['value'] ) {
+               
+               $kmap_id = $entity->kmap_id[LANGUAGE_NONE][0]['value'];
+               $format = $entity->field_annot_format[LANGUAGE_NONE][0]['value'];
+               $view_path = $instance['widget']['settings']['view_path'];
+               $kmap = new Kmap($kmap_id);
+               $elements[$delta] = array(
+                  '#markup' => theme('kmap_annotation_formatter_'. $display['type'], array(
+                     'element' => $item, 
+                     'entity' => $entity, 
+                     'field' => $instance,
+                    // 'raw_lineage' => $kmap->get_kmap_lineage($kmap->get_kmap_id()),
+                     'formatted_lineage' => $kmap->render_kmap_lineage($format, FALSE, $view_path),
+                     'rendered_formatted_lineage' => $kmap->render_kmap_lineage($format, TRUE, $view_path),   
+                     )
+                     ),
+                  );
+            }
+         }
+      }
+      break;
+      
+   }
+   return $elements;
+}
+
+
+/**
+* Implements hook_theme().
+*/
+function kmap_annotation_theme() {
+   return array(
+      'kmap_annotation_formatter_kmap_taxonomy_annotated' => array(
+         'variables' => array('element' => NULL),
+         ),
+      );
+}
+
+/**
+* Theme function for 'kmap_taxonomy_default' link field formatter.
+*/
+function theme_kmap_annotation_formatter_kmap_taxonomy_annotated($element) {
+   return $element['rendered_formatted_lineage'];
+}
+
+

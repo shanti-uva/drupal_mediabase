@@ -1,0 +1,8 @@
+name = Kmap Annotation
+description = Provide the ability to annotate the application of a kmap to a media item. Also adds the ability to specify kmap display format
+package = SHANTI Mediabase
+core = 7.x
+files[] = kmap.inc
+dependencies[] = kmap_taxonomy
+dependencies[] = audio_video
+

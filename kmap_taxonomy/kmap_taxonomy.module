@@ -72,7 +72,10 @@ function kmap_taxonomy_field_widget_info() {
             'show_autocomplete' => true,
             'show_tree_selector' => true,
             'show_branch_filter' => true,
+            'allow_annotations' => true,
+            'allow_formatting' => true,
             'root_kmap_id' => null,
+            'view_path' => 'taxonomy/term/%tid', // by default use drupal's default taxonomy detail path
             ),
          ),
       );
@@ -112,48 +115,29 @@ function kmap_taxonomy_field_widget_settings_form($field, $instance) {
     '#title' => t('Show Branch Filter'),
     '#default_value' => isset($settings['kmap_selector_settings']) ? $settings['kmap_selector_settings']['show_branch_filter'] : $settings['show_branch_filter'],
     );
+ $form['kmap_selector_settings']['allow_annotations'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Allow Annotations'),
+    '#default_value' => isset($settings['kmap_selector_settings']) ? $settings['kmap_selector_settings']['allow_annotations'] : $settings['allow_annotations'],
+    );
+ $form['kmap_selector_settings']['allow_formatting'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Allow Formatting'),
+    '#default_value' => isset($settings['kmap_selector_settings']) ? $settings['kmap_selector_settings']['allow_formatting'] : $settings['allow_formatting'],
+    );
  $form['kmap_selector_settings']['root_kmap_id'] = array(
     '#type' => 'textfield',
     '#title' => t('Root Branch (Kmap Id)'),
     '#description' => t('Enter a numerical kmap id of a branch to serve as the root branch for the selector.'),
     '#default_value' => isset($settings['kmap_selector_settings']) ? $settings['kmap_selector_settings']['root_kmap_id'] : $settings['root_kmap_id'],
     );
+ $form['kmap_selector_settings']['view_path'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Path to Detailed Kmap View'),
+    '#description' => t('Enter a drupal path to the view for displaying the detail page for this characterstic. Use <code>%tid</code> or <code>%kmap_id</code> as replacement tokens to be used in the display formatter.'),
+    '#default_value' => isset($settings['kmap_selector_settings']) ? $settings['kmap_selector_settings']['view_path'] : $settings['view_path'],
+    );
   return $form;
-}
-
-/**
-* Implements hook_field_formatter_info().
-*/
-function kmap_taxonomy_field_formatter_info() {
-   return array(
-      'kmap_taxonomy' => array(
-         'label' => 'Kmap Taxonomy Default',
-         'field types' => array('taxonomy_term_reference'),
-         'settings' => array(
-            /* 'token_display_selected' => '',
-            'token_display_unselected' => '', */
-            ),
-         ),
-      );
-}
-
-/**
-* Implements hook_field_formatter_view().
-*/
-function kmap_taxonomy_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
-   $element = array();
-   
-   switch ($display['type']) {
-   case 'kmap_taxonomy':
-      $element[] = array(
-         //'#theme' => 'term_tree_list',
-         '#data' => $items,
-         '#display' => $display,
-         '#attached' => array('css' => array(drupal_get_path('module', 'kmap_taxonomy') . '/kmap_taxonomy.css')),
-         );
-      break;
-   }
-   return $element;
 }
 
 /**
@@ -191,6 +175,7 @@ function kmap_taxonomy_field_widget_form(&$form, &$form_state, $field, $instance
       
       global $base_path;
       $field_name = $field['field_name'];
+      $kmap_selector_name = $field_name;
       $kmap_selector_target_div = $field_name . "_kmap_selector";
       $kmap_selector_hidden_input = str_replace("_", "-", "edit-$field_name-und-kmap-id");
       
@@ -198,14 +183,30 @@ function kmap_taxonomy_field_widget_form(&$form, &$form_state, $field, $instance
          '#markup' => "<div id='$kmap_selector_target_div' class='form-item'></div>",
          );
       $kmaps = array();
+      
       foreach($items as $item) {
          $key = $item[$value_key];
          if($key > 0) {
             $term = (array)taxonomy_term_load($key);
             $kmap_id = $term['kmap_id']['und'][0]['value'];
-            $kmaps[$kmap_id] = array('id' => $kmap_id, 'label' => $term['name']);
+            $k = new Kmap($kmap_id);
+            $formats = array();
+            foreach ( $k->get_parentage_types() as $format) {
+               $formats[$format] = $k->render_kmap_lineage($format);
+            }
+            $kmaps[$kmap_id] = array(
+               'id' => $kmap_id, 
+               'label' => $term['name'],
+               'formats' => $formats, 
+               'selectedFormat' => Kmap::KMAP_LINEAGE_FULL /**@TODO UN-HARDCODE THIS OF COURSE!!!!!!!!!!**/
+               );
+            if (module_exists('kmap_annotation')) {
+               $annotations = get_node_annotations_by_kmap_id($kmap_id, $form['#node']);
+               $kmaps[$kmap_id] = array_merge($kmaps[$kmap_id],$annotations);
+            }
          }
       }
+      
       $element['kmap_id'] = array(
          '#type' => 'hidden',
         /*  '#type' => 'textfield', 
@@ -226,12 +227,15 @@ function kmap_taxonomy_field_widget_form(&$form, &$form_state, $field, $instance
 
       //  Settings for the js selector widget config in add-kmap-selectors.js
       $js_settings = array(
+         'name' => $kmap_selector_name,
          'target_div' => $kmap_selector_target_div,
          'hidden_input' => $kmap_selector_hidden_input,
          'prepopulate_values' => $kmaps,
          'show_autocomplete' =>  isset($settings['kmap_selector_settings']) ? $settings['kmap_selector_settings']['show_autocomplete']  : $settings['show_autocomplete'],
          'show_branch_filter' => isset($settings['kmap_selector_settings']) ? $settings['kmap_selector_settings']['show_branch_filter'] : $settings['show_branch_filter'],
          'show_tree_selector' => isset($settings['kmap_selector_settings']) ? $settings['kmap_selector_settings']['show_tree_selector'] : $settings['show_tree_selector'],
+         'allow_formatting' => isset($settings['kmap_selector_settings']) ? $settings['kmap_selector_settings']['allow_formatting'] : $settings['allow_formatting'],
+         'allow_annotations' => isset($settings['kmap_selector_settings']) ? $settings['kmap_selector_settings']['allow_annotations'] : $settings['allow_annotations'],
          'root_kmap_id' =>       isset($settings['kmap_selector_settings']) ? $settings['kmap_selector_settings']['root_kmap_id'] : $settings['root_kmap_id'],
          'selector_title' => $instance['label'],
          );
@@ -241,55 +245,98 @@ function kmap_taxonomy_field_widget_form(&$form, &$form_state, $field, $instance
       drupal_add_js(array('kmap_taxonomy' => $js_field_settings), 'setting');
       break;
    }
-
-   $element += array(
-      '#value_key' => $value_key,
-      '#element_validate' => array('_kmap_taxonomy_widget_validate'),
-      '#properties' => $properties,
-      );
-  
-   $form['#submit'][] = '_kmap_taxonomy_submit';
    
+   $element['#value_key'][] = $value_key;
+   $element['#properties'][] = $properties;
+   $element['#element_validate'][] = 'kmap_taxonomy_widget_validate';
+   if ( module_exists('kmap_annotation') ) {
+      $element['#element_validate'][] = 'kmap_annotation_widget_validate';
+   }
+   $form['#submit'][] = 'kmap_taxonomy_submit';
+   if ( module_exists( 'kmap_annotation' )) {
+      $form['#submit'][] = 'kmap_annotation_submit';
+   }
    return $element;
 }
 
-
-function _kmap_taxonomy_get_parent($tid) {
-   $q = db_query("select h.parent from {taxonomy_term_hierarchy} h where h.tid = :tid limit 1", array(':tid'  => $tid));
-   
-   $t = 0;
-   foreach($q as $term) {
-      $t = $term->parent;
-   }
-   
-   return $t;
+function kmap_taxonomy_submit(&$form, &$form_state) {
 }
 
-function _kmap_taxonomy_submit(&$form, &$form_state) {
-   
-}
-
-function _kmap_taxonomy_widget_validate($element, &$form_state, $form) {
+function kmap_taxonomy_widget_validate($element, &$form_state, $form) {
    $field_name = $element['#field_name'];
    $kmap_ids = explode(",",$form_state['values'][$field_name]['und']['kmap_id']);
-   // dpm($kmap_ids, "kmap_ids");
-   // dpm($form_state['values'][$field_name], "\$form_state['values'][\$field_name]");
-   // dpm($form_state, "form_state");
-   
    $value = array();
    foreach($kmap_ids as $kmap_id) {
       if ($kmap_id > 0) {
          $kmap = new Kmap($kmap_id);
          $term = $kmap->get_term();
-         // dpm($term, "term for $kmap_id");
-         
          $value[] = (array)$term;
       }
    }
-   // dpm($value, "value");
-   
    form_set_value($element, $value, $form_state);
 }
+
+/*
+  DISPLAY FORMATTERS
+*/
+/**
+* Implements hook_field_formatter_info().
+*/
+function kmap_taxonomy_field_formatter_info() {
+   return array(
+      'kmap_taxonomy_default' => array(
+         'label' => 'Kmap Taxonomy Default',
+         'field types' => array('taxonomy_term_reference'),
+         ),
+      );
+}
+
+/**
+* Implements hook_field_formatter_view().
+*/
+function kmap_taxonomy_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+   $elements = array();  
+   foreach ($items as $delta => $item) {
+      $kmap = Kmap::createKmapByTid($item['tid']);
+      $view_path = $instance['widget']['settings']['view_path'];
+      $elements[$delta] = array(
+         '#markup' => theme('kmap_taxonomy_formatter_'. $display['type'], array(
+            'element' => $item, 
+            'entity' => $entity, 
+            'field' => $instance,
+            'raw_lineage' => $kmap->get_kmap_lineage($kmap->get_kmap_id()),
+            'formatted_lineage' => $kmap->render_kmap_lineage(Kmap::KMAP_LINEAGE_FULL, FALSE, $view_path),
+            'rendered_formatted_lineage' => $kmap->render_kmap_lineage(Kmap::KMAP_LINEAGE_FULL, TRUE, $view_path),   
+            )
+            ),
+         );
+  }
+  return $elements;
+}
+
+
+/**
+ * Implements hook_theme().
+ */
+function kmap_taxonomy_theme() {
+  return array(
+    'kmap_taxonomy_formatter_kmap_taxonomy_default' => array(
+      'variables' => array('element' => NULL),
+    ),
+  );
+}
+ 
+/**
+ * Theme function for 'kmap_taxonomy_default' link field formatter.
+ */
+function theme_kmap_taxonomy_formatter_kmap_taxonomy_default($element) {
+   return $element['rendered_formatted_lineage'];
+}
+
+/* 
+*  SERVICES
+*  Waiting for jsonp implementation in kmaps itself to deprecate these services
+*/
 
 /**
 * Get root-level Kmaps categories from the live server

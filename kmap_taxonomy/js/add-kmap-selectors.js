@@ -3,9 +3,12 @@ Drupal.behaviors.kmap_taxonomy={attach:function(context){
    for (var key in Drupal.settings.kmap_taxonomy) {
       var settings = Drupal.settings.kmap_taxonomy[key];
       var kmap_selector_options = {
+
          // REQUIRED
+         name: settings.name,
          targetDivId: settings.target_div,
          hiddenInputId: settings.hidden_input,
+         
          // OPTIONAL
          prepopulateValues: settings.prepopulate_values,
          formInputClass: 'form-text',
@@ -27,8 +30,17 @@ Drupal.behaviors.kmap_taxonomy={attach:function(context){
          showAutocomplete: settings.show_autocomplete,
          showBranchFilter: settings.show_branch_filter,
          showTreeSelector: settings.show_tree_selector,
+         allowAnnotations: settings.allow_annotations,
+         allowFormatting: settings.allow_formatting,
+         // parentage formats
+         parentageFormats:   {
+            first_last: Drupal.t('First and last'),
+            last: Drupal.t('Last'),
+            last_plus_parent: Drupal.t('Last plus parent'),
+            full: Drupal.t('Full'),
+         },
          // root branch
-         rootKmapId:     settings.root_kmap_id,
+         rootKmapId: settings.root_kmap_id,
          // localization
          l10nTranslateFunction: Drupal.t
       };

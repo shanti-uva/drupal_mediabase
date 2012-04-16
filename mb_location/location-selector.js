@@ -177,8 +177,6 @@ LocationSelector.prototype.initItems = function () {
    if (typeof (this.selectedValues) == 'object') {
       for (var locId in this.selectedValues) {
          var item = this.selectedValues[locId]
-         console.log('item', item)
-         
          item.placeDictLabel = item.label
          this.displayItem(item);
          var origVal = jQuery(this.hiddenInput).val()          // Add locId to the hidden input
@@ -205,20 +203,6 @@ LocationSelector.prototype.initLocalization = function () {
       this.t = function (string) { return string; };
    }
 };
-
-/**
-* Method returns a class-bound version of the passed-in function;
-* This will execute in the context of the originating object, 'this'.
-* See: http://www.bennadel.com/blog/1517-Binding-Javascript-Method-References-To-Their-Parent-Classes.htm
-* See: http://alternateidea.com/blog/articles/2007/7/18/javascript-scope-and-binding
-**/
-LocationSelector.prototype.bind = function (fnMethod){
-   var objSelf = this;
-   // Return a method that will call the given method in the context of 'this'.
-   return function (){
-      return fnMethod.apply(objSelf, arguments)
-   }
-}
 
 /** 
 * Add an item to selected values

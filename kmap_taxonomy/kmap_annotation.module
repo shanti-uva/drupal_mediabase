@@ -29,6 +29,7 @@ function kmap_annotation_submit(&$form, &$form_state) {
 }
 
 function insert_kmap_annotations(&$node) {
+   module_load_include('inc', 'kmap_taxonomy', 'includes/kmap');
    foreach ($node->kmap_annotations as $field_name => $items) {
       foreach ($items as $kmap_id => $item) {
          $k = new Kmap($kmap_id);
@@ -102,6 +103,7 @@ function kmap_annotation_field_formatter_info() {
 * @todo get $entity->field_kmap_annotation field name from a field setting
 */
 function kmap_annotation_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+   module_load_include('inc', 'kmap_taxonomy', 'includes/kmap');
    $elements = array();
    switch ($display['type']) {
    case 'kmap_taxonomy_annotated':
@@ -125,7 +127,7 @@ function kmap_annotation_field_formatter_view($entity_type, $entity, $field, $in
                      'element' => $item, 
                      'entity' => $entity, 
                      'field' => $instance,
-                    // 'raw_lineage' => $kmap->get_kmap_lineage($kmap->get_kmap_id()),
+                    'raw_lineage' => $kmap->get_kmap_lineage(),
                      'formatted_lineage' => $kmap->render_kmap_lineage($format, FALSE, $view_path),
                      'rendered_formatted_lineage' => $kmap->render_kmap_lineage($format, TRUE, $view_path),   
                      )

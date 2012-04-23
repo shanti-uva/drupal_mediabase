@@ -252,6 +252,365 @@ function audio_video_field_default_fields() {
     ),
   );
 
+  // Exported field: 'field_collection_item-field_kmap_annotation-field_annot_format'
+  $fields['field_collection_item-field_kmap_annotation-field_annot_format'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_annot_format',
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          'first_last' => 'First and last',
+          'last' => 'Last',
+          'last_plus_parent' => 'Last plus parent',
+          'full' => 'Full',
+        ),
+        'allowed_values_function' => '',
+      ),
+      'translatable' => '0',
+      'type' => 'list_text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'field_kmap_annotation',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => 5,
+        ),
+      ),
+      'entity_type' => 'field_collection_item',
+      'field_name' => 'field_annot_format',
+      'label' => 'Format',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(),
+        'type' => 'options_buttons',
+        'weight' => '7',
+      ),
+    ),
+  );
+
+  // Exported field: 'field_collection_item-field_kmap_annotation-field_annot_note'
+  $fields['field_collection_item-field_kmap_annotation-field_annot_note'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_annot_note',
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'module' => 'text',
+      'settings' => array(),
+      'translatable' => '0',
+      'type' => 'text_long',
+    ),
+    'field_instance' => array(
+      'bundle' => 'field_kmap_annotation',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => 4,
+        ),
+      ),
+      'entity_type' => 'field_collection_item',
+      'field_name' => 'field_annot_note',
+      'label' => 'Note',
+      'required' => 0,
+      'settings' => array(
+        'text_processing' => '0',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'text',
+        'settings' => array(
+          'rows' => '5',
+        ),
+        'type' => 'text_textarea',
+        'weight' => '6',
+      ),
+    ),
+  );
+
+  // Exported field: 'field_collection_item-field_kmap_annotation-field_annot_numeric_label'
+  $fields['field_collection_item-field_kmap_annotation-field_annot_numeric_label'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_annot_numeric_label',
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'module' => 'text',
+      'settings' => array(
+        'max_length' => '255',
+      ),
+      'translatable' => '0',
+      'type' => 'text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'field_kmap_annotation',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => 3,
+        ),
+      ),
+      'entity_type' => 'field_collection_item',
+      'field_name' => 'field_annot_numeric_label',
+      'label' => 'Numeric Label',
+      'required' => 0,
+      'settings' => array(
+        'text_processing' => '0',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'text',
+        'settings' => array(
+          'size' => '60',
+        ),
+        'type' => 'text_textfield',
+        'weight' => '5',
+      ),
+    ),
+  );
+
+  // Exported field: 'field_collection_item-field_kmap_annotation-field_annot_text_label'
+  $fields['field_collection_item-field_kmap_annotation-field_annot_text_label'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_annot_text_label',
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'module' => 'text',
+      'settings' => array(
+        'max_length' => '255',
+      ),
+      'translatable' => '0',
+      'type' => 'text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'field_kmap_annotation',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => 2,
+        ),
+      ),
+      'entity_type' => 'field_collection_item',
+      'field_name' => 'field_annot_text_label',
+      'label' => 'Text Label',
+      'required' => 0,
+      'settings' => array(
+        'text_processing' => '0',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'text',
+        'settings' => array(
+          'size' => '60',
+        ),
+        'type' => 'text_textfield',
+        'weight' => '4',
+      ),
+    ),
+  );
+
+  // Exported field: 'field_collection_item-field_kmap_annotation-field_tid'
+  $fields['field_collection_item-field_kmap_annotation-field_tid'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_tid',
+      'foreign keys' => array(),
+      'indexes' => array(),
+      'module' => 'number',
+      'settings' => array(),
+      'translatable' => '0',
+      'type' => 'number_integer',
+    ),
+    'field_instance' => array(
+      'bundle' => 'field_kmap_annotation',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'number',
+          'settings' => array(
+            'decimal_separator' => '.',
+            'prefix_suffix' => TRUE,
+            'scale' => 0,
+            'thousand_separator' => ' ',
+          ),
+          'type' => 'number_integer',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'field_collection_item',
+      'field_name' => 'field_tid',
+      'label' => 'Tid',
+      'required' => 0,
+      'settings' => array(
+        'max' => '',
+        'min' => '',
+        'prefix' => '',
+        'suffix' => '',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 0,
+        'module' => 'number',
+        'settings' => array(),
+        'type' => 'number',
+        'weight' => '1',
+      ),
+    ),
+  );
+
+  // Exported field: 'field_collection_item-field_kmap_annotation-kmap_id'
+  $fields['field_collection_item-field_kmap_annotation-kmap_id'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'kmap_id',
+      'foreign keys' => array(),
+      'indexes' => array(),
+      'module' => 'number',
+      'settings' => array(
+        'allowed_values' => array(
+          0 => array(
+            'vocabulary' => 'kmap_taxonomy',
+            'parent' => 0,
+          ),
+        ),
+      ),
+      'translatable' => '0',
+      'type' => 'number_integer',
+    ),
+    'field_instance' => array(
+      'bundle' => 'field_kmap_annotation',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'number',
+          'settings' => array(
+            'decimal_separator' => '.',
+            'prefix_suffix' => TRUE,
+            'scale' => 0,
+            'thousand_separator' => ' ',
+          ),
+          'type' => 'number_integer',
+          'weight' => 1,
+        ),
+      ),
+      'entity_type' => 'field_collection_item',
+      'field_name' => 'kmap_id',
+      'label' => 'Kmap Id',
+      'required' => 0,
+      'settings' => array(
+        'max' => '',
+        'min' => '',
+        'prefix' => '',
+        'suffix' => '',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 0,
+        'module' => 'number',
+        'settings' => array(),
+        'type' => 'number',
+        'weight' => '3',
+      ),
+    ),
+  );
+
   // Exported field: 'field_collection_item-field_pbcore_contributor-field_contributor'
   $fields['field_collection_item-field_pbcore_contributor-field_contributor'] = array(
     'field_config' => array(
@@ -1366,251 +1725,6 @@ function audio_video_field_default_fields() {
         ),
         'type' => 'text_textfield',
         'weight' => '2',
-      ),
-    ),
-  );
-
-  // Exported field: 'field_collection_item-field_pbcore_genre-field_genre'
-  $fields['field_collection_item-field_pbcore_genre-field_genre'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_genre',
-      'foreign keys' => array(),
-      'indexes' => array(
-        'value' => array(
-          0 => 'value',
-        ),
-      ),
-      'module' => 'list',
-      'settings' => array(
-        'allowed_values' => array(
-          'Action' => 'Action',
-          'Actuality' => 'Actuality',
-          'Adults Only' => 'Adults Only',
-          'Adventure' => 'Adventure',
-          'Advice' => 'Advice',
-          'Agriculture' => 'Agriculture',
-          'Animals' => 'Animals',
-          'Animation' => 'Animation',
-          'Anime' => 'Anime',
-          'Anthology' => 'Anthology',
-          'Art' => 'Art',
-          'Arts or crafts' => 'Arts or crafts',
-          'Auction' => 'Auction',
-          'Auto' => 'Auto',
-          'Aviation' => 'Aviation',
-          'Awards' => 'Awards',
-          'Bicycle' => 'Bicycle',
-          'Biography' => 'Biography',
-          'Boat' => 'Boat',
-          'Business or Financial' => 'Business or Financial',
-          'Call in' => 'Call in',
-          'Children' => 'Children',
-          'Children music' => 'Children music',
-          'Children special' => 'Children special',
-          'Children talk' => 'Children talk',
-          'Collectibles' => 'Collectibles',
-          'Comedy' => 'Comedy',
-          'Comedy drama' => 'Comedy drama',
-          'Commentary' => 'Commentary',
-          'Community' => 'Community',
-          'Computers' => 'Computers',
-          'Concert' => 'Concert',
-          'Consumer' => 'Consumer',
-          'Cooking' => 'Cooking',
-          'Crime' => 'Crime',
-          'Crime drama' => 'Crime drama',
-          'Dance' => 'Dance',
-          'Debate' => 'Debate',
-          'Docudrama' => 'Docudrama',
-          'Documentary' => 'Documentary',
-          'Drama' => 'Drama',
-          'Educational' => 'Educational',
-          'Entertainment' => 'Entertainment',
-          'Environment' => 'Environment',
-          'Event' => 'Event',
-          'Excerpts' => 'Excerpts',
-          'Exercise' => 'Exercise',
-          'Fantasy' => 'Fantasy',
-          'Fashion' => 'Fashion',
-          'Feature' => 'Feature',
-          'Forecast' => 'Forecast',
-          'French' => 'French',
-          'Fundraiser' => 'Fundraiser',
-          'Game show' => 'Game show',
-          'Gay or lesbian' => 'Gay or lesbian',
-          'Health' => 'Health',
-          'Historical drama' => 'Historical drama',
-          'History' => 'History',
-          'Holiday' => 'Holiday',
-          'Holiday music' => 'Holiday music',
-          'Holiday music special' => 'Holiday music special',
-          'Holiday special' => 'Holiday special',
-          'Holiday children' => 'Holiday children',
-          'Holiday children special' => 'Holiday children special',
-          'Home improvement' => 'Home improvement',
-          'Horror' => 'Horror',
-          'Horse' => 'Horse',
-          'House or garden' => 'House or garden',
-          'How to' => 'How to',
-          'Interview' => 'Interview',
-          'Law' => 'Law',
-          'Magazine' => 'Magazine',
-          'Medical' => 'Medical',
-          'Miniseries' => 'Miniseries',
-          'Music' => 'Music',
-          'Music special' => 'Music special',
-          'Music talk' => 'Music talk',
-          'Musical' => 'Musical',
-          'Musical comedy' => 'Musical comedy',
-          'Mystery' => 'Mystery',
-          'Nature' => 'Nature',
-          'News' => 'News',
-          'News conference' => 'News conference',
-          'Newsmagazine' => 'Newsmagazine',
-          'Obituary' => 'Obituary',
-          'Opera' => 'Opera',
-          'Outtakes' => 'Outtakes',
-          'Panel' => 'Panel',
-          'Parade' => 'Parade',
-          'Paranormal' => 'Paranormal',
-          'Parenting' => 'Parenting',
-          'Performance' => 'Performance',
-          'Performing arts' => 'Performing arts',
-          'Political commercial' => 'Political commercial',
-          'Politics' => 'Politics',
-          'Polls and Surveys' => 'Polls and Surveys',
-          'Press Release' => 'Press Release',
-          'Promotional announcement' => 'Promotional announcement',
-          'Public service announcement' => 'Public service announcement',
-          'Question and Answer Session' => 'Question and Answer Session',
-          'Quote' => 'Quote',
-          'Reading' => 'Reading',
-          'Reality' => 'Reality',
-          'Religious' => 'Religious',
-          'Retrospective' => 'Retrospective',
-          'Romance' => 'Romance',
-          'Romance comedy' => 'Romance comedy',
-          'Science' => 'Science',
-          'Science fiction' => 'Science fiction',
-          'Self improvement' => 'Self improvement',
-          'Shopping' => 'Shopping',
-          'Sitcom' => 'Sitcom',
-          'Soap' => 'Soap',
-          'Soap special' => 'Soap special',
-          'Soap talk' => 'Soap talk',
-          'Spanish' => 'Spanish',
-          'Special' => 'Special',
-          'Speech' => 'Speech',
-          'Sports' => 'Sports',
-          'Standup' => 'Standup',
-          'Suspense' => 'Suspense',
-          'Talk' => 'Talk',
-          'Theater' => 'Theater',
-          'Trailer' => 'Trailer',
-          'Travel' => 'Travel',
-          'Variety' => 'Variety',
-          'Voice over' => 'Voice over',
-          'War' => 'War',
-          'Weather' => 'Weather',
-        ),
-        'allowed_values_function' => '',
-      ),
-      'translatable' => '0',
-      'type' => 'list_text',
-    ),
-    'field_instance' => array(
-      'bundle' => 'field_pbcore_genre',
-      'default_value' => NULL,
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'inline',
-          'module' => 'list',
-          'settings' => array(),
-          'type' => 'list_default',
-          'weight' => '0',
-        ),
-      ),
-      'entity_type' => 'field_collection_item',
-      'field_name' => 'field_genre',
-      'label' => 'Genre',
-      'required' => 0,
-      'settings' => array(
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'options',
-        'settings' => array(),
-        'type' => 'options_select',
-        'weight' => '2',
-      ),
-    ),
-  );
-
-  // Exported field: 'field_collection_item-field_pbcore_genre-field_genre_source'
-  $fields['field_collection_item-field_pbcore_genre-field_genre_source'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_genre_source',
-      'foreign keys' => array(
-        'format' => array(
-          'columns' => array(
-            'format' => 'format',
-          ),
-          'table' => 'filter_format',
-        ),
-      ),
-      'indexes' => array(
-        'format' => array(
-          0 => 'format',
-        ),
-      ),
-      'module' => 'text',
-      'settings' => array(
-        'max_length' => '255',
-      ),
-      'translatable' => '0',
-      'type' => 'text',
-    ),
-    'field_instance' => array(
-      'bundle' => 'field_pbcore_genre',
-      'default_value' => NULL,
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'inline',
-          'module' => 'text',
-          'settings' => array(),
-          'type' => 'text_default',
-          'weight' => '1',
-        ),
-      ),
-      'entity_type' => 'field_collection_item',
-      'field_name' => 'field_genre_source',
-      'label' => 'Genre Source',
-      'required' => 0,
-      'settings' => array(
-        'text_processing' => '0',
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'text',
-        'settings' => array(
-          'size' => '60',
-        ),
-        'type' => 'text_textfield',
-        'weight' => '4',
       ),
     ),
   );
@@ -5023,9 +5137,9 @@ function audio_video_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'field_kaltura',
+          'module' => 'mb_kaltura',
           'settings' => array(),
-          'type' => 'field_kaltura_player_default',
+          'type' => 'field_kaltura_player_html5_audio',
           'weight' => '0',
         ),
         'teaser' => array(
@@ -5306,10 +5420,10 @@ function audio_video_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'taxonomy',
+          'module' => 'kmap_annotation',
           'settings' => array(),
-          'type' => 'taxonomy_term_reference_link',
-          'weight' => '30',
+          'type' => 'kmap_taxonomy_annotated',
+          'weight' => '6',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -5329,16 +5443,22 @@ function audio_video_field_default_fields() {
         'active' => 1,
         'module' => 'kmap_taxonomy',
         'settings' => array(
+          'allow_annotations' => TRUE,
+          'allow_formatting' => TRUE,
           'kmap_selector_settings' => array(
+            'allow_annotations' => 1,
+            'allow_formatting' => 1,
             'root_kmap_id' => '',
             'show_autocomplete' => 1,
             'show_branch_filter' => 1,
             'show_tree_selector' => 1,
+            'view_path' => 'characteristic/%tid/detail',
           ),
           'root_kmap_id' => NULL,
           'show_autocomplete' => TRUE,
           'show_branch_filter' => TRUE,
-          'show_tree_selector' => FALSE,
+          'show_tree_selector' => TRUE,
+          'view_path' => 'taxonomy/term/%tid',
         ),
         'type' => 'kmap_taxonomy',
         'weight' => '9',
@@ -5410,6 +5530,58 @@ function audio_video_field_default_fields() {
         ),
         'type' => 'text_textfield',
         'weight' => '10',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-audio-field_kmap_annotation'
+  $fields['node-audio-field_kmap_annotation'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '-1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_kmap_annotation',
+      'foreign keys' => array(),
+      'indexes' => array(),
+      'module' => 'field_collection',
+      'settings' => array(
+        'path' => '',
+      ),
+      'translatable' => '0',
+      'type' => 'field_collection',
+    ),
+    'field_instance' => array(
+      'bundle' => 'audio',
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '29',
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_kmap_annotation',
+      'label' => 'Kmap Annotation',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 0,
+        'module' => 'field_collection',
+        'settings' => array(),
+        'type' => 'field_collection_hidden',
+        'weight' => '22',
       ),
     ),
   );
@@ -5576,7 +5748,7 @@ function audio_video_field_default_fields() {
             'view_mode' => 'full',
           ),
           'type' => 'field_collection_view',
-          'weight' => '4',
+          'weight' => '9',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -5597,7 +5769,7 @@ function audio_video_field_default_fields() {
         'module' => 'field_collection',
         'settings' => array(),
         'type' => 'field_collection_embed',
-        'weight' => '11',
+        'weight' => '13',
       ),
     ),
   );
@@ -5646,7 +5818,7 @@ function audio_video_field_default_fields() {
           'module' => 'taxonomy',
           'settings' => array(),
           'type' => 'taxonomy_term_reference_link',
-          'weight' => '13',
+          'weight' => '7',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -5674,7 +5846,7 @@ function audio_video_field_default_fields() {
           'show_tree_selector' => TRUE,
         ),
         'type' => 'mb_location',
-        'weight' => '13',
+        'weight' => '11',
       ),
     ),
   );
@@ -5855,66 +6027,6 @@ function audio_video_field_default_fields() {
         'settings' => array(),
         'type' => 'field_collection_embed',
         'weight' => '15',
-      ),
-    ),
-  );
-
-  // Exported field: 'node-audio-field_pbcore_genre'
-  $fields['node-audio-field_pbcore_genre'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '-1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_pbcore_genre',
-      'foreign keys' => array(),
-      'indexes' => array(),
-      'module' => 'field_collection',
-      'settings' => array(
-        'path' => '',
-      ),
-      'translatable' => '1',
-      'type' => 'field_collection',
-    ),
-    'field_instance' => array(
-      'bundle' => 'audio',
-      'default_value' => NULL,
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'field_collection',
-          'settings' => array(
-            'add' => 'Add',
-            'delete' => 'Delete',
-            'description' => TRUE,
-            'edit' => 'Edit',
-            'view_mode' => 'full',
-          ),
-          'type' => 'field_collection_view',
-          'weight' => '3',
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'field_name' => 'field_pbcore_genre',
-      'label' => 'Genre',
-      'required' => 0,
-      'settings' => array(
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 0,
-        'module' => 'field_collection',
-        'settings' => array(),
-        'type' => 'field_collection_embed',
-        'weight' => '10',
       ),
     ),
   );
@@ -6132,7 +6244,7 @@ function audio_video_field_default_fields() {
             'view_mode' => 'full',
           ),
           'type' => 'field_collection_view',
-          'weight' => 31,
+          'weight' => '10',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -6153,7 +6265,7 @@ function audio_video_field_default_fields() {
         'module' => 'field_collection',
         'settings' => array(),
         'type' => 'field_collection_embed',
-        'weight' => '12',
+        'weight' => '14',
       ),
     ),
   );
@@ -6328,7 +6440,7 @@ function audio_video_field_default_fields() {
           'module' => 'taxonomy',
           'settings' => array(),
           'type' => 'taxonomy_term_reference_link',
-          'weight' => '14',
+          'weight' => '8',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -6358,7 +6470,7 @@ function audio_video_field_default_fields() {
           'show_place_dictionary' => TRUE,
         ),
         'type' => 'mb_location',
-        'weight' => '14',
+        'weight' => '12',
       ),
     ),
   );
@@ -6407,7 +6519,7 @@ function audio_video_field_default_fields() {
           'module' => 'taxonomy',
           'settings' => array(),
           'type' => 'taxonomy_term_reference_link',
-          'weight' => '2',
+          'weight' => '3',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -6431,7 +6543,7 @@ function audio_video_field_default_fields() {
           'size' => 60,
         ),
         'type' => 'taxonomy_autocomplete',
-        'weight' => '3',
+        'weight' => '5',
       ),
     ),
   );
@@ -6492,7 +6604,7 @@ function audio_video_field_default_fields() {
       'settings' => array(
         'description_field' => 0,
         'file_directory' => 'transcripts',
-        'file_extensions' => 'xml',
+        'file_extensions' => 'xml eaf',
         'max_filesize' => '',
         'user_register_form' => FALSE,
       ),
@@ -6503,10 +6615,21 @@ function audio_video_field_default_fields() {
         'active' => 1,
         'module' => 'file',
         'settings' => array(
+          'filefield_sources' => array(
+            'filefield_sources' => array(),
+            'source_attach' => array(
+              'absolute' => 0,
+              'attach_mode' => 'move',
+              'path' => 'file_attach',
+            ),
+            'source_reference' => array(
+              'autocomplete' => '0',
+            ),
+          ),
           'progress_indicator' => 'throbber',
         ),
         'type' => 'file_generic',
-        'weight' => '20',
+        'weight' => '19',
       ),
     ),
   );
@@ -6566,6 +6689,95 @@ function audio_video_field_default_fields() {
         'settings' => array(),
         'type' => 'field_collection_embed',
         'weight' => '15',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-audio-field_transcripts_xsl'
+  $fields['node-audio-field_transcripts_xsl'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_transcripts_xsl',
+      'foreign keys' => array(
+        'fid' => array(
+          'columns' => array(
+            'fid' => 'fid',
+          ),
+          'table' => 'file_managed',
+        ),
+      ),
+      'indexes' => array(
+        'fid' => array(
+          0 => 'fid',
+        ),
+      ),
+      'module' => 'file',
+      'settings' => array(
+        'display_default' => 0,
+        'display_field' => 0,
+        'uri_scheme' => 'public',
+      ),
+      'translatable' => '0',
+      'type' => 'file',
+    ),
+    'field_instance' => array(
+      'bundle' => 'audio',
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'hidden',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '2',
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_transcripts_xsl',
+      'label' => 'Transformer',
+      'required' => 0,
+      'settings' => array(
+        'description_field' => 1,
+        'file_directory' => 'transcripts_xsl',
+        'file_extensions' => 'xsl',
+        'max_filesize' => '',
+        'user_register_form' => FALSE,
+      ),
+      'transcripts' => array(
+        'is_transcript' => 0,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'file',
+        'settings' => array(
+          'filefield_sources' => array(
+            'filefield_sources' => array(
+              'attach' => 0,
+              'reference' => 'reference',
+              'remote' => 0,
+            ),
+            'source_attach' => array(
+              'absolute' => '0',
+              'attach_mode' => 'copy',
+              'path' => 'file_attach',
+            ),
+            'source_reference' => array(
+              'autocomplete' => '1',
+            ),
+          ),
+          'progress_indicator' => 'throbber',
+        ),
+        'type' => 'file_generic',
+        'weight' => '20',
       ),
     ),
   );
@@ -7096,10 +7308,10 @@ function audio_video_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'taxonomy',
+          'module' => 'kmap_annotation',
           'settings' => array(),
-          'type' => 'taxonomy_term_reference_link',
-          'weight' => '30',
+          'type' => 'kmap_taxonomy_annotated',
+          'weight' => '6',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -7119,16 +7331,22 @@ function audio_video_field_default_fields() {
         'active' => 1,
         'module' => 'kmap_taxonomy',
         'settings' => array(
+          'allow_annotations' => TRUE,
+          'allow_formatting' => TRUE,
           'kmap_selector_settings' => array(
+            'allow_annotations' => 1,
+            'allow_formatting' => 1,
             'root_kmap_id' => '',
             'show_autocomplete' => 1,
             'show_branch_filter' => 1,
             'show_tree_selector' => 1,
+            'view_path' => 'characteristic/%tid/detail',
           ),
           'root_kmap_id' => NULL,
           'show_autocomplete' => TRUE,
           'show_branch_filter' => TRUE,
-          'show_tree_selector' => FALSE,
+          'show_tree_selector' => TRUE,
+          'view_path' => 'characteristic/%tid/detail',
         ),
         'type' => 'kmap_taxonomy',
         'weight' => '35',
@@ -7200,6 +7418,58 @@ function audio_video_field_default_fields() {
         ),
         'type' => 'text_textfield',
         'weight' => '42',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-video-field_kmap_annotation'
+  $fields['node-video-field_kmap_annotation'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '-1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_kmap_annotation',
+      'foreign keys' => array(),
+      'indexes' => array(),
+      'module' => 'field_collection',
+      'settings' => array(
+        'path' => '',
+      ),
+      'translatable' => '0',
+      'type' => 'field_collection',
+    ),
+    'field_instance' => array(
+      'bundle' => 'video',
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '29',
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_kmap_annotation',
+      'label' => 'Kmap Annotation',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 0,
+        'module' => 'field_collection',
+        'settings' => array(),
+        'type' => 'field_collection_hidden',
+        'weight' => '36',
       ),
     ),
   );
@@ -7366,7 +7636,7 @@ function audio_video_field_default_fields() {
             'view_mode' => 'full',
           ),
           'type' => 'field_collection_view',
-          'weight' => '4',
+          'weight' => '9',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -7387,7 +7657,7 @@ function audio_video_field_default_fields() {
         'module' => 'field_collection',
         'settings' => array(),
         'type' => 'field_collection_embed',
-        'weight' => '37',
+        'weight' => '39',
       ),
     ),
   );
@@ -7436,7 +7706,7 @@ function audio_video_field_default_fields() {
           'module' => 'taxonomy',
           'settings' => array(),
           'type' => 'taxonomy_term_reference_link',
-          'weight' => 32,
+          'weight' => '7',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -7466,7 +7736,7 @@ function audio_video_field_default_fields() {
           'show_place_dictionary' => TRUE,
         ),
         'type' => 'mb_location',
-        'weight' => '47',
+        'weight' => '37',
       ),
     ),
   );
@@ -7647,66 +7917,6 @@ function audio_video_field_default_fields() {
         'settings' => array(),
         'type' => 'field_collection_embed',
         'weight' => '45',
-      ),
-    ),
-  );
-
-  // Exported field: 'node-video-field_pbcore_genre'
-  $fields['node-video-field_pbcore_genre'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '-1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_pbcore_genre',
-      'foreign keys' => array(),
-      'indexes' => array(),
-      'module' => 'field_collection',
-      'settings' => array(
-        'path' => '',
-      ),
-      'translatable' => '1',
-      'type' => 'field_collection',
-    ),
-    'field_instance' => array(
-      'bundle' => 'video',
-      'default_value' => NULL,
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'field_collection',
-          'settings' => array(
-            'add' => 'Add',
-            'delete' => 'Delete',
-            'description' => TRUE,
-            'edit' => 'Edit',
-            'view_mode' => 'full',
-          ),
-          'type' => 'field_collection_view',
-          'weight' => '3',
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'field_name' => 'field_pbcore_genre',
-      'label' => 'Genre',
-      'required' => 0,
-      'settings' => array(
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 0,
-        'module' => 'field_collection',
-        'settings' => array(),
-        'type' => 'field_collection_embed',
-        'weight' => '36',
       ),
     ),
   );
@@ -7924,7 +8134,7 @@ function audio_video_field_default_fields() {
             'view_mode' => 'full',
           ),
           'type' => 'field_collection_view',
-          'weight' => 34,
+          'weight' => '10',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -7945,7 +8155,7 @@ function audio_video_field_default_fields() {
         'module' => 'field_collection',
         'settings' => array(),
         'type' => 'field_collection_embed',
-        'weight' => '38',
+        'weight' => '40',
       ),
     ),
   );
@@ -8120,7 +8330,7 @@ function audio_video_field_default_fields() {
           'module' => 'taxonomy',
           'settings' => array(),
           'type' => 'taxonomy_term_reference_link',
-          'weight' => 33,
+          'weight' => '8',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -8150,7 +8360,7 @@ function audio_video_field_default_fields() {
           'show_place_dictionary' => TRUE,
         ),
         'type' => 'mb_location',
-        'weight' => '48',
+        'weight' => '38',
       ),
     ),
   );
@@ -8295,6 +8505,17 @@ function audio_video_field_default_fields() {
         'active' => 1,
         'module' => 'file',
         'settings' => array(
+          'filefield_sources' => array(
+            'filefield_sources' => array(),
+            'source_attach' => array(
+              'absolute' => 0,
+              'attach_mode' => 'move',
+              'path' => 'file_attach',
+            ),
+            'source_reference' => array(
+              'autocomplete' => '0',
+            ),
+          ),
           'progress_indicator' => 'throbber',
         ),
         'type' => 'file_generic',
@@ -8358,6 +8579,95 @@ function audio_video_field_default_fields() {
         'settings' => array(),
         'type' => 'field_collection_embed',
         'weight' => '43',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-video-field_transcripts_xsl'
+  $fields['node-video-field_transcripts_xsl'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_transcripts_xsl',
+      'foreign keys' => array(
+        'fid' => array(
+          'columns' => array(
+            'fid' => 'fid',
+          ),
+          'table' => 'file_managed',
+        ),
+      ),
+      'indexes' => array(
+        'fid' => array(
+          0 => 'fid',
+        ),
+      ),
+      'module' => 'file',
+      'settings' => array(
+        'display_default' => 0,
+        'display_field' => 0,
+        'uri_scheme' => 'public',
+      ),
+      'translatable' => '0',
+      'type' => 'file',
+    ),
+    'field_instance' => array(
+      'bundle' => 'video',
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '2',
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_transcripts_xsl',
+      'label' => 'Transformer',
+      'required' => 0,
+      'settings' => array(
+        'description_field' => 0,
+        'file_directory' => 'transcripts_xsl',
+        'file_extensions' => 'xsl',
+        'max_filesize' => '',
+        'user_register_form' => FALSE,
+      ),
+      'transcripts' => array(
+        'is_transcript' => 0,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'file',
+        'settings' => array(
+          'filefield_sources' => array(
+            'filefield_sources' => array(
+              'attach' => 0,
+              'reference' => 'reference',
+              'remote' => 0,
+            ),
+            'source_attach' => array(
+              'absolute' => '0',
+              'attach_mode' => 'copy',
+              'path' => 'file_attach',
+            ),
+            'source_reference' => array(
+              'autocomplete' => '1',
+            ),
+          ),
+          'progress_indicator' => 'throbber',
+        ),
+        'type' => 'file_generic',
+        'weight' => '4',
       ),
     ),
   );
@@ -8700,7 +9010,7 @@ function audio_video_field_default_fields() {
           'module' => 'list',
           'settings' => array(),
           'type' => 'list_default',
-          'weight' => '31',
+          'weight' => '12',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -8740,7 +9050,7 @@ function audio_video_field_default_fields() {
   $fields['taxonomy_term-kmap_taxonomy-kmap_id'] = array(
     'field_config' => array(
       'active' => '1',
-      'cardinality' => '-1',
+      'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'kmap_id',
@@ -8954,23 +9264,25 @@ function audio_video_field_default_fields() {
   t('Extension');
   t('Extension Authority');
   t('File Size');
+  t('Format');
   t('Format Id');
   t('Format Id Source');
   t('Format Standard');
   t('Frame Rate');
   t('Frame Size');
   t('Generations');
-  t('Genre');
-  t('Genre Source');
   t('Group content visibility');
   t('Groups audience');
   t('Identifier');
   t('Identifier Source');
+  t('Kmap Annotation');
   t('Kmap Id');
   t('Kmap Parent Id');
   t('Language');
   t('Location');
   t('Media Type');
+  t('Note');
+  t('Numeric Label');
   t('Physical Format');
   t('Place Dictionary Id');
   t('Publisher');
@@ -8983,6 +9295,8 @@ function audio_video_field_default_fields() {
   t('Sampling Rate');
   t('Start Time');
   t('Tags');
+  t('Text Label');
+  t('Tid');
   t('Time');
   t('Title');
   t('Title Language');
@@ -8992,6 +9306,7 @@ function audio_video_field_default_fields() {
   t('Transcription');
   t('Transcription Note');
   t('Transcription Status');
+  t('Transformer');
   t('Translation');
   t('Translation Note');
   t('Translation Status');

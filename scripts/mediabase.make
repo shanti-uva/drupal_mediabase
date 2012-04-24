@@ -122,8 +122,8 @@ projects[mb-html5][type] = "theme"
 libraries[saxon][download][type] = "file"
 libraries[saxon][download][url] = "http://superb-sea2.dl.sourceforge.net/project/saxon/Saxon-HE/9.4/SaxonHE9-4-0-3J.zip"
 
-libraries[thlib.org][download][type] = "file"
-libraries[thlib.org][download][url] = "https://raw.github.com/pinedrop/mediabase/master/dtd/avarch-entry.dtd"
+;libraries[thlib.org][download][type] = "file"
+;libraries[thlib.org][download][url] = "https://raw.github.com/pinedrop/mediabase/master/dtd/avarch-entry.dtd"
 
 ; PATCHES
 projects[kaltura][patch][] = "http://drupal.org/files/kaltura-fix_for_some_field_settings_props-1538978.patch"

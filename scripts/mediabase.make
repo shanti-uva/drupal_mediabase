@@ -47,13 +47,13 @@ projects[facetapi_slider][subdir] = "contrib"
 projects[features][version] = "1.x-dev"
 projects[features][subdir] = "contrib"
 
-projects[field_collection][version] = "1.0-beta4"
+projects[field_collection] = 1.x-dev
 projects[field_collection][subdir] = "contrib"
 
 projects[field_group][version] = "1.x-dev"
 projects[field_group][subdir] = "contrib"
 
-projects[kaltura][version] = "2.0-dev"
+projects[kaltura][version] = "2.x-dev"
 projects[kaltura][subdir] = "contrib"
 
 projects[job_scheduler][version] = "2.0-alpha2"
@@ -68,17 +68,26 @@ projects[og][subdir] = "contrib"
 projects[og_create_perms][version] = "1.0"
 projects[og_create_perms][subdir] = "contrib"
 
+projects[og_views][version] = "1.0"
+projects[og_views][subdir] = "contrib"
+
 projects[pathauto][version] = "1.0"
 projects[pathauto][subdir] = "contrib"
 
 projects[profile2][version] = "1.2"
 projects[profile2][subdir] = "contrib"
 
+projects[purl][version] = "1.0-beta1"
+projects[purl][subdir] = "contrib"
+
 projects[realname][version] = "1.0-rc2"
 projects[realname][subdir] = "contrib"
 
 projects[shib_auth][version] = "4.0"
 projects[shib_auth][subdir] = "contrib"
+
+projects[spaces][version] = "3.x-dev"
+projects[spaces][subdir] = "contrib"
 
 projects[strongarm][version] = "2.0-beta4"
 projects[strongarm][subdir] = "contrib"

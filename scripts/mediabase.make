@@ -125,4 +125,5 @@ libraries[saxon][download][url] = "http://superb-sea2.dl.sourceforge.net/project
 libraries[thlib.org][download][type] = "file"
 libraries[thlib.org][download][url] = "https://raw.github.com/pinedrop/mediabase/master/dtd/avarch-entry.dtd"
 
-
+; PATCHES
+projects[kaltura][patch][] = "http://drupal.org/files/kaltura-fix_for_some_field_settings_props-1538978.patch"

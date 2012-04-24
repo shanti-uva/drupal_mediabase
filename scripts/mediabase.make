@@ -126,4 +126,4 @@ libraries[saxon][download][type] = "file"
 libraries[saxon][download][url] = "http://superb-sea2.dl.sourceforge.net/project/saxon/Saxon-HE/9.4/SaxonHE9-4-0-3J.zip"
 
 ; PATCHES
-projects[kaltura][patch][] = "http://drupal.org/files/kaltura-fix_for_some_field_settings_props-1538978.patch"
+projects[kaltura][patch][] = "http://drupal.org/files/kaltura-fix_for_some_field_settings_props-1538978-2.patch"

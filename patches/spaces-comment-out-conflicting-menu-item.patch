@@ -1,0 +1,22 @@
+diff --git a/spaces_og/spaces_og.module b/spaces_og/spaces_og.module
+index 34ccdab..96c5de7 100644
+--- a/spaces_og/spaces_og.module
++++ b/spaces_og/spaces_og.module
+@@ -160,7 +160,7 @@ function spaces_og_spaces_presets() {
+  */
+ function spaces_og_menu() {
+   $items = array();
+-  $items['user/%user/edit/groups'] = array(
++/*  $items['user/%user/edit/groups'] = array(
+     'file' => 'spaces_og.pages.inc',
+     'title' => 'Groups',
+     'page callback' => 'drupal_get_form',
+@@ -168,7 +168,7 @@ function spaces_og_menu() {
+     'access callback' => 'user_edit_access',
+     'access arguments' => array(1),
+     'type' => MENU_LOCAL_TASK,
+-  );
++  ); */
+   if (module_exists('ucreate')) {
+     $items["og/users/%node/ucreate"] = array(
+       'file' => 'spaces_og.pages.inc',

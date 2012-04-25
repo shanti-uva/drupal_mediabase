@@ -105,27 +105,27 @@ function kmap_annotation_field_formatter_info() {
 function kmap_annotation_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
    module_load_include('inc', 'kmap_taxonomy', 'includes/kmap');
    $elements = array();
+   
    switch ($display['type']) {
    case 'kmap_taxonomy_annotated':
       foreach ($items as $delta => $item) {
          $tid = $item['tid'];
          
-         // find our item tid among annotation entities
-         foreach ($entity->field_kmap_annotation[LANGUAGE_NONE] as $annot_item) {
+         // find our item tid among annotation field_collection items  in the node(aka, $entity)
+         $annot_items=$entity->field_kmap_annotation[LANGUAGE_NONE];
+         foreach ($annot_items as $annot_item) {
             $entity_id = $annot_item['value'];
             $entities = entity_load('field_collection_item', array($entity_id));
-            $entity=$entities[$entity_id];
-            
-            if ( $tid == $entity->field_tid[LANGUAGE_NONE][0]['value'] ) {
-               
-               $kmap_id = $entity->kmap_id[LANGUAGE_NONE][0]['value'];
-               $format = $entity->field_annot_format[LANGUAGE_NONE][0]['value'];
+            $annot_entity=$entities[$entity_id];
+            if ( $tid == $annot_entity->field_tid[LANGUAGE_NONE][0]['value'] ) {
+               $kmap_id = $annot_entity->kmap_id[LANGUAGE_NONE][0]['value'];
+               $format = $annot_entity->field_annot_format[LANGUAGE_NONE][0]['value'];
                $view_path = $instance['widget']['settings']['view_path'];
                $kmap = new Kmap($kmap_id);
                $elements[$delta] = array(
                   '#markup' => theme('kmap_annotation_formatter_'. $display['type'], array(
                      'element' => $item, 
-                     'entity' => $entity, 
+                     'entity' => $annot_entity, 
                      'field' => $instance,
                     'raw_lineage' => $kmap->get_kmap_lineage(),
                      'formatted_lineage' => $kmap->render_kmap_lineage($format, FALSE, $view_path),

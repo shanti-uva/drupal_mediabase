@@ -1,0 +1,46 @@
+diff --git a/plugins/field_kaltura/field_kaltura.module b/plugins/field_kaltura/field_kaltura.module
+index 2799732..95d6860 100644
+--- a/plugins/field_kaltura/field_kaltura.module
++++ b/plugins/field_kaltura/field_kaltura.module
+@@ -812,19 +812,19 @@ function field_kaltura_field_formatter_view($entity_type, $entity, $field, $inst
+     break;
+   case 'field_kaltura_thumbnail_only':
+     $embed = field_kaltura_build_embed($item, $type, $settings, $path, $user_id, $thumb_url, $seometa);
+-    $element[0]['#markup'] = theme('kaltura_thumbnail', array('thub' => $thumb_url, 'title' => $query['kaltura_title'], 'desc' => $query['kaltura_description'], 'meta' => $metadata, 'rotate' => $settings['thumbsize']['rotate']));
++    $element[0]['#markup'] = theme('kaltura_thumbnail', array('thub' => $thumb_url, 'title' => $query['kaltura_title'], 'desc' => $query['kaltura_description'], 'meta' => $metadata, 'rotate' => $settings['rotate']));
+     break;
+   case 'field_kaltura_thumbnail_title':
+     $embed = field_kaltura_build_embed($item, $type, $settings, $path, $user_id, $thumb_url, $seometa);
+-    $element[0]['#markup'] = theme('kaltura_thumbnail_default', array('thub' => $thumb_url, 'title' => $query['kaltura_title'], 'desc' => $query['kaltura_description'], 'meta' => $metadata, 'rotate' => $settings['thumbsize']['rotate']));
++    $element[0]['#markup'] = theme('kaltura_thumbnail_default', array('thub' => $thumb_url, 'title' => $query['kaltura_title'], 'desc' => $query['kaltura_description'], 'meta' => $metadata, 'rotate' => $settings['rotate']));
+     break;
+   case 'field_kaltura_thumbnail_title_desc':
+     $embed = field_kaltura_build_embed($item, $type, $settings, $path, $user_id, $thumb_url, $seometa);
+-    $element[0]['#markup'] = theme('kaltura_thumbnail_title_desc', array('thub' => $thumb_url, 'title' => $query['kaltura_title'], 'desc' => $query['kaltura_description'], 'meta' => $metadata, 'rotate' => $settings['thumbsize']['rotate']));
++    $element[0]['#markup'] = theme('kaltura_thumbnail_title_desc', array('thub' => $thumb_url, 'title' => $query['kaltura_title'], 'desc' => $query['kaltura_description'], 'meta' => $metadata, 'rotate' => $settings['rotate']));
+     break;
+   case 'field_kaltura_thumbnail_metadata':
+     $embed = field_kaltura_build_embed($item, $type, $settings, $path, $user_id, $thumb_url, $seometa);
+-    $element[0]['#markup'] = theme('kaltura_thumbnail_meta', array('thub' => $thumb_url, 'title' => $query['kaltura_title'], 'desc' => $query['kaltura_description'], 'meta' => $metadata, 'rotate' => $settings['thumbsize']['rotate']));
++    $element[0]['#markup'] = theme('kaltura_thumbnail_meta', array('thub' => $thumb_url, 'title' => $query['kaltura_title'], 'desc' => $query['kaltura_description'], 'meta' => $metadata, 'rotate' => $settings['rotate']));
+     break;
+   }
+   return $element;
+@@ -870,7 +870,16 @@ function field_kaltura_build_embed($item, $type, $settings, $path, $uid, $thumb_
+   $height = $settings['player_height'];
+   if ($type == 1 || $type == 5) {
+     $delivery = field_kaltura_delivery_string($settings['delivery']);
+-    $uiconf = !empty($settings['custom_player']) ? $settings['custom_player'] : $settings['entry_widget'];
++    //PATCH
++    if (!empty($settings['custom_player'])) {
++       $uiconf = $settings['custom_player'];
++    }
++    else if (!empty($settings['entry_widget'])) {
++       $uiconf = $settings['entry_widget'];
++    }
++    else if (!empty($settings['kaltura_entry_video_display']['entry_widget'])) {
++       $uiconf = $settings['kaltura_entry_video_display']['entry_widget'];
++    }
+     $kid = $item;
+     $partnerId = variable_get('kaltura_partner_id', 0);
+     $kaltura_server = (variable_get('kaltura_server_url', ''))? variable_get('kaltura_server_url', ''): KalturaSettings_SERVER_URL;

@@ -32,6 +32,9 @@ function insert_kmap_annotations(&$node) {
          $fc_values['field_annot_format'][$node->language][]['value'] = isset($item->selectedFormat) ? $item->selectedFormat :  Kmap::KMAP_LINEAGE_FULL;
          $fc = new FieldCollectionItemEntity($fc_values);
          $fc->setHostEntity('node', $node);
+         if (empty($node->path['alias'])) {
+            $node->path['alias'] = ''; // this is needed to stop: "Undefined index: alias in path_node_update()" notices. 
+         }
          $fc->save();
       }
    }

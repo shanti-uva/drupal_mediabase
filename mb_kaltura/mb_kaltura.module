@@ -84,7 +84,7 @@ function mb_kaltura_menu_alter(&$items) {
 }
 
 
-function mb_kaltura_node_presave(&$node) {
+function mb_kaltura_node_presave($node) {
    module_load_include('inc', 'mb_kaltura', 'mb_kaltura');
    $kaltura_node_types = array('video', 'audio');
    if ( in_array( $node->type , $kaltura_node_types) )  {
@@ -95,7 +95,7 @@ function mb_kaltura_node_presave(&$node) {
    }
 }
 
-function mb_kaltura_node_delete(&$node) {
+function mb_kaltura_node_delete($node) {
    /* $kaltura_node_type_names = array('video', 'audio', 'image', 'video2');
    $entry_id = $node->{"field_kaltura_$node->type"}[0]['value'];
    $result=db_query("DELETE FROM {node_kaltura} WHERE kaltura_entryId = '%s'", $entry_id);
@@ -106,10 +106,10 @@ function mb_kaltura_node_delete(&$node) {
    } */
 }
 
-function mb_kaltura_node_update(&$node) {
+function mb_kaltura_node_update($node) {
    /* $results = _save_kaltura_metadata($node); */
 }
-function mb_kaltura_node_insert(&$node) {
+function mb_kaltura_node_insert($node) {
    /* $results = _save_kaltura_metadata($node); */
 }
 

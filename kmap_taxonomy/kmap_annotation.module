@@ -19,8 +19,6 @@ function insert_kmap_annotations(&$node) {
    module_load_include('inc', 'kmap_taxonomy', 'includes/kmap');
    foreach ($node->kmap_annotations as $field_name => $items) {
       foreach ($items as $kmap_id => $item) {
-         dpm($item, "item");
-         
          $k = new Kmap($kmap_id);
          $tid = $k->get_term()->tid;
          $fc_values = array();

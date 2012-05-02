@@ -19,6 +19,8 @@ function insert_kmap_annotations(&$node) {
    module_load_include('inc', 'kmap_taxonomy', 'includes/kmap');
    foreach ($node->kmap_annotations as $field_name => $items) {
       foreach ($items as $kmap_id => $item) {
+         dpm($item, "item");
+         
          $k = new Kmap($kmap_id);
          $tid = $k->get_term()->tid;
          $fc_values = array();
@@ -29,7 +31,7 @@ function insert_kmap_annotations(&$node) {
          $fc_values['field_annot_text_label'][$node->language][]['value'] = $item->textLabel;
          $fc_values['field_annot_numeric_label'][$node->language][]['value'] = $item->numLabel;
          $fc_values['field_annot_note'][$node->language][]['value'] = $item->note;
-         $fc_values['field_annot_format'][$node->language][]['value'] = $item->selectedFormat;
+         $fc_values['field_annot_format'][$node->language][]['value'] = isset($item->selectedFormat) ? $item->selectedFormat :  Kmap::KMAP_LINEAGE_FULL;
          $fc = new FieldCollectionItemEntity($fc_values);
          $fc->setHostEntity('node', $node);
          $fc->save();
@@ -42,6 +44,9 @@ function insert_kmap_annotations(&$node) {
 * just like drupal does with with taxonomy terms
 **/
 function delete_kmap_annotations(&$node) {
+   if ( !isset($node->field_kmap_annotation[LANGUAGE_NONE])) {
+      return;
+   }
    // First look for existing annotation field collection entities
    foreach ($node->field_kmap_annotation[LANGUAGE_NONE] as $entity_id) {
       $fc = new FieldCollectionItemEntity(array($entity_id['value']));
@@ -56,6 +61,9 @@ function delete_kmap_annotations(&$node) {
 *  properties are named and structured as expected by the js widget.
 **/
 function get_node_annotations_by_kmap_id($kmap_id, $node) {
+   if ( !isset($node->field_kmap_annotation[LANGUAGE_NONE])) {
+      return;
+   }
    foreach ($node->field_kmap_annotation[LANGUAGE_NONE] as $annot_item) {
       $entity_id = $annot_item['value'];
       $entities = entity_load('field_collection_item', array($entity_id));
@@ -142,10 +150,25 @@ function kmap_annotation_theme() {
 }
 
 /**
-* Theme function for 'kmap_taxonomy_default' link field formatter.
+* Theme function for 'kmap_taxonomy_annotated' link field formatter.
 */
 function theme_kmap_annotation_formatter_kmap_taxonomy_annotated($element) {
-   return $element['rendered_formatted_lineage'];
+   $output = $element['rendered_formatted_lineage'];
+   $labels = array();
+   $annot = $element['entity'];
+   if ( $annot->field_annot_text_label[LANGUAGE_NONE][0]['safe_value'] ) {
+      $labels[] = $annot->field_annot_text_label[LANGUAGE_NONE][0]['safe_value'];
+   }
+   if ( $annot->field_annot_numeric_label[LANGUAGE_NONE][0]['safe_value'] ) {
+      $labels[] = $annot->field_annot_numeric_label[LANGUAGE_NONE][0]['safe_value'];
+   }
+   if ( sizeof($labels) ) {
+      $output .= " <span class='kmap-labels'>(" . implode(",",$labels) . ")</span>";
+   }
+   if ( $annot->field_annot_note[LANGUAGE_NONE][0]['safe_value'] ) {
+      $output .= "<br/><span class='kmap-note'>". t('Note') .": " . $annot->field_annot_note[LANGUAGE_NONE][0]['safe_value'] . '</span>';
+   }
+   return $output;
 }
 
 

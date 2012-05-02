@@ -219,7 +219,9 @@ function kmap_taxonomy_field_widget_form(&$form, &$form_state, $field, $instance
                );
             if (module_exists('kmap_annotation')) {
                $annotations = get_node_annotations_by_kmap_id($kmap_id, $form['#node']);
-               $kmaps[$kmap_id] = array_merge($kmaps[$kmap_id],$annotations);
+               if ( !empty($annotations)) {
+                  $kmaps[$kmap_id] = array_merge($kmaps[$kmap_id],$annotations);
+               }
             }
          }
       }

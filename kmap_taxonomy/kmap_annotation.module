@@ -26,9 +26,9 @@ function insert_kmap_annotations(&$node) {
          $fc_values['is_new'] = 1;
          $fc_values['field_tid'][$node->language][]['value'] = $tid;                                                                             
          $fc_values['kmap_id'][$node->language][]['value'] = $kmap_id;                                                                             
-         $fc_values['field_annot_text_label'][$node->language][]['value'] = $item->textLabel;
-         $fc_values['field_annot_numeric_label'][$node->language][]['value'] = $item->numLabel;
-         $fc_values['field_annot_note'][$node->language][]['value'] = $item->note;
+         $fc_values['field_annot_text_label'][$node->language][]['value'] = isset($item->textLabel) ? $item->textLabel : '';
+         $fc_values['field_annot_numeric_label'][$node->language][]['value'] = isset($item->numLabel) ? $item->numLabel : '';
+         $fc_values['field_annot_note'][$node->language][]['value'] = isset($item->note) ? $item->note : '';
          $fc_values['field_annot_format'][$node->language][]['value'] = isset($item->selectedFormat) ? $item->selectedFormat :  Kmap::KMAP_LINEAGE_FULL;
          $fc = new FieldCollectionItemEntity($fc_values);
          $fc->setHostEntity('node', $node);

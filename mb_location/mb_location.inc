@@ -66,7 +66,6 @@ class MediabaseLocation
          break;
       }
       taxonomy_term_save($term); 
-      dd($term->tid, "saving term tid: ");
       return $term;
    }
 }

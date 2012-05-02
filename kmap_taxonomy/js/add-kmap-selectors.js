@@ -3,7 +3,7 @@ Drupal.behaviors.kmap_taxonomy={attach:function(context){
    for (var key in Drupal.settings.kmap_taxonomy) {
       var settings = Drupal.settings.kmap_taxonomy[key];
       var kmap_selector_options = {
-
+         
          // REQUIRED
          name: settings.name,
          targetDivId: settings.target_div,
@@ -11,14 +11,16 @@ Drupal.behaviors.kmap_taxonomy={attach:function(context){
          
          // OPTIONAL
          prepopulateValues: settings.prepopulate_values,
-         formInputClass: 'form-text',
+         formInputClass: 'text-full form-text',
+         formTextareaClass: 'text-full  form-textarea',
+         formSelectClass: 'form-select',
          // labels
          selectorTitle: settings.selector_title,
          autocompleteLabel: 'Search',
          branchFilterLabel: 'Filter',
          treeSelectorLabel: 'Select one or more categories',
          // kmapServerUri: 'http://tmb.thlib.org/',
-          // these service paths are for the kmaps server proxy built into the kmaps_taxonomy module
+         // these service paths are for the kmaps server proxy built into the kmaps_taxonomy module
          kmapServerUri: Drupal.settings.basePath, //This should end in a '/'
          listService:  'kmaps/list',
          listServiceBranch:  'kmaps/list/{id}',
@@ -34,10 +36,10 @@ Drupal.behaviors.kmap_taxonomy={attach:function(context){
          allowFormatting: settings.allow_formatting,
          // parentage formats
          parentageFormats:   {
-            first_last: Drupal.t('First and last'),
-            last: Drupal.t('Last'),
-            last_plus_parent: Drupal.t('Last plus parent'),
-            full: Drupal.t('Full'),
+            first_last: 'First ancestor and last child',
+            last: 'Last child only',
+            last_plus_parent: 'Last child and its parent',
+            full: 'Full ancestry of characteristic',         
          },
          // root branch
          rootKmapId: settings.root_kmap_id,
@@ -52,7 +54,7 @@ Drupal.behaviors.kmap_taxonomy={attach:function(context){
          //console.log('selector is already initalized');
          continue;
       }
-
+      
       var selector = new KmapSelector(kmap_selector_options);
       selector.init();
       kmap_taxo_selectors.push(selector);

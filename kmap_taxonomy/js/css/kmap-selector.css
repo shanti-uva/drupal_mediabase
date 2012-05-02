@@ -60,6 +60,7 @@
 
 /* Annotations */
 .annot-results {
+   display:none;
 }
 .hide-annot
 {

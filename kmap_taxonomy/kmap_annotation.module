@@ -1,18 +1,5 @@
 <?php
 
-/* function kmap_annotation_node_update (&$node) {
-if ( in_array( $node->type, array('audio','video')) ) {
-delete_kmap_annotations($node);
-insert_kmap_annotations($node);
-}
-}
-function kmap_annotation_node_insert (&$node) {
-if ( in_array( $node->type, array('audio','video') ) ) {
-insert_kmap_annotations($node);
-}
-} */
-
-
 /**
 * Check the form_state for the textarea field named kmap_annotation_json and add those items to the node
 **/
@@ -84,7 +71,8 @@ function get_node_annotations_by_kmap_id($kmap_id, $node) {
    }
 }
 
-/* DISPLAY FORMATTER(S) */
+/* DISPLAY FORMATTERS */
+
 /**
 * Implements hook_field_formatter_info().
 */
@@ -137,7 +125,6 @@ function kmap_annotation_field_formatter_view($entity_type, $entity, $field, $in
          }
       }
       break;
-      
    }
    return $elements;
 }

@@ -52,6 +52,8 @@ function KmapSelector(options) {
    this.branchFilterLabel = options.branchFilterLabel || this.t('Filter by Sub-category');
    this.treeSelectorLabel = options.treeSelectorLabel || this.t('Select one or more categories');
    this.formInputClass = options.formInputClass || '';
+   this.formTextareaClass = options.formTextareaClass || '';
+   this.formSelectClass = options.formSelectClass || '';
 
    // Kmaps service options
    this.kmapServerUri = options.kmapServerUri || 'http://tmb.thlib.org/';
@@ -82,10 +84,10 @@ function KmapSelector(options) {
    
    // Parentage formats
    this.parentageFormats = options.parentageFormats? options.parentageFormats :  {
-      first_last: this.t('First and last'),
-      last: this.t('Last'),
-      last_plus_parent: this.t('Last plus parent'),
-      full: this.t('Full'),
+      first_last: this.t('First ancestor and last child'),
+      last: this.t('Last child only'),
+      last_plus_parent: this.t('Last child and its parent'),
+      full: this.t('Full ancestry of characteristic'),
    };
 }
 
@@ -306,7 +308,7 @@ KmapSelector.prototype.initBranchFilter = function (data) {
       jQuery(this.branchFilter).append(option)
    }
 
-   // on CHANGE re-init the selectors
+   // ON CHANGE RE-INIT THE SELECTORS
    jQuery(this.branchFilter).change(function () {
          var root_kmap_id = kmapSelector.branchFilter.val()
          var listService, treeService;
@@ -337,7 +339,7 @@ KmapSelector.prototype.initBranchFilter = function (data) {
          // re-init tree selector
          if (kmapSelector.showTreeSelector) {
             jQuery('#'+kmapSelector.targetDivId).find('.browse-link').html(jQuery('<img/>').attr('src', kmapSelector.scriptBasePath + 'lib/jstree/themes/default/throbber.gif'));
-            jQuery(kmapSelector.treeSelector).remove(); // when doing a re-init, completely remove the old one
+            jQuery(kmapSelector.treeSelector).remove(); // when doing a re-init, completely remove the old tree selector
             if (typeof (kmapSelector.allData[treeService] == 'undefined')) {
                jQuery.ajax({
                      url: treeService,
@@ -549,7 +551,7 @@ KmapSelector.prototype.displayItemAnnotation = function (item) {
    textLabel = jQuery('<input/>').attr({
          id: textLabelId,
          name: textLabelId,
-         class: "annot-text-label" 
+         class: "annot-text-label " + this.formInputClass 
    });
    textLabel.val(item.textLabel)
    textLabel.change( function(event) {
@@ -559,10 +561,8 @@ KmapSelector.prototype.displayItemAnnotation = function (item) {
    numLabel = jQuery('<input/>').attr({
          id: numLabelId,
          name: numLabelId,
-         class: "annot-num-label" 
+         class: "annot-num-label " + this.formInputClass 
    });
-   console.log('item', item)
-   
    numLabel.val(item.numLabel);
    numLabel.change( function(event) {
          item.numLabel = jQuery(this).val();
@@ -570,7 +570,7 @@ KmapSelector.prototype.displayItemAnnotation = function (item) {
    note = jQuery('<textarea/>').attr({
          id: noteId,
          name: noteId,
-         class: "annot-note"
+         class: "annot-note " + this.formTextareaClass
    });
    note.val(item.note);
    note.change( function(event) {
@@ -592,8 +592,9 @@ KmapSelector.prototype.displayItemAnnotation = function (item) {
       var formatSelector = jQuery('<select>').attr({
             id: 'format_selector' + idSuffix,
             name: 'format_selector' + idSuffix,
-            class: "format-selector"
+            class: "format-selector " + this.formSelectClass
       });
+      if (!item.formats) { item.formats = this.parentageFormats }
       for ( var format in item.formats ) {
          formatSelector.append(jQuery('<option>').attr('value', format).html(item.formats[format]));
          if ( format == item.selectedFormat ) {

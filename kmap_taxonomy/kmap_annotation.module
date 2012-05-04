@@ -109,7 +109,7 @@ function kmap_annotation_field_formatter_view($entity_type, $entity, $field, $in
          $tid = $item['tid'];
          
          // find our item tid among annotation field_collection items  in the node(aka, $entity)
-         $annot_items=$entity->field_kmap_annotation[LANGUAGE_NONE];
+         $annot_items= isset($entity->field_kmap_annotation[LANGUAGE_NONE]) ? $entity->field_kmap_annotation[LANGUAGE_NONE] : array();
          foreach ($annot_items as $annot_item) {
             $entity_id = $annot_item['value'];
             $entities = entity_load('field_collection_item', array($entity_id));

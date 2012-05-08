@@ -1,0 +1,25 @@
+diff --git a/kaltura.module b/kaltura.module
+index ffee1d2..05d1b0f 100644
+--- a/kaltura.module
++++ b/kaltura.module
+@@ -199,6 +199,7 @@ function kaltura_node_update_index($node) {
+   }
+   foreach ($fileds as $filed) {
+     $fld = field_read_field($filed);
++    $text='';
+     if ($fld['type'] == 'field_kaltura_entryid') {
+       $lang = $node->language;
+       foreach ($node->{$filed}[$lang] as $k => $val) {
+diff --git a/plugins/field_kaltura/field_kaltura.module b/plugins/field_kaltura/field_kaltura.module
+index 7079e21..7302703 100644
+--- a/plugins/field_kaltura/field_kaltura.module
++++ b/plugins/field_kaltura/field_kaltura.module
+@@ -817,7 +817,7 @@ function field_kaltura_field_instance_settings_form($field, $instance) {
+ function field_kaltura_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+   $element = array();
+   foreach ($display['settings'] as $key => $val) {
+-    $settings[$key] = !empty($display['settings'][$key]) ? $display['settings'][$key] : $field['settings'][$key];
++     $settings[$key] = !empty($display['settings'][$key]) ? $display['settings'][$key] : isset($field['settings'][$key]) ? $field['settings'][$key] : null;
+   }
+   if (isset($items[0]['entryid'])) {
+     $item = $items[0]['entryid'];

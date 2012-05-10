@@ -107,31 +107,40 @@ function kmap_annotation_field_formatter_view($entity_type, $entity, $field, $in
    case 'kmap_taxonomy_annotated':
       foreach ($items as $delta => $item) {
          $tid = $item['tid'];
-         
          // find our item tid among annotation field_collection items  in the node(aka, $entity)
-         $annot_items= isset($entity->field_kmap_annotation[LANGUAGE_NONE]) ? $entity->field_kmap_annotation[LANGUAGE_NONE] : array();
-         foreach ($annot_items as $annot_item) {
-            $entity_id = $annot_item['value'];
-            $entities = entity_load('field_collection_item', array($entity_id));
-            $annot_entity=$entities[$entity_id];
-            if ( $tid == $annot_entity->field_tid[LANGUAGE_NONE][0]['value'] ) {
-               $kmap_id = $annot_entity->kmap_id[LANGUAGE_NONE][0]['value'];
-               $format = $annot_entity->field_annot_format[LANGUAGE_NONE][0]['value'];
-               $view_path = $instance['widget']['settings']['view_path'];
-               $kmap = new Kmap($kmap_id);
-               $elements[$delta] = array(
-                  '#markup' => theme('kmap_annotation_formatter_'. $display['type'], array(
-                     'element' => $item, 
-                     'entity' => $annot_entity, 
-                     'field' => $instance,
-                    'raw_lineage' => $kmap->get_kmap_lineage(),
-                     'formatted_lineage' => $kmap->render_kmap_lineage($format, FALSE, $view_path),
-                     'rendered_formatted_lineage' => $kmap->render_kmap_lineage($format, TRUE, $view_path),   
-                     )
-                     ),
-                  );
+         if ( isset($entity->field_kmap_annotation[LANGUAGE_NONE]) ) {
+            $annot_items = $entity->field_kmap_annotation[LANGUAGE_NONE];
+            foreach ($annot_items as $annot_item) {
+               $entity_id = $annot_item['value'];
+               $entities = entity_load('field_collection_item', array($entity_id));
+               $annot_entity=$entities[$entity_id];
+               if ( $tid == $annot_entity->field_tid[LANGUAGE_NONE][0]['value'] ) {
+                  $kmap_id = $annot_entity->kmap_id[LANGUAGE_NONE][0]['value'];
+                  $format = $annot_entity->field_annot_format[LANGUAGE_NONE][0]['value'];
+                  $kmap = new Kmap($kmap_id);
+               }
             }
          }
+      else {
+         $format = Kmap::KMAP_LINEAGE_FULL;
+         $kmap = Kmap::createKmapByTid($item['tid']);
+         $annot_entity = new stdClass();
+         $annot_entity->field_annot_text_label =array();
+         $annot_entity->field_annot_numeric_label =array();
+         $annot_entity->field_annot_note =array();
+      }
+      $view_path = isset($instance['widget']['settings']['kmap_selector_settings']) ? $instance['widget']['settings']['kmap_selector_settings']['view_path'] : $instance['widget']['settings']['view_path'];
+      $elements[$delta] = array(
+         '#markup' => theme('kmap_annotation_formatter_'. $display['type'], array(
+            'element' => $item, 
+            'entity' => $annot_entity, 
+            'field' => $instance,
+            'raw_lineage' => $kmap->get_kmap_lineage(),
+            'formatted_lineage' => $kmap->render_kmap_lineage($format, FALSE, $view_path),
+            'rendered_formatted_lineage' => $kmap->render_kmap_lineage($format, TRUE, $view_path),   
+            )
+            ),
+         );
       }
       break;
    }
@@ -157,16 +166,16 @@ function theme_kmap_annotation_formatter_kmap_taxonomy_annotated($element) {
    $output = $element['rendered_formatted_lineage'];
    $labels = array();
    $annot = $element['entity'];
-   if ( $annot->field_annot_text_label[LANGUAGE_NONE][0]['safe_value'] ) {
+   if ( isset($annot->field_annot_text_label[LANGUAGE_NONE])) {
       $labels[] = $annot->field_annot_text_label[LANGUAGE_NONE][0]['safe_value'];
    }
-   if ( $annot->field_annot_numeric_label[LANGUAGE_NONE][0]['safe_value'] ) {
+   if ( isset($annot->field_annot_numeric_label[LANGUAGE_NONE] )) {
       $labels[] = $annot->field_annot_numeric_label[LANGUAGE_NONE][0]['safe_value'];
    }
    if ( sizeof($labels) ) {
       $output .= " <span class='kmap-labels'>(" . implode(",",$labels) . ")</span>";
    }
-   if ( $annot->field_annot_note[LANGUAGE_NONE][0]['safe_value'] ) {
+   if ( isset($annot->field_annot_note[LANGUAGE_NONE] )) {
       $output .= "<br/><span class='kmap-note'>". t('Note') .": " . $annot->field_annot_note[LANGUAGE_NONE][0]['safe_value'] . '</span>';
    }
    return $output;

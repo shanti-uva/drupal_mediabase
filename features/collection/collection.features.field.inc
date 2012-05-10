@@ -102,17 +102,18 @@ function collection_field_default_fields() {
         'allowed_values' => array(
           0 => 'Public - accessible to all site users',
           1 => 'Private - accessible only to group members',
+          2 => 'UVa - accessible only to the UVa community',
         ),
         'allowed_values_function' => '',
       ),
       'translatable' => '0',
-      'type' => 'list_boolean',
+      'type' => 'list_integer',
     ),
     'field_instance' => array(
       'bundle' => 'collection',
       'default_value' => array(
         0 => array(
-          'value' => 0,
+          'value' => '0',
         ),
       ),
       'deleted' => '0',
@@ -135,7 +136,7 @@ function collection_field_default_fields() {
       'entity_type' => 'node',
       'field_name' => 'group_access',
       'label' => 'Group visibility',
-      'required' => TRUE,
+      'required' => 1,
       'settings' => array(
         'user_register_form' => FALSE,
       ),
@@ -150,6 +151,7 @@ function collection_field_default_fields() {
         ),
       ),
       'widget' => array(
+        'active' => 1,
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_buttons',

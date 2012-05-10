@@ -16,7 +16,9 @@ function collection_menu_default_menu_links() {
     'link_path' => 'collections',
     'router_path' => 'collections',
     'link_title' => 'Collections',
-    'options' => array(),
+    'options' => array(
+      'purl' => 'disabled',
+    ),
     'module' => 'system',
     'hidden' => '0',
     'external' => '0',

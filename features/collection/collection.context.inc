@@ -22,7 +22,7 @@ function collection_context_default_contexts() {
         'collection' => 'collection',
       ),
       'options' => array(
-        'node_form' => '1',
+        'node_form' => '0',
       ),
     ),
   );

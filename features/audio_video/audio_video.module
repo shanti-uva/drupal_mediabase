@@ -5,3 +5,17 @@
  */
 
 include_once('audio_video.features.inc');
+
+function audio_video_render_place_view($place_id) {
+   $view = views_get_view('media_by_location');
+   $view->execute_display('default', array($place_id));
+   $output = $view->render();
+   return $output;
+}
+
+function audio_video_render_kmap_view($place_id) {
+   $view = views_get_view('media_by_kmap');
+   $view->execute_display('default', array($place_id));
+   $output = $view->render();
+   return $output;
+}

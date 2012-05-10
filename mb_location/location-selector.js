@@ -124,6 +124,19 @@ LocationSelector.prototype.initWidgetMarkup = function () {
       }).click( function() {
          // add the autocomplete config to the input
          var acInput = jQuery( this ).siblings( '.' + formInputClass )
+         if ( ! acInput.val() ) {
+            jQuery('<p/>').html(locSelector.t('Please enter a search term and try your search again')).dialog({
+                  modal: true,
+                  width: 540,
+                  height: 200,
+                  buttons: {
+                     Ok: function() {
+                        jQuery( this ).dialog( "close" );
+                     }
+                  }
+            });
+            return;
+         }
          acInput.autocomplete( {
                source: function( request, response ) {
                   jQuery.ajax({
@@ -131,8 +144,9 @@ LocationSelector.prototype.initWidgetMarkup = function () {
                         dataType: "jsonp",
                         success: function( data ) {
                            response( jQuery.map( data.features.feature, function( selection ) {
+                                 var ftype = jQuery.isArray( selection.feature_type ) ? selection.feature_type[0].title : selection.feature_type.title
                                  return {
-                                    label: selection.header + " — " + selection.feature_type.title,
+                                    label: selection.header + " — " + ftype,
                                     // value: item.header + " [fid:" + item.fid + "]"
                                     value: selection.fid,
                                     id: "fid:" + selection.fid,
@@ -142,7 +156,7 @@ LocationSelector.prototype.initWidgetMarkup = function () {
                         }
                   });
                },
-               minLength: 2,
+               minLength: 1,
                 select: function (event, ui) {
                    locSelector.addItem(ui.item);
                    ui.item.value=''; // We have to clear this value otherwise it will be written to the visible input field 
@@ -162,6 +176,17 @@ LocationSelector.prototype.initWidgetMarkup = function () {
       }
       ));
       
+      // autocomplete cancel button
+      jQuery(pdTarget).append(jQuery("<input/>").attr({
+            value:this.t('Cancel'),
+            type: 'button',
+            class: 'form-submit',
+      }).click( function() {
+         var acInput = jQuery( this ).siblings( '.' + formInputClass )
+         acInput.removeClass('throbber');
+         acInput.autocomplete('destroy')
+      }));
+         
       // add selection and display divs to to top-level container
       jQuery(target).append(pdTarget);
       jQuery(target).append(this.selectionResult);

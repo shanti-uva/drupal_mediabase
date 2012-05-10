@@ -63,6 +63,7 @@ function mb_kaltura_menu() {
       'title' => 'A Keep-alive callback to be called by js during long uploads',
       'page callback' => 'mb_upload_keepalive',
       'access arguments' => array('access content'),
+      'file' => 'mb_kaltura.inc',
       'type' => MENU_CALLBACK
       );
    return $items;
@@ -133,9 +134,15 @@ function mb_kaltura_form_alter(&$form, &$form_state, $form_id){
          break; */
       case 'video_node_form':
       case 'audio_node_form':
+         
          $field_name = "field_" . $form['type']['#value'];
          if (isset($form[$field_name][LANGUAGE_NONE])) {
-            unset( $form[$field_name][LANGUAGE_NONE][0]['meta_edit']);
+            unset( $form[$field_name][LANGUAGE_NONE][0]['meta_edit']); // Remove the Edit Metadata link
+            if (!empty($form[$field_name][LANGUAGE_NONE][0]['entryid']['#default_value'])) { 
+               // THIS NEEDS THE ABILITY TO SHOW THE ADD MEDIA LINK 
+               // AFTER THE REMOVE MEDIA BUTTON IS CLICKED SO WE CAN'T JUST CUT IT OUT
+               // unset( $form[$field_name][LANGUAGE_NONE][0]['button']); // If a media item exists, don't show the add media button.
+            }                                                       
          }
          break;
       } 

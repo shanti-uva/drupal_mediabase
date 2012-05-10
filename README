@@ -43,3 +43,7 @@ Set default group permissions (In the future, og will get features integration b
 LOGO
 This is set in the mb_html5 theme's css/global.css. This should probably be changed to work with the standard drupal site logo.
 
+
+WARNINGS ABOUT QUIRKS AND GOTCHAS
+mb_og_access is a modified copy og og_access from the og module. It requires that og_access be disabled and that spaces_og be patched to allow mb_og_access to work
+

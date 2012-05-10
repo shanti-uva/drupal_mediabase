@@ -1,7 +1,7 @@
 core = 7.x
 
 api = 2
-projects[drupal][version] = "7.12"
+projects[drupal][version] = "7.13"
 projects[drupal][type] = core
 
 ; CONTRIB MODULES
@@ -44,7 +44,7 @@ projects[entityreference][subdir] = "contrib"
 projects[facetapi_slider][version] = "1.x-dev"
 projects[facetapi_slider][subdir] = "contrib"
 
-projects[features][version] = "1.x-dev"
+projects[features][version] = "1.0-rc2"
 projects[features][subdir] = "contrib"
 
 projects[field_collection] = 1.x-dev
@@ -126,4 +126,7 @@ libraries[saxon][download][type] = "file"
 libraries[saxon][download][url] = "http://superb-sea2.dl.sourceforge.net/project/saxon/Saxon-HE/9.4/SaxonHE9-4-0-3J.zip"
 
 ; PATCHES
-projects[kaltura][patch][] = "http://drupal.org/files/kaltura-fix_for_some_field_settings_props-1538978-2.patch"
+projects[kaltura][patch][] = "https://raw.github.com/pinedrop/mediabase/master/patches/kaltura-dev-patch-20120508.patch"
+
+; !!!IMPORTANT!!!! add patches for spaces_og.module and spaces_og.info
+

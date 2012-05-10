@@ -1,0 +1,10 @@
+name = Mediabase implementation of Organic groups access control
+description = "Enable access control for private, public, and authenticated-user groups and group content."
+package = "SHANTI Mediabase"
+dependencies[] = og_access
+core = 7.x
+version = VERSION
+files[] = mb_og_access.module
+files[] = mb_space_og.inc
+
+

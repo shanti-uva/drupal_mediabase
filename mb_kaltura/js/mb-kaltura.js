@@ -14,7 +14,7 @@ Drupal.behaviors.mediabase = {
             mw.setConfig( 'EmbedPlayer.RewriteSelector', false ) ; // If false, render the native player
             iFrameId += '_ifp'
          }
-         console.log('iFrameId', iFrameId)
+         //console.log('iFrameId', iFrameId)
       }
       
       // Add Select all Checkboxes for import form

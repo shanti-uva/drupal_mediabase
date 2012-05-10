@@ -5,7 +5,15 @@
 **/   
 
 function mb_location_menu() {
-   $items['geonames/search'] = array(
+   $items['location/%/detail'] = array(
+      'title'            => 'A detail page for Locations',
+      'access arguments' => array('access content'),
+      'file'    => 'mb_location.inc',
+      'page callback'    => 'location_detail_page',
+      'page arguments'    => array(1),
+      'type'             => MENU_CALLBACK,
+      );
+/*    $items['geonames/search'] = array(
       'title'            => 'jQuery Autocomplete URL',
       'access arguments' => array('access content'),
       'page callback'    => 'geonames_search',
@@ -16,7 +24,7 @@ function mb_location_menu() {
       'access arguments' => array('access content'),
       'page callback'    => 'place_dict_search',
       'type'             => MENU_CALLBACK,
-      );
+      ); */
    return $items;
 }
 
@@ -34,8 +42,9 @@ function mb_location_field_widget_info() {
             ),
          'settings' => array(
             'show_place_dictionary' => true,
-            'show_geonames' => false,
-            'show_map' => false,
+            'view_path' => 'taxonomy/term/%tid',
+           /*  'show_geonames' => false,
+            'show_map' => false, */
             ),
          ),
       );
@@ -61,17 +70,25 @@ function mb_location_field_widget_settings_form($field, $instance) {
       '#title' => t('Show Place Dictionary'),
       '#default_value' => isset($settings['location_selector_settings']) ? $settings['location_selector_settings']['show_place_dictionary'] : $settings['show_place_dictionary'],
       );
-   $form['location_selector_settings']['show_geonames'] = array(
+/*    $form['location_selector_settings']['show_geonames'] = array(
       '#type' => 'checkbox',
-      '#title' => t('Show Tree Selector'),
+      '#title' => t('Show Geonames'),
       '#default_value' => isset($settings['location_selector_settings']) ? $settings['location_selector_settings']['show_geonames'] : $settings['show_geonames'],
       );
    $form['location_selector_settings']['show_map'] = array(
       '#type' => 'checkbox',
-      '#title' => t('Show Branch Filter'),
+      '#title' => t('Show Map'),
       '#default_value' => isset($settings['location_selector_settings']) ? $settings['location_selector_settings']['show_map'] : $settings['show_map'],
       );
-   return $form;
+ */
+  $form['location_selector_settings']['view_path'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Path to Detailed Location View'),
+    '#description' => t('Enter a drupal path to the view for displaying the detail page for this location. Use <code>%tid</code> or <code>%place_id</code> as replacement tokens to be used in the display formatter.'),
+    '#default_value' => isset($settings['location_selector_settings']) ? $settings['location_selector_settings']['view_path'] : $settings['view_path'],
+    );
+
+ return $form;
 }
 
 /**
@@ -139,8 +156,8 @@ function mb_location_field_widget_form(&$form, &$form_state, $field, $instance, 
       drupal_add_library('system', 'ui.dialog');
       drupal_add_library('system', 'ui.draggable');
       drupal_add_library('system', 'ui.resizable');
-      drupal_add_js(drupal_get_path('module', 'mb_location') .'/location-selector.js');
-      drupal_add_js(drupal_get_path('module', 'mb_location') .'/add-location-selectors.js');
+      drupal_add_js(drupal_get_path('module', 'mb_location') .'/location-selector.js', array('preprocess' => FALSE));
+      drupal_add_js(drupal_get_path('module', 'mb_location') .'/add-location-selectors.js', array('preprocess' => FALSE));
       
       //  Settings for the js selector widget config in add-location-selectors.js
       $js_settings = array(
@@ -155,7 +172,7 @@ function mb_location_field_widget_form(&$form, &$form_state, $field, $instance, 
       $js_field_settings = array( // add unique settings for each field
          $field['field_name'] => $js_settings
          );
-      drupal_add_js(array('mb_location' => $js_field_settings), 'setting');
+      drupal_add_js(array('mb_location' => $js_field_settings), 'setting',array('preprocess' => FALSE));
       break;
    }
    
@@ -191,8 +208,9 @@ function mb_location_field_formatter_view($entity_type, $entity, $field, $instan
    module_load_include( 'inc','mb_location','mb_location');
    $elements = array();
   foreach ($items as $delta => $item) {
+     $view_path = isset($instance['widget']['settings']['location_selector_settings']['view_path'] )? $instance['widget']['settings']['location_selector_settings']['view_path'] :$instance['widget']['settings']['view_path'] ; 
     $elements[$delta] = array(
-      '#markup' => _mb_location_format_item($item),
+      '#markup' => _mb_location_format_item($item, $view_path),
     );
   }
   return $elements;

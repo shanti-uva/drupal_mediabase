@@ -23,31 +23,31 @@ class MediabaseLocation
    }
    
    public function getTerm() {
-         $query = new EntityFieldQuery();
-         $query = $query
-         ->entityCondition('entity_type', 'taxonomy_term')
-         ->propertyCondition('vid', $this->location_vid);
-         
-         switch ( $this->location_type ) {
-         case 'place-dictionary' :
-         case 'fid' : // deliberate pass through
-            $entities = $query
-            ->fieldCondition('place_dictionary_id', 'value', $this->location_id, '=')
-            ->execute();
-            break;
-         case 'tid' :
-            $entities = $query
-            ->propertyCondition('tid', $this->location_id)
-            ->execute();
-            break;
-         }
-         if ( empty($entities) ) {
-            // import the from P. Dict. to taxonomy
-            $term = $this->addTermToVocab();
-         } else {
-            $term = array_shift( $entities['taxonomy_term'] );
-         }
-         return $term;
+      $query = new EntityFieldQuery();
+      $query = $query
+      ->entityCondition('entity_type', 'taxonomy_term')
+      ->propertyCondition('vid', $this->location_vid);
+      
+      switch ( $this->location_type ) {
+      case 'place-dictionary' :
+      case 'fid' : // deliberate pass through
+         $entities = $query
+         ->fieldCondition('place_dictionary_id', 'value', $this->location_id, '=')
+         ->execute();
+         break;
+      case 'tid' :
+         $entities = $query
+         ->propertyCondition('tid', $this->location_id)
+         ->execute();
+         break;
+      }
+      if ( empty($entities) ) {
+         // import the from P. Dict. to taxonomy
+         $term = $this->addTermToVocab();
+      } else {
+         $term = array_shift( $entities['taxonomy_term'] );
+      }
+      return $term;
    }
    
    private function addTermToVocab() {
@@ -71,7 +71,7 @@ class MediabaseLocation
 }
 
 /* FUNCTIONS */
-function _mb_location_format_item( $item ) {
+function _mb_location_format_item( $item, $view_path ) {
    $location_vid = variable_get('mb_location_vid', NULL);
    $query = new EntityFieldQuery();
    $query->entityCondition('entity_type', 'taxonomy_term')
@@ -81,51 +81,18 @@ function _mb_location_format_item( $item ) {
    $entities = entity_load('taxonomy_term', array_keys($result['taxonomy_term']));
    $term = array_shift($entities);
    $output = '';
-   $separator = ' | ';
-   /* //free
-   $free = $term['feature_name'];
-   $comma = empty($free) ? '' : ', ';
-   if ( ! empty($term['country_code']))  {
-   $countries = geonames_query('countryinfo', NULL, array('sortby' => 'countryname'));
-      foreach ($countries->results as $country) {
-         if ($country['isoalpha3'] == $term['country_code']) { 
-            $country_name = $country['countryname'];
-            break;
-         }
-      }                         
-   }
-   $free .= ! empty($country_name) ? $comma . $country_name : '';
-   $output .= $free;
-   
-   //map
-   $wkt = $term['wkt'];
-   $delim = ! empty( $output ) ? $separator : '';
-   $output .= ! empty( $wkt ) ? $delim . '' . t('Latitude/Longitude: ') . wkt_to_lat_long($wkt) . '' : '';
-   
-   //geonames
-   $google = $term['google_places_id'];
-   $delim = ! empty ( $output ) ? $separator : '';
-   $output .= ! empty ( $google ) ? $delim . '(' . t('Google Places Id: ') . $google . ')' : '';
-   $geoname_id = $term['geonames_feature_id'];
-   if (! empty ( $geoname_id ) ) {
-      $query = array('geonameid' => $geoname_id);
-      $result = geonames_query('hierarchy', $query, $options);
-      $results = is_array($result->results) ? array_reverse($result->results) : array();
-      $reject_fcodes = array('AREA', 'CONT');
-      foreach ( $results as $idx => $row ) {
-         $comma = $idx > 0 ? ', ' : '';
-         $hierarchy .= ! in_array($row['fcode'], $reject_fcodes) ? $comma . $row['name'] : ''; 
-      }
-      $delim = ! empty ( $output ) ? $separator : '';
-      $output .= ! empty ( $hierarchy ) ? $delim . $hierarchy : '';
-   } */
    
    //place dictionary
    if ( !empty($term->place_dictionary_id['und'])) {
       $place_dict_id = $term->place_dictionary_id['und'][0]['value'];
       $delim = ! empty ( $output ) ? $separator : '';
       $hierarchy = fetch_place_dict_details($place_dict_id);
-      $rendered_place = implode(", ", $hierarchy);
+      $links = array();
+      foreach ($hierarchy as $place_id => $place_name) {
+         $path = str_replace('%place_id', $place_id, $view_path );
+         $links[] = l($place_name, $path);
+      }
+      $rendered_place = implode(", ", $links);
       $output .= ! empty ( $rendered_place ) ? $delim . $rendered_place : '';
    }
    return $output;
@@ -138,7 +105,7 @@ function fetch_place_dict_details( $feature_id, $children = array() ) {
    $name = $data->features->feature->name[0];
    $children[$feature_id] = $name;
    if ( isset($data->features->feature->parent_relation->feature) ) {
-       $parent_fid = $data->features->feature->parent_relation->feature->fid;
+      $parent_fid = $data->features->feature->parent_relation->feature->fid;
       return fetch_place_dict_details($parent_fid, $children);
    }
    return $children;
@@ -156,3 +123,50 @@ function wkt_to_lat_long($wkt) {
    return $lat_long;
 }
 
+/**
+* the location detail page menu callback
+**/
+function location_detail_page($place_id) {
+   $output = '';
+   $place_service = 'http://places.thlib.org/features/by_fid/%place_id.json';
+   $place_remote_link = 'http://places.thlib.org/features/%place_id';
+   $uri = str_replace('%place_id', $place_id, $place_service );
+   $json = file_get_contents($uri);
+   $data = json_decode($json);
+   $place = $data->features->feature;
+   
+   drupal_set_title(t('@place Detail Page', array('@place' => $place->header)));
+   // wrappers
+   $div_wrapper = "<div>%s</div>";
+   $h2_wrapper = "<h2>%s</h2>";
+   $label_wrapper = "<span class='label'><strong>%s</strong></span>: ";
+   $grid_wrapper =  "<div class='grid-9'>%s</div>";
+   // description
+   $desc = sprintf($label_wrapper,t('Description'));
+   $output .= sprintf($div_wrapper, $desc . $place->desc->title);
+   // names
+   $names = sprintf($label_wrapper,t('Names'));
+   $output .= sprintf($div_wrapper, $names . implode(', ',$place->name));
+   // feature type
+   $ftypes = array();
+   foreach ( $place->feature_type as $ftype) {
+      $ftypes[] = $ftype->title;
+   }
+   $ftype_label = sprintf($label_wrapper,t('Feature Type'));
+   $output .= sprintf($div_wrapper, $ftype_label . implode(', ',$ftypes));
+   // map 
+   $map_link = l(t('See interactive map of @place', array('@place' =>  $place->header)), $place->interactive_map_url, array('attributes' => array('target' => '_blank')));
+   $output .= sprintf($div_wrapper, $map_link);
+   // remote link
+   $link = str_replace('%place_id',$place_id, $place_remote_link);
+   $remote_link = l(t('See @place in the UVa place dictionary', array('@place' =>  $place->header)), $link, array('attributes' => array('target' => '_blank')));
+   $output .= sprintf($div_wrapper, $remote_link);
+   // wrap all output so far in a grid wrapper
+   $output = sprintf($grid_wrapper, $output);
+   // add the media in a view
+   if ( module_exists('audio_video') ) {
+      $output .= audio_video_render_place_view($place_id);
+   }
+   
+   return $output;
+}

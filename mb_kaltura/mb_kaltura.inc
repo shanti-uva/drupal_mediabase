@@ -1356,3 +1356,10 @@ function _report_kaltura_exception($e, $msg) {
       drupal_set_message( $msg, "error" ); 
    }
 }
+/**
+* simple keepalive callback to allow browser to ping the drupal and keep session alive during long kaltura uploads 
+* which communicate with kaltura but not drupal .
+**/
+function mb_upload_keepalive() {
+   return 'alive';
+}

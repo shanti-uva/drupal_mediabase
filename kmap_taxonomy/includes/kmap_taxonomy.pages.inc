@@ -1,5 +1,9 @@
 <?php
 
+define('KMAP_DETAIL_SERVICE_URI_VAR', 'kmap_detail_service_uri');
+define('KMAP_REMOTE_LINK_VAR', 'kmap_remote_link');
+define('KMAP_ROOT_ONLY_REMOTE_LINK_VAR', 'kmap_root_only_remote_link');
+
 function kmap_detail_page ($kmap_id) {
    module_load_include('inc', 'kmap_taxonomy', 'includes/kmap');
    $kmap = new Kmap($kmap_id);
@@ -57,8 +61,9 @@ function render_full_kmap( $kmap) {
    module_load_include('inc', 'kmap_taxonomy', 'includes/lang_codes_iso_639_2_utf8');
    $langs = array_merge( get_lang_codes(), $non_std_lang_codes );  
    
-   $service_uri = sprintf('http://tmb.thlib.org/categories/%d/detailed.xml', $kmap->get_kmap_id());
-   dpm($service_uri, "service_uri");
+   $kmap_detail_service_uri = variable_get(KMAP_DETAIL_SERVICE_URI_VAR, 'http://tmb.thlib.org/categories/%d/detailed.xml');
+   
+   $service_uri = sprintf($kmap_detail_service_uri, $kmap->get_kmap_id());
    
    if ( $strXml = file_get_contents($service_uri) ) {
       $simpleXml = simplexml_load_string($strXml);
@@ -77,7 +82,7 @@ function render_full_kmap( $kmap) {
       $output .= sprintf('<div id="kmap-crumbs">%s</div>', implode(' > ', $crumbs));
       
       //Descriptions
-      if (sizeof($simpleXml->descriptions) > 0 ) {
+      if ( isset($simpleXml->descriptions->description) ) {
          $output .= sprintf('<h2>%s</h2>', t('Descriptions') );
       }
       foreach ($simpleXml->descriptions->description as $description) {
@@ -95,7 +100,7 @@ function render_full_kmap( $kmap) {
       }
       
       //Titles
-      if (sizeof($simpleXml->translated_titles) > 0 ) {
+      if (isset($simpleXml->translated_titles->translated_title)) {
          $output .= sprintf('<h2>%s</h2>', t('Titles') );
       }
       foreach ($simpleXml->translated_titles->translated_title as $trans_title) {
@@ -110,6 +115,23 @@ function render_full_kmap( $kmap) {
             }
          }
          $output .= '</div>';
+      }
+      
+      // Remote Link back to kmap server
+      // for root category: http://tmb.thlib.org/categories/20/children
+      // for sub-category: http://tmb.thlib.org/categories/20/children/40
+      $remote_kmap_link_tpl = variable_get(KMAP_REMOTE_LINK_VAR, 'http://tmb.thlib.org/categories/%d/children/%d');
+      $remote_root_only_kmap_link_tpl = variable_get(KMAP_ROOT_ONLY_REMOTE_LINK_VAR, 'http://tmb.thlib.org/categories/%d/children');
+      $remote_kmap_link = '';
+      if ( sizeof($lineage) > 1 ) {
+         $remote_kmap_link = sprintf($remote_kmap_link_tpl, $lineage[0]['kmap_id'], $lineage[sizeof($lineage)-1]['kmap_id']);
+      }
+      else if ( sizeof($lineage) == 1 ) {
+         $remote_kmap_link = sprintf($remote_root_only_kmap_link_tpl, $lineage[0]['kmap_id']);
+      }
+      if ( !empty($remote_kmap_link) ) {
+         $l_title = t('View more on <strong>@kmap_title</strong> at Shanti Knowledge Maps', array('@kmap_title' => (string)$simpleXml->title));
+         $output .= '<div>' . l($l_title, $remote_kmap_link, array('attributes' => array('title' => $l_title, 'target' => '_blank'), 'html' => TRUE)) . '</div>';
       }
    }
    else {

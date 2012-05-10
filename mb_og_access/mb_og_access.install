@@ -1,0 +1,61 @@
+<?php
+
+function mb_og_access_install() {
+   modify_group_access_field();
+   modify_group_content_access_field();
+}
+
+function mb_og_access_uninstall() {
+   modify_group_access_field( TRUE );
+   modify_group_content_access_field( TRUE );
+}
+
+function modify_group_access_field( $uninstall=FALSE) {
+   $sql = "SELECT data from {field_config} WHERE field_name = 'group_access'";
+   $res = db_query($sql);
+   $orig_data = $data = unserialize($res->fetchColumn());
+   
+   if ( sizeof($data['settings']['allowed_values']) == 2 && !$uninstall) {
+      $data['settings']['allowed_values'][] = 'UVa - accessible only to the UVa community';
+   } else if (sizeof($data['settings']['allowed_values']) == 3 && $uninstall) {
+      unset($data['settings']['allowed_values'][2]); 
+   }
+   
+   if ( sizeof($orig_data['settings']['allowed_values']) != sizeof($data['settings']['allowed_values'])) {
+      $num_updated = db_update('field_config') 
+      ->fields(array(
+         'type' => 'list_integer',
+         'data' => serialize($data),
+         ))
+      ->condition('field_name', 'group_access', '=')
+      ->execute();
+      echo "Updated group_access field_config: $num_updated";
+   } else {
+      echo "No updates needed for group_access field_config";
+   }
+}
+
+function _modify_group_content_access_field( $uninstall=FALSE) {
+   $sql = "SELECT data from {field_config} WHERE field_name = 'group_content_access'";
+   $res = db_query($sql);
+   $orig_data = $data = unserialize($res->fetchColumn());
+   
+   if ( sizeof($data['settings']['allowed_values']) == 3 && !$uninstall) {
+      $data['settings']['allowed_values'][] = 'UVa - accessible only to the UVa community';
+   } else if (sizeof($data['settings']['allowed_values']) == 4 && $uninstall) {
+      unset($data['settings']['allowed_values'][2]); 
+   }
+   
+   if ( sizeof($orig_data['settings']['allowed_values']) != sizeof($data['settings']['allowed_values'])) {
+      $num_updated = db_update('field_config') 
+      ->fields(array(
+         'type' => 'list_integer',
+         'data' => serialize($data),
+         ))
+      ->condition('field_name', 'group_content_access', '=')
+      ->execute();
+      echo "Updated group_content_access field_config: $num_updated";
+   } else {
+      echo "No updates needed for group_content_access field_config";
+   }
+}

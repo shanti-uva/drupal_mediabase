@@ -1,0 +1,66 @@
+diff --git a/spaces_og/spaces_og.module b/spaces_og/spaces_og.module
+index 34ccdab..9ef7689 100644
+--- a/spaces_og/spaces_og.module
++++ b/spaces_og/spaces_og.module
+@@ -66,14 +66,22 @@ function spaces_og_purl_provider() {
+  */
+ function spaces_og_spaces_plugins() {
+   $plugins = array();
+-  $plugins['space_og'] = array(
++/*   $plugins['space_og'] = array(
+     'handler' => array(
+       'path' => drupal_get_path('module', 'spaces_og') . '/plugins',
+       'file' => 'space_og.inc',
+       'class' => 'space_og',
+       'parent' => 'space_type_purl',
+     ),
+-  );
++ */
++   $plugins['space_og'] = array(
++    'handler' => array(
++      'path' => drupal_get_path('module', 'mb_og_access'),
++      'file' => 'mb_space_og.inc',
++      'class' => 'mb_space_og',
++      'parent' => 'space_og',
++    ),
++);
+   return $plugins;
+ }
+ 
+@@ -160,7 +168,7 @@ function spaces_og_spaces_presets() {
+  */
+ function spaces_og_menu() {
+   $items = array();
+-  $items['user/%user/edit/groups'] = array(
++/*   $items['user/%user/edit/groups'] = array(
+     'file' => 'spaces_og.pages.inc',
+     'title' => 'Groups',
+     'page callback' => 'drupal_get_form',
+@@ -168,7 +176,7 @@ function spaces_og_menu() {
+     'access callback' => 'user_edit_access',
+     'access arguments' => array(1),
+     'type' => MENU_LOCAL_TASK,
+-  );
++  ); */
+   if (module_exists('ucreate')) {
+     $items["og/users/%node/ucreate"] = array(
+       'file' => 'spaces_og.pages.inc',
+@@ -278,15 +286,16 @@ function spaces_og_node_update($node, $op = 'update') {
+       $directory = $space->controllers->variable->get('spaces_og_directory');
+       $node->og_directory = $directory === NULL ? TRUE : $directory;
+       $private = $space->controllers->variable->get('spaces_og_private');
++      /* 
+       $field_langauge = field_language('node', $node, 'group_access');
+       if ($op == 'update' && $private != $node->group_access[$field_langauge][0]['value']) {
+         // Privacy has changed, update og_public flags, and queue a rebuid.
+         db_query("UPDATE {og_access_post} og_p
+           INNER JOIN {og_ancestry} og_a ON og_p.nid = og_a.nid
+           INNER JOIN {node} n ON og_p.nid = n.nid
+-          SET og_public = %d WHERE og_a.group_nid = %d", ! $private, $node->nid);
++          SET og_public = :public WHERE og_a.group_nid = :nid", array(':public' => ! $private, ':nid' => $node->nid));
+         node_access_needs_rebuild(TRUE);
+-      }
++      } */
+       $node->og_private = $private === NULL ? FALSE : $private;
+       // TODO determine the D7 equivalent of og_update_group().
+       // og_update_group($node);

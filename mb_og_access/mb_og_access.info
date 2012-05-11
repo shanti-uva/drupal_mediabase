@@ -1,4 +1,4 @@
-name = Mediabase implementation of Organic groups access control
+name = Mediabase OG access control
 description = "Enable access control for private, public, and authenticated-user groups and group content."
 package = "SHANTI Mediabase"
 dependencies[] = og_access

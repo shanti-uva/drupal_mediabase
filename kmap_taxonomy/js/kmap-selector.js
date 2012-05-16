@@ -18,32 +18,32 @@
 * @todo Throw Exceptions in the Constructor to prevent breakage and confusion
 **/
 function KmapSelector(options) {
-
+   
    this.name = options.name || Math.ceil(Math.random()*2000000);
-
+   
    var scripts, i;
    // L10n translation function (e.g. function (str) { return my_l10n_translation(str))
    // Initialize l10n first so we can use it in the constructor
    this.l10nTranslateFunction = options.l10nTranslateFunction? options.l10nTranslateFunction : null;
    this.initLocalization();
-
+   
    // Form Elements
    this.autocompleteInput = null;
    this.selectionResult = null;
    this.hiddenInput = null;
    this.branchFilter = null;
    this.treeSelector = null;
-
+   
    // Values
    if (options.prepopulateValues&& !this.empty(options.prepopulateValues)) {
       this.selectedValues = options.prepopulateValues;
    } else {
       this.selectedValues = {};
    }
-
+   
    // Kmaps Data
    this.allData = {}; // A cache object (associatiive array) keyed to service path; @TODO use client-side caching for allData
-
+   
    // Form element names, classes and labels
    this.targetDivId = options.targetDivId || null;
    this.hiddenInputId = options.hiddenInputId || null;
@@ -54,7 +54,7 @@ function KmapSelector(options) {
    this.formInputClass = options.formInputClass || '';
    this.formTextareaClass = options.formTextareaClass || '';
    this.formSelectClass = options.formSelectClass || '';
-
+   
    // Kmaps service options
    this.kmapServerUri = options.kmapServerUri || 'http://tmb.thlib.org/';
    this.listService = options.listService? this.kmapServerUri + options.listService :  'categories/list.json';
@@ -63,17 +63,17 @@ function KmapSelector(options) {
    this.listServiceBranch = options.listServiceBranch? this.kmapServerUri + options.listServiceBranch :  'categories/{id}/list.json';
    this.treeServiceBranch = options.treeServiceBranch? this.kmapServerUri + options.treeServiceBranch :  'categories/{id}/all.json';
    this.categoryServiceBranch = options.categoryServiceBranch? this.kmapServerUri + options.categoryServiceBranch :  'categories/{id}/children.json';
-
+   
    // Show Branch Filter and Tree Selector
    this.showAutocomplete = options.showAutocomplete || true;
    this.showBranchFilter = options.showBranchFilter || false;
    this.showTreeSelector = options.showTreeSelector || false;
    this.rootKmapId = this.isNumber(options.rootKmapId)  ? options.rootKmapId : null;
-
+   
    // Show annotations and formatting
    this.allowAnnotations = options.allowAnnotations || true;
    this.allowFormatting = options.allowFormatting || true;
-
+   
    // Set the base path of the script                                                                                                                
    scripts = jQuery("head script");
    for (i = 0; i < scripts.length; i += 1) {
@@ -103,7 +103,7 @@ KmapSelector.prototype.init = function () {
    this.initScripts();
    this.initSelectorMarkup();
    this.initItems();
-
+   
    // Autocomplete
    if (this.showAutocomplete) {
       var rootService = this.rootKmapId ? this.listServiceBranch.replace('{id}', this.rootKmapId) : this.listService;
@@ -119,7 +119,7 @@ KmapSelector.prototype.init = function () {
          this.initAutocomplete(rootService);
       }
    }
-
+   
    // Branch Filter
    if (this.showBranchFilter) {
       var rootService = this.rootKmapId ? this.categoryServiceBranch.replace('{id}', this.rootKmapId) : this.categoryService
@@ -131,11 +131,13 @@ KmapSelector.prototype.init = function () {
             }
 		});
    }
-
+   
    // Tree Selector
    if (this.showTreeSelector) {
       var rootService = this.rootKmapId ? this.treeServiceBranch.replace('{id}', this.rootKmapId) : this.treeService
       jQuery.getScript(this.scriptBasePath + "lib/jstree/jquery.jstree.js")
+      //jQuery.getScript(this.scriptBasePath + "lib/jstree-05-14-2012/jstree.js")
+      
       jQuery.ajax({
             url: rootService,
             dataType: "jsonp",
@@ -158,7 +160,7 @@ KmapSelector.prototype.initSelectorMarkup = function () {
    jQuery(container).addClass('kmap-selector')
    jQuery(container).prepend(jQuery('<div class="branch-filter"/>'))
    jQuery(container).before(jQuery('<label/>').text(this.selectorTitle))
-
+   
    // Hidden Input
    this.hiddenInput = document.getElementById(this.hiddenInputId) 
    
@@ -206,17 +208,17 @@ KmapSelector.prototype.initSelectorMarkup = function () {
       
       // Annotation json storage in a textarea for the whole form
       if ( ! jQuery('#kmap_annotation_json').length ) {
-            jQuery(this.hiddenInput).parents('form').append('<textarea id="kmap_annotation_json" name="kmap_annotation_json"/>')
+         jQuery(this.hiddenInput).parents('form').append('<textarea id="kmap_annotation_json" name="kmap_annotation_json"/>')
       }
       
       // Annotation submit handler
       jQuery('#kmap_annotation_json').parents('form').submit( function (event) {
-         var allSelectedKmapItems = jQuery.parseJSON(jQuery(this).children('#kmap_annotation_json').val());
-         allSelectedKmapItems = allSelectedKmapItems || {};
-         allSelectedKmapItems[kmapSelector.name] = kmapSelector.selectedValues;
-         jQuery(this).children('#kmap_annotation_json').val(JSON.stringify(allSelectedKmapItems))
-         /* event.preventDefault();
-         event.stopPropagation(); */
+            var allSelectedKmapItems = jQuery.parseJSON(jQuery(this).children('#kmap_annotation_json').val());
+            allSelectedKmapItems = allSelectedKmapItems || {};
+            allSelectedKmapItems[kmapSelector.name] = kmapSelector.selectedValues;
+            jQuery(this).children('#kmap_annotation_json').val(JSON.stringify(allSelectedKmapItems))
+            /* event.preventDefault();
+            event.stopPropagation(); */
       });
    }
 }
@@ -236,7 +238,7 @@ KmapSelector.prototype.initItems = function () {
             values.push(kmapId);
             jQuery(this.hiddenInput).val(values.join(','));
          }
-
+         
       }
    }
 }
@@ -247,7 +249,7 @@ KmapSelector.prototype.initItems = function () {
 **/
 KmapSelector.prototype.initAutocomplete = function (servicePath, data) {
    var kmapSelector = this;
-
+   
    if (typeof (data) !== 'undefined') {
       var categories = []
       jQuery.map(data, function (item) {
@@ -260,12 +262,12 @@ KmapSelector.prototype.initAutocomplete = function (servicePath, data) {
       });
       this.allData[servicePath] = categories;
    }
-
+   
    this.autocompleteInput.autocomplete({
          source: this.allData[servicePath],
          minLength: 2,
          select: function (event, ui) {
-               kmapSelector.addItem(ui.item);
+            kmapSelector.addItem(ui.item);
          },
          open: function () {
             jQuery(this).removeClass("ui-corner-all").addClass("ui-corner-top");
@@ -274,7 +276,7 @@ KmapSelector.prototype.initAutocomplete = function (servicePath, data) {
             jQuery(this).removeClass("ui-corner-top").addClass("ui-corner-all");
          }
    });
-
+   
    // Remove the throbber if this is a re-init
    jQuery('#'+this.targetDivId+ ' .autocomplete-input img').remove();
 }
@@ -285,29 +287,28 @@ KmapSelector.prototype.initAutocomplete = function (servicePath, data) {
 **/
 KmapSelector.prototype.initBranchFilter = function (data) {
    var kmapSelector = this;
-
    var categories = {}
-   jQuery.map(data, function (item) {
-         var row = {
-            label: item.title,
+   for ( var id in data ) {
+      var item = data[id]
+      categories[id] = {
+           label: item.title,
             value: '',
             id: item.id
-         };
-         categories[row.id] = row;	
-   });
+      }
+   }
    this.branchFilter = jQuery('<select>').attr('id', "branch_filter_"+this.targetDivId);
    jQuery("#"+this.targetDivId + " .branch-filter").append(this.branchFilter)
    jQuery("#"+this.targetDivId +" .branch-filter").prepend(jQuery('<label/>').text(this.branchFilterLabel))
    var rootVal = this.rootKmapId ? this.rootKmapId : '';
    var option = jQuery('<option/>').val(rootVal).text(this.t('Select a Category'));
    jQuery(this.branchFilter).append(option)
-
+   
    for (var key in categories) {
       var item = categories[key]
       option = jQuery('<option/>').val(item.id).text(item.label);//
       jQuery(this.branchFilter).append(option)
    }
-
+   
    // ON CHANGE RE-INIT THE SELECTORS
    jQuery(this.branchFilter).change(function () {
          var root_kmap_id = kmapSelector.branchFilter.val()
@@ -319,7 +320,7 @@ KmapSelector.prototype.initBranchFilter = function (data) {
             listService = kmapSelector.listService
             treeService = kmapSelector.treeService
          }
-
+         
          // re-init autocomplete
          if (kmapSelector.showAutocomplete) {
             jQuery(kmapSelector.autocompleteInput).after(jQuery('<img/>').attr('src', kmapSelector.scriptBasePath + 'lib/jstree/themes/default/throbber.gif'));
@@ -353,7 +354,7 @@ KmapSelector.prototype.initBranchFilter = function (data) {
             }
          }
    }
-      );
+   );
 }
 
 /**
@@ -361,8 +362,7 @@ KmapSelector.prototype.initBranchFilter = function (data) {
 **/
 KmapSelector.prototype.initTreeSelector = function (servicePath, data) {
    var kmapSelector = this;
-
-   // Convert the data to jstree format if necessary
+   // Convert the data to jstree format
    if (typeof (data) !== 'undefined') {
       var onBranch = servicePath !== this.treeService
       var root = onBranch ? data.category.categories : data.categories // json from server looks different if we've selected a branch as root
@@ -373,12 +373,17 @@ KmapSelector.prototype.initTreeSelector = function (servicePath, data) {
          },
          children: [],
       }
+      root.category = (jQuery.isArray(root.category) ? root.category : [root.category]);
       for (var category in root.category) {
-         this.buildJsTree(jstree, root.category[category]);
+         kmap = root.category[category];
+         if (kmap.categories && !jQuery.isArray(kmap.categories.category)) {
+            kmap.categories = kmap.categories.category.categories // this is how the json data comes from the server
+         }
+         this.buildJsTree(jstree, kmap);
       }
       this.allData[servicePath] = jstree;
    }
-
+   
    // Set up the markup
    this.treeSelector = jQuery("<div/>").attr({
          id: "tree_selector_" + this.targetDivId,
@@ -387,7 +392,7 @@ KmapSelector.prototype.initTreeSelector = function (servicePath, data) {
    });
    jQuery("#"+this.targetDivId + " .branch-filter").after(this.treeSelector)
    var browseLink = jQuery('<a href="#"/>').text(this.t('Browse Categories'))
-
+   
    jQuery(this.treeSelector).bind("loaded.jstree", function (event, data) {
          jQuery('#'+this.targetDivId + ' .browse-link .throbber').remove()
    })
@@ -397,7 +402,7 @@ KmapSelector.prototype.initTreeSelector = function (servicePath, data) {
       jQuery(this.treeSelector).before(browseLinkDiv);
    }
    jQuery(browseLinkDiv).html(browseLink)
-
+   
    // Create the JsTree
    jQuery(this.treeSelector).jstree({
          json_data: {
@@ -419,7 +424,7 @@ KmapSelector.prototype.initTreeSelector = function (servicePath, data) {
          },
          plugins: [ "themes", "json_data", "checkbox", "ui" ]
    });
-
+   
    // The Dialog - show treeSelector in a jQuery UI Dialog
    jQuery(browseLink).click( function (event) {
          var wHeight = jQuery(window).height();
@@ -435,23 +440,23 @@ KmapSelector.prototype.initTreeSelector = function (servicePath, data) {
                {
                   text: kmapSelector.t('Add Selected Items'),
                   click: function () {  // Add items to the selector when 'DONE' button is selected
-                        var checked = jQuery(kmapSelector.treeSelector).find('.jstree-checked')
-                        for (var i = 0; i<checked.length; i++) {
-                           var kmap_id = jQuery(checked[i]).children('input').attr('id').split('_')[1];
-                           var label = jQuery(checked[i]).children('a').text();
-                           item = {
-                              id: kmap_id,
-                              label: label
-                           }
-                           kmapSelector.addItem(item)
+                     var checked = jQuery(kmapSelector.treeSelector).find('.jstree-checked')
+                     for (var i = 0; i<checked.length; i++) {
+                        var kmap_id = jQuery(checked[i]).children('input').attr('id').split('_')[1];
+                        var label = jQuery(checked[i]).children('a').text();
+                        item = {
+                           id: kmap_id,
+                           label: label
                         }
-                        jQuery(kmapSelector.treeSelector).dialog("close");
+                        kmapSelector.addItem(item)
+                     }
+                     jQuery(kmapSelector.treeSelector).dialog("close");
                   }
                },
                {
                   text: kmapSelector.t('Cancel'),
                   click: function () {
-                        jQuery(kmapSelector.treeSelector).dialog("close");
+                     jQuery(kmapSelector.treeSelector).dialog("close");
                   },
                }
             ]
@@ -478,20 +483,20 @@ KmapSelector.prototype.initLocalization = function () {
 };
 
 KmapSelector.prototype.addItem = function (item){
-
+   
    if (this.selectedValues[item.id]) {
       return;
    }
-
+   
    // Add kmapId to the hidden input
    var origVal = jQuery(this.hiddenInput).val()
    var values = typeof (origVal) == 'undefined' || origVal == '' ? [] : jQuery(this.hiddenInput).val().split(',');
    values.push(item.id);
    jQuery(this.hiddenInput).val(values.join(','));
-
+   
    // Add kmapId to selected values
    this.selectedValues[item.id] = item;
-
+   
    this.displayItem(item);
 }
 
@@ -500,21 +505,21 @@ KmapSelector.prototype.addItem = function (item){
 **/
 KmapSelector.prototype.displayItem = function (item){
    var kmapSelector = this;
-
+   
    // delete item click handler
    var removeFunc = function (element){
-         var spanId = jQuery(element).parent().attr('id') // get the span parent of the link
-         var kmapId = spanId.split('_').pop();
-         kmapSelector.removeItem(kmapId); //remove the values
-         jQuery(element).parent().remove(); //remove the display span
+      var spanId = jQuery(element).parent().attr('id') // get the span parent of the link
+      var kmapId = spanId.split('_').pop();
+      kmapSelector.removeItem(kmapId); //remove the values
+      jQuery(element).parent().remove(); //remove the display span
    };
-
+   
    // Display the newly added kmap in the 'selectionResult' next to a remove link
    var spanId = "item_" + item.id;
    var spanSel = "#" + spanId;
    var itemSpan = jQuery('<span>').addClass('kmap-selector-item').attr('id',spanId);
-  var br = jQuery(this.selectionResult.children('br'))
-  jQuery(br).before(itemSpan);
+   var br = jQuery(this.selectionResult.children('br'))
+   jQuery(br).before(itemSpan);
    var removeLink = jQuery('<a>').attr('href', '#').attr('title', this.t('Remove ' + item.label)).click(function (event){
          removeFunc(this) ; // 'this' here is the a element not the kmap selector instance
          event.preventDefault() // 
@@ -522,12 +527,12 @@ KmapSelector.prototype.displayItem = function (item){
    jQuery(spanSel).html(removeLink);
    jQuery(spanSel+" a").append(jQuery('<img>').attr('src', this.scriptBasePath+'images/delete.png'));
    jQuery(spanSel+" a").after(item.label);
-
+   
    // Display annotations   
    if (this.allowAnnotations) {
       this.displayItemAnnotation(item);
    }
-
+   
 }
 
 KmapSelector.prototype.displayItemAnnotation = function (item) {
@@ -543,7 +548,7 @@ KmapSelector.prototype.displayItemAnnotation = function (item) {
    
    // Annotation label
    annotBlock.append( jQuery('<p/>').html(this.t('Annotations for <strong>@kmapFormat</strong>.', { '@kmapFormat': item.label}) ));
-
+   
    // create inputs
    textLabelId = "annot_text_label" + idSuffix;
    numLabelId = "annot_num_label" + idSuffix;
@@ -576,7 +581,7 @@ KmapSelector.prototype.displayItemAnnotation = function (item) {
    note.change( function(event) {
          item.note = jQuery(this).val();
    });
-
+   
    // add inputs
    annotBlock.append(textLabel);
    annotBlock.append(numLabel);
@@ -604,10 +609,10 @@ KmapSelector.prototype.displayItemAnnotation = function (item) {
       formatSelector.change( function(event) {
             item.selectedFormat = jQuery(this).val();
       });
-
+      
       annotBlock.children( 'p:first-child').after(formatSelector).after(jQuery('<label/>').html(this.t('Select Format ')));
       annotBlock.children( 'select').after("<div class='clear'>");
-
+      
    }
    
    // Add the annotation to the results
@@ -624,10 +629,10 @@ KmapSelector.prototype.removeItem = function (kmapId)  {
    jQuery('#'+this.hiddenInputId).val(values.join(','))
    // remove annotations
    if ( this.allowAnnotations ) {
-     var annotBlock = "#kmap_annot_block_" + this.targetDivId + "_" + kmapId;
-     jQuery(annotBlock).remove();
+      var annotBlock = "#kmap_annot_block_" + this.targetDivId + "_" + kmapId;
+      jQuery(annotBlock).remove();
    }
-  
+   
 }
 
 KmapSelector.prototype.initStylesheet = function (){
@@ -653,22 +658,32 @@ KmapSelector.prototype.initScripts = function (){
 * buildJsTree recurses through a kmap tree and transforms it into
 * the data structure preferred by jsTree selector widget
 * @todo pre-check already selected values
+* @param parent, this is in the format expected by jstree
+* @ param current, this is in kmap-server's json format and is to be converted to jstree format 
 **/
 KmapSelector.prototype.buildJsTree = function (parent, current) {
    var nextParent = { data: current.title, attr: {id: 'kmap_' + current.id}, };
    parent.children.push(nextParent);
-
+   
    if (current.categories) {
       nextParent['children'] = [];
-      for (var category in current.categories.category) {
-         this.buildJsTree(nextParent, current.categories.category[category]);
+      var children = current.categories.category
+      if ( !jQuery.isArray(children) && children.id) { // when there is only one child, 'children' is an object not an array
+         children = [children] // the top-level categories are like this. not sure why
       }
+      for (var idx in children) {
+         var nextCurrent = children[idx];
+         this.buildJsTree(nextParent, nextCurrent);
+      }
+   }
+   else {
+      //console.log(current.title, 'has NO categories')
    }
 }
 
 /*=========
-  UTILITIES
-  =========*/
+UTILITIES
+=========*/
 KmapSelector.prototype.isNumber = function (n) {
    return !isNaN(parseFloat(n)) && isFinite(n);
 }

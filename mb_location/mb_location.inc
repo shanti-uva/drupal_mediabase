@@ -129,41 +129,88 @@ function wkt_to_lat_long($wkt) {
 function location_detail_page($place_id) {
    $output = '';
    $place_service = 'http://places.thlib.org/features/by_fid/%place_id.json';
+   $description_service = 'http://places.thlib.org/features/%place_id/descriptions.json';
    $place_remote_link = 'http://places.thlib.org/features/%place_id';
    $uri = str_replace('%place_id', $place_id, $place_service );
    $json = file_get_contents($uri);
    $data = json_decode($json);
    $place = $data->features->feature;
    
-   drupal_set_title(t('@place Detail Page', array('@place' => $place->header)));
+   drupal_set_title(t('Resources for @place', array('@place' => $place->header)));
    // wrappers
    $div_wrapper = "<div>%s</div>";
    $h2_wrapper = "<h2>%s</h2>";
    $label_wrapper = "<span class='label'><strong>%s</strong></span>: ";
-   $grid_wrapper =  "<div class='grid-9'>%s</div>";
-   // description
-   $desc = sprintf($label_wrapper,t('Description'));
-   $output .= sprintf($div_wrapper, $desc . $place->desc->title);
+   $desc_wrapper = "<div class='pd-description'><span>%s</span><div>%s</div></div>";
+
    // names
-   $names = sprintf($label_wrapper,t('Names'));
-   $output .= sprintf($div_wrapper, $names . implode(', ',$place->name));
-   // feature type
-   $ftypes = array();
-   foreach ( $place->feature_type as $ftype) {
-      $ftypes[] = $ftype->title;
+   $name_label = sprintf($label_wrapper,t('Place Name(s)'));
+   $output .= sprintf($div_wrapper, $name_label . implode(', ', array_unique($place->name)));
+   
+   // feature types
+   if ( isset( $place->feature_type ) ) {
+      $ftypes = array();
+      $feature_types = is_array($place->feature_type) ? $place->feature_type : array($place->feature_type);
+      foreach ( $feature_types as $ftype) {
+         $ftypes[] = $ftype->title;
+      }
+      $ftype_label = sprintf($label_wrapper,t('Feature Type(s)'));
+      $output .= sprintf($div_wrapper, $ftype_label . implode(', ',$ftypes));
    }
-   $ftype_label = sprintf($label_wrapper,t('Feature Type'));
-   $output .= sprintf($div_wrapper, $ftype_label . implode(', ',$ftypes));
+
+   // description
+   if ( isset( $place->desc ) ) {
+      //$output .= sprintf($label_wrapper,t('Essays'));
+      $output .= sprintf('<div><strong>%s</strong></div>', t('Essays'));
+
+      $uri = str_replace('%place_id', $place_id, $description_service );
+      $json = file_get_contents($uri);
+      $data = json_decode($json);
+      $descriptions =  is_array($data->descriptions->description) ? $data->descriptions->description : array($data->descriptions->description);
+      foreach ( $descriptions as $description ) {
+         $desc_title = !empty($description->title) ? $description->title : t('Description of @place', array('@place' => $place->header));
+         /* $desc_label = sprintf($label_wrapper, $desc_title); */
+         $output .= sprintf($desc_wrapper, $desc_title, $description->content);
+      }
+      drupal_add_library('system', 'ui');
+      drupal_add_library('system', 'ui.autocomplete');
+      drupal_add_library('system', 'ui.position');
+      drupal_add_library('system', 'ui.dialog');
+      drupal_add_js(drupal_get_path('module', 'mb_location') .'/place-description-viewer.js', array('preprocess' => FALSE));
+   }
+   
+   
+   // category
+   if ( isset( $place->category_feature ) ) {
+      $page_cats = array();
+      $place_cats = is_array($place->category_feature) ? $place->category_feature : array ($place->category_feature);
+      foreach ($place_cats as $cat) {
+         $kmap_path = 'characteristic/%kmap_id/detail';
+         $links[]  = l( $cat->root->title, str_replace('%kmap_id', $cat->root->id, $kmap_path)); 
+         $links[]  = l( $cat->parent->title, str_replace('%kmap_id', $cat->parent->id, $kmap_path)); 
+         $links[]  = l( $cat->category->title,  str_replace('%kmap_id', $cat->category->id, $kmap_path)); 
+         $page_cats[] = implode(' > ', $links);
+      }
+      $kmaps = sprintf($label_wrapper,t('Characteristic(s)'));  
+      $output .= sprintf($div_wrapper, $kmaps . implode(' <br/> ',$page_cats));
+   }
+
+   //external resources
+   $output .= sprintf('<div><strong>%s</strong></div>', t('Shanti Place Dictionary Resources'));
+
    // map 
    $map_link = l(t('See interactive map of @place', array('@place' =>  $place->header)), $place->interactive_map_url, array('attributes' => array('target' => '_blank')));
    $output .= sprintf($div_wrapper, $map_link);
+   
    // remote link
    $link = str_replace('%place_id',$place_id, $place_remote_link);
    $remote_link = l(t('See @place in the UVa place dictionary', array('@place' =>  $place->header)), $link, array('attributes' => array('target' => '_blank')));
    $output .= sprintf($div_wrapper, $remote_link);
-   // wrap all output so far in a grid wrapper
-   $output = sprintf($grid_wrapper, $output);
-   // add the media in a view
+
+   // wrap all output so far in a div
+   $output = sprintf($div_wrapper, $output);
+   
+   // add a views view of the media for this location
    if ( module_exists('audio_video') ) {
       $output .= audio_video_render_place_view($place_id);
    }

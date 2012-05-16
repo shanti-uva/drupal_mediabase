@@ -9,13 +9,13 @@ include_once('audio_video.features.inc');
 function audio_video_render_place_view($place_id) {
    $view = views_get_view('media_by_location');
    $view->execute_display('default', array($place_id));
-   $output = $view->render();
+   $output = !empty($view->result) ? $view->render() : sprintf('<p>%s</p>',t( 'There are no media items for this location.' ));
    return $output;
 }
 
 function audio_video_render_kmap_view($place_id) {
    $view = views_get_view('media_by_kmap');
    $view->execute_display('default', array($place_id));
-   $output = $view->render();
+   $output = !empty($view->result) ? $view->render() : sprintf('<div>%s</div>',t( 'There are no media items for this characteristic.' ));
    return $output;
 }

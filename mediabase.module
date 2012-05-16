@@ -5,7 +5,10 @@
 */
 
 function mediabase_init() {
-   //dd('WELCOME TO MEDIABASE');   
+   global $user;
+   if ($user->uid == '1') { 
+      ini_set('error_reporting',E_ALL);
+   }
 }
 
 function mediabase_menu() {
@@ -35,17 +38,6 @@ function mediabase_node_presave($node) {
    }
 }
 
-function mediabase_node_view($node) {
-   switch ($node->type) {
-   case 'video':
-   case 'audio':
-      $node->content['mb_identifier'] = array(
-         '#markup' => "<div class='mb-identifier'><label>" . t('Mediabase Id') . ": </label><span>$node->nid</span></div>",
-         '#weight' => 0,
-         );
-   }
-}
-
 function mediabase_node_load($nodes, $types) {
    $node = array_shift($nodes);
     switch ($node->type) {
@@ -70,9 +62,10 @@ function mediabase_settings_form($form_id, $form_state) {
 return $form;
 }
 
- function mediabase_settings_form_submit($form, &$form_state) {
- variable_set('mediabase_partner_data_prefixes', $form_state['values']['partner_data']);
- drupal_set_message(t('The settings have been saved'));
+function mediabase_settings_form_submit($form, &$form_state) {
+   // partner data prefixes are a way of managing imports from kaltura
+   variable_set('mediabase_partner_data_prefixes', $form_state['values']['partner_data']);
+   drupal_set_message(t('The settings have been saved'));
 }
 
 function mediabase_form_alter(&$form, &$form_state, $form_id) {

@@ -39,3 +39,40 @@ function mb_metadata_validate_title($element, &$form_state) {
    $pbcore_title = $form_state['values']['field_pbcore_title']['und'][0]['field_title']['und'][0]['value'];
    $form_state['values']['title'] = $pbcore_title;
 } */
+
+function mb_metadata_node_view($node) {
+   switch ($node->type) {
+   case 'video':
+   case 'audio':
+      // add mediabase id to media item display
+      add_mediabase_id($node);
+      // format the title section
+      modify_title_display($node);
+   }
+}
+
+function add_mediabase_id($node) {
+   $node->content['mb_identifier'] = array(
+      '#markup' => "<div class='mb-identifier'><label>" . t('Mediabase Id') . ": </label><span>$node->nid</span></div>",
+      '#weight' => 0,
+      );
+}
+
+function modify_title_display($node) {
+      $title_content = &$node->content['field_pbcore_title'];
+      foreach ( $title_content['#items'] as $delta => $entity_id ) {
+         if ($delta == 0) {
+            unset( $title_content['#items'][0] );
+            unset( $title_content[0] );
+         } else {
+            // modify the field collection field labels
+            $item = &$title_content[$delta]['entity']['field_collection_item'][$entity_id['value']];
+            $lang = $item['field_language'][0]['#markup'];
+            $item['field_title']['#title'] = $lang . " " .  $item['field_title']['#title'] ;
+            unset( $item['field_language'] );
+         }
+      }
+}
+         
+         
+   

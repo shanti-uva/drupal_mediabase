@@ -32,9 +32,6 @@ function mb_metadata_validate_title($element, &$form_state) {
 }
 
 /* function mb_metadata_validate_pbcore_title($element, &$form_state) {
-   dpm($element, "element");
-   dpm($form_state, "form_state");
-   
    // pbcore_title is a field_collection containing field_title: good grief;
    $pbcore_title = $form_state['values']['field_pbcore_title']['und'][0]['field_title']['und'][0]['value'];
    $form_state['values']['title'] = $pbcore_title;

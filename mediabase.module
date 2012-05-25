@@ -21,6 +21,14 @@ function mediabase_menu() {
    'access arguments' => array('administer mediabase'),
    'type' => MENU_NORMAL_ITEM,
    );
+   
+   $items['browse/media'] = array(
+   'title' => 'Browse Mediabase Content',
+   'description' => 'Settings for Mediabase',
+   'file' => 'includes/mediabase.browse.inc',
+   'page callback' => 'browse_media',
+   'type' => MENU_NORMAL_ITEM,
+   );
    return $items;
 }
 

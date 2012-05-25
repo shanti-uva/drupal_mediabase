@@ -1,6 +1,6 @@
 <?php
 /**
-* This module provides customizations and features for the collection/group structures
+* This module provides customizations and features for the archive->collection group structures
 **/
 
 define( "COLLECTION_TAXONOMY_VID", 11);
@@ -103,17 +103,74 @@ function get_node_from_path(){
 * make Collection names unique;
 **/
 function mb_structure_form_alter(&$form, &$form_state, $form_id) {
-   $form_ids = array( 'collection_node_form');
-   
+   $form_ids = array( 'collection_node_form', 'archive_node_form', 'video_node_form', 'audio_node_form');
    if ( in_array( $form_id, $form_ids ) ) {
-      // Make sure there are no dupe titles since that will cause problems with taxonomy-based collection views
-      $form['title']['#element_validate'][] = 'mb_structure_validate_title';   
-      
-      // Hide the ability to set Collection to not be a group
-      $form['group_group']['und']['#type'] = 'hidden';
-      
-      //Hide 'published collection name'
-      unset($form['taxonomy'][COLLECTION_TAXONOMY_VID]); 
+      switch ( $form_id ) {
+      case 'collection_node_form' :
+         // Make sure there are no dupe titles since that will cause problems with taxonomy-based collection views
+         $form['title']['#element_validate'][] = 'mb_structure_validate_title';   
+         // Hide the ability to set Collection to not be a group
+         $form['group_group']['und']['#type'] = 'hidden';
+         //Hide 'published collection name'
+         unset($form['taxonomy'][COLLECTION_TAXONOMY_VID]);
+         
+         // Limit ARCHIVE options to actual archives
+         $field_language = field_language('node', $form['#node'], 'group_audience');
+         $opts = &$form['group_audience'][$field_language]['#options'];
+         $opts =  !empty($opts) ? $opts : array();
+         foreach ($opts as $key => $opt_group) {
+            if (! is_array($opt_group)) { continue; }
+            foreach ($opt_group as $gid => $option) {
+               $group = og_get_group('group',$gid);
+               $node = node_load($group->etid);
+               if ($node->type !== 'archive') {
+                  unset( $opts[$key][$gid]);
+               }
+            }
+            // rename optgroups
+            if ( $key == 'My groups' ) {
+               $new_key = t('My archives');
+               $opts[$new_key] = $opts[$key];
+               unset( $opts[$key]);
+            }
+            if ( $key == 'Other groups' ) {
+               $new_key = t('Other archives');
+               $opts[$new_key] = $opts[$key];
+               unset( $opts[$key]);
+            }
+         }
+         break;
+      case 'video_node_form': // deliberate fall through
+      case 'audio_node_form':
+         // limit collection options to actual collections
+         $field_language = field_language('node', $form['#node'], 'group_audience');
+         $opts = &$form['group_audience'][$field_language]['#options'];
+         $opts =  !empty($opts) ? $opts : array();
+         foreach ($opts as $key => $opt_group) {
+            if (! is_array($opt_group)) { continue; }
+            foreach ($opt_group as $gid => $option) {
+               $group = og_get_group('group',$gid);
+               $node = node_load($group->etid);
+               if ($node->type !== 'collection') {
+                  unset( $opts[$key][$gid] );
+               }
+            }
+            // rename optgroups
+            if ( $key == 'My groups' ) {
+               $new_key = t('My collections');
+               $opts[$new_key] = $opts[$key];
+               unset( $opts[$key] );
+            }
+            elseif ( $key == 'Other groups' ) {
+               $new_key = t('Other collections');
+               $opts[$new_key] = $opts[$key];
+               unset( $opts[$key] );
+            }
+         }
+         break;
+      case 'archive_node_form':
+         break;
+      }
    }
    
    if( isset($form['group_audience']) && isset($form['#node'])) {
@@ -200,4 +257,5 @@ function limit_group_audience(&$form) {
       $form['group_audience']['und']['#audience']['content groups'] = $new_content_gids;
       $form['group_audience']['und']['#audience']['other groups'] = $new_other_gids;
 }
-?>
+
+

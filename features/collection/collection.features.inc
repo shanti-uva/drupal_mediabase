@@ -37,6 +37,14 @@ function collection_views_api() {
  */
 function collection_node_info() {
   $items = array(
+    'archive' => array(
+      'name' => t('Archive'),
+      'base' => 'node_content',
+      'description' => t('Archive is a super-structure for collections that allows permissions to cascade down from archive to collections'),
+      'has_title' => '1',
+      'title_label' => t('Name of Archive'),
+      'help' => '',
+    ),
     'collection' => array(
       'name' => t('Collection'),
       'base' => 'node_content',

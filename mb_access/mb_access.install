@@ -1,11 +1,20 @@
 <?php
 
-function mb_og_access_install() {
+function mb_access_install() {
    modify_group_access_field();
    modify_group_content_access_field();
+   
+   $sql = "delete from {registry} where name = 'mb_space_og'";
+   $res = db_query($sql);
+   var_dump($res);
+   
+   $sql = "delete from {system} where name = 'mb_og_access'";
+   $res = db_query($sql);
+   var_dump($res);
+   
 }
 
-function mb_og_access_uninstall() {
+function mb_access_uninstall() {
    modify_group_access_field( TRUE );
    modify_group_content_access_field( TRUE );
 }
@@ -35,7 +44,7 @@ function modify_group_access_field( $uninstall=FALSE) {
    }
 }
 
-function _modify_group_content_access_field( $uninstall=FALSE) {
+function modify_group_content_access_field( $uninstall=FALSE) {
    $sql = "SELECT data from {field_config} WHERE field_name = 'group_content_access'";
    $res = db_query($sql);
    $orig_data = $data = unserialize($res->fetchColumn());
@@ -47,15 +56,15 @@ function _modify_group_content_access_field( $uninstall=FALSE) {
    }
    
    if ( sizeof($orig_data['settings']['allowed_values']) != sizeof($data['settings']['allowed_values'])) {
-      $num_updated = db_update('field_config') 
+      $num_updated = db_update('field_config') // Table name no longer needs {}
       ->fields(array(
          'type' => 'list_integer',
          'data' => serialize($data),
          ))
       ->condition('field_name', 'group_content_access', '=')
       ->execute();
-      echo "Updated group_content_access field_config: $num_updated";
+      echo "Updated group_content_access field_config: $num_updated", PHP_EOL;
    } else {
-      echo "No updates needed for group_content_access field_config";
+      echo "No updates needed for group_content_access field_config", PHP_EOL;
    }
 }

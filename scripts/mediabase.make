@@ -74,6 +74,9 @@ projects[og_create_perms][subdir] = "contrib"
 projects[og_views][version] = "1.0"
 projects[og_views][subdir] = "contrib"
 
+projects[nice_menus][version] = "2.1"
+projects[nice_menus][subdir] = "contrib"
+
 projects[pathauto][version] = "1.0"
 projects[pathauto][subdir] = "contrib"
 

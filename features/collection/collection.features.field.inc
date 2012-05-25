@@ -10,6 +10,223 @@
 function collection_field_default_fields() {
   $fields = array();
 
+  // Exported field: 'node-archive-body'
+  $fields['node-archive-body'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(
+        0 => 'node',
+      ),
+      'field_name' => 'body',
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'module' => 'text',
+      'settings' => array(),
+      'translatable' => '1',
+      'type' => 'text_with_summary',
+    ),
+    'field_instance' => array(
+      'bundle' => 'archive',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'hidden',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => 1,
+        ),
+        'teaser' => array(
+          'label' => 'hidden',
+          'module' => 'text',
+          'settings' => array(
+            'trim_length' => 600,
+          ),
+          'type' => 'text_summary_or_trimmed',
+          'weight' => 1,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'body',
+      'label' => 'Body',
+      'required' => FALSE,
+      'settings' => array(
+        'display_summary' => TRUE,
+        'text_processing' => 1,
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'module' => 'text',
+        'settings' => array(
+          'rows' => 20,
+          'summary_rows' => 5,
+        ),
+        'type' => 'text_textarea_with_summary',
+        'weight' => '31',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-archive-group_access'
+  $fields['node-archive-group_access'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'group_access',
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'module' => 'list',
+      'no_ui' => TRUE,
+      'settings' => array(
+        'allowed_values' => array(
+          0 => 'Public - accessible to the general public',
+          1 => 'Private - accessible only to collection members',
+          2 => 'UVa - accessible only to the UVa community',
+        ),
+        'allowed_values_function' => '',
+      ),
+      'translatable' => '0',
+      'type' => 'list_integer',
+    ),
+    'field_instance' => array(
+      'bundle' => 'archive',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => 2,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'group_access',
+      'label' => 'Visibility',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(),
+        'type' => 'options_select',
+        'weight' => '33',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-archive-group_group'
+  $fields['node-archive-group_group'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'group_group',
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'module' => 'list',
+      'no_ui' => TRUE,
+      'settings' => array(
+        'allowed_values' => array(
+          0 => 'Not a group type',
+          1 => 'Group type',
+        ),
+        'allowed_values_function' => '',
+      ),
+      'translatable' => '0',
+      'type' => 'list_boolean',
+    ),
+    'field_instance' => array(
+      'bundle' => 'archive',
+      'default_value' => array(
+        0 => array(
+          'value' => 1,
+        ),
+      ),
+      'deleted' => '0',
+      'description' => 'Determine if this is an OG group.',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'og_ui',
+          'settings' => array(),
+          'type' => 'og_group_subscribe',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'display_label' => 1,
+      'entity_type' => 'node',
+      'field_name' => 'group_group',
+      'label' => 'Group',
+      'required' => FALSE,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'view modes' => array(
+        'full' => array(
+          'custom settings' => FALSE,
+          'label' => 'Full',
+          'type' => 'og_group_subscribe',
+        ),
+        'teaser' => array(
+          'custom settings' => FALSE,
+          'label' => 'Teaser',
+          'type' => 'og_group_subscribe',
+        ),
+      ),
+      'widget' => array(
+        'module' => 'options',
+        'settings' => array(
+          'display_label' => 0,
+        ),
+        'type' => 'options_onoff',
+        'weight' => '0',
+      ),
+    ),
+  );
+
   // Exported field: 'node-collection-body'
   $fields['node-collection-body'] = array(
     'field_config' => array(
@@ -77,7 +294,7 @@ function collection_field_default_fields() {
           'summary_rows' => 5,
         ),
         'type' => 'text_textarea_with_summary',
-        'weight' => 1,
+        'weight' => '2',
       ),
     ),
   );
@@ -100,8 +317,8 @@ function collection_field_default_fields() {
       'no_ui' => TRUE,
       'settings' => array(
         'allowed_values' => array(
-          0 => 'Public - accessible to all site users',
-          1 => 'Private - accessible only to group members',
+          0 => 'Public - accessible to the general public',
+          1 => 'Private - accessible only to collection members',
           2 => 'UVa - accessible only to the UVa community',
         ),
         'allowed_values_function' => '',
@@ -135,7 +352,7 @@ function collection_field_default_fields() {
       ),
       'entity_type' => 'node',
       'field_name' => 'group_access',
-      'label' => 'Group visibility',
+      'label' => 'Visibility',
       'required' => 1,
       'settings' => array(
         'user_register_form' => FALSE,
@@ -155,9 +372,88 @@ function collection_field_default_fields() {
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_buttons',
-        'weight' => 31,
+        'weight' => '4',
       ),
       'widget_type' => 'options_select',
+    ),
+  );
+
+  // Exported field: 'node-collection-group_audience'
+  $fields['node-collection-group_audience'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'group_audience',
+      'foreign keys' => array(
+        'og' => array(
+          'columns' => array(
+            'gid' => 'gid',
+          ),
+          'table' => 'og',
+        ),
+      ),
+      'indexes' => array(
+        'gid' => array(
+          0 => 'gid',
+        ),
+      ),
+      'module' => 'og',
+      'no_ui' => TRUE,
+      'settings' => array(),
+      'translatable' => '0',
+      'type' => 'group',
+    ),
+    'field_instance' => array(
+      'bundle' => 'collection',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => 'To set the archive, the owner of the collection must be a member of the archive.',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'og',
+          'settings' => array(),
+          'type' => 'og_list_default',
+          'weight' => 3,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'group_audience',
+      'label' => 'Archive',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'view modes' => array(
+        'full' => array(
+          'custom settings' => FALSE,
+          'label' => 'Full',
+          'type' => 'og_list_default',
+        ),
+        'teaser' => array(
+          'custom settings' => FALSE,
+          'label' => 'Teaser',
+          'type' => 'og_list_default',
+        ),
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'og',
+        'settings' => array(
+          'opt_group' => 'auto',
+        ),
+        'type' => 'group_audience',
+        'weight' => '6',
+      ),
+      'widget_type' => 'group_audience',
     ),
   );
 
@@ -234,7 +530,7 @@ function collection_field_default_fields() {
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_buttons',
-        'weight' => 0,
+        'weight' => '1',
       ),
       'widget_type' => 'options_select',
     ),
@@ -270,7 +566,7 @@ function collection_field_default_fields() {
       'bundle' => 'collection',
       'default_value' => array(
         0 => array(
-          'value' => 0,
+          'value' => '0',
         ),
       ),
       'deleted' => '0',
@@ -292,8 +588,8 @@ function collection_field_default_fields() {
       ),
       'entity_type' => 'node',
       'field_name' => 'og_roles_permissions',
-      'label' => 'Group roles and permissions',
-      'required' => TRUE,
+      'label' => 'Collection roles and permissions',
+      'required' => 1,
       'settings' => array(
         'user_register_form' => FALSE,
       ),
@@ -310,10 +606,11 @@ function collection_field_default_fields() {
         ),
       ),
       'widget' => array(
+        'active' => 1,
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_buttons',
-        'weight' => 32,
+        'weight' => '5',
       ),
       'widget_type' => 'options_select',
     ),
@@ -321,10 +618,14 @@ function collection_field_default_fields() {
 
   // Translatables
   // Included for use with string extractors like potx.
+  t('Archive');
   t('Body');
-  t('Group roles and permissions');
+  t('Collection roles and permissions');
+  t('Determine if this is an OG group.');
+  t('Group');
   t('Group type');
-  t('Group visibility');
+  t('To set the archive, the owner of the collection must be a member of the archive.');
+  t('Visibility');
 
   return $fields;
 }

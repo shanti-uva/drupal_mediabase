@@ -15,8 +15,8 @@ function mb_access_install() {
 }
 
 function mb_access_uninstall() {
-   modify_group_access_field( TRUE );
-   modify_group_content_access_field( TRUE );
+  //modify_group_access_field( TRUE );
+  //modify_group_content_access_field( TRUE );
 }
 
 function modify_group_access_field( $uninstall=FALSE) {

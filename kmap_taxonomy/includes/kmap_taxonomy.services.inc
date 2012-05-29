@@ -28,7 +28,7 @@ function fetch_root_categories() {
    return $options;
 }
 
-function kmaps_list($kmap_id) {
+function kmaps_list($kmap_id = NULL) {
    if (empty($kmap_id)) {
       $list_url = "http://tmb.thlib.org/categories/list.json";
    }
@@ -41,7 +41,7 @@ function kmaps_list($kmap_id) {
    print "$callback($response->data)";
 }
 
-function kmaps_all($kmap_id) {
+function kmaps_all($kmap_id = NULL) {
    if (empty($kmap_id)) {
       $all_url = "http://tmb.thlib.org/categories/all.json";
    }

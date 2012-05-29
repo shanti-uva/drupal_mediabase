@@ -6,6 +6,11 @@
 */
 
 /**
+* The group_audience field.
+*/
+define('OG_GROUP_AUDIENCE_FIELD', 'group_audience');
+
+/**
 * The access realm of a UVa community member.
 */
 define('OG_ACCESS_UVA_MEMBER_REALM', 'group_access_uva_member');
@@ -38,10 +43,11 @@ function mb_access_node_grants($account, $op) {
    global $user;
    
    if ($op == 'view' && in_array('authenticated user', $user->roles)) {
-      
       // ADD A GRANT FOR UVA COMMUNITY
       $grants[OG_ACCESS_UVA_MEMBER_REALM][] = DRUPAL_AUTHENTICATED_RID;
-      
+   }
+
+   if (in_array($op, array('view', 'update', 'delete')) && in_array('authenticated user', $user->roles)) {
       // ADD GRANTS FOR ARCHIVE ADMINS
       // fetch all of the archives
       $query = new EntityFieldQuery();
@@ -84,13 +90,14 @@ function mb_access_node_access_records($node) {
 
 /**
 * Add OG_ACCESS_UVA_MEMBER_REALM records to node_access table
+* @todo Add a flag to a collection that prompts group admin to re-save group content permissions when paradigm changes.
 **/
 function add_node_access_records($node) {
    $grants = array();                    
    $add_public_grant = FALSE;
    $add_uva_grant = FALSE;
-   
-   if ( isset($node->{OG_ACCESS_FIELD}) )  { // GROUP
+   // GROUP
+   if ( isset($node->{OG_ACCESS_FIELD}) )  { 
       switch ($node->{OG_ACCESS_FIELD}[LANGUAGE_NONE][0]['value']) {
       case OG_ACCESS_UVA:
          $add_uva_grant = TRUE;
@@ -100,14 +107,15 @@ function add_node_access_records($node) {
          break;
       }
    }
-   elseif (isset($node->{OG_CONTENT_ACCESS_FIELD}[LANGUAGE_NONE][0]['value'])) { // GROUP CONTENT
+   // GROUP CONTENT
+   elseif (isset($node->{OG_CONTENT_ACCESS_FIELD}[LANGUAGE_NONE][0]['value'])) { 
       $content_access = $node->{OG_CONTENT_ACCESS_FIELD}[LANGUAGE_NONE][0]['value'];
-      // If group content is set use group defaults, then get the group visibility
+      // If group content is set to use group defaults, then go to the group to get the visibility
       if ($content_access == OG_CONTENT_ACCESS_DEFAULT) {
-         $gid = $node->group_audience[LANGUAGE_NONE][0]['gid'];
+         $gid = $node->{OG_GROUP_AUDIENCE_FIELD}[LANGUAGE_NONE][0]['gid'];
          $group = og_get_group('group',$gid);
          $node = node_load( $group->etid);
-         // increment group visibility by 1 to get the equivalent group content visibility
+         // increment group_access value by 1 to get the relevant value for group_content_access
          $content_access = $node->{OG_ACCESS_FIELD}[LANGUAGE_NONE][0]['value'] + 1;
       }
       switch ($content_access) {
@@ -154,17 +162,17 @@ function add_mb_archive_admin_node_access_records($node) {
    $field_language = field_language('node', $node, 'group_audience');
    $archive_gid = NULL;
    // COLLECTION GRANTS
-   if ( $node->type == 'collection' && isset($node->group_audience[$field_language][0])) { // collection has an archive
-      $archive_gid = $node->group_audience[$field_language][0]['gid'];
+   if ( $node->type == 'collection' && isset($node->{OG_GROUP_AUDIENCE_FIELD}[$field_language][0])) { // collection has an archive
+      $archive_gid = $node->{OG_GROUP_AUDIENCE_FIELD}[$field_language][0]['gid'];
    }
    // AUDIO VIDEO GRANTS
-   elseif ( in_array($node->type, array('video', 'audio')) && isset($node->group_audience[$field_language]) ) {  // media item has a collection
-      $gid = $node->group_audience[$field_language][0]['gid'];      
+   elseif ( in_array($node->type, array('video', 'audio')) && isset($node->{OG_GROUP_AUDIENCE_FIELD}[$field_language]) ) {  // media item has a collection
+      $gid = $node->{OG_GROUP_AUDIENCE_FIELD}[$field_language][0]['gid'];      
       $group = og_get_group('group', $gid);
       $node = node_load($group->etid);
       $lang = field_language('node', $node, 'group_audience');
-      if ( isset($node->group_audience[$lang]) ) { // collection has an archive
-         $archive_gid = $node->group_audience[$lang][0]['gid'];
+      if ( isset($node->{OG_GROUP_AUDIENCE_FIELD}[$lang]) ) { // collection has an archive
+         $archive_gid = $node->{OG_GROUP_AUDIENCE_FIELD}[$lang][0]['gid'];
       }
    }
    if ( is_numeric($archive_gid) ) {

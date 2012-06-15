@@ -1,8 +1,15 @@
 <?php
 
 /**
-* This is a hackish way of dealing with the competing title fields: drupal titles and pbcore titles
-* The first PBCore title is always copied to the drupal title.
+* The mb_metadata module contains miscellaneous customizations to the audio video metadata behavior
+*
+* ISSUE: drupal titles vs. pbcore titles
+* SOLUTION: The first PBCore title is copied to the drupal title on every node save.
+**/
+
+/**
+* Implementation of hook_form_alter
+* - add form validators
 **/
 function mb_metadata_form_alter(&$form, &$form_state, $form_id) {
    switch ($form_id) {
@@ -16,31 +23,65 @@ function mb_metadata_form_alter(&$form, &$form_state, $form_id) {
       $form['title']['#value'] = 'autotitle';
       break;
    case 'field_collection_item_form':
-      /* if ( isset($form['field_title']) ) {
-         $validators = isset($form['title']['#element_validate']) ? $form['title']['#element_validate'] : array();
-         array_unshift($validators, 'mb_metadata_validate_pbcore_title');
-         $form['title']['#element_validate'] = $validators;
-      }
-      break; */
    }
 }
 
-function mb_metadata_validate_title($element, &$form_state) {
-   // pbcore_title is a field_collection containing field_title: good grief;
-   $pbcore_title = $form_state['values']['field_pbcore_title']['und'][0]['field_title']['und'][0]['value'];
-   $form_state['values']['title'] = $pbcore_title;
+/** 
+* Implementation of hook_node_update_index
+* Remove clutter from content that gets indexed to reduce number of false positives in search results
+* Probably there is a more solr-centric way of doing this.
+**/
+function mb_metadata_node_update_index($node) {
+   if (in_array($node->type, array('audio','video'))) {
+      unset($node->content['mb_identifier']);
+      unset($node->content['field_pbcore_extension']);
+      unset($node->content['field_pbcore_identifier']);
+      //workflow
+      unset($node->content['field_media_present']);
+      unset($node->content['field_media_quality_ok']);
+      unset($node->content['field_media_recompress']);
+      unset($node->content['field_media_masters_archived']);
+      unset($node->content['field_edl_log_files']);
+      unset($node->content['field_basic_catalog']);
+      unset($node->content['field_proofed_catalog']);
+      unset($node->content['field_extended_cataloging']);
+      unset($node->content['field_translation_lang_1']);
+      unset($node->content['field_translation_lang_2']);
+      unset($node->content['field_transcript_input']);
+      unset($node->content['field_transcript_timecoded']);
+      unset($node->content['field_timecode_ok']);
+      unset($node->content['field_timecode_problem_1']);
+      unset($node->content['field_timecode_problem_2']);
+      unset($node->content['field_transcript_proofed']);
+      unset($node->content['field_transcript_input_lang_1']);
+      unset($node->content['field_transcript_input_lang_2']);
+      unset($node->content['field_transcript_input_lang_3']);
+      unset($node->content['field_transcript_proofed_lang_1']);
+      unset($node->content['field_transcript_proofed_lang_2']);
+      unset($node->content['field_transcript_proofed_lang_3']);
+      unset($node->content['field_media_workflow_note']);
+      unset($node->content['field_catalog_workflow_note']);
+      unset($node->content['field_rating']);
+   }
 }
 
-/* function mb_metadata_validate_pbcore_title($element, &$form_state) {
-   // pbcore_title is a field_collection containing field_title: good grief;
-   $pbcore_title = $form_state['values']['field_pbcore_title']['und'][0]['field_title']['und'][0]['value'];
-   $form_state['values']['title'] = $pbcore_title;
-} */
+/**
+* Copy the title from pbcore_title to node->title
+**/
+function mb_metadata_validate_title($element, &$form_state) {
+   $pbcore_title = $form_state['values']['field_pbcore_title']['und'][0];
+   $title = $pbcore_title['field_title']['und'][0]['value'];
+   $form_state['values']['title'] = $title;
+}
 
+/**
+* Customize audio video node views 
+**/
 function mb_metadata_node_view($node) {
    switch ($node->type) {
    case 'video':
    case 'audio':
+      $node->content['field_rating']['#weight'] = 0;
       // add mediabase id to media item display
       add_mediabase_id($node);
       // format the title section
@@ -48,13 +89,21 @@ function mb_metadata_node_view($node) {
    }
 }
 
+/**
+* Add a mediabase id (i.e. nid) display to every audio/video node view. 
+**/
 function add_mediabase_id($node) {
    $node->content['mb_identifier'] = array(
-      '#markup' => "<div class='mb-identifier'><label>" . t('Mediabase Id') . ": </label><span>$node->nid</span></div>",
+      '#markup' => "<div class='mb-identifier'><label>" . t('Mediabase id') . ": </label><span>$node->nid</span></div>",
       '#weight' => 0,
       );
+   $node->content['#group_children']['mb_identifier'] = 'group_technical';
+   
 }
 
+/**
+* Since the first pbcore is same as drupal title, hide the first pbcore title
+**/
 function modify_title_display($node) {
       $title_content = &$node->content['field_pbcore_title'];
       foreach ( $title_content['#items'] as $delta => $entity_id ) {
@@ -62,7 +111,7 @@ function modify_title_display($node) {
             unset( $title_content['#items'][0] );
             unset( $title_content[0] );
          } else {
-            // modify the field collection field labels
+            // modify the  labels for title to include the language of the title
             $item = &$title_content[$delta]['entity']['field_collection_item'][$entity_id['value']];
             $lang = $item['field_language'][0]['#markup'];
             $item['field_title']['#title'] = $lang . " " .  $item['field_title']['#title'] ;

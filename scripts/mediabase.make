@@ -160,6 +160,7 @@ libraries[flexslider][download][url] = "git://github.com/woothemes/FlexSlider.gi
 
 ; PATCHES
 projects[kaltura][patch][] = "https://raw.github.com/pinedrop/mediabase/master/patches/kaltura-dev-patch-20120508.patch"
+projects[kaltura][patch][] = "https://raw.github.com/pinedrop/mediabase/master/patches/kaltura-dev-patch-20120615.patch"
 projects[spaces][patch][] = "https://raw.github.com/pinedrop/mediabase/master/patches/spaces_og_use_a_different_space_type_plugin.patch"
 
 ; !!!IMPORTANT!!!! add patches for spaces_og.module and spaces_og.info

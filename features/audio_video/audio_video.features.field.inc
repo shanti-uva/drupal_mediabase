@@ -1091,7 +1091,7 @@ function audio_video_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'inline',
+          'label' => 'hidden',
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
@@ -1222,9 +1222,8 @@ function audio_video_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'inline',
-          'module' => 'list',
           'settings' => array(),
-          'type' => 'list_default',
+          'type' => 'hidden',
           'weight' => '1',
         ),
       ),
@@ -1461,9 +1460,8 @@ function audio_video_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'inline',
-          'module' => 'list',
           'settings' => array(),
-          'type' => 'list_default',
+          'type' => 'hidden',
           'weight' => '2',
         ),
       ),
@@ -4640,7 +4638,7 @@ function audio_video_field_default_fields() {
           'module' => 'list',
           'settings' => array(),
           'type' => 'list_default',
-          'weight' => 2,
+          'weight' => '2',
         ),
       ),
       'entity_type' => 'field_collection_item',
@@ -4695,11 +4693,11 @@ function audio_video_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'inline',
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => 0,
+          'weight' => '0',
         ),
       ),
       'entity_type' => 'field_collection_item',
@@ -4826,10 +4824,9 @@ function audio_video_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'list',
           'settings' => array(),
-          'type' => 'list_default',
-          'weight' => 1,
+          'type' => 'hidden',
+          'weight' => '1',
         ),
       ),
       'entity_type' => 'field_collection_item',
@@ -5110,6 +5107,7 @@ function audio_video_field_default_fields() {
       'indexes' => array(),
       'module' => 'field_kaltura',
       'settings' => array(
+        'add_existing' => 'upload',
         'content_ingestion' => array(
           'add_existing' => 'both',
           'advanced' => array(
@@ -5117,6 +5115,10 @@ function audio_video_field_default_fields() {
           ),
           'kcw_button_text' => 'Upload Audio',
         ),
+        'custom_cw' => '',
+        'custom_player' => '',
+        'delivery' => 'HTTP',
+        'entry_widget' => '48501',
         'kaltura_entry_video_display' => array(
           'advanced' => array(
             'custom_player' => '',
@@ -5126,6 +5128,13 @@ function audio_video_field_default_fields() {
           'player_height' => '330',
           'player_width' => '400',
         ),
+        'kcw_button_text' => 'Add Media',
+        'player_height' => '330',
+        'player_width' => '400',
+        'rotate' => 0,
+        'stretch' => 0,
+        'thumbsize_height' => '90',
+        'thumbsize_width' => '120',
       ),
       'translatable' => '0',
       'type' => 'field_kaltura_entryid',
@@ -5137,9 +5146,19 @@ function audio_video_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'mb_kaltura',
-          'settings' => array(),
-          'type' => 'field_kaltura_player_html5_audio',
+          'module' => 'field_kaltura',
+          'settings' => array(
+            'custom_player' => '',
+            'delivery' => 'HTTP',
+            'entry_widget' => '3410832',
+            'player_height' => '330',
+            'player_width' => '400',
+            'rotate' => 0,
+            'stretch' => NULL,
+            'thumbsize_height' => '90',
+            'thumbsize_width' => '120',
+          ),
+          'type' => 'field_kaltura_player',
           'weight' => '0',
         ),
         'teaser' => array(
@@ -5202,15 +5221,8 @@ function audio_video_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'field_collection',
-          'settings' => array(
-            'add' => 'Add',
-            'delete' => 'Delete',
-            'description' => TRUE,
-            'edit' => 'Edit',
-            'view_mode' => 'full',
-          ),
-          'type' => 'field_collection_view',
+          'settings' => array(),
+          'type' => 'hidden',
           'weight' => '25',
         ),
         'teaser' => array(
@@ -5347,13 +5359,9 @@ function audio_video_field_default_fields() {
           'label' => 'above',
           'module' => 'field_collection',
           'settings' => array(
-            'add' => 'Add',
-            'delete' => 'Delete',
-            'description' => TRUE,
-            'edit' => 'Edit',
             'view_mode' => 'full',
           ),
-          'type' => 'field_collection_view',
+          'type' => 'field_collection_fields',
           'weight' => '28',
         ),
         'teaser' => array(
@@ -5452,7 +5460,7 @@ function audio_video_field_default_fields() {
             'show_autocomplete' => 1,
             'show_branch_filter' => 1,
             'show_tree_selector' => 1,
-            'view_path' => 'characteristic/%tid/detail',
+            'view_path' => 'characteristic/%kmap_id/detail',
           ),
           'root_kmap_id' => NULL,
           'show_autocomplete' => TRUE,
@@ -5560,7 +5568,7 @@ function audio_video_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '29',
+          'weight' => '15',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -5581,7 +5589,7 @@ function audio_video_field_default_fields() {
         'module' => 'field_collection',
         'settings' => array(),
         'type' => 'field_collection_hidden',
-        'weight' => '22',
+        'weight' => '12',
       ),
     ),
   );
@@ -5678,16 +5686,12 @@ function audio_video_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'hidden',
           'module' => 'field_collection',
           'settings' => array(
-            'add' => 'Add',
-            'delete' => 'Delete',
-            'description' => TRUE,
-            'edit' => 'Edit',
             'view_mode' => 'full',
           ),
-          'type' => 'field_collection_view',
+          'type' => 'field_collection_fields',
           'weight' => '12',
         ),
         'teaser' => array(
@@ -5738,16 +5742,12 @@ function audio_video_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'hidden',
           'module' => 'field_collection',
           'settings' => array(
-            'add' => 'Add',
-            'delete' => 'Delete',
-            'description' => TRUE,
-            'edit' => 'Edit',
             'view_mode' => 'full',
           ),
-          'type' => 'field_collection_view',
+          'type' => 'field_collection_fields',
           'weight' => '9',
         ),
         'teaser' => array(
@@ -5815,9 +5815,9 @@ function audio_video_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'taxonomy',
+          'module' => 'mb_location',
           'settings' => array(),
-          'type' => 'taxonomy_term_reference_link',
+          'type' => 'mb_location',
           'weight' => '7',
         ),
         'teaser' => array(
@@ -5830,20 +5830,22 @@ function audio_video_field_default_fields() {
       'entity_type' => 'node',
       'field_name' => 'field_pbcore_coverage_spatial',
       'label' => 'Location',
-      'required' => FALSE,
+      'required' => 0,
       'settings' => array(
         'user_register_form' => FALSE,
       ),
       'widget' => array(
+        'active' => 1,
         'module' => 'mb_location',
         'settings' => array(
-          'root_kmap_id' => NULL,
-          'show_autocomplete' => TRUE,
-          'show_branch_filter' => TRUE,
-          'show_geonames' => FALSE,
-          'show_map' => FALSE,
+          'location_selector_settings' => array(
+            'show_geonames' => 0,
+            'show_map' => 0,
+            'show_place_dictionary' => 1,
+            'view_path' => 'location/%place_id/detail',
+          ),
           'show_place_dictionary' => TRUE,
-          'show_tree_selector' => TRUE,
+          'view_path' => 'taxonomy/term/%tid',
         ),
         'type' => 'mb_location',
         'weight' => '11',
@@ -5875,16 +5877,12 @@ function audio_video_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'hidden',
           'module' => 'field_collection',
           'settings' => array(
-            'add' => 'Add',
-            'delete' => 'Delete',
-            'description' => TRUE,
-            'edit' => 'Edit',
             'view_mode' => 'full',
           ),
-          'type' => 'field_collection_view',
+          'type' => 'field_collection_fields',
           'weight' => '11',
         ),
         'teaser' => array(
@@ -5935,16 +5933,12 @@ function audio_video_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'hidden',
           'module' => 'field_collection',
           'settings' => array(
-            'add' => 'Add',
-            'delete' => 'Delete',
-            'description' => TRUE,
-            'edit' => 'Edit',
             'view_mode' => 'full',
           ),
-          'type' => 'field_collection_view',
+          'type' => 'field_collection_fields',
           'weight' => '2',
         ),
         'teaser' => array(
@@ -5995,17 +5989,13 @@ function audio_video_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'hidden',
           'module' => 'field_collection',
           'settings' => array(
-            'add' => 'Add',
-            'delete' => 'Delete',
-            'description' => TRUE,
-            'edit' => 'Edit',
             'view_mode' => 'full',
           ),
-          'type' => 'field_collection_view',
-          'weight' => '18',
+          'type' => 'field_collection_fields',
+          'weight' => '11',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -6055,17 +6045,13 @@ function audio_video_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'hidden',
           'module' => 'field_collection',
           'settings' => array(
-            'add' => 'Add',
-            'delete' => 'Delete',
-            'description' => TRUE,
-            'edit' => 'Edit',
             'view_mode' => 'full',
           ),
-          'type' => 'field_collection_view',
-          'weight' => '17',
+          'type' => 'field_collection_fields',
+          'weight' => '9',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -6086,7 +6072,7 @@ function audio_video_field_default_fields() {
         'module' => 'field_collection',
         'settings' => array(),
         'type' => 'field_collection_embed',
-        'weight' => '14',
+        'weight' => '13',
       ),
     ),
   );
@@ -6115,17 +6101,13 @@ function audio_video_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'hidden',
           'module' => 'field_collection',
           'settings' => array(
-            'add' => 'Add',
-            'delete' => 'Delete',
-            'description' => TRUE,
-            'edit' => 'Edit',
             'view_mode' => 'full',
           ),
-          'type' => 'field_collection_view',
-          'weight' => '21',
+          'type' => 'field_collection_fields',
+          'weight' => '10',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -6145,7 +6127,7 @@ function audio_video_field_default_fields() {
         'module' => 'field_collection',
         'settings' => array(),
         'type' => 'field_collection_embed',
-        'weight' => '12',
+        'weight' => '14',
       ),
     ),
   );
@@ -6177,13 +6159,9 @@ function audio_video_field_default_fields() {
           'label' => 'above',
           'module' => 'field_collection',
           'settings' => array(
-            'add' => 'Add',
-            'delete' => 'Delete',
-            'description' => TRUE,
-            'edit' => 'Edit',
             'view_mode' => 'full',
           ),
-          'type' => 'field_collection_view',
+          'type' => 'field_collection_fields',
           'weight' => '13',
         ),
         'teaser' => array(
@@ -6234,16 +6212,12 @@ function audio_video_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'hidden',
           'module' => 'field_collection',
           'settings' => array(
-            'add' => 'Add',
-            'delete' => 'Delete',
-            'description' => TRUE,
-            'edit' => 'Edit',
             'view_mode' => 'full',
           ),
-          'type' => 'field_collection_view',
+          'type' => 'field_collection_fields',
           'weight' => '10',
         ),
         'teaser' => array(
@@ -6360,16 +6334,12 @@ function audio_video_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'hidden',
           'module' => 'field_collection',
           'settings' => array(
-            'add' => 'Add',
-            'delete' => 'Delete',
-            'description' => TRUE,
-            'edit' => 'Edit',
             'view_mode' => 'full',
           ),
-          'type' => 'field_collection_view',
+          'type' => 'field_collection_fields',
           'weight' => '1',
         ),
         'teaser' => array(
@@ -6437,9 +6407,9 @@ function audio_video_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'taxonomy',
+          'module' => 'mb_location',
           'settings' => array(),
-          'type' => 'taxonomy_term_reference_link',
+          'type' => 'mb_location',
           'weight' => '8',
         ),
         'teaser' => array(
@@ -6464,10 +6434,10 @@ function audio_video_field_default_fields() {
             'show_geonames' => 0,
             'show_map' => 0,
             'show_place_dictionary' => 1,
+            'view_path' => 'location/%place_id/detail',
           ),
-          'show_geonames' => FALSE,
-          'show_map' => FALSE,
           'show_place_dictionary' => TRUE,
+          'view_path' => 'taxonomy/term/%tid',
         ),
         'type' => 'mb_location',
         'weight' => '12',
@@ -6515,7 +6485,7 @@ function audio_video_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'inline',
           'module' => 'taxonomy',
           'settings' => array(),
           'type' => 'taxonomy_term_reference_link',
@@ -6585,10 +6555,9 @@ function audio_video_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'transcripts',
           'settings' => array(),
-          'type' => 'default__transcript-player-link',
-          'weight' => '1',
+          'type' => 'hidden',
+          'weight' => '13',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -6661,13 +6630,9 @@ function audio_video_field_default_fields() {
           'label' => 'above',
           'module' => 'field_collection',
           'settings' => array(
-            'add' => 'Add',
-            'delete' => 'Delete',
-            'description' => TRUE,
-            'edit' => 'Edit',
             'view_mode' => 'full',
           ),
-          'type' => 'field_collection_view',
+          'type' => 'field_collection_fields',
           'weight' => '26',
         ),
         'teaser' => array(
@@ -6688,7 +6653,7 @@ function audio_video_field_default_fields() {
         'module' => 'field_collection',
         'settings' => array(),
         'type' => 'field_collection_embed',
-        'weight' => '15',
+        'weight' => '14',
       ),
     ),
   );
@@ -6732,7 +6697,7 @@ function audio_video_field_default_fields() {
           'label' => 'hidden',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '2',
+          'weight' => '14',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -6768,7 +6733,7 @@ function audio_video_field_default_fields() {
             'source_attach' => array(
               'absolute' => '0',
               'attach_mode' => 'copy',
-              'path' => 'file_attach',
+              'path' => '',
             ),
             'source_reference' => array(
               'autocomplete' => '1',
@@ -6809,13 +6774,9 @@ function audio_video_field_default_fields() {
           'label' => 'above',
           'module' => 'field_collection',
           'settings' => array(
-            'add' => 'Add',
-            'delete' => 'Delete',
-            'description' => TRUE,
-            'edit' => 'Edit',
             'view_mode' => 'full',
           ),
-          'type' => 'field_collection_view',
+          'type' => 'field_collection_fields',
           'weight' => '27',
         ),
         'teaser' => array(
@@ -6836,7 +6797,7 @@ function audio_video_field_default_fields() {
         'module' => 'field_collection',
         'settings' => array(),
         'type' => 'field_collection_embed',
-        'weight' => '14',
+        'weight' => '15',
       ),
     ),
   );
@@ -6913,7 +6874,7 @@ function audio_video_field_default_fields() {
   $fields['node-audio-group_audience'] = array(
     'field_config' => array(
       'active' => '1',
-      'cardinality' => '-1',
+      'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'group_audience',
@@ -6958,8 +6919,8 @@ function audio_video_field_default_fields() {
       ),
       'entity_type' => 'node',
       'field_name' => 'group_audience',
-      'label' => 'Groups audience',
-      'required' => FALSE,
+      'label' => 'Collection',
+      'required' => 0,
       'settings' => array(
         'user_register_form' => FALSE,
       ),
@@ -6976,12 +6937,13 @@ function audio_video_field_default_fields() {
         ),
       ),
       'widget' => array(
+        'active' => 1,
         'module' => 'og',
         'settings' => array(
           'opt_group' => 'auto',
         ),
         'type' => 'group_audience',
-        'weight' => '10',
+        'weight' => '9',
       ),
       'widget_type' => 'group_audience',
     ),
@@ -7008,6 +6970,7 @@ function audio_video_field_default_fields() {
           0 => 'Use group defaults',
           1 => 'Public - accessible to all site users',
           2 => 'Private - accessible only to group members',
+          3 => 'UVa - accessible only to the UVa community',
         ),
         'allowed_values_function' => '',
       ),
@@ -7018,7 +6981,7 @@ function audio_video_field_default_fields() {
       'bundle' => 'audio',
       'default_value' => array(
         0 => array(
-          'value' => 0,
+          'value' => '0',
         ),
       ),
       'deleted' => '0',
@@ -7040,8 +7003,8 @@ function audio_video_field_default_fields() {
       ),
       'entity_type' => 'node',
       'field_name' => 'group_content_access',
-      'label' => 'Group content visibility',
-      'required' => TRUE,
+      'label' => 'Visibility',
+      'required' => 1,
       'settings' => array(
         'user_register_form' => FALSE,
       ),
@@ -7056,10 +7019,11 @@ function audio_video_field_default_fields() {
         ),
       ),
       'widget' => array(
+        'active' => 1,
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_select',
-        'weight' => '12',
+        'weight' => '10',
       ),
       'widget_type' => 'options_select',
     ),
@@ -7089,16 +7053,13 @@ function audio_video_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'hidden',
           'module' => 'field_collection',
           'settings' => array(
-            'add' => 'Add',
-            'delete' => 'Delete',
-            'description' => TRUE,
-            'edit' => 'Edit',
+            'hide_empty' => FALSE,
             'view_mode' => 'full',
           ),
-          'type' => 'field_collection_view',
+          'type' => 'field_collection_fields',
           'weight' => '25',
         ),
         'teaser' => array(
@@ -7208,6 +7169,74 @@ function audio_video_field_default_fields() {
     ),
   );
 
+  // Exported field: 'node-video-field_basic_catalog'
+  $fields['node-video-field_basic_catalog'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_basic_catalog',
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          0 => 'no',
+          1 => 'yes',
+        ),
+        'allowed_values_function' => '',
+      ),
+      'translatable' => '0',
+      'type' => 'list_boolean',
+    ),
+    'field_instance' => array(
+      'bundle' => 'video',
+      'default_value' => array(
+        0 => array(
+          'value' => 0,
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => '21',
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_basic_catalog',
+      'label' => 'Basic Cataloging',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(
+          'display_label' => 1,
+        ),
+        'type' => 'options_onoff',
+        'weight' => '14',
+      ),
+    ),
+  );
+
   // Exported field: 'node-video-field_catalog_record'
   $fields['node-video-field_catalog_record'] = array(
     'field_config' => array(
@@ -7232,16 +7261,13 @@ function audio_video_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'hidden',
           'module' => 'field_collection',
           'settings' => array(
-            'add' => 'Add',
-            'delete' => 'Delete',
-            'description' => TRUE,
-            'edit' => 'Edit',
+            'hide_empty' => FALSE,
             'view_mode' => 'full',
           ),
-          'type' => 'field_collection_view',
+          'type' => 'field_collection_fields',
           'weight' => '28',
         ),
         'teaser' => array(
@@ -7263,6 +7289,72 @@ function audio_video_field_default_fields() {
         'settings' => array(),
         'type' => 'field_collection_embed',
         'weight' => '45',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-video-field_catalog_workflow_note'
+  $fields['node-video-field_catalog_workflow_note'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_catalog_workflow_note',
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'module' => 'text',
+      'settings' => array(),
+      'translatable' => '0',
+      'type' => 'text_long',
+    ),
+    'field_instance' => array(
+      'bundle' => 'video',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => '26',
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_catalog_workflow_note',
+      'label' => 'Catalog Workflow Note',
+      'required' => 0,
+      'settings' => array(
+        'text_processing' => '0',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'text',
+        'settings' => array(
+          'rows' => '5',
+        ),
+        'type' => 'text_textarea',
+        'weight' => '52',
       ),
     ),
   );
@@ -7340,13 +7432,13 @@ function audio_video_field_default_fields() {
             'show_autocomplete' => 1,
             'show_branch_filter' => 1,
             'show_tree_selector' => 1,
-            'view_path' => 'characteristic/%tid/detail',
+            'view_path' => 'characteristic/%kmap_id/detail',
           ),
           'root_kmap_id' => NULL,
           'show_autocomplete' => TRUE,
           'show_branch_filter' => TRUE,
           'show_tree_selector' => TRUE,
-          'view_path' => 'characteristic/%tid/detail',
+          'view_path' => 'taxonomy/term/%tid',
         ),
         'type' => 'kmap_taxonomy',
         'weight' => '35',
@@ -7422,6 +7514,140 @@ function audio_video_field_default_fields() {
     ),
   );
 
+  // Exported field: 'node-video-field_edl_log_files'
+  $fields['node-video-field_edl_log_files'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_edl_log_files',
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'module' => 'text',
+      'settings' => array(),
+      'translatable' => '0',
+      'type' => 'text_long',
+    ),
+    'field_instance' => array(
+      'bundle' => 'video',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => '20',
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_edl_log_files',
+      'label' => 'Logging files/EDLs',
+      'required' => 0,
+      'settings' => array(
+        'text_processing' => '0',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'text',
+        'settings' => array(
+          'rows' => '5',
+        ),
+        'type' => 'text_textarea',
+        'weight' => '50',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-video-field_extended_cataloging'
+  $fields['node-video-field_extended_cataloging'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_extended_cataloging',
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          0 => 'no',
+          1 => 'yes',
+        ),
+        'allowed_values_function' => '',
+      ),
+      'translatable' => '0',
+      'type' => 'list_boolean',
+    ),
+    'field_instance' => array(
+      'bundle' => 'video',
+      'default_value' => array(
+        0 => array(
+          'value' => 0,
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => '23',
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_extended_cataloging',
+      'label' => 'Extended Cataloging',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(
+          'display_label' => 1,
+        ),
+        'type' => 'options_onoff',
+        'weight' => '16',
+      ),
+    ),
+  );
+
   // Exported field: 'node-video-field_kmap_annotation'
   $fields['node-video-field_kmap_annotation'] = array(
     'field_config' => array(
@@ -7448,7 +7674,7 @@ function audio_video_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '29',
+          'weight' => '18',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -7542,6 +7768,344 @@ function audio_video_field_default_fields() {
     ),
   );
 
+  // Exported field: 'node-video-field_media_masters_archived'
+  $fields['node-video-field_media_masters_archived'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_media_masters_archived',
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          0 => 'no',
+          1 => 'yes',
+        ),
+        'allowed_values_function' => '',
+      ),
+      'translatable' => '0',
+      'type' => 'list_boolean',
+    ),
+    'field_instance' => array(
+      'bundle' => 'video',
+      'default_value' => array(
+        0 => array(
+          'value' => 0,
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => '19',
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_media_masters_archived',
+      'label' => 'Masters Archived',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(
+          'display_label' => 1,
+        ),
+        'type' => 'options_onoff',
+        'weight' => '49',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-video-field_media_present'
+  $fields['node-video-field_media_present'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_media_present',
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          0 => 'no',
+          1 => 'yes',
+        ),
+        'allowed_values_function' => '',
+      ),
+      'translatable' => '0',
+      'type' => 'list_boolean',
+    ),
+    'field_instance' => array(
+      'bundle' => 'video',
+      'default_value' => array(
+        0 => array(
+          'value' => 0,
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => '16',
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_media_present',
+      'label' => 'Media Present',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(
+          'display_label' => 1,
+        ),
+        'type' => 'options_onoff',
+        'weight' => '46',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-video-field_media_quality_ok'
+  $fields['node-video-field_media_quality_ok'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_media_quality_ok',
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          0 => 'no',
+          1 => 'yes',
+        ),
+        'allowed_values_function' => '',
+      ),
+      'translatable' => '0',
+      'type' => 'list_boolean',
+    ),
+    'field_instance' => array(
+      'bundle' => 'video',
+      'default_value' => array(
+        0 => array(
+          'value' => 0,
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => '17',
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_media_quality_ok',
+      'label' => 'Quality acceptable',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(
+          'display_label' => 1,
+        ),
+        'type' => 'options_onoff',
+        'weight' => '47',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-video-field_media_recompress'
+  $fields['node-video-field_media_recompress'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_media_recompress',
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          0 => 'no',
+          1 => 'yes',
+        ),
+        'allowed_values_function' => '',
+      ),
+      'translatable' => '0',
+      'type' => 'list_boolean',
+    ),
+    'field_instance' => array(
+      'bundle' => 'video',
+      'default_value' => array(
+        0 => array(
+          'value' => 0,
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => '18',
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_media_recompress',
+      'label' => 'Media Needs Recompression',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(
+          'display_label' => 1,
+        ),
+        'type' => 'options_onoff',
+        'weight' => '48',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-video-field_media_workflow_note'
+  $fields['node-video-field_media_workflow_note'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_media_workflow_note',
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'module' => 'text',
+      'settings' => array(),
+      'translatable' => '0',
+      'type' => 'text_long',
+    ),
+    'field_instance' => array(
+      'bundle' => 'video',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => '21',
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_media_workflow_note',
+      'label' => 'Media Workflow Note',
+      'required' => 0,
+      'settings' => array(
+        'text_processing' => '0',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'text',
+        'settings' => array(
+          'rows' => '5',
+        ),
+        'type' => 'text_textarea',
+        'weight' => '51',
+      ),
+    ),
+  );
+
   // Exported field: 'node-video-field_pbcore_contributor'
   $fields['node-video-field_pbcore_contributor'] = array(
     'field_config' => array(
@@ -7566,16 +8130,13 @@ function audio_video_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'hidden',
           'module' => 'field_collection',
           'settings' => array(
-            'add' => 'Add',
-            'delete' => 'Delete',
-            'description' => TRUE,
-            'edit' => 'Edit',
+            'hide_empty' => FALSE,
             'view_mode' => 'full',
           ),
-          'type' => 'field_collection_view',
+          'type' => 'field_collection_fields',
           'weight' => '12',
         ),
         'teaser' => array(
@@ -7626,16 +8187,13 @@ function audio_video_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'hidden',
           'module' => 'field_collection',
           'settings' => array(
-            'add' => 'Add',
-            'delete' => 'Delete',
-            'description' => TRUE,
-            'edit' => 'Edit',
+            'hide_empty' => FALSE,
             'view_mode' => 'full',
           ),
-          'type' => 'field_collection_view',
+          'type' => 'field_collection_fields',
           'weight' => '9',
         ),
         'teaser' => array(
@@ -7703,9 +8261,9 @@ function audio_video_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'taxonomy',
+          'module' => 'mb_location',
           'settings' => array(),
-          'type' => 'taxonomy_term_reference_link',
+          'type' => 'mb_location',
           'weight' => '7',
         ),
         'teaser' => array(
@@ -7730,10 +8288,10 @@ function audio_video_field_default_fields() {
             'show_geonames' => 0,
             'show_map' => 0,
             'show_place_dictionary' => 1,
+            'view_path' => 'location/%place_id/detail',
           ),
-          'show_geonames' => FALSE,
-          'show_map' => FALSE,
           'show_place_dictionary' => TRUE,
+          'view_path' => 'taxonomy/term/%tid',
         ),
         'type' => 'mb_location',
         'weight' => '37',
@@ -7765,16 +8323,13 @@ function audio_video_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'hidden',
           'module' => 'field_collection',
           'settings' => array(
-            'add' => 'Add',
-            'delete' => 'Delete',
-            'description' => TRUE,
-            'edit' => 'Edit',
+            'hide_empty' => FALSE,
             'view_mode' => 'full',
           ),
-          'type' => 'field_collection_view',
+          'type' => 'field_collection_fields',
           'weight' => '11',
         ),
         'teaser' => array(
@@ -7825,17 +8380,14 @@ function audio_video_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'hidden',
           'module' => 'field_collection',
           'settings' => array(
-            'add' => 'Add',
-            'delete' => 'Delete',
-            'description' => TRUE,
-            'edit' => 'Edit',
+            'hide_empty' => FALSE,
             'view_mode' => 'full',
           ),
-          'type' => 'field_collection_view',
-          'weight' => '2',
+          'type' => 'field_collection_fields',
+          'weight' => '3',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -7885,17 +8437,14 @@ function audio_video_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'hidden',
           'module' => 'field_collection',
           'settings' => array(
-            'add' => 'Add',
-            'delete' => 'Delete',
-            'description' => TRUE,
-            'edit' => 'Edit',
+            'hide_empty' => FALSE,
             'view_mode' => 'full',
           ),
-          'type' => 'field_collection_view',
-          'weight' => '18',
+          'type' => 'field_collection_fields',
+          'weight' => '11',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -7916,7 +8465,7 @@ function audio_video_field_default_fields() {
         'module' => 'field_collection',
         'settings' => array(),
         'type' => 'field_collection_embed',
-        'weight' => '45',
+        'weight' => '43',
       ),
     ),
   );
@@ -7945,17 +8494,14 @@ function audio_video_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'hidden',
           'module' => 'field_collection',
           'settings' => array(
-            'add' => 'Add',
-            'delete' => 'Delete',
-            'description' => TRUE,
-            'edit' => 'Edit',
+            'hide_empty' => FALSE,
             'view_mode' => 'full',
           ),
-          'type' => 'field_collection_view',
-          'weight' => '17',
+          'type' => 'field_collection_fields',
+          'weight' => '9',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -7976,7 +8522,7 @@ function audio_video_field_default_fields() {
         'module' => 'field_collection',
         'settings' => array(),
         'type' => 'field_collection_embed',
-        'weight' => '44',
+        'weight' => '41',
       ),
     ),
   );
@@ -8008,14 +8554,11 @@ function audio_video_field_default_fields() {
           'label' => 'above',
           'module' => 'field_collection',
           'settings' => array(
-            'add' => 'Add',
-            'delete' => 'Delete',
-            'description' => TRUE,
-            'edit' => 'Edit',
+            'hide_empty' => FALSE,
             'view_mode' => 'full',
           ),
-          'type' => 'field_collection_view',
-          'weight' => '21',
+          'type' => 'field_collection_fields',
+          'weight' => '11',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -8064,16 +8607,13 @@ function audio_video_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'hidden',
           'module' => 'field_collection',
           'settings' => array(
-            'add' => 'Add',
-            'delete' => 'Delete',
-            'description' => TRUE,
-            'edit' => 'Edit',
+            'hide_empty' => FALSE,
             'view_mode' => 'full',
           ),
-          'type' => 'field_collection_view',
+          'type' => 'field_collection_fields',
           'weight' => '13',
         ),
         'teaser' => array(
@@ -8124,16 +8664,13 @@ function audio_video_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'hidden',
           'module' => 'field_collection',
           'settings' => array(
-            'add' => 'Add',
-            'delete' => 'Delete',
-            'description' => TRUE,
-            'edit' => 'Edit',
+            'hide_empty' => FALSE,
             'view_mode' => 'full',
           ),
-          'type' => 'field_collection_view',
+          'type' => 'field_collection_fields',
           'weight' => '10',
         ),
         'teaser' => array(
@@ -8155,7 +8692,7 @@ function audio_video_field_default_fields() {
         'module' => 'field_collection',
         'settings' => array(),
         'type' => 'field_collection_embed',
-        'weight' => '40',
+        'weight' => '38',
       ),
     ),
   );
@@ -8250,17 +8787,14 @@ function audio_video_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'hidden',
           'module' => 'field_collection',
           'settings' => array(
-            'add' => 'Add',
-            'delete' => 'Delete',
-            'description' => TRUE,
-            'edit' => 'Edit',
+            'hide_empty' => FALSE,
             'view_mode' => 'full',
           ),
-          'type' => 'field_collection_view',
-          'weight' => '1',
+          'type' => 'field_collection_fields',
+          'weight' => '2',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -8282,6 +8816,138 @@ function audio_video_field_default_fields() {
         'settings' => array(),
         'type' => 'field_collection_embed',
         'weight' => '2',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-video-field_proofed_catalog'
+  $fields['node-video-field_proofed_catalog'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_proofed_catalog',
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          0 => 'no',
+          1 => 'yes',
+        ),
+        'allowed_values_function' => '',
+      ),
+      'translatable' => '0',
+      'type' => 'list_boolean',
+    ),
+    'field_instance' => array(
+      'bundle' => 'video',
+      'default_value' => array(
+        0 => array(
+          'value' => 0,
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => '22',
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_proofed_catalog',
+      'label' => 'Cataloging Proofed',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(
+          'display_label' => 1,
+        ),
+        'type' => 'options_onoff',
+        'weight' => '15',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-video-field_rating'
+  $fields['node-video-field_rating'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_rating',
+      'foreign keys' => array(),
+      'indexes' => array(),
+      'module' => 'fivestar',
+      'settings' => array(
+        'axis' => 'vote',
+      ),
+      'translatable' => '0',
+      'type' => 'fivestar',
+    ),
+    'field_instance' => array(
+      'bundle' => 'video',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'hidden',
+          'module' => 'fivestar',
+          'settings' => array(
+            'expose' => 1,
+            'style' => 'average',
+            'text' => 'average',
+            'widget' => array(
+              'fivestar_widget' => 'sites/all/modules/contrib/fivestar/widgets/basic/basic.css',
+            ),
+          ),
+          'type' => 'fivestar_formatter_default',
+          'weight' => '1',
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_rating',
+      'label' => 'Rating',
+      'required' => 0,
+      'settings' => array(
+        'allow_clear' => 0,
+        'stars' => '5',
+        'target' => 'none',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'fivestar',
+        'settings' => array(),
+        'type' => 'exposed',
+        'weight' => '53',
       ),
     ),
   );
@@ -8327,9 +8993,9 @@ function audio_video_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'taxonomy',
+          'module' => 'mb_location',
           'settings' => array(),
-          'type' => 'taxonomy_term_reference_link',
+          'type' => 'mb_location',
           'weight' => '8',
         ),
         'teaser' => array(
@@ -8354,13 +9020,13 @@ function audio_video_field_default_fields() {
             'show_geonames' => 0,
             'show_map' => 0,
             'show_place_dictionary' => 1,
+            'view_path' => 'location/%place_id/detail',
           ),
-          'show_geonames' => FALSE,
-          'show_map' => FALSE,
           'show_place_dictionary' => TRUE,
+          'view_path' => 'taxonomy/term/%tid',
         ),
         'type' => 'mb_location',
-        'weight' => '38',
+        'weight' => '40',
       ),
     ),
   );
@@ -8405,11 +9071,11 @@ function audio_video_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'inline',
           'module' => 'taxonomy',
           'settings' => array(),
           'type' => 'taxonomy_term_reference_link',
-          'weight' => '3',
+          'weight' => '4',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -8434,6 +9100,210 @@ function audio_video_field_default_fields() {
         ),
         'type' => 'taxonomy_autocomplete',
         'weight' => '4',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-video-field_timecode_ok'
+  $fields['node-video-field_timecode_ok'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_timecode_ok',
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          0 => 'no',
+          1 => 'yes',
+        ),
+        'allowed_values_function' => '',
+      ),
+      'translatable' => '0',
+      'type' => 'list_boolean',
+    ),
+    'field_instance' => array(
+      'bundle' => 'video',
+      'default_value' => array(
+        0 => array(
+          'value' => 0,
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => '28',
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_timecode_ok',
+      'label' => 'Timecode not frequent enough',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(
+          'display_label' => 1,
+        ),
+        'type' => 'options_onoff',
+        'weight' => '17',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-video-field_timecode_problem_1'
+  $fields['node-video-field_timecode_problem_1'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_timecode_problem_1',
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          0 => 'no',
+          1 => 'yes',
+        ),
+        'allowed_values_function' => '',
+      ),
+      'translatable' => '0',
+      'type' => 'list_boolean',
+    ),
+    'field_instance' => array(
+      'bundle' => 'video',
+      'default_value' => array(
+        0 => array(
+          'value' => 0,
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => '29',
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_timecode_problem_1',
+      'label' => 'Time coding problem 1',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(
+          'display_label' => 1,
+        ),
+        'type' => 'options_onoff',
+        'weight' => '18',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-video-field_timecode_problem_2'
+  $fields['node-video-field_timecode_problem_2'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_timecode_problem_2',
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          0 => 'no',
+          1 => 'yes',
+        ),
+        'allowed_values_function' => '',
+      ),
+      'translatable' => '0',
+      'type' => 'list_boolean',
+    ),
+    'field_instance' => array(
+      'bundle' => 'video',
+      'default_value' => array(
+        0 => array(
+          'value' => 0,
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => '30',
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_timecode_problem_2',
+      'label' => 'Time coding problem 2',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(
+          'display_label' => 1,
+        ),
+        'type' => 'options_onoff',
+        'weight' => '19',
       ),
     ),
   );
@@ -8475,10 +9345,9 @@ function audio_video_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'transcripts',
           'settings' => array(),
-          'type' => 'default__transcript-player-link',
-          'weight' => '1',
+          'type' => 'hidden',
+          'weight' => '17',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -8524,40 +9393,46 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-video-field_transcription'
-  $fields['node-video-field_transcription'] = array(
+  // Exported field: 'node-video-field_transcript_input'
+  $fields['node-video-field_transcript_input'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(),
-      'field_name' => 'field_transcription',
+      'field_name' => 'field_transcript_input',
       'foreign keys' => array(),
-      'indexes' => array(),
-      'module' => 'field_collection',
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'module' => 'list',
       'settings' => array(
-        'path' => '',
+        'allowed_values' => array(
+          0 => 'no',
+          1 => 'yes',
+        ),
+        'allowed_values_function' => '',
       ),
       'translatable' => '0',
-      'type' => 'field_collection',
+      'type' => 'list_boolean',
     ),
     'field_instance' => array(
       'bundle' => 'video',
-      'default_value' => NULL,
+      'default_value' => array(
+        0 => array(
+          'value' => 0,
+        ),
+      ),
       'deleted' => '0',
       'description' => '',
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'field_collection',
-          'settings' => array(
-            'add' => 'Add',
-            'delete' => 'Delete',
-            'description' => TRUE,
-            'edit' => 'Edit',
-            'view_mode' => 'full',
-          ),
-          'type' => 'field_collection_view',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
           'weight' => '26',
         ),
         'teaser' => array(
@@ -8568,17 +9443,564 @@ function audio_video_field_default_fields() {
         ),
       ),
       'entity_type' => 'node',
-      'field_name' => 'field_transcription',
-      'label' => 'Transcription',
-      'required' => FALSE,
+      'field_name' => 'field_transcript_input',
+      'label' => 'Transcript Input',
+      'required' => 0,
       'settings' => array(
         'user_register_form' => FALSE,
       ),
       'widget' => array(
-        'module' => 'field_collection',
-        'settings' => array(),
-        'type' => 'field_collection_embed',
-        'weight' => '43',
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(
+          'display_label' => 1,
+        ),
+        'type' => 'options_onoff',
+        'weight' => '15',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-video-field_transcript_input_lang_1'
+  $fields['node-video-field_transcript_input_lang_1'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_transcript_input_lang_1',
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          0 => 'no',
+          1 => 'yes',
+        ),
+        'allowed_values_function' => '',
+      ),
+      'translatable' => '0',
+      'type' => 'list_boolean',
+    ),
+    'field_instance' => array(
+      'bundle' => 'video',
+      'default_value' => array(
+        0 => array(
+          'value' => 0,
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => '32',
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_transcript_input_lang_1',
+      'label' => 'Translation input language 1',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(
+          'display_label' => 1,
+        ),
+        'type' => 'options_onoff',
+        'weight' => '21',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-video-field_transcript_input_lang_2'
+  $fields['node-video-field_transcript_input_lang_2'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_transcript_input_lang_2',
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          0 => 'no',
+          1 => 'yes',
+        ),
+        'allowed_values_function' => '',
+      ),
+      'translatable' => '0',
+      'type' => 'list_boolean',
+    ),
+    'field_instance' => array(
+      'bundle' => 'video',
+      'default_value' => array(
+        0 => array(
+          'value' => 0,
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => '33',
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_transcript_input_lang_2',
+      'label' => 'Translation input language 2',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(
+          'display_label' => 1,
+        ),
+        'type' => 'options_onoff',
+        'weight' => '22',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-video-field_transcript_input_lang_3'
+  $fields['node-video-field_transcript_input_lang_3'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_transcript_input_lang_3',
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          0 => 'no',
+          1 => 'yes',
+        ),
+        'allowed_values_function' => '',
+      ),
+      'translatable' => '0',
+      'type' => 'list_boolean',
+    ),
+    'field_instance' => array(
+      'bundle' => 'video',
+      'default_value' => array(
+        0 => array(
+          'value' => 0,
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => '34',
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_transcript_input_lang_3',
+      'label' => 'Translation input language 3',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(
+          'display_label' => 1,
+        ),
+        'type' => 'options_onoff',
+        'weight' => '23',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-video-field_transcript_proofed'
+  $fields['node-video-field_transcript_proofed'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_transcript_proofed',
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          0 => 'no',
+          1 => 'yes',
+        ),
+        'allowed_values_function' => '',
+      ),
+      'translatable' => '0',
+      'type' => 'list_boolean',
+    ),
+    'field_instance' => array(
+      'bundle' => 'video',
+      'default_value' => array(
+        0 => array(
+          'value' => 0,
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => '31',
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_transcript_proofed',
+      'label' => 'Transcript proofed',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(
+          'display_label' => 1,
+        ),
+        'type' => 'options_onoff',
+        'weight' => '20',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-video-field_transcript_proofed_lang_1'
+  $fields['node-video-field_transcript_proofed_lang_1'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_transcript_proofed_lang_1',
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          0 => 'no',
+          1 => 'yes',
+        ),
+        'allowed_values_function' => '',
+      ),
+      'translatable' => '0',
+      'type' => 'list_boolean',
+    ),
+    'field_instance' => array(
+      'bundle' => 'video',
+      'default_value' => array(
+        0 => array(
+          'value' => 0,
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => '35',
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_transcript_proofed_lang_1',
+      'label' => 'Translation proofed language 1',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(
+          'display_label' => 1,
+        ),
+        'type' => 'options_onoff',
+        'weight' => '24',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-video-field_transcript_proofed_lang_2'
+  $fields['node-video-field_transcript_proofed_lang_2'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_transcript_proofed_lang_2',
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          0 => 'no',
+          1 => 'yes',
+        ),
+        'allowed_values_function' => '',
+      ),
+      'translatable' => '0',
+      'type' => 'list_boolean',
+    ),
+    'field_instance' => array(
+      'bundle' => 'video',
+      'default_value' => array(
+        0 => array(
+          'value' => 0,
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => '36',
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_transcript_proofed_lang_2',
+      'label' => 'Translation proofed language 2',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(
+          'display_label' => 1,
+        ),
+        'type' => 'options_onoff',
+        'weight' => '25',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-video-field_transcript_proofed_lang_3'
+  $fields['node-video-field_transcript_proofed_lang_3'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_transcript_proofed_lang_3',
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          0 => 'no',
+          1 => 'yes',
+        ),
+        'allowed_values_function' => '',
+      ),
+      'translatable' => '0',
+      'type' => 'list_boolean',
+    ),
+    'field_instance' => array(
+      'bundle' => 'video',
+      'default_value' => array(
+        0 => array(
+          'value' => 0,
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => '37',
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_transcript_proofed_lang_3',
+      'label' => 'Translation proofed language 3',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(
+          'display_label' => 1,
+        ),
+        'type' => 'options_onoff',
+        'weight' => '26',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-video-field_transcript_timecoded'
+  $fields['node-video-field_transcript_timecoded'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_transcript_timecoded',
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          0 => 'no',
+          1 => 'yes',
+        ),
+        'allowed_values_function' => '',
+      ),
+      'translatable' => '0',
+      'type' => 'list_boolean',
+    ),
+    'field_instance' => array(
+      'bundle' => 'video',
+      'default_value' => array(
+        0 => array(
+          'value' => 0,
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => '27',
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_transcript_timecoded',
+      'label' => 'Transcript Timecoded',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(
+          'display_label' => 1,
+        ),
+        'type' => 'options_onoff',
+        'weight' => '16',
       ),
     ),
   );
@@ -8622,7 +10044,7 @@ function audio_video_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '2',
+          'weight' => '16',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -8636,7 +10058,7 @@ function audio_video_field_default_fields() {
       'label' => 'Transformer',
       'required' => 0,
       'settings' => array(
-        'description_field' => 0,
+        'description_field' => 1,
         'file_directory' => 'transcripts_xsl',
         'file_extensions' => 'xsl',
         'max_filesize' => '',
@@ -8658,7 +10080,7 @@ function audio_video_field_default_fields() {
             'source_attach' => array(
               'absolute' => '0',
               'attach_mode' => 'copy',
-              'path' => 'file_attach',
+              'path' => '',
             ),
             'source_reference' => array(
               'autocomplete' => '1',
@@ -8672,41 +10094,47 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-video-field_translation'
-  $fields['node-video-field_translation'] = array(
+  // Exported field: 'node-video-field_translation_lang_1'
+  $fields['node-video-field_translation_lang_1'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(),
-      'field_name' => 'field_translation',
+      'field_name' => 'field_translation_lang_1',
       'foreign keys' => array(),
-      'indexes' => array(),
-      'module' => 'field_collection',
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'module' => 'list',
       'settings' => array(
-        'path' => '',
+        'allowed_values' => array(
+          0 => 'no',
+          1 => 'yes',
+        ),
+        'allowed_values_function' => '',
       ),
       'translatable' => '0',
-      'type' => 'field_collection',
+      'type' => 'list_boolean',
     ),
     'field_instance' => array(
       'bundle' => 'video',
-      'default_value' => NULL,
+      'default_value' => array(
+        0 => array(
+          'value' => 0,
+        ),
+      ),
       'deleted' => '0',
       'description' => '',
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'field_collection',
-          'settings' => array(
-            'add' => 'Add',
-            'delete' => 'Delete',
-            'description' => TRUE,
-            'edit' => 'Edit',
-            'view_mode' => 'full',
-          ),
-          'type' => 'field_collection_view',
-          'weight' => '27',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => '24',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -8716,17 +10144,88 @@ function audio_video_field_default_fields() {
         ),
       ),
       'entity_type' => 'node',
-      'field_name' => 'field_translation',
-      'label' => 'Translation',
-      'required' => FALSE,
+      'field_name' => 'field_translation_lang_1',
+      'label' => 'Translation of title and summary Language 1',
+      'required' => 0,
       'settings' => array(
         'user_register_form' => FALSE,
       ),
       'widget' => array(
-        'module' => 'field_collection',
-        'settings' => array(),
-        'type' => 'field_collection_embed',
-        'weight' => '44',
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(
+          'display_label' => 1,
+        ),
+        'type' => 'options_onoff',
+        'weight' => '17',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-video-field_translation_lang_2'
+  $fields['node-video-field_translation_lang_2'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_translation_lang_2',
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          0 => '',
+          1 => '',
+        ),
+        'allowed_values_function' => '',
+      ),
+      'translatable' => '0',
+      'type' => 'list_boolean',
+    ),
+    'field_instance' => array(
+      'bundle' => 'video',
+      'default_value' => array(
+        0 => array(
+          'value' => 0,
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => '25',
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_translation_lang_2',
+      'label' => 'Translation of title and summary Language 2',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(
+          'display_label' => 1,
+        ),
+        'type' => 'options_onoff',
+        'weight' => '18',
       ),
     ),
   );
@@ -8750,6 +10249,7 @@ function audio_video_field_default_fields() {
       'indexes' => array(),
       'module' => 'field_kaltura',
       'settings' => array(
+        'add_existing' => 'upload',
         'content_ingestion' => array(
           'add_existing' => 'upload',
           'advanced' => array(
@@ -8757,6 +10257,10 @@ function audio_video_field_default_fields() {
           ),
           'kcw_button_text' => 'Upload or Record a Video',
         ),
+        'custom_cw' => '',
+        'custom_player' => '',
+        'delivery' => 'HTTP',
+        'entry_widget' => '48501',
         'kaltura_entry_video_display' => array(
           'advanced' => array(
             'custom_player' => '',
@@ -8766,11 +10270,18 @@ function audio_video_field_default_fields() {
           'player_height' => '330',
           'player_width' => '400',
         ),
+        'kcw_button_text' => 'Add Media',
+        'player_height' => '330',
+        'player_width' => '400',
+        'rotate' => 0,
+        'stretch' => 0,
         'thumbsize' => array(
           'rotate' => 0,
           'thumbsize_height' => '45',
           'thumbsize_width' => '80',
         ),
+        'thumbsize_height' => '45',
+        'thumbsize_width' => '80',
       ),
       'translatable' => '1',
       'type' => 'field_kaltura_entryid',
@@ -8783,7 +10294,17 @@ function audio_video_field_default_fields() {
         'default' => array(
           'label' => 'hidden',
           'module' => 'field_kaltura',
-          'settings' => array(),
+          'settings' => array(
+            'custom_player' => '',
+            'delivery' => 'RTMP',
+            'entry_widget' => '2389022',
+            'player_height' => '364',
+            'player_width' => '410',
+            'rotate' => 0,
+            'stretch' => NULL,
+            'thumbsize_height' => '90',
+            'thumbsize_width' => '120',
+          ),
           'type' => 'field_kaltura_player',
           'weight' => '0',
         ),
@@ -8894,7 +10415,7 @@ function audio_video_field_default_fields() {
   $fields['node-video-group_audience'] = array(
     'field_config' => array(
       'active' => '1',
-      'cardinality' => '-1',
+      'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'group_audience',
@@ -8939,8 +10460,8 @@ function audio_video_field_default_fields() {
       ),
       'entity_type' => 'node',
       'field_name' => 'group_audience',
-      'label' => 'Groups audience',
-      'required' => FALSE,
+      'label' => 'Collection',
+      'required' => 1,
       'settings' => array(
         'user_register_form' => FALSE,
       ),
@@ -8957,12 +10478,13 @@ function audio_video_field_default_fields() {
         ),
       ),
       'widget' => array(
+        'active' => 1,
         'module' => 'og',
         'settings' => array(
           'opt_group' => 'auto',
         ),
         'type' => 'group_audience',
-        'weight' => '13',
+        'weight' => '9',
       ),
       'widget_type' => 'group_audience',
     ),
@@ -8989,6 +10511,7 @@ function audio_video_field_default_fields() {
           0 => 'Use group defaults',
           1 => 'Public - accessible to all site users',
           2 => 'Private - accessible only to group members',
+          3 => 'UVa - accessible only to the UVa community',
         ),
         'allowed_values_function' => '',
       ),
@@ -8999,7 +10522,7 @@ function audio_video_field_default_fields() {
       'bundle' => 'video',
       'default_value' => array(
         0 => array(
-          'value' => 0,
+          'value' => '0',
         ),
       ),
       'deleted' => '0',
@@ -9021,8 +10544,8 @@ function audio_video_field_default_fields() {
       ),
       'entity_type' => 'node',
       'field_name' => 'group_content_access',
-      'label' => 'Group content visibility',
-      'required' => TRUE,
+      'label' => 'Visibility',
+      'required' => 1,
       'settings' => array(
         'user_register_form' => FALSE,
       ),
@@ -9037,10 +10560,11 @@ function audio_video_field_default_fields() {
         ),
       ),
       'widget' => array(
+        'active' => 1,
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_select',
-        'weight' => '46',
+        'weight' => '10',
       ),
       'widget_type' => 'options_select',
     ),
@@ -9239,12 +10763,16 @@ function audio_video_field_default_fields() {
   t('Aspect Ratio');
   t('Audio');
   t('Available From (date)');
+  t('Basic Cataloging');
   t('Bit Depth');
   t('Catalog Record');
   t('Catalog Record Note');
   t('Catalog Record Status');
+  t('Catalog Workflow Note');
+  t('Cataloging Proofed');
   t('Channel Config');
   t('Characteristic');
+  t('Collection');
   t('Colors');
   t('Contributor');
   t('Contributor Role');
@@ -9261,6 +10789,7 @@ function audio_video_field_default_fields() {
   t('Digital Format');
   t('Duration');
   t('Encoding Scheme');
+  t('Extended Cataloging');
   t('Extension');
   t('Extension Authority');
   t('File Size');
@@ -9271,8 +10800,6 @@ function audio_video_field_default_fields() {
   t('Frame Rate');
   t('Frame Size');
   t('Generations');
-  t('Group content visibility');
-  t('Groups audience');
   t('Identifier');
   t('Identifier Source');
   t('Kmap Annotation');
@@ -9280,13 +10807,20 @@ function audio_video_field_default_fields() {
   t('Kmap Parent Id');
   t('Language');
   t('Location');
+  t('Logging files/EDLs');
+  t('Masters Archived');
+  t('Media Needs Recompression');
+  t('Media Present');
   t('Media Type');
+  t('Media Workflow Note');
   t('Note');
   t('Numeric Label');
   t('Physical Format');
   t('Place Dictionary Id');
   t('Publisher');
   t('Publisher Role');
+  t('Quality acceptable');
+  t('Rating');
   t('Recording Location');
   t('Redistribution License');
   t('Related Media');
@@ -9298,11 +10832,17 @@ function audio_video_field_default_fields() {
   t('Text Label');
   t('Tid');
   t('Time');
+  t('Time coding problem 1');
+  t('Time coding problem 2');
+  t('Timecode not frequent enough');
   t('Title');
   t('Title Language');
   t('Title Type');
   t('Track Data');
   t('Transcript');
+  t('Transcript Input');
+  t('Transcript Timecoded');
+  t('Transcript proofed');
   t('Transcription');
   t('Transcription Note');
   t('Transcription Status');
@@ -9310,8 +10850,17 @@ function audio_video_field_default_fields() {
   t('Translation');
   t('Translation Note');
   t('Translation Status');
+  t('Translation input language 1');
+  t('Translation input language 2');
+  t('Translation input language 3');
+  t('Translation of title and summary Language 1');
+  t('Translation of title and summary Language 2');
+  t('Translation proofed language 1');
+  t('Translation proofed language 2');
+  t('Translation proofed language 3');
   t('Versions');
   t('Video');
+  t('Visibility');
   t('Year Published');
 
   return $fields;

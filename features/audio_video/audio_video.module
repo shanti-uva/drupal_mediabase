@@ -13,9 +13,9 @@ function audio_video_render_place_view($place_id) {
    return $output;
 }
 
-function audio_video_render_kmap_view($place_id) {
+function audio_video_render_kmap_view($kmap_id) {
    $view = views_get_view('media_by_kmap');
-   $view->execute_display('default', array($place_id));
+   $view->execute_display('default', array($kmap_id));
    $output = !empty($view->result) ? $view->render() : sprintf('<div>%s</div>',t( 'There are no media items for this characteristic.' ));
    return $output;
 }

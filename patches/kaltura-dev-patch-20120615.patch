@@ -1,0 +1,51 @@
+diff --git a/kaltura_client/kaltura_helpers.php b/kaltura_client/kaltura_helpers.php
+index 6551628..7adedd4 100644
+--- a/kaltura_client/kaltura_helpers.php
++++ b/kaltura_client/kaltura_helpers.php
+@@ -293,7 +293,9 @@ class KalturaHelpers
+       $players = array();
+       $k_helpers = new KalturaHelpers();
+       $client = $k_helpers->getKalturaClient(true);
+-      $listResponse = $client->uiConf->listAction();
++      $filter = new KalturaUiConfFilter();
++      $filter->objTypeEqual = KalturaUiConfObjType::PLAYER;
++      $listResponse = $client->uiConf->listAction($filter);
+       for ($i=0; $i < $listResponse->totalCount; $i++)
+       {
+         if ($listResponse->objects[$i]->objType == KalturaUiConfObjType::PLAYER)
+diff --git a/plugins/field_kaltura/field_kaltura.module b/plugins/field_kaltura/field_kaltura.module
+index 7079e21..3db1aa7 100644
+--- a/plugins/field_kaltura/field_kaltura.module
++++ b/plugins/field_kaltura/field_kaltura.module
+@@ -727,10 +727,10 @@ function field_kaltura_field_formatter_settings_form($field, $instance, $view_mo
+       '#size' => 5,
+       '#default_value' => !empty($settings['player_height']) ? $settings['player_height'] : '330',
+     );
+-    $element['dispaly_metadata'] = array(
++    $element['display_metadata'] = array(
+       '#type' => 'checkbox',
+       '#title' => t('Display Metadata'),
+-      '#default_value' => !empty($settings['dispaly_metadata']) ? $settings['dispaly_metadata'] : '0',
++      '#default_value' => !empty($settings['display_metadata']) ? $settings['display_metadata'] : '0',
+     );
+     $element['kaltura_entry_video_display_close'] = array(
+       '#markup' => '</div>',
+@@ -774,7 +774,7 @@ function field_kaltura_field_formatter_settings_summary($field, $instance, $view
+     $settings[$key] = !empty($display['settings'][$key]) ? $display['settings'][$key] : $field['settings'][$key];
+   }
+   $out = '<div>';
+-  $palyers = array();
++  $players = array();
+   $k_helpers = new KalturaHelpers();
+   $k_helpers->getSitePlayers($players);
+   if ($instance['widget']['type'] === 'field_kaltura_image') {
+@@ -817,7 +817,8 @@ function field_kaltura_field_instance_settings_form($field, $instance) {
+ function field_kaltura_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+   $element = array();
+   foreach ($display['settings'] as $key => $val) {
+-    $settings[$key] = !empty($display['settings'][$key]) ? $display['settings'][$key] : $field['settings'][$key];
++     // $settings[$key] = !empty($display['settings'][$key]) ? $display['settings'][$key] : $field['settings'][$key];
++    $settings[$key] = !empty($display['settings'][$key]) ? $display['settings'][$key] : isset($field['settings'][$key]) ? $field['settings'][$key] : null;
+   }
+   if (isset($items[0]['entryid'])) {
+     $item = $items[0]['entryid'];

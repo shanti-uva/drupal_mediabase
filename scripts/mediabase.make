@@ -107,6 +107,28 @@ projects[token][subdir] = "contrib"
 projects[views][version] = "3.2"
 projects[views][subdir] = "contrib"
 
+; Added for June 15th launch
+projects[fivestar][version] = "2.0-alpha2"
+projects[fivestar][subdir] = "contrib"
+
+projects[votingapi][version] = "2.6"
+projects[votingapi][subdir] = "contrib"
+
+projects[flag][version] = "2.0-beta6"
+projects[flag][subdir] = "contrib"
+
+projects[rules][version] = "2.1"
+projects[rules][subdir] = "contrib"
+
+projects[views_slideshow][version] = "3.0"
+projects[views_slideshow][subdir] = "contrib"
+; see libraries for jquery.cycle
+
+projects[flexslider][version] = "1.0-rc3"
+projects[flexslider][subdir] = "contrib"
+; see libraries for flexslider
+
+
 ; CONTRIB THEMES
 projects[omega][version] = "3.0"
 
@@ -127,6 +149,14 @@ projects[mb-html5][type] = "theme"
 ; LIBRARIES
 libraries[saxon][download][type] = "file"
 libraries[saxon][download][url] = "http://superb-sea2.dl.sourceforge.net/project/saxon/Saxon-HE/9.4/SaxonHE9-4-0-3J.zip"
+
+libraries[jquery.cycle][download][type] = "file"
+libraries[jquery.cycle][download][url] = "https://github.com/downloads/malsup/cycle/jquery.cycle.all.latest.min.js"                         
+
+libraries[flexslider][download][type] = "file"
+libraries[flexslider][download][type] = "git"
+libraries[flexslider][download][url] = "git://github.com/woothemes/FlexSlider.git"                         
+
 
 ; PATCHES
 projects[kaltura][patch][] = "https://raw.github.com/pinedrop/mediabase/master/patches/kaltura-dev-patch-20120508.patch"

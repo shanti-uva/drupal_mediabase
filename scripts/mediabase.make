@@ -148,7 +148,8 @@ projects[mb-html5][type] = "theme"
 
 ; LIBRARIES
 libraries[saxon][download][type] = "file"
-libraries[saxon][download][url] = "http://superb-sea2.dl.sourceforge.net/project/saxon/Saxon-HE/9.4/SaxonHE9-4-0-3J.zip"
+;libraries[saxon][download][url] = "http://superb-sea2.dl.sourceforge.net/project/saxon/Saxon-HE/9.4/SaxonHE9-4-0-3J.zip"
+libraries[saxon][download][url] = "http://downloads.sourceforge.net/project/saxon/Saxon-HE/9.4/SaxonHE9-4-0-3J.zip"
 
 libraries[jquery.cycle][download][type] = "file"
 libraries[jquery.cycle][download][url] = "https://github.com/downloads/malsup/cycle/jquery.cycle.all.latest.min.js"                         

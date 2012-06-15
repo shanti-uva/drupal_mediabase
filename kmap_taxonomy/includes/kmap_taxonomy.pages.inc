@@ -138,5 +138,11 @@ function render_full_kmap( $kmap) {
       $output .= sprintf('<div>%s</div>', t('No knowledge map exists on the server matching id: ' . $kmap_id ));
    }
    
+      // add a views view of the media for this characteristic
+   if ( module_exists('audio_video') ) {
+      $output .= audio_video_render_kmap_view($kmap_id);
+   }
+
+   
    return $output;
 }

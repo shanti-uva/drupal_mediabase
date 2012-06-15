@@ -94,7 +94,7 @@ function mb_metadata_node_view($node) {
 **/
 function add_mediabase_id($node) {
    $node->content['mb_identifier'] = array(
-      '#markup' => "<div class='mb-identifier'><label>" . t('Mediabase id') . ": </label><span>$node->nid</span></div>",
+      '#markup' => "<div class='mb-identifier'><label>" . t('Shanti AV Id') . ": </label><span>$node->nid</span></div>",
       '#weight' => 0,
       );
    $node->content['#group_children']['mb_identifier'] = 'group_technical';

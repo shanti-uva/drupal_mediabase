@@ -65,7 +65,7 @@ projects[job_scheduler][subdir] = "contrib"
 projects[masquerade][version] = "1.0-rc4"
 projects[masquerade][subdir] = "contrib"
 
-projects[og][version] = "1.3"
+projects[og][version] = "1.4"
 projects[og][subdir] = "contrib"
 
 projects[og_create_perms][version] = "1.0"
@@ -107,9 +107,12 @@ projects[token][subdir] = "contrib"
 projects[views][version] = "3.2"
 projects[views][subdir] = "contrib"
 
-; Added for June 15th launch
+; ADDED FOR JUNE 15TH LAUNCH
 projects[fivestar][version] = "2.0-alpha2"
 projects[fivestar][subdir] = "contrib"
+
+projects[libraries][version] = "1.0"
+projects[libraries][subdir] = "contrib"
 
 projects[votingapi][version] = "2.6"
 projects[votingapi][subdir] = "contrib"
@@ -148,11 +151,11 @@ projects[mb-html5][type] = "theme"
 
 ; LIBRARIES
 libraries[saxon][download][type] = "file"
-;libraries[saxon][download][url] = "http://superb-sea2.dl.sourceforge.net/project/saxon/Saxon-HE/9.4/SaxonHE9-4-0-3J.zip"
 libraries[saxon][download][url] = "http://downloads.sourceforge.net/project/saxon/Saxon-HE/9.4/SaxonHE9-4-0-3J.zip"
+libraries[saxon][download][url] = "https://raw.github.com/pinedrop/transcripts/master/transcripts.xsl"
 
 libraries[jquery.cycle][download][type] = "file"
-libraries[jquery.cycle][download][url] = "https://github.com/downloads/malsup/cycle/jquery.cycle.all.latest.min.js"                         
+libraries[jquery.cycle][download][url] = "http://malsup.github.com/jquery.cycle.all.js"                         
 
 libraries[flexslider][download][type] = "file"
 libraries[flexslider][download][type] = "git"
@@ -160,7 +163,7 @@ libraries[flexslider][download][url] = "git://github.com/woothemes/FlexSlider.gi
 
 
 ; PATCHES
-projects[kaltura][patch][] = "https://raw.github.com/pinedrop/mediabase/master/patches/kaltura-dev-patch-20120615.patch"
+; projects[kaltura][patch][] = "https://raw.github.com/pinedrop/mediabase/master/patches/kaltura-dev-patch-20120615.patch"
 projects[spaces][patch][] = "https://raw.github.com/pinedrop/mediabase/master/patches/spaces_og_use_a_different_space_type_plugin.patch"
 
 ; !!!IMPORTANT!!!! add patches for spaces_og.module and spaces_og.info

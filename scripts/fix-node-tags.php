@@ -12,7 +12,6 @@ foreach ($media as $entry_id => $nid) {
    $count++;
    $sql = "SELECT kaltura_tags FROM node_kaltura where kaltura_entryid = :entry_id";
    $tag_string = trim(db_query($sql, array(':entry_id' => $entry_id))->fetchField());
-   dd($tag_string, "tag_string");
    
    if (empty($tag_string)) {
       continue;
@@ -29,7 +28,6 @@ function add_tags(&$node, $tag_string) {
    
    $tags = explode(',', str_replace(";",',',$tag_string));
    if(count($tags) == 1 && empty($tags[0])) {
-      dd("returning b/c tags was empty");
       return;
    }
    // save taxo term
@@ -45,12 +43,10 @@ function add_tags(&$node, $tag_string) {
          $term = new stdClass();
          $term->name = $tag;
          $term->vid = 1; 
-         dd("saving");
          taxonomy_term_save($term); 
       } else {
             $term = array_shift( $entities['taxonomy_term'] );
       }
-      dd($term, "term");
       
       $node->field_tags[$node->language][]['tid'] = $term->tid;
    }

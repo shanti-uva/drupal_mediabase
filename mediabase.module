@@ -1,15 +1,11 @@
 <?php
 
 /**
-* This module provides assorted and miscellaneous customizations for the Mediabase Drupal application
+* This module provides general customizations for the Mediabase Drupal application
 */
 
-function mediabase_init() {
-   global $user;
-   if ($user->uid == '1') { 
-      ini_set('error_reporting',E_ALL);
-   }
-}
+/* function mediabase_init() {
+} */
 
 function mediabase_menu() {
    $items = array();
@@ -32,31 +28,10 @@ function mediabase_menu() {
    return $items;
 }
 
-function mediabase_menu_alter() {
-
-}
-
 function mediabase_perm() {
    return array(
       'administer mediabase',
       );
-}
-
-function mediabase_node_presave($node) {
-   switch ($node->type) {
-   case 'video':
-   case 'audio':
-      //dpm($node, "node");
-   }
-}
-
-function mediabase_node_load($nodes, $types) {
-   $node = array_shift($nodes);
-    switch ($node->type) {
-   case 'video':
-   case 'audio':
-      //dpm($node, "the first node in \$nodes");
-   }
 }
 
 function mediabase_settings_form($form_id, $form_state) {
@@ -71,7 +46,7 @@ function mediabase_settings_form($form_id, $form_state) {
       '#type' => 'submit',
       '#value' => t('Save settings'),
       );
-return $form;
+   return $form;
 }
 
 function mediabase_settings_form_submit($form, &$form_state) {
@@ -80,6 +55,10 @@ function mediabase_settings_form_submit($form, &$form_state) {
    drupal_set_message(t('The settings have been saved'));
 }
 
-
+function mediabase_form_alter(&$form, &$form_state, $form_id) {
+   if (in_array($form_id, array('search_block_form', 'apachesolr_search_custom_page_search_form'))) {
+      drupal_add_js(drupal_get_path('module', 'mediabase') .'/js/toggle-quick-search.js', array('preprocess' => FALSE));
+   }
+}
 
 

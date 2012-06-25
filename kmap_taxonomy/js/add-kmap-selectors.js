@@ -39,7 +39,7 @@ Drupal.behaviors.kmap_taxonomy={attach:function(context){
             first_last: 'First ancestor and last child',
             last: 'Last child only',
             last_plus_parent: 'Last child and its parent',
-            full: 'Full ancestry of characteristic',         
+            full: 'Full ancestry of subject',         
          },
          // root branch
          rootKmapId: settings.root_kmap_id,

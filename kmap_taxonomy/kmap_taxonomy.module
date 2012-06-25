@@ -58,7 +58,7 @@ function kmap_taxonomy_menu() {
       'file' => 'includes/kmap_taxonomy.services.inc',
       'type' => MENU_CALLBACK,
       );  
-   $items['characteristic/%/detail'] = array(
+   $items['subject/%/detail'] = array(
       'title' => t('Kmap Details'),
       'page callback' => 'kmap_detail_page',
       'page arguments' => array(1),

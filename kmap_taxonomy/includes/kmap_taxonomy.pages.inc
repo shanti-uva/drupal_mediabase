@@ -8,7 +8,7 @@ function kmap_detail_page ($kmap_id) {
    module_load_include('inc', 'kmap_taxonomy', 'includes/kmap');
    $kmap = new Kmap($kmap_id);
    $term = $kmap->get_term();
-   $title = t("Characteristic: !name", array('!name' => $term->name));
+   $title = t("Subject: !name", array('!name' => $term->name));
    drupal_set_title( $title );
    $output = render_full_kmap($kmap);
    return $output;
@@ -77,7 +77,7 @@ function render_full_kmap( $kmap) {
       $output = '';
       foreach ( $lineage as  $item ) {
          $kmap_id = $item['kmap_id'];
-         $crumbs[] = l(  $item['name'], "characteristic/$kmap_id/detail");
+         $crumbs[] = l(  $item['name'], "subject/$kmap_id/detail");
       }
       $output .= sprintf('<div id="kmap-crumbs">%s</div>', implode(' > ', $crumbs));
       
@@ -138,7 +138,7 @@ function render_full_kmap( $kmap) {
       $output .= sprintf('<div>%s</div>', t('No knowledge map exists on the server matching id: ' . $kmap_id ));
    }
    
-      // add a views view of the media for this characteristic
+      // add a views view of the media for this subject
    if ( module_exists('audio_video') ) {
       $output .= audio_video_render_kmap_view($kmap_id);
    }

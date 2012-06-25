@@ -87,7 +87,7 @@ function KmapSelector(options) {
       first_last: this.t('First ancestor and last child'),
       last: this.t('Last child only'),
       last_plus_parent: this.t('Last child and its parent'),
-      full: this.t('Full ancestry of characteristic'),
+      full: this.t('Full ancestry of subject'),
    };
 }
 

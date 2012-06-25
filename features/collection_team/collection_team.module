@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Collection & Team feature.
+ */
+
+include_once('collection_team.features.inc');

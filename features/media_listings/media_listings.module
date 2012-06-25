@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Media Listings feature.
+ */
+
+include_once('media_listings.features.inc');

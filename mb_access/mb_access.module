@@ -2,7 +2,7 @@
 
 /**
 * @file
-* Enable access control for UVa community and archive administrators.
+* Enable access control for UVa community and collection administrators.
 */
 
 /**
@@ -18,7 +18,7 @@ define('OG_ACCESS_UVA_MEMBER_REALM', 'group_access_uva_member');
 /**
 * The access realm of a UVa community member.
 */
-define('MB_ARCHIVE_ADMIN_REALM', 'mb_archive_admin');
+define('MB_COLLECTION_ADMIN_REALM', 'mb_collection_admin');
 
 /**
 * Define group access UVA regardless of its group definition.
@@ -48,29 +48,23 @@ function mb_access_node_grants($account, $op) {
    }
 
    if (in_array($op, array('view', 'update', 'delete')) && in_array('authenticated user', $user->roles)) {
-      // ADD GRANTS FOR ARCHIVE ADMINS
-      // fetch all of the archives
+      // ADD GRANTS FOR COLLECTION ADMINS
+      // fetch all of the collections
       $query = new EntityFieldQuery();
-      $archives = $query
+      $collections = $query
       ->entityCondition('entity_type', 'node')
-      ->propertyCondition('type', 'archive', '=')
+      ->propertyCondition('type', 'collection', '=')
       ->execute();
       
-      foreach ($archives['node'] as $node_stub) {
-         // get the archive group object from the nid
-         $group = og_get_group('node', $node_stub->nid);
-         // get the user's role for the archive
-         $roles = og_get_user_roles($group->gid, $user->uid);
-         // add archive_admin grants to user account for any archive group which user is an administrator of
-         foreach ($roles as $rid) {
-              $role = og_role_load($rid);
-              if ($role->name == 'administrator') {
-                 $grants[MB_ARCHIVE_ADMIN_REALM][] = $group->gid;
-                 break;
-              }
+      foreach ($collections['node'] as $node) {
+         // get the collection group object from the nid
+         $group = og_get_group('node', $node->nid);
+         if (og_user_access($group->gid, 'administer group') ) {
+               $grants[MB_COLLECTION_ADMIN_REALM][] = $group->gid;
          }
       }
    }
+   // dd($grants['mb_collection_admin'][0], "mb_collection_admin  grants for $account->uid");
    return $grants;
 }
 
@@ -80,17 +74,18 @@ function mb_access_node_grants($account, $op) {
 */
 function mb_access_node_access_records($node) {
    $uva_grants = add_node_access_records($node);
-   $subgroup_grants = add_mb_archive_admin_node_access_records($node);
+   $subgroup_grants = add_mb_collection_admin_node_access_records($node);
    $grants = array_merge($uva_grants, $subgroup_grants);
    if ( og_get_group('node',$node->nid ) ) { //
-         add_mb_archive_admin_node_access_records_for_audio_video( $node );
+         add_mb_collection_admin_node_access_records_for_audio_video( $node );
    }
+   //dd($grants, "node access records");
    return $grants;
 }
 
 /**
 * Add OG_ACCESS_UVA_MEMBER_REALM records to node_access table
-* @todo Add a flag to a collection that prompts group admin to re-save group content permissions when paradigm changes.
+* @todo Add a flag to a team that prompts group admin to re-save group content permissions when paradigm changes.
 **/
 function add_node_access_records($node) {
    $grants = array();                    
@@ -154,31 +149,31 @@ function add_node_access_records($node) {
 }
 
 /**
-* Here we're adding grants for propagating permissions from an archive down into collection objects
-* @todo fix the hardcoded 'collection' node type hack
+* Here we're adding grants for propagating permissions from a collection down into team objects
+* @todo fix the hardcoded 'team' node type hack
 **/
-function add_mb_archive_admin_node_access_records($node) {
+function add_mb_collection_admin_node_access_records($node) {
    $grants = array();                    
    $field_language = field_language('node', $node, 'group_audience');
-   $archive_gid = NULL;
+   $collection_gid = NULL;
    // COLLECTION GRANTS
-   if ( $node->type == 'collection' && isset($node->{OG_GROUP_AUDIENCE_FIELD}[$field_language][0])) { // collection has an archive
-      $archive_gid = $node->{OG_GROUP_AUDIENCE_FIELD}[$field_language][0]['gid'];
+   if ( $node->type == 'team' && isset($node->{OG_GROUP_AUDIENCE_FIELD}[$field_language][0])) { // team has a collection
+      $collection_gid = $node->{OG_GROUP_AUDIENCE_FIELD}[$field_language][0]['gid'];
    }
    // AUDIO VIDEO GRANTS
-   elseif ( in_array($node->type, array('video', 'audio')) && isset($node->{OG_GROUP_AUDIENCE_FIELD}[$field_language]) ) {  // media item has a collection
+   elseif ( in_array($node->type, array('video', 'audio')) && isset($node->{OG_GROUP_AUDIENCE_FIELD}[$field_language]) ) {  // media item belongs to a team or collection
       $gid = $node->{OG_GROUP_AUDIENCE_FIELD}[$field_language][0]['gid'];      
       $group = og_get_group('group', $gid);
       $node = node_load($group->etid);
       $lang = field_language('node', $node, 'group_audience');
-      if ( isset($node->{OG_GROUP_AUDIENCE_FIELD}[$lang]) ) { // collection has an archive
-         $archive_gid = $node->{OG_GROUP_AUDIENCE_FIELD}[$lang][0]['gid'];
+      if ( isset($node->{OG_GROUP_AUDIENCE_FIELD}[$lang]) ) { // team has a collection
+         $collection_gid = $node->{OG_GROUP_AUDIENCE_FIELD}[$lang][0]['gid'];
       }
    }
-   if ( is_numeric($archive_gid) ) {
+   if ( is_numeric($collection_gid) ) {
       $grants[] = array (
-         'realm' => MB_ARCHIVE_ADMIN_REALM,
-         'gid' => $archive_gid, // gid here is group id not grant id
+         'realm' => MB_COLLECTION_ADMIN_REALM,
+         'gid' => $collection_gid, // gid here is group id not grant id
          'grant_view' => 1,
          'grant_update' => 1,
          'grant_delete' => 1,
@@ -188,7 +183,7 @@ function add_mb_archive_admin_node_access_records($node) {
    return $grants;
 }
 
-function add_mb_archive_admin_node_access_records_for_audio_video( $node ) {
+function add_mb_collection_admin_node_access_records_for_audio_video( $node ) {
    $group = og_get_group('node', $node->nid);
    // Select group members that don't yet have the proper grant records
    $sql = "SELECT DISTINCT nid FROM {node}, {field_data_group_audience} 
@@ -196,7 +191,7 @@ function add_mb_archive_admin_node_access_records_for_audio_video( $node ) {
    AND group_audience_gid = :gid
    AND nid NOT IN
    ( SELECT nid FROM {node_access} WHERE nid = :nid AND realm = :realm)";
-   $res = db_query($sql, array(':nid' => $node->nid, ':gid' => $group->gid, ':realm' => MB_ARCHIVE_ADMIN_REALM ) );
+   $res = db_query($sql, array(':nid' => $node->nid, ':gid' => $group->gid, ':realm' => MB_COLLECTION_ADMIN_REALM ) );
    
    // Save the group members to add the grant records
    $nids = $res->fetchCol();

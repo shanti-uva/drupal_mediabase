@@ -5145,20 +5145,10 @@ function audio_video_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
-          'module' => 'field_kaltura',
-          'settings' => array(
-            'custom_player' => '',
-            'delivery' => 'HTTP',
-            'entry_widget' => '3410832',
-            'player_height' => '330',
-            'player_width' => '400',
-            'rotate' => 0,
-            'stretch' => NULL,
-            'thumbsize_height' => '90',
-            'thumbsize_width' => '120',
-          ),
-          'type' => 'field_kaltura_player',
+          'label' => 'hidden',
+          'module' => 'mb_kaltura',
+          'settings' => array(),
+          'type' => 'field_kaltura_player_html5_audio',
           'weight' => '0',
         ),
         'teaser' => array(
@@ -5223,7 +5213,7 @@ function audio_video_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '25',
+          'weight' => '17',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -5568,7 +5558,7 @@ function audio_video_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '15',
+          'weight' => '16',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -5748,7 +5738,7 @@ function audio_video_field_default_fields() {
             'view_mode' => 'full',
           ),
           'type' => 'field_collection_fields',
-          'weight' => '9',
+          'weight' => '8',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -5990,12 +5980,9 @@ function audio_video_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'hidden',
-          'module' => 'field_collection',
-          'settings' => array(
-            'view_mode' => 'full',
-          ),
-          'type' => 'field_collection_fields',
-          'weight' => '11',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '13',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -6218,7 +6205,7 @@ function audio_video_field_default_fields() {
             'view_mode' => 'full',
           ),
           'type' => 'field_collection_fields',
-          'weight' => '10',
+          'weight' => '9',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -6281,7 +6268,7 @@ function audio_video_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => '20',
+          'weight' => '24',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -6557,7 +6544,7 @@ function audio_video_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '13',
+          'weight' => '14',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -6697,7 +6684,7 @@ function audio_video_field_default_fields() {
           'label' => 'hidden',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '14',
+          'weight' => '15',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -6900,6 +6887,7 @@ function audio_video_field_default_fields() {
     'field_instance' => array(
       'bundle' => 'audio',
       'default_value' => NULL,
+      'default_value_function' => 'og_field_audience_default_value',
       'deleted' => '0',
       'description' => '',
       'display' => array(
@@ -6908,7 +6896,7 @@ function audio_video_field_default_fields() {
           'module' => 'og',
           'settings' => array(),
           'type' => 'og_list_default',
-          'weight' => '11',
+          'weight' => '10',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -6989,9 +6977,8 @@ function audio_video_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'list',
           'settings' => array(),
-          'type' => 'list_default',
+          'type' => 'hidden',
           'weight' => '12',
         ),
         'teaser' => array(
@@ -7056,7 +7043,6 @@ function audio_video_field_default_fields() {
           'label' => 'hidden',
           'module' => 'field_collection',
           'settings' => array(
-            'hide_empty' => FALSE,
             'view_mode' => 'full',
           ),
           'type' => 'field_collection_fields',
@@ -7264,7 +7250,6 @@ function audio_video_field_default_fields() {
           'label' => 'hidden',
           'module' => 'field_collection',
           'settings' => array(
-            'hide_empty' => FALSE,
             'view_mode' => 'full',
           ),
           'type' => 'field_collection_fields',
@@ -8133,7 +8118,6 @@ function audio_video_field_default_fields() {
           'label' => 'hidden',
           'module' => 'field_collection',
           'settings' => array(
-            'hide_empty' => FALSE,
             'view_mode' => 'full',
           ),
           'type' => 'field_collection_fields',
@@ -8190,11 +8174,10 @@ function audio_video_field_default_fields() {
           'label' => 'hidden',
           'module' => 'field_collection',
           'settings' => array(
-            'hide_empty' => FALSE,
             'view_mode' => 'full',
           ),
           'type' => 'field_collection_fields',
-          'weight' => '9',
+          'weight' => '8',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -8326,7 +8309,6 @@ function audio_video_field_default_fields() {
           'label' => 'hidden',
           'module' => 'field_collection',
           'settings' => array(
-            'hide_empty' => FALSE,
             'view_mode' => 'full',
           ),
           'type' => 'field_collection_fields',
@@ -8383,7 +8365,6 @@ function audio_video_field_default_fields() {
           'label' => 'hidden',
           'module' => 'field_collection',
           'settings' => array(
-            'hide_empty' => FALSE,
             'view_mode' => 'full',
           ),
           'type' => 'field_collection_fields',
@@ -8438,13 +8419,9 @@ function audio_video_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'hidden',
-          'module' => 'field_collection',
-          'settings' => array(
-            'hide_empty' => FALSE,
-            'view_mode' => 'full',
-          ),
-          'type' => 'field_collection_fields',
-          'weight' => '11',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '15',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -8497,7 +8474,6 @@ function audio_video_field_default_fields() {
           'label' => 'hidden',
           'module' => 'field_collection',
           'settings' => array(
-            'hide_empty' => FALSE,
             'view_mode' => 'full',
           ),
           'type' => 'field_collection_fields',
@@ -8554,7 +8530,6 @@ function audio_video_field_default_fields() {
           'label' => 'above',
           'module' => 'field_collection',
           'settings' => array(
-            'hide_empty' => FALSE,
             'view_mode' => 'full',
           ),
           'type' => 'field_collection_fields',
@@ -8610,7 +8585,6 @@ function audio_video_field_default_fields() {
           'label' => 'hidden',
           'module' => 'field_collection',
           'settings' => array(
-            'hide_empty' => FALSE,
             'view_mode' => 'full',
           ),
           'type' => 'field_collection_fields',
@@ -8667,11 +8641,10 @@ function audio_video_field_default_fields() {
           'label' => 'hidden',
           'module' => 'field_collection',
           'settings' => array(
-            'hide_empty' => FALSE,
             'view_mode' => 'full',
           ),
           'type' => 'field_collection_fields',
-          'weight' => '10',
+          'weight' => '9',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -8734,7 +8707,7 @@ function audio_video_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => '20',
+          'weight' => '24',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -8790,11 +8763,10 @@ function audio_video_field_default_fields() {
           'label' => 'hidden',
           'module' => 'field_collection',
           'settings' => array(
-            'hide_empty' => FALSE,
             'view_mode' => 'full',
           ),
           'type' => 'field_collection_fields',
-          'weight' => '2',
+          'weight' => '1',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -8923,7 +8895,7 @@ function audio_video_field_default_fields() {
             ),
           ),
           'type' => 'fivestar_formatter_default',
-          'weight' => '1',
+          'weight' => '2',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -8937,7 +8909,7 @@ function audio_video_field_default_fields() {
       'label' => 'Rating',
       'required' => 0,
       'settings' => array(
-        'allow_clear' => 0,
+        'allow_clear' => 1,
         'stars' => '5',
         'target' => 'none',
         'user_register_form' => FALSE,
@@ -8947,7 +8919,7 @@ function audio_video_field_default_fields() {
         'module' => 'fivestar',
         'settings' => array(),
         'type' => 'exposed',
-        'weight' => '53',
+        'weight' => '3',
       ),
     ),
   );
@@ -9388,7 +9360,7 @@ function audio_video_field_default_fields() {
           'progress_indicator' => 'throbber',
         ),
         'type' => 'file_generic',
-        'weight' => '3',
+        'weight' => '4',
       ),
     ),
   );
@@ -10089,7 +10061,7 @@ function audio_video_field_default_fields() {
           'progress_indicator' => 'throbber',
         ),
         'type' => 'file_generic',
-        'weight' => '4',
+        'weight' => '5',
       ),
     ),
   );
@@ -10441,6 +10413,7 @@ function audio_video_field_default_fields() {
     'field_instance' => array(
       'bundle' => 'video',
       'default_value' => NULL,
+      'default_value_function' => 'og_field_audience_default_value',
       'deleted' => '0',
       'description' => '',
       'display' => array(
@@ -10449,7 +10422,7 @@ function audio_video_field_default_fields() {
           'module' => 'og',
           'settings' => array(),
           'type' => 'og_list_default',
-          'weight' => '11',
+          'weight' => '10',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -10530,10 +10503,9 @@ function audio_video_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'list',
           'settings' => array(),
-          'type' => 'list_default',
-          'weight' => '12',
+          'type' => 'hidden',
+          'weight' => '14',
         ),
         'teaser' => array(
           'label' => 'above',

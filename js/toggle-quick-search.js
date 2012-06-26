@@ -10,31 +10,46 @@ Drupal.behaviors.kmap_taxonomy={attach:function(context){
       var toggleBlock = jQuery('<p class="search-toggle-box"/>');
       searchForm.find('form').append(toggleBlock);
       
+      // close button
+      toggleBlock.append( jQuery('<a>[x]</a>').attr({
+            href: '#',
+            class: 'close-toggle-box',
+      }).click(function(event) {
+         toggleBlock.removeClass('visible');
+         event.preventDefault();
+      })
+      );
+      
+      // site search button
       toggleBlock.append( jQuery('<input/>').attr({
             type: 'radio',
             name: 'search-type',
             value: 'site',
             checked: true
       }).change( function (event) {
-         console.log('site change')
+         //console.log('site change')
          toggleSearchForm(this);
       }
       ));
       toggleBlock.append( jQuery('<span/>').text(Drupal.t('Site Search')));
       toggleBlock.append( jQuery('<br/>'));
       
+      // transcript search button
       toggleBlock.append( jQuery('<input/>').attr({
             type: 'radio',
             name: 'search-type',
             value: 'transcript',
       }).change( function (event) {
-         console.log('transcript change')
+         //console.log('transcript change')
          toggleSearchForm(this);
       }
       ));
       
       toggleBlock.append( jQuery('<span/>').text(Drupal.t('Transcript Search')));
       
+      searchForm.hover( function(event) {
+            toggleBlock.addClass('visible');
+      });
    }
    
    function toggleSearchForm(input) {
@@ -53,7 +68,8 @@ Drupal.behaviors.kmap_taxonomy={attach:function(context){
          siteSearch.removeClass('active');
          siteSearch.find('input[value=site]').attr('checked',true)
          transcriptSearch.find('input[type=text]').val( termValue )
-         
+         transcriptSearch.find('.search-toggle-box').addClass('visible');
+         siteSearch.find('.search-toggle-box').removeClass('visible');
       } else {
          siteSearch.addClass('active');
          transcriptSearch.removeClass('active');

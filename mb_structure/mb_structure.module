@@ -297,7 +297,6 @@ function mb_structure_node_view($node, $view_mode, $langcode) {
          '#title' => t('Collection:'),
          );
       $node->content['#group_children']['collection_ancestor'] = 'group_details';
-      dpm($node->content, "node->content");
    }
 }
 

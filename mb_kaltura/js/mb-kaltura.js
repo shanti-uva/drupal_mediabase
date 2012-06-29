@@ -2,7 +2,7 @@
 * See: http://www.kaltura.org/common-configuration-saas
 **/
 
-Drupal.behaviors.mediabase = {
+Drupal.behaviors.mb_kaltura = {
    attach: function(context) {
       // Force HTML5 layers
       if (typeof mw !== 'undefined') {

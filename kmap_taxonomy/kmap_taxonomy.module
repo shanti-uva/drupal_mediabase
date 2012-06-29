@@ -280,6 +280,7 @@ function kmap_taxonomy_field_widget_form(&$form, &$form_state, $field, $instance
 }
 
 function kmap_taxonomy_submit(&$form, &$form_state) {
+   // work is done in the validation method
 }
 
 function kmap_taxonomy_widget_validate($element, &$form_state, $form) {

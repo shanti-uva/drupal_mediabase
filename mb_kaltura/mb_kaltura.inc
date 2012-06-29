@@ -7,28 +7,44 @@ module_load_include('php', 'kaltura', 'kaltura_client/KalturaClient');
 * @todo use EntityFieldQuery OR entity_load to fetch field collections
 **/
 function _render_kaltura_xml($node = NULL) {
-   //field type names are safe to hardcode since they're defined in modules
-   $cck_fields = _get_cck_field_data($node);
    
-   //Build up a SimpleXML Doc
+   // Construct a SimpleXML document
    $root = new SimpleXMLElement('<metadata></metadata>');
    
-   foreach ($node['field_pbcore_identifier'] as $fld) {
-      $fields = array( 
-         'identifier' => $fld['identifier_value'] ,
-         'identifierSource' => $fld['identifier_source']);
-      add_whole_container('pbcoreIdentifier', $fields, $root);
-   }
+   // Add pbcore fields to xml doc
    
-   foreach ($node['field_pbcore_title'] as $fld) {
-      $fields = array( 
-         'title' => $fld['title_value'] ,
-         'titleType' => $fld['title_type'],
-         'titleLanguage' => $fld['title_language']);
-      if ($fld['title_value']) {
-         add_whole_container('pbcoreTitle', $fields, $root);
+   // Identifier
+   $node = (array)$node;
+   if ( !empty($node['field_pbcore_identifier'][LANGUAGE_NONE] ) ) {
+      foreach ($node['field_pbcore_identifier'][LANGUAGE_NONE] as $fc_ref) {
+         $entities = entity_load('field_collection_item', array($fc_ref['value']));
+         $fc = (array)array_pop($entities);
+         $fields = array( 
+            'identifier' => $fld['identifier_value'][LANGUAGE_NONE][0]['value'],
+            'identifierSource' => $fld['identifier_source'][LANGUAGE_NONE][0]['value']);
+         add_whole_container('pbcoreIdentifier', $fields, $root);
       }
    }
+   
+   // Title
+   if ( !empty($node['field_pbcore_title'][LANGUAGE_NONE] ) ) {
+      foreach ($node['field_pbcore_title'][LANGUAGE_NONE] as $fc_ref) {
+         $entities = entity_load('field_collection_item', array($fc_ref['value']));
+         $fc = (array)array_pop($entities);
+         $fields = array( 
+            'title' => $fc['field_title'][LANGUAGE_NONE] ? $fc['field_title'][LANGUAGE_NONE][0]['value'] : NULL,
+            'titleType' => $fc['field_title_type'][LANGUAGE_NONE] ? $fc['field_title_type'][LANGUAGE_NONE][0]['value'] : NULL,
+            'titleLanguage' => $fc['field_language'][LANGUAGE_NONE][0] ? $fc['field_language'][LANGUAGE_NONE][0]['value'] : NULL
+            );
+         if ($fields['title']) {
+            add_whole_container('pbcoreTitle', $fields, $root);
+         }
+      }
+   }
+   
+   return $root->asXML();
+   return $root->asXML();
+   return $root->asXML();
    
    $kmap_taxo_terms = $node->taxonomy[KMAPS_VOCAB_VID];
    $node->field_kmap_annotation = is_array($node->field_kmap_annotation) ? $node->field_kmap_annotation : array();
@@ -58,64 +74,69 @@ function _render_kaltura_xml($node = NULL) {
          add_whole_container('pbcoreSubject', $fields, $root);
       }
    }
-   foreach ($node['field_pbcore_description'] as $fld) {
+   
+   // Description
+   foreach ($node['field_pbcore_description'][LANGUAGE_NONE] as $fld) {
       $fields = array( 
-         'description' => $fld['description_value'] ,
-         'descriptionType' => $fld['description_type'],
-         'descriptionLanguage' => $fld['description_language']);
+         'description' => $fld['description_value'][LANGUAGE_NONE][0] ,
+         'descriptionType' => $fld['description_type'][LANGUAGE_NONE][0],
+         'descriptionLanguage' => $fld['description_language'][LANGUAGE_NONE][0]);
       add_whole_container('pbcoreDescription', $fields, $root);
    }
    
-   foreach ($node['field_pbcore_genre'] as $fld) {
+  /* // NO MORE GENRE
+  foreach ($node['field_pbcore_genre'] as $fld) {
       $fields = array( 
          'genre' => $fld['genre_value'] ,
          'genreAuthorityUsed' => $fld['genre_source']);
       add_whole_container('pbcoreGenre', $fields, $root);
-   }
+   } */
    
-   foreach($node['field_pbcore_relation'] as $fld){
+   // Related Media
+   foreach($node['field_pbcore_relation'][LANGUAGE_NONE] as $fld){
       $fields = array( 
-         'relationType' => $fld['relation_type'],
-         'relationIdentifier' => $fld['related_to']);
+         'relationType' => $fld['relation_type'][LANGUAGE_NONE][0],
+         'relationIdentifier' => $fld['related_to'][LANGUAGE_NONE][0]);
       add_whole_container('pbcoreRelation', $fields, $root);
    }
    
-   foreach($node['field_pbcore_coverage'] as $fld){
+   // Temporal Coverage (spatial is in location and recording_location)
+   foreach($node['field_pbcore_coverage'][LANGUAGE_NONE] as $fld){
       $fields = array( 
-         'coverage' => $fld['coverage'] ,
-         'coverageType' => $fld['coverage_type']);
+         'coverage' => $fld['coverage'][LANGUAGE_NONE][0] ,
+         'coverageType' => $fld['coverage_type'][LANGUAGE_NONE][0]);
       add_whole_container('pbcoreCoverage', $fields, $root);
    }
    
-   foreach($node['field_pbcore_creator'] as $fld){
+   foreach($node['field_pbcore_creator'][LANGUAGE_NONE] as $fld){
       $fields = array( 
-         'creator' => $fld['creator'] ,
-         'creatorRole' => $fld['creator_role']);
+         'creator' => $fld['creator'][LANGUAGE_NONE][0] ,
+         'creatorRole' => $fld['creator_role'][LANGUAGE_NONE][0]);
       add_whole_container('pbcoreCreator', $fields, $root);
    }
    
-   foreach($node['field_pbcore_contributor'] as $fld){
+   foreach($node['field_pbcore_contributor'][LANGUAGE_NONE] as $fld){
       $fields = array( 
-         'contributor' => $fld['contributor'] ,
-         'contributorRole' => $fld['contributor_role']);
+         'contributor' => $fld['contributor'][LANGUAGE_NONE][0] ,
+         'contributorRole' => $fld['contributor_role'][LANGUAGE_NONE][0]);
       add_whole_container('pbcoreContributor', $fields, $root);
    }
    
-   foreach($node['field_pbcore_publisher'] as $fld){
+   foreach($node['field_pbcore_publisher'][LANGUAGE_NONE] as $fld){
       $fields = array( 
-         'publisher' => $fld['publisher'] ,
-         'publisherRole' => $fld['publisher_role']);
+         'publisher' => $fld['publisher'][LANGUAGE_NONE][0] ,
+         'publisherRole' => $fld['publisher_role'][LANGUAGE_NONE][0]);
       add_whole_container('pbcorePublisher', $fields, $root);
    }
    
-   foreach($node['field_pbcore_rights_summary'] as $fld){
+   foreach($node['field_pbcore_rights_summary'][LANGUAGE_NONE] as $fld){
       $fields = array( 
          'rightsSummary' => $fld['rights_summary_value']);
       add_whole_container('pbcoreRightsSummary', $fields, $root);
    }
    
    //TODO: un-hardocde the name of instantiation noderef field
-   foreach ($node->field_instantiation_noderef as $delta => $noderef){
+   foreach ($node->field_pbcore_instantiation[LANGUAGE_NONE] as $delta => $entity_id){
       
       if ( ! is_numeric($noderef['nid'] ) ) {
          continue;
@@ -215,35 +236,6 @@ function add_whole_container($container_name, $container_fields, &$parent) {
    }
    return $container;
 }
-
-function _get_cck_field_data ( $node ) {
-   $cck_fields = array(
-      'pbcore_creator' => array(),
-      'pbcore_contributor' => array(),
-      'pbcore_publisher' => array(),
-      'pbcore_rights_summary' => array(),
-      'pbcore_description' => array(),
-      'pbcore_genre' => array(),
-      'pbcore_relation' => array(),
-      'pbcore_coverage' => array(),
-      'pbcore_extension' => array(),
-      'pbcore_title' => array(),
-      'pbcore_subject' => array(),//this field doesnt exist
-      'pbcore_identifier' => array(),
-      );
-   
-   //copy the field value from the field name to the field type
-   foreach (get_object_vars($node) as $key => $field_value) {
-      if( strstr($key, "field_") ) {
-         $field = content_fields($key);
-         if ( in_array($field[$type], $cck_fields )) {
-            $cck_fields[$field['type']] = $field_value;
-         }
-      }
-   }
-   return $cck_fields;
-}
-
 
 function _get_cck_instantiation_field_data($node) {
    $cck_instantiation_fields = array(
@@ -560,20 +552,6 @@ SUBMIT HANDLERS
 ===============
 */
 
-function check_delete_from_kaltura(&$form, &$form_state) {
-   if ( $form_state['values']['delete_from_kaltura'] == 1 ) {
-      module_load_include('inc', 'mb_kaltura', 'mb_kaltura');
-      $nid = $form_state['values']['nid'];
-      $node = node_load($nid);
-      $client=KalturaHelpers::getKalturaClient($isAdmin=true);
-      $objectId= _get_entry_id_from_node($node);
-      $objectId = str_replace(",","",$objectId);
-      $client->media->delete($objectId);
-      $msg = t("Deleted entry_id, @entryid from Kaltura server", array('@entryid' => $objectId));
-      drupal_set_message( $msg ); 
-   }
-}
-
 function _test_pbcore_export_xml() {
    
    $test_node = node_load(5039); //Brushy Run
@@ -600,9 +578,17 @@ UTILITIES
 * Convert a media node to pbcore xml and send it to kaltura server
 **/
 function _save_kaltura_metadata($node) {
+   
    $client=KalturaHelpers::getKalturaClient($isAdmin=true);
    $xmlData = _render_kaltura_xml($node);
    //dd($xmlData);
+
+return;
+die;
+die;
+die; 
+die;
+
    $objectId= _get_entry_id_from_node($node);
    if ( empty($objectId) ) {
       watchdog(WATCHDOG_ERROR, "Could not determine Entry Id for node $node->nid. Metadata <b>was not</b> saved to the Kaltura server.");
@@ -621,7 +607,8 @@ function _save_kaltura_metadata($node) {
          $msg = t("Had trouble adding metadata record to Kaltura entry: @entry_id", array('@entry_id' => $entry_id));
          _report_kaltura_exception( $e, $msg);
       }
-   } 
+   }
+   
    // UPDATE metadata for entry_id to Kaltura
    else if ( sizeof($results->objects) == 1 ) {
       $obj=$results->objects[0];
@@ -1262,7 +1249,7 @@ function mb_kaltura_autocomplete_collection( $string ) {
          FROM {node} 
          WHERE LOWER(title) 
          LIKE LOWER(:term)
-         AND type = 'collection'", 0,20, array(':term' => "%$string%"));
+         AND type IN ('team', 'collection')", 0,20, array(':term' => "%$string%"));
       foreach ( $result as $row ) {
          $value=sprintf('%s [nid:%d]', $row->title, $row->nid); 
          $matches[$value] = check_plain($row->title);

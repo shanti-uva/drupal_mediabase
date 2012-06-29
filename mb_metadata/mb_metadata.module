@@ -81,7 +81,7 @@ function mb_metadata_node_view($node) {
    switch ($node->type) {
    case 'video':
    case 'audio':
-      $node->content['field_rating']['#weight'] = 0;
+      //$node->content['field_rating']['#weight'] = 0;
       // add mediabase id to media item display
       add_mediabase_id($node);
       // format the title section

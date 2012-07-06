@@ -448,7 +448,7 @@ KmapSelector.prototype.initTreeSelector = function (servicePath, data) {
                   text: kmapSelector.t('Add Selected Items'),
                   click: function () {  // Add items to the selector when 'DONE' button is selected
                      var checked = jQuery(kmapSelector.treeSelector).find('.jstree-checked')
-                     if (checked.length > 1 && ! kmapSelector.allowMultiple) {
+                     if (checked.length > 1 && ! kmapSelector.allowMultipleValues) {
                         jQuery(kmapSelector.treeSelector).siblings('.ui-dialog-buttonpane').children('.ui-dialog-buttonset').before(
                            jQuery('<p class="warning"/>').css('float', 'left').text('Please select just one item and try adding again.')
                            );

@@ -1,12 +1,13 @@
 Drupal.behaviors.kmap_taxonomy={attach:function(context){
    kmap_taxo_selectors = [];
    for (var key in Drupal.settings.kmap_taxonomy) {
+      
       var settings = Drupal.settings.kmap_taxonomy[key];
+      
       if (key == 'field_subcollection' && Drupal.settings.mb_structure) {
          var subcollectionRootKmapId = Drupal.settings.mb_structure.subcollection_root_kmap_id;
-         console.log('subcollectionRootKmapId', subcollectionRootKmapId)
-         
       }
+      
       var kmap_selector_options = {
          // REQUIRED
          name: settings.name,

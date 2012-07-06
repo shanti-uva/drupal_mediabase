@@ -2,8 +2,12 @@ Drupal.behaviors.kmap_taxonomy={attach:function(context){
    kmap_taxo_selectors = [];
    for (var key in Drupal.settings.kmap_taxonomy) {
       var settings = Drupal.settings.kmap_taxonomy[key];
-      var kmap_selector_options = {
+      if (key == 'field_subcollection' && Drupal.settings.mb_structure) {
+         var subcollectionRootKmapId = Drupal.settings.mb_structure.subcollection_root_kmap_id;
+         console.log('subcollectionRootKmapId', subcollectionRootKmapId)
          
+      }
+      var kmap_selector_options = {
          // REQUIRED
          name: settings.name,
          targetDivId: settings.target_div,
@@ -34,6 +38,7 @@ Drupal.behaviors.kmap_taxonomy={attach:function(context){
          showTreeSelector: settings.show_tree_selector,
          allowAnnotations: settings.allow_annotations,
          allowFormatting: settings.allow_formatting,
+         allowMultipleValues: settings.allow_multiple,
          // parentage formats
          parentageFormats:   {
             first_last: 'First ancestor and last child',
@@ -42,7 +47,7 @@ Drupal.behaviors.kmap_taxonomy={attach:function(context){
             full: 'Full ancestry of subject',         
          },
          // root branch
-         rootKmapId: settings.root_kmap_id,
+         rootKmapId: subcollectionRootKmapId ? subcollectionRootKmapId : settings.root_kmap_id,
          // localization
          l10nTranslateFunction: Drupal.t
       };

@@ -10,16 +10,6 @@ Drupal.behaviors.mediabase={attach:function(context){
       var toggleBlock = jQuery('<p class="search-toggle-box"/>');
       searchForm.find('form').append(toggleBlock);
       
-      // close button
-   toggleBlock.append( jQuery('<a>[x]</a>').attr({
-            href: '#',
-            class: 'close-toggle-box',
-      }).click(function(event) {
-         toggleBlock.removeClass('visible');
-         event.preventDefault();
-      })
-      );
-      
       // site search button
       var radioId = 'site-radio-' + searchForm.attr('id')
       toggleBlock.append( jQuery('<input/>').attr({
@@ -46,8 +36,19 @@ Drupal.behaviors.mediabase={attach:function(context){
          toggleSearchForm(this);
       }
       ));
-      
       toggleBlock.append( jQuery('<label/>').text(Drupal.t('Transcript Search')).attr('for', radioId ));
+      
+      // close button
+      toggleBlock.append( jQuery('<div/>').append( jQuery('<a>[close]</a>').attr({
+            href: '#',
+            class: 'close-toggle-box',
+      }).click(function(event) {
+         toggleBlock.removeClass('visible');
+         event.preventDefault();
+      })
+      ));
+
+      
       
       searchForm.find('input[type=text]').hover( function(event) {
             toggleBlock.addClass('visible');

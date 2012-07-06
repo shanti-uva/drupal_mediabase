@@ -50,7 +50,6 @@ function mb_structure_block_view($delta) {
    }
 }
 
-
 function collection_block_details() {
    global $user;
    
@@ -78,7 +77,6 @@ function collection_block_details() {
          $output .= "<li>$create_audio_link</li>";
       }
       
-      
       if (og_user_access_by_entity('add user', 'node', $node->nid)) {
          // Add members
          $add_members_link = l("Add Members", "group/node/$node->nid/admin/people/add-user"); 
@@ -96,10 +94,14 @@ function collection_block_details() {
       }
       
       // administrator user link
-      $coll_man = t("Collection Manager: ");
+      $coll_man = t("Manager: ");
       $team_man = t("Team Manager: ");
       $man_label = "collection" == $node->type ? $coll_man : $team_man;
-      $output .= "<li>" . $man_label . l($owner->name, "user/$owner->uid") . "</li>";
+      $name = $owner->name;
+      if ( module_exists('realname')) {
+         $name = realname_load($owner);
+      }
+      $output .= "<li>" . $man_label . l($name, "user/$owner->uid") . "</li>";
       
       //count objects
       $query = new EntityFieldQuery();
@@ -127,69 +129,88 @@ function get_node_from_path(){
 }
 
 /**
-* Implementation of hook_form_alter
-* make Collection names unique;
+* Implementation of hook_form_alter for COLLECTION_NODE_FORM
 **/
-function mb_structure_form_alter(&$form, &$form_state, $form_id) {
-   $form_ids = array( 'collection_node_form', 'team_node_form', 'video_node_form', 'audio_node_form');
-   if ( in_array( $form_id, $form_ids ) ) {
-      switch ( $form_id ) {
-      case 'team_node_form' :
-         // Make sure there are no dupe titles since that will cause problems with taxonomy-based collection views
-         $form['title']['#element_validate'][] = 'mb_structure_validate_title';   
-         // Hide the ability to set Collection to not be a group
-         $form['group_group']['und']['#type'] = 'hidden';
-         
-         // Limit COLLECTION PARENT options to  collection and teams 
-         $field_language = field_language('node', $form['#node'], 'group_audience');
-         $opts = &$form['group_audience'][$field_language]['#options'];
-         $orig_opts =  !empty($opts) ? $opts : array();
-         $new_opts = array();
-         $coll_key = t('Collections');
-         foreach ($orig_opts as $key => $opt_group) {
-            if (! is_array($opt_group)) { continue; }
-            foreach ($opt_group as $gid => $option) {
-               $group = og_get_group('group',$gid);
-               $node = node_load($group->etid);
-               if ( in_array($node->type, array('collection'))  && ( og_is_member($gid, 'user') || og_user_access($gid, 'administer group') ) ) {
-                  $new_opts[$coll_key][$gid] = $orig_opts[$key][$gid];
-               }
-            }
-            $opts = $new_opts;
+function mb_structure_form_collection_node_form_alter(&$form, &$form_state, $form_id) {
+   // Make sure there are no dupe titles
+   $form['title']['#element_validate'][] = 'mb_structure_validate_title';   
+   // Hide the ability to set Collection to not be a group
+   $form['group_group']['und']['#type'] = 'hidden';
+}
+
+/**
+* Implementation of hook_form_alter for TEAM_NODE_FORM
+**/
+function mb_structure_form_team_node_form_alter(&$form, &$form_state, $form_id) {
+   
+   // Make sure there are no dupe titles
+   $form['title']['#element_validate'][] = 'mb_structure_validate_title';   
+   // Hide the ability to set team to not be a group
+   $form['group_group']['und']['#type'] = 'hidden';
+   
+   // Limit COLLECTION PARENT options to  collection and teams 
+   $field_language = field_language('node', $form['#node'], 'group_audience');
+   $opts = &$form['group_audience'][$field_language]['#options'];
+   $orig_opts =  !empty($opts) ? $opts : array();
+   $new_opts = array();
+   $coll_key = t('Collections');
+   foreach ($orig_opts as $key => $opt_group) {
+      if (! is_array($opt_group)) { continue; }
+      foreach ($opt_group as $gid => $option) {
+         $group = og_get_group('group',$gid);
+         $node = node_load($group->etid);
+         if ( in_array($node->type, array('collection'))  && ( og_is_member($gid, 'user') || og_user_access($gid, 'administer group') ) ) {
+            $new_opts[$coll_key][$gid] = $orig_opts[$key][$gid];
          }
-         break;
-      case 'video_node_form': // deliberate fall through
-      case 'audio_node_form':
-         // Limit GROUP PARENT options to  collection and teams 
-         $field_language = field_language('node', $form['#node'], 'group_audience');
-         $opts = &$form['group_audience'][$field_language]['#options'];
-         $orig_opts =  !empty($opts) ? $opts : array();
-         $new_opts = array();
-         $coll_key = t('Collections');
-         $team_key = t('Teams');
-         
-         foreach ($orig_opts as $key => $opt_group) {
-            if (! is_array($opt_group)) { continue; }
-            foreach ($opt_group as $gid => $option) {
-               $group = og_get_group('group',$gid);
-               $node = node_load($group->etid);
-               if ( in_array($node->type, array('collection', 'team'))  && ( og_is_member($gid, 'user') || og_user_access($gid, 'administer group') ) ) {
-                  $new_key = $node->type == 'collection' ? $coll_key : $team_key;
-                  $new_opts[$new_key][$gid] = $orig_opts[$key][$gid];
-               }
-            }
-         }
-         $opts = $new_opts;
-         break;
-      case 'collection_node_form':
-         break;
       }
+      $opts = $new_opts;
    }
-   
-   if( isset($form['group_audience']) && isset($form['#node'])) {
-      limit_group_audience($form);
+}
+
+
+function mb_structure_form_alter(&$form, &$form_state, $form_id) {
+   //dpm($form_id, "form_id");
+}
+
+/**
+* Implementation of hook_form_alter for VIDEO_NODE_FORM
+**/
+function mb_structure_form_video_node_form_alter(&$form, &$form_state, $form_id) {
+   // Limit GROUP AUDIENCE options to  collection and teams 
+   $new_opts = array();
+   $coll_key = t('Collections');
+   $team_key = t('Teams');
+   $all_groups = og_get_all_group();
+   foreach ($all_groups as $gid) {
+      $group = og_get_group('group',$gid);
+      $node = node_load($group->etid);
+      if ( ! in_array($node->type, array('collection', 'team'))) {
+         continue;
+      }
+      if ( ($node->type == 'team' && mb_structure_is_team_super_user($node))
+         ||  (og_is_member($gid, 'user') || og_user_access($gid, 'administer group')) 
+      ) {
+      $new_key = $node->type == 'collection' ? $coll_key : $team_key;
+      $new_opts[$new_key][$gid] = $group->label;
+      } 
    }
+   $form['group_audience'][LANGUAGE_NONE]['#options'] = $new_opts;
    
+   // Set the ROOT KMAP BRANCH for SUB-COLLECTIONS
+   $collection_node = get_collection_ancestor_node($form['#node']);
+   if ( isset($collection_node->field_subcoll_root_kmap_id[LANGUAGE_NONE]) ) {
+      $tid = $collection_node->field_subcoll_root_kmap_id[LANGUAGE_NONE][0]['tid'];
+      $term = taxonomy_term_load($tid);
+      $kmap_id = $term->kmap_id[LANGUAGE_NONE][0]['value'];
+      drupal_add_js(array('mb_structure' => array( 'subcollection_root_kmap_id' => $kmap_id) ), 'setting');
+   }
+}
+
+/**
+* Implementation of hook_form_alter for AUDIO_NODE_FORM
+**/
+function mb_structure_form_audio_node_form_alter(&$form, &$form_state, $form_id) {
+   mb_structure_form_video_node_form_alter($form, $form_state, $form_id);
 }
 
 function mb_structure_validate_title($element, &$form_state) {
@@ -216,42 +237,7 @@ function mb_structure_create_collection_form() {
    $form['#action'] = base_path() . 'node/add/collection';
    return $form;
 }
-
-/**
-* Og 1.0 for D7 allows non-members to post to groups
-* og_create_perms corrects this but still allows all groups to appear in Group Audience field.
-* This form alter removes those groups of which current user is not a member
-* See: http://drupal.org/node/1139180#comment-4861224
-*/
-function limit_group_audience(&$form) {
-   $content_gids = $form['group_audience']['und']['#audience']['content groups'];
-   $other_gids = $form['group_audience']['und']['#audience']['other groups'];
-   $node_type = $form['#node']->type;
-   $new_content_gids = array();
-   $new_other_gids = array();
-   foreach($content_gids as $gid => $group_name) {
-      // check to see if user has create permission for this node type
-      if(og_is_member($gid, 'user') && og_user_access($gid, 'create ' . $node_type . ' content')){
-         $new_content_gids[$gid] = $group_name;
-      }
-      else{
-         unset($form['group_audience']['und']['#options'][$gid]);
-      }
-   }
-   foreach($other_gids as $gid => $group_name) {
-      // check to see if user has create permission for this node type
-      if(og_is_member($gid, 'user') && og_user_access($gid, 'create ' . $node_type . ' content')){
-         $new_other_gids[$gid] = $group_name;
-      }
-      else{
-         unset($form['group_audience']['und']['#options'][$gid]);
-      }
-   }
-   // Not sure if this is necessary since it's a hidden field
-   $form['group_audience']['und']['#audience']['content groups'] = $new_content_gids;
-   $form['group_audience']['und']['#audience']['other groups'] = $new_other_gids;
-}
-
+ 
 function collection_media_listing() {
    $view = views_get_view('media_by_kmap');
    $view->execute_display('default', array($kmap_id));
@@ -269,6 +255,7 @@ function mb_structure_views_query_alter(	&$view, &$query ) {
    $node = get_node_from_path();
    $group = og_get_group('node', $node->nid);
    $gid = $group->gid;
+   // Get gids of the teams for the collection
    $efq = new EntityFieldQuery();
    $result = $efq
    ->entityCondition('entity_type', 'node')
@@ -302,18 +289,42 @@ function mb_structure_node_view($node, $view_mode, $langcode) {
 
 function get_collection_ancestor_node($node) {
    $collection_node = null;
-   if ( $gids = og_get_entity_groups('node', $node) ) { //&& isset( $node->group_audience['und']) ) {
+   if ( $gids = og_get_entity_groups('node', $node) ) { 
       $gid = array_pop( $gids );
       $parent_group = og_load($gid);
       if ($parent_group->entity_type == 'node') {
-         $g_node = node_load($parent_group->etid);
-         if ( $g_node->type == 'collection' ) {
-            $collection_node=$g_node;
-         } else {
-            return get_collection_ancestor_node($g_node); // we recurse
+         $group_node = node_load($parent_group->etid);
+         if ( $group_node->type == 'collection' ) {
+            $collection_node=$group_node;
+         } else if ( $group_node->type == 'team' ){  //  recurse to get to the collection of a team node
+            return get_collection_ancestor_node($group_node); 
          }
       }
    }
    return $collection_node;
 }
 
+function mb_structure_is_team_super_user($node) {
+   if( $node->type == 'team' && $collection_gids = $node->group_audience[LANGUAGE_NONE]) {
+      return og_user_access($collection_gids[0]['gid'], 'administer group');
+   }
+}
+
+function mb_structure_get_team_gids($collection_gid) {
+   $gids = array();
+   $query = new EntityFieldQuery();
+   $result = $query
+   ->entityCondition('entity_type', 'node')
+   ->propertyCondition('type', 'team')
+   ->fieldCondition('group_audience', 'state', array(1), 'IN', 0)
+   ->fieldCondition('group_audience', 'gid', $gid, '=', 0)
+   ->execute();
+}
+
+function mb_structure_get_collection_gid($team_gid) {
+   $group = og_load($team_gid);
+   $node = node_load($parent_group->etid);
+   $collection_node = get_collection_ancestor_node($node);
+   $collection_group = og_get_group('node', $collection_node->nid);
+   return $collection_group->gid;
+}

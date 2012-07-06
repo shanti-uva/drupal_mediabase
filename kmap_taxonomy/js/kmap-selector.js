@@ -43,7 +43,7 @@ function KmapSelector(options) {
    
    // Kmaps Data
    this.allData = {}; // A cache object (associatiive array) keyed to service path; @TODO use client-side caching for allData
-   
+      
    // Form element names, classes and labels
    this.targetDivId = options.targetDivId || null;
    this.hiddenInputId = options.hiddenInputId || null;
@@ -65,14 +65,17 @@ function KmapSelector(options) {
    this.categoryServiceBranch = options.categoryServiceBranch? this.kmapServerUri + options.categoryServiceBranch :  'categories/{id}/children.json';
    
    // Show Branch Filter and Tree Selector
-   this.showAutocomplete = options.showAutocomplete || true;
-   this.showBranchFilter = options.showBranchFilter || false;
-   this.showTreeSelector = options.showTreeSelector || false;
+   this.showAutocomplete = (typeof options.showAutocomplete === 'undefined') ? true : options.showAutocomplete;
+   this.showBranchFilter = (typeof options.showBranchFilter === 'undefined') ? false : options.showBranchFilter;
+   this.showTreeSelector = (typeof options.showTreeSelector === 'undefined') ? false : options.showTreeSelector;
    this.rootKmapId = this.isNumber(options.rootKmapId)  ? options.rootKmapId : null;
    
    // Show annotations and formatting
-   this.allowAnnotations = options.allowAnnotations || true;
-   this.allowFormatting = options.allowFormatting || true;
+   this.allowAnnotations = (typeof options.allowAnnotations === 'undefined') ? true : options.allowAnnotations;
+   this.allowFormatting = (typeof options.allowFormatting === 'undefined') ? true : options.allowFormatting;
+
+   // Allow multiple values
+   this.allowMultipleValues = (typeof options.allowMultipleValues === 'undefined') ? true : options.allowMultipleValues;
    
    // Set the base path of the script                                                                                                                
    scripts = jQuery("head script");
@@ -187,13 +190,13 @@ KmapSelector.prototype.initSelectorMarkup = function () {
    // Annotations
    if (this.allowAnnotations) {
       // Annotation Toggle
-      var showAnnot = jQuery('<a>').attr({href:'#', class:'show-annot'}).html( this.t('Show Annotations') ).click( function (event) {
+      var showAnnot = jQuery('<a>').attr({href:'#', class:'show-annot'}).html( this.t('More options') ).click( function (event) {
             jQuery(kmapSelector.annotResult).css('display', 'block');
             jQuery(this).siblings('.hide-annot').css('display', 'inline');
             jQuery(this).css('display', 'none');
             event.preventDefault();
       });
-      var hideAnnot = jQuery('<a>').attr({href:'#', class:'hide-annot'}).html( this.t('Hide Annotations') ).click( function (event) {
+      var hideAnnot = jQuery('<a>').attr({href:'#', class:'hide-annot'}).html( this.t('Hide options') ).click( function (event) {
             jQuery(kmapSelector.annotResult).css('display', 'none');
             jQuery(this).siblings('.show-annot').css('display', 'inline');
             jQuery(this).css('display', 'none');
@@ -405,6 +408,9 @@ KmapSelector.prototype.initTreeSelector = function (servicePath, data) {
    
    // Create the JsTree
    jQuery(this.treeSelector).jstree({
+         ui: {
+            select_limit: this.allowMultipleValues ? -1 : 1,
+         },
          json_data: {
             data: this.allData[servicePath].children,
             progressive_render: true,
@@ -415,6 +421,7 @@ KmapSelector.prototype.initTreeSelector = function (servicePath, data) {
             icons: false
          },
          checkbox: {
+            override_ui:true,
             real_checkboxes: true,
             two_state:true,
             real_checkboxes_names: function (n) { 
@@ -441,6 +448,12 @@ KmapSelector.prototype.initTreeSelector = function (servicePath, data) {
                   text: kmapSelector.t('Add Selected Items'),
                   click: function () {  // Add items to the selector when 'DONE' button is selected
                      var checked = jQuery(kmapSelector.treeSelector).find('.jstree-checked')
+                     if (checked.length > 1 && ! kmapSelector.allowMultiple) {
+                        jQuery(kmapSelector.treeSelector).siblings('.ui-dialog-buttonpane').children('.ui-dialog-buttonset').before(
+                           jQuery('<p class="warning"/>').css('float', 'left').text('Please select just one item and try adding again.')
+                           );
+                        return;
+                     }
                      for (var i = 0; i<checked.length; i++) {
                         var kmap_id = jQuery(checked[i]).children('input').attr('id').split('_')[1];
                         var label = jQuery(checked[i]).children('a').text();
@@ -491,7 +504,11 @@ KmapSelector.prototype.addItem = function (item){
    // Add kmapId to the hidden input
    var origVal = jQuery(this.hiddenInput).val()
    var values = typeof (origVal) == 'undefined' || origVal == '' ? [] : jQuery(this.hiddenInput).val().split(',');
-   values.push(item.id);
+   if ( this.allowMultipleValues ) {
+      values.push(item.id); // allow multiple
+   } else {
+      values = [item.id]; // force single
+   }
    jQuery(this.hiddenInput).val(values.join(','));
    
    // Add kmapId to selected values
@@ -518,6 +535,10 @@ KmapSelector.prototype.displayItem = function (item){
    var spanId = "item_" + item.id;
    var spanSel = "#" + spanId;
    var itemSpan = jQuery('<span>').addClass('kmap-selector-item').attr('id',spanId);
+   
+   if ( ! this.allowMultipleValues ) { // force single
+      this.selectionResult.children('span').remove() // remove other spans
+   }
    var br = jQuery(this.selectionResult.children('br'))
    jQuery(br).before(itemSpan);
    var removeLink = jQuery('<a>').attr('href', '#').attr('title', this.t('Remove ' + item.label)).click(function (event){
@@ -532,7 +553,6 @@ KmapSelector.prototype.displayItem = function (item){
    if (this.allowAnnotations) {
       this.displayItemAnnotation(item);
    }
-   
 }
 
 KmapSelector.prototype.displayItemAnnotation = function (item) {

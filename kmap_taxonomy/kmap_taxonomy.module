@@ -90,6 +90,7 @@ function kmap_taxonomy_field_widget_info() {
             'show_branch_filter' => true,
             'allow_annotations' => true,
             'allow_formatting' => true,
+            'allow_multipleq' => true,
             'root_kmap_id' => null,
             'view_path' => 'taxonomy/term/%tid', // by default use drupal's default taxonomy detail path
             ),
@@ -141,6 +142,11 @@ function kmap_taxonomy_field_widget_settings_form($field, $instance) {
     '#title' => t('Allow Formatting'),
     '#default_value' => isset($settings['kmap_selector_settings']) ? $settings['kmap_selector_settings']['allow_formatting'] : $settings['allow_formatting'],
     );
+ $form['kmap_selector_settings']['allow_multiple'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Allow Multiple Values'),
+    '#default_value' => isset($settings['kmap_selector_settings']) ? $settings['kmap_selector_settings']['allow_multiple'] : $settings['allow_multiple'],
+    );
  $form['kmap_selector_settings']['root_kmap_id'] = array(
     '#type' => 'textfield',
     '#title' => t('Root Branch (Kmap Id)'),
@@ -156,6 +162,14 @@ function kmap_taxonomy_field_widget_settings_form($field, $instance) {
   return $form;
 }
 
+function kmap_taxonomy_form_alter(&$form, &$form_state, $form_id) {
+   $form_ids = array( 'field_ui_field_edit_form');
+   if ( in_array( $form_id, $form_ids ) && $form['#instance']['widget']['type'] == 'kmap_taxonomy' ) {
+      $form['field']['cardinality']['#type'] = 'hidden';
+      $form['field']['cardinality']['#default_value'] = -1;
+      $form['field']['cardinality']['#value'] = -1;
+   }
+}
 /**
 * Implements hook_widget_field_form().
 */
@@ -255,6 +269,7 @@ function kmap_taxonomy_field_widget_form(&$form, &$form_state, $field, $instance
          'show_branch_filter' => isset($settings['kmap_selector_settings']) ? $settings['kmap_selector_settings']['show_branch_filter'] : $settings['show_branch_filter'],
          'show_tree_selector' => isset($settings['kmap_selector_settings']) ? $settings['kmap_selector_settings']['show_tree_selector'] : $settings['show_tree_selector'],
          'allow_formatting' => isset($settings['kmap_selector_settings']) ? $settings['kmap_selector_settings']['allow_formatting'] : $settings['allow_formatting'],
+         'allow_multiple' => isset($settings['kmap_selector_settings']) ? $settings['kmap_selector_settings']['allow_multiple'] : $settings['allow_multiple'],
          'allow_annotations' => isset($settings['kmap_selector_settings']) ? $settings['kmap_selector_settings']['allow_annotations'] : $settings['allow_annotations'],
          'root_kmap_id' =>       isset($settings['kmap_selector_settings']) ? $settings['kmap_selector_settings']['root_kmap_id'] : $settings['root_kmap_id'],
          'selector_title' => $instance['label'],

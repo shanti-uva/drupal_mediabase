@@ -14,8 +14,8 @@ function audio_video_user_default_permissions() {
   $permissions['create audio content'] = array(
     'name' => 'create audio content',
     'roles' => array(
-      0 => 'administrator',
-      1 => 'authenticated user',
+      0 => 'authenticated user',
+      1 => 'site admin',
     ),
     'module' => 'node',
   );
@@ -24,8 +24,8 @@ function audio_video_user_default_permissions() {
   $permissions['create video content'] = array(
     'name' => 'create video content',
     'roles' => array(
-      0 => 'administrator',
-      1 => 'authenticated user',
+      0 => 'authenticated user',
+      1 => 'site admin',
     ),
     'module' => 'node',
   );
@@ -34,7 +34,7 @@ function audio_video_user_default_permissions() {
   $permissions['delete any audio content'] = array(
     'name' => 'delete any audio content',
     'roles' => array(
-      0 => 'administrator',
+      0 => 'site admin',
     ),
     'module' => 'node',
   );
@@ -43,7 +43,7 @@ function audio_video_user_default_permissions() {
   $permissions['delete any video content'] = array(
     'name' => 'delete any video content',
     'roles' => array(
-      0 => 'administrator',
+      0 => 'site admin',
     ),
     'module' => 'node',
   );
@@ -52,7 +52,7 @@ function audio_video_user_default_permissions() {
   $permissions['delete own audio content'] = array(
     'name' => 'delete own audio content',
     'roles' => array(
-      0 => 'administrator',
+      0 => 'site admin',
     ),
     'module' => 'node',
   );
@@ -61,8 +61,8 @@ function audio_video_user_default_permissions() {
   $permissions['delete own video content'] = array(
     'name' => 'delete own video content',
     'roles' => array(
-      0 => 'administrator',
-      1 => 'authenticated user',
+      0 => 'authenticated user',
+      1 => 'site admin',
     ),
     'module' => 'node',
   );
@@ -71,7 +71,7 @@ function audio_video_user_default_permissions() {
   $permissions['edit any audio content'] = array(
     'name' => 'edit any audio content',
     'roles' => array(
-      0 => 'administrator',
+      0 => 'site admin',
     ),
     'module' => 'node',
   );
@@ -80,7 +80,7 @@ function audio_video_user_default_permissions() {
   $permissions['edit any video content'] = array(
     'name' => 'edit any video content',
     'roles' => array(
-      0 => 'administrator',
+      0 => 'site admin',
     ),
     'module' => 'node',
   );
@@ -89,8 +89,8 @@ function audio_video_user_default_permissions() {
   $permissions['edit own audio content'] = array(
     'name' => 'edit own audio content',
     'roles' => array(
-      0 => 'administrator',
-      1 => 'authenticated user',
+      0 => 'authenticated user',
+      1 => 'site admin',
     ),
     'module' => 'node',
   );
@@ -99,8 +99,8 @@ function audio_video_user_default_permissions() {
   $permissions['edit own video content'] = array(
     'name' => 'edit own video content',
     'roles' => array(
-      0 => 'administrator',
-      1 => 'authenticated user',
+      0 => 'authenticated user',
+      1 => 'site admin',
     ),
     'module' => 'node',
   );

@@ -14,8 +14,7 @@ function collection_team_user_default_permissions() {
   $permissions['create collection content'] = array(
     'name' => 'create collection content',
     'roles' => array(
-      0 => 'administrator',
-      1 => 'authenticated user',
+      0 => 'authenticated user',
     ),
     'module' => 'node',
   );
@@ -29,10 +28,7 @@ function collection_team_user_default_permissions() {
   // Exported permission: delete any collection content
   $permissions['delete any collection content'] = array(
     'name' => 'delete any collection content',
-    'roles' => array(
-      0 => 'administrator',
-    ),
-    'module' => 'node',
+    'roles' => array(),
   );
 
   // Exported permission: delete any team content
@@ -45,8 +41,7 @@ function collection_team_user_default_permissions() {
   $permissions['delete own collection content'] = array(
     'name' => 'delete own collection content',
     'roles' => array(
-      0 => 'administrator',
-      1 => 'authenticated user',
+      0 => 'authenticated user',
     ),
     'module' => 'node',
   );
@@ -60,10 +55,7 @@ function collection_team_user_default_permissions() {
   // Exported permission: edit any collection content
   $permissions['edit any collection content'] = array(
     'name' => 'edit any collection content',
-    'roles' => array(
-      0 => 'administrator',
-    ),
-    'module' => 'node',
+    'roles' => array(),
   );
 
   // Exported permission: edit any team content
@@ -76,8 +68,7 @@ function collection_team_user_default_permissions() {
   $permissions['edit own collection content'] = array(
     'name' => 'edit own collection content',
     'roles' => array(
-      0 => 'administrator',
-      1 => 'authenticated user',
+      0 => 'authenticated user',
     ),
     'module' => 'node',
   );

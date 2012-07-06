@@ -49,7 +49,7 @@ function collection_team_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => '0',
+          'weight' => '1',
         ),
         'teaser' => array(
           'label' => 'hidden',
@@ -117,14 +117,14 @@ function collection_team_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'hidden',
           'module' => 'image',
           'settings' => array(
             'image_link' => '',
-            'image_style' => '',
+            'image_style' => 'large',
           ),
           'type' => 'image',
-          'weight' => 3,
+          'weight' => '0',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -171,6 +171,95 @@ function collection_team_field_default_fields() {
         ),
         'type' => 'image_image',
         'weight' => '5',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-collection-field_subcoll_root_kmap_id'
+  $fields['node-collection-field_subcoll_root_kmap_id'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '-1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_subcoll_root_kmap_id',
+      'foreign keys' => array(
+        'tid' => array(
+          'columns' => array(
+            'tid' => 'tid',
+          ),
+          'table' => 'taxonomy_term_data',
+        ),
+      ),
+      'indexes' => array(
+        'tid' => array(
+          0 => 'tid',
+        ),
+      ),
+      'module' => 'taxonomy',
+      'settings' => array(
+        'allowed_values' => array(
+          0 => array(
+            'vocabulary' => 'kmap_taxonomy',
+            'parent' => '0',
+          ),
+        ),
+      ),
+      'translatable' => '0',
+      'type' => 'taxonomy_term_reference',
+    ),
+    'field_instance' => array(
+      'bundle' => 'collection',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'taxonomy',
+          'settings' => array(),
+          'type' => 'taxonomy_term_reference_link',
+          'weight' => 3,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_subcoll_root_kmap_id',
+      'label' => 'Subcollection Root',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'kmap_taxonomy',
+        'settings' => array(
+          'allow_annotations' => TRUE,
+          'allow_formatting' => TRUE,
+          'allow_multipleq' => TRUE,
+          'kmap_selector_settings' => array(
+            'allow_annotations' => 0,
+            'allow_formatting' => 0,
+            'allow_multiple' => 0,
+            'root_kmap_id' => '',
+            'show_autocomplete' => 0,
+            'show_branch_filter' => 0,
+            'show_tree_selector' => 1,
+            'view_path' => 'taxonomy/term/%tid',
+          ),
+          'root_kmap_id' => NULL,
+          'show_autocomplete' => TRUE,
+          'show_branch_filter' => TRUE,
+          'show_tree_selector' => TRUE,
+          'view_path' => 'taxonomy/term/%tid',
+        ),
+        'type' => 'kmap_taxonomy',
+        'weight' => '31',
       ),
     ),
   );
@@ -449,7 +538,7 @@ function collection_team_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => '0',
+          'weight' => '1',
         ),
         'teaser' => array(
           'label' => 'hidden',
@@ -523,7 +612,7 @@ function collection_team_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '1',
+          'weight' => '3',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -598,7 +687,7 @@ function collection_team_field_default_fields() {
           'module' => 'og',
           'settings' => array(),
           'type' => 'og_list_default',
-          'weight' => '3',
+          'weight' => '0',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -609,7 +698,7 @@ function collection_team_field_default_fields() {
       ),
       'entity_type' => 'node',
       'field_name' => 'group_audience',
-      'label' => 'Collection',
+      'label' => 'Collection/Team',
       'required' => 0,
       'settings' => array(
         'user_register_form' => FALSE,
@@ -679,7 +768,7 @@ function collection_team_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '0',
+          'weight' => '2',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -757,7 +846,7 @@ function collection_team_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '2',
+          'weight' => '4',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -799,10 +888,11 @@ function collection_team_field_default_fields() {
   // Translatables
   // Included for use with string extractors like potx.
   t('Body');
-  t('Collection');
   t('Collection roles and permissions');
+  t('Collection/Team');
   t('Group type');
   t('Images');
+  t('Subcollection Root');
   t('Team roles and permissions');
   t('To set the archive, the owner of the team must be a member of the archive.');
   t('Visibility');

@@ -21,7 +21,7 @@ function collection_team_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Collection Type and Access',
-    'weight' => '1',
+    'weight' => '2',
     'children' => array(
       0 => 'group_group',
       1 => 'group_access',

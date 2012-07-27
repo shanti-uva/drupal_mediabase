@@ -140,7 +140,10 @@ projects[views_data_export][subdir] = "contrib"
 
 projects[apachesolr_views][version] = "1.0-beta1"
 projects[apachesolr_views][subdir] = "contrib"
-projects[apachesolr_views][patch][] = "http://drupal.org/files/1444038-apachesolr_autocomplete-apachesolr_search-6.patch"
+
+projects[apachesolr_autocomplete][version] = "1.2"
+projects[apachesolr_autocomplete][subdir] = "contrib"
+projects[apachesolr_autocomplete][patch][] = "http://drupal.org/files/1444038-apachesolr_autocomplete-apachesolr_search-6.patch"
 
 ; CONTRIB THEMES
 projects[omega][version] = "3.1"

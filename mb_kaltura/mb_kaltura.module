@@ -189,6 +189,9 @@ function mb_kaltura_theme() {
 }
 
 function mb_kaltura_video_tag($entry_id) {
+   if ( empty($entry_id) ) {
+      return;
+   }
    $client=KalturaHelpers::getKalturaClient($isAdmin=TRUE);
    try {
       $flavors=$client->flavorAsset->getByEntryId($entry_id);
@@ -226,6 +229,10 @@ function mb_kaltura_video_tag($entry_id) {
 
 
 function mb_kaltura_audio_tag($entry_id) {
+   if ( empty($entry_id) ) {
+      return;
+   }
+
    $client=KalturaHelpers::getKalturaClient($isAdmin=TRUE);
    try {
       $flavors=$client->flavorAsset->getByEntryId($entry_id);

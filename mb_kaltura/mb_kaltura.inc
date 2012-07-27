@@ -1307,6 +1307,10 @@ function xml_pbcore($nid) {
 **/
 function _write_to_node_kaltura($node) {
    $entry_id = $node->{"field_$node->type"}['und'][0]['entryid'];
+   if ( empty($entry_id)) {
+      return;
+   }
+   
    $kaltura_client = KalturaHelpers::getKalturaClient($isAdmin = true);
    $session_user = KalturaHelpers::getSessionUser();
    $entry_details = _get_media_from_entry_id($entry_id);

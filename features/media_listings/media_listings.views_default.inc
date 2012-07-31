@@ -41,6 +41,14 @@ function media_listings_views_default_views() {
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['style_options']['row_class'] = 'grid-9 mb-thumbnail-grid-row';
   $handler->display->display_options['row_plugin'] = 'fields';
+  /* Header: Global: Text area */
+  $handler->display->display_options['header']['area']['id'] = 'area';
+  $handler->display->display_options['header']['area']['table'] = 'views';
+  $handler->display->display_options['header']['area']['field'] = 'area';
+  $handler->display->display_options['header']['area']['empty'] = FALSE;
+  $handler->display->display_options['header']['area']['content'] = '<a href="/media/by-kmap/!1/rss.xml" class="rss-link">Subscribe to this Subject via RSS</a>';
+  $handler->display->display_options['header']['area']['format'] = 'filtered_html';
+  $handler->display->display_options['header']['area']['tokenize'] = 1;
   /* Relationship: Content: Author */
   $handler->display->display_options['relationships']['uid']['id'] = 'uid';
   $handler->display->display_options['relationships']['uid']['table'] = 'node';
@@ -225,6 +233,7 @@ function media_listings_views_default_views() {
   $handler->display->display_options['fields']['group_audience']['table'] = 'field_data_group_audience';
   $handler->display->display_options['fields']['group_audience']['field'] = 'group_audience';
   $handler->display->display_options['fields']['group_audience']['label'] = 'in ';
+  $handler->display->display_options['fields']['group_audience']['exclude'] = TRUE;
   $handler->display->display_options['fields']['group_audience']['alter']['alter_text'] = 0;
   $handler->display->display_options['fields']['group_audience']['alter']['make_link'] = 0;
   $handler->display->display_options['fields']['group_audience']['alter']['absolute'] = 0;
@@ -234,6 +243,7 @@ function media_listings_views_default_views() {
   $handler->display->display_options['fields']['group_audience']['alter']['nl2br'] = 0;
   $handler->display->display_options['fields']['group_audience']['alter']['word_boundary'] = 1;
   $handler->display->display_options['fields']['group_audience']['alter']['ellipsis'] = 1;
+  $handler->display->display_options['fields']['group_audience']['alter']['more_link'] = 0;
   $handler->display->display_options['fields']['group_audience']['alter']['strip_tags'] = 0;
   $handler->display->display_options['fields']['group_audience']['alter']['trim'] = 0;
   $handler->display->display_options['fields']['group_audience']['alter']['html'] = 0;
@@ -325,6 +335,31 @@ function media_listings_views_default_views() {
   /* Display: Block */
   $handler = $view->new_display('block', 'Block', 'block');
   $handler->display->display_options['link_url'] = 'location/%1/detail';
+  $handler->display->display_options['defaults']['relationships'] = FALSE;
+  /* Relationship: Content: Author */
+  $handler->display->display_options['relationships']['uid']['id'] = 'uid';
+  $handler->display->display_options['relationships']['uid']['table'] = 'node';
+  $handler->display->display_options['relationships']['uid']['field'] = 'uid';
+  $handler->display->display_options['relationships']['uid']['required'] = 0;
+  /* Relationship: Content: Sub-collection (field_subcollection) */
+  $handler->display->display_options['relationships']['field_subcollection_tid']['id'] = 'field_subcollection_tid';
+  $handler->display->display_options['relationships']['field_subcollection_tid']['table'] = 'field_data_field_subcollection';
+  $handler->display->display_options['relationships']['field_subcollection_tid']['field'] = 'field_subcollection_tid';
+  $handler->display->display_options['relationships']['field_subcollection_tid']['required'] = 0;
+  $handler->display->display_options['defaults']['arguments'] = FALSE;
+  /* Contextual filter: Field: Kmap Id (kmap_id) */
+  $handler->display->display_options['arguments']['kmap_id_value']['id'] = 'kmap_id_value';
+  $handler->display->display_options['arguments']['kmap_id_value']['table'] = 'field_data_kmap_id';
+  $handler->display->display_options['arguments']['kmap_id_value']['field'] = 'kmap_id_value';
+  $handler->display->display_options['arguments']['kmap_id_value']['relationship'] = 'field_subcollection_tid';
+  $handler->display->display_options['arguments']['kmap_id_value']['default_action'] = 'not found';
+  $handler->display->display_options['arguments']['kmap_id_value']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['kmap_id_value']['default_argument_skip_url'] = 0;
+  $handler->display->display_options['arguments']['kmap_id_value']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['kmap_id_value']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['kmap_id_value']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['kmap_id_value']['break_phrase'] = 0;
+  $handler->display->display_options['arguments']['kmap_id_value']['not'] = 0;
   $export['media_by_kmap'] = $view;
 
   $view = new view;
@@ -541,6 +576,7 @@ function media_listings_views_default_views() {
   $handler->display->display_options['fields']['group_audience']['table'] = 'field_data_group_audience';
   $handler->display->display_options['fields']['group_audience']['field'] = 'group_audience';
   $handler->display->display_options['fields']['group_audience']['label'] = 'in ';
+  $handler->display->display_options['fields']['group_audience']['exclude'] = TRUE;
   $handler->display->display_options['fields']['group_audience']['alter']['alter_text'] = 0;
   $handler->display->display_options['fields']['group_audience']['alter']['make_link'] = 0;
   $handler->display->display_options['fields']['group_audience']['alter']['absolute'] = 0;
@@ -550,6 +586,7 @@ function media_listings_views_default_views() {
   $handler->display->display_options['fields']['group_audience']['alter']['nl2br'] = 0;
   $handler->display->display_options['fields']['group_audience']['alter']['word_boundary'] = 1;
   $handler->display->display_options['fields']['group_audience']['alter']['ellipsis'] = 1;
+  $handler->display->display_options['fields']['group_audience']['alter']['more_link'] = 0;
   $handler->display->display_options['fields']['group_audience']['alter']['strip_tags'] = 0;
   $handler->display->display_options['fields']['group_audience']['alter']['trim'] = 0;
   $handler->display->display_options['fields']['group_audience']['alter']['html'] = 0;
@@ -655,15 +692,15 @@ function media_listings_views_default_views() {
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'Recent Media';
   $handler->display->display_options['use_more'] = TRUE;
+  $handler->display->display_options['use_more_text'] = 'More recent media';
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['query']['options']['query_comment'] = FALSE;
   $handler->display->display_options['exposed_form']['type'] = 'basic';
   $handler->display->display_options['pager']['type'] = 'some';
-  $handler->display->display_options['pager']['options']['items_per_page'] = '6';
+  $handler->display->display_options['pager']['options']['items_per_page'] = '60';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['style_options']['row_class'] = 'grid-9 mb-thumbnail-grid-row';
@@ -823,6 +860,7 @@ function media_listings_views_default_views() {
   $handler->display->display_options['fields']['realname']['field'] = 'realname';
   $handler->display->display_options['fields']['realname']['relationship'] = 'uid';
   $handler->display->display_options['fields']['realname']['label'] = 'by';
+  $handler->display->display_options['fields']['realname']['exclude'] = TRUE;
   $handler->display->display_options['fields']['realname']['alter']['alter_text'] = 0;
   $handler->display->display_options['fields']['realname']['alter']['make_link'] = 0;
   $handler->display->display_options['fields']['realname']['alter']['absolute'] = 0;
@@ -847,6 +885,7 @@ function media_listings_views_default_views() {
   $handler->display->display_options['fields']['group_audience']['table'] = 'field_data_group_audience';
   $handler->display->display_options['fields']['group_audience']['field'] = 'group_audience';
   $handler->display->display_options['fields']['group_audience']['label'] = 'in ';
+  $handler->display->display_options['fields']['group_audience']['exclude'] = TRUE;
   $handler->display->display_options['fields']['group_audience']['alter']['alter_text'] = 0;
   $handler->display->display_options['fields']['group_audience']['alter']['make_link'] = 0;
   $handler->display->display_options['fields']['group_audience']['alter']['absolute'] = 0;
@@ -856,6 +895,7 @@ function media_listings_views_default_views() {
   $handler->display->display_options['fields']['group_audience']['alter']['nl2br'] = 0;
   $handler->display->display_options['fields']['group_audience']['alter']['word_boundary'] = 1;
   $handler->display->display_options['fields']['group_audience']['alter']['ellipsis'] = 1;
+  $handler->display->display_options['fields']['group_audience']['alter']['more_link'] = 0;
   $handler->display->display_options['fields']['group_audience']['alter']['strip_tags'] = 0;
   $handler->display->display_options['fields']['group_audience']['alter']['trim'] = 0;
   $handler->display->display_options['fields']['group_audience']['alter']['html'] = 0;
@@ -894,6 +934,10 @@ function media_listings_views_default_views() {
   $handler->display->display_options['fields']['comment_count']['empty_zero'] = 1;
   $handler->display->display_options['fields']['comment_count']['hide_alter_empty'] = 1;
   $handler->display->display_options['fields']['comment_count']['format_plural'] = 0;
+  /* Sort criterion: Global: Random */
+  $handler->display->display_options['sorts']['random']['id'] = 'random';
+  $handler->display->display_options['sorts']['random']['table'] = 'views';
+  $handler->display->display_options['sorts']['random']['field'] = 'random';
   /* Sort criterion: Content: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';

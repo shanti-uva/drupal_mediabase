@@ -10,7 +10,7 @@
 function collection_team_field_default_fields() {
   $fields = array();
 
-  // Exported field: 'node-collection-body'
+  // Exported field: 'node-collection-body'.
   $fields['node-collection-body'] = array(
     'field_config' => array(
       'active' => '1',
@@ -33,6 +33,7 @@ function collection_team_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(),
       'translatable' => '1',
@@ -82,7 +83,7 @@ function collection_team_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-collection-field_images'
+  // Exported field: 'node-collection-field_images'.
   $fields['node-collection-field_images'] = array(
     'field_config' => array(
       'active' => '1',
@@ -103,6 +104,7 @@ function collection_team_field_default_fields() {
           0 => 'fid',
         ),
       ),
+      'locked' => '0',
       'module' => 'image',
       'settings' => array(
         'default_image' => 0,
@@ -175,7 +177,7 @@ function collection_team_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-collection-field_subcoll_root_kmap_id'
+  // Exported field: 'node-collection-field_subcoll_root_kmap_id'.
   $fields['node-collection-field_subcoll_root_kmap_id'] = array(
     'field_config' => array(
       'active' => '1',
@@ -196,6 +198,7 @@ function collection_team_field_default_fields() {
           0 => 'tid',
         ),
       ),
+      'locked' => '0',
       'module' => 'taxonomy',
       'settings' => array(
         'allowed_values' => array(
@@ -264,7 +267,7 @@ function collection_team_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-collection-group_access'
+  // Exported field: 'node-collection-group_access'.
   $fields['node-collection-group_access'] = array(
     'field_config' => array(
       'active' => '1',
@@ -278,6 +281,7 @@ function collection_team_field_default_fields() {
           0 => 'value',
         ),
       ),
+      'locked' => '0',
       'module' => 'list',
       'no_ui' => TRUE,
       'settings' => array(
@@ -342,7 +346,7 @@ function collection_team_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-collection-group_group'
+  // Exported field: 'node-collection-group_group'.
   $fields['node-collection-group_group'] = array(
     'field_config' => array(
       'active' => '1',
@@ -356,6 +360,7 @@ function collection_team_field_default_fields() {
           0 => 'value',
         ),
       ),
+      'locked' => '0',
       'module' => 'list',
       'no_ui' => TRUE,
       'settings' => array(
@@ -420,7 +425,7 @@ function collection_team_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-collection-og_roles_permissions'
+  // Exported field: 'node-collection-og_roles_permissions'.
   $fields['node-collection-og_roles_permissions'] = array(
     'field_config' => array(
       'active' => '1',
@@ -434,6 +439,7 @@ function collection_team_field_default_fields() {
           0 => 'value',
         ),
       ),
+      'locked' => '0',
       'module' => 'list',
       'no_ui' => TRUE,
       'settings' => array(
@@ -499,7 +505,7 @@ function collection_team_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-team-body'
+  // Exported field: 'node-team-body'.
   $fields['node-team-body'] = array(
     'field_config' => array(
       'active' => '1',
@@ -522,6 +528,7 @@ function collection_team_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(),
       'translatable' => '1',
@@ -571,7 +578,7 @@ function collection_team_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-team-group_access'
+  // Exported field: 'node-team-group_access'.
   $fields['node-team-group_access'] = array(
     'field_config' => array(
       'active' => '1',
@@ -585,6 +592,7 @@ function collection_team_field_default_fields() {
           0 => 'value',
         ),
       ),
+      'locked' => '0',
       'module' => 'list',
       'no_ui' => TRUE,
       'settings' => array(
@@ -649,7 +657,7 @@ function collection_team_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-team-group_audience'
+  // Exported field: 'node-team-group_audience'.
   $fields['node-team-group_audience'] = array(
     'field_config' => array(
       'active' => '1',
@@ -670,6 +678,7 @@ function collection_team_field_default_fields() {
           0 => 'gid',
         ),
       ),
+      'locked' => '0',
       'module' => 'og',
       'no_ui' => TRUE,
       'settings' => array(),
@@ -728,7 +737,7 @@ function collection_team_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-team-group_group'
+  // Exported field: 'node-team-group_group'.
   $fields['node-team-group_group'] = array(
     'field_config' => array(
       'active' => '1',
@@ -742,6 +751,7 @@ function collection_team_field_default_fields() {
           0 => 'value',
         ),
       ),
+      'locked' => '0',
       'module' => 'list',
       'no_ui' => TRUE,
       'settings' => array(
@@ -806,7 +816,7 @@ function collection_team_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-team-og_roles_permissions'
+  // Exported field: 'node-team-og_roles_permissions'.
   $fields['node-team-og_roles_permissions'] = array(
     'field_config' => array(
       'active' => '1',
@@ -820,6 +830,7 @@ function collection_team_field_default_fields() {
           0 => 'value',
         ),
       ),
+      'locked' => '0',
       'module' => 'list',
       'no_ui' => TRUE,
       'settings' => array(

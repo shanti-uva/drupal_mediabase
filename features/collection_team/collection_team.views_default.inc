@@ -218,6 +218,7 @@ function collection_team_views_default_views() {
   $handler->display->display_options['fields']['realname']['field'] = 'realname';
   $handler->display->display_options['fields']['realname']['relationship'] = 'uid';
   $handler->display->display_options['fields']['realname']['label'] = 'by';
+  $handler->display->display_options['fields']['realname']['exclude'] = TRUE;
   $handler->display->display_options['fields']['realname']['alter']['alter_text'] = 0;
   $handler->display->display_options['fields']['realname']['alter']['make_link'] = 0;
   $handler->display->display_options['fields']['realname']['alter']['absolute'] = 0;
@@ -827,6 +828,151 @@ function collection_team_views_default_views() {
   $handler->display->display_options['row_plugin'] = 'fields';
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $export['collections'] = $view;
+
+  $view = new view;
+  $view->name = 'sub_collections';
+  $view->description = '';
+  $view->tag = 'default';
+  $view->base_table = 'taxonomy_term_data';
+  $view->human_name = 'Sub-collections';
+  $view->core = 7;
+  $view->api_version = '3.0';
+  $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
+
+  /* Display: Master */
+  $handler = $view->new_display('default', 'Master', 'default');
+  $handler->display->display_options['title'] = 'Sub-collections';
+  $handler->display->display_options['group_by'] = TRUE;
+  $handler->display->display_options['access']['type'] = 'perm';
+  $handler->display->display_options['cache']['type'] = 'none';
+  $handler->display->display_options['query']['type'] = 'views_query';
+  $handler->display->display_options['query']['options']['query_comment'] = FALSE;
+  $handler->display->display_options['exposed_form']['type'] = 'basic';
+  $handler->display->display_options['pager']['type'] = 'full';
+  $handler->display->display_options['style_plugin'] = 'default';
+  $handler->display->display_options['row_plugin'] = 'fields';
+  /* Relationship: Taxonomy term: Content using Sub-collection */
+  $handler->display->display_options['relationships']['reverse_field_subcollection_node']['id'] = 'reverse_field_subcollection_node';
+  $handler->display->display_options['relationships']['reverse_field_subcollection_node']['table'] = 'taxonomy_term_data';
+  $handler->display->display_options['relationships']['reverse_field_subcollection_node']['field'] = 'reverse_field_subcollection_node';
+  $handler->display->display_options['relationships']['reverse_field_subcollection_node']['required'] = 1;
+  /* Relationship: OG membership: OG membership from Node */
+  $handler->display->display_options['relationships']['og_membership_rel']['id'] = 'og_membership_rel';
+  $handler->display->display_options['relationships']['og_membership_rel']['table'] = 'node';
+  $handler->display->display_options['relationships']['og_membership_rel']['field'] = 'og_membership_rel';
+  $handler->display->display_options['relationships']['og_membership_rel']['relationship'] = 'reverse_field_subcollection_node';
+  $handler->display->display_options['relationships']['og_membership_rel']['required'] = 0;
+  /* Field: COUNT(Content: Nid) */
+  $handler->display->display_options['fields']['nid']['id'] = 'nid';
+  $handler->display->display_options['fields']['nid']['table'] = 'node';
+  $handler->display->display_options['fields']['nid']['field'] = 'nid';
+  $handler->display->display_options['fields']['nid']['relationship'] = 'reverse_field_subcollection_node';
+  $handler->display->display_options['fields']['nid']['group_type'] = 'count';
+  $handler->display->display_options['fields']['nid']['label'] = '';
+  $handler->display->display_options['fields']['nid']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['nid']['alter']['alter_text'] = 0;
+  $handler->display->display_options['fields']['nid']['alter']['make_link'] = 0;
+  $handler->display->display_options['fields']['nid']['alter']['absolute'] = 0;
+  $handler->display->display_options['fields']['nid']['alter']['external'] = 0;
+  $handler->display->display_options['fields']['nid']['alter']['replace_spaces'] = 0;
+  $handler->display->display_options['fields']['nid']['alter']['trim_whitespace'] = 0;
+  $handler->display->display_options['fields']['nid']['alter']['nl2br'] = 0;
+  $handler->display->display_options['fields']['nid']['alter']['word_boundary'] = 1;
+  $handler->display->display_options['fields']['nid']['alter']['ellipsis'] = 1;
+  $handler->display->display_options['fields']['nid']['alter']['more_link'] = 0;
+  $handler->display->display_options['fields']['nid']['alter']['strip_tags'] = 0;
+  $handler->display->display_options['fields']['nid']['alter']['trim'] = 0;
+  $handler->display->display_options['fields']['nid']['alter']['html'] = 0;
+  $handler->display->display_options['fields']['nid']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['nid']['element_default_classes'] = 1;
+  $handler->display->display_options['fields']['nid']['hide_empty'] = 0;
+  $handler->display->display_options['fields']['nid']['empty_zero'] = 0;
+  $handler->display->display_options['fields']['nid']['hide_alter_empty'] = 1;
+  /* Field: Field: Kmap Id */
+  $handler->display->display_options['fields']['kmap_id']['id'] = 'kmap_id';
+  $handler->display->display_options['fields']['kmap_id']['table'] = 'field_data_kmap_id';
+  $handler->display->display_options['fields']['kmap_id']['field'] = 'kmap_id';
+  $handler->display->display_options['fields']['kmap_id']['label'] = '';
+  $handler->display->display_options['fields']['kmap_id']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['kmap_id']['alter']['alter_text'] = 0;
+  $handler->display->display_options['fields']['kmap_id']['alter']['make_link'] = 0;
+  $handler->display->display_options['fields']['kmap_id']['alter']['absolute'] = 0;
+  $handler->display->display_options['fields']['kmap_id']['alter']['external'] = 0;
+  $handler->display->display_options['fields']['kmap_id']['alter']['replace_spaces'] = 0;
+  $handler->display->display_options['fields']['kmap_id']['alter']['trim_whitespace'] = 0;
+  $handler->display->display_options['fields']['kmap_id']['alter']['nl2br'] = 0;
+  $handler->display->display_options['fields']['kmap_id']['alter']['word_boundary'] = 1;
+  $handler->display->display_options['fields']['kmap_id']['alter']['ellipsis'] = 1;
+  $handler->display->display_options['fields']['kmap_id']['alter']['more_link'] = 0;
+  $handler->display->display_options['fields']['kmap_id']['alter']['strip_tags'] = 0;
+  $handler->display->display_options['fields']['kmap_id']['alter']['trim'] = 0;
+  $handler->display->display_options['fields']['kmap_id']['alter']['html'] = 0;
+  $handler->display->display_options['fields']['kmap_id']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['kmap_id']['element_default_classes'] = 1;
+  $handler->display->display_options['fields']['kmap_id']['hide_empty'] = 0;
+  $handler->display->display_options['fields']['kmap_id']['empty_zero'] = 0;
+  $handler->display->display_options['fields']['kmap_id']['hide_alter_empty'] = 1;
+  $handler->display->display_options['fields']['kmap_id']['settings'] = array(
+    'thousand_separator' => '',
+    'prefix_suffix' => 0,
+  );
+  $handler->display->display_options['fields']['kmap_id']['field_api_classes'] = 0;
+  /* Field: Taxonomy term: Name */
+  $handler->display->display_options['fields']['name']['id'] = 'name';
+  $handler->display->display_options['fields']['name']['table'] = 'taxonomy_term_data';
+  $handler->display->display_options['fields']['name']['field'] = 'name';
+  $handler->display->display_options['fields']['name']['label'] = '';
+  $handler->display->display_options['fields']['name']['alter']['alter_text'] = 1;
+  $handler->display->display_options['fields']['name']['alter']['text'] = '[name] ([nid])';
+  $handler->display->display_options['fields']['name']['alter']['make_link'] = 1;
+  $handler->display->display_options['fields']['name']['alter']['path'] = 'sub-collection/[kmap_id]/detail';
+  $handler->display->display_options['fields']['name']['alter']['absolute'] = 0;
+  $handler->display->display_options['fields']['name']['alter']['external'] = 0;
+  $handler->display->display_options['fields']['name']['alter']['replace_spaces'] = 0;
+  $handler->display->display_options['fields']['name']['alter']['trim_whitespace'] = 0;
+  $handler->display->display_options['fields']['name']['alter']['nl2br'] = 0;
+  $handler->display->display_options['fields']['name']['alter']['word_boundary'] = 0;
+  $handler->display->display_options['fields']['name']['alter']['ellipsis'] = 0;
+  $handler->display->display_options['fields']['name']['alter']['more_link'] = 0;
+  $handler->display->display_options['fields']['name']['alter']['strip_tags'] = 0;
+  $handler->display->display_options['fields']['name']['alter']['trim'] = 0;
+  $handler->display->display_options['fields']['name']['alter']['html'] = 0;
+  $handler->display->display_options['fields']['name']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['name']['element_default_classes'] = 1;
+  $handler->display->display_options['fields']['name']['hide_empty'] = 0;
+  $handler->display->display_options['fields']['name']['empty_zero'] = 0;
+  $handler->display->display_options['fields']['name']['hide_alter_empty'] = 1;
+  $handler->display->display_options['fields']['name']['link_to_taxonomy'] = 0;
+  $handler->display->display_options['fields']['name']['convert_spaces'] = 0;
+  /* Sort criterion: Taxonomy term: Name */
+  $handler->display->display_options['sorts']['name']['id'] = 'name';
+  $handler->display->display_options['sorts']['name']['table'] = 'taxonomy_term_data';
+  $handler->display->display_options['sorts']['name']['field'] = 'name';
+  /* Contextual filter: OG membership: OG group gid */
+  $handler->display->display_options['arguments']['group']['id'] = 'group';
+  $handler->display->display_options['arguments']['group']['table'] = 'og_membership';
+  $handler->display->display_options['arguments']['group']['field'] = 'group';
+  $handler->display->display_options['arguments']['group']['relationship'] = 'og_membership_rel';
+  $handler->display->display_options['arguments']['group']['default_action'] = 'default';
+  $handler->display->display_options['arguments']['group']['default_argument_type'] = 'og_context';
+  $handler->display->display_options['arguments']['group']['default_argument_skip_url'] = 0;
+  $handler->display->display_options['arguments']['group']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['group']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['group']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['group']['break_phrase'] = 0;
+  $handler->display->display_options['arguments']['group']['not'] = 0;
+  /* Filter criterion: Taxonomy vocabulary: Machine name */
+  $handler->display->display_options['filters']['machine_name']['id'] = 'machine_name';
+  $handler->display->display_options['filters']['machine_name']['table'] = 'taxonomy_vocabulary';
+  $handler->display->display_options['filters']['machine_name']['field'] = 'machine_name';
+  $handler->display->display_options['filters']['machine_name']['value'] = array(
+    'kmap_taxonomy' => 'kmap_taxonomy',
+  );
+
+  /* Display: Sub-collection */
+  $handler = $view->new_display('block', 'Sub-collection', 'block_1');
+  $handler->display->display_options['block_description'] = 'Sub-collections';
+  $export['sub_collections'] = $view;
 
   return $export;
 }

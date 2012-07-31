@@ -1,7 +1,0 @@
-<?php
-/**
- * @file
- * Code for the Solr Search Site & Transcripts feature.
- */
-
-include_once('solr_search_site_transcripts.features.inc');

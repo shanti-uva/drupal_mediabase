@@ -59,9 +59,18 @@ function kmap_taxonomy_menu() {
       'type' => MENU_CALLBACK,
       );  
    $items['subject/%/detail'] = array(
-      'title' => t('Kmap Details'),
+      'title' => t('Subject Details'),
       'page callback' => 'kmap_detail_page',
-      'page arguments' => array(1),
+      'page arguments' => array(1, 'default'),
+      'access callback' => 'user_access',
+      'access arguments' => array('access content'),
+      'file' => 'includes/kmap_taxonomy.pages.inc',
+      'type' => MENU_CALLBACK,
+      );
+   $items['sub-collection/%/detail'] = array(
+      'title' => t('Sub-collection Details'),
+      'page callback' => 'kmap_detail_page',
+      'page arguments' => array(1, 'block'), // block is the sub-collection views display machine id for media_by_kmap view 
       'access callback' => 'user_access',
       'access arguments' => array('access content'),
       'file' => 'includes/kmap_taxonomy.pages.inc',

@@ -4,13 +4,13 @@ define('KMAP_DETAIL_SERVICE_URI_VAR', 'kmap_detail_service_uri');
 define('KMAP_REMOTE_LINK_VAR', 'kmap_remote_link');
 define('KMAP_ROOT_ONLY_REMOTE_LINK_VAR', 'kmap_root_only_remote_link');
 
-function kmap_detail_page ($kmap_id) {
+function kmap_detail_page ($kmap_id, $views_display = 'default') {
    module_load_include('inc', 'kmap_taxonomy', 'includes/kmap');
    $kmap = new Kmap($kmap_id);
    $term = $kmap->get_term();
-   $title = t("Subject: !name", array('!name' => $term->name));
-   drupal_set_title( $title );
-   $output = render_full_kmap($kmap);
+   // TITLE IS SET LATER $title = t("Subject: !name", array('!name' => $term->name));
+   // TITLE IS SET LATER drupal_set_title( $title );
+   $output = render_full_kmap($kmap, $views_display);
    return $output;
 }
 
@@ -54,7 +54,7 @@ function kmap_detail_page ($kmap_id) {
 </translated_titles>
 </category> 
 **/
-function render_full_kmap( $kmap) {
+function render_full_kmap( $kmap, $views_display = 'default')  {
    $non_std_lang_codes = array(
       'Tibetan-THL Wylie' => array( 'name' => 'Tibetan-THL Wylie' ),
       );
@@ -140,7 +140,7 @@ function render_full_kmap( $kmap) {
    
       // add a views view of the media for this subject
    if ( module_exists('audio_video') ) {
-      $output .= audio_video_render_kmap_view($kmap_id);
+      $output .= audio_video_render_kmap_view($kmap_id, $views_display);
    }
 
    

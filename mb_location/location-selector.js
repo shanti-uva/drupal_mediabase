@@ -137,6 +137,7 @@ LocationSelector.prototype.initWidgetMarkup = function () {
             });
             return;
          }
+         
          acInput.autocomplete( {
                source: function( request, response ) {
                   jQuery.ajax({
@@ -249,14 +250,14 @@ LocationSelector.prototype.addItem = function (item){
 }
 
 LocationSelector.prototype.displayItem = function (item){
-   locSelector = this;
-
+   var locSelector = this;
+   
    // Location container span
    var spanId = "item_" + item.id;
-   var spanSel = "span[id='" + spanId + "']";
+   var spanSel = "#" + this.targetDivId + " span[id='" + spanId + "']";
    var itemSpan = jQuery('<span>').addClass('location-selector-item').attr('id',spanId);
    jQuery(this.selectionResult).append(itemSpan);
-   
+     
    // Remove link
    var removeLink = jQuery('<a>').attr('href', '#').attr('title', this.t('Remove ' + item.placeDictLabel))
    jQuery(spanSel).html(removeLink);

@@ -38,6 +38,5 @@ Drupal.behaviors.mb_location={attach:function(context){
       var selector = new LocationSelector(loc_selector_options);
       selector.init();
       mb_loc_selectors.push(selector);
-      //console.log('selector', selector)
    }
 }};

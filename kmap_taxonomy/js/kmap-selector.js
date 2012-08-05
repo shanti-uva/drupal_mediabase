@@ -252,7 +252,6 @@ KmapSelector.prototype.initItems = function () {
 **/
 KmapSelector.prototype.initAutocomplete = function (servicePath, data) {
    var kmapSelector = this;
-   
    if (typeof (data) !== 'undefined') {
       var categories = []
       jQuery.map(data, function (item) {
@@ -272,7 +271,7 @@ KmapSelector.prototype.initAutocomplete = function (servicePath, data) {
          select: function (event, ui) {
             kmapSelector.addItem(ui.item);
          },
-         open: function () {
+         open: function () {  
             jQuery(this).removeClass("ui-corner-all").addClass("ui-corner-top");
          },
          close: function () {
@@ -533,7 +532,9 @@ KmapSelector.prototype.displayItem = function (item){
    
    // Display the newly added kmap in the 'selectionResult' next to a remove link
    var spanId = "item_" + item.id;
-   var spanSel = "#" + spanId;
+   //var spanSel = "#" + spanId;
+   var spanSel = "#" + this.targetDivId + " #" + spanId;
+
    var itemSpan = jQuery('<span>').addClass('kmap-selector-item').attr('id',spanId);
    
    if ( ! this.allowMultipleValues ) { // force single

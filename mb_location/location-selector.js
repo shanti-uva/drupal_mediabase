@@ -138,22 +138,42 @@ LocationSelector.prototype.initWidgetMarkup = function () {
             return;
          }
          
+         // Leave this in
+         console.log('Querying place dictionary:', acSource.replace('{term}', acInput.val()))
+         
          acInput.autocomplete( {
                source: function( request, response ) {
                   jQuery.ajax({
                         url: acSource.replace('{term}', acInput.val()),                                                   
                         dataType: "jsonp",
                         success: function( data ) {
-                           response( jQuery.map( data.features.feature, function( selection ) {
-                                 var ftype = jQuery.isArray( selection.feature_type ) ? selection.feature_type[0].title : selection.feature_type.title
-                                 return {
-                                    label: selection.header + " — " + ftype,
-                                    // value: item.header + " [fid:" + item.fid + "]"
-                                    value: selection.fid,
-                                    id: "fid:" + selection.fid,
-                                    placeDictLabel: selection.header,
-                                 }
-                           }));
+                           var results = [];
+                           if ( data.features.feature ) {
+                              var results = jQuery.map( data.features.feature, function( selection ) {
+                                    var ftype = jQuery.isArray( selection.feature_type ) ? selection.feature_type[0].title : selection.feature_type.title
+                                    return {
+                                       label: selection.header + " — " + ftype,
+                                       // value: item.header + " [fid:" + item.fid + "]"
+                                       value: selection.fid,
+                                       id: "fid:" + selection.fid,
+                                       placeDictLabel: selection.header,
+                                    }
+                              });
+                           } else { 
+                              acInput.removeClass('throbber');
+                              acInput.autocomplete('destroy')
+                              jQuery('<p/>').html(locSelector.t('No results found. Please try another search.')).dialog({
+                                    modal: true,
+                                    width: 540,
+                                    height: 200,
+                                    buttons: {
+                                       Ok: function() {
+                                          jQuery( this ).dialog( "close" );
+                                       }
+                                    }
+                              });
+                           }
+                           response( results );
                         }
                   });
                },

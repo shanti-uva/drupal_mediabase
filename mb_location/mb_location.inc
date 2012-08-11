@@ -180,7 +180,7 @@ function location_detail_page($place_id) {
    }
    
    
-   // category
+   // kmap categories for place 
    if ( isset( $place->category_feature ) ) {
       $page_cats = array();
       $place_cats = is_array($place->category_feature) ? $place->category_feature : array ($place->category_feature);

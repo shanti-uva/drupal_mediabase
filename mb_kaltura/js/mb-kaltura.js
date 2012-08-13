@@ -5,7 +5,7 @@
 Drupal.behaviors.mb_kaltura = {
    attach: function(context) {
       // Force HTML5 layers
-      if (typeof mw !== 'undefined') {
+   /*    if (typeof mw !== 'undefined') {
          mw.setConfig('forceMobileHTML5', true );
          mw.setConfig('EmbedPlayer.EnableIframeApi', true) // If false, player will error out
          var iFrameId = jQuery("object[name='kaltura_player']").attr('id');
@@ -14,7 +14,7 @@ Drupal.behaviors.mb_kaltura = {
             mw.setConfig( 'EmbedPlayer.RewriteSelector', false ) ; // If false, render the native player
             iFrameId += '_ifp'
          }
-      }
+      } */
       
       // Add Select all Checkboxes for import form
       jQuery('#CheckboxAll').click( function() {

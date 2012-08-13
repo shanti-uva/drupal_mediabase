@@ -150,9 +150,16 @@ LocationSelector.prototype.initWidgetMarkup = function () {
                            var results = [];
                            if ( data.features.feature ) {
                               var results = jQuery.map( data.features.feature, function( selection ) {
-                                    var ftype = jQuery.isArray( selection.feature_type ) ? selection.feature_type[0].title : selection.feature_type.title
+                                    console.log('selection', selection)
+                                    
+                                    var ftype = '';
+                                    if (jQuery.isArray( selection.feature_type ) ) {
+                                       ftype = " — " + selection.feature_type[0].title 
+                                    } else if (selection.feature_type) {
+                                       ftype = " — " + selection.feature_type.title
+                                    }
                                     return {
-                                       label: selection.header + " — " + ftype,
+                                       label: selection.header + ftype,
                                        // value: item.header + " [fid:" + item.fid + "]"
                                        value: selection.fid,
                                        id: "fid:" + selection.fid,

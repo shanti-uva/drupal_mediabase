@@ -5,6 +5,8 @@
 Drupal.behaviors.mb_kaltura = {
    attach: function(context) {
       // Force HTML5 layers
+      // DO NOT DELETE BELOW. IT IS COMMENTED OUT SO THAT THE CUSTOM PLAYER WILL SHOW PROPERLY
+      // BUT WE WILL NEED IT IF WE EVER WANT TO GO BACK TO FORCING HTML5
    /*    if (typeof mw !== 'undefined') {
          mw.setConfig('forceMobileHTML5', true );
          mw.setConfig('EmbedPlayer.EnableIframeApi', true) // If false, player will error out

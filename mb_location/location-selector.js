@@ -139,7 +139,7 @@ LocationSelector.prototype.initWidgetMarkup = function () {
          }
          
          // Leave this in
-         console.log('Querying place dictionary:', acSource.replace('{term}', acInput.val()))
+         console.log('Querying the place dictionary:', acSource.replace('{term}', acInput.val()))
          
          acInput.autocomplete( {
                source: function( request, response ) {
@@ -148,7 +148,7 @@ LocationSelector.prototype.initWidgetMarkup = function () {
                         dataType: "jsonp",
                         success: function( data ) {
                            var results = [];
-                           console.log("Place data for '" + acInput.val() + "'", data)
+                           console.log("Place data for '" + acInput.val() + "'", data) // Leave this in
                            
                            if ( data.features.feature ) {
                               if ( ! jQuery.isArray(data.features.feature) ) {

@@ -148,6 +148,8 @@ LocationSelector.prototype.initWidgetMarkup = function () {
                         dataType: "jsonp",
                         success: function( data ) {
                            var results = [];
+                           console.log("Place data for '" + acInput.val() + "'", data)
+                           
                            if ( data.features.feature ) {
                               if ( ! jQuery.isArray(data.features.feature) ) {
                                  data.features.feature = [data.features.feature]

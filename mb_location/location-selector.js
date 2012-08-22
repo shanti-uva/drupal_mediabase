@@ -138,8 +138,7 @@ LocationSelector.prototype.initWidgetMarkup = function () {
             return;
          }
          
-         // Leave this in
-         console.log('Querying the place dictionary:', acSource.replace('{term}', acInput.val()))
+         console.log('Querying the place dictionary:', acSource.replace('{term}', acInput.val())) // Leave this in
          
          acInput.autocomplete( {
                source: function( request, response ) {

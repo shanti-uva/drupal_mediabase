@@ -1,9 +1,5 @@
 <?php
 
-define('KMAP_DETAIL_SERVICE_URI_VAR', 'kmap_detail_service_uri');
-define('KMAP_REMOTE_LINK_VAR', 'kmap_remote_link');
-define('KMAP_ROOT_ONLY_REMOTE_LINK_VAR', 'kmap_root_only_remote_link');
-
 function kmap_detail_page ($kmap_id, $views_display = 'default') {
    module_load_include('inc', 'kmap_taxonomy', 'includes/kmap');
    $kmap = new Kmap($kmap_id);
@@ -61,7 +57,7 @@ function render_full_kmap( $kmap, $views_display = 'default')  {
    module_load_include('inc', 'kmap_taxonomy', 'includes/lang_codes_iso_639_2_utf8');
    $langs = array_merge( get_lang_codes(), $non_std_lang_codes );  
    
-   $kmap_detail_service_uri = variable_get(KMAP_DETAIL_SERVICE_URI_VAR, 'http://tmb.thlib.org/categories/%d/detailed.xml');
+   $kmap_detail_service_uri = variable_get('kmap_detail_service_uri', variable_get('kmap_server', 'http://tmb.thlib.org') . '/categories/%d/detailed.xml');
    
    $service_uri = sprintf($kmap_detail_service_uri, $kmap->get_kmap_id());
    
@@ -120,8 +116,8 @@ function render_full_kmap( $kmap, $views_display = 'default')  {
       // Remote Link back to kmap server
       // for root category: http://tmb.thlib.org/categories/20/children
       // for sub-category: http://tmb.thlib.org/categories/20/children/40
-      $remote_kmap_link_tpl = variable_get(KMAP_REMOTE_LINK_VAR, 'http://tmb.thlib.org/categories/%d/children/%d');
-      $remote_root_only_kmap_link_tpl = variable_get(KMAP_ROOT_ONLY_REMOTE_LINK_VAR, 'http://tmb.thlib.org/categories/%d/children');
+      $remote_kmap_link_tpl = variable_get('kmap_remote_link', variable_get('kmap_server', 'http://tmb.thlib.org') . '/categories/%d/children/%d');
+      $remote_root_only_kmap_link_tpl = variable_get('kmap_root_only_remote_link', variable_get('kmap_server', 'http://tmb.thlib.org') . '/categories/%d/children');
       $remote_kmap_link = '';
       if ( sizeof($lineage) > 1 ) {
          $remote_kmap_link = sprintf($remote_kmap_link_tpl, $lineage[0]['kmap_id'], $lineage[sizeof($lineage)-1]['kmap_id']);
@@ -135,7 +131,7 @@ function render_full_kmap( $kmap, $views_display = 'default')  {
       }
    }
    else {
-      $output .= sprintf('<div>%s</div>', t('No knowledge map exists on the server matching id: ' . $kmap_id ));
+      $output .= sprintf('<div>%s</div>', t('No knowledge map exists on the server matching id: ' . $kmap_id . '. Service URI was: ' . $service_uri));
    }
    
       // add a views view of the media for this subject

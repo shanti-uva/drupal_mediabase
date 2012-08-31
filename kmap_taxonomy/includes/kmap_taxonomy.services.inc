@@ -10,7 +10,7 @@
 * TODO: Use the shanti server for all kmaps interactions
 **/
 function fetch_root_categories() {
-   $root_service = 'http://tmb.thlib.org/categories.xml';
+   $root_service = variable_get('kmap_server', 'http://tmb.thlib.org') . '/categories.xml';
    $options = &drupal_static(__FUNCTION__);
    if (! isset ($options) ) {
       $strXml = file_get_contents($root_service);
@@ -29,41 +29,53 @@ function fetch_root_categories() {
 }
 
 function kmaps_list($kmap_id = NULL) {
+   $kmap_server =  variable_get('kmap_server', 'http://tmb.thlib.org');
    if (empty($kmap_id)) {
-      $list_url = "http://tmb.thlib.org/categories/list.json";
+      $list_path = "/categories/list.json";
    }
    else {
-      $list_url = "http://tmb.thlib.org/categories/$kmap_id/list.json";
+      $list_path = "/categories/$kmap_id/list.json";
    }
-   $response = drupal_http_request($list_url);
+
+   $uri = trim($kmap_server . $list_path);
+   $response = drupal_http_request($uri);
+   
    drupal_add_http_header('content-type', 'application/javascript');
    $callback = $_GET['callback'];
    print "$callback($response->data)";
 }
 
 function kmaps_all($kmap_id = NULL) {
+   $kmap_server =  variable_get('kmap_server', 'http://tmb.thlib.org');
    if (empty($kmap_id)) {
-      $all_url = "http://tmb.thlib.org/categories/all.json";
+      $all_path = "/categories/all.json";
+   }              
+   else {         
+      $all_path = "/categories/$kmap_id/all.json";
    }
-   else {
-      $all_url = "http://tmb.thlib.org/categories/$kmap_id/all.json";
-   }
-   $response = drupal_http_request($all_url);
+   $uri = trim($kmap_server . $all_path);
+   $response = drupal_http_request($uri);
+
    drupal_add_http_header('content-type', 'application/javascript');
    $callback = $_GET['callback'];
    print "$callback($response->data)";
 }
 
 function kmaps_categories($kmap_id) {
+   $kmap_server =  variable_get('kmap_server', 'http://tmb.thlib.org');
    if (empty($kmap_id)) {
-      $categories_url = "http://tmb.thlib.org/categories.json";
+      $categories_path = "/categories.json";
    }
    else {
-      $categories_url = "http://tmb.thlib.org/categories/$kmap_id/children.json";
+      $categories_path = "/categories/$kmap_id/children.json";
    }
-   $response = drupal_http_request($categories_url);
+   
+   $uri = trim($kmap_server . $categories_path);
+   $response = drupal_http_request($uri);
+
    drupal_add_http_header('content-type', 'application/javascript');
    $callback = $_GET['callback'];
    print "$callback($response->data)";
 }
+
 

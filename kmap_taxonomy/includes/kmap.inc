@@ -9,7 +9,6 @@ class Kmap {
    const KMAP_LINEAGE_LAST = 'last';
    const KMAP_LINEAGE_LAST_PLUS_PARENT = 'last_plus_parent';
    const KMAP_LINEAGE_FULL = 'full';
-   
    private $kmap_id = NULL;
    private $vid = NULL;
    private $term = NULL;
@@ -220,23 +219,19 @@ class Kmap {
          else {
             $term = array_shift( $entities['taxonomy_term'] );
          }
-         
          $kmap_parent_id = $category->id;
          $taxo_parent_tid = $term->tid;
       }
       return $term;
    }
-   
+
    private function get_remote_kmap_tree() {
       $tree = &drupal_static(__FUNCTION__);
       if (!isset($tree)) {
-         $uri = 'http://tmb.thlib.org/categories/all.xml';
-         $str_xml = file_get_contents($uri); // get the full Kmap tree
-         $tree = simplexml_load_string($str_xml);
+         $uri = trim(variable_get('kmap_server', 'http://tmb.thlib.org') . '/categories/all.xml');
+         $response = drupal_http_request($uri); // get the full kmap tree
+         $tree = simplexml_load_string($response->data);
       }
       return $tree;
    }
-}   
-
-
-
+}

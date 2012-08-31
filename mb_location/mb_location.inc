@@ -90,9 +90,9 @@ function _mb_location_format_item( $item, $view_path ) {
       $links = array();
       foreach ($hierarchy as $place_id => $place_name) {
          $path = str_replace('%place_id', $place_id, $view_path );
-         $links[] = l($place_name, $path);
+         array_unshift($links, l($place_name, $path));
       }
-      $rendered_place = implode(", ", $links);
+      $rendered_place = implode(" > ", $links);
       $output .= ! empty ( $rendered_place ) ? $delim . $rendered_place : '';
    }
    return $output;

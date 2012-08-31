@@ -185,7 +185,7 @@ projects[views_slideshow][download][type] = "git"
 projects[views_datasource][version] = "1.x-dev"
 projects[views_datasource][subdir] = "contrib"
 projects[views_datasource][download][type] = "git" 
-projects[views_datasource][download][revision] = "52e54ac162ac9b51a9a85260b4e4bf002bfce259"
+projects[views_datasource][download][revision] = "248696577bed88215cf8af7901c7290e0845d233"
 
 projects[views_data_export][version] = "3.0-beta6"
 projects[views_data_export][subdir] = "contrib"
@@ -215,7 +215,7 @@ projects[mb-html5][type] = "theme"
 ; LIBRARIES
 libraries[saxon][download][type] = "file"
 libraries[saxon][download][url] = "http://downloads.sourceforge.net/project/saxon/Saxon-HE/9.4/SaxonHE9-4-0-3J.zip"
-; libraries[saxon][download][url] = "https://raw.github.com/pinedrop/transcripts/master/transcripts.xsl"
+;libraries[saxon][download][url] = "https://raw.github.com/pinedrop/transcripts/master/transcripts.xsl"
 
 libraries[jquery.cycle][download][type] = "file"
 libraries[jquery.cycle][download][url] = "https://github.com/malsup/cycle/tarball/master"                         
@@ -225,6 +225,6 @@ libraries[flexslider][download][type] = "git"
 libraries[flexslider][download][url] = "git://github.com/woothemes/FlexSlider.git"                         
 
 ; PATCHES
-; projects[kaltura][patch][] = "https://raw.github.com/pinedrop/mediabase/master/patches/kaltura-dev-patch-20120615.patch"
+;projects[kaltura][patch][] = "https://raw.github.com/pinedrop/mediabase/master/patches/kaltura-dev-patch-20120615.patch"
 projects[spaces][patch][] = "https://raw.github.com/pinedrop/mediabase/master/patches/spaces_og_use_a_different_space_type_plugin.patch"
 

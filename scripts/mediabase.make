@@ -185,7 +185,7 @@ projects[views_slideshow][download][type] = "git"
 projects[views_datasource][version] = "1.x-dev"
 projects[views_datasource][subdir] = "contrib"
 projects[views_datasource][download][type] = "git" 
-projects[views_datasource][download][revision] = "52e54ac162ac9b51a9a85260b4e4bf002bfce259"
+projects[views_datasource][download][revision] = "f6faa7cde45ae56b86ce31c49c4aa71225e3c436"
 
 projects[views_data_export][version] = "3.0-beta6"
 projects[views_data_export][subdir] = "contrib"

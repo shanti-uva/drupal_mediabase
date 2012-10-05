@@ -79,7 +79,7 @@ projects[field_group][subdir] = "contrib"
 projects[field_group][download][type] = "git" 
 projects[field_group][download][revision] = "09f351080692305bd3447d61d0b18d021f0a72fb"
 
-projects[filefield_sources][version] = 1.4
+projects[filefield_sources][version] = 1.6
 projects[filefield_sources][subdir] = "contrib"
 projects[filefield_sources][download][type] = "git" 
 
@@ -112,7 +112,7 @@ projects[masquerade][version] = "1.0-rc4"
 projects[masquerade][subdir] = "contrib"
 projects[masquerade][download][type] = "git" 
 
-projects[og][version] = "1.4"
+projects[og][version] = "1.5"
 projects[og][subdir] = "contrib"
 projects[og][download][type] = "git" 
 
@@ -165,7 +165,7 @@ projects[subform][version] = "1.0-alpha1"
 projects[subform][subdir] = "contrib"
 projects[subform][download][type] = "git" 
 
-projects[token][version] = "1.2"
+projects[token][version] = "1.4"
 projects[token][subdir] = "contrib"
 projects[token][download][type] = "git" 
 
@@ -199,11 +199,11 @@ projects[votingapi][download][type] = "git"
 projects[omega][version] = "3.1"
 
 ; CUSTOM MODULES
-projects[mediabase][download][type] = "git"
+   projects[mediabase][download][type] = "git"
 projects[mediabase][download][url] = "git://github.com/pinedrop/mediabase.git"
 projects[mediabase][type] = "module"
 
-projects[transcripts][download][type] = "git"
+ projects[transcripts][download][type] = "git"
 projects[transcripts][download][url] = "git://github.com/pinedrop/transcripts.git"
 projects[transcripts][type] = "module"
 

@@ -3,9 +3,9 @@ core = 7.x
 api = 2
 projects[drupal][version] = "7.15"
 projects[drupal][type] = core
-projects[drupal][download][type] = "git" 
 
 ; CONTRIB MODULES
+; See http://www.wizonesolutions.com/2011/12/19/drush-make-avoid-the-unexpected/ for how to find git revs for -dev versions of modules
 
 projects[admin_menu][version] = "3.0-rc3"
 projects[admin_menu][subdir] = "contrib"

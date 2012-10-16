@@ -6,9 +6,7 @@
 
 function mediabase_init() {
    $path = drupal_get_path('module', 'mediabase');
-   dpm($path, "path");
    drupal_add_js( array( 'mediabase' => array( 'path' => $path )), 'setting' );  
-
 }
 
 function mediabase_menu() {

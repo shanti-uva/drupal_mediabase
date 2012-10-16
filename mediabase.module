@@ -4,8 +4,12 @@
 * This module provides general customizations for the Mediabase Drupal application
 */
 
-/* function mediabase_init() {
-} */
+function mediabase_init() {
+   $path = drupal_get_path('module', 'mediabase');
+   dpm($path, "path");
+   drupal_add_js( array( 'mediabase' => array( 'path' => $path )), 'setting' );  
+
+}
 
 function mediabase_menu() {
    $items = array();
@@ -59,7 +63,7 @@ function mediabase_form_alter(&$form, &$form_state, $form_id) {
    if (in_array($form_id, array('search_block_form', 'apachesolr_search_custom_page_search_form'))) {
       drupal_add_js(drupal_get_path('module', 'mediabase') .'/js/mediabase.js', array('preprocess' => FALSE));
    }  
-   if ($form['#node_edit_form']) {
+   if ( isset($form['#node_edit_form']) && $form['#node_edit_form']) {
       $form['actions']['Cancel'] = array(
          '#access' => 'TRUE',
          '#type' => 'submit',

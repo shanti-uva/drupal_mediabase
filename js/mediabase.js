@@ -38,17 +38,23 @@ Drupal.behaviors.mediabase={attach:function(context){
       ));
       toggleBlock.append( jQuery('<label/>').text(Drupal.t('Transcript Search')).attr('for', radioId ));
       
-      // close button
-      toggleBlock.append( jQuery('<div/>').append( jQuery('<a>[close]</a>').attr({
+      // add the close link
+      toggleBlock.prepend( jQuery('<a title="close"><img/></a>').attr({
             href: '#',
             class: 'close-toggle-box',
+      }).css({
+            float: 'right',
+            width: '20px',
       }).click(function(event) {
          toggleBlock.removeClass('visible');
          event.preventDefault();
-      })
-      ));
-
+      }));
       
+      // add the close button
+      var closeButtonPath = Drupal.settings.basePath +  Drupal.settings.mediabase.path + '/images/close.png';
+      jQuery('.close-toggle-box img').attr( {
+            src: closeButtonPath,
+      }).css('width', '20px');
       
       searchForm.find('input[type=text]').hover( function(event) {
             toggleBlock.addClass('visible');

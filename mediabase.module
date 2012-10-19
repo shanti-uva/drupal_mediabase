@@ -9,6 +9,15 @@ function mediabase_init() {
    drupal_add_js( array( 'mediabase' => array( 'path' => $path )), 'setting' );  
 }
 
+function mediabase_permission() {
+  return array(
+    'administer mediabase' => array(
+      'title' => t('Administer Mediabase'), 
+      'description' => t('Perform administration tasks for mediabase.'),
+    ),
+  );   
+}
+
 function mediabase_menu() {
    $items = array();
    $items['admin/config/media/mediabase'] = array(
@@ -28,12 +37,6 @@ function mediabase_menu() {
    'type' => MENU_NORMAL_ITEM,
    );
    return $items;
-}
-
-function mediabase_perm() {
-   return array(
-      'administer mediabase',
-      );
 }
 
 function mediabase_settings_form($form_id, $form_state) {

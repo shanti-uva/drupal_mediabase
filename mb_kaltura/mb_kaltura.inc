@@ -1352,5 +1352,7 @@ function _report_kaltura_exception($e, $msg) {
 * which communicate with kaltura but not drupal .
 **/
 function mb_upload_keepalive() {
-   return 'alive';
+   //drupal_add_http_header('content-type', 'application/javascript');
+   drupal_json_output();
+   print json_encode('mediabase upload keep-alive ' . date(DATE_RFC822));
 }

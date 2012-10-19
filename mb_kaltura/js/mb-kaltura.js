@@ -84,7 +84,6 @@ Drupal.behaviors.mb_kaltura = {
       
       // Use the better close button for media
       var closeButtonPath = Drupal.settings.basePath +  Drupal.settings.mediabase.path + '/images/close.png';
-      console.log('closeButtonPath', closeButtonPath);
       jQuery('input.remove_media').css({
             'background-image': "url('" + closeButtonPath + "')",
       });

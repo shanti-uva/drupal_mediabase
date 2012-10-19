@@ -43,10 +43,10 @@ function mb_kaltura_menu() {
       'file' => 'mb_kaltura.inc',
       );
    $items['mb_kaltura/autocomplete/collection'] = array(
-      'title'            => 'Ahah callback',
+      'title' => 'Ahah callback',
       'access arguments' => array('access content'),
       'page callback'    => 'mb_kaltura_autocomplete_collection',
-      'type'             => MENU_CALLBACK,
+      'type' => MENU_CALLBACK,
       'file' => 'mb_kaltura.inc',
       );
    $items['mb_kaltura/autocomplete/user'] = array(
@@ -56,7 +56,7 @@ function mb_kaltura_menu() {
       'type' => MENU_CALLBACK,
       'file' => 'mb_kaltura.inc',
       );
-   $items['upload-keepalive'] = array(
+   $items['mb_kaltura/upload-keepalive'] = array(
       'title' => 'A Keep-alive callback to be called by js during long uploads',
       'page callback' => 'mb_upload_keepalive',
       'access arguments' => array('access content'),

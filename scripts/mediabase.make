@@ -1,7 +1,7 @@
 core = 7.x
 
 api = 2
-projects[drupal][version] = "7.15"
+projects[drupal][version] = "7.16"
 projects[drupal][type] = core
 
 ; CONTRIB MODULES
@@ -100,6 +100,9 @@ projects[og_create_perms][subdir] = "contrib"
 projects[og_views][version] = "1.0"
 projects[og_views][subdir] = "contrib"
 
+projects[pagerer][version] = "1.0-beta2"
+projects[pagerer][subdir] = "contrib"
+
 projects[nice_menus][version] = "2.1"
 projects[nice_menus][subdir] = "contrib"
 
@@ -188,4 +191,5 @@ libraries[flexslider][download][url] = "git://github.com/woothemes/FlexSlider.gi
 ; PATCHES
 ;projects[kaltura][patch][] = "https://raw.github.com/pinedrop/mediabase/master/patches/kaltura-dev-patch-20120615.patch"
 projects[spaces][patch][] = "https://raw.github.com/pinedrop/mediabase/master/patches/spaces_og_use_a_different_space_type_plugin.patch"
+projects[omega][patch][] = "https://raw.github.com/pinedrop/mediabase/master/patches/rename-omega_pager-func-for-pagerer-module.patch"
 

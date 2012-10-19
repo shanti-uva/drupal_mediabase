@@ -1,13 +1,13 @@
-diff --git a/all/themes/omega/omega/omega/includes/omega.theme.inc b/all/themes/omega/omega/omega/includes/omega.theme.inc
-index 0ea7c4d..d455b42 100644
---- a/all/themes/omega/omega/omega/includes/omega.theme.inc
-+++ b/all/themes/omega/omega/omega/includes/omega.theme.inc
-@@ -18,7 +18,7 @@
+diff --git a/omega/includes/omega.theme.inc b/omega/includes/omega.theme.inc
+index 9c32f63..155406f 100644
+--- a/omega/includes/omega.theme.inc
++++ b/omega/includes/omega.theme.inc
+@@ -23,7 +23,7 @@
   *
   * @ingroup themeable
   */
 -function omega_pager($vars) {
-+function omega_pager_DISABLED_IN_ORDER_TO_USE_PAGERER($vars) {
++function omega_pager_RENAMED_TO_ALLOW_PAGERER_MODULE_TO_WORK($vars) {
    global $pager_page_array, $pager_total;
-   
+ 
    $tags = $vars['tags'];

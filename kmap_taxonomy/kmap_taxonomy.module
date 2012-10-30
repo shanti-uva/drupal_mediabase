@@ -93,6 +93,15 @@ function kmap_taxonomy_menu() {
    return $items;
 }
 
+function kmap_taxonomy_permission() {
+  return array(
+    'administer knowledge maps' => array(
+      'title' => t('Administer Knowledge Maps'), 
+      'description' => t('Perform administration tasks for knowledge maps.'),
+    ),
+  );   
+}
+
 /**
 * Implements hook_field_widget_info().
 */

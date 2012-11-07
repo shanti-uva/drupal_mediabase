@@ -110,9 +110,10 @@ KmapSelector.prototype.init = function () {
    // Autocomplete
    if (this.showAutocomplete) {
       var rootService = this.rootKmapId ? this.listServiceBranch.replace('{id}', this.rootKmapId) : this.listService;
+      
       if (typeof (this.allData[rootService] == 'undefined')) {
          jQuery.ajax({
-               url: this.listService,
+               url: rootService,
                dataType: "jsonp",
                success: function (data) {
                   kmapSelector.initAutocomplete(rootService, data);
@@ -250,6 +251,7 @@ KmapSelector.prototype.initItems = function () {
 * called in 'success' method of the $.ajax() call for the data
 **/
 KmapSelector.prototype.initAutocomplete = function (servicePath, data) {
+   
    var kmapSelector = this;
    if (typeof (data) !== 'undefined') {
       var categories = []

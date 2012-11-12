@@ -120,7 +120,7 @@ function kmap_taxonomy_field_widget_info() {
             'show_branch_filter' => true,
             'allow_annotations' => true,
             'allow_formatting' => true,
-            'allow_multipleq' => true,
+            'allow_multiple' => true,
             'root_kmap_id' => null,
             'view_path' => 'taxonomy/term/%tid', // by default use drupal's default taxonomy detail path
             ),

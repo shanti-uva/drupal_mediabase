@@ -1,0 +1,16 @@
+name = Media Services
+core = 7.x
+package = Mediabase Features
+version = 7.x-1.0
+project = media_services
+dependencies[] = ctools
+dependencies[] = services
+dependencies[] = views
+features[ctools][] = services:services:3
+features[ctools][] = views:views_default:3.0
+features[features_api][] = api:1
+features[services_endpoint][] = media_service
+features[views_view][] = media_by_kmap_count
+features[views_view][] = media_by_kmap_rss_feed
+features[views_view][] = media_by_place_count
+features[views_view][] = media_service

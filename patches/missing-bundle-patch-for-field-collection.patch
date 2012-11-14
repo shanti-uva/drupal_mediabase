@@ -1,0 +1,17 @@
+diff --git a/field_collection.module b/field_collection.module
+index 66a4179..06b1732 100644
+--- a/field_collection.module
++++ b/field_collection.module
+@@ -1369,6 +1369,12 @@ function field_collection_field_widget_form(&$form, &$form_state, $field, $insta
+         $field_collection_item = $field_state['entity'][$delta];
+       }
+       else {
++         // NEXT FOUR LINES ARE FROM PATCH FILE
++         $bad_default_entity = isset($items[$delta]['entity']) && is_string($items[$delta]['entity']) && $items[$delta]['entity'] == $field_state['instance']['default_value'][0]['entity']; 
++         if( $bad_default_entity ) {
++            unset($items[$delta]);
++         }
++
+         if (isset($items[$delta])) {
+           $field_collection_item = field_collection_field_get_entity($items[$delta], $field_name);
+         }

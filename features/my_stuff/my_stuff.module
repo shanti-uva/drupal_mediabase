@@ -1,7 +1,91 @@
 <?php
 /**
- * @file
- * Code for the My Stuff feature.
- */
+* @file
+* Code for the My Stuff feature.
+*/
 
 include_once('my_stuff.features.inc');
+
+/**
+* implementation of hook_form_<form_id>_alter
+* form id is: views_exposed_form
+**/
+function my_stuff_form_views_exposed_form_alter(&$form, &$form_state, $form_id) {
+   
+   $structured_filters = array(
+      'field_media_present_value' => 'group_media_filters',
+      'field_video_quality_acceptable_value' => 'group_media_filters',
+      'field_audio_quality_acceptable_value' => 'group_media_filters',
+      'field_media_needs_recompression_value' => 'group_media_filters',
+      'field_media_needs_re_editing_value' => 'group_media_filters',
+      'field_edls_archived_value' => 'group_media_filters',
+      'field_masters_archived_value' => 'group_media_filters',
+      'field_media_problem_1_value' => 'group_media_filters',
+      'field_media_problem_2_value' => 'group_media_filters',
+      'field_media_problem_3_value' => 'group_media_filters',
+      'field_basic_cataloging_value' => 'group_cataloging_filters',
+      'field_place_data_present_value' => 'group_cataloging_filters',
+      'field_cataloging_proofed_value' => 'group_cataloging_filters',
+      'field_extended_cataloging_value' => 'group_cataloging_filters',
+      'field_translation_language_1_value' => 'group_cataloging_filters',
+      'field_translation_language_2_value' => 'group_cataloging_filters',
+      'field_timecode_too_infrequent_value' => 'group_transcript_filters',
+      'field_timecoding_problem_1_value' => 'group_transcript_filters',
+      'field_timecoding_problem_2_value' => 'group_transcript_filters',
+      'field_transcript_input_value' => 'group_transcript_filters',
+      'field_transcript_proofed_value' => 'group_transcript_filters',
+      'field_transcript_timecoded_value' => 'group_transcript_filters',
+      'field_translation_lang_1_value' => 'group_transcript_filters',
+      'field_translation_lang_2_value' => 'group_transcript_filters',
+      'field_translation_lang_3_value' => 'group_transcript_filters',
+      'field_trans_proofed_lang_1_value' => 'group_transcript_filters',
+      'field_trans_proofed_lang_2_value' => 'group_transcript_filters',
+      'field_trans_proofed_lang_3_value' => 'group_transcript_filters',
+      );
+   
+   $view = $form_state['view'] ;
+   if (  $view->name == 'my_workflow' ) {
+      $form['group_media_filters'] = array(
+         '#type' => 'fieldset',
+         '#title' => t('Media Workflow Filters'),
+         '#collapsible' => true,
+         '#collapsed' => 'collapsed',
+         '#tree' => FALSE, 
+         '#attributes'   => array(
+            'class' =>array( 'filters-fieldset')
+            ) 
+         );
+      $form['group_cataloging_filters'] = array(
+         '#type' => 'fieldset',
+         '#title' => t('Cataloging Workflow Filters'),
+         '#collapsible' => true,
+         '#collapsed' => 'collapsed',
+         '#tree' => FALSE, 
+         '#attributes'   => array(
+            'class' =>array( 'filters-fieldset')
+            ) 
+         );
+      $form['group_transcript_filters'] = array(
+         '#type' => 'fieldset',
+         '#title' => t('Transcription Workflow Filters'),
+         '#collapsible' => true,
+         '#collapsed' => 'collapsed',
+         '#tree' => FALSE, 
+         '#attributes'   => array(
+            'class' =>array( 'filters-fieldset')
+            ) 
+         );
+      
+      foreach ( $structured_filters as $field_name => $group_name ) {
+         $infoKey = 'filter-' . $field_name;
+         $form[$group_name][$field_name] = $form[$field_name];
+         $form[$group_name][$field_name]['#title'] = $form['#info'][$infoKey]['label'];
+         unset($form[$field_name]);
+         unset($form['#info'][$infoKey]);
+      }
+   }
+   
+   // Post-pend the submit button
+   $form['submit']['#weight'] = 20;
+   $form['reset']['#weight'] = 21;
+}

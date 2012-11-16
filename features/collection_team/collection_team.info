@@ -1,7 +1,7 @@
 name = Collection & Team
 description = Collections and Teams
 core = 7.x
-package = Features
+package = Mediabase
 php = 5.2.4
 version = 7.x-1.0
 project = collection_team
@@ -65,6 +65,8 @@ features[variable][] = comment_preview_team
 features[variable][] = comment_subject_field_collection
 features[variable][] = comment_subject_field_team
 features[variable][] = comment_team
+features[variable][] = field_bundle_settings_node__collection
+features[variable][] = field_bundle_settings_node__team
 features[variable][] = menu_options_collection
 features[variable][] = menu_options_team
 features[variable][] = menu_parent_collection

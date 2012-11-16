@@ -1,0 +1,61 @@
+<?php
+
+/**
+* Clean up old workflow fields
+**/
+function audio_video_update_7000() {
+   $old_workflow_fields = array(
+      //audio workflow fields
+      'field_av_file',
+      'field_catalog_record',
+      'field_transcription',
+      'field_translation',
+      // video workflow fields                   
+      'field_basic_catalog',
+      'field_catalog_workflow_note',
+      'field_edl_log_files',
+      'field_extended_cataloging',
+      'field_media_masters_archived',
+      'field_media_present',
+      'field_media_quality_ok',
+      'field_media_recompress',
+      'field_media_workflow_note',
+      'field_proofed_catalog',
+      'field_timecode_ok',
+      'field_timecode_problem_1',
+      'field_timecode_problem_2',
+      'field_transcript',
+      'field_transcript_input',
+      'field_transcript_input_lang_1',
+      'field_transcript_input_lang_2',
+      'field_transcript_input_lang_3',
+      'field_transcript_proofed',
+      'field_transcript_proofed_lang_1',
+      'field_transcript_proofed_lang_2',
+      'field_transcript_proofed_lang_3',
+      'field_transcript_timecoded',
+      'field_transcript_workflow_note',
+      'field_transcripts_xsl',
+      'field_translation_lang_1',
+      'field_translation_lang_2',
+      );
+   
+   foreach ( $old_workflow_fields as $f_name) {
+      if (  field_read_field($f_name) ) {
+      $params = array (
+         'field_name' => $f_name,
+         'entity_type' => 'node',
+         );
+         //field_delete_field($f_name);
+         $instances =  field_read_instances($params);
+         foreach ( $instances as $instance ) {
+            drupal_set_message( "Deleting field $f_name");
+            field_delete_instance($instance, $field_cleanup = TRUE);
+         }
+      }
+      else {
+         drupal_set_message( "Field, $f_name, does not exist");
+      }
+   }
+}
+

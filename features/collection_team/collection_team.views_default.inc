@@ -24,11 +24,32 @@ function collection_team_views_default_views() {
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['title'] = 'Collection Media';
   $handler->display->display_options['display_comment'] = 'IMPORTANT! This view relies on hook_views_query_alter in the mb_structure module to set multiple gids as parameters to drill down into the team\'s objects.';
+  $handler->display->display_options['use_ajax'] = TRUE;
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['query']['options']['query_comment'] = FALSE;
-  $handler->display->display_options['exposed_form']['type'] = 'basic';
+  $handler->display->display_options['exposed_form']['type'] = 'better_exposed_filters';
+  $handler->display->display_options['exposed_form']['options']['autosubmit'] = 0;
+  $handler->display->display_options['exposed_form']['options']['autosubmit_hide'] = 1;
+  $handler->display->display_options['exposed_form']['options']['bef'] = array(
+    'type' => array(
+      'bef_format' => 'default',
+      'more_options' => array(
+        'bef_select_all_none' => 0,
+        'bef_collapsible' => 0,
+        'bef_filter_description' => '',
+      ),
+    ),
+    'field_characteristic_tid' => array(
+      'bef_format' => 'bef_ul',
+      'more_options' => array(
+        'bef_select_all_none' => 1,
+        'bef_collapsible' => 0,
+        'bef_filter_description' => '',
+      ),
+    ),
+  );
   $handler->display->display_options['pager']['type'] = 'full';
   $handler->display->display_options['pager']['options']['items_per_page'] = '60';
   $handler->display->display_options['pager']['options']['offset'] = '0';
@@ -172,11 +193,12 @@ function collection_team_views_default_views() {
   $handler->display->display_options['fields']['title']['alter']['replace_spaces'] = 0;
   $handler->display->display_options['fields']['title']['alter']['trim_whitespace'] = 0;
   $handler->display->display_options['fields']['title']['alter']['nl2br'] = 0;
-  $handler->display->display_options['fields']['title']['alter']['word_boundary'] = 0;
-  $handler->display->display_options['fields']['title']['alter']['ellipsis'] = 0;
+  $handler->display->display_options['fields']['title']['alter']['max_length'] = '80';
+  $handler->display->display_options['fields']['title']['alter']['word_boundary'] = 1;
+  $handler->display->display_options['fields']['title']['alter']['ellipsis'] = 1;
   $handler->display->display_options['fields']['title']['alter']['more_link'] = 0;
   $handler->display->display_options['fields']['title']['alter']['strip_tags'] = 0;
-  $handler->display->display_options['fields']['title']['alter']['trim'] = 0;
+  $handler->display->display_options['fields']['title']['alter']['trim'] = 1;
   $handler->display->display_options['fields']['title']['alter']['html'] = 0;
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['title']['element_default_classes'] = 1;
@@ -290,11 +312,17 @@ function collection_team_views_default_views() {
   $handler->display->display_options['fields']['comment_count']['empty_zero'] = 1;
   $handler->display->display_options['fields']['comment_count']['hide_alter_empty'] = 1;
   $handler->display->display_options['fields']['comment_count']['format_plural'] = 0;
+  /* Sort criterion: Content: Nid */
+  $handler->display->display_options['sorts']['nid']['id'] = 'nid';
+  $handler->display->display_options['sorts']['nid']['table'] = 'node';
+  $handler->display->display_options['sorts']['nid']['field'] = 'nid';
+  $handler->display->display_options['sorts']['nid']['order'] = 'DESC';
   /* Sort criterion: Content: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';
   $handler->display->display_options['sorts']['created']['field'] = 'created';
   $handler->display->display_options['sorts']['created']['order'] = 'DESC';
+  $handler->display->display_options['sorts']['created']['expose']['label'] = 'Post date';
   /* Contextual filter: OG membership: OG group gid */
   $handler->display->display_options['arguments']['group']['id'] = 'group';
   $handler->display->display_options['arguments']['group']['table'] = 'og_membership';
@@ -309,10 +337,6 @@ function collection_team_views_default_views() {
   $handler->display->display_options['arguments']['group']['summary_options']['items_per_page'] = '25';
   $handler->display->display_options['arguments']['group']['break_phrase'] = 1;
   $handler->display->display_options['arguments']['group']['not'] = 0;
-  $handler->display->display_options['filter_groups']['groups'] = array(
-    1 => 'AND',
-    2 => 'OR',
-  );
   /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
@@ -329,108 +353,36 @@ function collection_team_views_default_views() {
     'video' => 'video',
   );
   $handler->display->display_options['filters']['type']['group'] = 1;
-  /* Filter criterion: Content: Video (field_video:entryid) */
-  $handler->display->display_options['filters']['field_video_entryid']['id'] = 'field_video_entryid';
-  $handler->display->display_options['filters']['field_video_entryid']['table'] = 'field_data_field_video';
-  $handler->display->display_options['filters']['field_video_entryid']['field'] = 'field_video_entryid';
-  $handler->display->display_options['filters']['field_video_entryid']['operator'] = 'not empty';
-  $handler->display->display_options['filters']['field_video_entryid']['group'] = 2;
-  /* Filter criterion: Content: Audio (field_audio:entryid) */
-  $handler->display->display_options['filters']['field_audio_entryid']['id'] = 'field_audio_entryid';
-  $handler->display->display_options['filters']['field_audio_entryid']['table'] = 'field_data_field_audio';
-  $handler->display->display_options['filters']['field_audio_entryid']['field'] = 'field_audio_entryid';
-  $handler->display->display_options['filters']['field_audio_entryid']['operator'] = 'not empty';
-  $handler->display->display_options['filters']['field_audio_entryid']['group'] = 2;
+  $handler->display->display_options['filters']['type']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['type']['expose']['operator_id'] = 'type_op';
+  $handler->display->display_options['filters']['type']['expose']['label'] = 'Type';
+  $handler->display->display_options['filters']['type']['expose']['operator'] = 'type_op';
+  $handler->display->display_options['filters']['type']['expose']['identifier'] = 'type';
+  $handler->display->display_options['filters']['type']['expose']['reduce'] = 1;
+  /* Filter criterion: Content: Subject (field_characteristic) */
+  $handler->display->display_options['filters']['field_characteristic_tid']['id'] = 'field_characteristic_tid';
+  $handler->display->display_options['filters']['field_characteristic_tid']['table'] = 'field_data_field_characteristic';
+  $handler->display->display_options['filters']['field_characteristic_tid']['field'] = 'field_characteristic_tid';
+  $handler->display->display_options['filters']['field_characteristic_tid']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['field_characteristic_tid']['expose']['operator_id'] = 'field_characteristic_tid_op';
+  $handler->display->display_options['filters']['field_characteristic_tid']['expose']['label'] = 'Subject (field_characteristic)';
+  $handler->display->display_options['filters']['field_characteristic_tid']['expose']['operator'] = 'field_characteristic_tid_op';
+  $handler->display->display_options['filters']['field_characteristic_tid']['expose']['identifier'] = 'subj';
+  $handler->display->display_options['filters']['field_characteristic_tid']['expose']['remember'] = 1;
+  $handler->display->display_options['filters']['field_characteristic_tid']['expose']['multiple'] = 1;
+  $handler->display->display_options['filters']['field_characteristic_tid']['expose']['reduce'] = 0;
+  $handler->display->display_options['filters']['field_characteristic_tid']['reduce_duplicates'] = 1;
+  $handler->display->display_options['filters']['field_characteristic_tid']['type'] = 'select';
+  $handler->display->display_options['filters']['field_characteristic_tid']['vocabulary'] = 'kmap_taxonomy';
+  $handler->display->display_options['filters']['field_characteristic_tid']['hierarchy'] = 1;
+  $handler->display->display_options['filters']['field_characteristic_tid']['error_message'] = 1;
 
   /* Display: Collection Media Listing */
   $handler = $view->new_display('block', 'Collection Media Listing', 'block_2');
-
-  /* Display: Collection Media Stats */
-  $handler = $view->new_display('block', 'Collection Media Stats', 'block_3');
-  $handler->display->display_options['defaults']['title'] = FALSE;
-  $handler->display->display_options['title'] = 'Media count';
-  $handler->display->display_options['defaults']['group_by'] = FALSE;
-  $handler->display->display_options['group_by'] = TRUE;
-  $handler->display->display_options['defaults']['pager'] = FALSE;
-  $handler->display->display_options['pager']['type'] = 'none';
-  $handler->display->display_options['pager']['options']['offset'] = '0';
-  $handler->display->display_options['defaults']['relationships'] = FALSE;
-  /* Relationship: Collection */
-  $handler->display->display_options['relationships']['og_membership_rel']['id'] = 'og_membership_rel';
-  $handler->display->display_options['relationships']['og_membership_rel']['table'] = 'node';
-  $handler->display->display_options['relationships']['og_membership_rel']['field'] = 'og_membership_rel';
-  $handler->display->display_options['relationships']['og_membership_rel']['ui_name'] = 'Collection';
-  $handler->display->display_options['relationships']['og_membership_rel']['label'] = 'Collection';
-  $handler->display->display_options['relationships']['og_membership_rel']['required'] = 0;
-  $handler->display->display_options['defaults']['fields'] = FALSE;
-  /* Field: Content: Nid */
-  $handler->display->display_options['fields']['nid']['id'] = 'nid';
-  $handler->display->display_options['fields']['nid']['table'] = 'node';
-  $handler->display->display_options['fields']['nid']['field'] = 'nid';
-  $handler->display->display_options['fields']['nid']['group_type'] = 'count';
-  $handler->display->display_options['fields']['nid']['label'] = '';
-  $handler->display->display_options['fields']['nid']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['nid']['alter']['alter_text'] = 0;
-  $handler->display->display_options['fields']['nid']['alter']['make_link'] = 0;
-  $handler->display->display_options['fields']['nid']['alter']['absolute'] = 0;
-  $handler->display->display_options['fields']['nid']['alter']['external'] = 0;
-  $handler->display->display_options['fields']['nid']['alter']['replace_spaces'] = 0;
-  $handler->display->display_options['fields']['nid']['alter']['trim_whitespace'] = 0;
-  $handler->display->display_options['fields']['nid']['alter']['nl2br'] = 0;
-  $handler->display->display_options['fields']['nid']['alter']['word_boundary'] = 1;
-  $handler->display->display_options['fields']['nid']['alter']['ellipsis'] = 1;
-  $handler->display->display_options['fields']['nid']['alter']['more_link'] = 0;
-  $handler->display->display_options['fields']['nid']['alter']['strip_tags'] = 0;
-  $handler->display->display_options['fields']['nid']['alter']['trim'] = 0;
-  $handler->display->display_options['fields']['nid']['alter']['html'] = 0;
-  $handler->display->display_options['fields']['nid']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['nid']['element_default_classes'] = 1;
-  $handler->display->display_options['fields']['nid']['hide_empty'] = 0;
-  $handler->display->display_options['fields']['nid']['empty_zero'] = 0;
-  $handler->display->display_options['fields']['nid']['hide_alter_empty'] = 1;
-  $handler->display->display_options['fields']['nid']['format_plural'] = 0;
-  /* Field: Content: Type */
-  $handler->display->display_options['fields']['type']['id'] = 'type';
-  $handler->display->display_options['fields']['type']['table'] = 'node';
-  $handler->display->display_options['fields']['type']['field'] = 'type';
-  $handler->display->display_options['fields']['type']['label'] = '';
-  $handler->display->display_options['fields']['type']['alter']['alter_text'] = 1;
-  $handler->display->display_options['fields']['type']['alter']['text'] = '[type] ([nid])';
-  $handler->display->display_options['fields']['type']['alter']['make_link'] = 0;
-  $handler->display->display_options['fields']['type']['alter']['absolute'] = 0;
-  $handler->display->display_options['fields']['type']['alter']['external'] = 0;
-  $handler->display->display_options['fields']['type']['alter']['replace_spaces'] = 0;
-  $handler->display->display_options['fields']['type']['alter']['trim_whitespace'] = 0;
-  $handler->display->display_options['fields']['type']['alter']['nl2br'] = 0;
-  $handler->display->display_options['fields']['type']['alter']['word_boundary'] = 1;
-  $handler->display->display_options['fields']['type']['alter']['ellipsis'] = 1;
-  $handler->display->display_options['fields']['type']['alter']['more_link'] = 0;
-  $handler->display->display_options['fields']['type']['alter']['strip_tags'] = 0;
-  $handler->display->display_options['fields']['type']['alter']['trim'] = 0;
-  $handler->display->display_options['fields']['type']['alter']['html'] = 0;
-  $handler->display->display_options['fields']['type']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['type']['element_default_classes'] = 1;
-  $handler->display->display_options['fields']['type']['hide_empty'] = 0;
-  $handler->display->display_options['fields']['type']['empty_zero'] = 0;
-  $handler->display->display_options['fields']['type']['hide_alter_empty'] = 1;
-  $handler->display->display_options['fields']['type']['link_to_node'] = 0;
-  $handler->display->display_options['fields']['type']['machine_name'] = 0;
-  $handler->display->display_options['defaults']['sorts'] = FALSE;
-  $handler->display->display_options['defaults']['arguments'] = FALSE;
-  /* Contextual filter: OG membership: OG group gid */
-  $handler->display->display_options['arguments']['group']['id'] = 'group';
-  $handler->display->display_options['arguments']['group']['table'] = 'og_membership';
-  $handler->display->display_options['arguments']['group']['field'] = 'group';
-  $handler->display->display_options['arguments']['group']['relationship'] = 'og_membership_rel';
-  $handler->display->display_options['arguments']['group']['default_action'] = 'default';
-  $handler->display->display_options['arguments']['group']['default_argument_type'] = 'fixed';
-  $handler->display->display_options['arguments']['group']['default_argument_options']['argument'] = '1,2,27,28';
-  $handler->display->display_options['arguments']['group']['default_argument_skip_url'] = 0;
-  $handler->display->display_options['arguments']['group']['summary']['number_of_records'] = '0';
-  $handler->display->display_options['arguments']['group']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['group']['summary_options']['items_per_page'] = '25';
-  $handler->display->display_options['arguments']['group']['break_phrase'] = 1;
-  $handler->display->display_options['arguments']['group']['not'] = 0;
+  $handler->display->display_options['filter_groups']['groups'] = array(
+    1 => 'AND',
+    2 => 'OR',
+  );
   $handler->display->display_options['defaults']['filters'] = FALSE;
   /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
@@ -448,29 +400,33 @@ function collection_team_views_default_views() {
     'video' => 'video',
   );
   $handler->display->display_options['filters']['type']['group'] = 1;
-  $handler->display->display_options['block_description'] = 'Collection Media Stats';
+  $handler->display->display_options['filters']['type']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['type']['expose']['operator_id'] = 'type_op';
+  $handler->display->display_options['filters']['type']['expose']['label'] = 'Type';
+  $handler->display->display_options['filters']['type']['expose']['operator'] = 'type_op';
+  $handler->display->display_options['filters']['type']['expose']['identifier'] = 'type';
+  $handler->display->display_options['filters']['type']['expose']['reduce'] = 0;
+  /* Filter criterion: Content: Audio (field_audio:entryid) */
+  $handler->display->display_options['filters']['field_audio_entryid']['id'] = 'field_audio_entryid';
+  $handler->display->display_options['filters']['field_audio_entryid']['table'] = 'field_data_field_audio';
+  $handler->display->display_options['filters']['field_audio_entryid']['field'] = 'field_audio_entryid';
+  $handler->display->display_options['filters']['field_audio_entryid']['operator'] = 'not empty';
+  $handler->display->display_options['filters']['field_audio_entryid']['group'] = 2;
+  /* Filter criterion: Content: Video (field_video:entryid) */
+  $handler->display->display_options['filters']['field_video_entryid']['id'] = 'field_video_entryid';
+  $handler->display->display_options['filters']['field_video_entryid']['table'] = 'field_data_field_video';
+  $handler->display->display_options['filters']['field_video_entryid']['field'] = 'field_video_entryid';
+  $handler->display->display_options['filters']['field_video_entryid']['operator'] = 'not empty';
+  $handler->display->display_options['filters']['field_video_entryid']['group'] = 2;
 
-  /* Display: Collection Media Stats Test */
-  $handler = $view->new_display('block', 'Collection Media Stats Test', 'block_1');
+  /* Display: Team Media Listing */
+  $handler = $view->new_display('block', 'Team Media Listing', 'block_4');
   $handler->display->display_options['defaults']['title'] = FALSE;
-  $handler->display->display_options['title'] = 'STATS TEST';
-  $handler->display->display_options['defaults']['pager'] = FALSE;
-  $handler->display->display_options['pager']['type'] = 'full';
-  $handler->display->display_options['pager']['options']['items_per_page'] = '1';
-  $handler->display->display_options['pager']['options']['offset'] = '0';
-  $handler->display->display_options['pager']['options']['id'] = '0';
-  $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all'] = 0;
-  $handler->display->display_options['defaults']['empty'] = FALSE;
-  /* No results behavior: Global: Text area */
-  $handler->display->display_options['empty']['area']['id'] = 'area';
-  $handler->display->display_options['empty']['area']['table'] = 'views';
-  $handler->display->display_options['empty']['area']['field'] = 'area';
-  $handler->display->display_options['empty']['area']['label'] = 'Bad Test';
-  $handler->display->display_options['empty']['area']['empty'] = FALSE;
-  $handler->display->display_options['empty']['area']['content'] = 'Bad TEst';
-  $handler->display->display_options['empty']['area']['format'] = 'filtered_html';
-  $handler->display->display_options['empty']['area']['tokenize'] = 0;
-  $handler->display->display_options['block_description'] = 'COLL MEDIA STATS TEST';
+  $handler->display->display_options['title'] = 'Team Media';
+
+  /* Display: Pane: Collection Media */
+  $handler = $view->new_display('panel_pane', 'Pane: Collection Media', 'panel_pane_1');
+  $handler->display->display_options['exposed_block'] = TRUE;
   $export['collection_media'] = $view;
 
   $view = new view;

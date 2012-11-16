@@ -29,7 +29,7 @@ function audio_video_field_group_info() {
     'format_settings' => array(
       'label' => 'Availability & Access',
       'instance_settings' => array(
-        'classes' => '',
+        'classes' => ' group-availability-access field-group-fieldset',
         'description' => '',
       ),
       'formatter' => 'collapsed',
@@ -54,12 +54,13 @@ function audio_video_field_group_info() {
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
-      'formatter' => 'collapsible',
+      'label' => 'Availability & Access',
       'instance_settings' => array(
-        'description' => '',
-        'classes' => '',
         'required_fields' => 1,
+        'classes' => ' group-availability-access field-group-fieldset',
+        'description' => '',
       ),
+      'formatter' => 'collapsed',
     ),
   );
   $export['group_availability_access|node|audio|form'] = $field_group;
@@ -83,7 +84,7 @@ function audio_video_field_group_info() {
     'format_settings' => array(
       'label' => 'Availability & Access',
       'instance_settings' => array(
-        'classes' => '',
+        'classes' => ' group-availability-access field-group-fieldset',
         'description' => '',
       ),
       'formatter' => 'collapsed',
@@ -108,12 +109,13 @@ function audio_video_field_group_info() {
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
-      'formatter' => 'collapsible',
+      'label' => 'Availability & Access',
       'instance_settings' => array(
-        'description' => '',
-        'classes' => '',
         'required_fields' => 1,
+        'classes' => ' group-availability-access field-group-fieldset',
+        'description' => '',
       ),
+      'formatter' => 'collapsed',
     ),
   );
   $export['group_availability_access|node|video|form'] = $field_group;
@@ -121,55 +123,23 @@ function audio_video_field_group_info() {
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
-  $field_group->identifier = 'group_catalog_workflow|node|video|default';
-  $field_group->group_name = 'group_catalog_workflow';
-  $field_group->entity_type = 'node';
-  $field_group->bundle = 'video';
-  $field_group->mode = 'default';
-  $field_group->parent_name = '';
-  $field_group->data = array(
-    'label' => 'Catalog Record Workflow',
-    'weight' => '12',
-    'children' => array(
-      0 => 'field_basic_catalog',
-      1 => 'field_proofed_catalog',
-      2 => 'field_extended_cataloging',
-      3 => 'field_translation_lang_1',
-      4 => 'field_translation_lang_2',
-      5 => 'field_catalog_workflow_note',
-    ),
-    'format_type' => 'fieldset',
-    'format_settings' => array(
-      'label' => 'Catalog Record Workflow',
-      'instance_settings' => array(
-        'required_fields' => 1,
-        'classes' => '',
-        'description' => '',
-      ),
-      'formatter' => 'collapsed',
-    ),
-  );
-  $export['group_catalog_workflow|node|video|default'] = $field_group;
-
-  $field_group = new stdClass();
-  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
-  $field_group->api_version = 1;
-  $field_group->identifier = 'group_catalog_workflow|node|video|form';
-  $field_group->group_name = 'group_catalog_workflow';
-  $field_group->entity_type = 'node';
-  $field_group->bundle = 'video';
+  $field_group->identifier = 'group_catalog_record_workflow|field_collection_item|field_workflow|form';
+  $field_group->group_name = 'group_catalog_record_workflow';
+  $field_group->entity_type = 'field_collection_item';
+  $field_group->bundle = 'field_workflow';
   $field_group->mode = 'form';
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Catalog Record Workflow',
-    'weight' => '10',
+    'weight' => '1',
     'children' => array(
-      0 => 'field_basic_catalog',
-      1 => 'field_proofed_catalog',
-      2 => 'field_extended_cataloging',
-      3 => 'field_translation_lang_1',
-      4 => 'field_translation_lang_2',
-      5 => 'field_catalog_workflow_note',
+      0 => 'field_basic_cataloging',
+      1 => 'field_place_data_present',
+      2 => 'field_cataloging_proofed',
+      3 => 'field_extended_cataloging',
+      4 => 'field_translation_language_1',
+      5 => 'field_translation_language_2',
+      6 => 'field_catalog_workflow_note',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -182,7 +152,7 @@ function audio_video_field_group_info() {
       'formatter' => 'collapsed',
     ),
   );
-  $export['group_catalog_workflow|node|video|form'] = $field_group;
+  $export['group_catalog_record_workflow|field_collection_item|field_workflow|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -201,13 +171,14 @@ function audio_video_field_group_info() {
       1 => 'field_pbcore_coverage',
       2 => 'field_pbcore_coverage_spatial',
       3 => 'field_pbcore_relation',
+      4 => 'field_subcollection',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
       'formatter' => 'collapsible',
       'instance_settings' => array(
         'description' => '',
-        'classes' => '',
+        'classes' => ' group-details field-group-fieldset',
         'required_fields' => 1,
       ),
     ),
@@ -238,10 +209,10 @@ function audio_video_field_group_info() {
       'label' => 'Details',
       'instance_settings' => array(
         'required_fields' => 0,
-        'classes' => '',
+        'classes' => ' group-details field-group-fieldset',
         'description' => '',
       ),
-      'formatter' => 'collapsible',
+      'formatter' => 'collapsed',
     ),
   );
   $export['group_details|node|audio|form'] = $field_group;
@@ -263,13 +234,14 @@ function audio_video_field_group_info() {
       1 => 'field_characteristic',
       2 => 'field_pbcore_coverage_spatial',
       3 => 'field_pbcore_relation',
+      4 => 'field_subcollection',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
       'formatter' => 'collapsible',
       'instance_settings' => array(
         'description' => '',
-        'classes' => '',
+        'classes' => ' group-details field-group-fieldset',
         'required_fields' => 1,
       ),
     ),
@@ -297,12 +269,13 @@ function audio_video_field_group_info() {
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
-      'formatter' => 'collapsible',
+      'label' => 'Details',
       'instance_settings' => array(
-        'description' => '',
-        'classes' => '',
         'required_fields' => 1,
+        'classes' => ' group-details field-group-fieldset',
+        'description' => '',
       ),
+      'formatter' => 'collapsed',
     ),
   );
   $export['group_details|node|video|form'] = $field_group;
@@ -310,55 +283,28 @@ function audio_video_field_group_info() {
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
-  $field_group->identifier = 'group_media_workflow|node|video|default';
+  $field_group->identifier = 'group_media_workflow|field_collection_item|field_workflow|form';
   $field_group->group_name = 'group_media_workflow';
-  $field_group->entity_type = 'node';
-  $field_group->bundle = 'video';
-  $field_group->mode = 'default';
-  $field_group->parent_name = '';
-  $field_group->data = array(
-    'label' => 'Media Workflow',
-    'weight' => '11',
-    'children' => array(
-      0 => 'field_media_present',
-      1 => 'field_media_quality_ok',
-      2 => 'field_media_recompress',
-      3 => 'field_media_masters_archived',
-      4 => 'field_edl_log_files',
-      5 => 'field_media_workflow_note',
-    ),
-    'format_type' => 'fieldset',
-    'format_settings' => array(
-      'label' => 'Media Workflow',
-      'instance_settings' => array(
-        'required_fields' => 1,
-        'classes' => '',
-        'description' => '',
-      ),
-      'formatter' => 'collapsed',
-    ),
-  );
-  $export['group_media_workflow|node|video|default'] = $field_group;
-
-  $field_group = new stdClass();
-  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
-  $field_group->api_version = 1;
-  $field_group->identifier = 'group_media_workflow|node|video|form';
-  $field_group->group_name = 'group_media_workflow';
-  $field_group->entity_type = 'node';
-  $field_group->bundle = 'video';
+  $field_group->entity_type = 'field_collection_item';
+  $field_group->bundle = 'field_workflow';
   $field_group->mode = 'form';
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Media Workflow',
-    'weight' => '9',
+    'weight' => '0',
     'children' => array(
       0 => 'field_media_present',
-      1 => 'field_media_quality_ok',
-      2 => 'field_media_recompress',
-      3 => 'field_media_masters_archived',
-      4 => 'field_edl_log_files',
-      5 => 'field_media_workflow_note',
+      1 => 'field_video_quality_acceptable',
+      2 => 'field_audio_quality_acceptable',
+      3 => 'field_media_needs_recompression',
+      4 => 'field_media_needs_re_editing',
+      5 => 'field_edls_archived',
+      6 => 'field_masters_archived',
+      7 => 'field_media_problem_1',
+      8 => 'field_media_problem_2',
+      9 => 'field_media_problem_3',
+      10 => 'field_media_workflow_note',
+      11 => 'field_edl_log_files',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -371,7 +317,7 @@ function audio_video_field_group_info() {
       'formatter' => 'collapsed',
     ),
   );
-  $export['group_media_workflow|node|video|form'] = $field_group;
+  $export['group_media_workflow|field_collection_item|field_workflow|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -393,7 +339,7 @@ function audio_video_field_group_info() {
       'formatter' => 'collapsible',
       'instance_settings' => array(
         'description' => '',
-        'classes' => '',
+        'classes' => ' group-media field-group-fieldset',
         'required_fields' => 1,
       ),
     ),
@@ -420,7 +366,7 @@ function audio_video_field_group_info() {
       'label' => 'Media',
       'instance_settings' => array(
         'required_fields' => 0,
-        'classes' => '',
+        'classes' => ' group-media field-group-fieldset',
         'description' => '',
       ),
       'formatter' => 'collapsible',
@@ -449,7 +395,7 @@ function audio_video_field_group_info() {
     'format_settings' => array(
       'label' => 'People',
       'instance_settings' => array(
-        'classes' => '',
+        'classes' => ' group-people field-group-fieldset',
         'description' => '',
       ),
       'formatter' => 'collapsible',
@@ -477,12 +423,13 @@ function audio_video_field_group_info() {
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
-      'formatter' => 'collapsible',
+      'label' => 'People & Copyrights',
       'instance_settings' => array(
-        'description' => '',
-        'classes' => '',
         'required_fields' => 1,
+        'classes' => ' group-people field-group-fieldset',
+        'description' => '',
       ),
+      'formatter' => 'collapsed',
     ),
   );
   $export['group_people|node|audio|form'] = $field_group;
@@ -508,7 +455,7 @@ function audio_video_field_group_info() {
     'format_settings' => array(
       'label' => 'People',
       'instance_settings' => array(
-        'classes' => '',
+        'classes' => ' group-people field-group-fieldset',
         'description' => '',
       ),
       'formatter' => 'collapsible',
@@ -536,12 +483,13 @@ function audio_video_field_group_info() {
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
-      'formatter' => 'collapsible',
+      'label' => 'People & Copyrights',
       'instance_settings' => array(
-        'description' => '',
-        'classes' => '',
         'required_fields' => 1,
+        'classes' => ' group-people field-group-fieldset',
+        'description' => '',
       ),
+      'formatter' => 'collapsed',
     ),
   );
   $export['group_people|node|video|form'] = $field_group;
@@ -568,7 +516,7 @@ function audio_video_field_group_info() {
     'format_settings' => array(
       'label' => 'Rights & Licensing',
       'instance_settings' => array(
-        'classes' => '',
+        'classes' => ' group-rights field-group-fieldset',
         'description' => '',
       ),
       'formatter' => 'collapsed',
@@ -595,12 +543,13 @@ function audio_video_field_group_info() {
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
-      'formatter' => 'collapsible',
+      'label' => 'Rights & Licensing',
       'instance_settings' => array(
-        'description' => '',
-        'classes' => '',
         'required_fields' => 1,
+        'classes' => ' group-rights field-group-fieldset',
+        'description' => '',
       ),
+      'formatter' => 'collapsed',
     ),
   );
   $export['group_rights|node|audio|form'] = $field_group;
@@ -627,7 +576,7 @@ function audio_video_field_group_info() {
     'format_settings' => array(
       'label' => 'Rights & Licensing',
       'instance_settings' => array(
-        'classes' => '',
+        'classes' => ' group-rights field-group-fieldset',
         'description' => '',
       ),
       'formatter' => 'collapsed',
@@ -654,12 +603,13 @@ function audio_video_field_group_info() {
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
-      'formatter' => 'collapsible',
+      'label' => 'Rights & Licensing',
       'instance_settings' => array(
-        'description' => '',
-        'classes' => '',
         'required_fields' => 1,
+        'classes' => ' group-rights field-group-fieldset',
+        'description' => '',
       ),
+      'formatter' => 'collapsed',
     ),
   );
   $export['group_rights|node|video|form'] = $field_group;
@@ -685,7 +635,7 @@ function audio_video_field_group_info() {
     'format_settings' => array(
       'label' => 'Technical Metadata',
       'instance_settings' => array(
-        'classes' => '',
+        'classes' => ' group-technical field-group-fieldset',
         'description' => '',
       ),
       'formatter' => 'collapsed',
@@ -713,12 +663,13 @@ function audio_video_field_group_info() {
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
-      'formatter' => 'collapsible',
+      'label' => 'Techinical Metadata',
       'instance_settings' => array(
-        'description' => '',
-        'classes' => '',
         'required_fields' => 1,
+        'classes' => ' group-technical field-group-fieldset',
+        'description' => '',
       ),
+      'formatter' => 'collapsed',
     ),
   );
   $export['group_technical|node|audio|form'] = $field_group;
@@ -745,7 +696,7 @@ function audio_video_field_group_info() {
       'label' => 'Technical Metadata',
       'instance_settings' => array(
         'required_fields' => 1,
-        'classes' => '',
+        'classes' => ' group-technical field-group-fieldset',
         'description' => '',
       ),
       'formatter' => 'collapsed',
@@ -776,7 +727,7 @@ function audio_video_field_group_info() {
       'label' => 'Technical Metadata',
       'instance_settings' => array(
         'required_fields' => 1,
-        'classes' => '',
+        'classes' => ' group-technical field-group-fieldset',
         'description' => '',
       ),
       'formatter' => 'collapsed',
@@ -828,12 +779,13 @@ function audio_video_field_group_info() {
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
-      'formatter' => 'collapsible',
+      'label' => 'Title & Description',
       'instance_settings' => array(
-        'description' => '',
-        'classes' => '',
         'required_fields' => 1,
+        'classes' => ' group-title-desc field-group-fieldset',
+        'description' => '',
       ),
+      'formatter' => 'collapsed',
     ),
   );
   $export['group_title_desc|node|audio|form'] = $field_group;
@@ -886,12 +838,13 @@ function audio_video_field_group_info() {
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
-      'formatter' => 'collapsible',
+      'label' => 'Title & Description',
       'instance_settings' => array(
-        'description' => '',
-        'classes' => '',
         'required_fields' => 1,
+        'classes' => ' group-title-desc field-group-fieldset',
+        'description' => '',
       ),
+      'formatter' => 'collapsed',
     ),
   );
   $export['group_title_desc|node|video|form'] = $field_group;
@@ -899,72 +852,33 @@ function audio_video_field_group_info() {
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
-  $field_group->identifier = 'group_transcript_workflow|node|video|default';
+  $field_group->identifier = 'group_transcript_workflow|field_collection_item|field_workflow|form';
   $field_group->group_name = 'group_transcript_workflow';
-  $field_group->entity_type = 'node';
-  $field_group->bundle = 'video';
-  $field_group->mode = 'default';
-  $field_group->parent_name = '';
-  $field_group->data = array(
-    'label' => 'Transcript Worflow',
-    'weight' => '13',
-    'children' => array(
-      0 => 'field_transcript_input',
-      1 => 'field_transcript_timecoded',
-      2 => 'field_timecode_ok',
-      3 => 'field_timecode_problem_1',
-      4 => 'field_timecode_problem_2',
-      5 => 'field_transcript_proofed',
-      6 => 'field_transcript_input_lang_1',
-      7 => 'field_transcript_input_lang_2',
-      8 => 'field_transcript_input_lang_3',
-      9 => 'field_transcript_proofed_lang_1',
-      10 => 'field_transcript_proofed_lang_2',
-      11 => 'field_transcript_proofed_lang_3',
-      12 => 'field_transcript_workflow_note',
-    ),
-    'format_type' => 'fieldset',
-    'format_settings' => array(
-      'label' => 'Transcript Worflow',
-      'instance_settings' => array(
-        'classes' => '',
-        'description' => '',
-      ),
-      'formatter' => 'collapsed',
-    ),
-  );
-  $export['group_transcript_workflow|node|video|default'] = $field_group;
-
-  $field_group = new stdClass();
-  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
-  $field_group->api_version = 1;
-  $field_group->identifier = 'group_transcript_workflow|node|video|form';
-  $field_group->group_name = 'group_transcript_workflow';
-  $field_group->entity_type = 'node';
-  $field_group->bundle = 'video';
+  $field_group->entity_type = 'field_collection_item';
+  $field_group->bundle = 'field_workflow';
   $field_group->mode = 'form';
   $field_group->parent_name = '';
   $field_group->data = array(
-    'label' => 'Transcript Worflow',
-    'weight' => '11',
+    'label' => 'Transcript Workflow',
+    'weight' => '2',
     'children' => array(
       0 => 'field_transcript_input',
       1 => 'field_transcript_timecoded',
-      2 => 'field_timecode_ok',
-      3 => 'field_timecode_problem_1',
-      4 => 'field_timecode_problem_2',
+      2 => 'field_timecode_too_infrequent',
+      3 => 'field_timecoding_problem_1',
+      4 => 'field_timecoding_problem_2',
       5 => 'field_transcript_proofed',
-      6 => 'field_transcript_input_lang_1',
-      7 => 'field_transcript_input_lang_2',
-      8 => 'field_transcript_input_lang_3',
-      9 => 'field_transcript_proofed_lang_1',
-      10 => 'field_transcript_proofed_lang_2',
-      11 => 'field_transcript_proofed_lang_3',
+      6 => 'field_translation_lang_1',
+      7 => 'field_translation_lang_2',
+      8 => 'field_translation_lang_3',
+      9 => 'field_trans_proofed_lang_1',
+      10 => 'field_trans_proofed_lang_2',
+      11 => 'field_trans_proofed_lang_3',
       12 => 'field_transcript_workflow_note',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
-      'label' => 'Transcript Worflow',
+      'label' => 'Transcript Workflow',
       'instance_settings' => array(
         'required_fields' => 1,
         'classes' => '',
@@ -973,7 +887,7 @@ function audio_video_field_group_info() {
       'formatter' => 'collapsed',
     ),
   );
-  $export['group_transcript_workflow|node|video|form'] = $field_group;
+  $export['group_transcript_workflow|field_collection_item|field_workflow|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -996,7 +910,7 @@ function audio_video_field_group_info() {
       'label' => 'Transcript',
       'instance_settings' => array(
         'required_fields' => 0,
-        'classes' => '',
+        'classes' => ' group-transcript field-group-fieldset',
         'description' => '',
       ),
       'formatter' => 'collapsed',
@@ -1025,7 +939,7 @@ function audio_video_field_group_info() {
       'label' => 'Transcript',
       'instance_settings' => array(
         'required_fields' => 0,
-        'classes' => '',
+        'classes' => ' group-transcript field-group-fieldset',
         'description' => '',
       ),
       'formatter' => 'collapsed',
@@ -1036,19 +950,48 @@ function audio_video_field_group_info() {
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
-  $field_group->identifier = 'group_workflow|node|audio|default';
+  $field_group->identifier = 'group_workflow|field_collection_item|field_workflow|default';
   $field_group->group_name = 'group_workflow';
-  $field_group->entity_type = 'node';
-  $field_group->bundle = 'audio';
+  $field_group->entity_type = 'field_collection_item';
+  $field_group->bundle = 'field_workflow';
   $field_group->mode = 'default';
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Workflow',
-    'weight' => '10',
+    'weight' => '0',
     'children' => array(
-      0 => 'field_catalog_record',
-      1 => 'field_transcription',
-      2 => 'field_translation',
+      0 => 'field_audio_quality_acceptable',
+      1 => 'field_basic_cataloging',
+      2 => 'field_catalog_workflow_note',
+      3 => 'field_cataloging_proofed',
+      4 => 'field_edl_log_files',
+      5 => 'field_edls_archived',
+      6 => 'field_extended_cataloging',
+      7 => 'field_masters_archived',
+      8 => 'field_media_needs_re_editing',
+      9 => 'field_media_needs_recompression',
+      10 => 'field_media_present',
+      11 => 'field_media_problem_1',
+      12 => 'field_media_problem_2',
+      13 => 'field_media_problem_3',
+      14 => 'field_media_workflow_note',
+      15 => 'field_place_data_present',
+      16 => 'field_timecode_too_infrequent',
+      17 => 'field_timecoding_problem_1',
+      18 => 'field_timecoding_problem_2',
+      19 => 'field_trans_proofed_lang_1',
+      20 => 'field_trans_proofed_lang_2',
+      21 => 'field_trans_proofed_lang_3',
+      22 => 'field_transcript_input',
+      23 => 'field_transcript_proofed',
+      24 => 'field_transcript_timecoded',
+      25 => 'field_transcript_workflow_note',
+      26 => 'field_translation_lang_1',
+      27 => 'field_translation_lang_2',
+      28 => 'field_translation_lang_3',
+      29 => 'field_translation_language_1',
+      30 => 'field_translation_language_2',
+      31 => 'field_video_quality_acceptable',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -1060,94 +1003,7 @@ function audio_video_field_group_info() {
       'formatter' => 'collapsed',
     ),
   );
-  $export['group_workflow|node|audio|default'] = $field_group;
-
-  $field_group = new stdClass();
-  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
-  $field_group->api_version = 1;
-  $field_group->identifier = 'group_workflow|node|audio|form';
-  $field_group->group_name = 'group_workflow';
-  $field_group->entity_type = 'node';
-  $field_group->bundle = 'audio';
-  $field_group->mode = 'form';
-  $field_group->parent_name = '';
-  $field_group->data = array(
-    'label' => 'Workflow',
-    'weight' => '9',
-    'children' => array(
-      0 => 'field_av_file',
-      1 => 'field_catalog_record',
-      2 => 'field_transcription',
-      3 => 'field_translation',
-    ),
-    'format_type' => 'fieldset',
-    'format_settings' => array(
-      'formatter' => 'collapsible',
-      'instance_settings' => array(
-        'description' => '',
-        'classes' => '',
-        'required_fields' => 1,
-      ),
-    ),
-  );
-  $export['group_workflow|node|audio|form'] = $field_group;
-
-  $field_group = new stdClass();
-  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
-  $field_group->api_version = 1;
-  $field_group->identifier = 'group_workflow|node|video|default';
-  $field_group->group_name = 'group_workflow';
-  $field_group->entity_type = 'node';
-  $field_group->bundle = 'video';
-  $field_group->mode = 'default';
-  $field_group->parent_name = '';
-  $field_group->data = array(
-    'label' => 'Workflow',
-    'weight' => '10',
-    'children' => array(),
-    'format_type' => 'fieldset',
-    'format_settings' => array(
-      'label' => 'Workflow',
-      'instance_settings' => array(
-        'required_fields' => 1,
-        'classes' => '',
-        'description' => '',
-      ),
-      'formatter' => 'collapsed',
-    ),
-  );
-  $export['group_workflow|node|video|default'] = $field_group;
-
-  $field_group = new stdClass();
-  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
-  $field_group->api_version = 1;
-  $field_group->identifier = 'group_workflow|node|video|form';
-  $field_group->group_name = 'group_workflow';
-  $field_group->entity_type = 'node';
-  $field_group->bundle = 'video';
-  $field_group->mode = 'form';
-  $field_group->parent_name = '';
-  $field_group->data = array(
-    'label' => 'Workflow',
-    'weight' => '11',
-    'children' => array(
-      0 => 'field_av_file',
-      1 => 'field_catalog_record',
-      2 => 'field_transcription',
-      3 => 'field_translation',
-    ),
-    'format_type' => 'fieldset',
-    'format_settings' => array(
-      'label' => 'Workflow',
-      'instance_settings' => array(
-        'required_fields' => 1,
-        'classes' => '',
-        'description' => '',
-      ),
-      'formatter' => 'collapsed',
-    ),
-  );
-  $export['group_workflow|node|video|form'] = $field_group;
+  $export['group_workflow|field_collection_item|field_workflow|default'] = $field_group;
 
   return $export;
 }

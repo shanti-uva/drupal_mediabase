@@ -1,10 +1,12 @@
 name = Media Services
 core = 7.x
-package = Mediabase Features
+package = Mediabase
+php = 5.2.4
 version = 7.x-1.0
 project = media_services
-dependencies[] = ctools
+dependencies[] = rest_server
 dependencies[] = services
+dependencies[] = services_views
 dependencies[] = views
 features[ctools][] = services:services:3
 features[ctools][] = views:views_default:3.0

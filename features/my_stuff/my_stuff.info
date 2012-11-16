@@ -1,7 +1,7 @@
 name = My Stuff
 description = views for my stuff
 core = 7.x
-package = Features
+package = Mediabase
 php = 5.2.4
 version = 7.x-1.0
 project = my_stuff

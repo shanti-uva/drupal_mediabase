@@ -1,7 +1,7 @@
 core = 7.x
 
 api = 2
-projects[drupal][version] = "7.16"
+projects[drupal][version] = "7.17"
 projects[drupal][type] = core
 
 ; CONTRIB MODULES
@@ -10,7 +10,7 @@ projects[drupal][type] = core
 projects[admin_menu][version] = "3.0-rc3"
 projects[admin_menu][subdir] = "contrib"
 
-projects[apachesolr][version] = "1.0-rc3"
+projects[apachesolr][version] = "1.1"
 projects[apachesolr][subdir] = "contrib"
 
 projects[apachesolr_views][version] = "1.0-beta1"
@@ -39,13 +39,15 @@ projects[devel][subdir] = "contrib"
 projects[diff][version] = "2.0"
 projects[diff][subdir] = "contrib"
 
-projects[entity][version] = "1.0-rc3"
+projects[entity][version] = "1.x-dev"
 projects[entity][subdir] = "contrib"
+projects[entity][download][type] = "git" 
+projects[entity][download][revision] = "5731f741e3366889e95b5357f1f85b0acc51a9fe"
 
 projects[entityreference][version] = "1.0-rc3"
 projects[entityreference][subdir] = "contrib"
 
-projects[facetapi][version] = "1.1"
+projects[facetapi][version] = "1.2"
 projects[facetapi][subdir] = "contrib"
 
 projects[facetapi_slider][version] = "1.x-dev"
@@ -59,7 +61,7 @@ projects[features][subdir] = "contrib"
 projects[field_collection] = 1.x-dev
 projects[field_collection][subdir] = "contrib"
 projects[field_collection][download][type] = "git" 
-projects[field_collection][download][revision] = "1b68602571a43642e01f0182288355177c99cbf3"
+projects[field_collection][download][revision] = "4e0a52349a3f97b346622cda2e0e9ceb24787604"
 
 projects[field_group][version] = "1.x-dev"
 projects[field_group][subdir] = "contrib"
@@ -85,11 +87,17 @@ projects[kaltura][subdir] = "contrib"
 projects[job_scheduler][version] = "2.0-alpha3"
 projects[job_scheduler][subdir] = "contrib"
 
+projects[jquery_update][version] = "2.2"
+projects[jquery_update][subdir] = "contrib"
+
 projects[libraries][version] = "1.0"
 projects[libraries][subdir] = "contrib"
 
 projects[masquerade][version] = "1.0-rc4"
 projects[masquerade][subdir] = "contrib"
+
+projects[oauth][version] = "3.0"
+projects[oauth][subdir] = "contrib"
 
 projects[og][version] = "1.5"
 projects[og][subdir] = "contrib"
@@ -106,6 +114,9 @@ projects[pagerer][subdir] = "contrib"
 projects[nice_menus][version] = "2.1"
 projects[nice_menus][subdir] = "contrib"
 
+projects[panels][version] = "3.3"
+projects[panels][subdir] = "contrib"
+
 projects[pathauto][version] = "1.2"
 projects[pathauto][subdir] = "contrib"
 
@@ -120,6 +131,12 @@ projects[realname][subdir] = "contrib"
 
 projects[rules][version] = "2.1"
 projects[rules][subdir] = "contrib"
+
+projects[services][version] = "3.2"
+projects[services][subdir] = "contrib"
+
+projects[services_views][version] = "1.0-beta2"
+projects[services_views][subdir] = "contrib"
 
 projects[shib_auth][version] = "4.0"
 projects[shib_auth][subdir] = "contrib"
@@ -193,4 +210,5 @@ libraries[flexslider][download][url] = "git://github.com/woothemes/FlexSlider.gi
 ;projects[kaltura][patch][] = "https://raw.github.com/pinedrop/mediabase/master/patches/kaltura-dev-patch-20120615.patch"
 projects[spaces][patch][] = "https://raw.github.com/pinedrop/mediabase/master/patches/spaces_og_use_a_different_space_type_plugin.patch"
 projects[omega][patch][] = "https://raw.github.com/pinedrop/mediabase/master/patches/rename-omega_pager-func-for-pagerer-module.patch"
+projects[field_collection][patch][] = "https://raw.github.com/pinedrop/mediabase/master/patches/missing-bundle-patch-for-field-collection.patch"
 

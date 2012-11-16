@@ -26,10 +26,7 @@ function audio_video_ctools_plugin_api() {
  * Implements hook_views_api().
  */
 function audio_video_views_api() {
-  list($module, $api) = func_get_args();
-  if ($module == "views" && $api == "views_default") {
-    return array("version" => "3.0");
-  }
+  return array("version" => "3.0");
 }
 
 /**
@@ -62,10 +59,12 @@ function audio_video_flag_default_flags() {
         0 => '4',
       ),
     ),
-    'show_on_page' => 1,
-    'show_on_teaser' => 0,
+    'weight' => 0,
     'show_on_form' => 1,
     'access_author' => '',
+    'show_on_page' => 1,
+    'show_on_teaser' => 0,
+    'show_contextual_link' => FALSE,
     'i18n' => 0,
     'module' => 'audio_video',
     'locked' => array(
@@ -98,10 +97,12 @@ function audio_video_flag_default_flags() {
         0 => '2',
       ),
     ),
-    'show_on_page' => 1,
-    'show_on_teaser' => 0,
+    'weight' => 0,
     'show_on_form' => 1,
     'access_author' => '',
+    'show_on_page' => 1,
+    'show_on_teaser' => 0,
+    'show_contextual_link' => FALSE,
     'i18n' => 0,
     'module' => 'audio_video',
     'locked' => array(
@@ -134,10 +135,12 @@ function audio_video_flag_default_flags() {
         0 => '2',
       ),
     ),
-    'show_on_page' => 1,
-    'show_on_teaser' => 0,
+    'weight' => 0,
     'show_on_form' => 1,
     'access_author' => 'own',
+    'show_on_page' => 1,
+    'show_on_teaser' => 0,
+    'show_contextual_link' => FALSE,
     'i18n' => 0,
     'module' => 'audio_video',
     'locked' => array(

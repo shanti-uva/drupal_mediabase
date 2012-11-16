@@ -31,7 +31,7 @@ function collection_team_field_group_info() {
     'format_settings' => array(
       'label' => 'Collection Type and Access',
       'instance_settings' => array(
-        'classes' => '',
+        'classes' => ' group-type-and-access field-group-fieldset',
         'description' => '',
       ),
       'formatter' => 'collapsed',

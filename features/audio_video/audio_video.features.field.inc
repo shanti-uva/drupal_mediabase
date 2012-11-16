@@ -10,249 +10,7 @@
 function audio_video_field_default_fields() {
   $fields = array();
 
-  // Exported field: 'field_collection_item-field_av_file-field_workflow_note'
-  $fields['field_collection_item-field_av_file-field_workflow_note'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_workflow_note',
-      'foreign keys' => array(
-        'format' => array(
-          'columns' => array(
-            'format' => 'format',
-          ),
-          'table' => 'filter_format',
-        ),
-      ),
-      'indexes' => array(
-        'format' => array(
-          0 => 'format',
-        ),
-      ),
-      'module' => 'text',
-      'settings' => array(),
-      'translatable' => '0',
-      'type' => 'text_long',
-    ),
-    'field_instance' => array(
-      'bundle' => 'field_av_file',
-      'default_value' => NULL,
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'text',
-          'settings' => array(),
-          'type' => 'text_default',
-          'weight' => 1,
-        ),
-      ),
-      'entity_type' => 'field_collection_item',
-      'field_name' => 'field_workflow_note',
-      'label' => 'A/V File Note',
-      'required' => 0,
-      'settings' => array(
-        'text_processing' => '0',
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'text',
-        'settings' => array(
-          'rows' => '5',
-        ),
-        'type' => 'text_textarea',
-        'weight' => '2',
-      ),
-    ),
-  );
-
-  // Exported field: 'field_collection_item-field_av_file-field_workflow_status'
-  $fields['field_collection_item-field_av_file-field_workflow_status'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_workflow_status',
-      'foreign keys' => array(),
-      'indexes' => array(
-        'value' => array(
-          0 => 'value',
-        ),
-      ),
-      'module' => 'list',
-      'settings' => array(
-        'allowed_values' => array(
-          'unchecked' => 'unchecked',
-          'verified' => 'verified',
-          'needs work' => 'needs work',
-        ),
-        'allowed_values_function' => '',
-      ),
-      'translatable' => '0',
-      'type' => 'list_text',
-    ),
-    'field_instance' => array(
-      'bundle' => 'field_av_file',
-      'default_value' => array(
-        0 => array(
-          'value' => 'unchecked',
-        ),
-      ),
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'list',
-          'settings' => array(),
-          'type' => 'list_default',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'field_collection_item',
-      'field_name' => 'field_workflow_status',
-      'label' => 'A/V File Status',
-      'required' => 0,
-      'settings' => array(
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'options',
-        'settings' => array(),
-        'type' => 'options_select',
-        'weight' => '1',
-      ),
-    ),
-  );
-
-  // Exported field: 'field_collection_item-field_catalog_record-field_workflow_note'
-  $fields['field_collection_item-field_catalog_record-field_workflow_note'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_workflow_note',
-      'foreign keys' => array(
-        'format' => array(
-          'columns' => array(
-            'format' => 'format',
-          ),
-          'table' => 'filter_format',
-        ),
-      ),
-      'indexes' => array(
-        'format' => array(
-          0 => 'format',
-        ),
-      ),
-      'module' => 'text',
-      'settings' => array(),
-      'translatable' => '0',
-      'type' => 'text_long',
-    ),
-    'field_instance' => array(
-      'bundle' => 'field_catalog_record',
-      'default_value' => NULL,
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'text',
-          'settings' => array(),
-          'type' => 'text_default',
-          'weight' => 1,
-        ),
-      ),
-      'entity_type' => 'field_collection_item',
-      'field_name' => 'field_workflow_note',
-      'label' => 'Catalog Record Note',
-      'required' => 0,
-      'settings' => array(
-        'text_processing' => '0',
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'text',
-        'settings' => array(
-          'rows' => '5',
-        ),
-        'type' => 'text_textarea',
-        'weight' => '4',
-      ),
-    ),
-  );
-
-  // Exported field: 'field_collection_item-field_catalog_record-field_workflow_status'
-  $fields['field_collection_item-field_catalog_record-field_workflow_status'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_workflow_status',
-      'foreign keys' => array(),
-      'indexes' => array(
-        'value' => array(
-          0 => 'value',
-        ),
-      ),
-      'module' => 'list',
-      'settings' => array(
-        'allowed_values' => array(
-          'unchecked' => 'unchecked',
-          'verified' => 'verified',
-          'needs work' => 'needs work',
-        ),
-        'allowed_values_function' => '',
-      ),
-      'translatable' => '0',
-      'type' => 'list_text',
-    ),
-    'field_instance' => array(
-      'bundle' => 'field_catalog_record',
-      'default_value' => array(
-        0 => array(
-          'value' => 'unchecked',
-        ),
-      ),
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'list',
-          'settings' => array(),
-          'type' => 'list_default',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'field_collection_item',
-      'field_name' => 'field_workflow_status',
-      'label' => 'Catalog Record Status',
-      'required' => 0,
-      'settings' => array(
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'options',
-        'settings' => array(),
-        'type' => 'options_select',
-        'weight' => '2',
-      ),
-    ),
-  );
-
-  // Exported field: 'field_collection_item-field_kmap_annotation-field_annot_format'
+  // Exported field: 'field_collection_item-field_kmap_annotation-field_annot_format'.
   $fields['field_collection_item-field_kmap_annotation-field_annot_format'] = array(
     'field_config' => array(
       'active' => '1',
@@ -266,6 +24,7 @@ function audio_video_field_default_fields() {
           0 => 'value',
         ),
       ),
+      'locked' => '0',
       'module' => 'list',
       'settings' => array(
         'allowed_values' => array(
@@ -310,7 +69,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'field_collection_item-field_kmap_annotation-field_annot_note'
+  // Exported field: 'field_collection_item-field_kmap_annotation-field_annot_note'.
   $fields['field_collection_item-field_kmap_annotation-field_annot_note'] = array(
     'field_config' => array(
       'active' => '1',
@@ -331,6 +90,7 @@ function audio_video_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(),
       'translatable' => '0',
@@ -370,7 +130,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'field_collection_item-field_kmap_annotation-field_annot_numeric_label'
+  // Exported field: 'field_collection_item-field_kmap_annotation-field_annot_numeric_label'.
   $fields['field_collection_item-field_kmap_annotation-field_annot_numeric_label'] = array(
     'field_config' => array(
       'active' => '1',
@@ -391,6 +151,7 @@ function audio_video_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(
         'max_length' => '255',
@@ -432,7 +193,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'field_collection_item-field_kmap_annotation-field_annot_text_label'
+  // Exported field: 'field_collection_item-field_kmap_annotation-field_annot_text_label'.
   $fields['field_collection_item-field_kmap_annotation-field_annot_text_label'] = array(
     'field_config' => array(
       'active' => '1',
@@ -453,6 +214,7 @@ function audio_video_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(
         'max_length' => '255',
@@ -494,7 +256,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'field_collection_item-field_kmap_annotation-field_tid'
+  // Exported field: 'field_collection_item-field_kmap_annotation-field_tid'.
   $fields['field_collection_item-field_kmap_annotation-field_tid'] = array(
     'field_config' => array(
       'active' => '1',
@@ -504,6 +266,7 @@ function audio_video_field_default_fields() {
       'field_name' => 'field_tid',
       'foreign keys' => array(),
       'indexes' => array(),
+      'locked' => '0',
       'module' => 'number',
       'settings' => array(),
       'translatable' => '0',
@@ -549,7 +312,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'field_collection_item-field_kmap_annotation-kmap_id'
+  // Exported field: 'field_collection_item-field_kmap_annotation-kmap_id'.
   $fields['field_collection_item-field_kmap_annotation-kmap_id'] = array(
     'field_config' => array(
       'active' => '1',
@@ -559,6 +322,7 @@ function audio_video_field_default_fields() {
       'field_name' => 'kmap_id',
       'foreign keys' => array(),
       'indexes' => array(),
+      'locked' => '0',
       'module' => 'number',
       'settings' => array(
         'allowed_values' => array(
@@ -611,7 +375,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'field_collection_item-field_pbcore_contributor-field_contributor'
+  // Exported field: 'field_collection_item-field_pbcore_contributor-field_contributor'.
   $fields['field_collection_item-field_pbcore_contributor-field_contributor'] = array(
     'field_config' => array(
       'active' => '1',
@@ -632,6 +396,7 @@ function audio_video_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(
         'max_length' => '255',
@@ -673,7 +438,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'field_collection_item-field_pbcore_contributor-field_contributor_role'
+  // Exported field: 'field_collection_item-field_pbcore_contributor-field_contributor_role'.
   $fields['field_collection_item-field_pbcore_contributor-field_contributor_role'] = array(
     'field_config' => array(
       'active' => '1',
@@ -687,6 +452,7 @@ function audio_video_field_default_fields() {
           0 => 'value',
         ),
       ),
+      'locked' => '0',
       'module' => 'list',
       'settings' => array(
         'allowed_values' => array(
@@ -860,7 +626,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'field_collection_item-field_pbcore_coverage-field_time'
+  // Exported field: 'field_collection_item-field_pbcore_coverage-field_time'.
   $fields['field_collection_item-field_pbcore_coverage-field_time'] = array(
     'field_config' => array(
       'active' => '1',
@@ -881,6 +647,7 @@ function audio_video_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(
         'max_length' => '255',
@@ -922,7 +689,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'field_collection_item-field_pbcore_creator-field_creator'
+  // Exported field: 'field_collection_item-field_pbcore_creator-field_creator'.
   $fields['field_collection_item-field_pbcore_creator-field_creator'] = array(
     'field_config' => array(
       'active' => '1',
@@ -943,6 +710,7 @@ function audio_video_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(
         'max_length' => '255',
@@ -984,7 +752,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'field_collection_item-field_pbcore_creator-field_creator_role'
+  // Exported field: 'field_collection_item-field_pbcore_creator-field_creator_role'.
   $fields['field_collection_item-field_pbcore_creator-field_creator_role'] = array(
     'field_config' => array(
       'active' => '1',
@@ -998,6 +766,7 @@ function audio_video_field_default_fields() {
           0 => 'value',
         ),
       ),
+      'locked' => '0',
       'module' => 'list',
       'settings' => array(
         'allowed_values' => array(
@@ -1058,7 +827,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'field_collection_item-field_pbcore_description-field_description'
+  // Exported field: 'field_collection_item-field_pbcore_description-field_description'.
   $fields['field_collection_item-field_pbcore_description-field_description'] = array(
     'field_config' => array(
       'active' => '1',
@@ -1079,6 +848,7 @@ function audio_video_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(),
       'translatable' => '1',
@@ -1118,7 +888,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'field_collection_item-field_pbcore_description-field_description_type'
+  // Exported field: 'field_collection_item-field_pbcore_description-field_description_type'.
   $fields['field_collection_item-field_pbcore_description-field_description_type'] = array(
     'field_config' => array(
       'active' => '1',
@@ -1132,6 +902,7 @@ function audio_video_field_default_fields() {
           0 => 'value',
         ),
       ),
+      'locked' => '0',
       'module' => 'list',
       'settings' => array(
         'allowed_values' => array(
@@ -1244,7 +1015,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'field_collection_item-field_pbcore_description-field_language'
+  // Exported field: 'field_collection_item-field_pbcore_description-field_language'.
   $fields['field_collection_item-field_pbcore_description-field_language'] = array(
     'field_config' => array(
       'active' => '1',
@@ -1258,6 +1029,7 @@ function audio_video_field_default_fields() {
           0 => 'value',
         ),
       ),
+      'locked' => '0',
       'module' => 'list',
       'settings' => array(
         'allowed_values' => array(
@@ -1482,7 +1254,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'field_collection_item-field_pbcore_extension-field_extension'
+  // Exported field: 'field_collection_item-field_pbcore_extension-field_extension'.
   $fields['field_collection_item-field_pbcore_extension-field_extension'] = array(
     'field_config' => array(
       'active' => '1',
@@ -1503,6 +1275,7 @@ function audio_video_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(),
       'translatable' => '0',
@@ -1542,7 +1315,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'field_collection_item-field_pbcore_extension-field_extension_authority'
+  // Exported field: 'field_collection_item-field_pbcore_extension-field_extension_authority'.
   $fields['field_collection_item-field_pbcore_extension-field_extension_authority'] = array(
     'field_config' => array(
       'active' => '1',
@@ -1563,6 +1336,7 @@ function audio_video_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(
         'max_length' => '255',
@@ -1604,7 +1378,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'field_collection_item-field_pbcore_format_id-field_format_id'
+  // Exported field: 'field_collection_item-field_pbcore_format_id-field_format_id'.
   $fields['field_collection_item-field_pbcore_format_id-field_format_id'] = array(
     'field_config' => array(
       'active' => '1',
@@ -1625,6 +1399,7 @@ function audio_video_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(
         'max_length' => '255',
@@ -1666,7 +1441,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'field_collection_item-field_pbcore_format_id-field_format_id_source'
+  // Exported field: 'field_collection_item-field_pbcore_format_id-field_format_id_source'.
   $fields['field_collection_item-field_pbcore_format_id-field_format_id_source'] = array(
     'field_config' => array(
       'active' => '1',
@@ -1687,6 +1462,7 @@ function audio_video_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(
         'max_length' => '255',
@@ -1727,7 +1503,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'field_collection_item-field_pbcore_identifier-field_identifier'
+  // Exported field: 'field_collection_item-field_pbcore_identifier-field_identifier'.
   $fields['field_collection_item-field_pbcore_identifier-field_identifier'] = array(
     'field_config' => array(
       'active' => '1',
@@ -1748,6 +1524,7 @@ function audio_video_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(
         'max_length' => '255',
@@ -1789,7 +1566,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'field_collection_item-field_pbcore_identifier-field_identifier_source'
+  // Exported field: 'field_collection_item-field_pbcore_identifier-field_identifier_source'.
   $fields['field_collection_item-field_pbcore_identifier-field_identifier_source'] = array(
     'field_config' => array(
       'active' => '1',
@@ -1810,6 +1587,7 @@ function audio_video_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(
         'max_length' => '255',
@@ -1851,7 +1629,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'field_collection_item-field_pbcore_instantiation-field_alternate_modes'
+  // Exported field: 'field_collection_item-field_pbcore_instantiation-field_alternate_modes'.
   $fields['field_collection_item-field_pbcore_instantiation-field_alternate_modes'] = array(
     'field_config' => array(
       'active' => '1',
@@ -1872,6 +1650,7 @@ function audio_video_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(
         'max_length' => '255',
@@ -1913,7 +1692,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'field_collection_item-field_pbcore_instantiation-field_aspect_ratio'
+  // Exported field: 'field_collection_item-field_pbcore_instantiation-field_aspect_ratio'.
   $fields['field_collection_item-field_pbcore_instantiation-field_aspect_ratio'] = array(
     'field_config' => array(
       'active' => '1',
@@ -1927,6 +1706,7 @@ function audio_video_field_default_fields() {
           0 => 'value',
         ),
       ),
+      'locked' => '0',
       'module' => 'list',
       'settings' => array(
         'allowed_values' => array(
@@ -1976,7 +1756,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'field_collection_item-field_pbcore_instantiation-field_bit_depth'
+  // Exported field: 'field_collection_item-field_pbcore_instantiation-field_bit_depth'.
   $fields['field_collection_item-field_pbcore_instantiation-field_bit_depth'] = array(
     'field_config' => array(
       'active' => '1',
@@ -1990,6 +1770,7 @@ function audio_video_field_default_fields() {
           0 => 'value',
         ),
       ),
+      'locked' => '0',
       'module' => 'list',
       'settings' => array(
         'allowed_values' => array(
@@ -2037,7 +1818,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'field_collection_item-field_pbcore_instantiation-field_channel_conf'
+  // Exported field: 'field_collection_item-field_pbcore_instantiation-field_channel_conf'.
   $fields['field_collection_item-field_pbcore_instantiation-field_channel_conf'] = array(
     'field_config' => array(
       'active' => '1',
@@ -2058,6 +1839,7 @@ function audio_video_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(
         'max_length' => '255',
@@ -2099,7 +1881,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'field_collection_item-field_pbcore_instantiation-field_colors'
+  // Exported field: 'field_collection_item-field_pbcore_instantiation-field_colors'.
   $fields['field_collection_item-field_pbcore_instantiation-field_colors'] = array(
     'field_config' => array(
       'active' => '1',
@@ -2113,6 +1895,7 @@ function audio_video_field_default_fields() {
           0 => 'value',
         ),
       ),
+      'locked' => '0',
       'module' => 'list',
       'settings' => array(
         'allowed_values' => array(
@@ -2163,7 +1946,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'field_collection_item-field_pbcore_instantiation-field_data_rate'
+  // Exported field: 'field_collection_item-field_pbcore_instantiation-field_data_rate'.
   $fields['field_collection_item-field_pbcore_instantiation-field_data_rate'] = array(
     'field_config' => array(
       'active' => '1',
@@ -2184,6 +1967,7 @@ function audio_video_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(
         'max_length' => '255',
@@ -2225,7 +2009,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'field_collection_item-field_pbcore_instantiation-field_date_created'
+  // Exported field: 'field_collection_item-field_pbcore_instantiation-field_date_created'.
   $fields['field_collection_item-field_pbcore_instantiation-field_date_created'] = array(
     'field_config' => array(
       'active' => '1',
@@ -2235,6 +2019,7 @@ function audio_video_field_default_fields() {
       'field_name' => 'field_date_created',
       'foreign keys' => array(),
       'indexes' => array(),
+      'locked' => '0',
       'module' => 'date',
       'settings' => array(
         'granularity' => array(
@@ -2267,7 +2052,6 @@ function audio_video_field_default_fields() {
             'multiple_from' => '',
             'multiple_number' => '',
             'multiple_to' => '',
-            'show_repeat_rule' => 'show',
           ),
           'type' => 'date_default',
           'weight' => '0',
@@ -2288,6 +2072,7 @@ function audio_video_field_default_fields() {
         'active' => 1,
         'module' => 'date',
         'settings' => array(
+          'display_all_day' => 0,
           'increment' => '15',
           'input_format' => 'm/d/Y - H:i:s',
           'input_format_custom' => '',
@@ -2302,7 +2087,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'field_collection_item-field_pbcore_instantiation-field_date_issued'
+  // Exported field: 'field_collection_item-field_pbcore_instantiation-field_date_issued'.
   $fields['field_collection_item-field_pbcore_instantiation-field_date_issued'] = array(
     'field_config' => array(
       'active' => '1',
@@ -2312,6 +2097,7 @@ function audio_video_field_default_fields() {
       'field_name' => 'field_date_issued',
       'foreign keys' => array(),
       'indexes' => array(),
+      'locked' => '0',
       'module' => 'date',
       'settings' => array(
         'granularity' => array(
@@ -2344,7 +2130,6 @@ function audio_video_field_default_fields() {
             'multiple_from' => '',
             'multiple_number' => '',
             'multiple_to' => '',
-            'show_repeat_rule' => 'show',
           ),
           'type' => 'date_default',
           'weight' => '1',
@@ -2365,6 +2150,7 @@ function audio_video_field_default_fields() {
         'active' => 1,
         'module' => 'date',
         'settings' => array(
+          'display_all_day' => 0,
           'increment' => '15',
           'input_format' => 'm/d/Y - H:i:s',
           'input_format_custom' => '',
@@ -2379,7 +2165,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'field_collection_item-field_pbcore_instantiation-field_digital_format'
+  // Exported field: 'field_collection_item-field_pbcore_instantiation-field_digital_format'.
   $fields['field_collection_item-field_pbcore_instantiation-field_digital_format'] = array(
     'field_config' => array(
       'active' => '1',
@@ -2393,6 +2179,7 @@ function audio_video_field_default_fields() {
           0 => 'value',
         ),
       ),
+      'locked' => '0',
       'module' => 'list',
       'settings' => array(
         'allowed_values' => array(
@@ -2723,7 +2510,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'field_collection_item-field_pbcore_instantiation-field_duration'
+  // Exported field: 'field_collection_item-field_pbcore_instantiation-field_duration'.
   $fields['field_collection_item-field_pbcore_instantiation-field_duration'] = array(
     'field_config' => array(
       'active' => '1',
@@ -2744,6 +2531,7 @@ function audio_video_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(
         'max_length' => '255',
@@ -2785,7 +2573,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'field_collection_item-field_pbcore_instantiation-field_encoding_scheme'
+  // Exported field: 'field_collection_item-field_pbcore_instantiation-field_encoding_scheme'.
   $fields['field_collection_item-field_pbcore_instantiation-field_encoding_scheme'] = array(
     'field_config' => array(
       'active' => '1',
@@ -2806,6 +2594,7 @@ function audio_video_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(
         'max_length' => '255',
@@ -2847,7 +2636,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'field_collection_item-field_pbcore_instantiation-field_file_size'
+  // Exported field: 'field_collection_item-field_pbcore_instantiation-field_file_size'.
   $fields['field_collection_item-field_pbcore_instantiation-field_file_size'] = array(
     'field_config' => array(
       'active' => '1',
@@ -2868,6 +2657,7 @@ function audio_video_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(
         'max_length' => '255',
@@ -2909,7 +2699,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'field_collection_item-field_pbcore_instantiation-field_format_standard'
+  // Exported field: 'field_collection_item-field_pbcore_instantiation-field_format_standard'.
   $fields['field_collection_item-field_pbcore_instantiation-field_format_standard'] = array(
     'field_config' => array(
       'active' => '1',
@@ -2923,6 +2713,7 @@ function audio_video_field_default_fields() {
           0 => 'value',
         ),
       ),
+      'locked' => '0',
       'module' => 'list',
       'settings' => array(
         'allowed_values' => array(
@@ -2980,7 +2771,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'field_collection_item-field_pbcore_instantiation-field_frame_rate'
+  // Exported field: 'field_collection_item-field_pbcore_instantiation-field_frame_rate'.
   $fields['field_collection_item-field_pbcore_instantiation-field_frame_rate'] = array(
     'field_config' => array(
       'active' => '1',
@@ -2994,6 +2785,7 @@ function audio_video_field_default_fields() {
           0 => 'value',
         ),
       ),
+      'locked' => '0',
       'module' => 'list',
       'settings' => array(
         'allowed_values' => array(
@@ -3057,7 +2849,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'field_collection_item-field_pbcore_instantiation-field_frame_size'
+  // Exported field: 'field_collection_item-field_pbcore_instantiation-field_frame_size'.
   $fields['field_collection_item-field_pbcore_instantiation-field_frame_size'] = array(
     'field_config' => array(
       'active' => '1',
@@ -3078,6 +2870,7 @@ function audio_video_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(
         'max_length' => '255',
@@ -3119,7 +2912,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'field_collection_item-field_pbcore_instantiation-field_generations'
+  // Exported field: 'field_collection_item-field_pbcore_instantiation-field_generations'.
   $fields['field_collection_item-field_pbcore_instantiation-field_generations'] = array(
     'field_config' => array(
       'active' => '1',
@@ -3133,6 +2926,7 @@ function audio_video_field_default_fields() {
           0 => 'value',
         ),
       ),
+      'locked' => '0',
       'module' => 'list',
       'settings' => array(
         'allowed_values' => array(
@@ -3299,7 +3093,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'field_collection_item-field_pbcore_instantiation-field_language'
+  // Exported field: 'field_collection_item-field_pbcore_instantiation-field_language'.
   $fields['field_collection_item-field_pbcore_instantiation-field_language'] = array(
     'field_config' => array(
       'active' => '1',
@@ -3313,6 +3107,7 @@ function audio_video_field_default_fields() {
           0 => 'value',
         ),
       ),
+      'locked' => '0',
       'module' => 'list',
       'settings' => array(
         'allowed_values' => array(
@@ -3538,7 +3333,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'field_collection_item-field_pbcore_instantiation-field_media_type'
+  // Exported field: 'field_collection_item-field_pbcore_instantiation-field_media_type'.
   $fields['field_collection_item-field_pbcore_instantiation-field_media_type'] = array(
     'field_config' => array(
       'active' => '1',
@@ -3552,6 +3347,7 @@ function audio_video_field_default_fields() {
           0 => 'value',
         ),
       ),
+      'locked' => '0',
       'module' => 'list',
       'settings' => array(
         'allowed_values' => array(
@@ -3606,7 +3402,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'field_collection_item-field_pbcore_instantiation-field_pbcore_annotation'
+  // Exported field: 'field_collection_item-field_pbcore_instantiation-field_pbcore_annotation'.
   $fields['field_collection_item-field_pbcore_instantiation-field_pbcore_annotation'] = array(
     'field_config' => array(
       'active' => '1',
@@ -3627,6 +3423,7 @@ function audio_video_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(),
       'translatable' => '1',
@@ -3666,7 +3463,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'field_collection_item-field_pbcore_instantiation-field_pbcore_date_available'
+  // Exported field: 'field_collection_item-field_pbcore_instantiation-field_pbcore_date_available'.
   $fields['field_collection_item-field_pbcore_instantiation-field_pbcore_date_available'] = array(
     'field_config' => array(
       'active' => '1',
@@ -3676,6 +3473,7 @@ function audio_video_field_default_fields() {
       'field_name' => 'field_pbcore_date_available',
       'foreign keys' => array(),
       'indexes' => array(),
+      'locked' => '0',
       'module' => 'date',
       'settings' => array(
         'granularity' => array(
@@ -3708,7 +3506,6 @@ function audio_video_field_default_fields() {
             'multiple_from' => '',
             'multiple_number' => '',
             'multiple_to' => '',
-            'show_repeat_rule' => 'show',
           ),
           'type' => 'date_default',
           'weight' => '25',
@@ -3729,6 +3526,7 @@ function audio_video_field_default_fields() {
         'active' => 1,
         'module' => 'date',
         'settings' => array(
+          'display_all_day' => 0,
           'increment' => '15',
           'input_format' => 'm/d/Y - H:i:s',
           'input_format_custom' => '',
@@ -3743,7 +3541,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'field_collection_item-field_pbcore_instantiation-field_pbcore_format_id'
+  // Exported field: 'field_collection_item-field_pbcore_instantiation-field_pbcore_format_id'.
   $fields['field_collection_item-field_pbcore_instantiation-field_pbcore_format_id'] = array(
     'field_config' => array(
       'active' => '1',
@@ -3753,8 +3551,10 @@ function audio_video_field_default_fields() {
       'field_name' => 'field_pbcore_format_id',
       'foreign keys' => array(),
       'indexes' => array(),
+      'locked' => '0',
       'module' => 'field_collection',
       'settings' => array(
+        'hide_blank_items' => TRUE,
         'path' => '',
       ),
       'translatable' => '1',
@@ -3770,13 +3570,9 @@ function audio_video_field_default_fields() {
           'label' => 'inline',
           'module' => 'field_collection',
           'settings' => array(
-            'add' => 'Add',
-            'delete' => 'Delete',
-            'description' => TRUE,
-            'edit' => 'Edit',
             'view_mode' => 'full',
           ),
-          'type' => 'field_collection_view',
+          'type' => 'field_collection_fields',
           'weight' => '23',
         ),
       ),
@@ -3797,7 +3593,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'field_collection_item-field_pbcore_instantiation-field_physical_format'
+  // Exported field: 'field_collection_item-field_pbcore_instantiation-field_physical_format'.
   $fields['field_collection_item-field_pbcore_instantiation-field_physical_format'] = array(
     'field_config' => array(
       'active' => '1',
@@ -3811,6 +3607,7 @@ function audio_video_field_default_fields() {
           0 => 'value',
         ),
       ),
+      'locked' => '0',
       'module' => 'list',
       'settings' => array(
         'allowed_values' => array(
@@ -3981,7 +3778,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'field_collection_item-field_pbcore_instantiation-field_sampling_rate'
+  // Exported field: 'field_collection_item-field_pbcore_instantiation-field_sampling_rate'.
   $fields['field_collection_item-field_pbcore_instantiation-field_sampling_rate'] = array(
     'field_config' => array(
       'active' => '1',
@@ -3995,6 +3792,7 @@ function audio_video_field_default_fields() {
           0 => 'value',
         ),
       ),
+      'locked' => '0',
       'module' => 'list',
       'settings' => array(
         'allowed_values' => array(
@@ -4042,7 +3840,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'field_collection_item-field_pbcore_instantiation-field_start_time'
+  // Exported field: 'field_collection_item-field_pbcore_instantiation-field_start_time'.
   $fields['field_collection_item-field_pbcore_instantiation-field_start_time'] = array(
     'field_config' => array(
       'active' => '1',
@@ -4063,6 +3861,7 @@ function audio_video_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(
         'max_length' => '255',
@@ -4104,7 +3903,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'field_collection_item-field_pbcore_instantiation-field_track_data'
+  // Exported field: 'field_collection_item-field_pbcore_instantiation-field_track_data'.
   $fields['field_collection_item-field_pbcore_instantiation-field_track_data'] = array(
     'field_config' => array(
       'active' => '1',
@@ -4125,6 +3924,7 @@ function audio_video_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(
         'max_length' => '255',
@@ -4166,7 +3966,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'field_collection_item-field_pbcore_publisher-field_publisher'
+  // Exported field: 'field_collection_item-field_pbcore_publisher-field_publisher'.
   $fields['field_collection_item-field_pbcore_publisher-field_publisher'] = array(
     'field_config' => array(
       'active' => '1',
@@ -4187,6 +3987,7 @@ function audio_video_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(
         'max_length' => '255',
@@ -4228,7 +4029,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'field_collection_item-field_pbcore_publisher-field_publisher_rome'
+  // Exported field: 'field_collection_item-field_pbcore_publisher-field_publisher_rome'.
   $fields['field_collection_item-field_pbcore_publisher-field_publisher_rome'] = array(
     'field_config' => array(
       'active' => '1',
@@ -4242,6 +4043,7 @@ function audio_video_field_default_fields() {
           0 => 'value',
         ),
       ),
+      'locked' => '0',
       'module' => 'list',
       'settings' => array(
         'allowed_values' => array(
@@ -4287,7 +4089,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'field_collection_item-field_pbcore_relation-field_relation_identifier'
+  // Exported field: 'field_collection_item-field_pbcore_relation-field_relation_identifier'.
   $fields['field_collection_item-field_pbcore_relation-field_relation_identifier'] = array(
     'field_config' => array(
       'active' => '1',
@@ -4301,6 +4103,7 @@ function audio_video_field_default_fields() {
           0 => 'target_id',
         ),
       ),
+      'locked' => '0',
       'module' => 'entityreference',
       'settings' => array(
         'handler' => 'base',
@@ -4353,7 +4156,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'field_collection_item-field_pbcore_relation-field_relation_type'
+  // Exported field: 'field_collection_item-field_pbcore_relation-field_relation_type'.
   $fields['field_collection_item-field_pbcore_relation-field_relation_type'] = array(
     'field_config' => array(
       'active' => '1',
@@ -4367,6 +4170,7 @@ function audio_video_field_default_fields() {
           0 => 'value',
         ),
       ),
+      'locked' => '0',
       'module' => 'list',
       'settings' => array(
         'allowed_values' => array(
@@ -4419,7 +4223,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'field_collection_item-field_pbcore_title-field_language'
+  // Exported field: 'field_collection_item-field_pbcore_title-field_language'.
   $fields['field_collection_item-field_pbcore_title-field_language'] = array(
     'field_config' => array(
       'active' => '1',
@@ -4433,6 +4237,7 @@ function audio_video_field_default_fields() {
           0 => 'value',
         ),
       ),
+      'locked' => '0',
       'module' => 'list',
       'settings' => array(
         'allowed_values' => array(
@@ -4658,7 +4463,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'field_collection_item-field_pbcore_title-field_title'
+  // Exported field: 'field_collection_item-field_pbcore_title-field_title'.
   $fields['field_collection_item-field_pbcore_title-field_title'] = array(
     'field_config' => array(
       'active' => '1',
@@ -4679,6 +4484,7 @@ function audio_video_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(
         'max_length' => '255',
@@ -4720,7 +4526,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'field_collection_item-field_pbcore_title-field_title_type'
+  // Exported field: 'field_collection_item-field_pbcore_title-field_title_type'.
   $fields['field_collection_item-field_pbcore_title-field_title_type'] = array(
     'field_config' => array(
       'active' => '1',
@@ -4734,6 +4540,7 @@ function audio_video_field_default_fields() {
           0 => 'value',
         ),
       ),
+      'locked' => '0',
       'module' => 'list',
       'settings' => array(
         'allowed_values' => array(
@@ -4846,14 +4653,139 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'field_collection_item-field_transcription-field_workflow_note'
-  $fields['field_collection_item-field_transcription-field_workflow_note'] = array(
+  // Exported field: 'field_collection_item-field_workflow-field_audio_quality_acceptable'.
+  $fields['field_collection_item-field_workflow-field_audio_quality_acceptable'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(),
-      'field_name' => 'field_workflow_note',
+      'field_name' => 'field_audio_quality_acceptable',
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          'Not Reviewed' => 'Not Reviewed',
+          'Yes' => 'Yes',
+          'No' => 'No',
+        ),
+        'allowed_values_function' => '',
+      ),
+      'translatable' => '0',
+      'type' => 'list_text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'field_workflow',
+      'default_value' => array(
+        0 => array(
+          'value' => 'Not Reviewed',
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'inline',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => '3',
+        ),
+      ),
+      'entity_type' => 'field_collection_item',
+      'field_name' => 'field_audio_quality_acceptable',
+      'label' => 'Audio Quality Acceptable',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(),
+        'type' => 'options_select',
+        'weight' => '3',
+      ),
+    ),
+  );
+
+  // Exported field: 'field_collection_item-field_workflow-field_basic_cataloging'.
+  $fields['field_collection_item-field_workflow-field_basic_cataloging'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_basic_cataloging',
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          'Not Reviewed' => 'Not Reviewed',
+          'Yes' => 'Yes',
+          'Problem' => 'Problem',
+          'No' => 'No',
+        ),
+        'allowed_values_function' => '',
+      ),
+      'translatable' => '0',
+      'type' => 'list_text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'field_workflow',
+      'default_value' => array(
+        0 => array(
+          'value' => 'Not Reviewed',
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'inline',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => '13',
+        ),
+      ),
+      'entity_type' => 'field_collection_item',
+      'field_name' => 'field_basic_cataloging',
+      'label' => 'Basic Cataloging',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(),
+        'type' => 'options_select',
+        'weight' => '13',
+      ),
+    ),
+  );
+
+  // Exported field: 'field_collection_item-field_workflow-field_catalog_workflow_note'.
+  $fields['field_collection_item-field_workflow-field_catalog_workflow_note'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_catalog_workflow_note',
       'foreign keys' => array(
         'format' => array(
           'columns' => array(
@@ -4867,28 +4799,29 @@ function audio_video_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(),
       'translatable' => '0',
       'type' => 'text_long',
     ),
     'field_instance' => array(
-      'bundle' => 'field_transcription',
+      'bundle' => 'field_workflow',
       'default_value' => NULL,
       'deleted' => '0',
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'inline',
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => 1,
+          'weight' => '31',
         ),
       ),
       'entity_type' => 'field_collection_item',
-      'field_name' => 'field_workflow_note',
-      'label' => 'Transcription Note',
+      'field_name' => 'field_catalog_workflow_note',
+      'label' => 'Catalog Workflow Note',
       'required' => 0,
       'settings' => array(
         'text_processing' => '0',
@@ -4901,31 +4834,33 @@ function audio_video_field_default_fields() {
           'rows' => '5',
         ),
         'type' => 'text_textarea',
-        'weight' => '4',
+        'weight' => '19',
       ),
     ),
   );
 
-  // Exported field: 'field_collection_item-field_transcription-field_workflow_status'
-  $fields['field_collection_item-field_transcription-field_workflow_status'] = array(
+  // Exported field: 'field_collection_item-field_workflow-field_cataloging_proofed'.
+  $fields['field_collection_item-field_workflow-field_cataloging_proofed'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(),
-      'field_name' => 'field_workflow_status',
+      'field_name' => 'field_cataloging_proofed',
       'foreign keys' => array(),
       'indexes' => array(
         'value' => array(
           0 => 'value',
         ),
       ),
+      'locked' => '0',
       'module' => 'list',
       'settings' => array(
         'allowed_values' => array(
-          'unchecked' => 'unchecked',
-          'verified' => 'verified',
-          'needs work' => 'needs work',
+          'Not Reviewed' => 'Not Reviewed',
+          'Yes' => 'Yes',
+          'Problem' => 'Problem',
+          'No' => 'No',
         ),
         'allowed_values_function' => '',
       ),
@@ -4933,26 +4868,1764 @@ function audio_video_field_default_fields() {
       'type' => 'list_text',
     ),
     'field_instance' => array(
-      'bundle' => 'field_transcription',
+      'bundle' => 'field_workflow',
       'default_value' => array(
         0 => array(
-          'value' => 'unchecked',
+          'value' => 'Not Reviewed',
         ),
       ),
       'deleted' => '0',
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'inline',
           'module' => 'list',
           'settings' => array(),
           'type' => 'list_default',
-          'weight' => 0,
+          'weight' => '15',
         ),
       ),
       'entity_type' => 'field_collection_item',
-      'field_name' => 'field_workflow_status',
-      'label' => 'Transcription Status',
+      'field_name' => 'field_cataloging_proofed',
+      'label' => 'Cataloging Proofed',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(),
+        'type' => 'options_select',
+        'weight' => '15',
+      ),
+    ),
+  );
+
+  // Exported field: 'field_collection_item-field_workflow-field_edl_log_files'.
+  $fields['field_collection_item-field_workflow-field_edl_log_files'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_edl_log_files',
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'text',
+      'settings' => array(),
+      'translatable' => '0',
+      'type' => 'text_long',
+    ),
+    'field_instance' => array(
+      'bundle' => 'field_workflow',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'inline',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => '12',
+        ),
+      ),
+      'entity_type' => 'field_collection_item',
+      'field_name' => 'field_edl_log_files',
+      'label' => 'Logging files/EDLs',
+      'required' => 0,
+      'settings' => array(
+        'text_processing' => '0',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'text',
+        'settings' => array(
+          'rows' => '5',
+        ),
+        'type' => 'text_textarea',
+        'weight' => '11',
+      ),
+    ),
+  );
+
+  // Exported field: 'field_collection_item-field_workflow-field_edls_archived'.
+  $fields['field_collection_item-field_workflow-field_edls_archived'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_edls_archived',
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          'Not Reviewed' => 'Not Reviewed',
+          'Yes' => 'Yes',
+          'No' => 'No',
+        ),
+        'allowed_values_function' => '',
+      ),
+      'translatable' => '0',
+      'type' => 'list_text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'field_workflow',
+      'default_value' => array(
+        0 => array(
+          'value' => 'Not Reviewed',
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'inline',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => '6',
+        ),
+      ),
+      'entity_type' => 'field_collection_item',
+      'field_name' => 'field_edls_archived',
+      'label' => 'Logging files/EDLs archived',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(),
+        'type' => 'options_select',
+        'weight' => '6',
+      ),
+    ),
+  );
+
+  // Exported field: 'field_collection_item-field_workflow-field_extended_cataloging'.
+  $fields['field_collection_item-field_workflow-field_extended_cataloging'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_extended_cataloging',
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          'Not Reviewed' => 'Not Reviewed',
+          'Yes' => 'Yes',
+          'Problem' => 'Problem',
+          'No' => 'No',
+        ),
+        'allowed_values_function' => '',
+      ),
+      'translatable' => '0',
+      'type' => 'list_text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'field_workflow',
+      'default_value' => array(
+        0 => array(
+          'value' => 'Not Reviewed',
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'inline',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => '16',
+        ),
+      ),
+      'entity_type' => 'field_collection_item',
+      'field_name' => 'field_extended_cataloging',
+      'label' => 'Extended Cataloging',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(),
+        'type' => 'options_select',
+        'weight' => '16',
+      ),
+    ),
+  );
+
+  // Exported field: 'field_collection_item-field_workflow-field_masters_archived'.
+  $fields['field_collection_item-field_workflow-field_masters_archived'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_masters_archived',
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          'Not Reviewed' => 'Not Reviewed',
+          'Yes' => 'Yes',
+          'No' => 'No',
+        ),
+        'allowed_values_function' => '',
+      ),
+      'translatable' => '0',
+      'type' => 'list_text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'field_workflow',
+      'default_value' => array(
+        0 => array(
+          'value' => 'Not Reviewed',
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'inline',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => '7',
+        ),
+      ),
+      'entity_type' => 'field_collection_item',
+      'field_name' => 'field_masters_archived',
+      'label' => 'Masters Archived',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(),
+        'type' => 'options_select',
+        'weight' => '7',
+      ),
+    ),
+  );
+
+  // Exported field: 'field_collection_item-field_workflow-field_media_needs_re_editing'.
+  $fields['field_collection_item-field_workflow-field_media_needs_re_editing'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_media_needs_re_editing',
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          'Not Reviewed' => 'Not Reviewed',
+          'Yes' => 'Yes',
+          'No' => 'No',
+        ),
+        'allowed_values_function' => '',
+      ),
+      'translatable' => '0',
+      'type' => 'list_text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'field_workflow',
+      'default_value' => array(
+        0 => array(
+          'value' => 'Not Reviewed',
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'inline',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => '5',
+        ),
+      ),
+      'entity_type' => 'field_collection_item',
+      'field_name' => 'field_media_needs_re_editing',
+      'label' => 'Media Needs Re-editing',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(),
+        'type' => 'options_select',
+        'weight' => '5',
+      ),
+    ),
+  );
+
+  // Exported field: 'field_collection_item-field_workflow-field_media_needs_recompression'.
+  $fields['field_collection_item-field_workflow-field_media_needs_recompression'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_media_needs_recompression',
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          'Not Reviewed' => 'Not Reviewed',
+          'Yes' => 'Yes',
+          'No' => 'No',
+        ),
+        'allowed_values_function' => '',
+      ),
+      'translatable' => '0',
+      'type' => 'list_text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'field_workflow',
+      'default_value' => array(
+        0 => array(
+          'value' => 'Not Reviewed',
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'inline',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => '4',
+        ),
+      ),
+      'entity_type' => 'field_collection_item',
+      'field_name' => 'field_media_needs_recompression',
+      'label' => 'Media Needs Recompression',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(),
+        'type' => 'options_select',
+        'weight' => '4',
+      ),
+    ),
+  );
+
+  // Exported field: 'field_collection_item-field_workflow-field_media_present'.
+  $fields['field_collection_item-field_workflow-field_media_present'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_media_present',
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          'Not Reviewed' => 'Not Reviewed',
+          'Yes' => 'Yes',
+          'Problems' => 'Problems',
+          'No' => 'No',
+        ),
+        'allowed_values_function' => '',
+      ),
+      'translatable' => '0',
+      'type' => 'list_text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'field_workflow',
+      'default_value' => array(
+        0 => array(
+          'value' => 'Not Reviewed',
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'inline',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => '1',
+        ),
+      ),
+      'entity_type' => 'field_collection_item',
+      'field_name' => 'field_media_present',
+      'label' => 'Media Present',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(),
+        'type' => 'options_select',
+        'weight' => '1',
+      ),
+    ),
+  );
+
+  // Exported field: 'field_collection_item-field_workflow-field_media_problem_1'.
+  $fields['field_collection_item-field_workflow-field_media_problem_1'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_media_problem_1',
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          'Not Reviewed' => 'Not Reviewed',
+          'Yes' => 'Yes',
+          'No' => 'No',
+        ),
+        'allowed_values_function' => '',
+      ),
+      'translatable' => '0',
+      'type' => 'list_text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'field_workflow',
+      'default_value' => array(
+        0 => array(
+          'value' => 'Not Reviewed',
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'inline',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => '8',
+        ),
+      ),
+      'entity_type' => 'field_collection_item',
+      'field_name' => 'field_media_problem_1',
+      'label' => 'Media Problem #1',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(),
+        'type' => 'options_select',
+        'weight' => '8',
+      ),
+    ),
+  );
+
+  // Exported field: 'field_collection_item-field_workflow-field_media_problem_2'.
+  $fields['field_collection_item-field_workflow-field_media_problem_2'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_media_problem_2',
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          'Not Reviewed' => 'Not Reviewed',
+          'Yes' => 'Yes',
+          'No' => 'No',
+        ),
+        'allowed_values_function' => '',
+      ),
+      'translatable' => '0',
+      'type' => 'list_text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'field_workflow',
+      'default_value' => array(
+        0 => array(
+          'value' => 'Not Reviewed',
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'inline',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => '9',
+        ),
+      ),
+      'entity_type' => 'field_collection_item',
+      'field_name' => 'field_media_problem_2',
+      'label' => 'Media Problem #2',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(),
+        'type' => 'options_select',
+        'weight' => '9',
+      ),
+    ),
+  );
+
+  // Exported field: 'field_collection_item-field_workflow-field_media_problem_3'.
+  $fields['field_collection_item-field_workflow-field_media_problem_3'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_media_problem_3',
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          'Not Reviewed' => 'Not Reviewed',
+          'Yes' => 'Yes',
+          'No' => 'No',
+        ),
+        'allowed_values_function' => '',
+      ),
+      'translatable' => '0',
+      'type' => 'list_text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'field_workflow',
+      'default_value' => array(
+        0 => array(
+          'value' => 'Not Reviewed',
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'inline',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => '10',
+        ),
+      ),
+      'entity_type' => 'field_collection_item',
+      'field_name' => 'field_media_problem_3',
+      'label' => 'Media Problem #3',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(),
+        'type' => 'options_select',
+        'weight' => '10',
+      ),
+    ),
+  );
+
+  // Exported field: 'field_collection_item-field_workflow-field_media_workflow_note'.
+  $fields['field_collection_item-field_workflow-field_media_workflow_note'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_media_workflow_note',
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'text',
+      'settings' => array(),
+      'translatable' => '0',
+      'type' => 'text_long',
+    ),
+    'field_instance' => array(
+      'bundle' => 'field_workflow',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'inline',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => '11',
+        ),
+      ),
+      'entity_type' => 'field_collection_item',
+      'field_name' => 'field_media_workflow_note',
+      'label' => 'Media Workflow Note',
+      'required' => 0,
+      'settings' => array(
+        'text_processing' => '0',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'text',
+        'settings' => array(
+          'rows' => '5',
+        ),
+        'type' => 'text_textarea',
+        'weight' => '12',
+      ),
+    ),
+  );
+
+  // Exported field: 'field_collection_item-field_workflow-field_place_data_present'.
+  $fields['field_collection_item-field_workflow-field_place_data_present'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_place_data_present',
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          'Not Reviewed' => 'Not Reviewed',
+          'Yes' => 'Yes',
+          'No' => 'No',
+        ),
+        'allowed_values_function' => '',
+      ),
+      'translatable' => '0',
+      'type' => 'list_text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'field_workflow',
+      'default_value' => array(
+        0 => array(
+          'value' => 'Not Reviewed',
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'inline',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => '14',
+        ),
+      ),
+      'entity_type' => 'field_collection_item',
+      'field_name' => 'field_place_data_present',
+      'label' => 'Place Data Present',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(),
+        'type' => 'options_select',
+        'weight' => '14',
+      ),
+    ),
+  );
+
+  // Exported field: 'field_collection_item-field_workflow-field_timecode_too_infrequent'.
+  $fields['field_collection_item-field_workflow-field_timecode_too_infrequent'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_timecode_too_infrequent',
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          'Not Reviewed' => 'Not Reviewed',
+          'Yes' => 'Yes',
+          'No' => 'No',
+        ),
+        'allowed_values_function' => '',
+      ),
+      'translatable' => '0',
+      'type' => 'list_text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'field_workflow',
+      'default_value' => array(
+        0 => array(
+          'value' => 'Not Reviewed',
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'inline',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => '21',
+        ),
+      ),
+      'entity_type' => 'field_collection_item',
+      'field_name' => 'field_timecode_too_infrequent',
+      'label' => 'Timecode too infrequent',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(),
+        'type' => 'options_select',
+        'weight' => '21',
+      ),
+    ),
+  );
+
+  // Exported field: 'field_collection_item-field_workflow-field_timecoding_problem_1'.
+  $fields['field_collection_item-field_workflow-field_timecoding_problem_1'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_timecoding_problem_1',
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          'Not Reviewed' => 'Not Reviewed',
+          'Yes' => 'Yes',
+          'No' => 'No',
+        ),
+        'allowed_values_function' => '',
+      ),
+      'translatable' => '0',
+      'type' => 'list_text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'field_workflow',
+      'default_value' => array(
+        0 => array(
+          'value' => 'Not Reviewed',
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'inline',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => '22',
+        ),
+      ),
+      'entity_type' => 'field_collection_item',
+      'field_name' => 'field_timecoding_problem_1',
+      'label' => 'Timecoding problem 1',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(),
+        'type' => 'options_select',
+        'weight' => '22',
+      ),
+    ),
+  );
+
+  // Exported field: 'field_collection_item-field_workflow-field_timecoding_problem_2'.
+  $fields['field_collection_item-field_workflow-field_timecoding_problem_2'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_timecoding_problem_2',
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          'Not Reviewed' => 'Not Reviewed',
+          'Yes' => 'Yes',
+          'No' => 'No',
+        ),
+        'allowed_values_function' => '',
+      ),
+      'translatable' => '0',
+      'type' => 'list_text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'field_workflow',
+      'default_value' => array(
+        0 => array(
+          'value' => 'Not Reviewed',
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'inline',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => '23',
+        ),
+      ),
+      'entity_type' => 'field_collection_item',
+      'field_name' => 'field_timecoding_problem_2',
+      'label' => 'Timecoding problem 2',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(),
+        'type' => 'options_select',
+        'weight' => '23',
+      ),
+    ),
+  );
+
+  // Exported field: 'field_collection_item-field_workflow-field_trans_proofed_lang_1'.
+  $fields['field_collection_item-field_workflow-field_trans_proofed_lang_1'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_trans_proofed_lang_1',
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          'Not Reviewed' => 'Not Reviewed',
+          'Yes' => 'Yes',
+          'No' => 'No',
+        ),
+        'allowed_values_function' => '',
+      ),
+      'translatable' => '0',
+      'type' => 'list_text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'field_workflow',
+      'default_value' => array(
+        0 => array(
+          'value' => 'Not Reviewed',
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'inline',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => '28',
+        ),
+      ),
+      'entity_type' => 'field_collection_item',
+      'field_name' => 'field_trans_proofed_lang_1',
+      'label' => 'Translation Proofed Language 1',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(),
+        'type' => 'options_select',
+        'weight' => '28',
+      ),
+    ),
+  );
+
+  // Exported field: 'field_collection_item-field_workflow-field_trans_proofed_lang_2'.
+  $fields['field_collection_item-field_workflow-field_trans_proofed_lang_2'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_trans_proofed_lang_2',
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          'Not Reviewed' => 'Not Reviewed',
+          'Yes' => 'Yes',
+          'No' => 'No',
+        ),
+        'allowed_values_function' => '',
+      ),
+      'translatable' => '0',
+      'type' => 'list_text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'field_workflow',
+      'default_value' => array(
+        0 => array(
+          'value' => 'Not Reviewed',
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'inline',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => '29',
+        ),
+      ),
+      'entity_type' => 'field_collection_item',
+      'field_name' => 'field_trans_proofed_lang_2',
+      'label' => 'Translation Proofed Language 2',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(),
+        'type' => 'options_select',
+        'weight' => '29',
+      ),
+    ),
+  );
+
+  // Exported field: 'field_collection_item-field_workflow-field_trans_proofed_lang_3'.
+  $fields['field_collection_item-field_workflow-field_trans_proofed_lang_3'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_trans_proofed_lang_3',
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          'Not Reviewed' => 'Not Reviewed',
+          'Yes' => 'Yes',
+          'No' => 'No',
+        ),
+        'allowed_values_function' => '',
+      ),
+      'translatable' => '0',
+      'type' => 'list_text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'field_workflow',
+      'default_value' => array(
+        0 => array(
+          'value' => 'Not Reviewed',
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'inline',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => '30',
+        ),
+      ),
+      'entity_type' => 'field_collection_item',
+      'field_name' => 'field_trans_proofed_lang_3',
+      'label' => 'Translation Proofed Language 3',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(),
+        'type' => 'options_select',
+        'weight' => '30',
+      ),
+    ),
+  );
+
+  // Exported field: 'field_collection_item-field_workflow-field_transcript_input'.
+  $fields['field_collection_item-field_workflow-field_transcript_input'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_transcript_input',
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          'Not Reviewed' => 'Not Reviewed',
+          'Yes' => 'Yes',
+          'Incomplete' => 'Incomplete',
+          'No' => 'No',
+        ),
+        'allowed_values_function' => '',
+      ),
+      'translatable' => '0',
+      'type' => 'list_text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'field_workflow',
+      'default_value' => array(
+        0 => array(
+          'value' => 'Not Reviewed',
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'inline',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => '19',
+        ),
+      ),
+      'entity_type' => 'field_collection_item',
+      'field_name' => 'field_transcript_input',
+      'label' => 'Transcript Input',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(),
+        'type' => 'options_select',
+        'weight' => '19',
+      ),
+    ),
+  );
+
+  // Exported field: 'field_collection_item-field_workflow-field_transcript_proofed'.
+  $fields['field_collection_item-field_workflow-field_transcript_proofed'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_transcript_proofed',
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          'Not Reviewed' => 'Not Reviewed',
+          'Yes' => 'Yes',
+          'No' => 'No',
+        ),
+        'allowed_values_function' => '',
+      ),
+      'translatable' => '0',
+      'type' => 'list_text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'field_workflow',
+      'default_value' => array(
+        0 => array(
+          'value' => 'Not Reviewed',
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'inline',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => '24',
+        ),
+      ),
+      'entity_type' => 'field_collection_item',
+      'field_name' => 'field_transcript_proofed',
+      'label' => 'Transcript Proofed',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(),
+        'type' => 'options_select',
+        'weight' => '24',
+      ),
+    ),
+  );
+
+  // Exported field: 'field_collection_item-field_workflow-field_transcript_timecoded'.
+  $fields['field_collection_item-field_workflow-field_transcript_timecoded'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_transcript_timecoded',
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          'Not Reviewed' => 'Not Reviewed',
+          'Yes' => 'Yes',
+          'No' => 'No',
+        ),
+        'allowed_values_function' => '',
+      ),
+      'translatable' => '0',
+      'type' => 'list_text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'field_workflow',
+      'default_value' => array(
+        0 => array(
+          'value' => 'Not Reviewed',
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'inline',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => '20',
+        ),
+      ),
+      'entity_type' => 'field_collection_item',
+      'field_name' => 'field_transcript_timecoded',
+      'label' => 'Transcript Timecoded',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(),
+        'type' => 'options_select',
+        'weight' => '20',
+      ),
+    ),
+  );
+
+  // Exported field: 'field_collection_item-field_workflow-field_transcript_workflow_note'.
+  $fields['field_collection_item-field_workflow-field_transcript_workflow_note'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_transcript_workflow_note',
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'text',
+      'settings' => array(),
+      'translatable' => '0',
+      'type' => 'text_long',
+    ),
+    'field_instance' => array(
+      'bundle' => 'field_workflow',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'inline',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => '32',
+        ),
+      ),
+      'entity_type' => 'field_collection_item',
+      'field_name' => 'field_transcript_workflow_note',
+      'label' => 'Transcript Workflow Note',
+      'required' => 0,
+      'settings' => array(
+        'text_processing' => '0',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'text',
+        'settings' => array(
+          'rows' => '5',
+        ),
+        'type' => 'text_textarea',
+        'weight' => '31',
+      ),
+    ),
+  );
+
+  // Exported field: 'field_collection_item-field_workflow-field_translation_lang_1'.
+  $fields['field_collection_item-field_workflow-field_translation_lang_1'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_translation_lang_1',
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          'Not Reviewed' => 'Not Reviewed',
+          'Yes' => 'Yes',
+          'No' => 'No',
+        ),
+        'allowed_values_function' => '',
+      ),
+      'translatable' => '0',
+      'type' => 'list_text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'field_workflow',
+      'default_value' => array(
+        0 => array(
+          'value' => 'Not Reviewed',
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'inline',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => '25',
+        ),
+      ),
+      'entity_type' => 'field_collection_item',
+      'field_name' => 'field_translation_lang_1',
+      'label' => 'Translation Input Language 1',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(),
+        'type' => 'options_select',
+        'weight' => '25',
+      ),
+    ),
+  );
+
+  // Exported field: 'field_collection_item-field_workflow-field_translation_lang_2'.
+  $fields['field_collection_item-field_workflow-field_translation_lang_2'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_translation_lang_2',
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          'Not Reviewed' => 'Not Reviewed',
+          'Yes' => 'Yes',
+          'No' => 'No',
+        ),
+        'allowed_values_function' => '',
+      ),
+      'translatable' => '0',
+      'type' => 'list_text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'field_workflow',
+      'default_value' => array(
+        0 => array(
+          'value' => 'Not Reviewed',
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'inline',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => '26',
+        ),
+      ),
+      'entity_type' => 'field_collection_item',
+      'field_name' => 'field_translation_lang_2',
+      'label' => 'Translation Input Language 2',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(),
+        'type' => 'options_select',
+        'weight' => '26',
+      ),
+    ),
+  );
+
+  // Exported field: 'field_collection_item-field_workflow-field_translation_lang_3'.
+  $fields['field_collection_item-field_workflow-field_translation_lang_3'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_translation_lang_3',
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          'Not Reviewed' => 'Not Reviewed',
+          'Yes' => 'Yes',
+          'No' => 'No',
+        ),
+        'allowed_values_function' => '',
+      ),
+      'translatable' => '0',
+      'type' => 'list_text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'field_workflow',
+      'default_value' => array(
+        0 => array(
+          'value' => 'Not Reviewed',
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'inline',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => '27',
+        ),
+      ),
+      'entity_type' => 'field_collection_item',
+      'field_name' => 'field_translation_lang_3',
+      'label' => 'Translation Input Language 3',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(),
+        'type' => 'options_select',
+        'weight' => '27',
+      ),
+    ),
+  );
+
+  // Exported field: 'field_collection_item-field_workflow-field_translation_language_1'.
+  $fields['field_collection_item-field_workflow-field_translation_language_1'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_translation_language_1',
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          'Not Reviewed' => 'Not Reviewed',
+          'Yes' => 'Yes',
+          'Problem' => 'Problem',
+          'No' => 'No',
+        ),
+        'allowed_values_function' => '',
+      ),
+      'translatable' => '0',
+      'type' => 'list_text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'field_workflow',
+      'default_value' => array(
+        0 => array(
+          'value' => 'Not Reviewed',
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'inline',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => '17',
+        ),
+      ),
+      'entity_type' => 'field_collection_item',
+      'field_name' => 'field_translation_language_1',
+      'label' => 'Translation Language 1',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(),
+        'type' => 'options_select',
+        'weight' => '17',
+      ),
+    ),
+  );
+
+  // Exported field: 'field_collection_item-field_workflow-field_translation_language_2'.
+  $fields['field_collection_item-field_workflow-field_translation_language_2'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_translation_language_2',
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          'Not Reviewed' => 'Not Reviewed',
+          'Yes' => 'Yes',
+          'Problem' => 'Problem',
+          'No' => 'No',
+        ),
+        'allowed_values_function' => '',
+      ),
+      'translatable' => '0',
+      'type' => 'list_text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'field_workflow',
+      'default_value' => array(
+        0 => array(
+          'value' => 'Not Reviewed',
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'inline',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => '18',
+        ),
+      ),
+      'entity_type' => 'field_collection_item',
+      'field_name' => 'field_translation_language_2',
+      'label' => 'Translation Language 2',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(),
+        'type' => 'options_select',
+        'weight' => '18',
+      ),
+    ),
+  );
+
+  // Exported field: 'field_collection_item-field_workflow-field_video_quality_acceptable'.
+  $fields['field_collection_item-field_workflow-field_video_quality_acceptable'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_video_quality_acceptable',
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          'Not Reviewed' => 'Not Reviewed',
+          'Yes' => 'Yes',
+          'No' => 'No',
+        ),
+        'allowed_values_function' => '',
+      ),
+      'translatable' => '0',
+      'type' => 'list_text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'field_workflow',
+      'default_value' => array(
+        0 => array(
+          'value' => 'Not Reviewed',
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'inline',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => '2',
+        ),
+      ),
+      'entity_type' => 'field_collection_item',
+      'field_name' => 'field_video_quality_acceptable',
+      'label' => 'Video Quality Acceptable',
       'required' => 0,
       'settings' => array(
         'user_register_form' => FALSE,
@@ -4967,128 +6640,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'field_collection_item-field_translation-field_workflow_note'
-  $fields['field_collection_item-field_translation-field_workflow_note'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_workflow_note',
-      'foreign keys' => array(
-        'format' => array(
-          'columns' => array(
-            'format' => 'format',
-          ),
-          'table' => 'filter_format',
-        ),
-      ),
-      'indexes' => array(
-        'format' => array(
-          0 => 'format',
-        ),
-      ),
-      'module' => 'text',
-      'settings' => array(),
-      'translatable' => '0',
-      'type' => 'text_long',
-    ),
-    'field_instance' => array(
-      'bundle' => 'field_translation',
-      'default_value' => NULL,
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'text',
-          'settings' => array(),
-          'type' => 'text_default',
-          'weight' => 1,
-        ),
-      ),
-      'entity_type' => 'field_collection_item',
-      'field_name' => 'field_workflow_note',
-      'label' => 'Translation Note',
-      'required' => 0,
-      'settings' => array(
-        'text_processing' => '0',
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'text',
-        'settings' => array(
-          'rows' => '5',
-        ),
-        'type' => 'text_textarea',
-        'weight' => '4',
-      ),
-    ),
-  );
-
-  // Exported field: 'field_collection_item-field_translation-field_workflow_status'
-  $fields['field_collection_item-field_translation-field_workflow_status'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_workflow_status',
-      'foreign keys' => array(),
-      'indexes' => array(
-        'value' => array(
-          0 => 'value',
-        ),
-      ),
-      'module' => 'list',
-      'settings' => array(
-        'allowed_values' => array(
-          'unchecked' => 'unchecked',
-          'verified' => 'verified',
-          'needs work' => 'needs work',
-        ),
-        'allowed_values_function' => '',
-      ),
-      'translatable' => '0',
-      'type' => 'list_text',
-    ),
-    'field_instance' => array(
-      'bundle' => 'field_translation',
-      'default_value' => array(
-        0 => array(
-          'value' => 'unchecked',
-        ),
-      ),
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'list',
-          'settings' => array(),
-          'type' => 'list_default',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'field_collection_item',
-      'field_name' => 'field_workflow_status',
-      'label' => 'Translation Status',
-      'required' => 0,
-      'settings' => array(
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'options',
-        'settings' => array(),
-        'type' => 'options_select',
-        'weight' => '2',
-      ),
-    ),
-  );
-
-  // Exported field: 'node-audio-field_audio'
+  // Exported field: 'node-audio-field_audio'.
   $fields['node-audio-field_audio'] = array(
     'field_config' => array(
       'active' => '1',
@@ -5105,6 +6657,7 @@ function audio_video_field_default_fields() {
         ),
       ),
       'indexes' => array(),
+      'locked' => '0',
       'module' => 'field_kaltura',
       'settings' => array(
         'add_existing' => 'upload',
@@ -5146,9 +6699,19 @@ function audio_video_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'hidden',
-          'module' => 'mb_kaltura',
-          'settings' => array(),
-          'type' => 'field_kaltura_player_html5_audio',
+          'module' => 'field_kaltura',
+          'settings' => array(
+            'custom_player' => '',
+            'delivery' => 'HTTP',
+            'entry_widget' => '3410832',
+            'player_height' => '30',
+            'player_width' => '400',
+            'rotate' => 0,
+            'stretch' => NULL,
+            'thumbsize_height' => '90',
+            'thumbsize_width' => '120',
+          ),
+          'type' => 'field_kaltura_player',
           'weight' => '0',
         ),
         'teaser' => array(
@@ -5186,60 +6749,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-audio-field_av_file'
-  $fields['node-audio-field_av_file'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_av_file',
-      'foreign keys' => array(),
-      'indexes' => array(),
-      'module' => 'field_collection',
-      'settings' => array(
-        'path' => '',
-      ),
-      'translatable' => '0',
-      'type' => 'field_collection',
-    ),
-    'field_instance' => array(
-      'bundle' => 'audio',
-      'default_value' => NULL,
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => '16',
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'field_name' => 'field_av_file',
-      'label' => 'A/V File',
-      'required' => 0,
-      'settings' => array(
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 0,
-        'module' => 'field_collection',
-        'settings' => array(),
-        'type' => 'field_collection_embed',
-        'weight' => '13',
-      ),
-    ),
-  );
-
-  // Exported field: 'node-audio-field_available_from'
+  // Exported field: 'node-audio-field_available_from'.
   $fields['node-audio-field_available_from'] = array(
     'field_config' => array(
       'active' => '1',
@@ -5249,6 +6759,7 @@ function audio_video_field_default_fields() {
       'field_name' => 'field_available_from',
       'foreign keys' => array(),
       'indexes' => array(),
+      'locked' => '0',
       'module' => 'date',
       'settings' => array(
         'granularity' => array(
@@ -5281,7 +6792,6 @@ function audio_video_field_default_fields() {
             'multiple_from' => '',
             'multiple_number' => '',
             'multiple_to' => '',
-            'show_repeat_rule' => 'show',
           ),
           'type' => 'date_default',
           'weight' => '24',
@@ -5308,6 +6818,7 @@ function audio_video_field_default_fields() {
         'active' => 1,
         'module' => 'date',
         'settings' => array(
+          'display_all_day' => 0,
           'increment' => '15',
           'input_format' => 'm/d/Y - H:i:s',
           'input_format_custom' => '',
@@ -5322,62 +6833,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-audio-field_catalog_record'
-  $fields['node-audio-field_catalog_record'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_catalog_record',
-      'foreign keys' => array(),
-      'indexes' => array(),
-      'module' => 'field_collection',
-      'settings' => array(
-        'path' => '',
-      ),
-      'translatable' => '0',
-      'type' => 'field_collection',
-    ),
-    'field_instance' => array(
-      'bundle' => 'audio',
-      'default_value' => NULL,
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'field_collection',
-          'settings' => array(
-            'view_mode' => 'full',
-          ),
-          'type' => 'field_collection_fields',
-          'weight' => '28',
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'field_name' => 'field_catalog_record',
-      'label' => 'Catalog Record',
-      'required' => FALSE,
-      'settings' => array(
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'module' => 'field_collection',
-        'settings' => array(),
-        'type' => 'field_collection_embed',
-        'weight' => '16',
-      ),
-    ),
-  );
-
-  // Exported field: 'node-audio-field_characteristic'
+  // Exported field: 'node-audio-field_characteristic'.
   $fields['node-audio-field_characteristic'] = array(
     'field_config' => array(
       'active' => '1',
@@ -5398,6 +6854,7 @@ function audio_video_field_default_fields() {
           0 => 'tid',
         ),
       ),
+      'locked' => '0',
       'module' => 'taxonomy',
       'settings' => array(
         'allowed_values' => array(
@@ -5421,7 +6878,7 @@ function audio_video_field_default_fields() {
           'module' => 'kmap_annotation',
           'settings' => array(),
           'type' => 'kmap_taxonomy_annotated',
-          'weight' => '6',
+          'weight' => '30',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -5443,10 +6900,12 @@ function audio_video_field_default_fields() {
         'settings' => array(
           'allow_annotations' => TRUE,
           'allow_formatting' => TRUE,
+          'allow_multiple' => TRUE,
           'allow_multipleq' => TRUE,
           'kmap_selector_settings' => array(
             'allow_annotations' => 1,
             'allow_formatting' => 1,
+            'allow_multiple' => 1,
             'root_kmap_id' => '',
             'show_autocomplete' => 1,
             'show_branch_filter' => 1,
@@ -5465,7 +6924,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-audio-field_copyright_owner'
+  // Exported field: 'node-audio-field_copyright_owner'.
   $fields['node-audio-field_copyright_owner'] = array(
     'field_config' => array(
       'active' => '1',
@@ -5486,6 +6945,7 @@ function audio_video_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(
         'max_length' => '255',
@@ -5533,7 +6993,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-audio-field_kmap_annotation'
+  // Exported field: 'node-audio-field_kmap_annotation'.
   $fields['node-audio-field_kmap_annotation'] = array(
     'field_config' => array(
       'active' => '1',
@@ -5543,8 +7003,10 @@ function audio_video_field_default_fields() {
       'field_name' => 'field_kmap_annotation',
       'foreign keys' => array(),
       'indexes' => array(),
+      'locked' => '0',
       'module' => 'field_collection',
       'settings' => array(
+        'hide_blank_items' => TRUE,
         'path' => '',
       ),
       'translatable' => '0',
@@ -5585,7 +7047,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-audio-field_license'
+  // Exported field: 'node-audio-field_license'.
   $fields['node-audio-field_license'] = array(
     'field_config' => array(
       'active' => '1',
@@ -5606,6 +7068,7 @@ function audio_video_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(
         'max_length' => '255',
@@ -5653,7 +7116,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-audio-field_pbcore_contributor'
+  // Exported field: 'node-audio-field_pbcore_contributor'.
   $fields['node-audio-field_pbcore_contributor'] = array(
     'field_config' => array(
       'active' => '1',
@@ -5663,8 +7126,10 @@ function audio_video_field_default_fields() {
       'field_name' => 'field_pbcore_contributor',
       'foreign keys' => array(),
       'indexes' => array(),
+      'locked' => '0',
       'module' => 'field_collection',
       'settings' => array(
+        'hide_blank_items' => TRUE,
         'path' => '',
       ),
       'translatable' => '1',
@@ -5709,7 +7174,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-audio-field_pbcore_coverage'
+  // Exported field: 'node-audio-field_pbcore_coverage'.
   $fields['node-audio-field_pbcore_coverage'] = array(
     'field_config' => array(
       'active' => '1',
@@ -5719,8 +7184,10 @@ function audio_video_field_default_fields() {
       'field_name' => 'field_pbcore_coverage',
       'foreign keys' => array(),
       'indexes' => array(),
+      'locked' => '0',
       'module' => 'field_collection',
       'settings' => array(
+        'hide_blank_items' => TRUE,
         'path' => '',
       ),
       'translatable' => '1',
@@ -5739,7 +7206,7 @@ function audio_video_field_default_fields() {
             'view_mode' => 'full',
           ),
           'type' => 'field_collection_fields',
-          'weight' => '8',
+          'weight' => '32',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -5765,7 +7232,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-audio-field_pbcore_coverage_spatial'
+  // Exported field: 'node-audio-field_pbcore_coverage_spatial'.
   $fields['node-audio-field_pbcore_coverage_spatial'] = array(
     'field_config' => array(
       'active' => '1',
@@ -5786,6 +7253,7 @@ function audio_video_field_default_fields() {
           0 => 'tid',
         ),
       ),
+      'locked' => '0',
       'module' => 'taxonomy',
       'settings' => array(
         'allowed_values' => array(
@@ -5809,7 +7277,7 @@ function audio_video_field_default_fields() {
           'module' => 'mb_location',
           'settings' => array(),
           'type' => 'mb_location',
-          'weight' => '7',
+          'weight' => '31',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -5844,7 +7312,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-audio-field_pbcore_creator'
+  // Exported field: 'node-audio-field_pbcore_creator'.
   $fields['node-audio-field_pbcore_creator'] = array(
     'field_config' => array(
       'active' => '1',
@@ -5854,8 +7322,10 @@ function audio_video_field_default_fields() {
       'field_name' => 'field_pbcore_creator',
       'foreign keys' => array(),
       'indexes' => array(),
+      'locked' => '0',
       'module' => 'field_collection',
       'settings' => array(
+        'hide_blank_items' => TRUE,
         'path' => '',
       ),
       'translatable' => '1',
@@ -5900,7 +7370,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-audio-field_pbcore_description'
+  // Exported field: 'node-audio-field_pbcore_description'.
   $fields['node-audio-field_pbcore_description'] = array(
     'field_config' => array(
       'active' => '1',
@@ -5910,8 +7380,10 @@ function audio_video_field_default_fields() {
       'field_name' => 'field_pbcore_description',
       'foreign keys' => array(),
       'indexes' => array(),
+      'locked' => '0',
       'module' => 'field_collection',
       'settings' => array(
+        'hide_blank_items' => TRUE,
         'path' => '',
       ),
       'translatable' => '1',
@@ -5956,7 +7428,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-audio-field_pbcore_extension'
+  // Exported field: 'node-audio-field_pbcore_extension'.
   $fields['node-audio-field_pbcore_extension'] = array(
     'field_config' => array(
       'active' => '1',
@@ -5966,8 +7438,10 @@ function audio_video_field_default_fields() {
       'field_name' => 'field_pbcore_extension',
       'foreign keys' => array(),
       'indexes' => array(),
+      'locked' => '0',
       'module' => 'field_collection',
       'settings' => array(
+        'hide_blank_items' => TRUE,
         'path' => '',
       ),
       'translatable' => '1',
@@ -6009,7 +7483,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-audio-field_pbcore_identifier'
+  // Exported field: 'node-audio-field_pbcore_identifier'.
   $fields['node-audio-field_pbcore_identifier'] = array(
     'field_config' => array(
       'active' => '1',
@@ -6019,8 +7493,10 @@ function audio_video_field_default_fields() {
       'field_name' => 'field_pbcore_identifier',
       'foreign keys' => array(),
       'indexes' => array(),
+      'locked' => '0',
       'module' => 'field_collection',
       'settings' => array(
+        'hide_blank_items' => TRUE,
         'path' => '',
       ),
       'translatable' => '1',
@@ -6065,18 +7541,20 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-audio-field_pbcore_instantiation'
+  // Exported field: 'node-audio-field_pbcore_instantiation'.
   $fields['node-audio-field_pbcore_instantiation'] = array(
     'field_config' => array(
       'active' => '1',
-      'cardinality' => '-1',
+      'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_pbcore_instantiation',
       'foreign keys' => array(),
       'indexes' => array(),
+      'locked' => '0',
       'module' => 'field_collection',
       'settings' => array(
+        'hide_blank_items' => TRUE,
         'path' => '',
       ),
       'translatable' => '1',
@@ -6120,7 +7598,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-audio-field_pbcore_publisher'
+  // Exported field: 'node-audio-field_pbcore_publisher'.
   $fields['node-audio-field_pbcore_publisher'] = array(
     'field_config' => array(
       'active' => '1',
@@ -6130,8 +7608,10 @@ function audio_video_field_default_fields() {
       'field_name' => 'field_pbcore_publisher',
       'foreign keys' => array(),
       'indexes' => array(),
+      'locked' => '0',
       'module' => 'field_collection',
       'settings' => array(
+        'hide_blank_items' => TRUE,
         'path' => '',
       ),
       'translatable' => '1',
@@ -6176,7 +7656,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-audio-field_pbcore_relation'
+  // Exported field: 'node-audio-field_pbcore_relation'.
   $fields['node-audio-field_pbcore_relation'] = array(
     'field_config' => array(
       'active' => '1',
@@ -6186,8 +7666,10 @@ function audio_video_field_default_fields() {
       'field_name' => 'field_pbcore_relation',
       'foreign keys' => array(),
       'indexes' => array(),
+      'locked' => '0',
       'module' => 'field_collection',
       'settings' => array(
+        'hide_blank_items' => TRUE,
         'path' => '',
       ),
       'translatable' => '0',
@@ -6206,7 +7688,7 @@ function audio_video_field_default_fields() {
             'view_mode' => 'full',
           ),
           'type' => 'field_collection_fields',
-          'weight' => '9',
+          'weight' => '33',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -6232,7 +7714,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-audio-field_pbcore_rights_summary'
+  // Exported field: 'node-audio-field_pbcore_rights_summary'.
   $fields['node-audio-field_pbcore_rights_summary'] = array(
     'field_config' => array(
       'active' => '1',
@@ -6253,6 +7735,7 @@ function audio_video_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(),
       'translatable' => '1',
@@ -6298,7 +7781,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-audio-field_pbcore_title'
+  // Exported field: 'node-audio-field_pbcore_title'.
   $fields['node-audio-field_pbcore_title'] = array(
     'field_config' => array(
       'active' => '1',
@@ -6308,8 +7791,10 @@ function audio_video_field_default_fields() {
       'field_name' => 'field_pbcore_title',
       'foreign keys' => array(),
       'indexes' => array(),
+      'locked' => '0',
       'module' => 'field_collection',
       'settings' => array(
+        'hide_blank_items' => TRUE,
         'path' => '',
       ),
       'translatable' => '1',
@@ -6354,7 +7839,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-audio-field_rating'
+  // Exported field: 'node-audio-field_rating'.
   $fields['node-audio-field_rating'] = array(
     'field_config' => array(
       'active' => '1',
@@ -6364,6 +7849,7 @@ function audio_video_field_default_fields() {
       'field_name' => 'field_rating',
       'foreign keys' => array(),
       'indexes' => array(),
+      'locked' => '0',
       'module' => 'fivestar',
       'settings' => array(
         'axis' => 'vote',
@@ -6418,7 +7904,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-audio-field_recording_location'
+  // Exported field: 'node-audio-field_recording_location'.
   $fields['node-audio-field_recording_location'] = array(
     'field_config' => array(
       'active' => '1',
@@ -6439,6 +7925,7 @@ function audio_video_field_default_fields() {
           0 => 'tid',
         ),
       ),
+      'locked' => '0',
       'module' => 'taxonomy',
       'settings' => array(
         'allowed_values' => array(
@@ -6497,7 +7984,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-audio-field_subcollection'
+  // Exported field: 'node-audio-field_subcollection'.
   $fields['node-audio-field_subcollection'] = array(
     'field_config' => array(
       'active' => '1',
@@ -6518,6 +8005,7 @@ function audio_video_field_default_fields() {
           0 => 'tid',
         ),
       ),
+      'locked' => '0',
       'module' => 'taxonomy',
       'settings' => array(
         'allowed_values' => array(
@@ -6541,7 +8029,7 @@ function audio_video_field_default_fields() {
           'module' => 'taxonomy',
           'settings' => array(),
           'type' => 'taxonomy_term_reference_link',
-          'weight' => 29,
+          'weight' => '29',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -6563,10 +8051,11 @@ function audio_video_field_default_fields() {
         'settings' => array(
           'allow_annotations' => TRUE,
           'allow_formatting' => TRUE,
+          'allow_multiple' => TRUE,
           'allow_multipleq' => TRUE,
           'kmap_selector_settings' => array(
-            'allow_annotations' => 1,
-            'allow_formatting' => 1,
+            'allow_annotations' => 0,
+            'allow_formatting' => 0,
             'allow_multiple' => 1,
             'root_kmap_id' => '',
             'show_autocomplete' => 1,
@@ -6586,7 +8075,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-audio-field_tags'
+  // Exported field: 'node-audio-field_tags'.
   $fields['node-audio-field_tags'] = array(
     'field_config' => array(
       'active' => '1',
@@ -6607,6 +8096,7 @@ function audio_video_field_default_fields() {
           0 => 'tid',
         ),
       ),
+      'locked' => '0',
       'module' => 'taxonomy',
       'settings' => array(
         'allowed_values' => array(
@@ -6659,7 +8149,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-audio-field_transcript'
+  // Exported field: 'node-audio-field_transcript'.
   $fields['node-audio-field_transcript'] = array(
     'field_config' => array(
       'active' => '1',
@@ -6680,6 +8170,7 @@ function audio_video_field_default_fields() {
           0 => 'fid',
         ),
       ),
+      'locked' => '0',
       'module' => 'file',
       'settings' => array(
         'display_default' => 1,
@@ -6744,62 +8235,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-audio-field_transcription'
-  $fields['node-audio-field_transcription'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_transcription',
-      'foreign keys' => array(),
-      'indexes' => array(),
-      'module' => 'field_collection',
-      'settings' => array(
-        'path' => '',
-      ),
-      'translatable' => '0',
-      'type' => 'field_collection',
-    ),
-    'field_instance' => array(
-      'bundle' => 'audio',
-      'default_value' => NULL,
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'field_collection',
-          'settings' => array(
-            'view_mode' => 'full',
-          ),
-          'type' => 'field_collection_fields',
-          'weight' => '26',
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'field_name' => 'field_transcription',
-      'label' => 'Transcription',
-      'required' => FALSE,
-      'settings' => array(
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'module' => 'field_collection',
-        'settings' => array(),
-        'type' => 'field_collection_embed',
-        'weight' => '14',
-      ),
-    ),
-  );
-
-  // Exported field: 'node-audio-field_transcripts_xsl'
+  // Exported field: 'node-audio-field_transcripts_xsl'.
   $fields['node-audio-field_transcripts_xsl'] = array(
     'field_config' => array(
       'active' => '1',
@@ -6820,6 +8256,7 @@ function audio_video_field_default_fields() {
           0 => 'fid',
         ),
       ),
+      'locked' => '0',
       'module' => 'file',
       'settings' => array(
         'display_default' => 0,
@@ -6888,18 +8325,20 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-audio-field_translation'
-  $fields['node-audio-field_translation'] = array(
+  // Exported field: 'node-audio-field_workflow'.
+  $fields['node-audio-field_workflow'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(),
-      'field_name' => 'field_translation',
+      'field_name' => 'field_workflow',
       'foreign keys' => array(),
       'indexes' => array(),
+      'locked' => '0',
       'module' => 'field_collection',
       'settings' => array(
+        'hide_blank_items' => TRUE,
         'path' => '',
       ),
       'translatable' => '0',
@@ -6912,13 +8351,13 @@ function audio_video_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'hidden',
           'module' => 'field_collection',
           'settings' => array(
             'view_mode' => 'full',
           ),
           'type' => 'field_collection_fields',
-          'weight' => '27',
+          'weight' => '30',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -6928,22 +8367,23 @@ function audio_video_field_default_fields() {
         ),
       ),
       'entity_type' => 'node',
-      'field_name' => 'field_translation',
-      'label' => 'Translation',
-      'required' => FALSE,
+      'field_name' => 'field_workflow',
+      'label' => 'Workflow',
+      'required' => 0,
       'settings' => array(
         'user_register_form' => FALSE,
       ),
       'widget' => array(
+        'active' => 0,
         'module' => 'field_collection',
         'settings' => array(),
         'type' => 'field_collection_embed',
-        'weight' => '15',
+        'weight' => '23',
       ),
     ),
   );
 
-  // Exported field: 'node-audio-field_year_published'
+  // Exported field: 'node-audio-field_year_published'.
   $fields['node-audio-field_year_published'] = array(
     'field_config' => array(
       'active' => '1',
@@ -6964,6 +8404,7 @@ function audio_video_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(
         'max_length' => '255',
@@ -7011,7 +8452,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-audio-group_audience'
+  // Exported field: 'node-audio-group_audience'.
   $fields['node-audio-group_audience'] = array(
     'field_config' => array(
       'active' => '1',
@@ -7032,6 +8473,7 @@ function audio_video_field_default_fields() {
           0 => 'gid',
         ),
       ),
+      'locked' => '0',
       'module' => 'og',
       'no_ui' => TRUE,
       'settings' => array(),
@@ -7090,7 +8532,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-audio-group_content_access'
+  // Exported field: 'node-audio-group_content_access'.
   $fields['node-audio-group_content_access'] = array(
     'field_config' => array(
       'active' => '1',
@@ -7104,6 +8546,7 @@ function audio_video_field_default_fields() {
           0 => 'value',
         ),
       ),
+      'locked' => '0',
       'module' => 'list',
       'no_ui' => TRUE,
       'settings' => array(
@@ -7169,7 +8612,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-video-field_available_from'
+  // Exported field: 'node-video-field_available_from'.
   $fields['node-video-field_available_from'] = array(
     'field_config' => array(
       'active' => '1',
@@ -7179,6 +8622,7 @@ function audio_video_field_default_fields() {
       'field_name' => 'field_available_from',
       'foreign keys' => array(),
       'indexes' => array(),
+      'locked' => '0',
       'module' => 'date',
       'settings' => array(
         'granularity' => array(
@@ -7211,7 +8655,6 @@ function audio_video_field_default_fields() {
             'multiple_from' => '',
             'multiple_number' => '',
             'multiple_to' => '',
-            'show_repeat_rule' => 'show',
           ),
           'type' => 'date_default',
           'weight' => '24',
@@ -7238,6 +8681,7 @@ function audio_video_field_default_fields() {
         'active' => 1,
         'module' => 'date',
         'settings' => array(
+          'display_all_day' => 0,
           'increment' => '15',
           'input_format' => 'm/d/Y - H:i:s',
           'input_format_custom' => '',
@@ -7252,141 +8696,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-video-field_basic_catalog'
-  $fields['node-video-field_basic_catalog'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_basic_catalog',
-      'foreign keys' => array(),
-      'indexes' => array(
-        'value' => array(
-          0 => 'value',
-        ),
-      ),
-      'module' => 'list',
-      'settings' => array(
-        'allowed_values' => array(
-          0 => 'no',
-          1 => 'yes',
-        ),
-        'allowed_values_function' => '',
-      ),
-      'translatable' => '0',
-      'type' => 'list_boolean',
-    ),
-    'field_instance' => array(
-      'bundle' => 'video',
-      'default_value' => array(
-        0 => array(
-          'value' => 0,
-        ),
-      ),
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'list',
-          'settings' => array(),
-          'type' => 'list_default',
-          'weight' => '21',
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'field_name' => 'field_basic_catalog',
-      'label' => 'Basic Cataloging',
-      'required' => 0,
-      'settings' => array(
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'options',
-        'settings' => array(
-          'display_label' => 1,
-        ),
-        'type' => 'options_onoff',
-        'weight' => '14',
-      ),
-    ),
-  );
-
-  // Exported field: 'node-video-field_catalog_workflow_note'
-  $fields['node-video-field_catalog_workflow_note'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_catalog_workflow_note',
-      'foreign keys' => array(
-        'format' => array(
-          'columns' => array(
-            'format' => 'format',
-          ),
-          'table' => 'filter_format',
-        ),
-      ),
-      'indexes' => array(
-        'format' => array(
-          0 => 'format',
-        ),
-      ),
-      'module' => 'text',
-      'settings' => array(),
-      'translatable' => '0',
-      'type' => 'text_long',
-    ),
-    'field_instance' => array(
-      'bundle' => 'video',
-      'default_value' => NULL,
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'text',
-          'settings' => array(),
-          'type' => 'text_default',
-          'weight' => '26',
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'field_name' => 'field_catalog_workflow_note',
-      'label' => 'Catalog Workflow Note',
-      'required' => 0,
-      'settings' => array(
-        'text_processing' => '0',
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'text',
-        'settings' => array(
-          'rows' => '5',
-        ),
-        'type' => 'text_textarea',
-        'weight' => '19',
-      ),
-    ),
-  );
-
-  // Exported field: 'node-video-field_characteristic'
+  // Exported field: 'node-video-field_characteristic'.
   $fields['node-video-field_characteristic'] = array(
     'field_config' => array(
       'active' => '1',
@@ -7407,6 +8717,7 @@ function audio_video_field_default_fields() {
           0 => 'tid',
         ),
       ),
+      'locked' => '0',
       'module' => 'taxonomy',
       'settings' => array(
         'allowed_values' => array(
@@ -7430,7 +8741,7 @@ function audio_video_field_default_fields() {
           'module' => 'kmap_annotation',
           'settings' => array(),
           'type' => 'kmap_taxonomy_annotated',
-          'weight' => '6',
+          'weight' => '40',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -7452,11 +8763,13 @@ function audio_video_field_default_fields() {
         'settings' => array(
           'allow_annotations' => TRUE,
           'allow_formatting' => TRUE,
+          'allow_multiple' => TRUE,
           'allow_multipleq' => TRUE,
           'kmap_selector_settings' => array(
             'allow_annotations' => 1,
             'allow_formatting' => 1,
-            'root_kmap_id' => '',
+            'allow_multiple' => 1,
+            'root_kmap_id' => '6404',
             'show_autocomplete' => 1,
             'show_branch_filter' => 1,
             'show_tree_selector' => 1,
@@ -7474,7 +8787,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-video-field_copyright_owner'
+  // Exported field: 'node-video-field_copyright_owner'.
   $fields['node-video-field_copyright_owner'] = array(
     'field_config' => array(
       'active' => '1',
@@ -7495,6 +8808,7 @@ function audio_video_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(
         'max_length' => '255',
@@ -7542,141 +8856,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-video-field_edl_log_files'
-  $fields['node-video-field_edl_log_files'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_edl_log_files',
-      'foreign keys' => array(
-        'format' => array(
-          'columns' => array(
-            'format' => 'format',
-          ),
-          'table' => 'filter_format',
-        ),
-      ),
-      'indexes' => array(
-        'format' => array(
-          0 => 'format',
-        ),
-      ),
-      'module' => 'text',
-      'settings' => array(),
-      'translatable' => '0',
-      'type' => 'text_long',
-    ),
-    'field_instance' => array(
-      'bundle' => 'video',
-      'default_value' => NULL,
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'text',
-          'settings' => array(),
-          'type' => 'text_default',
-          'weight' => '20',
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'field_name' => 'field_edl_log_files',
-      'label' => 'Logging files/EDLs',
-      'required' => 0,
-      'settings' => array(
-        'text_processing' => '0',
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'text',
-        'settings' => array(
-          'rows' => '5',
-        ),
-        'type' => 'text_textarea',
-        'weight' => '50',
-      ),
-    ),
-  );
-
-  // Exported field: 'node-video-field_extended_cataloging'
-  $fields['node-video-field_extended_cataloging'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_extended_cataloging',
-      'foreign keys' => array(),
-      'indexes' => array(
-        'value' => array(
-          0 => 'value',
-        ),
-      ),
-      'module' => 'list',
-      'settings' => array(
-        'allowed_values' => array(
-          0 => 'no',
-          1 => 'yes',
-        ),
-        'allowed_values_function' => '',
-      ),
-      'translatable' => '0',
-      'type' => 'list_boolean',
-    ),
-    'field_instance' => array(
-      'bundle' => 'video',
-      'default_value' => array(
-        0 => array(
-          'value' => 0,
-        ),
-      ),
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'list',
-          'settings' => array(),
-          'type' => 'list_default',
-          'weight' => '23',
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'field_name' => 'field_extended_cataloging',
-      'label' => 'Extended Cataloging',
-      'required' => 0,
-      'settings' => array(
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'options',
-        'settings' => array(
-          'display_label' => 1,
-        ),
-        'type' => 'options_onoff',
-        'weight' => '16',
-      ),
-    ),
-  );
-
-  // Exported field: 'node-video-field_kmap_annotation'
+  // Exported field: 'node-video-field_kmap_annotation'.
   $fields['node-video-field_kmap_annotation'] = array(
     'field_config' => array(
       'active' => '1',
@@ -7686,8 +8866,10 @@ function audio_video_field_default_fields() {
       'field_name' => 'field_kmap_annotation',
       'foreign keys' => array(),
       'indexes' => array(),
+      'locked' => '0',
       'module' => 'field_collection',
       'settings' => array(
+        'hide_blank_items' => TRUE,
         'path' => '',
       ),
       'translatable' => '0',
@@ -7728,7 +8910,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-video-field_license'
+  // Exported field: 'node-video-field_license'.
   $fields['node-video-field_license'] = array(
     'field_config' => array(
       'active' => '1',
@@ -7749,6 +8931,7 @@ function audio_video_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(
         'max_length' => '255',
@@ -7796,345 +8979,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-video-field_media_masters_archived'
-  $fields['node-video-field_media_masters_archived'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_media_masters_archived',
-      'foreign keys' => array(),
-      'indexes' => array(
-        'value' => array(
-          0 => 'value',
-        ),
-      ),
-      'module' => 'list',
-      'settings' => array(
-        'allowed_values' => array(
-          0 => 'no',
-          1 => 'yes',
-        ),
-        'allowed_values_function' => '',
-      ),
-      'translatable' => '0',
-      'type' => 'list_boolean',
-    ),
-    'field_instance' => array(
-      'bundle' => 'video',
-      'default_value' => array(
-        0 => array(
-          'value' => 0,
-        ),
-      ),
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'list',
-          'settings' => array(),
-          'type' => 'list_default',
-          'weight' => '19',
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'field_name' => 'field_media_masters_archived',
-      'label' => 'Masters Archived',
-      'required' => 0,
-      'settings' => array(
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'options',
-        'settings' => array(
-          'display_label' => 1,
-        ),
-        'type' => 'options_onoff',
-        'weight' => '49',
-      ),
-    ),
-  );
-
-  // Exported field: 'node-video-field_media_present'
-  $fields['node-video-field_media_present'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_media_present',
-      'foreign keys' => array(),
-      'indexes' => array(
-        'value' => array(
-          0 => 'value',
-        ),
-      ),
-      'module' => 'list',
-      'settings' => array(
-        'allowed_values' => array(
-          0 => 'no',
-          1 => 'yes',
-        ),
-        'allowed_values_function' => '',
-      ),
-      'translatable' => '0',
-      'type' => 'list_boolean',
-    ),
-    'field_instance' => array(
-      'bundle' => 'video',
-      'default_value' => array(
-        0 => array(
-          'value' => 0,
-        ),
-      ),
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'list',
-          'settings' => array(),
-          'type' => 'list_default',
-          'weight' => '16',
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'field_name' => 'field_media_present',
-      'label' => 'Media Present',
-      'required' => 0,
-      'settings' => array(
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'options',
-        'settings' => array(
-          'display_label' => 1,
-        ),
-        'type' => 'options_onoff',
-        'weight' => '46',
-      ),
-    ),
-  );
-
-  // Exported field: 'node-video-field_media_quality_ok'
-  $fields['node-video-field_media_quality_ok'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_media_quality_ok',
-      'foreign keys' => array(),
-      'indexes' => array(
-        'value' => array(
-          0 => 'value',
-        ),
-      ),
-      'module' => 'list',
-      'settings' => array(
-        'allowed_values' => array(
-          0 => 'no',
-          1 => 'yes',
-        ),
-        'allowed_values_function' => '',
-      ),
-      'translatable' => '0',
-      'type' => 'list_boolean',
-    ),
-    'field_instance' => array(
-      'bundle' => 'video',
-      'default_value' => array(
-        0 => array(
-          'value' => 0,
-        ),
-      ),
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'list',
-          'settings' => array(),
-          'type' => 'list_default',
-          'weight' => '17',
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'field_name' => 'field_media_quality_ok',
-      'label' => 'Quality acceptable',
-      'required' => 0,
-      'settings' => array(
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'options',
-        'settings' => array(
-          'display_label' => 1,
-        ),
-        'type' => 'options_onoff',
-        'weight' => '47',
-      ),
-    ),
-  );
-
-  // Exported field: 'node-video-field_media_recompress'
-  $fields['node-video-field_media_recompress'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_media_recompress',
-      'foreign keys' => array(),
-      'indexes' => array(
-        'value' => array(
-          0 => 'value',
-        ),
-      ),
-      'module' => 'list',
-      'settings' => array(
-        'allowed_values' => array(
-          0 => 'no',
-          1 => 'yes',
-        ),
-        'allowed_values_function' => '',
-      ),
-      'translatable' => '0',
-      'type' => 'list_boolean',
-    ),
-    'field_instance' => array(
-      'bundle' => 'video',
-      'default_value' => array(
-        0 => array(
-          'value' => 0,
-        ),
-      ),
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'list',
-          'settings' => array(),
-          'type' => 'list_default',
-          'weight' => '18',
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'field_name' => 'field_media_recompress',
-      'label' => 'Media Needs Recompression',
-      'required' => 0,
-      'settings' => array(
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'options',
-        'settings' => array(
-          'display_label' => 1,
-        ),
-        'type' => 'options_onoff',
-        'weight' => '48',
-      ),
-    ),
-  );
-
-  // Exported field: 'node-video-field_media_workflow_note'
-  $fields['node-video-field_media_workflow_note'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_media_workflow_note',
-      'foreign keys' => array(
-        'format' => array(
-          'columns' => array(
-            'format' => 'format',
-          ),
-          'table' => 'filter_format',
-        ),
-      ),
-      'indexes' => array(
-        'format' => array(
-          0 => 'format',
-        ),
-      ),
-      'module' => 'text',
-      'settings' => array(),
-      'translatable' => '0',
-      'type' => 'text_long',
-    ),
-    'field_instance' => array(
-      'bundle' => 'video',
-      'default_value' => NULL,
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'text',
-          'settings' => array(),
-          'type' => 'text_default',
-          'weight' => '21',
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'field_name' => 'field_media_workflow_note',
-      'label' => 'Media Workflow Note',
-      'required' => 0,
-      'settings' => array(
-        'text_processing' => '0',
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'text',
-        'settings' => array(
-          'rows' => '5',
-        ),
-        'type' => 'text_textarea',
-        'weight' => '51',
-      ),
-    ),
-  );
-
-  // Exported field: 'node-video-field_pbcore_contributor'
+  // Exported field: 'node-video-field_pbcore_contributor'.
   $fields['node-video-field_pbcore_contributor'] = array(
     'field_config' => array(
       'active' => '1',
@@ -8144,8 +8989,10 @@ function audio_video_field_default_fields() {
       'field_name' => 'field_pbcore_contributor',
       'foreign keys' => array(),
       'indexes' => array(),
+      'locked' => '0',
       'module' => 'field_collection',
       'settings' => array(
+        'hide_blank_items' => TRUE,
         'path' => '',
       ),
       'translatable' => '1',
@@ -8190,7 +9037,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-video-field_pbcore_coverage'
+  // Exported field: 'node-video-field_pbcore_coverage'.
   $fields['node-video-field_pbcore_coverage'] = array(
     'field_config' => array(
       'active' => '1',
@@ -8200,8 +9047,10 @@ function audio_video_field_default_fields() {
       'field_name' => 'field_pbcore_coverage',
       'foreign keys' => array(),
       'indexes' => array(),
+      'locked' => '0',
       'module' => 'field_collection',
       'settings' => array(
+        'hide_blank_items' => TRUE,
         'path' => '',
       ),
       'translatable' => '1',
@@ -8220,7 +9069,7 @@ function audio_video_field_default_fields() {
             'view_mode' => 'full',
           ),
           'type' => 'field_collection_fields',
-          'weight' => '8',
+          'weight' => '42',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -8246,7 +9095,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-video-field_pbcore_coverage_spatial'
+  // Exported field: 'node-video-field_pbcore_coverage_spatial'.
   $fields['node-video-field_pbcore_coverage_spatial'] = array(
     'field_config' => array(
       'active' => '1',
@@ -8267,6 +9116,7 @@ function audio_video_field_default_fields() {
           0 => 'tid',
         ),
       ),
+      'locked' => '0',
       'module' => 'taxonomy',
       'settings' => array(
         'allowed_values' => array(
@@ -8290,7 +9140,7 @@ function audio_video_field_default_fields() {
           'module' => 'mb_location',
           'settings' => array(),
           'type' => 'mb_location',
-          'weight' => '7',
+          'weight' => '41',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -8325,7 +9175,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-video-field_pbcore_creator'
+  // Exported field: 'node-video-field_pbcore_creator'.
   $fields['node-video-field_pbcore_creator'] = array(
     'field_config' => array(
       'active' => '1',
@@ -8335,8 +9185,10 @@ function audio_video_field_default_fields() {
       'field_name' => 'field_pbcore_creator',
       'foreign keys' => array(),
       'indexes' => array(),
+      'locked' => '0',
       'module' => 'field_collection',
       'settings' => array(
+        'hide_blank_items' => TRUE,
         'path' => '',
       ),
       'translatable' => '1',
@@ -8381,7 +9233,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-video-field_pbcore_description'
+  // Exported field: 'node-video-field_pbcore_description'.
   $fields['node-video-field_pbcore_description'] = array(
     'field_config' => array(
       'active' => '1',
@@ -8391,8 +9243,10 @@ function audio_video_field_default_fields() {
       'field_name' => 'field_pbcore_description',
       'foreign keys' => array(),
       'indexes' => array(),
+      'locked' => '0',
       'module' => 'field_collection',
       'settings' => array(
+        'hide_blank_items' => TRUE,
         'path' => '',
       ),
       'translatable' => '1',
@@ -8437,7 +9291,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-video-field_pbcore_extension'
+  // Exported field: 'node-video-field_pbcore_extension'.
   $fields['node-video-field_pbcore_extension'] = array(
     'field_config' => array(
       'active' => '1',
@@ -8447,8 +9301,10 @@ function audio_video_field_default_fields() {
       'field_name' => 'field_pbcore_extension',
       'foreign keys' => array(),
       'indexes' => array(),
+      'locked' => '0',
       'module' => 'field_collection',
       'settings' => array(
+        'hide_blank_items' => TRUE,
         'path' => '',
       ),
       'translatable' => '1',
@@ -8490,7 +9346,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-video-field_pbcore_identifier'
+  // Exported field: 'node-video-field_pbcore_identifier'.
   $fields['node-video-field_pbcore_identifier'] = array(
     'field_config' => array(
       'active' => '1',
@@ -8500,8 +9356,10 @@ function audio_video_field_default_fields() {
       'field_name' => 'field_pbcore_identifier',
       'foreign keys' => array(),
       'indexes' => array(),
+      'locked' => '0',
       'module' => 'field_collection',
       'settings' => array(
+        'hide_blank_items' => TRUE,
         'path' => '',
       ),
       'translatable' => '1',
@@ -8546,18 +9404,20 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-video-field_pbcore_instantiation'
+  // Exported field: 'node-video-field_pbcore_instantiation'.
   $fields['node-video-field_pbcore_instantiation'] = array(
     'field_config' => array(
       'active' => '1',
-      'cardinality' => '-1',
+      'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_pbcore_instantiation',
       'foreign keys' => array(),
       'indexes' => array(),
+      'locked' => '0',
       'module' => 'field_collection',
       'settings' => array(
+        'hide_blank_items' => TRUE,
         'path' => '',
       ),
       'translatable' => '1',
@@ -8601,7 +9461,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-video-field_pbcore_publisher'
+  // Exported field: 'node-video-field_pbcore_publisher'.
   $fields['node-video-field_pbcore_publisher'] = array(
     'field_config' => array(
       'active' => '1',
@@ -8611,8 +9471,10 @@ function audio_video_field_default_fields() {
       'field_name' => 'field_pbcore_publisher',
       'foreign keys' => array(),
       'indexes' => array(),
+      'locked' => '0',
       'module' => 'field_collection',
       'settings' => array(
+        'hide_blank_items' => TRUE,
         'path' => '',
       ),
       'translatable' => '1',
@@ -8657,7 +9519,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-video-field_pbcore_relation'
+  // Exported field: 'node-video-field_pbcore_relation'.
   $fields['node-video-field_pbcore_relation'] = array(
     'field_config' => array(
       'active' => '1',
@@ -8667,8 +9529,10 @@ function audio_video_field_default_fields() {
       'field_name' => 'field_pbcore_relation',
       'foreign keys' => array(),
       'indexes' => array(),
+      'locked' => '0',
       'module' => 'field_collection',
       'settings' => array(
+        'hide_blank_items' => TRUE,
         'path' => '',
       ),
       'translatable' => '0',
@@ -8687,7 +9551,7 @@ function audio_video_field_default_fields() {
             'view_mode' => 'full',
           ),
           'type' => 'field_collection_fields',
-          'weight' => '9',
+          'weight' => '43',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -8713,7 +9577,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-video-field_pbcore_rights_summary'
+  // Exported field: 'node-video-field_pbcore_rights_summary'.
   $fields['node-video-field_pbcore_rights_summary'] = array(
     'field_config' => array(
       'active' => '1',
@@ -8734,6 +9598,7 @@ function audio_video_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(),
       'translatable' => '1',
@@ -8779,7 +9644,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-video-field_pbcore_title'
+  // Exported field: 'node-video-field_pbcore_title'.
   $fields['node-video-field_pbcore_title'] = array(
     'field_config' => array(
       'active' => '1',
@@ -8789,8 +9654,10 @@ function audio_video_field_default_fields() {
       'field_name' => 'field_pbcore_title',
       'foreign keys' => array(),
       'indexes' => array(),
+      'locked' => '0',
       'module' => 'field_collection',
       'settings' => array(
+        'hide_blank_items' => TRUE,
         'path' => '',
       ),
       'translatable' => '1',
@@ -8835,75 +9702,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-video-field_proofed_catalog'
-  $fields['node-video-field_proofed_catalog'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_proofed_catalog',
-      'foreign keys' => array(),
-      'indexes' => array(
-        'value' => array(
-          0 => 'value',
-        ),
-      ),
-      'module' => 'list',
-      'settings' => array(
-        'allowed_values' => array(
-          0 => 'no',
-          1 => 'yes',
-        ),
-        'allowed_values_function' => '',
-      ),
-      'translatable' => '0',
-      'type' => 'list_boolean',
-    ),
-    'field_instance' => array(
-      'bundle' => 'video',
-      'default_value' => array(
-        0 => array(
-          'value' => 0,
-        ),
-      ),
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'list',
-          'settings' => array(),
-          'type' => 'list_default',
-          'weight' => '22',
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'field_name' => 'field_proofed_catalog',
-      'label' => 'Cataloging Proofed',
-      'required' => 0,
-      'settings' => array(
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'options',
-        'settings' => array(
-          'display_label' => 1,
-        ),
-        'type' => 'options_onoff',
-        'weight' => '15',
-      ),
-    ),
-  );
-
-  // Exported field: 'node-video-field_rating'
+  // Exported field: 'node-video-field_rating'.
   $fields['node-video-field_rating'] = array(
     'field_config' => array(
       'active' => '1',
@@ -8913,6 +9712,7 @@ function audio_video_field_default_fields() {
       'field_name' => 'field_rating',
       'foreign keys' => array(),
       'indexes' => array(),
+      'locked' => '0',
       'module' => 'fivestar',
       'settings' => array(
         'axis' => 'vote',
@@ -8962,12 +9762,12 @@ function audio_video_field_default_fields() {
         'module' => 'fivestar',
         'settings' => array(),
         'type' => 'exposed',
-        'weight' => '16',
+        'weight' => '14',
       ),
     ),
   );
 
-  // Exported field: 'node-video-field_recording_location'
+  // Exported field: 'node-video-field_recording_location'.
   $fields['node-video-field_recording_location'] = array(
     'field_config' => array(
       'active' => '1',
@@ -8988,6 +9788,7 @@ function audio_video_field_default_fields() {
           0 => 'tid',
         ),
       ),
+      'locked' => '0',
       'module' => 'taxonomy',
       'settings' => array(
         'allowed_values' => array(
@@ -9046,7 +9847,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-video-field_subcollection'
+  // Exported field: 'node-video-field_subcollection'.
   $fields['node-video-field_subcollection'] = array(
     'field_config' => array(
       'active' => '1',
@@ -9067,6 +9868,7 @@ function audio_video_field_default_fields() {
           0 => 'tid',
         ),
       ),
+      'locked' => '0',
       'module' => 'taxonomy',
       'settings' => array(
         'allowed_values' => array(
@@ -9090,7 +9892,7 @@ function audio_video_field_default_fields() {
           'module' => 'taxonomy',
           'settings' => array(),
           'type' => 'taxonomy_term_reference_link',
-          'weight' => 39,
+          'weight' => '39',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -9112,10 +9914,11 @@ function audio_video_field_default_fields() {
         'settings' => array(
           'allow_annotations' => TRUE,
           'allow_formatting' => TRUE,
+          'allow_multiple' => TRUE,
           'allow_multipleq' => TRUE,
           'kmap_selector_settings' => array(
-            'allow_annotations' => 1,
-            'allow_formatting' => 1,
+            'allow_annotations' => 0,
+            'allow_formatting' => 0,
             'allow_multiple' => 1,
             'root_kmap_id' => '',
             'show_autocomplete' => 1,
@@ -9130,12 +9933,12 @@ function audio_video_field_default_fields() {
           'view_path' => 'taxonomy/term/%tid',
         ),
         'type' => 'kmap_taxonomy',
-        'weight' => '13',
+        'weight' => '11',
       ),
     ),
   );
 
-  // Exported field: 'node-video-field_tags'
+  // Exported field: 'node-video-field_tags'.
   $fields['node-video-field_tags'] = array(
     'field_config' => array(
       'active' => '1',
@@ -9156,6 +9959,7 @@ function audio_video_field_default_fields() {
           0 => 'tid',
         ),
       ),
+      'locked' => '0',
       'module' => 'taxonomy',
       'settings' => array(
         'allowed_values' => array(
@@ -9208,211 +10012,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-video-field_timecode_ok'
-  $fields['node-video-field_timecode_ok'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_timecode_ok',
-      'foreign keys' => array(),
-      'indexes' => array(
-        'value' => array(
-          0 => 'value',
-        ),
-      ),
-      'module' => 'list',
-      'settings' => array(
-        'allowed_values' => array(
-          0 => 'no',
-          1 => 'yes',
-        ),
-        'allowed_values_function' => '',
-      ),
-      'translatable' => '0',
-      'type' => 'list_boolean',
-    ),
-    'field_instance' => array(
-      'bundle' => 'video',
-      'default_value' => array(
-        0 => array(
-          'value' => 0,
-        ),
-      ),
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'list',
-          'settings' => array(),
-          'type' => 'list_default',
-          'weight' => '28',
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'field_name' => 'field_timecode_ok',
-      'label' => 'Timecode not frequent enough',
-      'required' => 0,
-      'settings' => array(
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'options',
-        'settings' => array(
-          'display_label' => 1,
-        ),
-        'type' => 'options_onoff',
-        'weight' => '17',
-      ),
-    ),
-  );
-
-  // Exported field: 'node-video-field_timecode_problem_1'
-  $fields['node-video-field_timecode_problem_1'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_timecode_problem_1',
-      'foreign keys' => array(),
-      'indexes' => array(
-        'value' => array(
-          0 => 'value',
-        ),
-      ),
-      'module' => 'list',
-      'settings' => array(
-        'allowed_values' => array(
-          0 => 'no',
-          1 => 'yes',
-        ),
-        'allowed_values_function' => '',
-      ),
-      'translatable' => '0',
-      'type' => 'list_boolean',
-    ),
-    'field_instance' => array(
-      'bundle' => 'video',
-      'default_value' => array(
-        0 => array(
-          'value' => 0,
-        ),
-      ),
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'list',
-          'settings' => array(),
-          'type' => 'list_default',
-          'weight' => '29',
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'field_name' => 'field_timecode_problem_1',
-      'label' => 'Time coding problem 1',
-      'required' => 0,
-      'settings' => array(
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'options',
-        'settings' => array(
-          'display_label' => 1,
-        ),
-        'type' => 'options_onoff',
-        'weight' => '18',
-      ),
-    ),
-  );
-
-  // Exported field: 'node-video-field_timecode_problem_2'
-  $fields['node-video-field_timecode_problem_2'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_timecode_problem_2',
-      'foreign keys' => array(),
-      'indexes' => array(
-        'value' => array(
-          0 => 'value',
-        ),
-      ),
-      'module' => 'list',
-      'settings' => array(
-        'allowed_values' => array(
-          0 => 'no',
-          1 => 'yes',
-        ),
-        'allowed_values_function' => '',
-      ),
-      'translatable' => '0',
-      'type' => 'list_boolean',
-    ),
-    'field_instance' => array(
-      'bundle' => 'video',
-      'default_value' => array(
-        0 => array(
-          'value' => 0,
-        ),
-      ),
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'list',
-          'settings' => array(),
-          'type' => 'list_default',
-          'weight' => '30',
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'field_name' => 'field_timecode_problem_2',
-      'label' => 'Time coding problem 2',
-      'required' => 0,
-      'settings' => array(
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'options',
-        'settings' => array(
-          'display_label' => 1,
-        ),
-        'type' => 'options_onoff',
-        'weight' => '19',
-      ),
-    ),
-  );
-
-  // Exported field: 'node-video-field_transcript'
+  // Exported field: 'node-video-field_transcript'.
   $fields['node-video-field_transcript'] = array(
     'field_config' => array(
       'active' => '1',
@@ -9433,6 +10033,7 @@ function audio_video_field_default_fields() {
           0 => 'fid',
         ),
       ),
+      'locked' => '0',
       'module' => 'file',
       'settings' => array(
         'display_default' => 1,
@@ -9497,685 +10098,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-video-field_transcript_input'
-  $fields['node-video-field_transcript_input'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_transcript_input',
-      'foreign keys' => array(),
-      'indexes' => array(
-        'value' => array(
-          0 => 'value',
-        ),
-      ),
-      'module' => 'list',
-      'settings' => array(
-        'allowed_values' => array(
-          0 => 'no',
-          1 => 'yes',
-        ),
-        'allowed_values_function' => '',
-      ),
-      'translatable' => '0',
-      'type' => 'list_boolean',
-    ),
-    'field_instance' => array(
-      'bundle' => 'video',
-      'default_value' => array(
-        0 => array(
-          'value' => 0,
-        ),
-      ),
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'list',
-          'settings' => array(),
-          'type' => 'list_default',
-          'weight' => '26',
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'field_name' => 'field_transcript_input',
-      'label' => 'Transcript Input',
-      'required' => 0,
-      'settings' => array(
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'options',
-        'settings' => array(
-          'display_label' => 1,
-        ),
-        'type' => 'options_onoff',
-        'weight' => '15',
-      ),
-    ),
-  );
-
-  // Exported field: 'node-video-field_transcript_input_lang_1'
-  $fields['node-video-field_transcript_input_lang_1'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_transcript_input_lang_1',
-      'foreign keys' => array(),
-      'indexes' => array(
-        'value' => array(
-          0 => 'value',
-        ),
-      ),
-      'module' => 'list',
-      'settings' => array(
-        'allowed_values' => array(
-          0 => 'no',
-          1 => 'yes',
-        ),
-        'allowed_values_function' => '',
-      ),
-      'translatable' => '0',
-      'type' => 'list_boolean',
-    ),
-    'field_instance' => array(
-      'bundle' => 'video',
-      'default_value' => array(
-        0 => array(
-          'value' => 0,
-        ),
-      ),
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'list',
-          'settings' => array(),
-          'type' => 'list_default',
-          'weight' => '32',
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'field_name' => 'field_transcript_input_lang_1',
-      'label' => 'Translation input language 1',
-      'required' => 0,
-      'settings' => array(
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'options',
-        'settings' => array(
-          'display_label' => 1,
-        ),
-        'type' => 'options_onoff',
-        'weight' => '21',
-      ),
-    ),
-  );
-
-  // Exported field: 'node-video-field_transcript_input_lang_2'
-  $fields['node-video-field_transcript_input_lang_2'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_transcript_input_lang_2',
-      'foreign keys' => array(),
-      'indexes' => array(
-        'value' => array(
-          0 => 'value',
-        ),
-      ),
-      'module' => 'list',
-      'settings' => array(
-        'allowed_values' => array(
-          0 => 'no',
-          1 => 'yes',
-        ),
-        'allowed_values_function' => '',
-      ),
-      'translatable' => '0',
-      'type' => 'list_boolean',
-    ),
-    'field_instance' => array(
-      'bundle' => 'video',
-      'default_value' => array(
-        0 => array(
-          'value' => 0,
-        ),
-      ),
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'list',
-          'settings' => array(),
-          'type' => 'list_default',
-          'weight' => '33',
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'field_name' => 'field_transcript_input_lang_2',
-      'label' => 'Translation input language 2',
-      'required' => 0,
-      'settings' => array(
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'options',
-        'settings' => array(
-          'display_label' => 1,
-        ),
-        'type' => 'options_onoff',
-        'weight' => '22',
-      ),
-    ),
-  );
-
-  // Exported field: 'node-video-field_transcript_input_lang_3'
-  $fields['node-video-field_transcript_input_lang_3'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_transcript_input_lang_3',
-      'foreign keys' => array(),
-      'indexes' => array(
-        'value' => array(
-          0 => 'value',
-        ),
-      ),
-      'module' => 'list',
-      'settings' => array(
-        'allowed_values' => array(
-          0 => 'no',
-          1 => 'yes',
-        ),
-        'allowed_values_function' => '',
-      ),
-      'translatable' => '0',
-      'type' => 'list_boolean',
-    ),
-    'field_instance' => array(
-      'bundle' => 'video',
-      'default_value' => array(
-        0 => array(
-          'value' => 0,
-        ),
-      ),
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'list',
-          'settings' => array(),
-          'type' => 'list_default',
-          'weight' => '34',
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'field_name' => 'field_transcript_input_lang_3',
-      'label' => 'Translation input language 3',
-      'required' => 0,
-      'settings' => array(
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'options',
-        'settings' => array(
-          'display_label' => 1,
-        ),
-        'type' => 'options_onoff',
-        'weight' => '23',
-      ),
-    ),
-  );
-
-  // Exported field: 'node-video-field_transcript_proofed'
-  $fields['node-video-field_transcript_proofed'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_transcript_proofed',
-      'foreign keys' => array(),
-      'indexes' => array(
-        'value' => array(
-          0 => 'value',
-        ),
-      ),
-      'module' => 'list',
-      'settings' => array(
-        'allowed_values' => array(
-          0 => 'no',
-          1 => 'yes',
-        ),
-        'allowed_values_function' => '',
-      ),
-      'translatable' => '0',
-      'type' => 'list_boolean',
-    ),
-    'field_instance' => array(
-      'bundle' => 'video',
-      'default_value' => array(
-        0 => array(
-          'value' => 0,
-        ),
-      ),
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'list',
-          'settings' => array(),
-          'type' => 'list_default',
-          'weight' => '31',
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'field_name' => 'field_transcript_proofed',
-      'label' => 'Transcript proofed',
-      'required' => 0,
-      'settings' => array(
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'options',
-        'settings' => array(
-          'display_label' => 1,
-        ),
-        'type' => 'options_onoff',
-        'weight' => '20',
-      ),
-    ),
-  );
-
-  // Exported field: 'node-video-field_transcript_proofed_lang_1'
-  $fields['node-video-field_transcript_proofed_lang_1'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_transcript_proofed_lang_1',
-      'foreign keys' => array(),
-      'indexes' => array(
-        'value' => array(
-          0 => 'value',
-        ),
-      ),
-      'module' => 'list',
-      'settings' => array(
-        'allowed_values' => array(
-          0 => 'no',
-          1 => 'yes',
-        ),
-        'allowed_values_function' => '',
-      ),
-      'translatable' => '0',
-      'type' => 'list_boolean',
-    ),
-    'field_instance' => array(
-      'bundle' => 'video',
-      'default_value' => array(
-        0 => array(
-          'value' => 0,
-        ),
-      ),
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'list',
-          'settings' => array(),
-          'type' => 'list_default',
-          'weight' => '35',
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'field_name' => 'field_transcript_proofed_lang_1',
-      'label' => 'Translation proofed language 1',
-      'required' => 0,
-      'settings' => array(
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'options',
-        'settings' => array(
-          'display_label' => 1,
-        ),
-        'type' => 'options_onoff',
-        'weight' => '24',
-      ),
-    ),
-  );
-
-  // Exported field: 'node-video-field_transcript_proofed_lang_2'
-  $fields['node-video-field_transcript_proofed_lang_2'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_transcript_proofed_lang_2',
-      'foreign keys' => array(),
-      'indexes' => array(
-        'value' => array(
-          0 => 'value',
-        ),
-      ),
-      'module' => 'list',
-      'settings' => array(
-        'allowed_values' => array(
-          0 => 'no',
-          1 => 'yes',
-        ),
-        'allowed_values_function' => '',
-      ),
-      'translatable' => '0',
-      'type' => 'list_boolean',
-    ),
-    'field_instance' => array(
-      'bundle' => 'video',
-      'default_value' => array(
-        0 => array(
-          'value' => 0,
-        ),
-      ),
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'list',
-          'settings' => array(),
-          'type' => 'list_default',
-          'weight' => '36',
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'field_name' => 'field_transcript_proofed_lang_2',
-      'label' => 'Translation proofed language 2',
-      'required' => 0,
-      'settings' => array(
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'options',
-        'settings' => array(
-          'display_label' => 1,
-        ),
-        'type' => 'options_onoff',
-        'weight' => '25',
-      ),
-    ),
-  );
-
-  // Exported field: 'node-video-field_transcript_proofed_lang_3'
-  $fields['node-video-field_transcript_proofed_lang_3'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_transcript_proofed_lang_3',
-      'foreign keys' => array(),
-      'indexes' => array(
-        'value' => array(
-          0 => 'value',
-        ),
-      ),
-      'module' => 'list',
-      'settings' => array(
-        'allowed_values' => array(
-          0 => 'no',
-          1 => 'yes',
-        ),
-        'allowed_values_function' => '',
-      ),
-      'translatable' => '0',
-      'type' => 'list_boolean',
-    ),
-    'field_instance' => array(
-      'bundle' => 'video',
-      'default_value' => array(
-        0 => array(
-          'value' => 0,
-        ),
-      ),
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'list',
-          'settings' => array(),
-          'type' => 'list_default',
-          'weight' => '37',
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'field_name' => 'field_transcript_proofed_lang_3',
-      'label' => 'Translation proofed language 3',
-      'required' => 0,
-      'settings' => array(
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'options',
-        'settings' => array(
-          'display_label' => 1,
-        ),
-        'type' => 'options_onoff',
-        'weight' => '26',
-      ),
-    ),
-  );
-
-  // Exported field: 'node-video-field_transcript_timecoded'
-  $fields['node-video-field_transcript_timecoded'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_transcript_timecoded',
-      'foreign keys' => array(),
-      'indexes' => array(
-        'value' => array(
-          0 => 'value',
-        ),
-      ),
-      'module' => 'list',
-      'settings' => array(
-        'allowed_values' => array(
-          0 => 'no',
-          1 => 'yes',
-        ),
-        'allowed_values_function' => '',
-      ),
-      'translatable' => '0',
-      'type' => 'list_boolean',
-    ),
-    'field_instance' => array(
-      'bundle' => 'video',
-      'default_value' => array(
-        0 => array(
-          'value' => 0,
-        ),
-      ),
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'list',
-          'settings' => array(),
-          'type' => 'list_default',
-          'weight' => '27',
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'field_name' => 'field_transcript_timecoded',
-      'label' => 'Transcript Timecoded',
-      'required' => 0,
-      'settings' => array(
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'options',
-        'settings' => array(
-          'display_label' => 1,
-        ),
-        'type' => 'options_onoff',
-        'weight' => '16',
-      ),
-    ),
-  );
-
-  // Exported field: 'node-video-field_transcript_workflow_note'
-  $fields['node-video-field_transcript_workflow_note'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_transcript_workflow_note',
-      'foreign keys' => array(
-        'format' => array(
-          'columns' => array(
-            'format' => 'format',
-          ),
-          'table' => 'filter_format',
-        ),
-      ),
-      'indexes' => array(
-        'format' => array(
-          0 => 'format',
-        ),
-      ),
-      'module' => 'text',
-      'settings' => array(),
-      'translatable' => '0',
-      'type' => 'text_long',
-    ),
-    'field_instance' => array(
-      'bundle' => 'video',
-      'default_value' => NULL,
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'text',
-          'settings' => array(),
-          'type' => 'text_default',
-          'weight' => '38',
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'field_name' => 'field_transcript_workflow_note',
-      'label' => 'Transcript Workflow Note',
-      'required' => 0,
-      'settings' => array(
-        'text_processing' => '0',
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'text',
-        'settings' => array(
-          'rows' => '5',
-        ),
-        'type' => 'text_textarea',
-        'weight' => '27',
-      ),
-    ),
-  );
-
-  // Exported field: 'node-video-field_transcripts_xsl'
+  // Exported field: 'node-video-field_transcripts_xsl'.
   $fields['node-video-field_transcripts_xsl'] = array(
     'field_config' => array(
       'active' => '1',
@@ -10196,6 +10119,7 @@ function audio_video_field_default_fields() {
           0 => 'fid',
         ),
       ),
+      'locked' => '0',
       'module' => 'file',
       'settings' => array(
         'display_default' => 0,
@@ -10264,143 +10188,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-video-field_translation_lang_1'
-  $fields['node-video-field_translation_lang_1'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_translation_lang_1',
-      'foreign keys' => array(),
-      'indexes' => array(
-        'value' => array(
-          0 => 'value',
-        ),
-      ),
-      'module' => 'list',
-      'settings' => array(
-        'allowed_values' => array(
-          0 => 'no',
-          1 => 'yes',
-        ),
-        'allowed_values_function' => '',
-      ),
-      'translatable' => '0',
-      'type' => 'list_boolean',
-    ),
-    'field_instance' => array(
-      'bundle' => 'video',
-      'default_value' => array(
-        0 => array(
-          'value' => 0,
-        ),
-      ),
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'list',
-          'settings' => array(),
-          'type' => 'list_default',
-          'weight' => '24',
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'field_name' => 'field_translation_lang_1',
-      'label' => 'Translation of title and summary Language 1',
-      'required' => 0,
-      'settings' => array(
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'options',
-        'settings' => array(
-          'display_label' => 1,
-        ),
-        'type' => 'options_onoff',
-        'weight' => '17',
-      ),
-    ),
-  );
-
-  // Exported field: 'node-video-field_translation_lang_2'
-  $fields['node-video-field_translation_lang_2'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_translation_lang_2',
-      'foreign keys' => array(),
-      'indexes' => array(
-        'value' => array(
-          0 => 'value',
-        ),
-      ),
-      'module' => 'list',
-      'settings' => array(
-        'allowed_values' => array(
-          0 => '',
-          1 => '',
-        ),
-        'allowed_values_function' => '',
-      ),
-      'translatable' => '0',
-      'type' => 'list_boolean',
-    ),
-    'field_instance' => array(
-      'bundle' => 'video',
-      'default_value' => array(
-        0 => array(
-          'value' => 0,
-        ),
-      ),
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'list',
-          'settings' => array(),
-          'type' => 'list_default',
-          'weight' => '25',
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'field_name' => 'field_translation_lang_2',
-      'label' => 'Translation of title and summary Language 2',
-      'required' => 0,
-      'settings' => array(
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'options',
-        'settings' => array(
-          'display_label' => 1,
-        ),
-        'type' => 'options_onoff',
-        'weight' => '18',
-      ),
-    ),
-  );
-
-  // Exported field: 'node-video-field_video'
+  // Exported field: 'node-video-field_video'.
   $fields['node-video-field_video'] = array(
     'field_config' => array(
       'active' => '1',
@@ -10417,6 +10205,7 @@ function audio_video_field_default_fields() {
         ),
       ),
       'indexes' => array(),
+      'locked' => '0',
       'module' => 'field_kaltura',
       'settings' => array(
         'add_existing' => 'upload',
@@ -10430,7 +10219,7 @@ function audio_video_field_default_fields() {
         'custom_cw' => '',
         'custom_player' => '',
         'delivery' => 'HTTP',
-        'entry_widget' => '48501',
+        'entry_widget' => '2389012',
         'kaltura_entry_video_display' => array(
           'advanced' => array(
             'custom_player' => '',
@@ -10467,7 +10256,7 @@ function audio_video_field_default_fields() {
           'settings' => array(
             'custom_player' => '',
             'delivery' => 'RTMP',
-            'entry_widget' => '2389022',
+            'entry_widget' => '2389012',
             'player_height' => '364',
             'player_width' => '410',
             'rotate' => 0,
@@ -10513,7 +10302,104 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-video-field_year_published'
+  // Exported field: 'node-video-field_workflow'.
+  $fields['node-video-field_workflow'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_workflow',
+      'foreign keys' => array(),
+      'indexes' => array(),
+      'locked' => '0',
+      'module' => 'field_collection',
+      'settings' => array(
+        'hide_blank_items' => TRUE,
+        'path' => '',
+      ),
+      'translatable' => '0',
+      'type' => 'field_collection',
+    ),
+    'field_instance' => array(
+      'bundle' => 'video',
+      'default_value' => array(
+        0 => array(
+          'entity' => '{
+            "item_id" : null,
+            "field_name" : "field_workflow",
+            "field_media_present" : { "und" : [ { "value" : "Not Reviewed" } ] },
+            "field_video_quality_acceptable" : { "und" : [ { "value" : "Not Reviewed" } ] },
+            "field_audio_quality_acceptable" : { "und" : [ { "value" : "Not Reviewed" } ] },
+            "field_media_needs_recompression" : { "und" : [ { "value" : "Not Reviewed" } ] },
+            "field_media_needs_re_editing" : { "und" : [ { "value" : "Not Reviewed" } ] },
+            "field_edls_archived" : { "und" : [ { "value" : "Not Reviewed" } ] },
+            "field_masters_archived" : { "und" : [ { "value" : "Not Reviewed" } ] },
+            "field_media_problem_1" : { "und" : [ { "value" : "Not Reviewed" } ] },
+            "field_media_problem_2" : { "und" : [ { "value" : "Not Reviewed" } ] },
+            "field_media_problem_3" : { "und" : [ { "value" : "Not Reviewed" } ] },
+            "field_media_workflow_note" : { "und" : [] },
+            "field_edl_log_files" : { "und" : [] },
+            "field_basic_cataloging" : { "und" : [ { "value" : "Not Reviewed" } ] },
+            "field_place_data_present" : { "und" : [ { "value" : "Not Reviewed" } ] },
+            "field_cataloging_proofed" : { "und" : [ { "value" : "Not Reviewed" } ] },
+            "field_extended_cataloging" : { "und" : [ { "value" : "Not Reviewed" } ] },
+            "field_translation_language_1" : { "und" : [ { "value" : "Not Reviewed" } ] },
+            "field_translation_language_2" : { "und" : [ { "value" : "Not Reviewed" } ] },
+            "field_transcript_input" : { "und" : [ { "value" : "Not Reviewed" } ] },
+            "field_transcript_timecoded" : { "und" : [ { "value" : "Not Reviewed" } ] },
+            "field_timecode_too_infrequent" : { "und" : [ { "value" : "Not Reviewed" } ] },
+            "field_timecoding_problem_1" : { "und" : [ { "value" : "Not Reviewed" } ] },
+            "field_timecoding_problem_2" : { "und" : [ { "value" : "Not Reviewed" } ] },
+            "field_transcript_proofed" : { "und" : [ { "value" : "Not Reviewed" } ] },
+            "field_translation_lang_1" : { "und" : [ { "value" : "Not Reviewed" } ] },
+            "field_translation_lang_2" : { "und" : [ { "value" : "Not Reviewed" } ] },
+            "field_translation_lang_3" : { "und" : [ { "value" : "Not Reviewed" } ] },
+            "field_trans_proofed_lang_1" : { "und" : [ { "value" : "Not Reviewed" } ] },
+            "field_trans_proofed_lang_2" : { "und" : [ { "value" : "Not Reviewed" } ] },
+            "field_trans_proofed_lang_3" : { "und" : [ { "value" : "Not Reviewed" } ] },
+            "field_catalog_workflow_note" : { "und" : [] },
+            "field_transcript_workflow_note" : { "und" : [] }
+          }',
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'hidden',
+          'module' => 'field_collection',
+          'settings' => array(
+            'view_mode' => 'full',
+          ),
+          'type' => 'field_collection_fields',
+          'weight' => '40',
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_workflow',
+      'label' => 'Workflow',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 0,
+        'module' => 'field_collection',
+        'settings' => array(),
+        'type' => 'field_collection_embed',
+        'weight' => '9',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-video-field_year_published'.
   $fields['node-video-field_year_published'] = array(
     'field_config' => array(
       'active' => '1',
@@ -10534,6 +10420,7 @@ function audio_video_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(
         'max_length' => '255',
@@ -10581,7 +10468,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-video-group_audience'
+  // Exported field: 'node-video-group_audience'.
   $fields['node-video-group_audience'] = array(
     'field_config' => array(
       'active' => '1',
@@ -10602,6 +10489,7 @@ function audio_video_field_default_fields() {
           0 => 'gid',
         ),
       ),
+      'locked' => '0',
       'module' => 'og',
       'no_ui' => TRUE,
       'settings' => array(),
@@ -10654,13 +10542,13 @@ function audio_video_field_default_fields() {
           'opt_group' => 'auto',
         ),
         'type' => 'group_audience',
-        'weight' => '12',
+        'weight' => '10',
       ),
       'widget_type' => 'group_audience',
     ),
   );
 
-  // Exported field: 'node-video-group_content_access'
+  // Exported field: 'node-video-group_content_access'.
   $fields['node-video-group_content_access'] = array(
     'field_config' => array(
       'active' => '1',
@@ -10674,6 +10562,7 @@ function audio_video_field_default_fields() {
           0 => 'value',
         ),
       ),
+      'locked' => '0',
       'module' => 'list',
       'no_ui' => TRUE,
       'settings' => array(
@@ -10733,13 +10622,13 @@ function audio_video_field_default_fields() {
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_select',
-        'weight' => '14',
+        'weight' => '12',
       ),
       'widget_type' => 'options_select',
     ),
   );
 
-  // Exported field: 'taxonomy_term-kmap_taxonomy-kmap_id'
+  // Exported field: 'taxonomy_term-kmap_taxonomy-kmap_id'.
   $fields['taxonomy_term-kmap_taxonomy-kmap_id'] = array(
     'field_config' => array(
       'active' => '1',
@@ -10749,6 +10638,7 @@ function audio_video_field_default_fields() {
       'field_name' => 'kmap_id',
       'foreign keys' => array(),
       'indexes' => array(),
+      'locked' => '0',
       'module' => 'number',
       'settings' => array(
         'allowed_values' => array(
@@ -10769,15 +10659,9 @@ function audio_video_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'number',
-          'settings' => array(
-            'decimal_separator' => '.',
-            'prefix_suffix' => TRUE,
-            'scale' => 0,
-            'thousand_separator' => ' ',
-          ),
-          'type' => 'number_integer',
-          'weight' => 0,
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '0',
         ),
       ),
       'entity_type' => 'taxonomy_term',
@@ -10800,7 +10684,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'taxonomy_term-kmap_taxonomy-kmap_parent_id'
+  // Exported field: 'taxonomy_term-kmap_taxonomy-kmap_parent_id'.
   $fields['taxonomy_term-kmap_taxonomy-kmap_parent_id'] = array(
     'field_config' => array(
       'active' => '1',
@@ -10810,6 +10694,7 @@ function audio_video_field_default_fields() {
       'field_name' => 'kmap_parent_id',
       'foreign keys' => array(),
       'indexes' => array(),
+      'locked' => '0',
       'module' => 'number',
       'settings' => array(
         'allowed_values' => array(
@@ -10830,15 +10715,9 @@ function audio_video_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'number',
-          'settings' => array(
-            'decimal_separator' => '.',
-            'prefix_suffix' => TRUE,
-            'scale' => 0,
-            'thousand_separator' => ' ',
-          ),
-          'type' => 'number_integer',
-          'weight' => 1,
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '1',
         ),
       ),
       'entity_type' => 'taxonomy_term',
@@ -10861,7 +10740,7 @@ function audio_video_field_default_fields() {
     ),
   );
 
-  // Exported field: 'taxonomy_term-mb_location-place_dictionary_id'
+  // Exported field: 'taxonomy_term-mb_location-place_dictionary_id'.
   $fields['taxonomy_term-mb_location-place_dictionary_id'] = array(
     'field_config' => array(
       'active' => '1',
@@ -10871,6 +10750,7 @@ function audio_video_field_default_fields() {
       'field_name' => 'place_dictionary_id',
       'foreign keys' => array(),
       'indexes' => array(),
+      'locked' => '0',
       'module' => 'number',
       'settings' => array(
         'allowed_values' => array(
@@ -10924,19 +10804,14 @@ function audio_video_field_default_fields() {
 
   // Translatables
   // Included for use with string extractors like potx.
-  t('A/V File');
-  t('A/V File Note');
-  t('A/V File Status');
   t('Alternate Modes');
   t('Annotation');
   t('Aspect Ratio');
   t('Audio');
+  t('Audio Quality Acceptable');
   t('Available From (date)');
   t('Basic Cataloging');
   t('Bit Depth');
-  t('Catalog Record');
-  t('Catalog Record Note');
-  t('Catalog Record Status');
   t('Catalog Workflow Note');
   t('Cataloging Proofed');
   t('Channel Config');
@@ -10976,18 +10851,23 @@ function audio_video_field_default_fields() {
   t('Language');
   t('Location');
   t('Logging files/EDLs');
+  t('Logging files/EDLs archived');
   t('Masters Archived');
+  t('Media Needs Re-editing');
   t('Media Needs Recompression');
   t('Media Present');
+  t('Media Problem #1');
+  t('Media Problem #2');
+  t('Media Problem #3');
   t('Media Type');
   t('Media Workflow Note');
   t('Note');
   t('Numeric Label');
   t('Physical Format');
+  t('Place Data Present');
   t('Place Dictionary Id');
   t('Publisher');
   t('Publisher Role');
-  t('Quality acceptable');
   t('Rating');
   t('Recording Location');
   t('Redistribution License');
@@ -11002,36 +10882,32 @@ function audio_video_field_default_fields() {
   t('Text Label');
   t('Tid');
   t('Time');
-  t('Time coding problem 1');
-  t('Time coding problem 2');
-  t('Timecode not frequent enough');
+  t('Timecode too infrequent');
+  t('Timecoding problem 1');
+  t('Timecoding problem 2');
   t('Title');
   t('Title Language');
   t('Title Type');
   t('Track Data');
   t('Transcript');
   t('Transcript Input');
+  t('Transcript Proofed');
   t('Transcript Timecoded');
   t('Transcript Workflow Note');
-  t('Transcript proofed');
-  t('Transcription');
-  t('Transcription Note');
-  t('Transcription Status');
   t('Transformer');
-  t('Translation');
-  t('Translation Note');
-  t('Translation Status');
-  t('Translation input language 1');
-  t('Translation input language 2');
-  t('Translation input language 3');
-  t('Translation of title and summary Language 1');
-  t('Translation of title and summary Language 2');
-  t('Translation proofed language 1');
-  t('Translation proofed language 2');
-  t('Translation proofed language 3');
+  t('Translation Input Language 1');
+  t('Translation Input Language 2');
+  t('Translation Input Language 3');
+  t('Translation Language 1');
+  t('Translation Language 2');
+  t('Translation Proofed Language 1');
+  t('Translation Proofed Language 2');
+  t('Translation Proofed Language 3');
   t('Versions');
   t('Video');
+  t('Video Quality Acceptable');
   t('Visibility');
+  t('Workflow');
   t('Year Published');
 
   return $fields;

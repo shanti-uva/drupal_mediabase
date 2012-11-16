@@ -1,0 +1,17 @@
+Why is this module needed?
+
+There is a requirement that an administrator of a collection, say THL Collection, 
+be able to view, edit and delete content from Teams that fall under a collection.
+
+But, we can't simply make Team content automagically be Collection content as well because then 
+Collection visibility settings would be able to override Team visibility settings for nodes that are set 
+to "Use group defaults" for their visibility.
+
+A Mediabase audio or video node can only belong to one organic group ( either  a collection, or a team).
+
+So how do we see team content then in the Collection view?
+
+In the collection views, we alter the views query (in mb_structure_views_query_alter) that lists 
+media for a collection to also grab media from teams
+
+

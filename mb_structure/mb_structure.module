@@ -143,12 +143,16 @@ function get_node_from_path(){
 }
 
 function mb_structure_form_views_exposed_form_alter(&$form, &$form_state, $form_id) {
+/*    dpm($form_state, "form_state");
+   
    if (arg(0) == "node" && $group = og_get_group('node', arg(1) ) ) {
       $gid = $group->gid;
       $all_terms = array();
       
       // get terms limited by content in group
       $view = views_get_view('terms_in_group');
+      dd($view, "view");
+      
       $view->execute_display($display, array($gid));
       
       foreach ($view->result as $term) {
@@ -182,6 +186,7 @@ function mb_structure_form_views_exposed_form_alter(&$form, &$form_state, $form_
       //dpm($form['field_characteristic_tid']['#options'], "form['field_characteristic_tid']['#options']");
       
    }
+ */
 }
 
 /**

@@ -1,0 +1,9 @@
+<?php
+
+/** 
+* Migrate THL workflow status
+**/
+function mb_migrate_update_7000() {
+   module_load_include('inc', 'mb_migrate', 'migrations/workflow-migration');
+   mb_migrate_migrate_workflow();
+}

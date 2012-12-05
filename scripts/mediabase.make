@@ -23,6 +23,7 @@ projects[apachesolr_autocomplete][patch][] = "http://drupal.org/files/1444038-ap
 
 projects[backup_migrate][version] = "2.4"
 projects[backup_migrate][download][type] = "git" 
+projects[backup_migrate][subdir] = "contrib"
 
 projects[context][version] = "3.0-beta4"
 projects[context][subdir] = "contrib"
@@ -132,7 +133,7 @@ projects[realname][subdir] = "contrib"
 projects[rules][version] = "2.1"
 projects[rules][subdir] = "contrib"
 
-projects[services][version] = "3.2"
+projects[services][version] = "3.3"
 projects[services][subdir] = "contrib"
 
 projects[services_views][version] = "1.0-beta2"

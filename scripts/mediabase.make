@@ -5,13 +5,14 @@ projects[drupal][version] = "7.17"
 projects[drupal][type] = core
 
 ; CONTRIB MODULES
-; See http://www.wizonesolutions.com/2011/12/19/drush-make-avoid-the-unexpected/ for how to find git revs for -dev versions of modules
+; HOW TO FIND GIT REVISION IDS for -dev versions of modules: http://www.wizonesolutions.com/2011/12/19/drush-make-avoid-the-unexpected/ for 
 
 projects[admin_menu][version] = "3.0-rc3"
 projects[admin_menu][subdir] = "contrib"
 
 projects[apachesolr][version] = "1.1"
 projects[apachesolr][subdir] = "contrib"
+projects[apachesolr][patch][] = "http://drupal.org/files/apachesolr-field-name-truncates-1707404-9.patch"
 
 projects[apachesolr_views][version] = "1.0-beta1"
 projects[apachesolr_views][subdir] = "contrib"
@@ -207,7 +208,7 @@ libraries[flexslider][download][type] = "file"
 libraries[flexslider][download][type] = "git"
 libraries[flexslider][download][url] = "git://github.com/woothemes/FlexSlider.git"                         
 
-; PATCHES
+; CUSTOM PATCHES
 ;projects[kaltura][patch][] = "https://raw.github.com/pinedrop/mediabase/master/patches/kaltura-dev-patch-20120615.patch"
 projects[spaces][patch][] = "https://raw.github.com/pinedrop/mediabase/master/patches/spaces_og_use_a_different_space_type_plugin.patch"
 projects[omega][patch][] = "https://raw.github.com/pinedrop/mediabase/master/patches/rename-omega_pager-func-for-pagerer-module.patch"

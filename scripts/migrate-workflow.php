@@ -1,6 +1,5 @@
 <?php
 
-function mb_migrate_migrate_workflow() {
    
    module_load_include('inc','kaltura','includes/kaltura.admin');
    $sql = "SELECT nid 
@@ -124,4 +123,3 @@ function mb_migrate_migrate_workflow() {
       $fc->setHostEntity('node', $node);
       $fc->save();         
    }
-}

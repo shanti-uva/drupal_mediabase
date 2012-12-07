@@ -1,9 +1,9 @@
 <?php
 
 /**
- * @file
- * Code for the Audio Video feature.
- */
+* @file
+* Code for the Audio Video feature.
+*/
 
 include_once('audio_video.features.inc');
 
@@ -24,3 +24,37 @@ function audio_video_render_kmap_view($kmap_id, $display = 'default') {
    return $output;
 }
 
+/**
+* Automatically set workflow statuses for fields that we can check: media present, place present and transcript input
+* @TODO Test this
+**/
+function audio_video_node_presave($node) {
+/*    dpm($node, "node");
+   $has_media = !empty($node->field_video) || !empty($node->field_audio);
+   $has_transcript = !empty($node->field_transcript);
+   $entity_id = $node->field_workflow['und'][0]['value'];
+   if ( empty($entity_id) ) {
+      $fc_values = array();
+      $fc_values['field_name'] = "field_workflow";
+      $fc_values['is_new'] = 1;
+      $fc_entity = new FieldCollectionItemEntity($fc_values);
+      $fc_entity->setHostEntity('node', $node);
+      dpm($fc_entity,  "new");
+      
+   }
+   else {
+      $entities = entity_load('field_collection_item', array($entity_id));
+      $fc_entity=$entities[$entity_id];
+      dpm($fc_entity,  "old");
+   }
+   dpm($fc_entity, "entity");
+   if ($node->type =='video') {
+      $fc_entity->field_media_present[$node->language][]['value'] = empty($node->field_video['und']) ? 'No' : 'Yes';
+   }
+   else {
+      $fc_entity->field_media_present[$node->language][]['value'] = empty($node->field_audio['und']) ? 'No' : 'Yes';
+   }
+   $fc_entity->field_place_data_present[$node->language][]['value'] = empty($node->field_pbcore_coverage_spatial) ? 'No' : 'Yes';
+   $fc_entity->field_transcript_input[$node->language][]['value'] = empty($node->field_transcript['und']) || empty($node->field_transcript['und']) ? 'No' : 'Yes';
+  $fc_entity->save();          */
+}

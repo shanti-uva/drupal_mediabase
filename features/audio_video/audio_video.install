@@ -24,7 +24,6 @@ function audio_video_update_7000() {
       'field_timecode_ok',
       'field_timecode_problem_1',
       'field_timecode_problem_2',
-      'field_transcript',
       'field_transcript_input',
       'field_transcript_input_lang_1',
       'field_transcript_input_lang_2',
@@ -35,7 +34,6 @@ function audio_video_update_7000() {
       'field_transcript_proofed_lang_3',
       'field_transcript_timecoded',
       'field_transcript_workflow_note',
-      'field_transcripts_xsl',
       'field_translation_lang_1',
       'field_translation_lang_2',
       );

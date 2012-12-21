@@ -1,7 +1,7 @@
 core = 7.x
 
 api = 2
-projects[drupal][version] = "7.17"
+projects[drupal][version] = "7.18"
 projects[drupal][type] = core
 
 ; CONTRIB MODULES
@@ -26,7 +26,7 @@ projects[backup_migrate][version] = "2.4"
 projects[backup_migrate][download][type] = "git" 
 projects[backup_migrate][subdir] = "contrib"
 
-projects[context][version] = "3.0-beta4"
+projects[context][version] = "3.0-beta6"
 projects[context][subdir] = "contrib"
 
 projects[ctools][version] = "1.2"
@@ -38,7 +38,7 @@ projects[date][subdir] = "contrib"
 projects[devel][version] = "1.3"
 projects[devel][subdir] = "contrib"
 
-projects[diff][version] = "2.0"
+projects[diff][version] = "3.2"
 projects[diff][subdir] = "contrib"
 
 projects[entity][version] = "1.x-dev"
@@ -70,7 +70,7 @@ projects[field_group][subdir] = "contrib"
 projects[field_group][download][type] = "git" 
 projects[field_group][download][revision] = "09f351080692305bd3447d61d0b18d021f0a72fb"
 
-projects[filefield_sources][version] = 1.6
+projects[filefield_sources][version] = 1.7
 projects[filefield_sources][subdir] = "contrib"
 
 projects[fivestar][version] = "2.0-alpha2"
@@ -92,7 +92,7 @@ projects[job_scheduler][subdir] = "contrib"
 projects[jquery_update][version] = "2.2"
 projects[jquery_update][subdir] = "contrib"
 
-projects[libraries][version] = "1.0"
+projects[libraries][version] = "2.0"
 projects[libraries][subdir] = "contrib"
 
 projects[masquerade][version] = "1.0-rc4"
@@ -157,8 +157,10 @@ projects[subform][subdir] = "contrib"
 projects[token][version] = "1.4"
 projects[token][subdir] = "contrib"
 
-projects[views][version] = "3.3"
+projects[views][version] = "3.x-dev"
 projects[views][subdir] = "contrib"
+projects[views][download][type] = "git" 
+projects[views][download][revision] = "f7cb51aad6943973e22197d54d202453292d6a27"
 
 projects[views_bulk_operations][version] = "3.0-beta3"
 projects[views_bulk_operations][subdir] = "contrib"
@@ -174,6 +176,7 @@ projects[views_datasource][download][revision] = "f6faa7cde45ae56b86ce31c49c4aa7
 
 projects[views_data_export][version] = "3.0-beta6"
 projects[views_data_export][subdir] = "contrib"
+projects[views_data_export][patch][] = "http://drupal.org/files/views_data_export-Fix_Mysql_specific_code-1690438-4.patch"
 
 projects[votingapi][version] = "2.6"
 projects[votingapi][subdir] = "contrib"
@@ -187,7 +190,7 @@ projects[mediabase][download][type] = "git"
 projects[mediabase][download][url] = "git://github.com/pinedrop/mediabase.git"
 projects[mediabase][type] = "module"
 
- projects[transcripts][download][type] = "git"
+projects[transcripts][download][type] = "git"
 projects[transcripts][download][url] = "git://github.com/pinedrop/transcripts.git"
 projects[transcripts][type] = "module"
 

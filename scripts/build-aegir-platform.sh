@@ -1,23 +1,26 @@
 #!/bin/bash
 # This script is a workaround for a problem with drush_make in aegir 1.3                                                                                                                                        
-# which prevents patches specified in makefiles from being applied. Basically, it 
+# which prevents patches specified in makefiles from being applied. It 
 # relies on a newer version of drush / drush/make to make the platform
 
 # config for dev env
-# home="/Users/travis"
-# git_repo="$home/travis/mediabase"
-# makefile="$git_repo/scripts/mediabase.make"
-# main_drush_path="/usr/share/drush/drush.php"
-# newer_drush_path="/home/travis/bin/drush/drush.php"
+home="/Users/travis"
+git_repo="$home/Sites/mb7/sites/all/modules/mediabase"
+git_repo_theme="$home/Sites/mb7/sites/all/themes/mb-html5"
+aegir_cmd=""
+main_drush_path="/Users/travis/bin/drush-7.x-5.1/drush.php"
+newer_drush_path="/Users/travis/bin/drush-7.x-5.1/drush.php"
+platforms_dir="/Users/travis/Sites"
 
 # config for drupal-manager.shanti
-home="/var/aegir"
-git_repo="$home/git/mediabase"
-git_repo_theme="$home/git/mediabase-theme"
+#home="/var/aegir"
+#git_repo="$home/git/mediabase"
+#git_repo_theme="$home/git/mediabase-theme"
+#aegir_cmd="sudo -u aegir"
+#main_drush_path="$aegir_cmd /usr/bin/php /lv1/drupal/drush/drush.php --php='/usr/bin/php'"
+#newer_drush_path="$aegir_cmd $home/bin/drush-5.1/drush.php"
+#platforms_dir="/var/aegir/platforms"
 
-aegir_cmd="sudo -u aegir"
-main_drush_path="$aegir_cmd /usr/bin/php /lv1/drupal/drush/drush.php --php='/usr/bin/php'"
-newer_drush_path="$aegir_cmd $home/bin/drush-5.1/drush.php"
 makefile="$git_repo/scripts/mediabase.make"
 
 #  store arguments  in special array
@@ -25,7 +28,7 @@ args=("$@")
 
 # check args
 num=$#
-if [ $num -lt 2 ]; then
+if [ $num -lt 1 ]; then
    echo "
 Error: arguments were not correctly specified
    
@@ -45,10 +48,8 @@ fi
 #  config after args are processed
 platform=${args[0]}
 platform_alias="@$platform"
-platforms_dir="/var/aegir/platforms"
 platform_root="$platforms_dir/$platform"
 platform_tmp="/tmp/$platform"
-web_server_alias=${args[1]}
 
 # if directory already exists, do nothing
 if [ -d $platform_root ]; then
@@ -81,8 +82,8 @@ echo "Web Server for platform: $web_server_alias"
 
 # BUILD THE PLATFORM FROM MAKE FILE USING NEWER DRUSH
 echo "RUNNING: $newer_drush_path make --concurrency=1 $makefile $platform_root"
-$newer_drush_path make --concurrency=1 $makefile $platform_tmp
-$aegir_cmd cp -r $platform_tmp $platforms_dir/
+$newer_drush_path make --concurrency=1 $makefile $platform_root
+#$aegir_cmd cp -r $platform_tmp $platforms_dir/
 
 # COPY crossdomain.xml TO PLATFORM ROOT
 $aegir_cmd cp $platform_root/sites/all/modules/contrib/kaltura/crossdomain.xml $platform_root/
@@ -93,6 +94,9 @@ $aegir_cmd cp $platform_root/sites/all/modules/transcripts/transcripts.xsl $plat
 #EXIT HERE IF EXPERIENCING ANY PROBLEMS AND LOOK FOR THE PLATFORM IN /var/aegir/platforms
 echo "EXITING"
 exit
+
+#SET THE WEBSERVER ALIAS FOR PROVISION
+web_server_alias=${args[1]}
 
 # CREATE THE ALIAS USING MAIN DRUSH
 echo "RUNNING: $main_drush_path --root=$platform_root provision-save \"$platform_alias\" --context_type='platform'  --web_server=$web_server_alias"

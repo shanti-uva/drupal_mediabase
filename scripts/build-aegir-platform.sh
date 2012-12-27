@@ -81,9 +81,13 @@ echo "Newer Drush Path for running make: $newer_drush_path"
 echo "Web Server for platform: $web_server_alias"
 
 # BUILD THE PLATFORM FROM MAKE FILE USING NEWER DRUSH
-echo "RUNNING: $newer_drush_path make --concurrency=1 $makefile $platform_root"
-$newer_drush_path make --concurrency=1 $makefile $platform_root
+echo "RUNNING: $newer_drush_path make --concurrency=1 $makefile $platform_root --no-cache"
+$newer_drush_path make --concurrency=1 $makefile $platform_root --no-cache
 #$aegir_cmd cp -r $platform_tmp $platforms_dir/
+
+# Fetch spyc.php for services rest_server since netsed make files are broken in current drush http://drupal.org/node/1355952
+$aegir_cmd wget http://spyc.googlecode.com/svn/trunk/spyc.php -O /tmp/spyc.php
+$aegir_cmd cp /tmp/spyc.php $platform_root/sites/all/modules/contrib/services/servers/rest_server/lib/
 
 # COPY crossdomain.xml TO PLATFORM ROOT
 $aegir_cmd cp $platform_root/sites/all/modules/contrib/kaltura/crossdomain.xml $platform_root/

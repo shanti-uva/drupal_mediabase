@@ -183,7 +183,7 @@ projects[votingapi][subdir] = "contrib"
 
 ; CONTRIB THEMES
 projects[omega][version] = "3.1"
-projects[omega][download][type] = git
+;projects[omega][download][type] = git
 
 ; CUSTOM MODULES
 projects[mediabase][download][type] = "git"

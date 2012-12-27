@@ -1,42 +1,5 @@
-diff --git a/omega/css/omega-visuals.css b/omega/css/omega-visuals.css
-index 3b82a63..c8c8375 100644
---- a/omega/css/omega-visuals.css
-+++ b/omega/css/omega-visuals.css
-@@ -1,5 +1,5 @@
- /* Pagers Positioning */
--.item-list .pager {
-+/* .item-list .pager {
-   padding: 0;
-   margin: 0;
- }
-@@ -58,7 +58,7 @@
-   border-right: 0;
- }
- 
--/* Pagers color */
-+
- .pager li.pager-ellipsis,
- .pager li.pager-current,
- .pager li a {
-@@ -98,7 +98,6 @@
-   color: #454545;
- }
- 
--/* Add default border radius to list items & links */
- .pager {
-   background: #ebebeb;
-   border: 1px solid;
-@@ -122,7 +121,7 @@
-   border-radius: 0 5px 5px 0;
-   -moz-border-radius: 0 5px 5px 0;
-   -webkit-border-radius: 0 5px 5px 0;
--}
-+} */
- 
- table {
-   border: 1px solid #ccc;
 diff --git a/omega/includes/omega.theme.inc b/omega/includes/omega.theme.inc
-index 9c32f63..155406f 100644
+index 9c32f63..3724b06 100644
 --- a/omega/includes/omega.theme.inc
 +++ b/omega/includes/omega.theme.inc
 @@ -23,7 +23,7 @@
@@ -44,7 +7,7 @@ index 9c32f63..155406f 100644
   * @ingroup themeable
   */
 -function omega_pager($vars) {
-+function omega_pager_RENAMED_TO_ALLOW_PAGERER_MODULE_TO_WORK($vars) {
++function omega_pager_DISABLED($vars) {
    global $pager_page_array, $pager_total;
  
    $tags = $vars['tags'];

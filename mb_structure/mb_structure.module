@@ -332,9 +332,11 @@ function mb_structure_views_query_alter(	&$view, &$query ) {
    ->execute();
    
    $gids = array($gid);
-   foreach ($result['node'] as $team_nid => $team_node) {
-      $group = og_get_group('node', $team_nid);
-      $gids[] = $group->gid;
+   if ( isset($result['node']) ) {
+      foreach ($result['node'] as $team_nid => $team_node) {
+         $group = og_get_group('node', $team_nid);
+         $gids[] = $group->gid;
+      }
    }
    $view->args[0] = implode(", ",$gids);
    $query->where[0]['conditions'][0]['value'][':og_membership_group'] = $gids;

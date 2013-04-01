@@ -1,7 +1,7 @@
 core = 7.x
 
 api = 2
-projects[drupal][version] = "7.18"
+projects[drupal][version] = "7.19"
 projects[drupal][type] = core
 
 ; CONTRIB MODULES
@@ -26,6 +26,9 @@ projects[backup_migrate][version] = "2.4"
 projects[backup_migrate][download][type] = "git" 
 projects[backup_migrate][subdir] = "contrib"
 
+projects[better_exposed_filters][version] = "3.0-beta3"
+projects[better_exposed_filters][subdir] = "contrib"
+   
 projects[context][version] = "3.0-beta6"
 projects[context][subdir] = "contrib"
 
@@ -64,6 +67,7 @@ projects[field_collection] = 1.x-dev
 projects[field_collection][subdir] = "contrib"
 projects[field_collection][download][type] = "git" 
 projects[field_collection][download][revision] = "4e0a52349a3f97b346622cda2e0e9ceb24787604"
+projects[field_collection][patch][] = "https://raw.github.com/pinedrop/mediabase/master/patches/missing-bundle-patch-for-field-collection.patch"
 
 projects[field_group][version] = "1.x-dev"
 projects[field_group][subdir] = "contrib"
@@ -76,7 +80,7 @@ projects[filefield_sources][subdir] = "contrib"
 projects[fivestar][version] = "2.0-alpha2"
 projects[fivestar][subdir] = "contrib"
 
-projects[flag][version] = "2.0-beta8"
+projects[flag][version] = "2.0"
 projects[flag][subdir] = "contrib"
 
 projects[flexslider][version] = "1.0-rc3"
@@ -85,6 +89,7 @@ projects[flexslider][subdir] = "contrib"
 
 projects[kaltura][version] = "2.0"
 projects[kaltura][subdir] = "contrib"
+projects[kaltura][patch][] = "http://drupal.org/files/1567302-kaltura-field-view-notice-5.patch"
 
 projects[job_scheduler][version] = "2.0-alpha3"
 projects[job_scheduler][subdir] = "contrib"
@@ -147,6 +152,7 @@ projects[spaces][version] = "3.x-dev"
 projects[spaces][subdir] = "contrib"
 projects[spaces][download][type] = "git" 
 projects[spaces][download][revision] = "eac3a7ed7cda08edf80d3946dfa55bcc9dec1ca7"
+projects[spaces][patch][] = "https://raw.github.com/pinedrop/mediabase/master/patches/spaces_og_use_a_different_space_type_plugin.patch"
 
 projects[strongarm][version] = "2.0"
 projects[strongarm][subdir] = "contrib"
@@ -183,7 +189,7 @@ projects[votingapi][subdir] = "contrib"
 
 ; CONTRIB THEMES
 projects[omega][version] = "3.1"
-;projects[omega][download][type] = git
+projects[omega][patch][] = "https://raw.github.com/pinedrop/mediabase/master/patches/rename-omega_pager-func-for-pagerer-module.patch"
 
 ; CUSTOM MODULES
 projects[mediabase][download][type] = "git"
@@ -210,10 +216,4 @@ libraries[jquery.cycle][download][url] = "https://github.com/malsup/cycle/tarbal
 libraries[flexslider][download][type] = "file"
 libraries[flexslider][download][type] = "git"
 libraries[flexslider][download][url] = "git://github.com/woothemes/FlexSlider.git"                         
-
-; CUSTOM PATCHES
-;projects[kaltura][patch][] = "https://raw.github.com/pinedrop/mediabase/master/patches/kaltura-dev-patch-20120615.patch"
-projects[spaces][patch][] = "https://raw.github.com/pinedrop/mediabase/master/patches/spaces_og_use_a_different_space_type_plugin.patch"
-projects[omega][patch][] = "https://raw.github.com/pinedrop/mediabase/master/patches/rename-omega_pager-func-for-pagerer-module.patch"
-projects[field_collection][patch][] = "https://raw.github.com/pinedrop/mediabase/master/patches/missing-bundle-patch-for-field-collection.patch"
 

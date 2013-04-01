@@ -1,0 +1,2 @@
+These scripts in utility and migration can be run using:
+ drush @alias scr scriptname.php

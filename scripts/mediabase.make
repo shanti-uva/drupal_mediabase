@@ -10,9 +10,11 @@ projects[drupal][type] = core
 projects[admin_menu][version] = "3.0-rc3"
 projects[admin_menu][subdir] = "contrib"
 
-projects[apachesolr][version] = "1.1"
+projects[apachesolr][version] = "1.x-dev"
 projects[apachesolr][subdir] = "contrib"
 projects[apachesolr][patch][] = "http://drupal.org/files/apachesolr-field-name-truncates-1707404-9.patch"
+projects[apachesolr][patch][] = "http://drupal.org/files/apachesolr-18281014-indexing_order-39.patch"
+projects[apachesolr][download][revision] = "3a2614b4f0579c336ec7ceca156668960fa931cf"
 
 projects[apachesolr_views][version] = "1.0-beta1"
 projects[apachesolr_views][subdir] = "contrib"
@@ -21,6 +23,7 @@ projects[apachesolr_autocomplete][version] = "1.2"
 projects[apachesolr_autocomplete][subdir] = "contrib"
 projects[apachesolr_autocomplete][download][type] = "git" 
 projects[apachesolr_autocomplete][patch][] = "http://drupal.org/files/1444038-apachesolr_autocomplete-apachesolr_search-6.patch"
+projects[apachesolr_autocomplete][patch][] = "http://drupal.org/files/1491068-jquery-autocomplete-collision-fix.patch"
 
 projects[backup_migrate][version] = "2.4"
 projects[backup_migrate][download][type] = "git" 
@@ -94,7 +97,7 @@ projects[kaltura][patch][] = "http://drupal.org/files/1567302-kaltura-field-view
 projects[job_scheduler][version] = "2.0-alpha3"
 projects[job_scheduler][subdir] = "contrib"
 
-projects[jquery_update][version] = "2.2"
+projects[jquery_update][version] = "2.3"
 projects[jquery_update][subdir] = "contrib"
 
 projects[libraries][version] = "2.0"

@@ -141,7 +141,7 @@ function kmap_taxonomy_field_widget_settings_form($field, $instance) {
     '#title' => t('Kmap Selector Settings'),
     );
  $form['kmap_selector_settings']['help'] = array(
-    '#markup' => t('<p>The Kmaps Selector Widget provides two methods main methods 
+    '#markup' => t('<p>The Kmaps Selector Widget provides two main methods 
        to choose kmaps: autocomplete and tree select. You can choose to show 
        one or both methods via the checkboxes below. The branch filter is a 
        dropdown control that limits the choices available in  the tree and 

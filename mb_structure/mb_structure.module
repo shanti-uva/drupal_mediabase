@@ -273,8 +273,14 @@ function mb_structure_lets_get_started_form() {
    $form['submit'] = array(
       '#type' => 'submit',
       '#value' => t('Create a New Collection'),
+       '#submit' => array('mb_structure_new_collection'),
       );
    return $form;
+}
+
+function mb_structure_new_collection(&$form_state, $form) {
+	global $base_root, $base_path;
+	drupal_goto($base_root . $base_path . 'node/add/collection');
 }
 
 function mb_structure_already_started_form() {

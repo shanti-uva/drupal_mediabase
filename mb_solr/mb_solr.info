@@ -1,0 +1,7 @@
+name = Mediabase SOLR integration
+description = Provide SOLR integration for Mediabase
+package = SHANTI Mediabase
+core = 7.x
+dependencies[] = apachesolr
+version = 7.x-0.1-alpha1
+

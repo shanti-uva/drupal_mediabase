@@ -1,0 +1,140 @@
+<?php
+
+/**
+* Implementation of hook_apachesolr_index_document_build
+* Add collection parent gids of a team
+**/
+function mb_solr_apachesolr_index_document_build(ApacheSolrDocument $document, $entity, $entity_type, $env_id) { 
+   if ( ! in_array($entity->type, array('video','audio'))) {
+      return;
+   }
+   $parent_group_gid = !empty($entity->group_audience['und']) ? $entity->group_audience['und'][0]['gid'] : null;
+   if (!empty($parent_group_gid)) {
+      $gids=array($parent_group_gid);
+      $parent_group = og_get_group('group',$parent_group_gid);
+      $group_node = node_load($parent_group->etid);
+      if ($group_node->type == 'team') { 
+         $coll_ancestor_node = get_collection_ancestor_node($group_node);
+         $ancestor_group = og_get_group('node',$coll_ancestor_node->nid);
+         $gids[] = $ancestor_group->gid;
+      }
+      foreach ($gids as $gid) {
+         $document->addField('im_collection_gid', $gid);
+      }
+   }
+}
+
+/**
+* Implementation of hook_apachesolr_process_results
+* Add thumbnail url to the result items
+**/
+function mb_solr_apachesolr_process_results(&$results, DrupalSolrQueryInterface $query) {
+   foreach ( $results as $idx => $item ) {
+      $bundle = $item['bundle'];
+      $media_field_table = "field_data_field_$bundle";
+      $entryid_column = "field_$bundle" . "_entryid";
+      $entity_id = $item['fields']['entity_id'];
+      
+      if ('video' == $bundle) {
+         $query = "SELECT kaltura_thumbnail_url
+         FROM {field_data_field_video} 
+         JOIN {node_kaltura} ON field_video_entryid = kaltura_entryid
+         WHERE entity_id = :etid";
+      }
+      else if ('audio' == $bundle) {
+         $query = "SELECT kaltura_thumbnail_url
+         FROM {field_data_field_audio} 
+         JOIN {node_kaltura} ON field_audio_entryid = kaltura_entryid
+         WHERE entity_id = :etid";
+      }
+      
+      $res = db_query($query, array(':etid' => $entity_id) );
+      $thumb_url = array_shift($res->fetchCol());
+      $results[$idx]['thumb_url'] = $thumb_url;
+
+   }
+}
+
+function mb_solr_apachesolr_query_alter($query) {
+   $gid_filters = $query->getFilters('im_collection_gid');
+   foreach ($gid_filters as $idx => $gid_filter) {
+        $value = $gid_filter['#value'];
+        if (is_numeric($value) ) { // we've likely got a gid as the value already
+           continue;
+        }
+        // we've likely got an alias as the filter value
+        $alias_path = "collection/$value";
+        $node_path = drupal_lookup_path('source', $alias_path);
+        if ( empty($node_path) ) {
+           continue;
+        }
+        $nid = array_pop( explode('/', $node_path));
+        $group = og_get_group('node', $nid);
+        $query->removeFilter('im_collection_gid', $value);
+        $query->addFilter('im_collection_gid', $group->gid);
+   }
+}
+
+/**
+* Implements hook_theme().
+*/
+function mb_solr_theme() {
+   return array(
+      'search_results__apachesolr_search__collection_home' => array(
+         'variables' => array('search_results' => NULL, 'module' => array()),
+         ),
+      'search_result__apachesolr_search__node__video' => array(
+         'variables' => array('search_result' => NULL, 'module' => array()),
+         ),
+      'search_result__apachesolr_search__node__audio' => array(
+         'variables' => array('search_result' => NULL, 'module' => array()),
+         ),
+      );
+}
+
+function theme_apachesolr_search_snippets__mb_collection_home($vars) {
+   dpm($vars, "vars");
+   
+}
+
+function mb_solr_apachesolr_search_snippets($vars) {
+   // ACTIVE dpm($vars, "mb_solr_apachesolr_search_snippets vars");
+} 
+
+function mb_solr_theme_registry_alter(&$theme_registry) {
+  // dpm($theme_registry, "theme_registry");
+   
+  if (!empty($theme_registry['apachesolr_search_snippets'])) {
+    $theme_registry['apachesolr_search_snippets']['function'] = 'mb_solr_apachesolr_search_snippets';
+  }
+  
+/* if (!empty($theme_registry['search_results'])) {
+    $theme_registry['search_results']['function'] = 'mb_solr_search_results';
+  } */
+  
+   if (!empty($theme_registry['search_result'])) {
+    $theme_registry['search_result']['function'] = 'mb_solr_search_result';
+  }
+}
+
+/* function mb_solr_search_results($vars) {
+   dpm($vars, "mb_solr_search_results vars");
+}  */
+
+function mb_solr_search_result($vars) {
+    // ACIVE dpm($vars, "mb_solr_search_result vars");
+} 
+
+function theme_search_results__apachesolr_search__collection_home($vars) {
+   dpm($vars, "theme_search_resultS__apachesolr_search__collection_home VARS");
+}
+
+function theme_search_result__apachesolr_search__node__video($vars) {
+   dpm($vars, "search_result__apachesolr_search__node__video VARS");
+}
+
+function theme_search_result__apachesolr_search__node__audio($vars) {
+   dpm($vars, "search_result__apachesolr_search__node__audio VARS");
+  //return theme_search_result__apachesolr_search__node__video($vars);
+}
+

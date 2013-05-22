@@ -410,65 +410,8 @@ function kmaps_settings_form($form, &$form_state) {
       '#maxlength' => 255, 
       '#required' => TRUE,
       );
-   
-   $kmap_form['kmap_fields_index_parent_terms'] = array(
-      '#title' => t('Index parent terms for these Kmap Taxonomy fields:'),
-      '#type' => 'checkboxes',
-      '#options' => array(),
-      '#default_value' => variable_get('kmap_fields_index_parent_terms', array()),
-      '#description' => t('Kmaps-based term reference fields do not by default tag nodes with parent terms 
-         from the hierarchy. If you would like a field to include parents in the search index 
-         (e.g. for more meaningful hierarchical facet browsing), then check the box beside'),
-      );
-   
-   $fields = field_info_fields();
-   $kmap_taxo_fields = array();
-   foreach ( $fields as $key => $field ) {
-      if ( $field['type'] == 'taxonomy_term_reference' && $field['settings']['allowed_values'][0]['vocabulary'] == 'kmap_taxonomy' ) {
-         $bundles = implode(', ', $field['bundles']['node']);
-         $value = "$key  ($bundles)";
-         $kmap_form['kmap_fields_index_parent_terms']['#options'][$key] = $value;
-      }
-   }
    return system_settings_form(array_merge( $form, $kmap_form) );
 }
 
 
-function kmap_taxonomy_apachesolr_index_document_build(ApacheSolrDocument $document, $entity, $entity_type, $env_id) { 
-      return;
-      return;
-      return;
-      return;
-      return;
-      return;
-      return;
-   if ( ! in_array($entity->type, array('video','audio'))) {
-      return;
-   }
-   
-     /* TEMPORARY !!!!! move into solr doc hook below */
-   module_load_include('inc', 'kmap_taxonomy', 'includes/kmap');
-   $field_names = variable_get('kmap_fields_index_parent_terms', array());
-  // $entity = node_load(185); // DELETE ME 
-   foreach ($field_names as $field_name) {
-      $tids = !empty($entity->{$field_name}[LANGUAGE_NONE]) ? $entity->{$field_name}[LANGUAGE_NONE] : array();
-      $parent_tids = array();
-      $solr_field_name = "im_" . $field_name;
-      foreach ($tids as $tid) {
-         $kmap = Kmap::createKmapByTid($tid['tid']);
-         $lineage = $kmap->get_kmap_lineage();
-         array_pop($lineage); // get rid of the last item in lineage since it is added by apachesolr api
-         foreach ($lineage as $parent_kmap) {
-            if ( in_array($parent_kmap['tid'], $parent_tids) ) {
-               dd($parent_kmap['tid'], "SKIPPING");
-              continue; // skip duplicates
-             }
-            $parent_tids[] = $parent_kmap['tid'];
-            $document->addField($solr_field_name, $parent_kmap['tid']);
-            dd($parent_kmap['tid'], "adding to $solr_field_name");
-         }
-      }
-      dd($parent_tids, "parent_tids");
-      
-   }
-}
+

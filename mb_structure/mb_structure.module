@@ -143,50 +143,50 @@ function get_node_from_path(){
 }
 
 function mb_structure_form_views_exposed_form_alter(&$form, &$form_state, $form_id) {
-/*    dpm($form_state, "form_state");
+   /*    dpm($form_state, "form_state");
    
    if (arg(0) == "node" && $group = og_get_group('node', arg(1) ) ) {
-      $gid = $group->gid;
-      $all_terms = array();
-      
-      // get terms limited by content in group
-      $view = views_get_view('terms_in_group');
-      dd($view, "view");
-      
-      $view->execute_display($display, array($gid));
-      
-      foreach ($view->result as $term) {
-         //dpm($term->tid, "term->tid");
-         $label = $term->taxonomy_term_data_name . " (" . $term->node_taxonomy_index_nid . ")";
-         
-         // add term tid to allowed options in filter
-         $allowed_tids[$term->tid] = $term->tid; 
-         
-         // add parent term tids to allowed options in filter
-         
-         $parents = taxonomy_get_parents_all($term->tid);
-         //dpm($parents, "parents of " . $term->tid .' / '. $label);
-         foreach ($parents as $parent) {
-            $allowed_tids[$parent->tid] = $parent->tid; 
-         }
-         //dpm($allowed_tids, "allowed_tids");
-      }
-      // filter out terms that are not allowed
-      foreach ($form['field_characteristic_tid']['#options'] as $idx => $option) {
-         $option_tid = array_pop(array_keys($option->option));
-         if ( in_array( $option_tid, $allowed_tids) ) {
-            // do nothing
-            // dpm($option_tid, " keeping option_tid");
-         }
-         else {
-            unset($form['field_characteristic_tid']['#options'][$idx]);
-         }               
-      }
-      
-      //dpm($form['field_characteristic_tid']['#options'], "form['field_characteristic_tid']['#options']");
-      
+   $gid = $group->gid;
+   $all_terms = array();
+   
+   // get terms limited by content in group
+   $view = views_get_view('terms_in_group');
+   dd($view, "view");
+   
+   $view->execute_display($display, array($gid));
+   
+   foreach ($view->result as $term) {
+   //dpm($term->tid, "term->tid");
+   $label = $term->taxonomy_term_data_name . " (" . $term->node_taxonomy_index_nid . ")";
+   
+   // add term tid to allowed options in filter
+   $allowed_tids[$term->tid] = $term->tid; 
+   
+   // add parent term tids to allowed options in filter
+   
+   $parents = taxonomy_get_parents_all($term->tid);
+   //dpm($parents, "parents of " . $term->tid .' / '. $label);
+   foreach ($parents as $parent) {
+   $allowed_tids[$parent->tid] = $parent->tid; 
    }
- */
+   //dpm($allowed_tids, "allowed_tids");
+   }
+   // filter out terms that are not allowed
+   foreach ($form['field_characteristic_tid']['#options'] as $idx => $option) {
+   $option_tid = array_pop(array_keys($option->option));
+   if ( in_array( $option_tid, $allowed_tids) ) {
+   // do nothing
+   // dpm($option_tid, " keeping option_tid");
+   }
+   else {
+   unset($form['field_characteristic_tid']['#options'][$idx]);
+   }               
+   }
+   
+   //dpm($form['field_characteristic_tid']['#options'], "form['field_characteristic_tid']['#options']");
+   
+   }
+   */
 }
 
 /**
@@ -317,13 +317,23 @@ function collection_media_listing() {
 * implementation of hook_views_query_alter
 **/
 function mb_structure_views_query_alter(	&$view, &$query ) {
-   if ( 'collection_media' != $view->name || (! $node = get_node_from_path() && !in_array($node->type, array('team','collection')))) {
+   
+   if ($node = get_node_from_path())  {
+      $group = og_get_group('node', $node->nid);
+      $gid = $group->gid;
+   }
+   else {    // If we're in views ui, we can't get node from  path, so get it from views args
+      $gid = array_shift( explode(",",$view->args[0]) );
+      $group = og_get_group('group',$coll_gid);
+      $node = node_load($coll_group->etid);
+   } 
+   
+   if ( 'collection_media' != $view->name || (!$node  && !in_array($node->type, array('team','collection')))) {
       return;
    }
-   $node = get_node_from_path();
-   $group = og_get_group('node', $node->nid);
-   $gid = $group->gid;
-   // Get gids of the teams for the collection
+   
+   /* Add extra gids to the where clause to include media in child teams of a collection */
+   // Get nodes of the teams for the collection
    $efq = new EntityFieldQuery();
    $result = $efq
    ->entityCondition('entity_type', 'node')
@@ -331,6 +341,7 @@ function mb_structure_views_query_alter(	&$view, &$query ) {
    ->fieldCondition('group_audience', 'gid', $gid, '=', 0)
    ->execute();
    
+   // Get gids from team nodes
    $gids = array($gid);
    if ( isset($result['node']) ) {
       foreach ($result['node'] as $team_nid => $team_node) {
@@ -338,8 +349,11 @@ function mb_structure_views_query_alter(	&$view, &$query ) {
          $gids[] = $group->gid;
       }
    }
+   // Add gids to where condition
    $view->args[0] = implode(", ",$gids);
    $query->where[0]['conditions'][0]['value'][':og_membership_group'] = $gids;
+   
+   
 }
 
 function mb_structure_node_view($node, $view_mode, $langcode) {
@@ -435,6 +449,7 @@ function mb_structure_already_started_validate($element, &$form_state, $form) {
 }
 
 function mb_structure_menu_breadcrumb_alter(&$active_trail, $item) {
+   $new_items=array();
    if ($item['path'] == 'node/%' &&  $node = $item['page_arguments'][0] ) {
       if ( ! in_array($node->type, array('collection', 'team', 'audio', 'video') ) ) {
          return;
@@ -501,7 +516,7 @@ function mb_structure_breadcrumb_items_audio_video($node) {
          'localized_options' => array(),
          'type' => 0,
          );
-      
       return array($coll_crumb);
    }
 }
+

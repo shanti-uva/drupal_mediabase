@@ -190,7 +190,7 @@ projects[views_data_export][patch][] = "http://drupal.org/files/views_data_expor
 projects[votingapi][version] = "2.6"
 projects[votingapi][subdir] = "contrib"
 
-projects[wysiwyg][version] = "7.x-2.2"
+projects[wysiwyg][version] = "2.2"
 projects[votingapi][subdir] = "contrib"
 
 ; CONTRIB THEMES

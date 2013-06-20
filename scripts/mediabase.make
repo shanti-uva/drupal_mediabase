@@ -13,7 +13,7 @@ projects[admin_menu][subdir] = "contrib"
 projects[apachesolr][version] = "1.x-dev"
 projects[apachesolr][subdir] = "contrib"
 projects[apachesolr][patch][] = "http://drupal.org/files/apachesolr-field-name-truncates-1707404-9.patch"
-projects[apachesolr][patch][] = "http://drupal.org/files/apachesolr-18281014-indexing_order-39.patch"
+;projects[apachesolr][patch][] = "http://drupal.org/files/apachesolr-18281014-indexing_order-39.patch"
 projects[apachesolr][download][revision] = "419151190caf8871af4a9d78b431b3bd1eeb3bbf"
 
 projects[apachesolr_views][version] = "1.0-beta1"
@@ -191,7 +191,7 @@ projects[votingapi][version] = "2.6"
 projects[votingapi][subdir] = "contrib"
 
 projects[wysiwyg][version] = "2.2"
-projects[votingapi][subdir] = "contrib"
+projects[wysiwyg][subdir] = "contrib"
 
 ; CONTRIB THEMES
 projects[omega][version] = "3.1"

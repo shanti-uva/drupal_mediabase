@@ -190,6 +190,9 @@ projects[views_data_export][patch][] = "http://drupal.org/files/views_data_expor
 projects[votingapi][version] = "2.6"
 projects[votingapi][subdir] = "contrib"
 
+projects[wysiwyg][version] = "7.x-2.2"
+projects[votingapi][subdir] = "contrib"
+
 ; CONTRIB THEMES
 projects[omega][version] = "3.1"
 projects[omega][patch][] = "https://raw.github.com/pinedrop/mediabase/master/patches/rename-omega_pager-func-for-pagerer-module.patch"
@@ -220,3 +223,5 @@ libraries[flexslider][download][type] = "file"
 libraries[flexslider][download][type] = "git"
 libraries[flexslider][download][url] = "git://github.com/woothemes/FlexSlider.git"                         
 
+libraries[tinymce][download][type] = "file"
+libraries[tinymce][download][url] = "http://download.moxiecode.com/tinymce/tinymce_3.5.8.zip"

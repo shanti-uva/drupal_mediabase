@@ -873,7 +873,7 @@ function audio_video_field_default_fields() {
       'label' => 'Description',
       'required' => 0,
       'settings' => array(
-        'text_processing' => '0',
+        'text_processing' => '1',  // Changed from 0 to 1 to enable WYSIWYG editing.
         'user_register_form' => FALSE,
       ),
       'widget' => array(

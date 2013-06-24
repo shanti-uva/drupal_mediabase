@@ -236,7 +236,7 @@ function mb_structure_form_video_node_form_alter(&$form, &$form_state, $form_id)
 	$kid = $form_state['node']->field_video['und'][0]['entryid'];
 	if(!empty($kid)) {
 		$embed = '<script src="https://cdnapisec.kaltura.com/p/381832/sp/38183200/embedIframeJs/uiconf_id/14448611/partner_id/381832"></script>
-		<div id="kaltura_player_1370363032" style="width: 400px; height: 360px; float:left; padding-right: 20px; padding-bottom: 20px;" itemprop="video" itemscope itemtype="http://schema.org/VideoObject">
+		<div id="kaltura_player_1371758561" style="width: 400px; height: 360px; float:left; padding-right: 20px; padding-bottom: 20px;" itemprop="video" itemscope itemtype="http://schema.org/VideoObject">
 				<span itemprop="name" content=""></span>
 				<span itemprop="description" content=""></span>
 				<span itemprop="duration" content=""></span>
@@ -246,12 +246,11 @@ function mb_structure_form_video_node_form_alter(&$form, &$form_state, $form_id)
 			</div>
 			<script>
 				kWidget.embed({
-					"targetId": "kaltura_player_1370363032",
+					"targetId": "kaltura_player_1371758561",
 					"wid": "_381832",
 					"uiconf_id": 14448611,
 					"flashvars": {
-						"streamerType": "auto",
-						"ks": "YWZlYTI1MTA2OWFhNjE0ZDA4YWZmM2VhMWQzNmRhMzhkYWIzYTA2ZXwzODE4MzI7MzgxODMyOzEzNzA0NTk3MjY7MjsxMzcwMzczMzI2LjU2NzE7Ozs7"
+						"ks": "YTljMmNhMDExNjFjYTNiNzg4ZWMyMzM5MzYyNmUzZDcwNDNlOTQ3YnwzODE4MzI7MzgxODMyOzEzNzE4NDQ0MzU7MjsxMzcxNzU4MDM1LjQwMDg7Ozs7"
 					},
 					"cache_st": ' . time() . ',
 					"entry_id": "' . $kid . '"

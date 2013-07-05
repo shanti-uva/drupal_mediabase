@@ -20,6 +20,7 @@ function mediabase_permission() {
 
 function mediabase_menu() {
    $items = array();
+   
    $items['admin/config/media/mediabase'] = array(
    'title' => 'Mediabase Settings',
    'description' => 'Settings for Mediabase',
@@ -36,6 +37,17 @@ function mediabase_menu() {
    'page callback' => 'browse_media',
    'type' => MENU_NORMAL_ITEM,
    );
+   
+   $items['persistent/%'] = array(
+    'title' => '',
+    'description' => 'Redirects a NID to its titled url',
+    'page callback' => 'mediabase_persistent_nid',
+    'page arguments' => array(1),
+    'access callback' => 'node_access',
+    'access arguments' => array('view', 1),
+    'type' => MENU_NORMAL_ITEM,
+   );
+   
    return $items;
 }
 
@@ -81,4 +93,7 @@ function mediabase_node_form_cancel(&$form, &$form_state) {
    drupal_goto($alias);
 }
 
-
+function mediabase_persistent_nid($nid) {
+   $alias = drupal_lookup_path('alias', "node/$nid");
+   drupal_goto($alias);
+}

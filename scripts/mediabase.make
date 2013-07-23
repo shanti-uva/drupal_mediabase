@@ -14,7 +14,7 @@ projects[apachesolr][version] = "1.x-dev"
 projects[apachesolr][subdir] = "contrib"
 projects[apachesolr][patch][] = "http://drupal.org/files/apachesolr-field-name-truncates-1707404-9.patch"
 ;projects[apachesolr][patch][] = "http://drupal.org/files/apachesolr-18281014-indexing_order-39.patch"
-projects[apachesolr][download][revision] = "419151190caf8871af4a9d78b431b3bd1eeb3bbf"
+projects[apachesolr][download][revision] = "11e6584627983a06715e077b99525fbc9f572cd0"
 
 projects[apachesolr_views][version] = "1.0-beta1"
 projects[apachesolr_views][subdir] = "contrib"

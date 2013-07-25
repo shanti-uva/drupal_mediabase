@@ -5,7 +5,7 @@
 * Add collection parent gids of a team
 **/
 function mb_solr_apachesolr_index_document_build(ApacheSolrDocument $document, $entity, $entity_type, $env_id) {
-  dpm("in document build");
+  //dpm("in document build");
    if ( ! in_array($entity->type, array('video','audio'))) {
       return;
    }
@@ -30,7 +30,7 @@ function mb_solr_apachesolr_index_document_build(ApacheSolrDocument $document, $
 * Add thumbnail url to the result items
 **/
 function mb_solr_apachesolr_process_results(&$results, DrupalSolrQueryInterface $query) {
-  dpm('in process results');
+  //dpm('in process results');
    foreach ( $results as $idx => $item ) {
       $bundle = $item['bundle'];
       $media_field_table = "field_data_field_$bundle";
@@ -57,7 +57,7 @@ function mb_solr_apachesolr_process_results(&$results, DrupalSolrQueryInterface 
 }
 
 function mb_solr_apachesolr_query_alter($query) {
-  dpm('in query alter');
+  //dpm('in query alter');
    $gid_filters = $query->getFilters('im_collection_gid');
    foreach ($gid_filters as $idx => $gid_filter) {
         $value = $gid_filter['#value'];
@@ -123,11 +123,11 @@ function mb_solr_theme_registry_alter(&$theme_registry) {
 }  */
 
 function mb_solr_search_result($vars) {
-    dpm($vars, "mb_solr_search_result vars");
+    //dpm($vars, "mb_solr_search_result vars");
 } 
 
 function theme_search_results__apachesolr_search__collection_home($vars) {
-  dpm($vars, "theme_search_resultS__apachesolr_search__collection_home VARS");
+  //dpm($vars, "theme_search_resultS__apachesolr_search__collection_home VARS");
   $output = '';
   $subcolls = array();
   foreach ($vars['results'] as $k => $v) {
@@ -139,22 +139,25 @@ function theme_search_results__apachesolr_search__collection_home($vars) {
 function mb_solr_make_teaser($v) {
   return '
   <div class="views-row views-row-3 views-row-odd grid-9 mb-thumbnail-grid-row">
-  <div class="views-field views-field-field-audio">       
-   <div class="field-content"></div>  </div>  
-  <div class="views-field views-field-field-video">        
-  <div class="field-content"><a href="' . $v['link'] . '" 
-  class="views-ajax-processed-processed"><span class="play-icon-overlay"></span>
-<div class="kaltura"><div class="kaltura-thumb"><img title="Where Did You Go?: The Chapter 07 Dialog from" alt="" 
-src="' . $v['thumb_url'] . '" 
-typeof="foaf:Image" class="k-no-rotate"></div></div></a></div>  </div>  
-  <div class="views-field views-field-title">        
-  <span class="field-content"><a href="' . $v['link'] . '" 
-  class="views-ajax-processed-processed">' . $v['title'] . '</a></span>  </div>  
-  <div class="views-field views-field-created">    <span class="views-label views-label-created">Posted</span>    
-  <span class="field-content">' . date('M jS, Y', $v['fields']['created']) . '</span>  </div>  
-  <div class="views-field views-field-group-audience">    <span class="views-label views-label-group-audience">in </span>    
-  <div class="field-content"><a href="/collection/tibetan-and-himalayan-library" 
-  class="views-ajax-processed-processed">Tibetan and Himalayan Library </a></div>  </div>  </div>';
+    <div class="views-field views-field-field-audio">       
+      <div class="field-content"></div>  
+    </div>  
+    <div class="views-field views-field-field-video">        
+      <div class="field-content"><a href="' . $v['link'] . '" 
+        class="views-ajax-processed-processed"><span class="play-icon-overlay"></span>
+        <div class="kaltura"><div class="kaltura-thumb"><img title="Where Did You Go?: The Chapter 07 Dialog from" alt="" 
+          src="' . $v['thumb_url'] . '" 
+          typeof="foaf:Image" class="k-no-rotate"></div></div></a></div>  </div>  
+        <div class="views-field views-field-title">        
+          <span class="field-content"><a href="' . $v['link'] . '" 
+            class="views-ajax-processed-processed">' . $v['title'] . '</a></span>  </div>  
+          <div class="views-field views-field-created">    <span class="views-label views-label-created">Posted</span>    
+            <span class="field-content">' . date('M jS, Y', $v['fields']['created']) . '</span>  </div>  
+          <div class="views-field views-field-group-audience">    <span class="views-label views-label-group-audience">in </span>    
+          <div class="field-content"><a href="/collection/tibetan-and-himalayan-library" 
+            class="views-ajax-processed-processed">Tibetan and Himalayan Library </a></div>  
+    </div>  
+  </div>';
 }
 
 function theme_search_result__apachesolr_search__node__video($vars) {

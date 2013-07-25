@@ -169,3 +169,104 @@ function theme_search_result__apachesolr_search__node__audio($vars) {
   //return theme_search_result__apachesolr_search__node__video($vars);
 }
 
+
+/*
+ *  Implements hook_facetapi_widget: 
+ *     Creates a widget option in the facet display page called 'Mediabase Select Tree' that calls the MBSolrFacetapiWidgetMbSolrTree class
+ */
+function mb_solr_facetapi_widgets() {
+  return array(
+    'mb_solr_facet_tree' => array(
+      'handler' => array(
+        'label' => t('Mediabase Select Tree'),
+        'class' => 'MbSolrFacetapiWidgetMbSolrTree',
+        'query types' => array('term', 'date'),
+      ),
+    ),
+  );
+}
+
+/*
+ * MbSolrFacetapiWidgetMbSolrTree: This extends the FacetapiWidgetLinks class found in the facetapi module
+ *    It only makes two changes to the execute() and buildListItems() function, changing the path to the current path of the collection.
+ */
+class MbSolrFacetapiWidgetMbSolrTree extends FacetapiWidgetLinks {
+   /**
+    * Modifies the standard facet tree by changing the path from the standard search path to the collection or current path
+    */
+  public function execute() {
+    $elements = &$this->build[$this->facet['field alias']];
+    foreach($elements as $n => &$element) {
+      $element['#path'] = current_path();
+    }
+    //dpm($elements, 'elements');
+    // Sets each item's theme hook, builds item list.
+    $this->setThemeHooks($elements);
+    $elements = array(
+      '#theme' => 'item_list',
+      '#items' => $this->buildListItems($elements),
+      '#attributes' => $this->build['#attributes'],
+    );
+  }
+  
+  function buildListItems($build) {
+    $settings = $this->settings->settings;
+    
+    // Initializes links attributes, adds rel="nofollow" if configured.
+    $attributes = ($settings['nofollow']) ? array('rel' => 'nofollow') : array();
+    $attributes += array('class' => $this->getItemClasses());
+
+    // Builds rows.
+    $items = array();
+    foreach ($build as $value => $item) {
+      $row = array('class' => array());
+
+      // Initializes variables passed to theme hook.
+      $variables = array(
+        'text' => $item['#markup'],
+        'path' => current_path(),
+        'count' => $item['#count'],
+        'options' => array(
+          'attributes' => $attributes,
+          'html' => $item['#html'],
+          'query' => $item['#query'],
+        ),
+      );
+
+      // Adds the facetapi-zero-results class to items that have no results.
+      if (!$item['#count']) {
+        $variables['options']['attributes']['class'][] = 'facetapi-zero-results';
+      }
+
+      // Add an ID to identify this link.
+      $variables['options']['attributes']['id'] = drupal_html_id('facetapi-link');
+
+      // If the item has no children, it is a leaf.
+      if (empty($item['#item_children'])) {
+        $row['class'][] = 'leaf';
+      }
+      else {
+        // If the item is active or the "show_expanded" setting is selected,
+        // show this item as expanded so we see its children.
+        if ($item['#active'] || !empty($settings['show_expanded'])) {
+          $row['class'][] = 'expanded';
+          $row['children'] = $this->buildListItems($item['#item_children']);
+        }
+        else {
+          $row['class'][] = 'collapsed';
+        }
+      }
+
+      // Gets theme hook, adds last minute classes.
+      $class = ($item['#active']) ? 'facetapi-active' : 'facetapi-inactive';
+      $variables['options']['attributes']['class'][] = $class;
+
+      // Themes the link, adds row to items.
+      $row['data'] = theme($item['#theme'], $variables);
+      $items[] = $row;
+    }
+
+    return $items;
+  }
+}
+

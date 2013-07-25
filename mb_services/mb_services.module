@@ -1,0 +1,94 @@
+<?php
+/*
+ *  mb_services.module: Returns JSON objects representing entities in the Mediabase.
+ */
+
+ define('MB_SOLR_ITEMS_PER_PAGE', 50); 
+ 
+ 
+/*
+ * Implements hook_menu. 
+ * Defines URLs for service calls that return JSON. 
+ * No need to use services module because we don't need CRUD only Retrieval.
+ * 
+ * URLs Defined:
+ *    services/coll/%{id} : calls mb_services_collection. takes a collection alias (e.g., mediabase-test-collection) and 
+ *                          returns a JSON object representing that collection
+ */
+function mb_services_menu() {
+  $items = array();
+  // Return SHIVA jsaon of a single node (page 1)
+  $items['services/coll/%'] = array(
+    'title' => 'JSON output of Mediabase Data',
+    'description' => 'Return the JSON description for Mediabase items',
+    'page callback' => 'mb_services_collection',
+    'page arguments' => array(2),
+    'access callback' => TRUE,
+  );
+  // Return SHIVA jsaon of a single node (subsequent pages)
+  $items['services/coll/%/%'] = array(
+    'title' => 'JSON output of Mediabase Data',
+    'description' => 'Return the JSON description for Mediabase items',
+    'page callback' => 'mb_services_collection',
+    'page arguments' => array(2, 3),
+    'access callback' => TRUE,
+  );
+  return $items;
+}
+
+/*
+ * mb_services_collection: Takes a collection alias
+ */
+function mb_services_collection($collid, $pg = 1) {
+  $path = drupal_lookup_path("source", "collection/$collid" );
+  $parts = explode('/', $path);
+  $nid=$parts[1];
+  $group = og_get_group('node', $nid);
+  $gout = array(
+    'gid' => $group->gid,
+    'etid' => $group->etid,
+    'title' => $group->label,
+    'page' => $pg,
+    'items' => array()
+  );
+  $items = array();
+  
+  $query = db_select("og_membership", "ogm")
+            ->condition("ogm.gid", $group->gid, "=")
+            ->condition('entity_type', 'node', '=')
+            ->fields("ogm", array("entity_type", "etid"))
+            ->execute();
+  $results = $query->fetchAll();
+  $start = ($pg - 1) * MB_SOLR_ITEMS_PER_PAGE + 1;
+  $end = $pg * MB_SOLR_ITEMS_PER_PAGE;
+  $gout['first_item'] = $start;
+  $gout['last_item'] = $end;
+  $gout['total_items'] = count($results);
+  $gout['total_pages'] = intval(count($results) / MB_SOLR_ITEMS_PER_PAGE);
+  $n = 0;
+  foreach($results as $result) {
+    $n++;
+    if ($n >= $start && $n <= $end) {
+      $item = array();
+      $nid = $result->etid;
+      $node = node_load($nid);
+      $type = $node->type;
+      if($type == 'video' || $type == 'audio') {
+        $item['nid'] = $nid;
+        $item['type'] = $type;
+        $item['title'] = $node->title;
+        $query = "SELECT kaltura_thumbnail_url
+           FROM {field_data_field_$type} 
+           JOIN {node_kaltura} ON field_" . $type . "_entryid = kaltura_entryid
+           WHERE entity_id = :etid";     
+        $res = db_query($query, array(':etid' => $nid) );
+        $item['thumb_url'] = array_shift($res->fetchCol());
+        $item['path'] = drupal_lookup_path('alias', 'node/' . $nid);
+        array_push($items, $item);
+      }
+    }
+  }
+  $gout['item_count'] = count($items);
+  $gout['items'] = $items;
+  drupal_json_output($gout);
+}

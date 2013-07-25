@@ -106,6 +106,9 @@ projects[libraries][subdir] = "contrib"
 projects[masquerade][version] = "1.0-rc4"
 projects[masquerade][subdir] = "contrib"
 
+projects[module_filter][version] = "1.7"
+projects[module_filter][subdir] = "contrib"
+
 projects[oauth][version] = "3.0"
 projects[oauth][subdir] = "contrib"
 

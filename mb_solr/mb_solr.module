@@ -30,7 +30,7 @@ function mb_solr_apachesolr_index_document_build(ApacheSolrDocument $document, $
 * Add thumbnail url to the result items
 **/
 function mb_solr_apachesolr_process_results(&$results, DrupalSolrQueryInterface $query) {
-  //dpm('in process results');
+  //dpm($results, 'in process results');
    foreach ( $results as $idx => $item ) {
       $bundle = $item['bundle'];
       $media_field_table = "field_data_field_$bundle";
@@ -75,6 +75,8 @@ function mb_solr_apachesolr_query_alter($query) {
         $query->removeFilter('im_collection_gid', $value);
         $query->addFilter('im_collection_gid', $group->gid);
    }
+   
+   $gid_filters = $query->getFilters('im_collection_gid');
 }
 
 /**
@@ -126,9 +128,25 @@ function mb_solr_search_result($vars) {
     //dpm($vars, "mb_solr_search_result vars");
 } 
 
-function theme_search_results__apachesolr_search__collection_home($vars) {
-  //dpm($vars, "theme_search_resultS__apachesolr_search__collection_home VARS");
-  $output = '';
+/*
+function mb_solr_apachesolr_search_page_alter(array &$build, array &$search_page) {
+  if($search_page['page_id'] == 'collection_home') {
+    $build['search_results']['#search_page']['page_title'] ="THI IS A TEST";
+    $build['search_results']['#search_page']['label'] ="THI IS A TEST";
+    $search_page['page_title'] ="THI IS A TEST";
+    $search_page['label'] ="THI IS A TEST";
+    dpm($build,'Build in search page alter');
+    dpm($search_page, "search page");
+  }
+}
+*/
+
+function theme_search_results__apachesolr_search__collection_home(&$vars) {
+  $collpath = str_replace('collhome','collection', current_path());
+  $collid = array_pop(explode('/', drupal_lookup_path('source',$collpath)));
+  $collnode = node_load($collid);
+  $body = $collnode->body['und'][0]['safe_value'];
+  $output = '<div>' . $body . '</div>';
   $subcolls = array();
   foreach ($vars['results'] as $k => $v) {
     $output .=  mb_solr_make_teaser($v);
@@ -220,7 +238,6 @@ class MbSolrFacetapiWidgetMbSolrTree extends FacetapiWidgetLinks {
     $items = array();
     foreach ($build as $value => $item) {
       $row = array('class' => array());
-
       // Initializes variables passed to theme hook.
       $variables = array(
         'text' => $item['#markup'],

@@ -1,5 +1,5 @@
 Drupal.behaviors.mediabase={attach:function(context){
-   
+
    var transcriptSearch = jQuery('#block-transcripts-transcript-search');
    var siteSearch = jQuery('#block-search-form');
    siteSearch.addClass('active');

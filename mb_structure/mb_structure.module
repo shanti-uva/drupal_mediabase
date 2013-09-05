@@ -66,7 +66,6 @@ function mb_structure_block_view($delta) {
 
 function collection_block_details() {
    global $user;
-   
    if ( ! $node = get_node_from_path() ) {
       return;
    }
@@ -139,6 +138,19 @@ function get_node_from_path(){
    // Check if this is an existing node.
    if (!empty($object->nid)) {
       return $object;
+   } else {
+     // For Apache Search Page (collhome/%) that creates new Collection Home menu_get_object doesn't work (with 'collhome' url)
+     // So use code below to load the node and return. NEED TO CHECK When apache search page replaces the present collection page (2013-08-28, ndg)
+     $menuitem = menu_get_item() ;
+     if($menuitem["page_arguments"][0] == "collection_home") {
+        $collid = array_pop($menuitem["page_arguments"]);
+        if($collpath = drupal_get_normal_path("collection/$collid")) {
+          $nid = array_pop(explode('/', $collpath));
+          if($node = node_load($nid)) {
+            return $node;
+          }
+        }
+     }
    }
 }
 
@@ -364,13 +376,20 @@ function mb_structure_views_query_alter(	&$view, &$query ) {
    
    if ($node = get_node_from_path())  {
       $group = og_get_group('node', $node->nid);
-      $gid = $group->gid;
+      // "if" added to prevent Notice: Trying to get property of non-object in mb_structure_views_query_alter() (line 367 of mb_structure.module).  
+      if (isset($group->gid)) {
+        $gid = $group->gid;
+      }
+      
    }
-   else {    // If we're in views ui, we can't get node from  path, so get it from views args
+   else if (isset($view->args[0])) {    // If we're in views ui, we can't get node from path, so get it from views args
       $gid = array_shift( explode(",",$view->args[0]) );
-      $group = og_get_group('group',$coll_gid);
-      $node = node_load($coll_group->etid);
+      $group = og_get_group('group', $gid);  
+      $node = (isset($group->etid)) ? node_load($group->etid) : NULL ;
    } 
+   else {
+     return;
+   }
    
    if ( 'collection_media' != $view->name || (!$node  && !in_array($node->type, array('team','collection')))) {
       return;

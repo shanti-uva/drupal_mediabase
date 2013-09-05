@@ -25,12 +25,45 @@ function mb_solr_apachesolr_index_document_build(ApacheSolrDocument $document, $
    }
 }
 
+/*
+ * mb_solr_apachesolr_query_alter():
+ * 
+ *    Implements hook_apachesolr_query_alter
+ *    adds collection GIDs to solr Queries when there is a im_collection_gid filter that is defined in the search page for the new collection page
+ *    see:  /admin/config/search/apachesolr/search-pages/collection_home/edit
+ * 
+ */
+ 
+function mb_solr_apachesolr_query_alter($query) {
+   $gid_filters = $query->getFilters('im_collection_gid');
+   foreach ($gid_filters as $idx => $gid_filter) {
+        $value = $gid_filter['#value'];
+        if (is_numeric($value) ) { // we've likely got a gid as the value already
+           continue;
+        }
+        // we've likely got an alias as the filter value
+        $alias_path = "collection/$value";
+        $node_path = drupal_lookup_path('source', $alias_path);
+        if ( empty($node_path) ) {
+           continue;
+        }
+        $nid = array_pop( explode('/', $node_path));
+        $group = og_get_group('node', $nid);
+        $query->removeFilter('im_collection_gid', $value);
+        $query->addFilter('im_collection_gid', $group->gid);
+   }
+   
+   $gid_filters = $query->getFilters('im_collection_gid');
+}
+
 /**
-* Implementation of hook_apachesolr_process_results
-* Add thumbnail url to the result items
+*   mb_solr_apachesolr_process_results():
+* 
+*     Implementation of hook_apachesolr_process_results
+*     Add thumbnail url to the result items
 **/
 function mb_solr_apachesolr_process_results(&$results, DrupalSolrQueryInterface $query) {
-  //dpm($results, 'in process results');
+
    foreach ( $results as $idx => $item ) {
       $bundle = $item['bundle'];
       $media_field_table = "field_data_field_$bundle";
@@ -56,90 +89,23 @@ function mb_solr_apachesolr_process_results(&$results, DrupalSolrQueryInterface 
    }
 }
 
-function mb_solr_apachesolr_query_alter($query) {
-  //dpm('in query alter');
-   $gid_filters = $query->getFilters('im_collection_gid');
-   foreach ($gid_filters as $idx => $gid_filter) {
-        $value = $gid_filter['#value'];
-        if (is_numeric($value) ) { // we've likely got a gid as the value already
-           continue;
-        }
-        // we've likely got an alias as the filter value
-        $alias_path = "collection/$value";
-        $node_path = drupal_lookup_path('source', $alias_path);
-        if ( empty($node_path) ) {
-           continue;
-        }
-        $nid = array_pop( explode('/', $node_path));
-        $group = og_get_group('node', $nid);
-        $query->removeFilter('im_collection_gid', $value);
-        $query->addFilter('im_collection_gid', $group->gid);
-   }
-   
-   $gid_filters = $query->getFilters('im_collection_gid');
-}
-
 /**
 * Implements hook_theme().
 */
-function mb_solr_theme() {
+
+function mb_solr_theme($existing) {
    return array(
-      'search_results__apachesolr_search__collection_home' => array(
+     'search_results__apachesolr_search__collection_home' => array(
          'variables' => array('search_results' => NULL, 'module' => array()),
          ),
-      'search_result__apachesolr_search__node__video' => array(
+      /*'search_result__apachesolr_search__node__video' => array(
          'variables' => array('search_result' => NULL, 'module' => array()),
          ),
       'search_result__apachesolr_search__node__audio' => array(
          'variables' => array('search_result' => NULL, 'module' => array()),
-         ),
-      );
+         ),*/
+     );
 }
-
-function theme_apachesolr_search_snippets__mb_collection_home($vars) {
-   //dpm($vars, "vars");
-}
-
-function mb_solr_apachesolr_search_snippets($vars) {
-   //dpm($vars, "mb_solr_apachesolr_search_snippets vars");
-} 
-
-function mb_solr_theme_registry_alter(&$theme_registry) {
-  //dpm($theme_registry, "theme_registry");
-   
-  if (!empty($theme_registry['apachesolr_search_snippets'])) {
-    $theme_registry['apachesolr_search_snippets']['function'] = 'mb_solr_apachesolr_search_snippets';
-  }
-  
-/* if (!empty($theme_registry['search_results'])) {
-    $theme_registry['search_results']['function'] = 'mb_solr_search_results';
-  } */
-  
-   if (!empty($theme_registry['search_result'])) {
-    $theme_registry['search_result']['function'] = 'mb_solr_search_result';
-  }
-}
-
-/* function mb_solr_search_results($vars) {
-   dpm($vars, "mb_solr_search_results vars");
-}  */
-
-function mb_solr_search_result($vars) {
-    //dpm($vars, "mb_solr_search_result vars");
-} 
-
-/*
-function mb_solr_apachesolr_search_page_alter(array &$build, array &$search_page) {
-  if($search_page['page_id'] == 'collection_home') {
-    $build['search_results']['#search_page']['page_title'] ="THI IS A TEST";
-    $build['search_results']['#search_page']['label'] ="THI IS A TEST";
-    $search_page['page_title'] ="THI IS A TEST";
-    $search_page['label'] ="THI IS A TEST";
-    dpm($build,'Build in search page alter');
-    dpm($search_page, "search page");
-  }
-}
-*/
 
 function theme_search_results__apachesolr_search__collection_home(&$vars) {
   $collpath = str_replace('collhome','collection', current_path());
@@ -176,15 +142,6 @@ function mb_solr_make_teaser($v) {
             class="views-ajax-processed-processed">Tibetan and Himalayan Library </a></div>  
     </div>  
   </div>';
-}
-
-function theme_search_result__apachesolr_search__node__video($vars) {
-  // dpm($vars, "search_result__apachesolr_search__node__video VARS");
-}
-
-function theme_search_result__apachesolr_search__node__audio($vars) {
-   //dpm($vars, "search_result__apachesolr_search__node__audio VARS");
-  //return theme_search_result__apachesolr_search__node__video($vars);
 }
 
 
@@ -282,8 +239,58 @@ class MbSolrFacetapiWidgetMbSolrTree extends FacetapiWidgetLinks {
       $row['data'] = theme($item['#theme'], $variables);
       $items[] = $row;
     }
-
     return $items;
   }
 }
 
+
+// OLD FUNCTIONS TRAVIS HAD
+/*
+function mb_solr_theme_registry_alter(&$theme_registry) {
+   
+  if (!empty($theme_registry['apachesolr_search_snippets'])) {
+    $theme_registry['apachesolr_search_snippets']['function'] = 'mb_solr_apachesolr_search_snippets';
+  }
+  
+  if (!empty($theme_registry['search_results'])) {
+    $theme_registry['search_results']['function'] = 'mb_solr_search_results';
+  } 
+
+  if (!empty($theme_registry['search_result'])) {
+    $theme_registry['search_result']['function'] = 'mb_solr_search_result';
+  }
+}
+*/
+
+/*
+function mb_solr_search_result($vars) {
+   dpm($vars, "mb_solr_search_results vars");
+} 
+
+*/
+/*
+function mb_solr_apachesolr_search_snippets($vars) {
+   //dpm($vars, "mb_solr_apachesolr_search_snippets vars");
+} 
+*/
+
+/**
+ * Theming function to display a/v in a collection for the new collection home page
+ * Evoked from mb_solr_theme function above that registers the path search_results__apachesolr_search__collection_home
+ */
+ 
+/*
+ * OLD FUNCTIONS TRAVIS HAD
+ * 
+function theme_search_result__apachesolr_search__node__video($vars) {
+  //dpm('in node video');
+  // dpm($vars, "search_result__apachesolr_search__node__video VARS");
+}
+
+function theme_search_result__apachesolr_search__node__audio($vars) {
+  dpm('in node video');
+   //dpm($vars, "search_result__apachesolr_search__node__audio VARS");
+  //return theme_search_result__apachesolr_search__node__video($vars);
+}
+
+*/

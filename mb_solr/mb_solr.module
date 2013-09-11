@@ -32,9 +32,12 @@ function mb_solr_apachesolr_index_document_build(ApacheSolrDocument $document, $
  *    adds collection GIDs to solr Queries when there is a im_collection_gid filter that is defined in the search page for the new collection page
  *    see:  /admin/config/search/apachesolr/search-pages/collection_home/edit
  * 
+ *    Also adds a random sort filter as described by http://realize.be/random-results-apache-solr-and-drupal
+ * 
  */
  
 function mb_solr_apachesolr_query_alter($query) {
+  // Collection id (gid) filter
    $gid_filters = $query->getFilters('im_collection_gid');
    foreach ($gid_filters as $idx => $gid_filter) {
         $value = $gid_filter['#value'];
@@ -54,6 +57,18 @@ function mb_solr_apachesolr_query_alter($query) {
    }
    
    $gid_filters = $query->getFilters('im_collection_gid');
+   
+   dpm($query);
+   /*// Random Sort filter
+   $sort_filter = $query->getFilters('sort');
+   if($sort_filter && isset($sort_filter['#value'])) {
+      $query->removeFilter('sort', $sort_filter['#value']);
+   }
+   $seed = rand(1, 999999);
+   $oseed = rand(0, 1);
+   $order = ($oseed) ? ' asc' : ' desc';
+   $sort_value = 'random_'. $seed . $order;
+   $query->addFilter('sort', $sort_value);*/
 }
 
 /**

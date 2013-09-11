@@ -107,19 +107,30 @@ function mb_solr_theme($existing) {
      );
 }
 
+/**
+ * Search results theming function just creates mark up for items in the collect
+ * This is included in the node display through mb_solr_node_view (below).
+ */
 function theme_search_results__apachesolr_search__collection_home(&$vars) {
-  $collpath = str_replace('collhome','collection', current_path());
+  /*$collpath = str_replace('collhome','collection', current_path());
   $collid = array_pop(explode('/', drupal_lookup_path('source',$collpath)));
   $collnode = node_load($collid);
   $body = $collnode->body['und'][0]['safe_value'];
   $output = '<div>' . $body . '</div>';
-  $subcolls = array();
+  $subcolls = array();*/
+  $output = '';
   foreach ($vars['results'] as $k => $v) {
     $output .=  mb_solr_make_teaser($v);
   }
+  
+  //drupal_set_title($collnode->title);
   return $output;
 }
 
+/**
+ *  Function called by theming function above to create the markup for a a/v "teaser" in the standard Mediabase model from the home page.
+ *    (Note: check to see how the home page creates its teasers for a function that might return the bulk of the markup)
+ */
 function mb_solr_make_teaser($v) {
   return '
   <div class="views-row views-row-3 views-row-odd grid-9 mb-thumbnail-grid-row">
@@ -144,7 +155,29 @@ function mb_solr_make_teaser($v) {
   </div>';
 }
 
+/**
+ * Implements hook_node_view:
+ *    Call the search page to get the list of a collections a/v items and adds these to the node's display.
+ *    Because they come from the search page, these results are linked to the subcollection facet block which is made to appear on the node page through the block admin interface.
+ *    Thus, when a facet is chosen, it filters the results on the collections home page
+ * 
+ *  NOTE: the path 'collection/%' is set by the Path module's URL Alias setting on the configuration page
+ */
 
+function mb_solr_node_view($node, $view_mode, $langcode) {
+  if($node->type == 'collection') {
+    $alias = str_replace('collection/', '', drupal_get_path_alias(current_path()));
+    module_load_include('inc','apachesolr','apachesolr_search.pages');
+    $search_page = apachesolr_search_custom_page('collection_home','', $alias);
+    $node->content['collcontent'] = array( 
+      '#markup' => '<div id="mb-solr-collection-content" class="block-inner clearfix">' . 
+        '<h2 class="block-title">Media in ' . $node->title . '</h2>' . 
+        '<div id="mb_solr_items" class="content clearfix">' . drupal_render($search_page['search_results']) . '</div></div>',
+      '#weight' => 45,  // set high weight so it appears after the body's description
+    );
+  }
+}
+  
 /*
  *  Implements hook_facetapi_widget: 
  *     Creates a widget option in the facet display page called 'Mediabase Select Tree' that calls the MBSolrFacetapiWidgetMbSolrTree class
@@ -242,55 +275,3 @@ class MbSolrFacetapiWidgetMbSolrTree extends FacetapiWidgetLinks {
     return $items;
   }
 }
-
-
-// OLD FUNCTIONS TRAVIS HAD
-/*
-function mb_solr_theme_registry_alter(&$theme_registry) {
-   
-  if (!empty($theme_registry['apachesolr_search_snippets'])) {
-    $theme_registry['apachesolr_search_snippets']['function'] = 'mb_solr_apachesolr_search_snippets';
-  }
-  
-  if (!empty($theme_registry['search_results'])) {
-    $theme_registry['search_results']['function'] = 'mb_solr_search_results';
-  } 
-
-  if (!empty($theme_registry['search_result'])) {
-    $theme_registry['search_result']['function'] = 'mb_solr_search_result';
-  }
-}
-*/
-
-/*
-function mb_solr_search_result($vars) {
-   dpm($vars, "mb_solr_search_results vars");
-} 
-
-*/
-/*
-function mb_solr_apachesolr_search_snippets($vars) {
-   //dpm($vars, "mb_solr_apachesolr_search_snippets vars");
-} 
-*/
-
-/**
- * Theming function to display a/v in a collection for the new collection home page
- * Evoked from mb_solr_theme function above that registers the path search_results__apachesolr_search__collection_home
- */
- 
-/*
- * OLD FUNCTIONS TRAVIS HAD
- * 
-function theme_search_result__apachesolr_search__node__video($vars) {
-  //dpm('in node video');
-  // dpm($vars, "search_result__apachesolr_search__node__video VARS");
-}
-
-function theme_search_result__apachesolr_search__node__audio($vars) {
-  dpm('in node video');
-   //dpm($vars, "search_result__apachesolr_search__node__audio VARS");
-  //return theme_search_result__apachesolr_search__node__video($vars);
-}
-
-*/

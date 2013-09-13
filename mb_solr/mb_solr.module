@@ -91,30 +91,31 @@ function mb_solr_apachesolr_query_alter($query) {
 *     Add thumbnail url to the result items
 **/
 function mb_solr_apachesolr_process_results(&$results, DrupalSolrQueryInterface $query) {
-dpm($query->getSolrParams(), 'in process results');
-return;
-   foreach ( $results as $idx => $item ) {
-      $bundle = $item['bundle'];
-      $media_field_table = "field_data_field_$bundle";
-      $entryid_column = "field_$bundle" . "_entryid";
-      $entity_id = $item['fields']['entity_id'];
-      
-      if ('video' == $bundle) {
-         $query = "SELECT kaltura_thumbnail_url
-         FROM {field_data_field_video} 
-         JOIN {node_kaltura} ON field_video_entryid = kaltura_entryid
-         WHERE entity_id = :etid";
-      }
-      else if ('audio' == $bundle) {
-         $query = "SELECT kaltura_thumbnail_url
-         FROM {field_data_field_audio} 
-         JOIN {node_kaltura} ON field_audio_entryid = kaltura_entryid
-         WHERE entity_id = :etid";
-      }
-      
-      $res = db_query($query, array(':etid' => $entity_id) );
-      $thumb_url = array_shift($res->fetchCol());
-      $results[$idx]['thumb_url'] = $thumb_url;
+   $path = $query->getPath();
+   if (preg_match("/^collection\//",$path))  {
+     foreach ( $results as $idx => $item ) {
+        $bundle = $item['bundle'];
+        $media_field_table = "field_data_field_$bundle";
+        $entryid_column = "field_$bundle" . "_entryid";
+        $entity_id = $item['fields']['entity_id'];
+        
+        if ('video' == $bundle) {
+           $query = "SELECT kaltura_thumbnail_url
+           FROM {field_data_field_video} 
+           JOIN {node_kaltura} ON field_video_entryid = kaltura_entryid
+           WHERE entity_id = :etid";
+        }
+        else if ('audio' == $bundle) {
+           $query = "SELECT kaltura_thumbnail_url
+           FROM {field_data_field_audio} 
+           JOIN {node_kaltura} ON field_audio_entryid = kaltura_entryid
+           WHERE entity_id = :etid";
+        }
+        
+        $res = db_query($query, array(':etid' => $entity_id) );
+        $thumb_url = array_shift($res->fetchCol());
+        $results[$idx]['thumb_url'] = $thumb_url;
+     }
    }
 }
 
@@ -204,7 +205,7 @@ function mb_solr_node_view($node, $view_mode, $langcode) {
         '<div id="mb_solr_items" class="content clearfix">' . drupal_render($search_page['search_results']) . '</div></div>',
       '#weight' => 45,  // set high weight so it appears after the body's description
     );
-  }
+  } 
 }
   
 /*

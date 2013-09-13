@@ -93,7 +93,7 @@ function mb_solr_apachesolr_query_alter($query) {
 *     Add thumbnail url to the result items
 **/
 function mb_solr_apachesolr_process_results(&$results, DrupalSolrQueryInterface $query) {
-dpm($query, 'in process results');
+dpm($query->getSolrParams(), 'in process results');
 return;
    foreach ( $results as $idx => $item ) {
       $bundle = $item['bundle'];

@@ -51,8 +51,6 @@ function mb_solr_apachesolr_query_prepare($query) {
  */
  
 function mb_solr_apachesolr_query_alter($query) {
-  dpm($auery, 'query');
-  return;
   // Collection id (gid) filter
    $gid_filters = $query->getFilters('im_collection_gid');
    foreach ($gid_filters as $idx => $gid_filter) {

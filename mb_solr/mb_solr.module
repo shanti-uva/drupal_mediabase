@@ -1,4 +1,9 @@
 <?php
+/*
+function mb_solr_init() {
+  drupal_add_js(drupal_get_path('module', 'kmap_taxonomy') . '/js/lib/jstree/jquery.jstree.js', array('preprocess' => FALSE));
+}
+*/
 
 /**
 * Implementation of hook_apachesolr_index_document_build
@@ -24,7 +29,16 @@ function mb_solr_apachesolr_index_document_build(ApacheSolrDocument $document, $
       }
    }
 }
+/*
+function mb_solr_apachesolr_search_page_alter(array &$build, array $search_page) {
+  //dpm($build, 'build in search page alter');
+  //dpm($search_page, 'search page in alter');
+}
 
+function mb_solr_apachesolr_query_prepare($query) {
+  //dpm($query, 'here');
+}
+*/
 /*
  * mb_solr_apachesolr_query_alter():
  * 
@@ -58,17 +72,16 @@ function mb_solr_apachesolr_query_alter($query) {
    
    $gid_filters = $query->getFilters('im_collection_gid');
    
-   dpm($query);
-   /*// Random Sort filter
-   $sort_filter = $query->getFilters('sort');
-   if($sort_filter && isset($sort_filter['#value'])) {
-      $query->removeFilter('sort', $sort_filter['#value']);
-   }
-   $seed = rand(1, 999999);
-   $oseed = rand(0, 1);
-   $order = ($oseed) ? ' asc' : ' desc';
-   $sort_value = 'random_'. $seed . $order;
-   $query->addFilter('sort', $sort_value);*/
+   
+   // Random Sort filter
+
+   $seed = rand(0, 999999);
+   $field_name = "random_$seed";
+   $order = (rand(0, 1) == 0) ? 'asc' : 'desc';
+   $sorts = array($field_name => array('title' => 'Random', 'default' => $order));
+   // Need to figure this out!!
+   //dpm($sorts, 'sorts');
+   //dpm($query, 'all new');  
 }
 
 /**
@@ -225,9 +238,10 @@ class MbSolrFacetapiWidgetMbSolrTree extends FacetapiWidgetLinks {
     //dpm($elements, 'elements');
     // Sets each item's theme hook, builds item list.
     $this->setThemeHooks($elements);
+    $items = $this->buildListItems($elements);
     $elements = array(
       '#theme' => 'item_list',
-      '#items' => $this->buildListItems($elements),
+      '#items' => $items,
       '#attributes' => $this->build['#attributes'],
     );
   }
@@ -290,3 +304,35 @@ class MbSolrFacetapiWidgetMbSolrTree extends FacetapiWidgetLinks {
     return $items;
   }
 }
+
+function mb_solr_facetapi_empty_behaviors() {
+  return array(
+    'name' => array(
+      'handler' => array(
+        'label' => t('Show the facet name'),
+        'class' => 'MbSolrFacetapiEmptyBehaviorName',
+      ),
+    ),
+  );
+}
+
+
+/**
+ * Empty behavior plugin that returns an empty array.
+ *
+ * This is the default behavior for empty facets. Returning an empty array will
+ * prevent the facet from being displayed if it contains no items. For example,
+ * if facets are displayed as blocks, the empty array will prevent the block
+ * from rendering.
+ */
+class MbSolrFacetapiEmptyBehaviorName extends FacetapiEmptyBehavior {
+
+  /**
+   * Implements FacetapiEmptyBehavior::execute().
+   */
+  public function execute() {
+    return array('empty');
+  }
+}
+
+

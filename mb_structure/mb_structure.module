@@ -246,7 +246,7 @@ function mb_structure_form_team_node_form_alter(&$form, &$form_state, $form_id) 
 **/
 function mb_structure_form_video_node_form_alter(&$form, &$form_state, $form_id) {
 	// if Kaltura ID is defined, embed a player that allows thumbnail capture (ndg, 2013-06)
-	$kid = $form_state['node']->field_video['und'][0]['entryid'];
+	$kid = (isset($form_state['node']->field_video['und'][0]['entryid'])) ? $form_state['node']->field_video['und'][0]['entryid'] : NULL;
 	if(!empty($kid)) {
 		$embed = '<script src="https://cdnapisec.kaltura.com/p/381832/sp/38183200/embedIframeJs/uiconf_id/14448611/partner_id/381832"></script>
       <div id="kaltura_player_1373286644" style="width: 400px; height: 360px; float:left; padding-right: 20px; padding-bottom: 20px;" itemprop="video" itemscope itemtype="http://schema.org/VideoObject">
@@ -447,7 +447,7 @@ function mb_update_node_kaltura_data($node) {
 	 * Code taked from kaltura_cron() in kaltura.module line 567 
 	 * 
 	 */
-	$kid = $node->field_video['und'][0]['entryid'];
+	$kid = (isset($node->field_video['und'][0]['entryid'])) ? $node->field_video['und'][0]['entryid'] : NULL;
 	if(!empty($kid)) {
 		try {
 			$result = kaltura_get_entries(array($kid), TRUE);

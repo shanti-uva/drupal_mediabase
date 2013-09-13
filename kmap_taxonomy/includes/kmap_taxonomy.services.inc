@@ -61,7 +61,7 @@ function kmaps_all($kmap_id = NULL) {
    print "$callback($response->data)";
 }
 
-function kmaps_categories($kmap_id) {
+function kmaps_categories($kmap_id = NULL) {
    $kmap_server =  variable_get('kmap_server', 'http://tmb.thlib.org');
    if (empty($kmap_id)) {
       $categories_path = "/categories.json";

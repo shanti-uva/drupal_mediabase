@@ -10,7 +10,6 @@ function mb_solr_init() {
 * Add collection parent gids of a team
 **/
 function mb_solr_apachesolr_index_document_build(ApacheSolrDocument $document, $entity, $entity_type, $env_id) {
-  dpm("in document build");
    if ( ! in_array($entity->type, array('video','audio'))) {
       return;
    }

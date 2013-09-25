@@ -3,5 +3,6 @@ name = "Mediabase"
 description = "Mediabase customizations to drupal."
 core = 7.x
 package = SHANTI Mediabase
+version = "7.x-1.0-alpha1"
 
 

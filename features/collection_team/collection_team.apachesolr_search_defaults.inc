@@ -16,7 +16,7 @@ function collection_team_apachesolr_search_default_searchers() {
   $searcher->page_id = 'collection_home';
   $searcher->label = 'Collection Home';
   $searcher->description = '';
-  $searcher->search_path = 'collhome/%';
+  $searcher->search_path = 'collection/%';
   $searcher->page_title = 'Collection Home';
   $searcher->env_id = 'solr';
   $searcher->settings = array(

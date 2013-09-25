@@ -7,6 +7,7 @@ description = "This module looks for Shibboleth Attributes in the $_SERVER varia
                to grab the user's realname and use it to populate the user profile."
 core = 7.x
 package = SHANTI Mediabase
+version = "7.x-1.0-alpha1"
 
 
 

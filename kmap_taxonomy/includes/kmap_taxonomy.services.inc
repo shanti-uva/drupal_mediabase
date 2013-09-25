@@ -10,7 +10,7 @@
 * TODO: Use the shanti server for all kmaps interactions
 **/
 function fetch_root_categories() {
-   $root_service = variable_get('kmap_server', 'http://tmb.thlib.org') . '/categories.xml';
+   $root_service = variable_get('kmap_server', 'http://subjects.thlib.org') . '/categories.xml';
    $options = &drupal_static(__FUNCTION__);
    if (! isset ($options) ) {
       $strXml = file_get_contents($root_service);
@@ -29,7 +29,7 @@ function fetch_root_categories() {
 }
 
 function kmaps_list($kmap_id = NULL) {
-   $kmap_server =  variable_get('kmap_server', 'http://tmb.thlib.org');
+   $kmap_server =  variable_get('kmap_server', 'http://subjects.thlib.org');
    if (empty($kmap_id)) {
       $list_path = "/categories/list.json";
    }
@@ -46,7 +46,7 @@ function kmaps_list($kmap_id = NULL) {
 }
 
 function kmaps_all($kmap_id = NULL) {
-   $kmap_server =  variable_get('kmap_server', 'http://tmb.thlib.org');
+   $kmap_server =  variable_get('kmap_server', 'http://subjects.thlib.org');
    if (empty($kmap_id)) {
       $all_path = "/categories/all.json";
    }              
@@ -62,7 +62,7 @@ function kmaps_all($kmap_id = NULL) {
 }
 
 function kmaps_categories($kmap_id = NULL) {
-   $kmap_server =  variable_get('kmap_server', 'http://tmb.thlib.org');
+   $kmap_server =  variable_get('kmap_server', 'http://subjects.thlib.org');
    if (empty($kmap_id)) {
       $categories_path = "/categories.json";
    }

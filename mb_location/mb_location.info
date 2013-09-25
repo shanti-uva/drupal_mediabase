@@ -3,3 +3,4 @@ name = Mediabase Location
 extension = Defines an mb_location field type that handles place data input from various sources: free text, google places, geonames, UVa Place Dictionary.
 package = SHANTI Mediabase
 core = 7.x
+version = "7.x-1.0-alpha1"

@@ -26,7 +26,7 @@ projects[apachesolr_autocomplete][patch][] = "http://drupal.org/files/1444038-ap
 projects[apachesolr_autocomplete][patch][] = "http://drupal.org/files/1491068-jquery-autocomplete-collision-fix.patch"
 
 projects[backup_migrate][version] = "2.4"
-projects[backup_migrate][download][type] = "git" 
+; projects[backup_migrate][download][type] = "git" 
 projects[backup_migrate][subdir] = "contrib"
 
 projects[better_exposed_filters][version] = "3.0-beta3"

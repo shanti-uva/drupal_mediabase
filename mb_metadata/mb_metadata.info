@@ -4,3 +4,4 @@ description = "Provides customizations for handling PBCore Metadata"
 core = 7.x
 dependencies[] = kaltura
 package = SHANTI Mediabase
+version = "7.x-1.0-alpha1"

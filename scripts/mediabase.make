@@ -16,7 +16,8 @@ projects[apachesolr][patch][] = "http://drupal.org/files/apachesolr-field-name-t
 ;projects[apachesolr][patch][] = "http://drupal.org/files/apachesolr-18281014-indexing_order-39.patch"
 projects[apachesolr][download][revision] = "1dc510227f5077ccbc047be13dcf0de3120b100c"
 
-projects[apachesolr_views][version] = "1.0-beta1"
+projects[apachesolr_views][version] = "1.0-beta2"
+projects[apachesolr_views][patch][] = "https://drupal.org/files/use_arguments-1750952-13.patch"
 projects[apachesolr_views][subdir] = "contrib"
 
 projects[apachesolr_autocomplete][version] = "1.2"

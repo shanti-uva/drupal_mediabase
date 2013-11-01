@@ -105,6 +105,7 @@ class Kmap {
       if (! is_numeric($this->kmap_id) ) {
          return;
       }
+      console.info('in render kmap');
       $lineage = $this->get_kmap_lineage();
       $rendered_lineage = array();
       switch ( $lineage_format ) {
@@ -187,7 +188,8 @@ class Kmap {
       // dpm((string)$xml, "xml");
       // dpm((string)$xml->category->id, "xml-cat-id");
       // dpm($this->kmap_id, "this->kmap_id");
-      $results = $xml->xpath("//category[id=$this->kmap_id]/ancestor-or-self::category"); 
+      $results = $xml->xpath("//feature[@id=$this->kmap_id]/ancestor-or-self::feature"); 
+      //$results = $xml->xpath("//category[id=$this->kmap_id]/ancestor-or-self::category"); 
       // dpm( $results , 'xml ancestor results');
       $results = $results ? $results : array();
       
@@ -228,7 +230,8 @@ class Kmap {
    private function get_remote_kmap_tree() {
       $tree = &drupal_static(__FUNCTION__);
       if (!isset($tree)) {
-         $uri = trim(variable_get('kmap_server', 'http://tmb.thlib.org') . '/categories/all.xml');
+         $uri = trim(variable_get('kmap_server', 'http://subjects.kmaps.virginia.edu') . '/features/all.xml');
+         //$uri = trim(variable_get('kmap_server', 'http://tmb.thlib.org') . '/categories/all.xml');
          $response = drupal_http_request($uri); // get the full kmap tree
          $tree = simplexml_load_string($response->data);
       }

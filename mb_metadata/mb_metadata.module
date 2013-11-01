@@ -105,7 +105,8 @@ function add_mediabase_id($node) {
 * Since the first pbcore is same as drupal title, hide the first pbcore title
 **/
 function modify_title_display($node) {
-      $title_content = &$node->content['field_pbcore_title'];
+  $title_content = &$node->content['field_pbcore_title'];
+  if(isset($title_content)) { 
       foreach ( $title_content['#items'] as $delta => $entity_id ) {
          if ($delta == 0) {
             unset( $title_content['#items'][0] );
@@ -118,6 +119,7 @@ function modify_title_display($node) {
             unset( $item['field_language'] );
          }
       }
+   }
 }
          
          

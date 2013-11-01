@@ -404,8 +404,9 @@ function kmaps_settings_form($form, &$form_state) {
    $kmap_form = array();
    $kmap_form['kmap_server'] = array(
       '#title' => t('Kmap Server'),
-      '#type' => 'textfield',
-      '#default_value' => variable_get('kmap_server', 'http://tmb.thlib.org'),
+      '#type' => 'textfield', 
+      '#default_value' => variable_get('kmap_server', 'http://subjects.kmaps.virginia.edu'),
+      //'#default_value' => variable_get('kmap_server', 'http://tmb.thlib.org'),
       '#size' => 60, 
       '#maxlength' => 255, 
       '#required' => TRUE,

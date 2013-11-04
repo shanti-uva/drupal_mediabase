@@ -1311,7 +1311,7 @@ function _write_to_node_kaltura($node) {
       return;
    }
    
-   $kaltura_client = KalturaHelpers::getKalturaClient($isAdmin = true);
+   $kaltura_client = KalturaHelpers::getKalturaClient($isAdmin = true); 
    $session_user = KalturaHelpers::getSessionUser();
    $entry_details = _get_media_from_entry_id($entry_id);
    

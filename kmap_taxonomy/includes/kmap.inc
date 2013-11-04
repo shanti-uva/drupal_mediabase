@@ -86,7 +86,8 @@ class Kmap {
          ->execute();
          
          if ( !empty($entities) ) {
-            $tid = array_pop(array_keys($entities['taxonomy_term']));
+            $tkeys = array_keys($entities['taxonomy_term']);
+            $tid = array_pop($tkeys);
             $term = (array)taxonomy_term_load($tid);
             $kmap_parent_id = $term['kmap_parent_id']['und'][0]['value'];
             array_unshift($lineage, array(
@@ -105,7 +106,7 @@ class Kmap {
       if (! is_numeric($this->kmap_id) ) {
          return;
       }
-      console.info('in render kmap');
+
       $lineage = $this->get_kmap_lineage();
       $rendered_lineage = array();
       switch ( $lineage_format ) {
@@ -172,7 +173,8 @@ class Kmap {
       ->execute();
       
       if ( !empty($entities) ) {
-         $tid = array_pop(array_keys($entities['taxonomy_term']));
+         $tkeys = array_keys($entities['taxonomy_term']);
+         $tid = array_pop($tkeys);
          $term = taxonomy_term_load($tid);
       }
       else {
@@ -198,30 +200,35 @@ class Kmap {
       
       $kmap_parent_id = 0; //The top level kmap never has a parent
       $taxo_parent_tid = null; //The top level kmap never has a parent
+     // dpm($results, 'results in add to tax of kmap.inc (ln. 200)');
       foreach ($results as $category) {
+        //dpm($category->asXML(), 'category xml');
+        $kmap_node_id = $category->attributes()->id;
+        $kmap_header = $category->attributes()->header;
+
          $query = new EntityFieldQuery();
          $entities = $query->entityCondition('entity_type', 'taxonomy_term')
          ->entityCondition('bundle', 'kmap_taxonomy')
-         ->fieldCondition('kmap_id', 'value', $category->id, '=')
+         ->fieldCondition('kmap_id', 'value', $kmap_node_id, '=')
          ->execute();
          
          if ( empty($entities) ) {
                $term = array(
                   'tid' => null,
                   'vid' => $this->vid,
-                  'name' => $category->title,
+                  'name' => $kmap_header,
                   'vocabulary_machine_name' => 'kmap_taxonomy',
                   'parent' => $taxo_parent_tid,
                   );
-            $term['kmap_id']['und'][0]['value'] = $category->id;
+            $term['kmap_id']['und'][0]['value'] = $kmap_node_id;
             $term['kmap_parent_id']['und'][0]['value'] = $kmap_parent_id;
             $term = (object)$term;
-            taxonomy_term_save($term);
+            taxonomy_term_save($term);  
          }
          else {
             $term = array_shift( $entities['taxonomy_term'] );
          }
-         $kmap_parent_id = $category->id;
+         $kmap_parent_id = $kmap_node_id;
          $taxo_parent_tid = $term->tid;
       }
       return $term;

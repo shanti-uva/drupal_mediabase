@@ -1,6 +1,5 @@
 //  ndg8f 2013-11-14
 Drupal.behaviors.mb_solr={ attach:function(context) {
-	console.info('in mb_solr attach function');
 	makeTree();
  
  function makeTree() { //return;
@@ -55,7 +54,7 @@ Drupal.behaviors.mb_solr={ attach:function(context) {
 			// each plugin you have included can have its own config object
 			"core" : { "initially_open" : openels }, 
 			// it makes sense to configure a plugin only if overriding the defaults
-			"themes" : { "theme" : "classic", "icons" : false }
+			"themes" : { "theme" : "classic" }
 		});
   }
  }

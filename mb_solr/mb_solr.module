@@ -28,12 +28,18 @@ function mb_solr_apachesolr_index_document_build(ApacheSolrDocument $document, $
       }
    }
 }
-/*
-function mb_solr_apachesolr_search_page_alter(array &$build, array $search_page) {
-  //dpm($build, 'build in search page alter');
-  //dpm($search_page, 'search page in alter');
+
+function mb_solr_apachesolr_search_page_alter(&$build, $search_page) {
+  // Should add code to do this only on collection page, but all search pages come out as "transcript"
+  // Need to check transcript module
+  $jsscripts = drupal_add_js(NULL, NULL, NULL);
+  if (!array_key_exists('sites/all/modules/mediabase/mb_solr/js/mb_solr.js', $jsscripts)) { 
+    drupal_add_js('sites/all/modules/mediabase/mb_solr/js/mb_solr.js');
+    drupal_add_js('sites/all/modules/mediabase/mb_solr/js/jquery.jstree.js');
+  } 
 }
 
+/*
 function mb_solr_apachesolr_query_prepare($query) {
   //dpm($query, 'here');
 }
@@ -63,7 +69,8 @@ function mb_solr_apachesolr_query_alter($query) {
         if ( empty($node_path) ) {
            continue;
         }
-        $nid = array_pop( explode('/', $node_path));
+        $parts = explode('/', $node_path);
+        $nid = array_pop( $parts );
         $group = og_get_group('node', $nid);
         $query->removeFilter('im_collection_gid', $value);
         $query->addFilter('im_collection_gid', $group->gid);
@@ -112,7 +119,8 @@ function mb_solr_apachesolr_process_results(&$results, DrupalSolrQueryInterface 
         }
         
         $res = db_query($query, array(':etid' => $entity_id) );
-        $thumb_url = array_shift($res->fetchCol());
+        $col = $res->fetchCol();
+        $thumb_url = array_shift($col);
         $results[$idx]['thumb_url'] = $thumb_url;
      }
    }
@@ -223,6 +231,14 @@ function mb_solr_facetapi_widgets() {
   );
 }
 
+/** hook implemented by facetapi_bonus */
+/**function mb_solr_facet_items_alter(&$build, &$settings) {
+  //dpm($build, 'build in hook');
+  foreach($build as $key => &$item) {
+    $item['#theme'] = 'mb_solr_node';
+  }
+}**/
+
 /*
  * MbSolrFacetapiWidgetMbSolrTree: This extends the FacetapiWidgetLinks class found in the facetapi module
  *    It only makes two changes to the execute() and buildListItems() function, changing the path to the current path of the collection.
@@ -245,6 +261,7 @@ class MbSolrFacetapiWidgetMbSolrTree extends FacetapiWidgetLinks {
       '#items' => $items,
       '#attributes' => $this->build['#attributes'],
     );
+    /*dpm($elements, $this->getId());*/
   }
   
   function buildListItems($build) {

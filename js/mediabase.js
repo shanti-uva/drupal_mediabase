@@ -11,7 +11,7 @@ Drupal.behaviors.mediabase={attach:function(context){
       searchForm.find('form').append(toggleBlock);
       
       // site search button
-      var radioId = 'site-radio-' + searchForm.attr('id')
+      var radioId = 'site-radio-' + searchForm.attr('id');
       toggleBlock.append( jQuery('<input/>').attr({
             type: 'radio',
             name: 'search-type',
@@ -26,7 +26,7 @@ Drupal.behaviors.mediabase={attach:function(context){
       toggleBlock.append( jQuery('<br/>'));
       
       // transcript search button
-      radioId = 'transcript-radio-' + searchForm.attr('id')
+      radioId = 'transcript-radio-' + searchForm.attr('id');
       toggleBlock.append( jQuery('<input/>').attr({
             type: 'radio',
             name: 'search-type',

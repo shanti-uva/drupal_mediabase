@@ -34,8 +34,8 @@ function mb_solr_apachesolr_search_page_alter(&$build, $search_page) {
   // Need to check transcript module
   $jsscripts = drupal_add_js(NULL, NULL, NULL);
   if (!array_key_exists('sites/all/modules/mediabase/mb_solr/js/mb_solr.js', $jsscripts)) { 
-    drupal_add_js('sites/all/modules/mediabase/mb_solr/js/mb_solr.js');
-    drupal_add_js('sites/all/modules/mediabase/mb_solr/js/jquery.jstree.js');
+    drupal_add_js('sites/all/modules/mediabase/mb_solr/js/mb_solr.js', array('cache' => FALSE));
+    drupal_add_js('sites/all/modules/mediabase/mb_solr/js/jquery.jstree.js', array('cache' => FALSE));
   } 
 }
 

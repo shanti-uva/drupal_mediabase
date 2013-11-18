@@ -47,6 +47,7 @@ Drupal.behaviors.mb_solr={ attach:function(context) {
 								}
 						});
 					}, 500);
+					//console.info(jQuery(this)._get_settings(), 'settings');
 			// bind events to the tree being loaded
 			}).jstree({
 				// the `plugins` array allows you to configure the active plugins on this instance
@@ -56,6 +57,7 @@ Drupal.behaviors.mb_solr={ attach:function(context) {
 			// it makes sense to configure a plugin only if overriding the defaults
 			"themes" : { "theme" : "classic" }
 		});
+		window.jstreediv = div;
   }
  }
 };

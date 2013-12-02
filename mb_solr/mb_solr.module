@@ -290,6 +290,13 @@ class MbSolrFacetapiWidgetMbSolrTree extends FacetapiWidgetLinks {
       // Adds the facetapi-zero-results class to items that have no results.
       if (!$item['#count']) {
         $variables['options']['attributes']['class'][] = 'facetapi-zero-results';
+        // For facets with no results, make link new filter with that facet only
+        if(!isset($variables['options']['query']['f'])) {
+          //dpm($variables, 'f not set');
+        }
+        $query = $variables['options']['query']['f'];
+        $newquery = array_pop($query);
+        $variables['options']['query']['f'] = array($newquery);
       }
 
       // Add an ID to identify this link.

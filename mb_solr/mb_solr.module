@@ -56,38 +56,38 @@ function mb_solr_apachesolr_query_prepare($query) {
  */
  
 function mb_solr_apachesolr_query_alter($query) {
-  // Collection id (gid) filter
-   $gid_filters = $query->getFilters('im_collection_gid');
-   foreach ($gid_filters as $idx => $gid_filter) {
-        $value = $gid_filter['#value'];
-        if (is_numeric($value) ) { // we've likely got a gid as the value already
-           continue;
-        }
-        // we've likely got an alias as the filter value
-        $alias_path = "collection/$value";
-        $node_path = drupal_lookup_path('source', $alias_path);
-        if ( empty($node_path) ) {
-           continue;
-        }
-        $parts = explode('/', $node_path);
-        $nid = array_pop( $parts );
-        $group = og_get_group('node', $nid);
-        $query->removeFilter('im_collection_gid', $value);
-        $query->addFilter('im_collection_gid', $group->gid);
+   $path = $query->getPath(); // only alter query for collection pages.
+   if (preg_match("/^collection\//",$path))  {
+    // Collection id (gid) filter
+     $gid_filters = $query->getFilters('im_collection_gid');
+     foreach ($gid_filters as $idx => $gid_filter) {
+          $value = $gid_filter['#value'];
+          if (is_numeric($value) ) { // we've likely got a gid as the value already
+             continue;
+          }
+          // we've likely got an alias as the filter value
+          $alias_path = "collection/$value";
+          $node_path = drupal_lookup_path('source', $alias_path);
+          if ( empty($node_path) ) {
+             continue;
+          }
+          $parts = explode('/', $node_path);
+          $nid = array_pop( $parts );
+          $group = og_get_group('node', $nid);
+          $query->removeFilter('im_collection_gid', $value);
+          $query->addFilter('im_collection_gid', $group->gid);
+     }
+     
+     $gid_filters = $query->getFilters('im_collection_gid');
+     
+     
+     // Random Sort filter
+     $seed = rand(0, 9999);
+     $sort_name = "random_$seed";
+     $order = (rand(0, 1) == 0) ? 'asc' : 'desc';
+     $query->setAvailableSort($sort_name, array('title'=> 'random', 'default' => 'asc'));
+     $query->setSolrsort($sort_name, $order); 
    }
-   
-   $gid_filters = $query->getFilters('im_collection_gid');
-   
-   
-   // Random Sort filter
-
-   $seed = rand(0, 999999);
-   $field_name = "random_$seed";
-   $order = (rand(0, 1) == 0) ? 'asc' : 'desc';
-   $sorts = array($field_name => array('title' => 'Random', 'default' => $order));
-   // Need to figure this out!!
-   //dpm($sorts, 'sorts');
-   //dpm($query, 'all new');  
 }
 
 /**

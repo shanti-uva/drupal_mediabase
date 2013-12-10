@@ -12,7 +12,7 @@ projects[admin_menu][subdir] = "contrib"
 
 projects[apachesolr][version] = "1.x-dev"
 projects[apachesolr][subdir] = "contrib"
-projects[apachesolr][patch][] = "http://drupal.org/files/apachesolr-field-name-truncates-1707404-9.patch"
+;projects[apachesolr][patch][] = "http://drupal.org/files/apachesolr-field-name-truncates-1707404-9.patch"
 ;projects[apachesolr][patch][] = "http://drupal.org/files/apachesolr-18281014-indexing_order-39.patch"
 projects[apachesolr][download][revision] = "7a6a75375211b05876d35ee2d6762d2f1876e22b"
 
@@ -24,7 +24,7 @@ projects[apachesolr_autocomplete][version] = "1.2"
 projects[apachesolr_autocomplete][subdir] = "contrib"
 projects[apachesolr_autocomplete][download][type] = "git" 
 projects[apachesolr_autocomplete][patch][] = "http://drupal.org/files/1444038-apachesolr_autocomplete-apachesolr_search-6.patch"
-projects[apachesolr_autocomplete][patch][] = "http://drupal.org/files/1491068-jquery-autocomplete-collision-fix.patch"
+;projects[apachesolr_autocomplete][patch][] = "http://drupal.org/files/1491068-jquery-autocomplete-collision-fix.patch"
 
 projects[backup_migrate][version] = "2.4"
 ; projects[backup_migrate][download][type] = "git" 

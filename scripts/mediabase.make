@@ -1,7 +1,7 @@
 core = 7.x
 
 api = 2
-projects[drupal][version] = "7.23"
+projects[drupal][version] = "7.24"
 projects[drupal][type] = core
 
 ; CONTRIB MODULES
@@ -14,7 +14,7 @@ projects[apachesolr][version] = "1.x-dev"
 projects[apachesolr][subdir] = "contrib"
 projects[apachesolr][patch][] = "http://drupal.org/files/apachesolr-field-name-truncates-1707404-9.patch"
 ;projects[apachesolr][patch][] = "http://drupal.org/files/apachesolr-18281014-indexing_order-39.patch"
-projects[apachesolr][download][revision] = "1dc510227f5077ccbc047be13dcf0de3120b100c"
+projects[apachesolr][download][revision] = "7a6a75375211b05876d35ee2d6762d2f1876e22b"
 
 projects[apachesolr_views][version] = "1.0-beta2"
 projects[apachesolr_views][patch][] = "https://drupal.org/files/use_arguments-1750952-13.patch"

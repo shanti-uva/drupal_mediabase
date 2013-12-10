@@ -102,11 +102,14 @@ function fetch_place_dict_details( $feature_id, $children = array() ) {
    $uri = sprintf('http://places.thlib.org/features/by_fid/%d.json', $feature_id);
    $json = file_get_contents($uri);
    $data = json_decode($json);
-   $name = $data->features->feature->name[0];
-   $children[$feature_id] = $name;
-   if ( isset($data->features->feature->parent_relation->feature) ) {
-      $parent_fid = $data->features->feature->parent_relation->feature->fid;
-      return fetch_place_dict_details($parent_fid, $children);
+   $children = array();
+   if(isset($data->features->feature->name[0])) {
+     $name = $data->features->feature->name[0];
+     $children[$feature_id] = $name;
+     if ( isset($data->features->feature->parent_relation->feature) ) {
+        $parent_fid = $data->features->feature->parent_relation->feature->fid;
+        return fetch_place_dict_details($parent_fid, $children);
+     }
    }
    return $children;
 }

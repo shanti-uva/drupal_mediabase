@@ -10,7 +10,7 @@ function mb_solr_init() {
 * Add collection parent gids of a team
 **/
 function mb_solr_apachesolr_index_document_build(ApacheSolrDocument $document, $entity, $entity_type, $env_id) {
-   if ( ! in_array($entity->type, array('video','audio'))) {
+   if (! isset($entity->type) || ! in_array($entity->type, array('video','audio'))) {
       return;
    }
    $parent_group_gid = !empty($entity->group_audience['und']) ? $entity->group_audience['und'][0]['gid'] : null;
@@ -327,36 +327,6 @@ class MbSolrFacetapiWidgetMbSolrTree extends FacetapiWidgetLinks {
       $items[] = $row;
     }
     return $items;
-  }
-}
-
-function mb_solr_facetapi_empty_behaviors() {
-  return array(
-    'name' => array(
-      'handler' => array(
-        'label' => t('Show the facet name'),
-        'class' => 'MbSolrFacetapiEmptyBehaviorName',
-      ),
-    ),
-  );
-}
-
-
-/**
- * Empty behavior plugin that returns an empty array.
- *
- * This is the default behavior for empty facets. Returning an empty array will
- * prevent the facet from being displayed if it contains no items. For example,
- * if facets are displayed as blocks, the empty array will prevent the block
- * from rendering.
- */
-class MbSolrFacetapiEmptyBehaviorName extends FacetapiEmptyBehavior {
-
-  /**
-   * Implements FacetapiEmptyBehavior::execute().
-   */
-  public function execute() {
-    return array('empty');
   }
 }
 

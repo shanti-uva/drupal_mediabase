@@ -88,13 +88,26 @@ function kmaps_categories($kmap_id = NULL) {
       $categories_path = "/features/$kmap_id/children.json";
       //$categories_path = "/categories/$kmap_id/children.json";
    }
-   
    $uri = trim($kmap_server . $categories_path);
    $response = drupal_http_request($uri);
 
-   drupal_add_http_header('content-type', 'application/javascript');
+   // Sort Children list by Header
+   $json = json_decode($response->data);
+   $features = $json->features;
+   usort($features, cmpChildNames);
+   $json->features = $features;
+   $data = json_encode($json);
+   
+   // Output JSONP
    $callback = $_GET['callback'];
-   print "$callback($response->data)";
+   drupal_add_http_header('content-type', 'application/javascript');
+   print "$callback($data)";
 }
+
+function cmpChildNames($a, $b)
+{
+    return strcmp($a->header, $b->header);
+}
+
 
 

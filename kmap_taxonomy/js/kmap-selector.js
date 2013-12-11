@@ -150,6 +150,7 @@ KmapSelector.prototype.init = function () {
       var rootService = this.rootKmapId ? this.treeServiceBranch.replace('{id}', this.rootKmapId) : this.treeService;
       jQuery.getScript(this.scriptBasePath + "lib/jstree/jquery.jstree.js");
       //jQuery.getScript(this.scriptBasePath + "lib/jstree-05-14-2012/jstree.js")
+      console.info(rootService);
       jQuery.ajax({
             url: rootService,
             dataType: "jsonp",
@@ -436,7 +437,8 @@ KmapSelector.prototype.initTreeSelector = function (servicePath, data) {
       jQuery(this.treeSelector).before(browseLinkDiv);
    }
    jQuery(browseLinkDiv).html(browseLink);
-
+   console.trace();
+   console.info({'alldata js': this.allData[servicePath]});
    // Create the JsTree
    jQuery(this.treeSelector).jstree({
          ui: {

@@ -72,10 +72,17 @@ function kmaps_all($kmap_id = NULL) {
    }
    $uri = trim($kmap_server . $all_path);
    $response = drupal_http_request($uri);
-
+   
+   // Sort Children list by Header
+   $json = json_decode($response->data);
+   $features = $json->feature->features;
+   usort($features, cmpChildNames);
+   $json->feature->features = $features;
+   $data = json_encode($json);
+   
    drupal_add_http_header('content-type', 'application/javascript');
    $callback = $_GET['callback'];
-   print "$callback($response->data)";
+   print "$callback($data)";
 }
 
 function kmaps_categories($kmap_id = NULL) {

@@ -57,15 +57,17 @@ function render_full_kmap( $kmap, $views_display = 'default')  {
    module_load_include('inc', 'kmap_taxonomy', 'includes/lang_codes_iso_639_2_utf8');
    $langs = array_merge( get_lang_codes(), $non_std_lang_codes );  
    
-   $kmap_detail_service_uri = variable_get('kmap_detail_service_uri', variable_get('kmap_server', 'http://tmb.thlib.org') . '/categories/%d/detailed.xml');
+   $kmap_service_uri = variable_get('kmap_detail_service_uri', variable_get('kmap_server', 'http://subjects.kmaps.virginia.edu') . '/features/%d.xml');
+   $kmap_detail_service_uri = variable_get('kmap_detail_service_uri', variable_get('kmap_server', 'http://subjects.kmaps.virginia.edu') . '/features/%d/descriptions.xml');
    
-   $service_uri = sprintf($kmap_detail_service_uri, $kmap->get_kmap_id());
+   $service_uri = sprintf($kmap_service_uri, $kmap->get_kmap_id());
+   $detail_service_uri = sprintf($kmap_detail_service_uri, $kmap->get_kmap_id());
    
    if ( $strXml = file_get_contents($service_uri) ) {
       $simpleXml = simplexml_load_string($strXml);
       
       //Set the Page Title
-      drupal_set_title((string)$simpleXml->title);
+      drupal_set_title((string)$simpleXml['header']);
       
       //Set Kmap Crumbs
       $lineage = $kmap->get_kmap_lineage();
@@ -77,53 +79,60 @@ function render_full_kmap( $kmap, $views_display = 'default')  {
       }
       $output .= sprintf('<div id="kmap-crumbs">%s</div>', implode(' > ', $crumbs));
       
-      //Descriptions
-      if ( isset($simpleXml->descriptions->description) ) {
-         $output .= sprintf('<h2>%s</h2>', t('Descriptions') );
+      // Descriptions uses different URL: detail_service_xml
+      if ( $strXml = file_get_contents($detail_service_uri) ) {
+        $simpleXml2 = simplexml_load_string($strXml);
+        //Descriptions
+        if ( isset($simpleXml2->descriptions->description) ) {
+          $output .= sprintf('<h2>%s</h2>', t('Descriptions') );
+          foreach ($simpleXml2->descriptions->description as $description) {
+             $iso_code = (string)$description['language'];
+             $desc_lang = $langs[$iso_code]['name'];
+             $desc_label = t( $desc_lang . ' description: ' );
+             $output .= sprintf('<div class="kmap_field"><strong>%s</strong><br />%s', $desc_label, strip_tags($description->content) )  . PHP_EOL;
+             if (isset($description->author)) {
+                $output .= sprintf('<br /><label>%s</label>: ', t('Author(s)'));
+                foreach( $description->author as $author) {
+                   $output .= sprintf('<span>%s</span>',$author['fullname']) . PHP_EOL;
+                }
+             }
+             $output .= '</div>';
+          }
+        }
       }
-      foreach ($simpleXml->descriptions->description as $description) {
-         $iso_code = (string)$description['language'];
-         $desc_lang = $langs[$iso_code]['name'];
-         $desc_label = t( $desc_lang . ' description: ' );
-         $output .= sprintf('<div class="kmap_field"><strong>%s</strong><br />%s', $desc_label, strip_tags($description->content) )  . PHP_EOL;
-         if (isset($description->authors->person)) {
-            $output .= sprintf('<br /><label>%s</label>: ', t('Author(s)'));
-            foreach( $description->authors as $author) {
-               $output .= sprintf('<span>%s</span>',$author->person) . PHP_EOL;
-            }
-         }
-         $output .= '</div>';
-      }
+      // End of Descriptions
       
-      //Titles
+      //Titles (Need to update this to current KMap code, ndg, 2014-01-13)
       if (isset($simpleXml->translated_titles->translated_title)) {
          $output .= sprintf('<h2>%s</h2>', t('Titles') );
-      }
-      foreach ($simpleXml->translated_titles->translated_title as $trans_title) {
-         $iso_code = (string)$trans_title['lang'];
-         $title_lang = $langs[$iso_code]['name'];
-         $output .= sprintf('<div class="kmap_field"><strong>%s</strong><br />%s', t( $title_lang . ' title: ' ), $trans_title->title )  . PHP_EOL;
-         
-         if (isset($trans_title->authors->person)) {
-            $output .= sprintf('<br /><label>%s</label>: ', t('Author(s)'));
-            foreach( $trans_title->authors as $author) {
-               $output .= sprintf('<span>%s</span>',$author->person) . PHP_EOL;
-            }
-         }
-         $output .= '</div>';
+        foreach ($simpleXml->translated_titles->translated_title as $trans_title) {
+           $iso_code = (string)$trans_title['lang'];
+           $title_lang = $langs[$iso_code]['name'];
+           $output .= sprintf('<div class="kmap_field"><strong>%s</strong><br />%s', t( $title_lang . ' title: ' ), $trans_title->title )  . PHP_EOL;
+           
+           if (isset($trans_title->author)) {
+              $output .= sprintf('<br /><label>%s</label>: ', t('Author(s)'));
+              foreach( $trans_title->author as $author) {
+                 $output .= sprintf('<span>%s</span>',$author['fullname']) . PHP_EOL;
+              }
+           }
+           $output .= '</div>';
+        }
       }
       
       // Remote Link back to kmap server
       // for root category: http://tmb.thlib.org/categories/20/children
       // for sub-category: http://tmb.thlib.org/categories/20/children/40
-      $remote_kmap_link_tpl = variable_get('kmap_remote_link', variable_get('kmap_server', 'http://tmb.thlib.org') . '/categories/%d/children/%d');
-      $remote_root_only_kmap_link_tpl = variable_get('kmap_root_only_remote_link', variable_get('kmap_server', 'http://tmb.thlib.org') . '/categories/%d/children');
+      //$remote_kmap_link_tpl = variable_get('kmap_remote_link', variable_get('kmap_server', 'http://subjects.kmaps.virginia.edu') . '/features/%d/children/%d');
+      //$remote_root_only_kmap_link_tpl = variable_get('kmap_root_only_remote_link', variable_get('kmap_server', 'http://subjects.kmaps.virginia.edu') . '/features/%d/children');
+      $remote_kmap_link_tpl = variable_get('kmap_remote_link', variable_get('kmap_server', 'http://subjects.kmaps.virginia.edu') . '/features/%d');
+      
       $remote_kmap_link = '';
       if ( sizeof($lineage) > 1 ) {
-         $remote_kmap_link = sprintf($remote_kmap_link_tpl, $lineage[0]['kmap_id'], $lineage[sizeof($lineage)-1]['kmap_id']);
+         $remote_kmap_link = sprintf($remote_kmap_link_tpl, $lineage[sizeof($lineage)-1]['kmap_id']);
       }
       else if ( sizeof($lineage) == 1 ) {
-         $remote_kmap_link = sprintf($remote_root_only_kmap_link_tpl, $lineage[0]['kmap_id']);
+         $remote_kmap_link = sprintf($remote_kmap_link_tpl, $lineage[0]['kmap_id']);
       }
       if ( !empty($remote_kmap_link) ) {
          $l_title = t('View more on <strong>@kmap_title</strong> at Shanti Knowledge Maps', array('@kmap_title' => (string)$simpleXml->title));
@@ -134,11 +143,10 @@ function render_full_kmap( $kmap, $views_display = 'default')  {
       $output .= sprintf('<div>%s</div>', t('No knowledge map exists on the server matching id: ' . $kmap_id . '. Service URI was: ' . $service_uri));
    }
    
-      // add a views view of the media for this subject
+   // add a views view of the media for this subject
    if ( module_exists('audio_video') ) {
       $output .= audio_video_render_kmap_view($kmap_id, $views_display);
    }
 
-   
    return $output;
 }

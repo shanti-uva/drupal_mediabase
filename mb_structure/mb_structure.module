@@ -384,7 +384,8 @@ function mb_structure_views_query_alter(	&$view, &$query ) {
       
    }
    else if (isset($view->args[0])) {    // If we're in views ui, we can't get node from path, so get it from views args
-      $gid = array_shift( explode(",",$view->args[0]) );
+      $args = explode(",",$view->args[0]);
+      $gid = array_shift( $args );
       $group = og_get_group('group', $gid);  
       $node = (isset($group->etid)) ? node_load($group->etid) : NULL ;
    } 

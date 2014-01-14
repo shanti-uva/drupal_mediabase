@@ -58,9 +58,11 @@ function render_full_kmap( $kmap, $views_display = 'default')  {
    $langs = array_merge( get_lang_codes(), $non_std_lang_codes );  
    
    $kmap_service_uri = variable_get('kmap_detail_service_uri', variable_get('kmap_server', 'http://subjects.kmaps.virginia.edu') . '/features/%d.xml');
+   $kmap_children_service_uri = variable_get('kmap_detail_service_uri', variable_get('kmap_server', 'http://subjects.kmaps.virginia.edu') . '/features/%d/children.xml');
    $kmap_detail_service_uri = variable_get('kmap_detail_service_uri', variable_get('kmap_server', 'http://subjects.kmaps.virginia.edu') . '/features/%d/descriptions.xml');
    
    $service_uri = sprintf($kmap_service_uri, $kmap->get_kmap_id());
+   $children_service_uri = sprintf($kmap_children_service_uri, $kmap->get_kmap_id());
    $detail_service_uri = sprintf($kmap_detail_service_uri, $kmap->get_kmap_id());
    
    if ( $strXml = file_get_contents($service_uri) ) {
@@ -136,8 +138,21 @@ function render_full_kmap( $kmap, $views_display = 'default')  {
       }
       if ( !empty($remote_kmap_link) ) {
          $l_title = t('View more on <strong>@kmap_title</strong> at Shanti Knowledge Maps', array('@kmap_title' => (string)$simpleXml->title));
-         $output .= '<div>' . l($l_title, $remote_kmap_link, array('attributes' => array('title' => $l_title, 'target' => '_blank'), 'html' => TRUE)) . '</div>';
+         $output .= '<div>' . l(t('View in Subjects'), $remote_kmap_link, array('attributes' => array('title' => $l_title, 'target' => '_blank'), 'html' => TRUE));
+         $rssurl = '/media/by-kmap/%d/rss.xml';
+         $output .= ' | ' . l(t('Subscribe to This Subject'), sprintf($rssurl, $kmap->get_kmap_id()), array('attributes' => array('title' => 'Subscribe to this Subject via RSS', 'class' => 'rss-link'))) . '</div>';
+         // <a href="/media/by-kmap/!1/rss.xml" class="rss-link">Subscribe to this Subject via RSS</a>
       }
+      
+      // Children
+      if ( $strXml = file_get_contents($children_service_uri) ) {
+        $simpleXml2 =  new SimpleXMLElement($strXml); //simplexml_load_string($strXml);
+        if ( isset($simpleXml2->feature) ) {
+          $html = drupal_get_form('render_kmap_chidren', $simpleXml2);
+          $output .= drupal_render($html);
+        }
+      }
+      // End of Children
    }
    else {
       $output .= sprintf('<div>%s</div>', t('No knowledge map exists on the server matching id: ' . $kmap_id . '. Service URI was: ' . $service_uri));
@@ -149,4 +164,26 @@ function render_full_kmap( $kmap, $views_display = 'default')  {
    }
 
    return $output;
+}
+
+function render_kmap_chidren($form, &$form_state, $simpleXml) {
+  $form['fset'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Children'),
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
+  );
+  $children = array();
+  foreach($simpleXml->feature as $feat) {
+    $id = (string)$feat['id'];
+    $title = (string)$feat['header'];
+    $id = (string)$feat['id'];
+    $children[] = l($title, sprintf('subject/%d/detail', $id));
+  }
+  $ul = theme_item_list(array( 'items' => $children, 'title' => '', 'type' => 'ul', 'attributes' => array('class' => 'child-item')));
+  $form['fset']['ul'] = array(
+    '#type' => 'markup',
+    '#markup' => $ul,
+  );
+  return $form;
 }

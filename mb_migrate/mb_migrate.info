@@ -1,5 +1,5 @@
 ; $Id$
-name = "Mediabase"
+name = "Mediabase Migrations"
 description = "Mediabase content migrations. Keep disabled unless you are migrating content"
 core = 7.x
 package = SHANTI Mediabase

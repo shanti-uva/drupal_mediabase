@@ -1,5 +1,5 @@
 ; $Id$
-name = "Mediabase"
+name = "Mediabase Core"
 description = "Mediabase customizations to drupal."
 core = 7.x
 package = SHANTI Mediabase

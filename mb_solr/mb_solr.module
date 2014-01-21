@@ -32,6 +32,7 @@ function mb_solr_apachesolr_index_document_build(ApacheSolrDocument $document, $
 function mb_solr_apachesolr_search_page_alter(&$build, $search_page) {
   // Should add code to do this only on collection page, but all search pages come out as "transcript"
   // Need to check transcript module
+  
   $jsscripts = drupal_add_js(NULL, NULL, NULL);
   if (!array_key_exists('sites/all/modules/mediabase/mb_solr/js/mb_solr.js', $jsscripts)) { 
     drupal_add_js('sites/all/modules/mediabase/mb_solr/js/mb_solr.js', array('cache' => FALSE));
@@ -69,7 +70,12 @@ function mb_solr_apachesolr_query_alter($query) {
           $alias_path = "collection/$value";
           $node_path = drupal_lookup_path('source', $alias_path);
           if ( empty($node_path) ) {
-             continue;
+            //drupal_set_message("moving on");
+            // redirect to page not found to avoid error when non-existent collection is searched. (2014-01-21)
+            drupal_not_found();
+            module_invoke_all('exit');
+            exit();
+            // continue;
           }
           $parts = explode('/', $node_path);
           $nid = array_pop( $parts );
@@ -87,6 +93,7 @@ function mb_solr_apachesolr_query_alter($query) {
      $order = (rand(0, 1) == 0) ? 'asc' : 'desc';
      $query->setAvailableSort($sort_name, array('title'=> 'random', 'default' => 'asc'));
      $query->setSolrsort($sort_name, $order); 
+    
    }
 }
 
@@ -238,6 +245,23 @@ function mb_solr_facetapi_widgets() {
     $item['#theme'] = 'mb_solr_node';
   }
 }**/
+
+function mb_solr_facetapi_empty_behaviors() {
+  return array(
+    'none' => array(
+      'handler' => array(
+        'label' => t('Do not display facet'), 
+        'class' => 'FacetapiEmptyBehaviorNone',
+      ),
+    ),
+    'name' => array(
+      'handler' => array(
+        'label' => t('Do not display facet'), 
+        'class' => 'FacetapiEmptyBehaviorText',
+      ),
+    ),
+  );
+}
 
 /*
  * MbSolrFacetapiWidgetMbSolrTree: This extends the FacetapiWidgetLinks class found in the facetapi module

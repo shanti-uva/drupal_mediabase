@@ -5,3 +5,10 @@ core = 7.x
 dependencies[] = apachesolr
 version = "7.x-1.0-alpha1"
 
+
+
+; Information added by drush on 2014-01-16
+version = "unknown"
+project = "mediabase"
+datestamp = "1389877617"
+

@@ -3,7 +3,7 @@ Drupal.behaviors.mb_solr={ attach:function(context) {
 	makeTree();
  
  function makeTree() { //return;
-		var div = jQuery('#facetapi-facet-apachesolrsolr-block-im-field-characteristic').parent();
+		var div = jQuery('.facetapi-mb-solr-facet-tree').parent();
 		// remove drupal divs around children lists
 		jQuery(div).find('div.item-list ul').each(function(i) {
 			jQuery(this).unwrap();

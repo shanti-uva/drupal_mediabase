@@ -375,7 +375,7 @@ function kmap_taxonomy_field_formatter_view($entity_type, $entity, $field, $inst
             'formatted_lineage' => $kmap->render_kmap_lineage(Kmap::KMAP_LINEAGE_FULL, FALSE, $view_path),
             'rendered_formatted_lineage' => $kmap->render_kmap_lineage(Kmap::KMAP_LINEAGE_FULL, TRUE, $view_path),   
             )
-            ),
+           ),
          );
   }
   return $elements;

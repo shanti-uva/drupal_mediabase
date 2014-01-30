@@ -1,0 +1,77 @@
+<?php
+
+function mb_bulk_actions_action_info() {
+  return array(
+    'mb_bulk_actions_filter_subcollection_action' => array(
+      'aggregate' => FALSE,
+      'type' => 'node',
+      'label' => t('Filter subcollection values'),
+      'behavior' => array('changes_property'),
+      'configurable' => FALSE,
+      'vbo_configurable' => FALSE,
+      'triggers' => array('any'),
+    ),
+  );
+}
+
+function mb_bulk_actions_filter_subcollection_action(&$node, $context) {
+  $node->field_subcollection = array(
+    'und' => array()
+  );
+
+  // Get list of TIDs that are collections
+  $colltids = array();
+  foreach($node->field_characteristic['und'] as $ind => $item) {
+    $tid = $item['tid'];
+    if(_is_collection($tid)) {
+      array_push($colltids, $tid);
+    }
+  }
+  
+  // for each collection tid, remove it from field_characteristic and put it in field_subcollection
+  foreach($colltids as $tid) {
+    // Remove from field_characteristic
+    $fcind = _find_tid_in_field($node->field_characteristic['und'], $tid);
+    if($fcind !== FALSE) {
+      unset($node->field_characteristic['und'][$fcind]);
+      array_values($node->field_characteristic['und']);
+    } else {
+      drupal_set_message(t('Mb Bulk Filter Subcollection: Not finding TID (@TID) in field_characteristic (@FCIND) when it should be there!', 
+        array( '@TID' => $tid, '@FCIND' => $fcind)), 'warning');
+    }
+    
+    // Put Tid in field_subcollection if not already there
+    if(count($node->field_subcollection) == 0) {
+      $node->field_subcollection = array(
+        'und' => array()
+      );
+    }
+    if(_find_tid_in_field($node->field_subcollection['und'], $tid) === FALSE) {
+      array_push($node->field_subcollection['und'], array( 'tid' => "$tid" ));
+    }
+  }
+}
+
+function _is_Collection($tid) {
+  $term = taxonomy_term_load($tid);
+  $kmid = $term->kmap_id['und'][0]['value'];
+  $apiroot =  variable_get('kmap_server', 'http://subjects.kmaps.virginia.edu');
+  $url = $apiroot . 'features/' . $kmid .  '.xml';
+  if($xml = file_get_contents($url)) { 
+    $doc = new DOMDocument();
+    $doc->loadXML($xml);
+    $xpath = new DOMXpath($doc);
+    $elements = $xpath->query('//ancestors/feature[@id="2823"]'); // id 2823 is the root Collections Kmap ID
+    if($elements->length > 0) {
+      return TRUE;
+    }
+  }
+  return FALSE;
+}
+
+function _find_tid_in_field($field_array, $tid) {
+  foreach ($field_array as $ind => $item) {
+    if($item['tid'] == $tid) { return $ind; }
+  }
+  return FALSE;
+}

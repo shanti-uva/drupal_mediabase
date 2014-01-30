@@ -67,18 +67,19 @@ projects[facetapi_slider][download][revision] = "99b57fc670f6a5ca9dfcfaaa57acb6d
 projects[features][version] = "1.0"
 projects[features][subdir] = "contrib"
 
-projects[field_collection] = 1.x-dev
+projects[field_collection] = "1.x-dev"
 projects[field_collection][subdir] = "contrib"
 projects[field_collection][download][type] = "git" 
 projects[field_collection][download][revision] = "4e0a52349a3f97b346622cda2e0e9ceb24787604"
 projects[field_collection][patch][] = "https://raw.github.com/pinedrop/mediabase/master/patches/missing-bundle-patch-for-field-collection.patch"
+projects[field_collection][patch][] = "https://drupal.org/files/issues/field_collection-non-object-field_collection_field_get_entity-1880312-9.patch"
 
 projects[field_group][version] = "1.x-dev"
 projects[field_group][subdir] = "contrib"
 projects[field_group][download][type] = "git" 
 projects[field_group][download][revision] = "09f351080692305bd3447d61d0b18d021f0a72fb"
 
-projects[filefield_sources][version] = 1.7
+projects[filefield_sources][version] = "1.7"
 projects[filefield_sources][subdir] = "contrib"
 
 projects[fivestar][version] = "2.0-alpha2"

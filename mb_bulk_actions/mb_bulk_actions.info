@@ -1,0 +1,5 @@
+name = Mediabase Bulk Actions
+description = Mediabase submodule defining custom bulk actions
+package = SHANTI Mediabase
+core = 7.x
+version = "7.x-1.0-alpha1"

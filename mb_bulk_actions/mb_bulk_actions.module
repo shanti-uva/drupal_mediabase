@@ -15,10 +15,14 @@ function mb_bulk_actions_action_info() {
 }
 
 function mb_bulk_actions_filter_subcollection_action(&$node, $context) {
-  $node->field_subcollection = array(
-    'und' => array()
-  );
-
+  
+  // Create node's field_subcollection array if not already there
+  if(!isset($node->field_subcollection['und']) || !is_array($node->field_subcollection['und'])) {
+    $node->field_subcollection = array(
+      'und' => array()
+    );
+  }
+  
   // Get list of TIDs that are collections
   $colltids = array();
   foreach($node->field_characteristic['und'] as $ind => $item) {
@@ -57,14 +61,18 @@ function _is_Collection($tid) {
   $kmid = $term->kmap_id['und'][0]['value'];
   $apiroot =  variable_get('kmap_server', 'http://subjects.kmaps.virginia.edu');
   $url = $apiroot . 'features/' . $kmid .  '.xml';
-  if($xml = file_get_contents($url)) { 
-    $doc = new DOMDocument();
-    $doc->loadXML($xml);
-    $xpath = new DOMXpath($doc);
-    $elements = $xpath->query('//ancestors/feature[@id="2823"]'); // id 2823 is the root Collections Kmap ID
-    if($elements->length > 0) {
-      return TRUE;
+  try { 
+    if($xml = file_get_contents($url)) { 
+      $doc = new DOMDocument();
+      $doc->loadXML($xml);
+      $xpath = new DOMXpath($doc);
+      $elements = $xpath->query('//ancestors/feature[@id="2823"]'); // id 2823 is the root Collections Kmap ID
+      if($elements->length > 0) {
+        return TRUE;
+      }
     }
+  } catch (Exception $e) {
+    drupal_set_message("Exception thrown getting kmap info: " . $e->getMessage());
   }
   return FALSE;
 }

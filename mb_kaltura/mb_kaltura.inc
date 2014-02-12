@@ -264,7 +264,10 @@ function _get_entry_id_from_node($node) {
 
 function _get_media_from_entry_id($entry_id) {
    try {
-      $client=KalturaHelpers::getKalturaClient($isAdmin=true);
+      // NDG changed KalturaHelpers:: to creating a new object and using that
+      // because got warning not to use non-static method statically (2014-02-11)
+      $kalturaHelpers = new KalturaHelpers();
+      $client=$kalturaHelpers->getKalturaClient($isAdmin=true);
       $result = $client->media->get($entry_id);
       return $result;
    } 
@@ -1310,9 +1313,11 @@ function _write_to_node_kaltura($node) {
    if ( empty($entry_id)) {
       return;
    }
-   
-   $kaltura_client = KalturaHelpers::getKalturaClient($isAdmin = true); 
-   $session_user = KalturaHelpers::getSessionUser();
+   // NDG changed KalturaHelpers:: to creating a new object and using that
+   // because got warning not to use non-static method statically (2014-02-11)
+   $kalturaHelpers = new KalturaHelpers();
+   $kaltura_client = $kalturaHelpers->getKalturaClient($isAdmin = true); 
+   $session_user = $kalturaHelpers->getSessionUser();
    $entry_details = _get_media_from_entry_id($entry_id);
    
    // check if a row already exists for this entry id

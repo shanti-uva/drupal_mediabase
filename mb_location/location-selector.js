@@ -147,24 +147,21 @@ LocationSelector.prototype.initWidgetMarkup = function () {
                         dataType: "jsonp",
                         success: function( data ) {
                            var results = [];
-                           console.log("Place data for '" + acInput.val() + "'", data) // Leave this in
+                           //console.log("Place data for '" + acInput.val() + "'", data) // Leave this in
                            
-                           if ( data.features.feature ) {
-                              if ( ! jQuery.isArray(data.features.feature) ) {
-                                 data.features.feature = [data.features.feature]
-                              }
-                              var results = jQuery.map( data.features.feature, function( selection ) {
+                           if( data.features.length > 0) {
+                             var results = jQuery.map( data.features, function( selection ) {
                                     var ftype = '';
-                                    if (jQuery.isArray( selection.feature_type ) ) {
-                                       ftype = " — " + selection.feature_type[0].title 
-                                    } else if (selection.feature_type) {
-                                       ftype = " — " + selection.feature_type.title
+                                    if (jQuery.isArray( selection.feature_types ) && selection.feature_types.length > 0 ) {
+                                       ftype = " — " + selection.feature_types[0].title 
+                                    } else if (selection.feature_types && selection.feature_types.title) {
+                                       ftype = " — " + selection.feature_types.title
                                     }
                                     return {
                                        label: selection.header + ftype,
                                        // value: item.header + " [fid:" + item.fid + "]"
-                                       value: selection.fid,
-                                       id: "fid:" + selection.fid,
+                                       value: selection.id,
+                                       id: "fid:" + selection.id,
                                        placeDictLabel: selection.header,
                                     }
                               });

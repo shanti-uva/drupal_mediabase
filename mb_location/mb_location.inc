@@ -58,9 +58,9 @@ class MediabaseLocation
       case 'place-dictionary' :
       case 'fid' :
          if  (empty($this->name)) {
-            $json = file_get_contents("http://places.thlib.org/features/by_fid/$this->location_id.json");
+            $json = file_get_contents("http://places.thlib.org/features/$this->location_id.json");
             $place_data = json_decode($json);
-            $term->name = array_shift($place_data->features->feature->name);
+            $term->name = $place_data->feature->names[0]->name;
          }
          $term->place_dictionary_id['und'][0]['value'] = $this->location_id;
          break;
@@ -99,12 +99,12 @@ function _mb_location_format_item( $item, $view_path ) {
 }
 
 function fetch_place_dict_details( $feature_id, $children = array() ) {
-   $uri = sprintf('http://places.thlib.org/features/by_fid/%d.json', $feature_id);
+   $uri = sprintf('http://places.thlib.org/features/%d.json', $feature_id);
    $json = file_get_contents($uri);
    $data = json_decode($json);
    $children = array();
-   if(isset($data->features->feature->name[0])) {
-     $name = $data->features->feature->name[0];
+   if(isset($data->feature->names[0])) {
+     $name = $data->feature->names[0]->name;
      $children[$feature_id] = $name;
      if ( isset($data->features->feature->parent_relation->feature) ) {
         $parent_fid = $data->features->feature->parent_relation->feature->fid;
@@ -131,13 +131,13 @@ function wkt_to_lat_long($wkt) {
 **/
 function location_detail_page($place_id) {
    $output = '';
-   $place_service = 'http://places.thlib.org/features/by_fid/%place_id.json';
+   $place_service = 'http://places.thlib.org/features/%place_id.json';
    $description_service = 'http://places.thlib.org/features/%place_id/descriptions.json';
    $place_remote_link = 'http://places.thlib.org/features/%place_id';
    $uri = str_replace('%place_id', $place_id, $place_service );
    $json = file_get_contents($uri);
    $data = json_decode($json);
-   $place = $data->features->feature;
+   $place = $data->feature;
    
    drupal_set_title(t('Resources for @place', array('@place' => $place->header)));
    // wrappers
@@ -147,13 +147,17 @@ function location_detail_page($place_id) {
    $desc_wrapper = "<div class='pd-description'><span>%s</span><div>%s</div></div>";
 
    // names
+   $pnames = array();
+   foreach($place->names as $name) {
+     array_push($pnames, $name->name);
+   }
    $name_label = sprintf($label_wrapper,t('Place Name(s)'));
-   $output .= sprintf($div_wrapper, $name_label . implode(', ', array_unique($place->name)));
+   $output .= sprintf($div_wrapper, $name_label . implode(', ', array_unique($pnames)));
    
    // feature types
-   if ( isset( $place->feature_type ) ) {
+   if ( isset( $place->feature_types ) ) {
       $ftypes = array();
-      $feature_types = is_array($place->feature_type) ? $place->feature_type : array($place->feature_type);
+      $feature_types = is_array($place->feature_types) ? $place->feature_types : array($place->feature_types);
       foreach ( $feature_types as $ftype) {
          $ftypes[] = $ftype->title;
       }
@@ -162,7 +166,7 @@ function location_detail_page($place_id) {
    }
 
    // description
-   if ( isset( $place->desc ) ) {
+   if ( isset( $place->description_count ) &&  $place->description_count > 0) {
       //$output .= sprintf($label_wrapper,t('Essays'));
       $output .= sprintf('<div><strong>%s</strong></div>', t('Essays'));
 
@@ -173,7 +177,8 @@ function location_detail_page($place_id) {
       foreach ( $descriptions as $description ) {
          $desc_title = !empty($description->title) ? $description->title : t('Description of @place', array('@place' => $place->header));
          /* $desc_label = sprintf($label_wrapper, $desc_title); */
-         $output .= sprintf($desc_wrapper, $desc_title, $description->content);
+         $auth = (isset($description->author->fullname)) ? '<p style="text-align: right; font-size: smaller;">(' . $description->author->fullname . ')</p>':'';
+         $output .= sprintf($desc_wrapper, $desc_title, $description->content . $auth);
       }
       drupal_add_library('system', 'ui');
       drupal_add_library('system', 'ui.autocomplete');

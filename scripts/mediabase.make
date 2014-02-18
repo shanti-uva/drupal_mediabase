@@ -7,7 +7,7 @@ projects[drupal][type] = core
 ; CONTRIB MODULES
 ; HOW TO FIND GIT REVISION IDS for -dev versions of modules: http://www.wizonesolutions.com/2011/12/19/drush-make-avoid-the-unexpected/ for 
 
-projects[admin_menu][version] = "3.0-rc3"
+projects[admin_menu][version] = "3.0-rc4"
 projects[admin_menu][subdir] = "contrib"
 
 projects[apachesolr][version] = "1.x-dev"

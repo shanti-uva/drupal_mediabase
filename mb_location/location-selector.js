@@ -47,7 +47,7 @@ function LocationSelector(options) {
    this.formInputClass = typeof (options.formInputClass) !== "undefined" ? options.formInputClass : '';
 
    // Location service options
-   this.placeDictionaryServerUri = typeof (options.placeDictionaryServerUri) !== "undefined" ? options.placeDictionaryServerUri : 'http://places.thlib.org/';
+   this.placeDictionaryServerUri = typeof (options.placeDictionaryServerUri) !== "undefined" ? options.placeDictionaryServerUri : 'http://places.kmaps.virginia.org/';
    this.placeDictionaryNameService = typeof (options.placeDictionaryNameService) !== "undefined" ? this.placeDictionaryServerUri + options.placeDictionaryNameService :  'features/by_name/{term}.json';
    this.placeDictionaryFidService = typeof (options.placeDictionaryFidService) !== "undefined" ? this.placeDictionaryServerUri + options.placeDictionaryFidService :  'features/by_fid/{id}.json';
 

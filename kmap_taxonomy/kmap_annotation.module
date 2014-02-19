@@ -102,7 +102,6 @@ function kmap_annotation_field_formatter_info() {
 function kmap_annotation_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
    module_load_include('inc', 'kmap_taxonomy', 'includes/kmap');
    $elements = array();
-   
    switch ($display['type']) {
    case 'kmap_taxonomy_annotated':
       foreach ($items as $delta => $item) {

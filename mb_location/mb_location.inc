@@ -58,7 +58,7 @@ class MediabaseLocation
       case 'place-dictionary' :
       case 'fid' :
          if  (empty($this->name)) {
-            $json = file_get_contents("http://places.thlib.org/features/$this->location_id.json");
+            $json = file_get_contents(variable_get('place_server', 'http://places.kmaps.virginia.edu') . "/features/$this->location_id.json");
             $place_data = json_decode($json);
             $term->name = $place_data->feature->names[0]->name;
          }
@@ -99,15 +99,15 @@ function _mb_location_format_item( $item, $view_path ) {
 }
 
 function fetch_place_dict_details( $feature_id, $children = array() ) {
-   $uri = sprintf('http://places.thlib.org/features/%d.json', $feature_id);
+   $uri = sprintf(variable_get('place_server', 'http://places.kmaps.virginia.edu') . '/features/%d.json', $feature_id);
    $json = file_get_contents($uri);
    $data = json_decode($json);
-   $children = array();
+   //$children = array();
    if(isset($data->feature->names[0])) {
      $name = $data->feature->names[0]->name;
      $children[$feature_id] = $name;
-     if ( isset($data->features->feature->parent_relation->feature) ) {
-        $parent_fid = $data->features->feature->parent_relation->feature->fid;
+     if ( isset($data->feature->parents[0]) && $data->feature->parents[0]->id != '13735') {
+        $parent_fid = $data->feature->parents[0]->id;
         return fetch_place_dict_details($parent_fid, $children);
      }
    }
@@ -131,9 +131,10 @@ function wkt_to_lat_long($wkt) {
 **/
 function location_detail_page($place_id) {
    $output = '';
-   $place_service = 'http://places.thlib.org/features/%place_id.json';
-   $description_service = 'http://places.thlib.org/features/%place_id/descriptions.json';
-   $place_remote_link = 'http://places.thlib.org/features/%place_id';
+   $place_server = variable_get('place_server', 'http://places.kmaps.virginia.edu');
+   $place_service = $place_server . '/features/%place_id.json';
+   $description_service = $place_server . '/features/%place_id/descriptions.json';
+   $place_remote_link = $place_server . '/features/%place_id';
    $uri = str_replace('%place_id', $place_id, $place_service );
    $json = file_get_contents($uri);
    $data = json_decode($json);

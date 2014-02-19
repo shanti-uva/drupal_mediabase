@@ -7,16 +7,16 @@
 
 function kmap_taxonomy_menu() {
   $items = array();
-  	
+  	/*
   $items['admin/config/kmaps'] = array(
   	'title' => 'Knowledge Maps',
   	'description' => t('Settings for Shanti Knowledge Maps integration'),
   	'page callback' => 'drupal_get_form',
   	'page arguments' => array('kmaps_settings_form'),
   	'access arguments' => array('administer knowledge maps'),
-   /*  'file' => 'transcripts.admin.inc', */
+   //  'file' => 'transcripts.admin.inc',
   	'type' => MENU_LOCAL_TASK,
-  );
+  ); */
   
    $items['kmaps/list'] = array(
       'title' => t('Kmaps List'),
@@ -400,6 +400,7 @@ function theme_kmap_taxonomy_formatter_kmap_taxonomy_default($element) {
    return $element['rendered_formatted_lineage'];
 }
 
+/* Moved to mediabase settings form in mediabase.module
 function kmaps_settings_form($form, &$form_state) {
    $kmap_form = array();
    $kmap_form['kmap_server'] = array(
@@ -413,6 +414,6 @@ function kmaps_settings_form($form, &$form_state) {
       );
    return system_settings_form(array_merge( $form, $kmap_form) );
 }
-
+*/
 
 

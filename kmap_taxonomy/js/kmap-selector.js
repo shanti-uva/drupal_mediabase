@@ -18,7 +18,6 @@
 * @todo Throw Exceptions in the Constructor to prevent breakage and confusion
 **/
 function KmapSelector(options) {
-   
    this.name = options.name || Math.ceil(Math.random()*2000000);
    
    var scripts, i;
@@ -56,7 +55,7 @@ function KmapSelector(options) {
    this.formSelectClass = options.formSelectClass || '';
    
    // Kmaps service options
-   this.kmapServerUri = options.kmapServerUri || 'http://subjects.kmaps.virginia.edu';
+   this.kmapServerUri = options.kmapServerUri || 'http://subjects.kmaps.virginia.edu/';
    this.listService = options.listService? this.kmapServerUri + options.listService :  'features/list.json';
    this.treeService = options.treeService? this.kmapServerUri + options.treeService :  'features/all.json';
    this.categoryService = options.categoryService? this.kmapServerUri + options.categoryService :  'features.json';

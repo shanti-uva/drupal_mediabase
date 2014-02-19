@@ -30,21 +30,15 @@ function mb_solr_apachesolr_index_document_build(ApacheSolrDocument $document, $
 }
 
 function mb_solr_apachesolr_search_page_alter(&$build, $search_page) {
-  // Should add code to do this only on collection page, but all search pages come out as "transcript"
-  // Need to check transcript module
-  
-  $jsscripts = drupal_add_js(NULL, NULL, NULL);
-  if (!array_key_exists('sites/all/modules/mediabase/mb_solr/js/mb_solr.js', $jsscripts)) { 
-    drupal_add_js('sites/all/modules/mediabase/mb_solr/js/mb_solr.js', array('cache' => FALSE));
-    drupal_add_js('sites/all/modules/mediabase/mb_solr/js/jquery.jstree.js', array('cache' => FALSE));
-  } 
+  if ($search_page['page_id'] == 'collection_home') {
+    $jsscripts = drupal_add_js(NULL, NULL, NULL);
+    if (!array_key_exists('sites/all/modules/mediabase/mb_solr/js/mb_solr.js', $jsscripts)) { 
+      drupal_add_js('sites/all/modules/mediabase/mb_solr/js/mb_solr.js', array('cache' => FALSE));
+      drupal_add_js('sites/all/modules/mediabase/mb_solr/js/jquery.jstree.js', array('cache' => FALSE));
+    } 
+  }
 }
 
-/*
-function mb_solr_apachesolr_query_prepare($query) {
-  //dpm($query, 'here');
-}
-*/
 /*
  * mb_solr_apachesolr_query_alter():
  * 
@@ -57,8 +51,8 @@ function mb_solr_apachesolr_query_prepare($query) {
  */
  
 function mb_solr_apachesolr_query_alter($query) {
-   $path = $query->getPath(); // only alter query for collection pages.
-   if (preg_match("/^collection\//",$path))  {
+   $path = $query->getPath(); // only alter query for collection pages. Solr re-indexing page urls begin with collection
+   if (preg_match("/^collection\//",$path) && !preg_match("/admin\/config/", $path))  {
     // Collection id (gid) filter
      $gid_filters = $query->getFilters('im_collection_gid');
      foreach ($gid_filters as $idx => $gid_filter) {
@@ -70,7 +64,6 @@ function mb_solr_apachesolr_query_alter($query) {
           $alias_path = "collection/$value";
           $node_path = drupal_lookup_path('source', $alias_path);
           if ( empty($node_path) ) {
-            //drupal_set_message("moving on");
             // redirect to page not found to avoid error when non-existent collection is searched. (2014-01-21)
             drupal_not_found();
             module_invoke_all('exit');
@@ -85,8 +78,7 @@ function mb_solr_apachesolr_query_alter($query) {
      }
      
      $gid_filters = $query->getFilters('im_collection_gid');
-     
-     
+
      // Random Sort filter
      $seed = rand(0, 9999);
      $sort_name = "random_$seed";
@@ -105,7 +97,7 @@ function mb_solr_apachesolr_query_alter($query) {
 **/
 function mb_solr_apachesolr_process_results(&$results, DrupalSolrQueryInterface $query) {
    $path = $query->getPath();
-   if (preg_match("/^collection\//",$path))  {
+   if (preg_match("/^collection\//",$path) && !preg_match("/admin\/config/", $path))  {
      foreach ( $results as $idx => $item ) {
         $bundle = $item['bundle'];
         $media_field_table = "field_data_field_$bundle";
@@ -156,18 +148,10 @@ function mb_solr_theme($existing) {
  * This is included in the node display through mb_solr_node_view (below).
  */
 function theme_search_results__apachesolr_search__collection_home(&$vars) {
-  /*$collpath = str_replace('collhome','collection', current_path());
-  $collid = array_pop(explode('/', drupal_lookup_path('source',$collpath)));
-  $collnode = node_load($collid);
-  $body = $collnode->body['und'][0]['safe_value'];
-  $output = '<div>' . $body . '</div>';
-  $subcolls = array();*/
   $output = '';
   foreach ($vars['results'] as $k => $v) {
     $output .=  mb_solr_make_teaser($v);
   }
-  
-  //drupal_set_title($collnode->title);
   return $output;
 }
 

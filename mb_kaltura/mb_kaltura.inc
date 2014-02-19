@@ -1309,32 +1309,34 @@ function xml_pbcore($nid) {
 * @todo post this as an issue on d.o
 **/
 function _write_to_node_kaltura($node) {
-   $entry_id = $node->{"field_$node->type"}['und'][0]['entryid'];
-   if ( empty($entry_id)) {
-      return;
-   }
-   // NDG changed KalturaHelpers:: to creating a new object and using that
-   // because got warning not to use non-static method statically (2014-02-11)
-   $kalturaHelpers = new KalturaHelpers();
-   $kaltura_client = $kalturaHelpers->getKalturaClient($isAdmin = true); 
-   $session_user = $kalturaHelpers->getSessionUser();
-   $entry_details = _get_media_from_entry_id($entry_id);
-   
-   // check if a row already exists for this entry id
-   module_load_include('inc','kaltura','includes/kaltura.admin');
-   $entry = kaltura_kmc_obj_to_drupal_array($entry_details);
-   $query = db_select('node_kaltura', 'k')
-   ->fields('k', array('kaltura_entryid'))
-   ->condition('kaltura_entryid', $entry['kaltura_entryid'], '=')
-   ->execute()
-   ->fetchCol();
-
-   if (empty($query)) {
-      $entry['kaltura_created_date'] = REQUEST_TIME; //we have no way when the entry was created on the KMC so the create date is when we received the notifcation
-      drupal_write_record('node_kaltura', $entry);
-   }
-   else {
-      drupal_write_record('node_kaltura', $entry, 'kaltura_entryid');
+   if(isset($node->{"field_$node->type"}['und'])) {
+     $entry_id = $node->{"field_$node->type"}['und'][0]['entryid'];
+     if ( empty($entry_id)) {
+        return;
+     }
+     // NDG changed KalturaHelpers:: to creating a new object and using that
+     // because got warning not to use non-static method statically (2014-02-11)
+     $kalturaHelpers = new KalturaHelpers();
+     $kaltura_client = $kalturaHelpers->getKalturaClient($isAdmin = true); 
+     $session_user = $kalturaHelpers->getSessionUser();
+     $entry_details = _get_media_from_entry_id($entry_id);
+     
+     // check if a row already exists for this entry id
+     module_load_include('inc','kaltura','includes/kaltura.admin');
+     $entry = kaltura_kmc_obj_to_drupal_array($entry_details);
+     $query = db_select('node_kaltura', 'k')
+     ->fields('k', array('kaltura_entryid'))
+     ->condition('kaltura_entryid', $entry['kaltura_entryid'], '=')
+     ->execute()
+     ->fetchCol();
+  
+     if (empty($query)) {
+        $entry['kaltura_created_date'] = REQUEST_TIME; //we have no way when the entry was created on the KMC so the create date is when we received the notifcation
+        drupal_write_record('node_kaltura', $entry);
+     }
+     else {
+        drupal_write_record('node_kaltura', $entry, 'kaltura_entryid');
+     }
    }
 }
 

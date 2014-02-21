@@ -99,7 +99,8 @@ function _mb_location_format_item( $item, $view_path ) {
 }
 
 function fetch_place_dict_details( $feature_id, $children = array() ) {
-   $uri = sprintf(variable_get('place_server', 'http://places.kmaps.virginia.edu') . '/features/%d.json', $feature_id);
+   $urlstr = variable_get('place_server', 'http://places.kmaps.virginia.edu') . '/features/by_fid/%d.json';
+   $uri = sprintf($urlstr, $feature_id);
    $json = file_get_contents($uri);
    $data = json_decode($json);
    //$children = array();

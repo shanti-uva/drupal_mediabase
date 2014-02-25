@@ -24,9 +24,8 @@ Drupal.behaviors.kmap_taxonomy={attach:function(context){
          autocompleteLabel: 'Search',
          branchFilterLabel: 'Filter',
          treeSelectorLabel: 'Select one or more categories',
-         // kmapServerUri: 'http://tmb.thlib.org/', //new url: http://subjects.kmaps.virginia.edu
          // these service paths are for the kmaps server proxy built into the kmaps_taxonomy module
-         kmapServerUri: Drupal.settings.mediabase.kmapServerUri, //This should end in a '/'
+         kmapServerUri: Drupal.settings.basePath, //This should end in a '/'
          listService:  'kmaps/list',
          listServiceBranch:  'kmaps/list/{id}',
          treeService:  'kmaps/all',

@@ -15,9 +15,9 @@ Drupal.behaviors.mb_location={attach:function(context){
          branchFilterLabel: 'DELETEME',
          treeSelectorLabel: 'Select one or more places',
          // services
-         placeDictionaryServerUri: Drupal.settings.mediabase.placeServerUri, //This should end in a '/'
-         placeDictionaryFidService:  'features/by_fid/{id}.json',
-         placeDictionaryNameService:  'features/by_name/{term}.json',
+         placeDictionaryServerUri: Drupal.settings.basePath, //This should end in a '/'
+         placeDictionaryFidService:  'location/id/{id}', //'features/by_fid/{id}.json',
+         placeDictionaryNameService: 'location/name/{term}', //'features/by_name/{term}.json',
 
          // toggle widgets
          showPlaceDictionary: settings.show_place_dictionary,

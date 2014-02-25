@@ -9,8 +9,8 @@ function mediabase_init() {
    drupal_add_js( array( 
         'mediabase' => array( 
           'path' => $path,
-          'kmapServerUri' => variable_get('kmap_server', 'http://subjects.kmaps.virginia.edu') . '/',
-          'placeServerUri' => variable_get('place_server', 'http://places.kmaps.virginia.edu') . '/',
+          'kmapServer' => variable_get('kmap_server', 'http://subjects.kmaps.virginia.edu') . '/',
+          'placeServer' => variable_get('place_server', 'http://places.kmaps.virginia.edu') . '/',
         )), 'setting' );  
 }
 

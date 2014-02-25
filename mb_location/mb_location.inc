@@ -99,7 +99,7 @@ function _mb_location_format_item( $item, $view_path ) {
 }
 
 function fetch_place_dict_details( $feature_id, $children = array() ) {
-   $urlstr = variable_get('place_server', 'http://places.kmaps.virginia.edu') . '/features/by_fid/%d.json';
+   $urlstr = variable_get('place_server', 'http://places.kmaps.virginia.edu') . '/features/%d.json';
    $uri = sprintf($urlstr, $feature_id);
    $json = file_get_contents($uri);
    $data = json_decode($json);
@@ -226,4 +226,42 @@ function location_detail_page($place_id) {
    }
    
    return $output;
+}
+
+// Services for fetching JSON from place kmaps app
+
+function location_by_id($fid = NULL) {
+  // general call is: features/{id}.json
+  $place_server =  variable_get('place_server', 'http://places.kmaps.virginia.edu');
+   if (empty($fid)) {
+      $list_path = "/features/list.json";
+   }
+   else {
+      $list_path = "/features/$fid.json";
+   }
+
+   $uri = trim($place_server . $list_path);
+   $response = drupal_http_request($uri);
+   
+   drupal_add_http_header('content-type', 'application/javascript');
+   $callback = $_GET['callback'];
+   print "$callback($response->data)";
+}
+
+function location_by_name($fname = NULL) {
+  // general call is features/by_name/{term}.json
+  $place_server =  variable_get('place_server', 'http://places.kmaps.virginia.edu');
+   if (empty($fname)) {
+      $list_path = "/features/list.json";
+   }
+   else {
+      $list_path = "/features/by_name/$fname.json";
+   }
+
+   $uri = trim($place_server . $list_path);
+   $response = drupal_http_request($uri);
+   
+   drupal_add_http_header('content-type', 'application/javascript');
+   $callback = $_GET['callback'];
+   print "$callback($response->data)";
 }

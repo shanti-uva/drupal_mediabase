@@ -12,7 +12,26 @@ function mb_location_menu() {
       'page callback'    => 'location_detail_page',
       'page arguments'    => array(1),
       'type'             => MENU_CALLBACK,
-      );
+    );
+   // Service URLs to fetch JSON data about a place
+   $items['location/id/%'] = array(
+      'title' => t('Get location json by id'),
+      'page callback' => 'location_by_id',
+      'file'    => 'mb_location.inc',
+      'access callback' => 'user_access',
+      'access arguments' => array('access content'),
+      'page arguments'    => array(2),
+      'type' => MENU_CALLBACK,
+    );   
+   $items['location/name/%'] = array(
+      'title' => t('Get location json by name'),
+      'page callback' => 'location_by_name',
+      'file'    => 'mb_location.inc',
+      'access callback' => 'user_access',
+      'access arguments' => array('access content'),
+      'page arguments'    => array(2),
+      'type' => MENU_CALLBACK,
+    );         
 /*    
    $items['geonames/search'] = array(
       'title'            => 'jQuery Autocomplete URL',

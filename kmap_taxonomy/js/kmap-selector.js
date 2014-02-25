@@ -118,7 +118,6 @@ KmapSelector.prototype.init = function () {
    // Autocomplete
    if (this.showAutocomplete) {
       var rootService = this.rootKmapId ? this.listServiceBranch.replace('{id}', this.rootKmapId) : this.listService;
-
       if (typeof (this.allData[rootService] == 'undefined')) {
          jQuery.ajax({
                url: rootService,

@@ -314,9 +314,10 @@ SUBMIT HANDLERS
 function check_delete_from_kaltura(&$form, &$form_state) {
    if ( $form_state['values']['delete_from_kaltura'] == 1 ) {
       module_load_include('inc', 'mb_kaltura', 'mb_kaltura');
+      $kalturaHelpers = new KalturaHelpers();
       $nid = $form_state['values']['nid'];
       $node = node_load($nid);
-      $client=KalturaHelpers::getKalturaClient($isAdmin=true);
+      $client=$kalturaHelpers->getKalturaClient($isAdmin=true);
       $objectId= _get_entry_id_from_node($node);
       $objectId = str_replace(",","",$objectId);
       $client->media->delete($objectId);

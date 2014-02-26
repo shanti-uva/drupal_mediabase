@@ -195,7 +195,8 @@ KmapSelector.prototype.initSelectorMarkup = function () {
    jQuery(container).append(this.selectionResult);
    
    // Annotations
-   if (this.allowAnnotations) {
+   //    (ndg, 2014-02-26: do not showAnnot link if adding new node /node/add)
+   if (this.allowAnnotations && window.location.href.indexOf('/node/add') == -1) {
       // Annotation Toggle
       var showAnnot = jQuery('<a>').attr({href:'#', class:'show-annot'}).html( this.t('More options') ).click( function (event) {
             jQuery(kmapSelector.annotResult).css('display', 'block');

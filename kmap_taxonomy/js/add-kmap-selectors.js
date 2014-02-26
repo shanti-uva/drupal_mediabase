@@ -1,5 +1,10 @@
 Drupal.behaviors.kmap_taxonomy={attach:function(context){
    kmap_taxo_selectors = [];
+   if(window.location.href.indexOf('/node/add') > -1) {
+     jQuery(document).ready(function() {
+      jQuery('.show-annot, .hide-annot').hide();
+     });
+   }
    for (var key in Drupal.settings.kmap_taxonomy) {
       
       var settings = Drupal.settings.kmap_taxonomy[key];

@@ -320,8 +320,13 @@ function check_delete_from_kaltura(&$form, &$form_state) {
       $client=$kalturaHelpers->getKalturaClient($isAdmin=true);
       $objectId= _get_entry_id_from_node($node);
       $objectId = str_replace(",","",$objectId);
-      $client->media->delete($objectId);
-      $msg = t("Deleted entry_id, @entryid from Kaltura server", array('@entryid' => $objectId));
+      $msg = '';
+      try {
+        $client->media->delete($objectId);
+        $msg = t("Deleted entry_id, @entryid from Kaltura server", array('@entryid' => $objectId));
+      } catch(Exception $e) {
+        $msg = t("Unable to delete entry @entryid, as it was not found on the Kaltura server", array('@entryid' => $objectId));
+      }
       drupal_set_message( $msg ); 
    }
 }

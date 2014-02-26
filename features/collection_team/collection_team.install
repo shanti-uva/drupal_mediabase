@@ -31,3 +31,24 @@ function collection_team_update_7001() {
    $res = db_query($sql);
 }
 
+/**
+* change the group subcollection field Kmap widget selector in thefield instance settings
+* updates the kmap view_path and sets the root_kmap_id to the collections kmaps
+**/
+function collection_team_update_7002() {
+  $fi = field_info_instance('node', 'field_subcoll_root_kmap_id', 'collection');
+  $newselector = array(
+              'allow_annotations' => 1,
+              'allow_formatting' => 1,
+              'allow_multiple' => 1,
+              'root_kmap_id' => '',
+              'show_autocomplete' => 1,
+              'show_branch_filter' => 1,
+              'show_tree_selector' => 1,
+              'view_path' => 'subject/%kmap_id/detail',
+            );
+  
+  $fi['widget']['settings']['kmap_selector_settings'] = $newselector;
+  $fi['widget']['settings']['root_kmap_id']=2823;
+  field_update_instance($fi);
+}

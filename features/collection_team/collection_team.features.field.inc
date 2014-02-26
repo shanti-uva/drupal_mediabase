@@ -238,7 +238,7 @@ function collection_team_field_default_fields() {
       'required' => 0,
       'settings' => array(
         'user_register_form' => FALSE,
-      ),
+      ), // updated widget settings to match a/v field settings
       'widget' => array(
         'active' => 1,
         'module' => 'kmap_taxonomy',
@@ -248,16 +248,16 @@ function collection_team_field_default_fields() {
           'allow_multiple' => TRUE,
           'allow_multipleq' => TRUE,
           'kmap_selector_settings' => array(
-            'allow_annotations' => 0,
-            'allow_formatting' => 0,
-            'allow_multiple' => 0,
+            'allow_annotations' => 1,
+            'allow_formatting' => 1,
+            'allow_multiple' => 1,
             'root_kmap_id' => '',
-            'show_autocomplete' => 0,
-            'show_branch_filter' => 0,
+            'show_autocomplete' => 1,
+            'show_branch_filter' => 1,
             'show_tree_selector' => 1,
-            'view_path' => 'taxonomy/term/%tid',
+            'view_path' => 'subject/%kmap_id/detail',
           ),
-          'root_kmap_id' => NULL,
+          'root_kmap_id' => '2823',
           'show_autocomplete' => TRUE,
           'show_branch_filter' => TRUE,
           'show_tree_selector' => TRUE,

@@ -17,6 +17,12 @@
  *      3. old code commented out and save below new code.
  *      
  */
+
+function cmpChildNames($a, $b)
+{
+    return strcmp($a->header, $b->header);
+}
+ 
 function fetch_root_categories() {
    $root_service = variable_get('kmap_server', 'http://subjects.kmaps.virginia.edu') . '/features.xml';   //  was '/categories.xml'
    $options = &drupal_static(__FUNCTION__);
@@ -75,9 +81,9 @@ function kmaps_all($kmap_id = NULL) {
    
    // Sort Children list by Header
    $json = json_decode($response->data);
-   $features = $json->feature->features;
-   usort($features, cmpChildNames);
-   $json->feature->features = $features;
+   $features = $json->features;
+   usort($features, "cmpChildNames");
+   $json->features = $features;
    $data = json_encode($json);
    
    drupal_add_http_header('content-type', 'application/javascript');
@@ -101,7 +107,7 @@ function kmaps_categories($kmap_id = NULL) {
    // Sort Children list by Header
    $json = json_decode($response->data);
    $features = $json->features;
-   usort($features, cmpChildNames);
+   usort($features, "cmpChildNames");
    $json->features = $features;
    $data = json_encode($json);
    
@@ -109,11 +115,6 @@ function kmaps_categories($kmap_id = NULL) {
    $callback = $_GET['callback'];
    drupal_add_http_header('content-type', 'application/javascript');
    print "$callback($data)";
-}
-
-function cmpChildNames($a, $b)
-{
-    return strcmp($a->header, $b->header);
 }
 
 

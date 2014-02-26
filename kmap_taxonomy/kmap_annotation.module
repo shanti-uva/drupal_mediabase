@@ -10,8 +10,12 @@ function kmap_annotation_submit(&$form, &$form_state) {
    if ( isset($form_state['input']['kmap_annotation_json']) ) {
       $node = $form_state['node'];
       $node->kmap_annotations = json_decode($form_state['input']['kmap_annotation_json']);
-      delete_kmap_annotations($node);
-      insert_kmap_annotations($node);
+      // TO DO: Cannot insert annotations on new nodes from here. 
+      // Need to figure out way to add annotations to new nodes or not provide the option.
+      if(isset($node->nid)) { 
+        delete_kmap_annotations($node);
+        insert_kmap_annotations($node);
+      }
    }
 }
 

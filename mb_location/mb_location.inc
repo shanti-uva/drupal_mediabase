@@ -103,14 +103,10 @@ function fetch_place_dict_details( $feature_id, $children = array() ) {
    $uri = sprintf($urlstr, $feature_id);
    $json = file_get_contents($uri);
    $data = json_decode($json);
-   //$children = array();
    if(isset($data->feature->names[0])) {
      $name = $data->feature->names[0]->name;
      $children[$feature_id] = $name;
-     if ( isset($data->feature->parents[0]) && $data->feature->parents[0]->id != '13735') {
-        $parent_fid = $data->feature->parents[0]->id;
-        return fetch_place_dict_details($parent_fid, $children);
-     }
+     // Add code here to use ancestors in json.
    }
    return $children;
 }

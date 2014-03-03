@@ -317,7 +317,7 @@ function check_delete_from_kaltura(&$form, &$form_state) {
       $kalturaHelpers = new KalturaHelpers();
       $nid = $form_state['values']['nid'];
       $node = node_load($nid);
-      $client=$kalturaHelpers->getKalturaClient($isAdmin=true);
+      $client=$kalturaHelpers->getKalturaClient($isAdmin=TRUE);
       $objectId= _get_entry_id_from_node($node);
       $objectId = str_replace(",","",$objectId);
       $msg = '';

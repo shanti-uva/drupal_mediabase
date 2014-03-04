@@ -189,7 +189,6 @@ function mb_kaltura_theme() {
 }
 
 function mb_kaltura_video_tag($entry_id) {
-  dpm($entry_id, 'entry id');
    if ( empty($entry_id) ) {
       return;
    }
@@ -197,7 +196,6 @@ function mb_kaltura_video_tag($entry_id) {
    $client=$kalturaHelpers->getKalturaClient($isAdmin=TRUE);
    try {
       $flavors=$client->flavorAsset->getByEntryId($entry_id);
-      dpm($flavors, 'flavors');
    }
    catch (Exception $e) {
       watchdog('mb_kaltura', t('Kaltura Exception: %message, backtrace: <pre>!trace</pre>'), array('%message' => $e->getMessage(), '!trace' => $e->getTrace()));
@@ -208,25 +206,26 @@ function mb_kaltura_video_tag($entry_id) {
    
    $html5_sources = array();
    foreach ($flavors as $flavor) {
-      if ( !($flavor->status == KalturaFlavorAssetStatus::READY) || $flavor->isOriginal ) {
-         continue;
-      }
-		
-      /*if ( in_array( $flavor->fileExt, array('webm', 'mp4', 'ogg') ) ) {
-         	if ( $flavor->fileExt == 'mp4' 
-         		&& ( !in_array( 'h264', explode(",",$flavor->tags) ) ) ) {
-                 //|| $flavor->bitrate < 600 ) ) {
-         					continue;
-                 }*/
-      if($flavor->isWeb && $flavor->bitrate > 0) {
-         $location = $client->flavorAsset->getDownloadUrl($flavor->id);
-         $html5_sources[] = (object)array(
+		  if($flavor->isWeb && $flavor->bitrate > 0) {
+        $location = $client->flavorAsset->getDownloadUrl($flavor->id);
+        $html5_sources[] = (object)array(
             'type' => $flavor->fileExt,
             'src' => $location,
             'width' => $flavor->width,
             'height' => $flavor->height,
-            );
-      }
+        );
+		  }
+      /*
+        if ( !($flavor->status == KalturaFlavorAssetStatus::READY) || $flavor->isOriginal ) {
+           continue;
+        }
+        if ( in_array( $flavor->fileExt, array('webm', 'mp4', 'ogg') ) ) {
+         	if ( $flavor->fileExt == 'mp4' 
+         		&& ( !in_array( 'h264', explode(",",$flavor->tags) ) ) ) {
+                 //|| $flavor->bitrate < 600 ) ) {
+         					continue;
+                 }
+       **/
    }
    return theme('kaltura_player_html5_video', array('html5_sources' => $html5_sources));
 }

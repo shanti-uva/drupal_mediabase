@@ -105,8 +105,11 @@ function fetch_place_dict_details( $feature_id, $children = array() ) {
    $data = json_decode($json);
    if(isset($data->feature->names[0])) {
      $name = $data->feature->names[0]->name;
-     $children[$feature_id] = $name;
-     // Add code here to use ancestors in json.
+     // use pol.admin.hier as default = perspectives[0]
+     $ancestors = array_reverse($data->feature->perspectives[0]->ancestors);
+     foreach ($ancestors as $n => $ancestor) {
+       $children[$ancestor->id] = $ancestor->header;
+     }
    }
    return $children;
 }

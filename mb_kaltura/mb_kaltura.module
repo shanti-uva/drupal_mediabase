@@ -206,7 +206,7 @@ function mb_kaltura_video_tag($entry_id) {
    
    $html5_sources = array();
    foreach ($flavors as $flavor) {
-		  if($flavor->isWeb && $flavor->bitrate > 0) {
+		  if(($flavor->isWeb || in_array( $flavor->fileExt, array('webm', 'ogg'))) && $flavor->bitrate > 0) {
         $location = $client->flavorAsset->getDownloadUrl($flavor->id);
         $html5_sources[] = (object)array(
             'type' => $flavor->fileExt,

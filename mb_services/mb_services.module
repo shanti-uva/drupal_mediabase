@@ -4,7 +4,7 @@
  */
 
  define('MB_SOLR_ITEMS_PER_PAGE', 50); 
- 
+ define('KMAP_SERVICE', "http://subjects.kmaps.virginia.edu/features/");
  
 /*
  * Implements hook_menu. 
@@ -14,10 +14,12 @@
  * URLs Defined:
  *    services/coll/%{id} : calls mb_services_collection. takes a collection alias (e.g., mediabase-test-collection) and 
  *                          returns a JSON object representing that collection
+ * 
+ *    services/subject/%{kmapid} : Returns all videos tagged with a specific KMap id
  */
 function mb_services_menu() {
   $items = array();
-  // Return SHIVA jsaon of a single node (page 1)
+  // Return jsaon of a single node (page 1)
   $items['services/coll/%'] = array(
     'title' => 'JSON output of Mediabase Data',
     'description' => 'Return the JSON description for Mediabase items',
@@ -25,12 +27,21 @@ function mb_services_menu() {
     'page arguments' => array(2),
     'access callback' => TRUE,
   );
-  // Return SHIVA jsaon of a single node (subsequent pages)
+  // Return json of a single node (subsequent pages)
   $items['services/coll/%/%'] = array(
     'title' => 'JSON output of Mediabase Data',
     'description' => 'Return the JSON description for Mediabase items',
     'page callback' => 'mb_services_collection',
     'page arguments' => array(2, 3),
+    'access callback' => TRUE,
+  );
+  
+  // Return JSON containing a list of a/v nodes tagged with given Kmap ID
+  $items['services/subject/%'] = array(
+    'title' => 'JSON output of Mediabase Nodes by Kmap ID',
+    'description' => 'Return the JSON description for Mediabase nodes that are tagged with a given Kmap ID',
+    'page callback' => 'mb_services_subject',
+    'page arguments' => array(2),
     'access callback' => TRUE,
   );
   return $items;
@@ -92,3 +103,95 @@ function mb_services_collection($collid, $pg = 1) {
   $gout['items'] = $items;
   drupal_json_output($gout);
 }
+
+function mb_services_subject($kmid) {
+  // Load mb_kaltura include for its functions for calling kaltura
+  module_load_include('inc', 'mb_kaltura', 'mb_kaltura');
+  // Get array of this id and all its children ids
+  $kmids = mb_services_get_all_kmap_children($kmid);
+  // Use this array of Kmap Ids to find the corresponding Term Ids (tid) in the Kmap Taxonomy
+  $query = db_select("field_data_kmap_id", "km")
+            ->condition("km.kmap_id_value", $kmids, "IN")
+            ->condition("km.entity_type", "taxonomy_term")
+            ->fields("km", array("entity_id"))
+            ->execute();
+  $result = $query->fetchAll();
+  $tids = array();
+  // Create an array of tids
+  foreach($result as $term) {
+    array_push($tids, $term->entity_id);
+  }
+  // Use array of Term Ids to find all Nodes tagged with with any of them
+  $query = db_select("field_data_field_characteristic", "fdfc")
+            ->condition("fdfc.field_characteristic_tid", $tids, "IN")
+            ->fields("fdfc")
+            ->execute();
+  $results = $query->fetchAll();
+  $entities = array();
+  // Sift results for duplicates and create array keyed on eid
+  foreach($results as $result) {
+    if (!key_exists($result->entity_id, $entities)) {
+      $entities[$result->entity_id] = $result;
+    }
+  }
+  $n = 0;
+  $gout = array();
+  $items = array();
+  // For entities that are video or audio nodes output json
+  
+  /**
+   * $n = node_load(1754);
+dpm($n);
+$kid = $n->field_video['und'][0]['entryid'];
+dpm($kid);
+
+
+
+$media = _get_media_from_entry_id($kid);
+dpm($media);
+   */
+  foreach($entities as $eid => $entity) {
+    $type = $entity->bundle;
+    if($type == 'video' || $type == 'audio') {
+      $n++; 
+      $item = array();
+      $node = node_load($eid);
+      $item['nid'] = $eid;
+      $item['title'] = $node->title;
+      $item['type'] = $type;
+      $kid = $node->field_video['und'][0]['entryid'];
+      $item['kaltura_id'] = $kid;
+      $media = _get_media_from_entry_id($kid);
+      $item['thumbnail'] = $media->thumbnailUrl;
+      $item['video_url'] = $media->dataUrl;
+      $item['mb_url'] = url(drupal_get_path_alias('node/' . $eid), array('absolute' => 'true'));
+      array_push($items, $item);
+    }
+  }
+  $gout["items"] = $items;
+  $gout["total"] = $n;
+  drupal_json_output($gout);
+}
+
+/**
+ * Returns an array of the parent id and all children id for a kmap
+ */
+function mb_services_get_all_kmap_children($kmid) {
+  $url = KMAP_SERVICE . $kmid . '/all.json';
+  $jstr = file_get_contents($url);
+  $json = json_decode($jstr, TRUE);
+  
+  $kids = mb_services_process_features($json['feature']);
+  return $kids;
+}
+
+function mb_services_process_features($feature, $fids = array()) {
+  array_push($fids, $feature['id']);
+  if(isset($feature['features']) && is_array($feature['features'])) { 
+    foreach($feature['features'] as $f) {
+     $fids = mb_services_process_features($f, $fids);
+    }
+  }
+  return $fids;
+}
+

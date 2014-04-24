@@ -48,6 +48,8 @@ function mb_solr_apachesolr_search_page_alter(&$build, $search_page) {
   } 
   // Remove title from homepage
   if($search_page['page_id'] == 'homepage') {
+    //dpm($build, 'build');
+    //dpm($search_page, 'page');
     drupal_set_title('');
   }
 }
@@ -67,12 +69,15 @@ function mb_solr_apachesolr_search_page_alter(&$build, $search_page) {
 function mb_solr_apachesolr_query_alter($query) {
    $path = $query->getPath(); // only alter query for collection pages. Solr re-indexing page urls begin with collection
    if ($path == "homepage/") {
+     $query->setSolrsort('ds_created', 'desc'); // sort by date created so there can be pagination
      // Random Sort filter
+     /*
      $seed = rand(0, 9999);
      $sort_name = "random_$seed";
      $order = (rand(0, 1) == 0) ? 'asc' : 'desc';
      $query->setAvailableSort($sort_name, array('title'=> 'random', 'default' => 'asc'));
      $query->setSolrsort($sort_name, $order); 
+      */
    }
    if (preg_match("/^collection\//",$path) && !preg_match("/admin\/config/", $path))  {
     // Collection id (gid) filter
@@ -100,13 +105,16 @@ function mb_solr_apachesolr_query_alter($query) {
      }
      
      $gid_filters = $query->getFilters('im_collection_gid');
-
-     // Random Sort filter
+     
+     $query->setSolrsort('ds_created', 'desc'); // sort by date created so there can be pagination
+     /*
+      * // Random Sort filter
      $seed = rand(0, 9999);
      $sort_name = "random_$seed";
      $order = (rand(0, 1) == 0) ? 'asc' : 'desc';
      $query->setAvailableSort($sort_name, array('title'=> 'random', 'default' => 'asc'));
-     $query->setSolrsort($sort_name, $order); 
+     $query->setSolrsort($sort_name, $order);
+      */ 
     
    }
 }
@@ -159,12 +167,6 @@ function mb_solr_theme($existing) {
      'search_results__apachesolr_search__homepage' => array(
          'variables' => array('search_results' => NULL, 'module' => array()),
          ),
-      /*'search_result__apachesolr_search__node__video' => array(
-         'variables' => array('search_result' => NULL, 'module' => array()),
-         ),
-      'search_result__apachesolr_search__node__audio' => array(
-         'variables' => array('search_result' => NULL, 'module' => array()),
-         ),*/
      );
 }
 
@@ -182,6 +184,7 @@ function theme_search_results__apachesolr_search__collection_home(&$vars) {
   foreach ($vars['results'] as $k => $v) {
     $output .=  mb_solr_make_teaser($v, $coll);
   }
+  $output .= $vars['pager'];
   return $output;
 }
 
@@ -195,6 +198,7 @@ function theme_search_results__apachesolr_search__homepage(&$vars) {
   foreach ($vars['results'] as $k => $v) {
     $output .=  mb_solr_make_teaser($v, $coll);
   }
+  $output .= $vars['pager'];
   return $output;
 }
 /**
@@ -202,7 +206,7 @@ function theme_search_results__apachesolr_search__homepage(&$vars) {
  *    (Note: check to see how the home page creates its teasers for a function that might return the bulk of the markup)
  */
 function mb_solr_make_teaser($v, $coll) {
-  $thumb_url = (isset($v['thumb_url'])) ? $v['thumb_url'] : '';
+  $thumb_url = (isset($v['thumb_url'])) ? $v['thumb_url'] : url(drupal_get_path('module', 'mediabase'), array('absolute' => true)) . '/images/generic-video-thumb.jpg';
 
   return '
   <div class="views-row mb-thumbnail-grid-row">

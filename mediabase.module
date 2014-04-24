@@ -11,7 +11,7 @@ function mediabase_init() {
           'path' => $path,
           'kmapServer' => variable_get('kmap_server', 'http://subjects.kmaps.virginia.edu') . '/',
           'placeServer' => variable_get('place_server', 'http://places.kmaps.virginia.edu') . '/',
-        )), 'setting' );  
+        )), 'setting' ); 
 }
 
 function mediabase_permission() {

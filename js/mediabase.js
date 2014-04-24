@@ -5,6 +5,7 @@ Drupal.behaviors.mediabase={attach:function(context){
    siteSearch.addClass('active');
    addToggleToSearchForm( transcriptSearch);
    addToggleToSearchForm( siteSearch);
+   replaceBrokenImages();
    
    function addToggleToSearchForm( searchForm ) {
       var toggleBlock = jQuery('<p class="search-toggle-box"/>');
@@ -83,4 +84,18 @@ Drupal.behaviors.mediabase={attach:function(context){
          transcriptSearch.find('.search-toggle-box').removeClass('visible');
       }
    }
+   
+   // On image error in thumbnail div, use the default blank thumbnail image
+   function replaceBrokenImages() {
+     jQuery('.kaltura-thumb img').error(function() {
+       var mysrc = jQuery(this).attr('src');
+       var url = window.location.protocol + "//" + window.location.host;
+       url += Drupal.settings.basePath + Drupal.settings.mediabase.path;
+       url += '/images/generic-video-thumb.jpg';
+       if(url != mysrc) { 
+         jQuery(this).attr('src', url);
+       }
+     });
+   }
+   
 }};

@@ -19,7 +19,8 @@
  */
 function mb_services_menu() {
   $items = array();
-  // Return jsaon of a single node (page 1)
+  /** Old code from Travis. This module was not enabled. Commenting out until needed (ndg, 2014-04-24)
+  // Return json of a single collection (page 1)
   $items['services/coll/%'] = array(
     'title' => 'JSON output of Mediabase Data',
     'description' => 'Return the JSON description for Mediabase items',
@@ -35,7 +36,7 @@ function mb_services_menu() {
     'page arguments' => array(2, 3),
     'access callback' => TRUE,
   );
-  
+  */
   // Return JSON containing a list of a/v nodes tagged with given Kmap ID
   $items['services/subject/%'] = array(
     'title' => 'JSON output of Mediabase Nodes by Kmap ID',
@@ -122,12 +123,25 @@ function mb_services_subject($kmid) {
     array_push($tids, $term->entity_id);
   }
   // Use array of Term Ids to find all Nodes tagged with with any of them
+  $entities = array();
+  // Query the subjects field (characteristic)
   $query = db_select("field_data_field_characteristic", "fdfc")
             ->condition("fdfc.field_characteristic_tid", $tids, "IN")
             ->fields("fdfc")
             ->execute();
   $results = $query->fetchAll();
-  $entities = array();
+  // Sift results for duplicates and create array keyed on eid
+  foreach($results as $result) {
+    if (!key_exists($result->entity_id, $entities)) {
+      $entities[$result->entity_id] = $result;
+    }
+  }
+  // Query the subcollection fields
+  $query = db_select("field_data_field_subcollection", "fdfs")
+            ->condition("fdfs.field_subcollection_tid", $tids, "IN")
+            ->fields("fdfs")
+            ->execute();
+  $results = $query->fetchAll();
   // Sift results for duplicates and create array keyed on eid
   foreach($results as $result) {
     if (!key_exists($result->entity_id, $entities)) {
@@ -138,37 +152,29 @@ function mb_services_subject($kmid) {
   $gout = array();
   $items = array();
   // For entities that are video or audio nodes output json
-  
-  /**
-   * $n = node_load(1754);
-dpm($n);
-$kid = $n->field_video['und'][0]['entryid'];
-dpm($kid);
-
-
-
-$media = _get_media_from_entry_id($kid);
-dpm($media);
-   */
   foreach($entities as $eid => $entity) {
     $type = $entity->bundle;
     if($type == 'video' || $type == 'audio') {
       $n++; 
       $item = array();
       $node = node_load($eid);
-      $item['nid'] = $eid;
-      $item['title'] = $node->title;
-      $item['type'] = $type;
-      $kid = $node->field_video['und'][0]['entryid'];
-      $item['kaltura_id'] = $kid;
-      $media = _get_media_from_entry_id($kid);
-      $item['thumbnail'] = $media->thumbnailUrl;
-      $item['video_url'] = $media->dataUrl;
-      $item['mb_url'] = url(drupal_get_path_alias('node/' . $eid), array('absolute' => 'true'));
-      array_push($items, $item);
+      // Only output node info if it's public
+      if(node_access('view', $node, user_load(0))) {
+        $item['nid'] = $eid;
+        $item['title'] = $node->title;
+        $item['type'] = $type;
+        $kid = $node->field_video['und'][0]['entryid'];
+        // Retrieve and add Kaltura information
+        $item['kaltura_id'] = $kid;
+        $media = _get_media_from_entry_id($kid);
+        $item['thumbnail'] = $media->thumbnailUrl;
+        $item['video_url'] = $media->dataUrl;
+        $item['mb_url'] = url(drupal_get_path_alias('node/' . $eid), array('absolute' => 'true'));
+        array_push($items, $item);
+      }
     }
   }
-  $gout["items"] = $items;
+  $gout["media"] = $items;
   $gout["total"] = $n;
   drupal_json_output($gout);
 }

@@ -46,6 +46,10 @@ function mb_solr_apachesolr_search_page_alter(&$build, $search_page) {
     drupal_add_js('sites/all/modules/mediabase/mb_solr/js/mb_solr.js', array('cache' => FALSE));
     drupal_add_js('sites/all/modules/mediabase/mb_solr/js/jquery.jstree.js', array('cache' => FALSE));
   } 
+  // Remove title from homepage
+  if($search_page['page_id'] == 'homepage') {
+    drupal_set_title('');
+  }
 }
 
 
@@ -62,6 +66,14 @@ function mb_solr_apachesolr_search_page_alter(&$build, $search_page) {
  
 function mb_solr_apachesolr_query_alter($query) {
    $path = $query->getPath(); // only alter query for collection pages. Solr re-indexing page urls begin with collection
+   if ($path == "homepage/") {
+     // Random Sort filter
+     $seed = rand(0, 9999);
+     $sort_name = "random_$seed";
+     $order = (rand(0, 1) == 0) ? 'asc' : 'desc';
+     $query->setAvailableSort($sort_name, array('title'=> 'random', 'default' => 'asc'));
+     $query->setSolrsort($sort_name, $order); 
+   }
    if (preg_match("/^collection\//",$path) && !preg_match("/admin\/config/", $path))  {
     // Collection id (gid) filter
      $gid_filters = $query->getFilters('im_collection_gid');
@@ -107,7 +119,7 @@ function mb_solr_apachesolr_query_alter($query) {
 **/
 function mb_solr_apachesolr_process_results(&$results, DrupalSolrQueryInterface $query) {
    $path = $query->getPath();
-   if (preg_match("/^collection\//",$path) && !preg_match("/admin\/config/", $path))  {
+   if ($path == "homepage/" || (preg_match("/^collection\//",$path) && !preg_match("/admin\/config/", $path)))  {
      foreach ( $results as $idx => $item ) {
         $bundle = $item['bundle'];
         $media_field_table = "field_data_field_$bundle";
@@ -144,6 +156,9 @@ function mb_solr_theme($existing) {
      'search_results__apachesolr_search__collection_home' => array(
          'variables' => array('search_results' => NULL, 'module' => array()),
          ),
+     'search_results__apachesolr_search__homepage' => array(
+         'variables' => array('search_results' => NULL, 'module' => array()),
+         ),
       /*'search_result__apachesolr_search__node__video' => array(
          'variables' => array('search_result' => NULL, 'module' => array()),
          ),
@@ -170,11 +185,25 @@ function theme_search_results__apachesolr_search__collection_home(&$vars) {
   return $output;
 }
 
+function theme_search_results__apachesolr_search__homepage(&$vars) {
+  global $base_path;
+  $output = '';
+  $nid = $vars['results'][0]['fields']['entity_id'];
+  $node = node_load($nid);
+  $coll = get_collection_ancestor_node($node);
+  $coll = '<a href="'. $base_path . drupal_get_path_alias('node/' . $coll->nid) . '">' .  $coll->title . '</a>';
+  foreach ($vars['results'] as $k => $v) {
+    $output .=  mb_solr_make_teaser($v, $coll);
+  }
+  return $output;
+}
 /**
  *  Function called by theming function above to create the markup for a a/v "teaser" in the standard Mediabase model from the home page.
  *    (Note: check to see how the home page creates its teasers for a function that might return the bulk of the markup)
  */
 function mb_solr_make_teaser($v, $coll) {
+  $thumb_url = (isset($v['thumb_url'])) ? $v['thumb_url'] : '';
+
   return '
   <div class="views-row mb-thumbnail-grid-row">
     <div class="views-field views-field-field-audio">       
@@ -184,7 +213,7 @@ function mb_solr_make_teaser($v, $coll) {
       <div class="field-content"><a href="' . $v['link'] . '" 
         class="views-ajax-processed-processed"><span class="play-icon-overlay"></span>
         <div class="kaltura"><div class="kaltura-thumb"><img title="Where Did You Go?: The Chapter 07 Dialog from" alt="" 
-          src="' . $v['thumb_url'] . '" 
+          src="' . $thumb_url . '" 
           typeof="foaf:Image" class="k-no-rotate"></div></div></a></div>  </div>  
         <div class="views-field views-field-title">        
           <span class="field-content"><a href="' . $v['link'] . '" 

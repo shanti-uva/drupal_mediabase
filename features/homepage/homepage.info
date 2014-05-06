@@ -1,5 +1,5 @@
 name = Homepage
-description = Solr Homepage for Mediabas
+description = Solr Homepage for Mediabase
 core = 7.x
 package = Mediabase
 version = 7.x-1.0

@@ -167,6 +167,11 @@ function mb_solr_theme($existing) {
      'search_results__apachesolr_search__homepage' => array(
          'variables' => array('search_results' => NULL, 'module' => array()),
          ),
+      'mediabase_thumbnail' => array(
+        'template' => 'mediabase_thumbnail',
+        'path' => drupal_get_path('module', 'mediabase') . '/templates',
+        'variables' => array('entity' => NULL, 'coll' => NULL,),
+        ),
      );
 }  
 
@@ -176,59 +181,46 @@ function mb_solr_theme($existing) {
  */
 function theme_search_results__apachesolr_search__collection_home(&$vars) {
   global $base_path;
-  $output = '';
+  $output = '<div class="shanti-gallery">';
   $nid = $vars['results'][0]['fields']['entity_id'];
   $node = node_load($nid);
   $coll = get_collection_ancestor_node($node);
-  $coll = '<a href="'. $base_path . drupal_get_path_alias('node/' . $coll->nid) . '">' .  $coll->title . '</a>';
+  if($coll) {
+      $coll->url = $base_path . drupal_get_path_alias('node/' . $coll->nid);
+  }
   foreach ($vars['results'] as $k => $v) {
     $output .=  mb_solr_make_teaser($v, $coll);
   }
-  $output .= $vars['pager'];
+  $output .= '</div>' . $vars['pager'];
   return $output;
 }
 
 function theme_search_results__apachesolr_search__homepage(&$vars) {
   global $base_path;
-  $output = '';
+  drupal_set_breadcrumb(array(l('','home')));
+  $output = '<div class="shanti-gallery">';
   $nid = $vars['results'][0]['fields']['entity_id'];
   $node = node_load($nid);
   $coll = get_collection_ancestor_node($node);
-  $coll = '<a href="'. $base_path . drupal_get_path_alias('node/' . $coll->nid) . '">' .  $coll->title . '</a>';
-  foreach ($vars['results'] as $k => $v) {
-    $output .=  mb_solr_make_teaser($v, $coll);
+  if($coll) {
+      $coll->url = $base_path . drupal_get_path_alias('node/' . $coll->nid);
   }
-  $output .= $vars['pager'];
+  foreach ($vars['results'] as $k => $e) {
+    $output .=  mb_solr_make_teaser($e, $coll);
+  }
+  $output .= '</div>' . $vars['pager'];
   return $output;
 }
+
 /**
  *  Function called by theming function above to create the markup for a a/v "teaser" in the standard Mediabase model from the home page.
  *    (Note: check to see how the home page creates its teasers for a function that might return the bulk of the markup)
  */
-function mb_solr_make_teaser($v, $coll) {
-  $thumb_url = (isset($v['thumb_url'])) ? $v['thumb_url'] : url(drupal_get_path('module', 'mediabase'), array('absolute' => true)) . '/images/generic-video-thumb.jpg';
-
-  return '
-  <div class="views-row mb-thumbnail-grid-row">
-    <div class="views-field views-field-field-audio">       
-      <div class="field-content"></div>  
-    </div>  
-    <div class="views-field views-field-field-video">        
-      <div class="field-content"><a href="' . $v['link'] . '" 
-        class="views-ajax-processed-processed"><span class="play-icon-overlay"></span>
-        <div class="kaltura"><div class="kaltura-thumb"><img title="Where Did You Go?: The Chapter 07 Dialog from" alt="" 
-          src="' . $thumb_url . '" 
-          typeof="foaf:Image" class="k-no-rotate"></div></div></a></div>  </div>  
-        <div class="views-field views-field-title">        
-          <span class="field-content"><a href="' . $v['link'] . '" 
-            class="views-ajax-processed-processed">' . $v['title'] . '</a></span>  </div>  
-          <div class="views-field views-field-created">    <span class="views-label views-label-created">Posted</span>    
-            <span class="field-content">' . date('M jS, Y', $v['fields']['created']) . '</span>  </div>  
-          <div class="views-field views-field-group-audience">    <span class="views-label views-label-group-audience">in </span>    
-          <div class="field-content"><a href="/collection/tibetan-and-himalayan-library" 
-            class="views-ajax-processed-processed">' . $coll . '</a></div>  
-    </div>  
-  </div>';
+function mb_solr_make_teaser($entity, $coll) {
+  $mbpath = drupal_get_path('module', 'mediabase');
+  $entity['thumb_url'] = (isset($entity['thumb_url'])) ? $entity['thumb_url'] : url($mbpath, array('absolute' => true)) . '/images/generic-video-thumb.jpg';
+  $html = theme('mediabase_thumbnail', array('entity' => $entity, 'coll' => $coll));
+  return $html;
 }
 
 /**

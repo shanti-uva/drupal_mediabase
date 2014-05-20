@@ -5,6 +5,21 @@
  * as well as facet hierarchies on both collection and non-search pages.
  *
  */
+ 
+ /**
+  * Implemente hook_menu
+  */
+function mb_solr_menu() {
+  $items = array();
+  // Return results of facet search in gallery form
+  $items['services/facet/%/%'] = array(
+    'title' => 'Facet search results',
+    'description' => 'Return raw HTML for mbase facet search results',
+    'page callback' => 'mb_solr_facet_search',
+    'page arguments' => array(2,3),
+    'access callback' => TRUE,
+  );
+}
 
 /**
  * Implements of hook_apachesolr_index_document_build
@@ -44,12 +59,10 @@ function mb_solr_apachesolr_search_page_alter(&$build, $search_page) {
   $jsscripts = drupal_add_js(NULL, NULL, NULL);
   if (!array_key_exists('sites/all/modules/mediabase/mb_solr/js/mb_solr.js', $jsscripts)) { 
     drupal_add_js('sites/all/modules/mediabase/mb_solr/js/mb_solr.js', array('cache' => FALSE));
-    drupal_add_js('sites/all/modules/mediabase/mb_solr/js/jquery.jstree.js', array('cache' => FALSE));
+    //drupal_add_js('sites/all/modules/mediabase/mb_solr/js/jquery.jstree.js', array('cache' => FALSE));
   } 
   // Remove title from homepage
   if($search_page['page_id'] == 'homepage') {
-    //dpm($build, 'build');
-    //dpm($search_page, 'page');
     drupal_set_title('');
   }
 }
@@ -248,7 +261,19 @@ function mb_solr_node_view($node, $view_mode, $langcode) {
     $cpage = apachesolr_search_custom_page('core_search');
   }
 }
+
+function mb_solr_facet_search($facetName, $fid) {
+  $solr = apachesolr_get_solr('solr');
+  $params = array(
+    'q' => "(bundle:(video OR audio)) (im_field_subcollection:119)",
+    'qt' => 'standard',
+    'start' => 0,
+  );
   
+  $query = new SolrBaseQuery('apachesolr', $solr, $params, '', '');
+  $results = apachesolr_do_query($query);
+}
+
 /*
  *  Implements hook_facetapi_widget: 
  *     Creates a widget option in the facet display page called 'Mediabase Select Tree' that calls the MBSolrFacetapiWidgetMbSolrTree class
@@ -310,9 +335,10 @@ class MbSolrFacetapiWidgetMbSolrTree extends FacetapiWidgetLinks {
     $elements = array(
       '#theme' => 'item_list',
       '#items' => $items,
+      'title' => 'mb-solr-facet-tree',
       '#attributes' => $this->build['#attributes'],
     );
-    /*dpm($elements, $this->getId());*/
+   //dpm($elements, $this->getId());
   }
   
   function buildListItems($build) {
@@ -321,7 +347,7 @@ class MbSolrFacetapiWidgetMbSolrTree extends FacetapiWidgetLinks {
     // Initializes links attributes, adds rel="nofollow" if configured.
     $attributes = ($settings['nofollow']) ? array('rel' => 'nofollow') : array();
     $attributes += array('class' => $this->getItemClasses());
-
+    
     // Builds rows.
     $items = array();
     foreach ($build as $value => $item) {
@@ -337,14 +363,17 @@ class MbSolrFacetapiWidgetMbSolrTree extends FacetapiWidgetLinks {
           'query' => $item['#query'],
         ),
       );
-
+      // Add facet name and ID to elements data
+      if(isset($item['#query']['f'][0])) {
+        $temp = explode(':', $item['#query']['f'][0]);
+        $fname = $temp[0];
+        $row['data-fname'] = $fname;
+        $row['data-fid'] = $item['#indexed_value'];
+      }
       // Adds the facetapi-zero-results class to items that have no results.
       if (!$item['#count']) {
         $variables['options']['attributes']['class'][] = 'facetapi-zero-results';
         // For facets with no results, make link new filter with that facet only
-        if(!isset($variables['options']['query']['f'])) {
-          //dpm($variables, 'f not set');
-        }
         $query = $variables['options']['query']['f'];
         $newquery = array_pop($query);
         $variables['options']['query']['f'] = array($newquery);
@@ -372,9 +401,8 @@ class MbSolrFacetapiWidgetMbSolrTree extends FacetapiWidgetLinks {
       // Gets theme hook, adds last minute classes.
       $class = ($item['#active']) ? 'facetapi-active' : 'facetapi-inactive';
       $variables['options']['attributes']['class'][] = $class;
-
       // Themes the link, adds row to items.
-      $row['data'] = theme($item['#theme'], $variables);
+      $row['data'] = theme($item['#theme'], $variables) ;
       $items[] = $row;
     }
     return $items;

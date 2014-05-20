@@ -45,6 +45,15 @@ function mb_services_menu() {
     'page arguments' => array(2),
     'access callback' => TRUE,
   );
+  // Return Embed code for audio or video
+  $items['services/embed/%'] = array(
+    'title' => 'Resource Embed Code',
+    'description' => 'Returns the HTML 5 embed code for a resource (a/v) player',
+    'page callback' => 'mb_services_embed',
+    'page arguments' => array(2),
+    'access callback' => TRUE,
+  );
+  
   return $items;
 }
 
@@ -105,6 +114,11 @@ function mb_services_collection($collid, $pg = 1) {
   drupal_json_output($gout);
 }
 
+/**
+ * mb_services_subjects: Returns JSON for all resources tagged with a certain kmap subject or subcollection
+ * 
+ * e.g.: http://mediabase.drupal-dev.shanti.virginia.edu/services/subject/302
+ */
 function mb_services_subject($kmid) {
   // Load mb_kaltura include for its functions for calling kaltura
   module_load_include('inc', 'mb_kaltura', 'mb_kaltura');
@@ -163,13 +177,14 @@ function mb_services_subject($kmid) {
         $item['nid'] = $eid;
         $item['title'] = $node->title;
         $item['type'] = $type;
-        $kid = $node->field_video['und'][0]['entryid'];
+        $kid = ($type == 'video') ? $node->field_video['und'][0]['entryid'] : $node->field_audio['und'][0]['entryid'];
         // Retrieve and add Kaltura information
         $item['kaltura_id'] = $kid;
         $media = _get_media_from_entry_id($kid);
         $item['thumbnail'] = $media->thumbnailUrl;
         $item['video_url'] = $media->dataUrl;
         $item['mb_url'] = url(drupal_get_path_alias('node/' . $eid), array('absolute' => 'true'));
+        
         array_push($items, $item);
       }
     }
@@ -177,6 +192,25 @@ function mb_services_subject($kmid) {
   $gout["media"] = $items;
   $gout["total"] = $n;
   drupal_json_output($gout);
+}
+
+/**
+ * mb_services_embed: returns html 5 player embed code for a given node id
+ * 
+ * e.g. http://mediabase.drupal-dev.shanti.virginia.edu/services/embed/1959
+ */
+function mb_services_embed($nid) {
+  $node = node_load($nid);
+  module_load_include('inc', 'mb_kaltura', 'mb_kaltura');
+  $kid = _get_entry_id_from_node($node);
+  $type = $node->type;
+  $out = array('embed' => '');
+  if($type == 'video') { 
+    $out['embed'] = mb_kaltura_video_tag($kid);
+  } elseif ($type == 'audio') { 
+    $out['embed'] = mb_kaltura_audio_tag($kid);
+  } 
+  drupal_json_output($out);
 }
 
 /**

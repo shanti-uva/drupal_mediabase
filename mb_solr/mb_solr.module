@@ -19,6 +19,7 @@ function mb_solr_menu() {
     'page arguments' => array(2,3),
     'access callback' => TRUE,
   );
+  return $items;
 }
 
 /**
@@ -262,16 +263,134 @@ function mb_solr_node_view($node, $view_mode, $langcode) {
   }
 }
 
-function mb_solr_facet_search($facetName, $fid) {
-  $solr = apachesolr_get_solr('solr');
-  $params = array(
-    'q' => "(bundle:(video OR audio)) (im_field_subcollection:119)",
-    'qt' => 'standard',
-    'start' => 0,
+/**
+ * API Function called through /services/facet/%/% returns JSON information for a facet filtered search
+ *  A call of clear/all will clear the facet search and return all results for the page
+ */
+function mb_solr_facet_search($facet_name, $fid, $pgname = "homepage", $collid = FALSE) {
+  // TODO: Need to make this work for collection search pages and Ajax as well
+  // Facet info
+  $searcher = 'apachesolr@solr';
+  $adapter = facetapi_adapter_load($searcher);
+  $facet = facetapi_facet_load($facet_name, $searcher);
+  $term = taxonomy_term_load($fid);
+  // Load Search page and search
+  $search_page = apachesolr_search_page_load('homepage');
+  $conditions = apachesolr_search_conditions_default($search_page);
+  $conditions['fq'][] = ($fid == 'clear') ? array() : array("$facet_name:$fid");
+  $keys = '';
+  $results = apachesolr_search_search_results($keys, $conditions, $search_page);
+  //dpm($search_page, 'search_page');
+  // Create HTML Array of results themed as thumbnails
+  $html = array(
+    '#prefix' => '<article><div class="region region-content"><div class="content">',
+    '#suffix' => '</div></div></article>',
   );
   
-  $query = new SolrBaseQuery('apachesolr', $solr, $params, '', '');
-  $results = apachesolr_do_query($query);
+  if($fid != 'clear') {
+    $html['h1'] = array(
+        '#markup' => t('<h3>Faceted Search on @TERM in @SCOPEs</h3>', array('@TERM' => $term->name, '@SCOPE' => $facet['label'])),
+    );
+  // If clearing a facet search add back in the block that belong on the page
+  } 
+  /* Doesn't work
+  else {
+    global $theme_key;
+    $all_regions = system_region_list($theme_key);
+    module_load_include('inc', 'block', 'block.admin');
+    $blocks = block_admin_display_prepare_blocks($theme_key);
+    dpm($blocks, 'before');
+    $blocks = array_filter($blocks, function ($item) use (&$data) {
+        return ($item['region'] == 'content' && (strpos($item['pages'], 'homepage')));
+    });
+    foreach($blocks as $n => $block) {
+      $html['blocks' . $n] = array(
+        '#markup' => render($block),
+      );
+    }
+    dpm(array($blocks, $html));
+  }
+   */
+  foreach($results as $key => $item) {
+    $node = node_load($item['node']->entity_id);
+    $coll = get_collection_ancestor_node($node);
+    //$coll = 'no coll';
+    $html['content']['#markup'] .= mb_solr_make_teaser($item, $coll);
+  }
+  $facet_data = mb_solr_get_facet_data($facet_name);
+  // TODO: need to theme the results into HTML output
+  $output = array(
+    'items' => $results,
+    'count' => count($results),
+    'facets' => $facet_data,
+    'html' => render($html),
+  );
+  drupal_json_output($output);
+}
+
+/**
+ * Get the facet data for a programmatic search from mb_solr_facet_search
+ * Called from the facet service function mb_solr_facet_search() to return json facet search data
+ */
+function mb_solr_get_facet_data($facet_name) {
+  // TODO: Check if this will work on collection page searches or if it always searches all.
+  $searcher = 'apachesolr@solr';
+  $adapter = facetapi_adapter_load($searcher);
+  $facet = facetapi_facet_load($facet_name, $searcher);
+  $adapter->processFacets();
+  $processor = $adapter->getProcessor($facet_name);
+  $facet = $adapter->getFacet($facet);
+  $realm = facetapi_realm_load('ajax');
+  $facet_build = $facet->build($realm, $processor);
+  $facet_build = $facet_build[$facet_name][$facet_name];
+  $facet_data = array();
+  mb_solr_process_facet_data($facet_name, $facet_build, $facet_data);
+  return $facet_data;
+}
+
+/**
+ * Iterate through facet results and process into easily readable data (filter out unnecessary fields)
+ */
+function mb_solr_process_facet_data($facet_name, $facet_data, &$info_out) {
+  if(isset($facet_data['#items'])) {
+    foreach($facet_data['#items'] as $key => $item) {
+      $info_out[] = array(
+        'facet' => $facet_name,
+        'fid' => $item['#indexed_value'],
+        'ftitle' => $item['#markup'],
+        'count' => $item['#count'],
+      );
+      if(is_array($item['#item_children']) && count($item['#item_children']) > 0) {
+        mb_solr_process_facet_data($facet_name, $item['#item_children'], $info_out);
+      }
+    } 
+  } else {
+    foreach($facet_data as $key => $item) {
+        $info_out[] = array(
+        'facet' => $facet_name,
+        'fid' => $item['#indexed_value'],
+        'ftitle' => $item['#markup'],
+        'count' => $item['#count'],
+      );
+      if(is_array($item['#item_children']) && count($item['#item_children']) > 0) {
+        mb_solr_process_facet_data($facet_name, $item['#item_children'], $info_out);
+      }
+    }
+  }
+}
+
+function mb_solr_facetapi_realm_info() {
+  return array(
+    'ajax' => array(
+      'label' => t('Ajax'),
+      'sortable' => FALSE,
+      'weight' => -10,
+      'default widget' => 'mb_solr_ajax_facets',
+      'element type' => 'links',
+      //'settings callback' => 'facetapi_block_realm_settings',
+      'description' => t('formatter for Ajax calls'),
+    ),
+  );
 }
 
 /*
@@ -284,6 +403,13 @@ function mb_solr_facetapi_widgets() {
       'handler' => array(
         'label' => t('Mediabase Select Tree'),
         'class' => 'MbSolrFacetapiWidgetMbSolrTree',
+        'query types' => array('term', 'date'),
+      ),
+    ),
+    'mb_solr_ajax_facets' => array(
+      'handler' => array(
+        'label' => t('Mediabase Ajax Facets'),
+        'class' => 'MbSolrFacetapiWidgetAjax',
         'query types' => array('term', 'date'),
       ),
     ),
@@ -328,17 +454,23 @@ class MbSolrFacetapiWidgetMbSolrTree extends FacetapiWidgetLinks {
     foreach($elements as $n => &$element) {
       $element['#path'] = current_path();
     }
-    //dpm($elements, 'elements');
+    // Hack to not show Collections root item at top of tree
+    // TODO: This should be generalized to see if Kmap Root Id field is used and if this TID matches that Kmaps TID. Then don't show.
+    if(isset($elements[4]) && $elements[4]['#markup'] == "Collections") {
+      $elements = $elements[4]['#item_children'];
+    }
     // Sets each item's theme hook, builds item list.
     $this->setThemeHooks($elements);
+    //dpm($elements, 'elements');
     $items = $this->buildListItems($elements);
+    
     $elements = array(
       '#theme' => 'item_list',
       '#items' => $items,
       'title' => 'mb-solr-facet-tree',
       '#attributes' => $this->build['#attributes'],
     );
-   //dpm($elements, $this->getId());
+    //dpm($elements);
   }
   
   function buildListItems($build) {
@@ -390,7 +522,7 @@ class MbSolrFacetapiWidgetMbSolrTree extends FacetapiWidgetLinks {
         // If the item is active or the "show_expanded" setting is selected,
         // show this item as expanded so we see its children.
         if ($item['#active'] || !empty($settings['show_expanded'])) {
-          $row['class'][] = 'expanded';
+          //$row['class'][] = 'expanded';  // ignore expanded for use with fancy tree
           $row['children'] = $this->buildListItems($item['#item_children']);
         }
         else {
@@ -409,4 +541,28 @@ class MbSolrFacetapiWidgetMbSolrTree extends FacetapiWidgetLinks {
   }
 }
 
+class MbSolrFacetapiWidgetAjax extends FacetapiWidgetLinks {
+   /**
+    * Modifies the standard facet tree by changing the path from the standard search path to the collection or current path
+    */
+  public function execute() {
+    $elements = &$this->build[$this->facet['field alias']];
+    foreach($elements as $n => &$element) {
+      $element['#path'] = current_path();
+    }
+    $items = $this->buildListItems($elements);
+    $elements = array(
+      '#items' => $items,
+    );
+  }
+  
+  function buildListItems($build) {
+    $items = array();
+    foreach ($build as $value => $item) {
+      
+      $items[$value] = $item;
+    }
+    return $items;
+  }
+}
 

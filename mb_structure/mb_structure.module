@@ -604,7 +604,7 @@ function mb_structure_breadcrumb_items_collection_team($node) {
 function mb_structure_breadcrumb_items_audio_video($node) {
    $coll_team_group = og_get_group('group', $node->group_audience[LANGUAGE_NONE][0]['gid']);
    $coll_team_node = node_load($coll_team_group->etid);
-
+   
    if ($coll_team_node->type == 'team'  ) {
       $coll_crumb = mb_structure_breadcrumb_items_collection_team($coll_team_node);
       $team_crumb = array(

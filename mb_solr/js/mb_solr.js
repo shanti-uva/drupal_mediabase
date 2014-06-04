@@ -1,9 +1,8 @@
 //  ndg8f 2013-11-14
 Drupal.behaviors.mb_solr={ attach:function(context) {
-	//makeTree();
+	makeTree();
  
- function makeTree() { 
- 	return;
+ function makeTree() { //return;
 		var div = jQuery('.facetapi-mb-solr-facet-tree').parent();
 		// remove drupal divs around children lists
 		jQuery(div).find('div.item-list ul').each(function(i) {

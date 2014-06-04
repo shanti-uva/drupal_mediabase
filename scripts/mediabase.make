@@ -17,8 +17,8 @@ projects[apachesolr][subdir] = "contrib"
 projects[apachesolr][download][revision] = "329c47373b1c97d9b0314dee7a6ce51b1afa963c"
 
 projects[apachesolr_views][version] = "1.0-beta2"
-projects[apachesolr_views][subdir] = "contrib"
 projects[apachesolr_views][patch][] = "https://drupal.org/files/use_arguments-1750952-13.patch"
+projects[apachesolr_views][subdir] = "contrib"
 
 projects[apachesolr_autocomplete][version] = "1.2"
 projects[apachesolr_autocomplete][subdir] = "contrib"
@@ -128,7 +128,7 @@ projects[og_views][subdir] = "contrib"
 projects[pagerer][version] = "1.0-beta2"
 projects[pagerer][subdir] = "contrib"
 
-projects[nice_menus][version] = "2.5"
+projects[nice_menus][version] = "2.1"
 projects[nice_menus][subdir] = "contrib"
 
 projects[panels][version] = "3.3"
@@ -177,7 +177,6 @@ projects[views][version] = "3.x-dev"
 projects[views][subdir] = "contrib"
 projects[views][download][type] = "git" 
 projects[views][download][revision] = "f7cb51aad6943973e22197d54d202453292d6a27"
-projects[views][patch][] = "https://drupal.org/files/issues/views-check_ui_dialog_overlay-1995892-4.patch"
 
 projects[views_bulk_operations][version] = "3.0-beta3"
 projects[views_bulk_operations][subdir] = "contrib"

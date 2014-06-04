@@ -19,6 +19,25 @@ function mb_solr_menu() {
     'page arguments' => array(2,3),
     'access callback' => TRUE,
   );
+  
+  // Return results of search in gallery form for Ajax calls
+  $items['services/ajaxsearch/%'] = array(
+    'title' => 'Ajax Search Results',
+    'description' => 'Return raw HTML of a search of particular type',
+    'page callback' => 'mb_solr_ajax_search',
+    'page arguments' => array(2,3),
+    'access callback' => TRUE,
+  );
+  
+  // Return all items tagged with a particular kmap id 
+  $items['services/kmaps/%'] = array(
+    'title' => 'Kmap search results',
+    'description' => 'Return json or xml for resources tagged with a kmap id',
+    'page callback' => 'mb_solr_kmap_search',
+    'page arguments' => array(2),
+    'access callback' => TRUE,
+  );
+  
   return $items;
 }
 
@@ -56,6 +75,7 @@ function mb_solr_apachesolr_index_document_build(ApacheSolrDocument $document, $
  * Implements hook_apachesolr_search_page_alter
  */
 function mb_solr_apachesolr_search_page_alter(&$build, $search_page) {
+  //dpm(array($build, $search_page));
   // add js for js tree on all pages so sub collection hierarchy can appear on non-search pages.
   $jsscripts = drupal_add_js(NULL, NULL, NULL);
   if (!array_key_exists('sites/all/modules/mediabase/mb_solr/js/mb_solr.js', $jsscripts)) { 
@@ -81,6 +101,7 @@ function mb_solr_apachesolr_search_page_alter(&$build, $search_page) {
  */
  
 function mb_solr_apachesolr_query_alter($query) {
+   //dpm($query->getParams());
    $path = $query->getPath(); // only alter query for collection pages. Solr re-indexing page urls begin with collection
    if ($path == "homepage/") {
      $query->setSolrsort('ds_created', 'desc'); // sort by date created so there can be pagination
@@ -140,6 +161,8 @@ function mb_solr_apachesolr_query_alter($query) {
 *     Add thumbnail url to the result items
 **/
 function mb_solr_apachesolr_process_results(&$results, DrupalSolrQueryInterface $query) {
+  //dpm((array) $query, 'query');
+  //dpm($results, 'results');
    $path = $query->getPath();
    if ($path == "homepage/" || (preg_match("/^collection\//",$path) && !preg_match("/admin\/config/", $path)))  {
      foreach ( $results as $idx => $item ) {
@@ -264,23 +287,61 @@ function mb_solr_node_view($node, $view_mode, $langcode) {
 }
 
 /**
+ * Function to return results of a search for Ajax calls
+ */
+function mb_solr_ajax_search($qstring, $page = 0, $type='all', $rows = 24) {
+  $args = array_slice(arg(), 2); // remove service/ajaxsearch from arguments
+  if(isset($arg[1])) { $page = $arg[1];}
+  if(isset($arg[2])) { $type = $arg[2];}
+  if(isset($arg[3])) { $rows = $arg[3];}
+  $fq = 'bundle:(tcu OR video OR audio)';
+  $solr = apachesolr_get_solr('solr');
+  $start = $page * $rows;
+  $params = array(
+    'q' => $qstring,
+    'rows' => $rows,
+    'start' => $start,
+    'fq' => 'bundle:tcu',
+   );
+  
+  $solrquery = apachesolr_drupal_query('ajaxquery', $params, '', '', $solr);
+  $tiers = transcripts_all_tiers();
+  $solrquery->addParams(array('fl' => $tiers));
+  dpm($solrquery->getParams());
+  $response = $solrquery->search();
+  
+  /*
+  $solrquery2 = clone $solrquery;
+  transcripts_apachesolr_query_alter($solrquery2); // for transcript searches
+  $response = $solrquery->search();
+  $response = $response->response;
+  $response2 = $solrquery2->search();
+  $response2 = $response2->response;
+  $total = $response->numFound + $response2->numFound;
+  */
+  dpm($response->response);
+  
+  return "<div>test2</div>";
+  
+  $solrquery = new SolrBaseQuery('apachesolr', $solr, $params, $solrsort, '');
+  $solrquery->page = $page;
+  list($final_query, $responseObj) = apachesolr_do_query($solrquery);
+  $response = $responseObj->response;
+  dpm(array((array)$final_query, $response));
+  return "<div>test</div>";
+}
+
+/**
  * API Function called through /services/facet/%/% returns JSON information for a facet filtered search
  *  A call of clear/all will clear the facet search and return all results for the page
  */
 function mb_solr_facet_search($facet_name, $fid, $pgname = "homepage", $collid = FALSE) {
   // TODO: Need to make this work for collection search pages and Ajax as well
-  // Facet info
-  $searcher = 'apachesolr@solr';
-  $adapter = facetapi_adapter_load($searcher);
-  $facet = facetapi_facet_load($facet_name, $searcher);
-  $term = taxonomy_term_load($fid);
-  // Load Search page and search
-  $search_page = apachesolr_search_page_load('homepage');
-  $conditions = apachesolr_search_conditions_default($search_page);
-  $conditions['fq'][] = ($fid == 'clear') ? array() : array("$facet_name:$fid");
-  $keys = '';
-  $results = apachesolr_search_search_results($keys, $conditions, $search_page);
-  //dpm($search_page, 'search_page');
+  
+  // Do Search and get Results
+  list($results, $term, $label) = mb_solr_do_facet_search($facet_name, $fid, $pgname);
+  $facet_data = mb_solr_get_facet_data($facet_name);
+
   // Create HTML Array of results themed as thumbnails
   $html = array(
     '#prefix' => '<article><div class="region region-content"><div class="content">',
@@ -289,35 +350,20 @@ function mb_solr_facet_search($facet_name, $fid, $pgname = "homepage", $collid =
   
   if($fid != 'clear') {
     $html['h1'] = array(
-        '#markup' => t('<h3>Faceted Search on @TERM in @SCOPEs</h3>', array('@TERM' => $term->name, '@SCOPE' => $facet['label'])),
+        '#markup' => t('<h3>Faceted Search on @TERM in @SCOPEs</h3>', array(
+            '@TERM' => $term, 
+            '@SCOPE' => $label,
+         )),
     );
-  // If clearing a facet search add back in the block that belong on the page
   } 
-  /* Doesn't work
-  else {
-    global $theme_key;
-    $all_regions = system_region_list($theme_key);
-    module_load_include('inc', 'block', 'block.admin');
-    $blocks = block_admin_display_prepare_blocks($theme_key);
-    dpm($blocks, 'before');
-    $blocks = array_filter($blocks, function ($item) use (&$data) {
-        return ($item['region'] == 'content' && (strpos($item['pages'], 'homepage')));
-    });
-    foreach($blocks as $n => $block) {
-      $html['blocks' . $n] = array(
-        '#markup' => render($block),
-      );
-    }
-    dpm(array($blocks, $html));
-  }
-   */
+
   foreach($results as $key => $item) {
     $node = node_load($item['node']->entity_id);
     $coll = get_collection_ancestor_node($node);
     //$coll = 'no coll';
     $html['content']['#markup'] .= mb_solr_make_teaser($item, $coll);
   }
-  $facet_data = mb_solr_get_facet_data($facet_name);
+  
   // TODO: need to theme the results into HTML output
   $output = array(
     'items' => $results,
@@ -326,6 +372,22 @@ function mb_solr_facet_search($facet_name, $fid, $pgname = "homepage", $collid =
     'html' => render($html),
   );
   drupal_json_output($output);
+}
+
+/**
+ * Perform a search for items tagged with a particular facet tag
+ */
+function mb_solr_do_facet_search($facet_name, $fid, $pgname = "homepage") {
+  $searcher = 'apachesolr@solr';
+  $adapter = facetapi_adapter_load($searcher);
+  $facet = facetapi_facet_load($facet_name, $searcher);
+  $term = taxonomy_term_load($fid);
+  // Load Search page and search
+  $search_page = apachesolr_search_page_load($pgname);
+  $conditions = apachesolr_search_conditions_default($search_page);
+  $conditions['fq'][] = array("$facet_name:$fid");
+  $results = apachesolr_search_search_results('', $conditions, $search_page);
+  return array($results, $term->name, $facet['label']);
 }
 
 /**
@@ -379,6 +441,56 @@ function mb_solr_process_facet_data($facet_name, $facet_data, &$info_out) {
   }
 }
 
+/**
+ * Called by hook_menu to return JSON or XML of items marked by a kmap id
+ */
+function mb_solr_kmap_search($kid = NULL) {
+  $mode = (strpos($kid, '.json') > -1) ? 'json':'xml';
+  $kid = str_replace('.xml','', $kid);
+  // Convert KMap Id into Taxonomy ID
+  $results = db_select('field_data_kmap_id', 'kid') 
+                ->fields('kid')
+                ->condition('entity_type','taxonomy_term')
+                ->condition('kmap_id_value',$kid)
+                ->execute();
+  $fields = $results->fetchAssoc();
+  if($fields) {
+    $tid = $fields['entity_id'];
+    // Search Subcollections field for taxonomy id
+    $results2 = db_select('field_data_field_subcollection','fs')
+                  ->fields('fs')
+                  ->condition('entity_type', 'node')
+                  ->condition('field_subcollection_tid', $tid)
+                  ->execute();
+    // If nothing found, search characteristic (subjects) field for TID
+    if($results2->rowCount() == 0) {
+      $results2 = db_select('field_data_field_characteristic','fc')
+                    ->fields('fc')
+                    ->condition('entity_type', 'node')
+                    ->condition('field_characteristic_tid', $tid)
+                    ->execute();
+    }
+    // Output the nodes
+    $docs = array();
+    module_load_include('inc', 'apachesolr', 'apachesolr.index');
+    foreach ($results2 as $item) {
+      $nid = $item->entity_id;
+      $node = node_load($nid);
+      $docs = array_merge($docs, apachesolr_convert_entity_to_documents($node, 'node', 'solr'));
+    }
+    $out = '<?xml version="1.0"?><add>';
+    foreach($docs as $n => $doc) {
+      $out .=  ApacheSolrDocument::documentToXml($doc);
+    }
+    $out .= '</add>';
+    drupal_add_http_header('Content-Type', 'text/xml');
+    print $out;
+  }
+}
+
+/**
+ * Implements hook_facteapi_realm_info. Adds a realm for Ajax calls to enable a widget that returns PHP object instead of markup
+ */
 function mb_solr_facetapi_realm_info() {
   return array(
     'ajax' => array(
@@ -470,6 +582,7 @@ class MbSolrFacetapiWidgetMbSolrTree extends FacetapiWidgetLinks {
       'title' => 'mb-solr-facet-tree',
       '#attributes' => $this->build['#attributes'],
     );
+    
     //dpm($elements);
   }
   
@@ -501,6 +614,7 @@ class MbSolrFacetapiWidgetMbSolrTree extends FacetapiWidgetLinks {
         $fname = $temp[0];
         $row['data-fname'] = $fname;
         $row['data-fid'] = $item['#indexed_value'];
+        $row['data-count'] = $item['#count'];
       }
       // Adds the facetapi-zero-results class to items that have no results.
       if (!$item['#count']) {

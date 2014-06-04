@@ -168,7 +168,7 @@ function mb_solr_theme($existing) {
          'variables' => array('search_results' => NULL, 'module' => array()),
          ),
      );
-}
+}  
 
 /**
  * Search results theming function just creates mark up for items in the collect

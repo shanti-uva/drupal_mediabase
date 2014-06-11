@@ -21,11 +21,11 @@ function mb_solr_menu() {
   );
   
   // Return results of search in gallery form for Ajax calls
-  $items['services/ajaxsearch/%'] = array(
+  $items['services/ajaxsearch'] = array(
     'title' => 'Ajax Search Results',
     'description' => 'Return raw HTML of a search of particular type',
     'page callback' => 'mb_solr_ajax_search',
-    'page arguments' => array(2,3),
+    'page arguments' => array(),
     'access callback' => TRUE,
   );
   
@@ -130,7 +130,6 @@ function mb_solr_apachesolr_query_alter($query) {
             drupal_not_found();
             module_invoke_all('exit');
             exit();
-            // continue;
           }
           $parts = explode('/', $node_path);
           $nid = array_pop( $parts );
@@ -161,10 +160,9 @@ function mb_solr_apachesolr_query_alter($query) {
 *     Add thumbnail url to the result items
 **/
 function mb_solr_apachesolr_process_results(&$results, DrupalSolrQueryInterface $query) {
-  //dpm((array) $query, 'query');
-  //dpm($results, 'results');
    $path = $query->getPath();
-   if ($path == "homepage/" || (preg_match("/^collection\//",$path) && !preg_match("/admin\/config/", $path)))  {
+   //if ($path == "homepage/" || (preg_match("/^collection\//",$path) && !preg_match("/admin\/config/", $path)))  {
+   if (!preg_match("/search\/transcripts/",$path) && !preg_match("/admin\/config/", $path))  {
      foreach ( $results as $idx => $item ) {
         $bundle = $item['bundle'];
         $media_field_table = "field_data_field_$bundle";
@@ -197,19 +195,24 @@ function mb_solr_apachesolr_process_results(&$results, DrupalSolrQueryInterface 
 */
 
 function mb_solr_theme($existing) {
-   return array(
-     'search_results__apachesolr_search__collection_home' => array(
-         'variables' => array('search_results' => NULL, 'module' => array()),
-         ),
-     'search_results__apachesolr_search__homepage' => array(
-         'variables' => array('search_results' => NULL, 'module' => array()),
-         ),
-      'mediabase_thumbnail' => array(
+ return array(
+   'search_results__apachesolr_search__collection_home' => array(
+        'variables' => array('search_results' => NULL, 'module' => array()),
+       ),
+   'search_results__apachesolr_search__homepage' => array(
+        'variables' => array('search_results' => NULL, 'module' => array()),
+       ),
+    'search_result__apachesolr_search' => array(
         'template' => 'mediabase_thumbnail',
         'path' => drupal_get_path('module', 'mediabase') . '/templates',
-        'variables' => array('entity' => NULL, 'coll' => NULL,),
-        ),
-     );
+        'variables' => array('result' => NULL, 'coll' => NULL),
+       ),
+    'mediabase_thumbnail' => array(
+        'template' => 'mediabase_thumbnail',
+        'path' => drupal_get_path('module', 'mediabase') . '/templates',
+        'variables' => array('result' => NULL, 'coll' => NULL),
+      ),
+   );
 }  
 
 /**
@@ -237,8 +240,7 @@ function theme_search_results__apachesolr_search__homepage(&$vars) {
   drupal_set_breadcrumb(array(l('','home')));
   $output = '<div class="shanti-gallery">';
   $nid = $vars['results'][0]['fields']['entity_id'];
-  $node = node_load($nid);
-  $coll = get_collection_ancestor_node($node);
+  $coll = get_collection_ancestor_node($nid);
   if($coll) {
       $coll->url = $base_path . drupal_get_path_alias('node/' . $coll->nid);
   }
@@ -252,11 +254,23 @@ function theme_search_results__apachesolr_search__homepage(&$vars) {
 /**
  *  Function called by theming function above to create the markup for a a/v "teaser" in the standard Mediabase model from the home page.
  *    (Note: check to see how the home page creates its teasers for a function that might return the bulk of the markup)
+ *    Params:
+ *      $entity: Search result entity such as node but not full node object
+ *      $coll: the colleciton object to which the entity belongs.
+ * 
  */
 function mb_solr_make_teaser($entity, $coll) {
-  $mbpath = drupal_get_path('module', 'mediabase');
-  $entity['thumb_url'] = (isset($entity['thumb_url'])) ? $entity['thumb_url'] : url($mbpath, array('absolute' => true)) . '/images/generic-video-thumb.jpg';
-  $html = theme('mediabase_thumbnail', array('entity' => $entity, 'coll' => $coll));
+  global $done;
+  $node = node_load($entity['fields']['entity_id']);
+  $entry_id = _get_entry_id_from_node($node);
+  if($node) {
+    $entity['thumb_url'] = mb_kaltura_get_thumbnail_url($entry_id, 360, 270);
+    
+  } else {
+    $mbpath = drupal_get_path('module', 'mediabase');
+    $entity['thumb_url'] = (isset($entity['thumb_url'])) ? $entity['thumb_url'] : url($mbpath, array('absolute' => true)) . '/images/generic-video-thumb.jpg';
+  }
+  $html = theme('mediabase_thumbnail', array('result' => $entity, 'coll' => $coll));
   return $html;
 }
 
@@ -289,46 +303,27 @@ function mb_solr_node_view($node, $view_mode, $langcode) {
 /**
  * Function to return results of a search for Ajax calls
  */
-function mb_solr_ajax_search($qstring, $page = 0, $type='all', $rows = 24) {
-  $args = array_slice(arg(), 2); // remove service/ajaxsearch from arguments
-  if(isset($arg[1])) { $page = $arg[1];}
-  if(isset($arg[2])) { $type = $arg[2];}
-  if(isset($arg[3])) { $rows = $arg[3];}
-  $fq = 'bundle:(tcu OR video OR audio)';
-  $solr = apachesolr_get_solr('solr');
-  $start = $page * $rows;
-  $params = array(
-    'q' => $qstring,
-    'rows' => $rows,
-    'start' => $start,
-    'fq' => 'bundle:tcu',
-   );
+function mb_solr_ajax_search() {
+  // Default Options
+  $options = array(
+    'query' => '',
+    'type' => 'core_search', // this is apachesolr page id: core_search = regular search, transcripts = search in transcripts
+  );
+  $options = array_merge($options, $_GET); // named parameters are the options, 2nd array gets precedence in a merge
   
-  $solrquery = apachesolr_drupal_query('ajaxquery', $params, '', '', $solr);
-  $tiers = transcripts_all_tiers();
-  $solrquery->addParams(array('fl' => $tiers));
-  dpm($solrquery->getParams());
-  $response = $solrquery->search();
-  
-  /*
-  $solrquery2 = clone $solrquery;
-  transcripts_apachesolr_query_alter($solrquery2); // for transcript searches
-  $response = $solrquery->search();
-  $response = $response->response;
-  $response2 = $solrquery2->search();
-  $response2 = $response2->response;
-  $total = $response->numFound + $response2->numFound;
-  */
-  dpm($response->response);
-  
-  return "<div>test2</div>";
-  
-  $solrquery = new SolrBaseQuery('apachesolr', $solr, $params, $solrsort, '');
-  $solrquery->page = $page;
-  list($final_query, $responseObj) = apachesolr_do_query($solrquery);
-  $response = $responseObj->response;
-  dpm(array((array)$final_query, $response));
-  return "<div>test</div>";
+  // TODO: create ability to search across both descriptions and transcripts  
+  // Load Apache Search Page Results for Query and Render
+  module_load_include('inc','apachesolr', 'apachesolr_search.pages');
+  $page = apachesolr_search_custom_page($options['type'], 'company');
+  $html = '<div id="ajax-search-results">' . render($page) . '</div>';
+  // Create out array of options plus html results
+  $out = $options;
+  $out['html'] = $html;
+  // Change Drupals standard q parameter to the relative path and remove from array
+  $out['path'] = $out['q'];
+  unset($out['q']);
+  // Output JSON
+  drupal_json_output($out);
 }
 
 /**
@@ -447,22 +442,25 @@ function mb_solr_process_facet_data($facet_name, $facet_data, &$info_out) {
 function mb_solr_kmap_search($kid = NULL) {
   $mode = (strpos($kid, '.json') > -1) ? 'json':'xml';
   $kid = str_replace('.xml','', $kid);
-  // Convert KMap Id into Taxonomy ID
+  $out = '<?xml version="1.0"?><add>'; // $out for outputting XML
+  // Search for Nodes that have $kid as KMap ID
+  // Convert $kid into Taxonomy ID
   $results = db_select('field_data_kmap_id', 'kid') 
                 ->fields('kid')
                 ->condition('entity_type','taxonomy_term')
                 ->condition('kmap_id_value',$kid)
                 ->execute();
   $fields = $results->fetchAssoc();
+  // If no fields, then no taxonomy ID for this Kid, meaning nothing in MB is tagged with it
   if($fields) {
     $tid = $fields['entity_id'];
-    // Search Subcollections field for taxonomy id
+    // Search Subcollections field for taxonomy id for this $kid
     $results2 = db_select('field_data_field_subcollection','fs')
                   ->fields('fs')
                   ->condition('entity_type', 'node')
                   ->condition('field_subcollection_tid', $tid)
                   ->execute();
-    // If nothing found, search characteristic (subjects) field for TID
+    // If nothing found, search characteristic (subjects) field for taxonomy ID
     if($results2->rowCount() == 0) {
       $results2 = db_select('field_data_field_characteristic','fc')
                     ->fields('fc')
@@ -470,22 +468,38 @@ function mb_solr_kmap_search($kid = NULL) {
                     ->condition('field_characteristic_tid', $tid)
                     ->execute();
     }
-    // Output the nodes
-    $docs = array();
-    module_load_include('inc', 'apachesolr', 'apachesolr.index');
-    foreach ($results2 as $item) {
-      $nid = $item->entity_id;
-      $node = node_load($nid);
-      $docs = array_merge($docs, apachesolr_convert_entity_to_documents($node, 'node', 'solr'));
+    // Output any nodes found
+    if($results2->rowCount() > 0) {
+      $docs = array(); // Array of ApacheSolrDocument documents for each node found.
+      // Using Apachesolr function convert nodes in list to ApacheSolrDocuments 
+      module_load_include('inc', 'apachesolr', 'apachesolr.index');
+      foreach ($results2 as $item) {
+        $nid = $item->entity_id;
+        $node = node_load($nid);
+        $docs = array_merge($docs, apachesolr_convert_entity_to_documents($node, 'node', 'solr'));
+      }
+  
+      // Convert TID associated with each node doc to Kmap IDs and add to Solr Doc for node
+      foreach($docs as $n => $doc) {
+        $tids = $doc->getField('tid');
+        foreach($tids['value'] as $n => $tid) {
+          $term = taxonomy_term_load($tid);
+          if(isset($term->kmap_id['und'][0]['value'])) {
+            $doc->addField('kmapid', $term->kmap_id['und'][0]['value']);
+          }
+        }
+        // Convert Solr Doc to XML and add to output string
+        $out .=  ApacheSolrDocument::documentToXml($doc);
+      }
+    } else {
+      $out .= '<!-- No Mediabase Records are Tagged with the KMap ID: ' . $kid . ' -->';
     }
-    $out = '<?xml version="1.0"?><add>';
-    foreach($docs as $n => $doc) {
-      $out .=  ApacheSolrDocument::documentToXml($doc);
-    }
-    $out .= '</add>';
-    drupal_add_http_header('Content-Type', 'text/xml');
-    print $out;
+  } else {
+    $out .= '<!-- No Mediabase Records are Tagged with the KMap ID: ' . $kid . ' -->';
   }
+  $out .= '</add>';
+  drupal_add_http_header('Content-Type', 'text/xml');
+  print $out;
 }
 
 /**

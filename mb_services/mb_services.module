@@ -124,6 +124,10 @@ function mb_services_subject($kmid) {
   module_load_include('inc', 'mb_kaltura', 'mb_kaltura');
   // Get array of this id and all its children ids
   $kmids = mb_services_get_all_kmap_children($kmid);
+  if(!$kmids) {
+    drupal_json_output(array( 'media' => array(), 'total' => 0, ));
+    return;
+  } 
   // Use this array of Kmap Ids to find the corresponding Term Ids (tid) in the Kmap Taxonomy
   $query = db_select("field_data_kmap_id", "km")
             ->condition("km.kmap_id_value", $kmids, "IN")
@@ -135,6 +139,10 @@ function mb_services_subject($kmid) {
   // Create an array of tids
   foreach($result as $term) {
     array_push($tids, $term->entity_id);
+  }
+  if(count($tids) == 0) {
+    drupal_json_output(array( 'media' => array(), 'total' => 0, ));
+    return;
   }
   // Use array of Term Ids to find all Nodes tagged with with any of them
   $entities = array();
@@ -218,11 +226,14 @@ function mb_services_embed($nid) {
  */
 function mb_services_get_all_kmap_children($kmid) {
   $url = KMAP_SERVICE . $kmid . '/all.json';
-  $jstr = file_get_contents($url);
-  $json = json_decode($jstr, TRUE);
-  
-  $kids = mb_services_process_features($json['feature']);
-  return $kids;
+  if($jstr = @file_get_contents($url)) {
+    $json = json_decode($jstr, TRUE);
+    $kids = mb_services_process_features($json['feature']);
+    return $kids;
+  } else {
+    return FALSE;
+  }
+ 
 }
 
 function mb_services_process_features($feature, $fids = array()) {

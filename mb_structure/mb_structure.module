@@ -487,6 +487,10 @@ function mb_update_node_kaltura_data($node) {
 }
 
 function get_collection_ancestor_node($node) {
+   if(is_integer($node)) {
+     $node = node_load($node);
+     if(!$node) { return null; }
+   }
    $collection_node = null;
    if ( $gids = og_get_entity_groups('node', $node) ) { 
       $gid = array_pop( $gids );

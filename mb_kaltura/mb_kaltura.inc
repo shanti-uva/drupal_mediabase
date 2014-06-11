@@ -257,9 +257,13 @@ function _get_cck_instantiation_field_data($node) {
 
 function _get_entry_id_from_node($node) {
    $node =  (object)$node;
-   $media_field_name = 'field_' . $node->type; //video, audio, image
-   $entry_id = $node->{$media_field_name}['und'][0]['entryid'];
-   return $entry_id;
+   if($node && isset($node->type)) { 
+     $media_field_name = 'field_' . $node->type; //video, audio, image
+     $entry_id = isset($node->{$media_field_name}['und']) ? $node->{$media_field_name}['und'][0]['entryid'] : FALSE; 
+     return $entry_id;
+   } else {
+     return FALSE;
+   }
 }
 
 function _get_media_from_entry_id($entry_id) {
@@ -1363,3 +1367,15 @@ function mb_upload_keepalive() {
    drupal_json_output();
    print json_encode('mediabase upload keep-alive ' . date(DATE_RFC822));
 }
+
+/**
+ * Function to retrieve thumbnail URL from Kaltura
+ *   entry_id : kaltura entry id 
+ *   width & height : are numeric
+ **/
+function mb_kaltura_get_thumbnail_url($entry_id, $width=240, $height=180) {
+   $kalturaHelpers = new KalturaHelpers();
+   $thumburl = $kalturaHelpers->getThumbnailUrl(NULL, $entry_id, $width, $height);
+   return $thumburl;
+}
+

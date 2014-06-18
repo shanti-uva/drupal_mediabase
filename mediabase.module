@@ -6,6 +6,7 @@
 
 function mediabase_init() {
    $path = drupal_get_path('module', 'mediabase');
+   drupal_add_css(drupal_get_path('module', 'mediabase') . '/css/mediabase.css');
    drupal_add_js( array( 
         'mediabase' => array( 
           'path' => $path,
@@ -126,4 +127,59 @@ function mediabase_node_form_cancel(&$form, &$form_state) {
 function mediabase_persistent_nid($nid) {
    $alias = drupal_lookup_path('alias', "node/$nid");
    drupal_goto($alias);
+}
+/**
+ * THEMING FUNCTIONS
+ */
+ 
+/**
+ * Implements hook_theme_registry_alter()
+ *    Taken from http://www.metachunk.com/blog/adding-module-path-drupal-7-theme-registry
+**/
+function mediabase_theme_registry_alter(&$theme_registry) {
+  $mod_path = drupal_get_path('module', 'mediabase');
+  $theme_registry_copy = $theme_registry;       // munge on a copy
+  _theme_process_registry($theme_registry_copy, 'phptemplate', 'theme_engine', 'shanti-sarvaka', $mod_path);
+  $theme_registry += array_diff_key($theme_registry_copy, $theme_registry);
+  $hooks = array('node');
+  foreach ($hooks as $h) {
+    _mediabase_insert_after_first_element($theme_registry[$h]['theme paths'], $mod_path);
+  }
+}
+
+/**
+ * Helper function for re-ordering arrays (needed by theme_registry_alter)
+ *    See mediabase_theme_registry_alter above for source.
+*/
+function _mediabase_insert_after_first_element(&$a, $element) {
+  if(is_array($a)) {
+    $first_element = array_shift($a);
+    array_unshift($a, $first_element, $element);
+  }
+}
+
+function mediabase_preprocess_node(&$variables) {
+  global $language;
+  $currentLanguage = (module_exists('locale') && isset($language->name)) ? $language->name : 'English';
+  if($variables['type'] == 'video') {
+    //dpm($variables, 'mb preprocess node variables');
+    // Process description from field_pbcore_description 
+    $variables['description'] = array(
+      'header' => array(
+        '#markup' => '<h3 class="node-desc">Video Overview</h3>',
+      ),
+    );
+    // Filter out none current language descriptions and add Desc type as subheaders
+    foreach($variables['elements']['field_pbcore_description']['#items'] as $n => $item) {
+      $field_entity = field_collection_field_get_entity($item);
+      if($field_entity->field_language['und'][0]['value'] == $currentLanguage) {
+        array_push($variables['description'], array(
+          '#type' => 'markup',
+          '#markup' => '<h4 class="node-desc-type">' . $field_entity->field_description_type['und'][0]['value'] . '</h4><p>' . $field_entity->field_description['und'][0]['value'] . '</p>',
+        ));
+      }
+    }
+    // Transcript URL
+    $variables['transcript_url'] = 'node/' . $variables['node']->nid . '/transcript';
+  }
 }

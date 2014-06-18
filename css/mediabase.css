@@ -1,0 +1,46 @@
+/* CSS styles for formatting mediabase nodes for the Shanti Sarvka theme */
+
+div.video-row {
+	margin-bottom: 18px; 
+}
+
+h3.node-desc {
+	text-transform: uppercase;
+	font-weight: bold;
+	font-size: 1em;
+}
+
+h4.node-desc-type {
+	text-transform: uppercase;
+	font-size: 0.8em;
+}
+
+button.play-transcript-btn {
+	color: #DDDDDD;
+	background-color: #565695; /*#4951be;*/
+	background-image: none;
+	width: 100%;
+	padding: 0px;
+}
+
+button.play-transcript-btn div.inline {
+	float: left;
+}
+
+button.play-transcript-btn div.btn-icon {
+	padding: 5%;
+	font-size: 150%;
+	font-weight: bold;
+	background-color:rgba(0, 0, 0, 0.2);
+}
+
+button.play-transcript-btn div.btn-icon i.icon:after {
+	font-weight: bold;
+}
+
+button.play-transcript-btn div.btn-text {
+	width: 150px;
+	margin-top: 4px;
+	opacity: 0.7;
+	text-align: center;
+}

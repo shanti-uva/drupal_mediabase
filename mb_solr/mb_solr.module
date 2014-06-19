@@ -345,7 +345,7 @@ function mb_solr_facet_search($facet_name, $fid, $pgname = "homepage", $collid =
   
   if($fid != 'clear') {
     $html['h1'] = array(
-        '#markup' => t('<h3>Faceted Search on @TERM in @SCOPEs</h3>', array(
+        '#markup' => t('<h3>@SCOPE: @TERM</h3>', array(
             '@TERM' => $term, 
             '@SCOPE' => $label,
          )),

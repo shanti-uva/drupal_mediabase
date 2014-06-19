@@ -172,6 +172,18 @@ function mb_kaltura_field_formatter_info() {
       );
 }
 
+/**
+ * Makes the get media from entry id function accessible sitewide without needing the include file
+ *    ndg8f, @014-06-18
+ */
+function mb_kaltura_get_media_info($kid = NULL) {
+  if($kid) {
+    module_load_include('inc', 'mb_kaltura', 'mb_kaltura');
+    return _get_media_from_entry_id($kid);
+  }
+  return FALSE;
+}
+
 function mb_kaltura_theme() {
    return array(
       'kaltura_player_html5_video' => array(

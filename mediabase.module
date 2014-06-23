@@ -170,15 +170,19 @@ function mediabase_preprocess_node(&$variables) {
       ),
     );
     // Filter out none current language descriptions and add Desc type as subheaders
-    foreach($variables['elements']['field_pbcore_description']['#items'] as $n => $item) {
-      $field_entity = field_collection_field_get_entity($item);
-      if($field_entity->field_language['und'][0]['value'] == $currentLanguage) {
-        array_push($variables['description'], array(
-          '#type' => 'markup',
-          '#markup' => '<h4 class="node-desc-type">' . $field_entity->field_description_type['und'][0]['value'] . '</h4><p>' . $field_entity->field_description['und'][0]['value'] . '</p>',
-        ));
+    if(isset($variables['elements']['field_pbcore_description']['#items'])) {
+      foreach($variables['elements']['field_pbcore_description']['#items'] as $n => $item) {
+        $field_entity = field_collection_field_get_entity($item);
+        if(isset($field_entity->field_language['und'][0]['value']) && $field_entity->field_language['und'][0]['value'] == $currentLanguage &&
+            isset($field_entity->field_description_type['und'][0]['value'])) {
+          array_push($variables['description'], array(
+            '#type' => 'markup',
+            '#markup' => '<h4 class="node-desc-type">' . $field_entity->field_description_type['und'][0]['value'] . '</h4><p>' . $field_entity->field_description['und'][0]['value'] . '</p>',
+          ));
+        }
       }
     }
+    
     // Transcript URL
     $variables['transcript_url'] = 'node/' . $variables['node']->nid . '/transcript';
   }

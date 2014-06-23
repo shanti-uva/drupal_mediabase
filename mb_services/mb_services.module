@@ -16,6 +16,8 @@
  *                          returns a JSON object representing that collection
  * 
  *    services/subject/%{kmapid} : Returns all videos tagged with a specific KMap id
+ * 
+ *  For services/kmap/% see the mb_solr module as this returns SOLR add docs.
  */
 function mb_services_menu() {
   $items = array();

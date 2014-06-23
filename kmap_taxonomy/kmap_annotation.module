@@ -22,6 +22,7 @@ function kmap_annotation_submit(&$form, &$form_state) {
 function insert_kmap_annotations(&$node) {
    module_load_include('inc', 'kmap_taxonomy', 'includes/kmap');
    foreach ($node->kmap_annotations as $field_name => $items) {
+     if(isset($items)) {
       foreach ($items as $kmap_id => $item) {
          $k = new Kmap($kmap_id);
          $tid = $k->get_term()->tid;
@@ -41,6 +42,7 @@ function insert_kmap_annotations(&$node) {
          }
          $fc->save();
       }
+     }
    }
 }
 

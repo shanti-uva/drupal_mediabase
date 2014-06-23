@@ -1,11 +1,14 @@
-Drupal.behaviors.mediabase={attach:function(context){
-
+Drupal.behaviors.mediabase={attach: function(context){
+	
+   replaceBrokenImages(); 
+   //mbCarouselInit();
+   
+	// Code to add transcript and description radiobuttons to search form
    var transcriptSearch = jQuery('#block-transcripts-transcript-search');
    var siteSearch = jQuery('#block-search-form');
    siteSearch.addClass('active');
    addToggleToSearchForm( transcriptSearch);
    addToggleToSearchForm( siteSearch);
-   replaceBrokenImages();
    
    function addToggleToSearchForm( searchForm ) {
       var toggleBlock = jQuery('<p class="search-toggle-box"/>');
@@ -97,5 +100,6 @@ Drupal.behaviors.mediabase={attach:function(context){
        }
      });
    }
+   
    
 }};

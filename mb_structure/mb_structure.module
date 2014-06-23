@@ -26,42 +26,66 @@ function mb_structure_block_info() {
       'visibility' => BLOCK_VISIBILITY_PHP,
       //'pages' => 'user_is_logged_in()'
       );
+   
+   $blocks['collections_list'] = array(
+      'info' => 'Collections List',
+      'custom' => FALSE,
+      'visibility' => BLOCK_VISIBILITY_NOTLISTED,
+      );
+      
+   $blocks['collections_carousel'] = array(
+      'info' => 'Collections Carousel',
+      'custom' => FALSE,
+      'visibility' => BLOCK_VISIBILITY_NOTLISTED,
+      );
    return $blocks;
 }
 
 function mb_structure_block_view($delta) {
    switch($delta) { 
-   case 'collection_detail':
-      $coll_det = t("Collection");
-      if ( $node = get_node_from_path() ) {
-         $team_det = t("Team");
-         $block_subj = "collection" == $node->type ? $coll_det : $team_det;
-      } else {
-         $block_subj = $coll_det;
-      }         
-      $block['subject'] = $block_subj;
-      $block['content'] = collection_block_details();
-      return $block;
-   case 'collection_media_listing':
-      $block['subject'] = t('Media');
-      $block['content'] = collection_media_listing();
-      return $block;
-      
-   case 'lets_get_started':
-      if(!user_is_logged_in()) { // is there a better way to do this?
-         return null; 
-      }
-      $block['subject'] = t('Create a collection');
-      $block['content'] = drupal_get_form('mb_structure_lets_get_started_form');
-      return $block;
-   case 'already_started':
-      $groups = mb_structure_get_groups_for_user();
-      if(!user_is_logged_in() || empty($groups) ) { // is there a better way to do this?
-         return null; 
-      }
-      $block['subject'] = t('Add to your collections');
-      $block['content'] = drupal_get_form('mb_structure_already_started_form');
-      return $block;
+     case 'collection_detail':
+        $coll_det = t("Collection");
+        if ( $node = get_node_from_path() ) {
+           $team_det = t("Team");
+           $block_subj = "collection" == $node->type ? $coll_det : $team_det;
+        } else {
+           $block_subj = $coll_det;
+        }         
+        $block['subject'] = $block_subj;
+        $block['content'] = collection_block_details();
+        return $block;
+        
+     case 'collection_media_listing':
+        $block['subject'] = t('Media');
+        $block['content'] = collection_media_listing();
+        return $block;
+        
+     case 'lets_get_started':
+        if(!user_is_logged_in()) { // is there a better way to do this?
+           return null; 
+        }
+        $block['subject'] = t('Create a collection');
+        $block['content'] = drupal_get_form('mb_structure_lets_get_started_form');
+        return $block;
+        
+     case 'already_started':
+        $groups = mb_structure_get_groups_for_user();
+        if(!user_is_logged_in() || empty($groups) ) { // is there a better way to do this?
+           return null; 
+        }
+        $block['subject'] = t('Add to your collections');
+        $block['content'] = drupal_get_form('mb_structure_already_started_form');
+        return $block;
+        
+     case 'collections_list':
+       //$block['subject'] = t('Collections');
+       $block['content'] = drupal_get_form('mb_structure_collections_list_form');
+       return $block;
+               
+     case 'collections_carousel':
+       $block['subject'] = t('Collections');
+       $block['content'] = mb_structure_collections_carousel();
+       return $block;
    }
 }
 
@@ -639,3 +663,63 @@ function mb_structure_breadcrumb_items_audio_video($node) {
    }
 }
 
+/**
+ * Creates a Bootstrap carousel for all collections
+ * 
+ * TODO: Create default image for collection and make image required for future ones. Make body required.
+ */
+function mb_structure_collections_carousel() {
+  $nodes = node_load_multiple(array(), array('type' => 'collection'));
+  /*'<div id="slider1_container" style="position: relative; top: 0px; left: 0px; width: 600px; height: 300px;">
+    <!-- Slides Container -->
+    <div u="slides" style="cursor: move; position: absolute; overflow: hidden; left: 0px; top: 0px; width: 600px; height: 300px;">
+        <div><img u="image" src="image1.jpg" /></div>
+        <div><img u="image" src="image2.jpg" /></div>
+    </div>
+</div>'*/
+  $markup = '<div id="carousel-mb-collections" class="carousel slide" data-ride="carousel" style="width: 500px;"><!-- Indicators --><ol class="carousel-indicators">';
+  //dpm($nodes);
+  $ct = -1;
+  foreach($nodes as $n => $node) {
+    $ct++;
+    $path = drupal_get_path_alias('node/' . $node->nid);
+    $class = ($ct==0) ? ' class="active"':'';
+    $markup .= '<li data-target="#carousel-mb-collections" data-slide-to="' . $ct . '"' . $class .'></li>';
+  }
+  $markup .= '</ol><!-- Wrapper for slides --> <div class="carousel-inner">';
+  $ct = 0;
+  foreach($nodes as $n => $node) {
+    $class = ($ct == 0) ? ' active':'';
+    $ct++;
+    $imgurl = (isset($node->field_images['und'][0]['uri'])) ? file_create_url($node->field_images['und'][0]['uri']) : '/sites/default/files/styles/large/public/outdoor_recitation_A2803_normal.jpg';
+    $summary = (isset($node->body['und'][0]['safe_summary'])) ? $node->body['und'][0]['safe_summary'] : '';
+    $markup .= '<div class="item' . $class . '"><img src="' . $imgurl . '" alt="' . $node->title . '"  style="width: 500px;"><div class="carousel-caption">' .
+      '<h3>' . $node->title . '</h3><p>' . $summary . '</p></div></div>';
+  }
+  $markup .= ' </div><!-- Controls --><a class="left carousel-control" href="#carousel-mb-collections" data-slide="prev">' .
+    '<span class="glyphicon glyphicon-chevron-left"></span></a><a class="right carousel-control" href="#carousel-mb-collections" ' .
+    'data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a></div>';
+  return $markup;
+}
+
+function mb_structure_collections_list_form() {
+  $form = array();
+  $nodes = node_load_multiple(array(), array('type' => 'collection'));
+  $markup = '
+    <div class="btn-group">
+    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+      Collections <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" role="menu">
+  ';
+  foreach($nodes as $n => $node) {
+    $path = drupal_get_path_alias('node/' . $node->nid);
+    $markup .= '<li><a href="' . url($path) . '">' . $node->title . '</a></li>';
+  }
+  $markup .= '</ul></div>';
+  $form['collections_list'] = array(
+    '#type' => 'markup',
+    '#markup' => $markup,
+  );
+  return $form;
+}

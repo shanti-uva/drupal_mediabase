@@ -70,6 +70,8 @@ function mb_services_node_load($nodes, $types) {
         $eid = _get_entry_id_from_node($node);
         $thumburl = mb_kaltura_get_thumbnail_url($eid);
         $node->thumbnail_url = $thumburl;
+        /*$pts = explode('/type/', $thumburl); // 
+        $node->thumbnail_url = $pts[0];*/
       }
     }
   }

@@ -114,19 +114,23 @@
       <!-- Info/Description row -->
       <div class="row">
         <div class="info col-sm-2">
-          <button type="button" class="btn btn-primary play-transcript-btn" href="<?php print $transcript_url; ?>">
+          <button type="button" class="row btn btn-primary btn-md btn-block play-transcript-btn" href="<?php print $transcript_url; ?>">
             <div class="inline btn-icon"><i class="icon shanticon-uniE04A"></i></div> 
-            <div class="inline btn-text">Play with <br/>Transcript</div></button></a>
+            <div class="inline btn-text">Play with <br/>Transcript</div>
+          </button>
+          <div class="row details">
+            <div class="date"><i class="shanticon shanticon-calendar"></i> <?php print $submitted ;  ?></div>
+          </div>
         </div>
-        <div class="desc col-sm-8">
+        <div class="desc col-sm-10">
           <?php print render($description); ?>
         </div>
-        <div class="col-sm-2"></div>
       </div>
-      <div
-      <?php
-        print render($content);
-      ?>
+      <div>
+        <?php
+          print render($content);
+        ?>
+      </div>
   </div>
 
   <?php print render($content['links']); ?>

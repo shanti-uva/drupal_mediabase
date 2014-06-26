@@ -104,7 +104,7 @@
       hide($content['comments']);
       hide($content['links']);
       // Description is compiled in mediabase_preprocess_node and contained in $description variable
-      hide($content['field_pbcore_description']);
+      // Not working hide($content['field_pbcore_description']);
     ?>
       <div class="row video-row">
         <div class="col-xs-12">
@@ -118,12 +118,16 @@
             <div class="inline btn-icon"><i class="icon shanticon-uniE04A"></i></div> 
             <div class="inline btn-text">Play with <br/>Transcript</div>
           </button>
-          <div class="row details">
-            <div class="date"><i class="shanticon shanticon-calendar"></i> <?php print $submitted ;  ?></div>
+          <div class="row date"><i class="shanticon shanticon-calendar"></i> <?php print $date ;  ?></div>
+          <div class="row duration"><i class="shanticon shanticon-hourglass"></i> <?php print $node->duration['formatted'];  ?></div>
+          <div class="row rating">
+            
+            <?php print render($content['field_rating']); ?>
           </div>
+          
         </div>
         <div class="desc col-sm-10">
-          <?php print render($description); ?>
+          <?php print render($content['field_pbcore_description']); ?>
         </div>
       </div>
       <div>

@@ -135,6 +135,7 @@ function mediabase_persistent_nid($nid) {
 /**
  * Implements hook_theme_registry_alter()
  *    Taken from http://www.metachunk.com/blog/adding-module-path-drupal-7-theme-registry
+ *    Adds mediabase/templates folder to theme paths
 **/
 function mediabase_theme_registry_alter(&$theme_registry) {
   $mod_path = drupal_get_path('module', 'mediabase');
@@ -158,32 +159,53 @@ function _mediabase_insert_after_first_element(&$a, $element) {
   }
 }
 
+/**
+ *   Implements hook_preprocess_node to add url for transcript
+ */
 function mediabase_preprocess_node(&$variables) {
-  global $language;
-  $currentLanguage = (module_exists('locale') && isset($language->name)) ? $language->name : 'English';
-  if($variables['type'] == 'video') {
-    //dpm($variables, 'mb preprocess node variables');
-    // Process description from field_pbcore_description 
-    $variables['description'] = array(
-      'header' => array(
-        '#markup' => '<h3 class="node-desc">Video Overview</h3>',
-      ),
-    );
-    // Filter out none current language descriptions and add Desc type as subheaders
-    if(isset($variables['elements']['field_pbcore_description']['#items'])) {
-      foreach($variables['elements']['field_pbcore_description']['#items'] as $n => $item) {
-        $field_entity = field_collection_field_get_entity($item);
-        if(isset($field_entity->field_language['und'][0]['value']) && $field_entity->field_language['und'][0]['value'] == $currentLanguage &&
-            isset($field_entity->field_description_type['und'][0]['value'])) {
-          array_push($variables['description'], array(
-            '#type' => 'markup',
-            '#markup' => '<h4 class="node-desc-type">' . $field_entity->field_description_type['und'][0]['value'] . '</h4><p>' . $field_entity->field_description['und'][0]['value'] . '</p>',
-          ));
+  $variables['transcript_url'] = 'node/' . $variables['node']->nid . '/transcript';
+}
+
+/**
+ * Implements hook_node_load adds fields to video and audio node info for api services and other things
+ * Fields added: thumbnail Url, duration[seconds, format]
+ */
+function mediabase_node_load($nodes, $types) {
+  if(in_array('audio', $types) || in_array('video', $types)) {
+    module_load_include('inc', 'mb_kaltura', 'mb_kaltura');
+    foreach($nodes as $node) {
+      if(in_array($node->type, array('audio', 'video'))) {
+        $eid = _get_entry_id_from_node($node);
+        $media = _get_media_from_entry_id($eid);
+        // Add thumnail URL
+        $thumburl = mb_kaltura_get_thumbnail_url($eid);
+        $node->thumbnail_url = $thumburl;
+        // Add duration
+        // TODO: Check I18N documentation for time strings to makes sure this is right below
+        $secs = $media->duration;
+        $mins = 0;
+        if($secs > 60) {
+          $mins = floor($secs/60);
+          $secs = $secs % 60;
         }
+        $hrs = 0;
+        if($mins > 60) {
+          $hrs = floor($m/60);
+          $mins = $mins % 60;
+        }
+        $durstr = ($hrs > 0) ? $hrs . t(" hr ") : "";
+        if($mins > 0) {
+          $durstr .= $mins . t(" min ");
+        }
+        if($secs > 0) {
+          $durstr .= $secs . t(" sec");
+        }
+        // Duration array consists of seconds (int) and formatted (str)
+        $node->duration = array(
+          'seconds' => $media->duration,
+          'formatted' => $durstr,
+        );
       }
     }
-    
-    // Transcript URL
-    $variables['transcript_url'] = 'node/' . $variables['node']->nid . '/transcript';
   }
-}
+} 

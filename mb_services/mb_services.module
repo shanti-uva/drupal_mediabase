@@ -59,23 +59,6 @@ function mb_services_menu() {
   return $items;
 }
 
-/**
- * Implements hook_node_load adds thumbnail urls to video and audio node info for api services and other things
- */
-function mb_services_node_load($nodes, $types) {
-  if(in_array('audio', $types) || in_array('video', $types)) {
-    module_load_include('inc', 'mb_kaltura', 'mb_kaltura');
-    foreach($nodes as $node) {
-      if(in_array($node->type, array('audio', 'video'))) {
-        $eid = _get_entry_id_from_node($node);
-        $thumburl = mb_kaltura_get_thumbnail_url($eid);
-        $node->thumbnail_url = $thumburl;
-        /*$pts = explode('/type/', $thumburl); // 
-        $node->thumbnail_url = $pts[0];*/
-      }
-    }
-  }
-} 
 /*
  * mb_services_collection: Takes a collection alias
  */

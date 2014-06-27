@@ -84,7 +84,7 @@ function mb_structure_block_view($delta) {
                
      case 'collections_carousel':
        $block['subject'] = t('Collections');
-       $block['content'] = mb_structure_collections_carousel();
+       $block['content'] = mb_structure_collections_carousel_block();
        return $block;
    }
 }
@@ -668,39 +668,68 @@ function mb_structure_breadcrumb_items_audio_video($node) {
  * 
  * TODO: Create default image for collection and make image required for future ones. Make body required.
  */
-function mb_structure_collections_carousel() {
+function mb_structure_collections_carousel_block() {
   $nodes = node_load_multiple(array(), array('type' => 'collection'));
-  /*'<div id="slider1_container" style="position: relative; top: 0px; left: 0px; width: 600px; height: 300px;">
-    <!-- Slides Container -->
-    <div u="slides" style="cursor: move; position: absolute; overflow: hidden; left: 0px; top: 0px; width: 600px; height: 300px;">
-        <div><img u="image" src="image1.jpg" /></div>
-        <div><img u="image" src="image2.jpg" /></div>
-    </div>
-</div>'*/
-  $markup = '<div id="carousel-mb-collections" class="carousel slide" data-ride="carousel" style="width: 500px;"><!-- Indicators --><ol class="carousel-indicators">';
+  $genimage = drupal_get_path('module', 'mediabase') . '/images/collections-generic.png';
+  $slides = array();
   //dpm($nodes);
-  $ct = -1;
-  foreach($nodes as $n => $node) {
-    $ct++;
-    $path = drupal_get_path_alias('node/' . $node->nid);
-    $class = ($ct==0) ? ' class="active"':'';
-    $markup .= '<li data-target="#carousel-mb-collections" data-slide-to="' . $ct . '"' . $class .'></li>';
+  foreach($nodes as $nid => $node) {            // nid = node id, not sequential but node number in Drupal
+      $n = array_search($nid,array_keys($nodes)); // n = array index: sequential number of item
+      // Get Author and Date Info
+      $usr = user_load_by_name($node->name);
+      $author = $usr->realname;
+      $date = date('F Y', $node->created);
+      // Get image
+      $imgurl = $genimage;
+      // use carousel image if it exists
+      if(isset($node->field_images['und'][0]['uri'])) {
+        $carouselimg = image_style_url('carousel_image', $node->field_images['und'][0]['uri']);
+        $imgurl = $carouselimg;
+       /* if(file_exists($carouselimg)) {
+          $imgurl = $carouselimg;
+        }*/
+      }
+      // Get Summary
+      $summary = (isset($node->body['und'][0]['safe_summary'])) ? $node->body['und'][0]['safe_summary'] : "";
+      if($summary == "" && isset($node->body['und'][0]['safe_value'])) {
+        $summary = $node->body['und'][0]['safe_value'];
+      }
+      
+      $slide = array(
+        'nid' => $nid,
+        'title' => $node->title,
+        'author' => $author,
+        'date' => $date,
+        'path' => drupal_get_path_alias('node/' . $nid),
+        'img' => $imgurl,
+        'summary' => $summary,
+      );
+      $slides[] = $slide;
   }
-  $markup .= '</ol><!-- Wrapper for slides --> <div class="carousel-inner">';
-  $ct = 0;
-  foreach($nodes as $n => $node) {
-    $class = ($ct == 0) ? ' active':'';
-    $ct++;
-    $imgurl = (isset($node->field_images['und'][0]['uri'])) ? file_create_url($node->field_images['und'][0]['uri']) : '/sites/default/files/styles/large/public/outdoor_recitation_A2803_normal.jpg';
-    $summary = (isset($node->body['und'][0]['safe_summary'])) ? $node->body['und'][0]['safe_summary'] : '';
-    $markup .= '<div class="item' . $class . '"><img src="' . $imgurl . '" alt="' . $node->title . '"  style="width: 500px;"><div class="carousel-caption">' .
-      '<h3>' . $node->title . '</h3><p>' . $summary . '</p></div></div>';
-  }
-  $markup .= ' </div><!-- Controls --><a class="left carousel-control" href="#carousel-mb-collections" data-slide="prev">' .
-    '<span class="glyphicon glyphicon-chevron-left"></span></a><a class="right carousel-control" href="#carousel-mb-collections" ' .
-    'data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a></div>';
-  return $markup;
+  $carousel = array(
+    'element' => array(
+      '#theme' => 'carousel',
+      '#children' => '',
+      'title' => t('Featured Collections'),
+      'link' => l(t('View All Collections +'), 'collections'),
+      'slides' => $slides,
+    ),
+  );
+  return drupal_render($carousel); 
 }
+
+/**
+ * Implements hook_theme().
+ */
+ /*
+function mb_structure_theme() {
+  $items = array(
+    'carousel' => array(
+      'render element' => 'element',
+    ),
+  );
+  return $items;
+}*/
 
 function mb_structure_collections_list_form() {
   $form = array();

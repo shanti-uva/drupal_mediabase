@@ -176,35 +176,42 @@ function mediabase_node_load($nodes, $types) {
     foreach($nodes as $node) {
       if(in_array($node->type, array('audio', 'video'))) {
         $eid = _get_entry_id_from_node($node);
-        $media = _get_media_from_entry_id($eid);
-        // Add thumnail URL
-        $thumburl = mb_kaltura_get_thumbnail_url($eid);
-        $node->thumbnail_url = $thumburl;
-        // Add duration
-        // TODO: Check I18N documentation for time strings to makes sure this is right below
-        $secs = $media->duration;
-        $mins = 0;
-        if($secs > 60) {
-          $mins = floor($secs/60);
-          $secs = $secs % 60;
+        if($eid) { 
+          $media = _get_media_from_entry_id($eid);
+          // Add thumnail URL
+          $thumburl = mb_kaltura_get_thumbnail_url($eid);
+          $node->thumbnail_url = $thumburl;
+          // Add duration
+          // TODO: Check I18N documentation for time strings to makes sure this is right below
+          $secs = $media->duration;
+          $mins = 0;
+          if($secs > 60) {
+            $mins = floor($secs/60);
+            $secs = $secs % 60;
+          }
+          $hrs = 0;
+          if($mins > 60) {
+            $hrs = floor($m/60);
+            $mins = $mins % 60;
+          }
+          $durstr = ($hrs > 0) ? $hrs . t(" hr ") : "";
+          if($mins > 0) {
+            $durstr .= $mins . t(" min ");
+          }
+          if($secs > 0) {
+            $durstr .= $secs . t(" sec");
+          }
+          // Duration array consists of seconds (int) and formatted (str)
+          $node->duration = array(
+            'seconds' => $media->duration,
+            'formatted' => $durstr,
+          );
+        } else {
+          //dpm(array($types, $node), 'no eid in kaltura');
+          $node->thumbnail_url = '';
+          $node->duration = array('seconds' =>'', 'formatted' => '');
+          watchdog('mediabase', 'No kaltura video found for node %nid', array('%nid' => $node->nid), WATCHDOG_WARNING);
         }
-        $hrs = 0;
-        if($mins > 60) {
-          $hrs = floor($m/60);
-          $mins = $mins % 60;
-        }
-        $durstr = ($hrs > 0) ? $hrs . t(" hr ") : "";
-        if($mins > 0) {
-          $durstr .= $mins . t(" min ");
-        }
-        if($secs > 0) {
-          $durstr .= $secs . t(" sec");
-        }
-        // Duration array consists of seconds (int) and formatted (str)
-        $node->duration = array(
-          'seconds' => $media->duration,
-          'formatted' => $durstr,
-        );
       }
     }
   }

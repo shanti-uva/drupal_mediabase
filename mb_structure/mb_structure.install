@@ -1,0 +1,18 @@
+<?php
+
+/**
+ *  Implements hook_update_n to add image style for carousels in carousel block
+ */
+function mb_structure_update_7000(&$sandbox) {
+  $style = image_style_save(array('name' => 'carousel_image', 'label' => 'Carousel Image'));
+  $effect = array(
+    'name' => 'image_scale_and_crop',
+    'data' => array(
+      'width' => 400,
+      'height' => 300,
+      'upscale' => TRUE,
+    ),
+    'isid' => $style['isid'],
+  );
+  image_effect_save($effect);  
+}

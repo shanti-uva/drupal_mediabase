@@ -191,7 +191,7 @@ function mediabase_node_load($nodes, $types) {
           }
           $hrs = 0;
           if($mins > 60) {
-            $hrs = floor($m/60);
+            $hrs = floor($mins/60);
             $mins = $mins % 60;
           }
           $durstr = ($hrs > 0) ? $hrs . t(" hr ") : "";

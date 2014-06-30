@@ -674,27 +674,38 @@ function mb_structure_collections_carousel_block() {
   $slides = array();
   //dpm($nodes);
   foreach($nodes as $nid => $node) {            // nid = node id, not sequential but node number in Drupal
-      $n = array_search($nid,array_keys($nodes)); // n = array index: sequential number of item
+    if($node->status == 1) { // TODO: Need to test that it is also public in OG
       // Get Author and Date Info
       $usr = user_load_by_name($node->name);
       $author = $usr->realname;
+      if($author == '') {
+        $author = $usr->name;
+        if($author == '') {
+          $author = 'Unknown User';
+        }
+      }
       $date = date('F Y', $node->created);
       // Get image
       $imgurl = $genimage;
       // use carousel image if it exists
       if(isset($node->field_images['und'][0]['uri'])) {
-        $carouselimg = image_style_url('carousel_image', $node->field_images['und'][0]['uri']);
-        $imgurl = $carouselimg;
-       /* if(file_exists($carouselimg)) {
-          $imgurl = $carouselimg;
-        }*/
+        $imgurl = image_style_url('carousel_image', $node->field_images['und'][0]['uri']);
       }
+      
       // Get Summary
-      $summary = (isset($node->body['und'][0]['safe_summary'])) ? $node->body['und'][0]['safe_summary'] : "";
+      $settings = array(
+          'type' => 'text_summary_or_trimmed',
+          'settings'=>array('trim_length' => 700),
+          'label' => 'hidden',
+       );
+      $summary = render(field_view_field('node', $node, 'body', $settings ));
+      
+      /*
+      (isset($node->body['und'][0]['safe_summary'])) ? $node->body['und'][0]['safe_summary'] : "";
       if($summary == "" && isset($node->body['und'][0]['safe_value'])) {
         $summary = $node->body['und'][0]['safe_value'];
       }
-      
+      */
       $slide = array(
         'nid' => $nid,
         'title' => $node->title,
@@ -705,6 +716,7 @@ function mb_structure_collections_carousel_block() {
         'summary' => $summary,
       );
       $slides[] = $slide;
+    }
   }
   $carousel = array(
     'element' => array(

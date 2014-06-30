@@ -631,35 +631,39 @@ function mb_structure_breadcrumb_items_collection_team($node) {
 
 function mb_structure_breadcrumb_items_audio_video($node) {
    $coll_team_group = og_get_group('group', $node->group_audience[LANGUAGE_NONE][0]['gid']);
-   $coll_team_node = node_load($coll_team_group->etid);
-
-   if ($coll_team_node->type == 'team'  ) {
-      $coll_crumb = mb_structure_breadcrumb_items_collection_team($coll_team_node);
-      $team_crumb = array(
-         'title' => $coll_team_node->title,
-         'href' => 'node/' . $coll_team_node->nid,
-         'link_path' => '',
-         'localized_options' => array(),
-         'type' => 0,
-         );
-      if (  mb_structure_is_team_super_user($coll_team_node)
-         ||  (og_is_member($coll_team_group->gid, 'user') || og_user_access($coll_team_group->gid, 'administer group'))
-      ) {
-      return array($coll_crumb, $team_crumb);
-      }
-      else {
-         return array($coll_crumb);         
-      }
-   }
-   else {
-      $coll_crumb = array(
-         'title' => $coll_team_node->title,
-         'href' => 'node/' . $coll_team_node->nid,
-         'link_path' => '',
-         'localized_options' => array(),
-         'type' => 0,
-         );
-      return array($coll_crumb);
+   if($coll_team_group) {
+     $coll_team_node = node_load($coll_team_group->etid); 
+     if ($coll_team_node->type == 'team'  ) {
+        $coll_crumb = mb_structure_breadcrumb_items_collection_team($coll_team_node);
+        $team_crumb = array(
+           'title' => $coll_team_node->title,
+           'href' => 'node/' . $coll_team_node->nid,
+           'link_path' => '',
+           'localized_options' => array(),
+           'type' => 0,
+           );
+        if (  mb_structure_is_team_super_user($coll_team_node)
+           ||  (og_is_member($coll_team_group->gid, 'user') || og_user_access($coll_team_group->gid, 'administer group'))
+        ) {
+        return array($coll_crumb, $team_crumb);
+        }
+        else {
+           return array($coll_crumb);         
+        }
+     }
+     else {
+        $coll_crumb = array(
+           'title' => $coll_team_node->title,
+           'href' => 'node/' . $coll_team_node->nid,
+           'link_path' => '',
+           'localized_options' => array(),
+           'type' => 0,
+           );
+        return array($coll_crumb);
+     }
+   } else {
+     drupal_set_message(t("Node @nid is not part of a collection or team", array('@nid' => $node->nid)), 'warning', FALSE);
+     return array();
    }
 }
 

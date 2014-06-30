@@ -1351,13 +1351,15 @@ function _report_kaltura_exception($e, $msg) {
    watchdog('mb_kaltura', t('Kaltura Exception: @message, backtrace: <pre>@trace</pre>'), array('@message' => $e->getMessage(), '@trace' => $e->getTrace()));
    $msg .= sprintf( "%s: %s %s <br/> %s %s", get_class($e), $e->getMessage(), $e->getCode(), $e->getFile(), $e->getLine());
    switch ( $e->getCode() ) {
-   case 'ENTRY_ID_NOT_FOUND' :
-      drupal_set_message( t('Entry not found on Kaltura server: @message', array('@message' => $e->getMessage())));
+    case 'ENTRY_ID_NOT_FOUND' :
+      drupal_set_message( t('Entry not found on Kaltura server: @message', array('@message' => $e->getMessage())), "error", FALSE);
+      drupal_set_message( $msg, "error", FALSE); 
       break ;
-      default :
+    default :
       drupal_set_message( $msg, "error" ); 
    }
 }
+
 /**
 * simple keepalive callback to allow browser to ping the drupal and keep session alive during long kaltura uploads 
 * which communicate with kaltura but not drupal .

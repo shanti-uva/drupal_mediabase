@@ -170,22 +170,31 @@ function mb_solr_apachesolr_process_results(&$results, DrupalSolrQueryInterface 
         $entity_id = $item['fields']['entity_id'];
         
         if ('video' == $bundle) {
-           $query = "SELECT kaltura_thumbnail_url
+           $query = "SELECT kaltura_thumbnail_url, kaltura_duration
            FROM {field_data_field_video} 
            JOIN {node_kaltura} ON field_video_entryid = kaltura_entryid
            WHERE entity_id = :etid";
         }
         else if ('audio' == $bundle) {
-           $query = "SELECT kaltura_thumbnail_url
+           $query = "SELECT kaltura_thumbnail_url, kaltura_duration
            FROM {field_data_field_audio} 
            JOIN {node_kaltura} ON field_audio_entryid = kaltura_entryid
            WHERE entity_id = :etid";
         }
         
         $res = db_query($query, array(':etid' => $entity_id) );
-        $col = $res->fetchCol();
-        $thumb_url = array_shift($col);
-        $results[$idx]['thumb_url'] = $thumb_url;
+        $qres = $res->fetchAll();
+        if(is_array($qres) && count($qres) > 0) {
+          $thumb_url = $qres[0]->kaltura_thumbnail_url;
+          $results[$idx]['thumb_url'] = $thumb_url;
+          $dur = $qres[0]->kaltura_duration;
+          if($dur && is_int($dur)) { 
+            $results[$idx]['duration'] = array(
+              'seconds' => $dur,
+              'formatted' => mediabase_format_duration($dur),
+            );
+          }
+        }
      }
    }
 }

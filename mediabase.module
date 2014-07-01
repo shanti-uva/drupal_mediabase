@@ -182,29 +182,10 @@ function mediabase_node_load($nodes, $types) {
           $thumburl = mb_kaltura_get_thumbnail_url($eid);
           $node->thumbnail_url = $thumburl;
           // Add duration
-          // TODO: Check I18N documentation for time strings to makes sure this is right below
-          $secs = $media->duration;
-          $mins = 0;
-          if($secs > 60) {
-            $mins = floor($secs/60);
-            $secs = $secs % 60;
-          }
-          $hrs = 0;
-          if($mins > 60) {
-            $hrs = floor($mins/60);
-            $mins = $mins % 60;
-          }
-          $durstr = ($hrs > 0) ? $hrs . t(" hr ") : "";
-          if($mins > 0) {
-            $durstr .= $mins . t(" min ");
-          }
-          if($secs > 0) {
-            $durstr .= $secs . t(" sec");
-          }
           // Duration array consists of seconds (int) and formatted (str)
           $node->duration = array(
             'seconds' => $media->duration,
-            'formatted' => $durstr,
+            'formatted' => mediabase_format_duration($media->duration),
           );
         } else {
           //dpm(array($types, $node), 'no eid in kaltura');
@@ -223,3 +204,28 @@ function mediabase_node_load($nodes, $types) {
     }
   }
 } 
+
+/**
+ * Function to format duration
+ */
+function mediabase_format_duration($secs = 0) {
+  // TODO: Check I18N documentation for time strings to makes sure this is right below
+  $mins = 0;
+  if($secs > 60) {
+    $mins = floor($secs/60);
+    $secs = $secs % 60;
+  }
+  $hrs = 0;
+  if($mins > 60) {
+    $hrs = floor($mins/60);
+    $mins = $mins % 60;
+  }
+  $durstr = ($hrs > 0) ? $hrs . t(" hr ") : "";
+  if($mins > 0) {
+    $durstr .= $mins . t(" min ");
+  }
+  if($secs > 0) {
+    $durstr .= $secs . t(" sec");
+  }
+  return $durstr;
+}

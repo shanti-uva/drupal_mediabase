@@ -12,6 +12,7 @@
       <div class="shanti-field shanti-field-created">       
           <span class="shanti-field-content"><?php print date('j F Y', $result['fields']['created']); ?></span>  
       </div>  
+      <div><?php if(isset($result['duration'])) { print $result['duration']['formatted'] ;}?></div>
       <div class="shanti-thumbnail-field shanti-field-title">        
          <span class="field-content"><a href="<?php print $result['link']; ?>" 
              class="shanti-thumbnail-link"><?php print $result['title']; ?></a></span>  

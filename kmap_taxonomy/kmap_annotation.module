@@ -20,6 +20,7 @@ function kmap_annotation_submit(&$form, &$form_state) {
 }
 
 function insert_kmap_annotations(&$node) {
+   if(!$node->kmap_annotations || !is_array($node->kmap_annotations)) { return; }
    module_load_include('inc', 'kmap_taxonomy', 'includes/kmap');
    foreach ($node->kmap_annotations as $field_name => $items) {
      if(isset($items)) {

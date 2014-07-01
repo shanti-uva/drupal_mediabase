@@ -26,12 +26,6 @@ function mb_structure_block_info() {
       'visibility' => BLOCK_VISIBILITY_PHP,
       //'pages' => 'user_is_logged_in()'
       );
-   
-   $blocks['collections_list'] = array(
-      'info' => 'Collections List',
-      'custom' => FALSE,
-      'visibility' => BLOCK_VISIBILITY_NOTLISTED,
-      );
       
    $blocks['collections_carousel'] = array(
       'info' => 'Collections Carousel',
@@ -76,11 +70,6 @@ function mb_structure_block_view($delta) {
         $block['subject'] = t('Add to your collections');
         $block['content'] = drupal_get_form('mb_structure_already_started_form');
         return $block;
-        
-     case 'collections_list':
-       //$block['subject'] = t('Collections');
-       $block['content'] = drupal_get_form('mb_structure_collections_list_form');
-       return $block;
                
      case 'collections_carousel':
        $block['subject'] = t('Collections');
@@ -467,6 +456,31 @@ function mb_structure_node_update($node) {
 	mb_update_node_kaltura_data($node);
 }
 
+/**
+ * Impements hook_form_FORM_ID_alter for node delete form to test whether a collection has associated media before deleting
+ * Does not allow one to delete a collection if it has content.
+ * TODO: add option to delete content as well.
+ */
+function mb_structure_form_node_delete_confirm_alter(&$form, &$form_state, $form_id){
+  $node = $form['#node'];
+  if($node->type == "collection" || $node->type == "team") {
+    $content_nodes = mb_structure_get_groups_nodes($node->nid);
+    $n = count($content_nodes);
+    $items = '';
+    foreach($content_nodes as $nid) {
+      $n2 = node_load($nid);
+      $items .= l($n2->title, 'node/' . $nid . '/edit') . ', ';
+    }
+    $items = substr($items, 0, strlen($items) - 2) . '.';
+    if($n > 0) {
+      drupal_set_message(t('This group cannot be deleted because it has @n media items associated with it. Please delete or relocate the following items: !items', 
+      array('@n' => $n, '!items' => $items)), 'error');
+      drupal_goto('node/' . $node->nid . '/edit');
+    }
+  }
+}
+   
+
 function mb_update_node_kaltura_data($node) {
 	/* 
 	 * Use this function to refresh thumbnail and other Kaltura data for the media object, 
@@ -670,15 +684,14 @@ function mb_structure_breadcrumb_items_audio_video($node) {
 /**
  * Creates a Bootstrap carousel for all collections
  * 
- * TODO: Create default image for collection and make image required for future ones. Make body required.
  */
 function mb_structure_collections_carousel_block() {
   $nodes = node_load_multiple(array(), array('type' => 'collection'));
   $genimage = drupal_get_path('module', 'mediabase') . '/images/collections-generic.png';
   $slides = array();
-  //dpm($nodes);
-  foreach($nodes as $nid => $node) {            // nid = node id, not sequential but node number in Drupal
-    if($node->status == 1) { // TODO: Need to test that it is also public in OG
+  foreach($nodes as $nid => $node) { // nid = node id, not sequential but node number in Drupal
+    // if status = published and viewable by anonymous users then add to carousel
+    if($node->status == 1 && node_access('view', $node, user_load(0))) {
       // Get Author and Date Info
       $usr = user_load_by_name($node->name);
       $author = $usr->realname;
@@ -702,14 +715,11 @@ function mb_structure_collections_carousel_block() {
           'settings'=>array('trim_length' => 700),
           'label' => 'hidden',
        );
-      $summary = render(field_view_field('node', $node, 'body', $settings ));
-      
-      /*
-      (isset($node->body['und'][0]['safe_summary'])) ? $node->body['und'][0]['safe_summary'] : "";
-      if($summary == "" && isset($node->body['und'][0]['safe_value'])) {
-        $summary = $node->body['und'][0]['safe_value'];
-      }
-      */
+       
+      $field_view = field_view_field('node', $node, 'body', $settings );
+      $summary = render($field_view);
+      $itemcount = count($node->child_nodes);
+      if($itemcount == 1) {$itemcount .= ' ' . t('item');} else {$itemcount .= ' ' . t('items');}
       $slide = array(
         'nid' => $nid,
         'title' => $node->title,
@@ -718,6 +728,7 @@ function mb_structure_collections_carousel_block() {
         'path' => drupal_get_path_alias('node/' . $nid),
         'img' => $imgurl,
         'summary' => $summary,
+        'itemcount' => $itemcount,
       );
       $slides[] = $slide;
     }
@@ -735,18 +746,26 @@ function mb_structure_collections_carousel_block() {
 }
 
 /**
- * Implements hook_theme().
+ * Returns list of nids content that are content of a group when given then groups NID
  */
- /*
-function mb_structure_theme() {
-  $items = array(
-    'carousel' => array(
-      'render element' => 'element',
-    ),
-  );
-  return $items;
-}*/
-
+function mb_structure_get_groups_nodes($nid) {
+  $nids = array();
+  $g = og_get_group('node', $nid);
+  $query = new EntityFieldQuery();
+  $query
+    ->entityCondition("entity_type", "og_membership", "=")
+    ->propertyCondition("gid", $g->gid, "=");
+  $result = $query->execute();
+  if(!isset($result["og_membership"]) || !is_array($result["og_membership"])) {return array(); }
+  foreach($result["og_membership"] as $record) {
+    $m = og_membership_load($record->id);
+    if($m->entity_type == "node") {
+      $nids[] = $m->etid;
+    }
+  }
+  return $nids;
+}
+/* For collection list should use render array if needed. This is old code commented out
 function mb_structure_collections_list_form() {
   $form = array();
   $nodes = node_load_multiple(array(), array('type' => 'collection'));
@@ -768,3 +787,4 @@ function mb_structure_collections_list_form() {
   );
   return $form;
 }
+*/

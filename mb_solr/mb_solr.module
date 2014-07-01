@@ -188,7 +188,7 @@ function mb_solr_apachesolr_process_results(&$results, DrupalSolrQueryInterface 
           $thumb_url = $qres[0]->kaltura_thumbnail_url;
           $results[$idx]['thumb_url'] = $thumb_url;
           $dur = $qres[0]->kaltura_duration;
-          if($dur && is_int($dur)) { 
+          if($dur) { 
             $results[$idx]['duration'] = array(
               'seconds' => $dur,
               'formatted' => mediabase_format_duration($dur),

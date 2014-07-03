@@ -106,15 +106,15 @@
       // Description is compiled in mediabase_preprocess_node and contained in $description variable
       // Not working hide($content['field_pbcore_description']);
     ?>
-      <div>
+      <div class="row">
           <div class="collimage">
             <?php print render($content['field_images']); ?>
           </div>
           <?php print render($content['body']); ?>
+          <?php print render($content['field_subcoll_root_kmap_id']); ?>
       </div>
-      <div>
+      <div class="row clearfix">
         <?php
-        
           print render($content);
         ?>
       </div>

@@ -3,7 +3,7 @@
       <a href="<?php print $result['link']; ?>" class="shanti-thumbnail-link">
          <img title="<?php print $result['title']; ?>" 
              alt="<?php print $result['title']; ?>" 
-             src="<?php print $result['thumb_url']; ?>" 
+             src="<?php if(isset($result['thumb_url'])) { print $result['thumb_url']; } ?>" 
              typeof="foaf:Image" class="k-no-rotate">
          <i class="shanticon-<?php if($result['bundle'] == 'video') { print 'video'; } else { print 'audio'; } ?>"></i> <!-- Need to switch icon based on bundle -->
       </a>

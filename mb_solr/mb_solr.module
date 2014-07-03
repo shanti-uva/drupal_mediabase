@@ -497,58 +497,6 @@ function mb_solr_kmap_search($kid = NULL) {
     foreach($docs as $n => $doc) {
       $dataout['items'][] = $doc->entity_id;
     }
-    /*
-    $debug = '';
-    // Search Subcollections field for taxonomy id for this $kid
-    $results2 = db_select('field_data_field_subcollection','fs')
-                  ->fields('fs')
-                  ->condition('entity_type', 'node')
-                  ->condition('field_subcollection_tid', $tid)
-                  ->execute();
-                    $debug .= '1st Result2 rows: ' . $results2->rowCount();
-    // If nothing found, search characteristic (subjects) field for taxonomy ID
-    if($results2->rowCount() == 0) {
-      $results2 = db_select('field_data_field_characteristic','fc')
-                    ->fields('fc')
-                    ->condition('entity_type', 'node')
-                    ->condition('field_characteristic_tid', $tid)
-                    ->execute();
-                    $debug .= ' | 2nds Result2 rows: ' . $results2->rowCount();
-    }
-    // Output any nodes found
-    if($results2->rowCount() > 0) {
-      $docs = array(); // Array of ApacheSolrDocument documents for each node found.
-      // Using Apachesolr function convert nodes in list to ApacheSolrDocuments 
-      module_load_include('inc', 'apachesolr', 'apachesolr.index');
-      foreach ($results2 as $item) {
-        $nid = $item->entity_id;
-        $node = node_load($nid);
-        $docs = array_merge($docs, apachesolr_convert_entity_to_documents($node, 'node', 'solr'));
-      }
-  
-      // Convert TID associated with each node doc to Kmap IDs and add to Solr Doc for node
-      foreach($docs as $n => $doc) {
-        $tids = $doc->getField('tid');
-        foreach($tids['value'] as $n => $tid) {
-          $term = taxonomy_term_load($tid);
-          if(isset($term->kmap_id['und'][0]['value'])) {
-            $doc->addField('kmapid', $term->kmap_id['und'][0]['value']);
-          }
-        }
-        if($mode == 'xml') {
-          // Convert Solr Doc to XML and add to output string
-          $out .=  ApacheSolrDocument::documentToXml($doc);
-        } else {
-          $da = array();
-          foreach($doc->getIterator() as $field => $value) {
-            $da[$field] = $value;
-          }
-          array_push($jsonout, $da);
-        }
-      }
-    } else {
-      $out .= '<!-- No Mediabase Records are Tagged with the KMap ID: ' . $kid . ' -->';
-    }*/
   } else {
     $dataout['tid'] = -1; // -1 means not found
   }
@@ -598,6 +546,7 @@ function mb_solr_get_solrdoc($nid) {
   drupal_add_http_header('Content-Type', 'text/xml');
   print '<?xml version="1.0"?><add>' .  ApacheSolrDocument::documentToXml($doc) . '</add>';
 }
+
 /**
  * Implements hook_facteapi_realm_info. Adds a realm for Ajax calls to enable a widget that returns PHP object instead of markup
  */

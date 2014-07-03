@@ -550,18 +550,20 @@ function mb_solr_get_solrdoc($nid = '') {
     module_load_include('inc', 'apachesolr', 'apachesolr.index');
     $node = node_load($nid);
     $doc = apachesolr_convert_entity_to_documents($node, 'node', 'solr');
-    $doc = $doc[0];
-    // Convert TID associated with each node doc to Kmap IDs and add to Solr Doc for node
-    $tids = $doc->getField('tid');
-    foreach($tids['value'] as $n => $tid) {
-      $term = taxonomy_term_load($tid);
-      if(isset($term->kmap_id['und'][0]['value'])) {
-        $doc->addField('kmapid', $term->kmap_id['und'][0]['value']);
-      } else if(isset($term->place_dictionary_id['und'][0]['value'])) {
-        $doc->addField('pdid', $term->place_dictionary_id['und'][0]['value']);
+    if($doc && count($doc) > 0) {
+      $doc = $doc[0];
+      // Convert TID associated with each node doc to Kmap IDs and add to Solr Doc for node
+      $tids = $doc->getField('tid');
+      foreach($tids['value'] as $n => $tid) {
+        $term = taxonomy_term_load($tid);
+        if(isset($term->kmap_id['und'][0]['value'])) {
+          $doc->addField('kmapid', $term->kmap_id['und'][0]['value']);
+        } else if(isset($term->place_dictionary_id['und'][0]['value'])) {
+          $doc->addField('pdid', $term->place_dictionary_id['und'][0]['value']);
+        }
       }
+      $docout =  ApacheSolrDocument::documentToXml($doc);
     }
-    $docout =  ApacheSolrDocument::documentToXml($doc);
   }
   // Convert Solr Doc to XML and add to output string
   drupal_add_http_header('Content-Type', 'text/xml');

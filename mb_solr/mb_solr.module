@@ -484,10 +484,10 @@ function mb_solr_kmap_search($kid = '') {
     'query_type' => 'subjects',
     'tid' => '',
     'count' => 0,
-    'debug' => array(),
+    //'debug' => array(),
     'items' => array(),
   );
-  $dataout['debug']['isplace'] = $is_place;
+
   // If no fields, then no taxonomy ID for this Kid, meaning nothing in MB is tagged with it
   if($fields) {
   // Query Solr Index for all items with that tid

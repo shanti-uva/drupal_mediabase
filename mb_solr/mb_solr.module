@@ -457,20 +457,31 @@ function mb_solr_process_facet_data($facet_name, $facet_data, &$info_out) {
 /**
  * Called by hook_menu to return JSON or XML of items marked by a kmap id
  */
-function mb_solr_kmap_search($kid = NULL) {
+function mb_solr_kmap_search($kid = '') {
+  $initkid = $kid;
   $mode = (strpos($kid, '.json') > -1) ? 'json':'xml';
   $kid = str_replace('.' . $mode,'', $kid);
+  $kid = strtolower($kid);
+  $is_place = (substr($kid, 0, 1) == 'p') ? TRUE : FALSE;
+  $kid = str_replace('p','', $kid);
   $jsonout = array();
   // Search for Nodes that have $kid as KMap ID
   // Convert $kid into Taxonomy ID
-  $results = db_select('field_data_kmap_id', 'kid') 
+  $selectfield = 'field_data_kmap_id';
+  $conditionfield ='kmap_id_value';
+  if($is_place) {
+    $selectfield = 'field_data_place_dictionary_id';
+    $conditionfield ='place_dictionary_id_value';
+  }
+  $results = db_select($selectfield, 'kid') 
                 ->fields('kid')
                 ->condition('entity_type','taxonomy_term')
-                ->condition('kmap_id_value',$kid)
+                ->condition($conditionfield, $kid)
                 ->execute();
   $fields = $results->fetchAssoc();
   $dataout = array(
     'kmap_id' => $kid,
+    'query_type' => 'subjects',
     'tid' => '',
     'count' => 0,
     'items' => array(),
@@ -478,14 +489,18 @@ function mb_solr_kmap_search($kid = NULL) {
   // If no fields, then no taxonomy ID for this Kid, meaning nothing in MB is tagged with it
   if($fields) {
   // Query Solr Index for all items with that tid
-  
     $tid = $fields['entity_id'];
     $dataout['tid'] = $tid;
     $solr = apachesolr_get_solr();
     $solrsort = '';
+    $query_fields = array('im_field_characteristic', 'im_field_subcollection');
+    if($is_place == TRUE) {
+      $dataout['query_type'] = 'places';
+      $query_fields = array('field_pbcore_coverage_spatial');
+    }
     $params = array(
       'q' => $tid,
-      'qf' => array('im_field_characteristic', 'im_field_subcollection'),
+      'qf' => $query_fields,
       'qt' => 'standard',
       'start' => 0,
       'rows' => 10000000,
@@ -539,6 +554,8 @@ function mb_solr_get_solrdoc($nid) {
     $term = taxonomy_term_load($tid);
     if(isset($term->kmap_id['und'][0]['value'])) {
       $doc->addField('kmapid', $term->kmap_id['und'][0]['value']);
+    } else if(isset($term->place_dictionary_id['und'][0]['value'])) {
+      $doc->addField('pdid', $term->place_dictionary_id['und'][0]['value']);
     }
   }
   

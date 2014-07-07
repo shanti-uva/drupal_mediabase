@@ -232,6 +232,17 @@ function mb_solr_theme($existing) {
       ),
    );
 }  
+$tdone =0;
+function mb_solr_preprocess_mediabase_thumbnail(&$variables) {
+  global $tdone;
+  if ($tdone == 12 ) {
+    $node = node_load($variables['result']['fields']['entity_id']);
+    $f = field_get_items('node', $node, 'field_pbcore_coverage_spatial');
+    $fd = field_view_value('node', $node, 'field_pbcore_coverage_spatial', $f[0]);
+    $tdone = 1;
+  }
+  
+}
 
 /**
  * Search results theming function just creates mark up for items in the collect
@@ -255,8 +266,9 @@ function theme_search_results__apachesolr_search__collection_home(&$vars) {
 
 function theme_search_results__apachesolr_search__homepage(&$vars) {
   global $base_path;
+  //dpm($vars, 'in home page theme');
   drupal_set_breadcrumb(array(l('','home')));
-  $output = '<div class="shanti-gallery">';
+  $output = $vars['pager'] . '<div class="shanti-gallery">';
   $nid = $vars['results'][0]['fields']['entity_id'];
   $coll = get_collection_ancestor_node($nid);
   if($coll) {
@@ -277,13 +289,17 @@ function theme_search_results__apachesolr_search__homepage(&$vars) {
  *      $coll: the colleciton object to which the entity belongs.
  * 
  */
+
 function mb_solr_make_teaser($entity, $coll) {
-  global $done;
+  $entity['place_link'] = array();
   $node = node_load($entity['fields']['entity_id']);
   $entry_id = _get_entry_id_from_node($node);
   if($node) {
     $entity['thumb_url'] = mb_kaltura_get_thumbnail_url($entry_id, 360, 270);
-    
+    // Add Place Link to Render array
+    if($node->field_pbcore_coverage_spatial) {
+      $entity['place_link'] = field_view_value('node', $node, 'field_pbcore_coverage_spatial', $node->field_pbcore_coverage_spatial[LANGUAGE_NONE][0]);
+    }
   } else {
     $mbpath = drupal_get_path('module', 'mediabase');
     $entity['thumb_url'] = (isset($entity['thumb_url'])) ? $entity['thumb_url'] : url($mbpath, array('absolute' => true)) . '/images/generic-video-thumb.jpg';

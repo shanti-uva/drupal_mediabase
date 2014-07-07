@@ -21,7 +21,16 @@
          <span class="field-content"> <?php print $result['duration']['formatted'] ?></span>
         </div>
       <?php endif; ?>
-      <?php if($coll && 2==1): ?>
+      
+      <?php if(isset($result['place_link']) && count($result['place_link']) > 0): ?>
+        <div class="shanti-thumbnail-field shanti-field-place">        
+         <span class="field-content"><i class="shanticon shanticon-places"></i> 
+           <?php print render($result['place_link']); ?>
+         </span>
+        </div>
+      <?php endif; ?>
+      
+      <?php if($coll && 2 == 1): ?>
         <div class="shanti-field shanti-field-group-audience">    
             <span class="shanti-label shanti-label-group-audience">in </span>    
             <div class="shanti-field-content"><a href="<?php print $coll->url; ?>" 

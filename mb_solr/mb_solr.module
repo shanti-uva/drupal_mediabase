@@ -250,7 +250,7 @@ function mb_solr_preprocess_mediabase_thumbnail(&$variables) {
  */
 function theme_search_results__apachesolr_search__collection_home(&$vars) {
   global $base_path;
-  $output = '<div class="shanti-gallery">';
+  $output = $vars['pager'] . '<div class="shanti-gallery">';
   $nid = $vars['results'][0]['fields']['entity_id'];
   $node = node_load($nid);
   $coll = get_collection_ancestor_node($node);
@@ -491,8 +491,8 @@ function mb_solr_kmap_search($kid = '') {
   }
   $results = db_select($selectfield, 'kid') 
                 ->fields('kid')
-                ->condition('entity_type','taxonomy_term')
-                ->condition($conditionfield, $kid)
+                ->condition('entity_type','taxonomy_term', '=')
+                ->condition($conditionfield, $kid, '=')
                 ->execute();
   $fields = $results->fetchAssoc();
   $dataout = array(
@@ -500,7 +500,12 @@ function mb_solr_kmap_search($kid = '') {
     'query_type' => 'subjects',
     'tid' => '',
     'count' => 0,
-    //'debug' => array(),
+    /*'debug' => array(
+      'isplace' => $is_place,
+      'kid' => $kid,
+      'selectfield' => $selectfield,
+      'condfield' => $conditionfield,
+    ),*/
     'items' => array(),
   );
 
@@ -514,7 +519,7 @@ function mb_solr_kmap_search($kid = '') {
     $query = "im_field_characteristic:{$tid} OR im_field_subcollection:{$tid}";
     if($is_place == TRUE) {
       $dataout['query_type'] = 'places';
-      $query = "field_pbcore_coverage_spatial:{$tid}";
+      $query = "im_field_pbcore_coverage_spatial:{$tid}";
     }
     $params = array(
       'q' => $query,
@@ -565,25 +570,29 @@ function mb_solr_get_solrdoc($nid = '') {
     // Using Apachesolr function convert nodes in list to ApacheSolrDocuments 
     module_load_include('inc', 'apachesolr', 'apachesolr.index');
     $node = node_load($nid);
-    $doc = apachesolr_convert_entity_to_documents($node, 'node', 'solr');
-    if($doc && count($doc) > 0) {
-      $doc = $doc[0];
-      // Convert TID associated with each node doc to Kmap IDs and add to Solr Doc for node
-      $tids = $doc->getField('tid');
-      foreach($tids['value'] as $n => $tid) {
-        $term = taxonomy_term_load($tid);
-        if(isset($term->kmap_id['und'][0]['value'])) {
-          $doc->addField('kmapid', $term->kmap_id['und'][0]['value']);
-        } else if(isset($term->place_dictionary_id['und'][0]['value'])) {
-          $doc->addField('pdid', $term->place_dictionary_id['und'][0]['value']);
+    if($node) {
+      $doc = apachesolr_convert_entity_to_documents($node, 'node', 'solr');
+      if($doc && count($doc) > 0) {
+        $doc = $doc[0];
+        // Convert TID associated with each node doc to Kmap IDs and add to Solr Doc for node
+        $tids = $doc->getField('tid');
+        foreach($tids['value'] as $n => $tid) {
+          $term = taxonomy_term_load($tid);
+          if(isset($term->kmap_id['und'][0]['value'])) {
+            $doc->addField('kmapid', $term->kmap_id['und'][0]['value']);
+          } else if(isset($term->place_dictionary_id['und'][0]['value'])) {
+            $doc->addField('pdid', $term->place_dictionary_id['und'][0]['value']);
+          }
         }
+        $docout =  '<add>' . ApacheSolrDocument::documentToXml($doc) . '</add>';
       }
-      $docout =  ApacheSolrDocument::documentToXml($doc);
+    } else {
+      $docout = "<error><msg>Node $nid does not exist</msg></error>";
     }
   }
   // Convert Solr Doc to XML and add to output string
   drupal_add_http_header('Content-Type', 'text/xml');
-  print '<?xml version="1.0"?><add>' . $docout . '</add>';
+  print '<?xml version="1.0"?>' . $docout;
 }
 
 /**

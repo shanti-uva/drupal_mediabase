@@ -259,11 +259,6 @@ function mb_solr_preprocess_node(&$variables) {
         'duration' => $node->duration,
         'link' => $base_path . drupal_get_path_alias('node/' . $node->nid),
       ); 
-      if($done < 4) {
-        dpm($item);
-        $done++;
-      }
-      
       $nid = $entity->entity_id;
       $node = node_load($nid);
       $coll = get_collection_ancestor_node($node);

@@ -15,38 +15,31 @@ h4.node-desc-type {
 	font-size: 0.8em;
 }
 
-button.play-transcript-btn {
-	color: #DDDDDD;
-	background-color: #4850be; /*#4951be;*/
-	background-image: none;
-	width: 100%;
-	padding: 0px;
+div.avinfo button.btn.play-transcript-btn {
+	margin-bottom: 12px;
 }
 
-button.play-transcript-btn div.inline {
-	float: left;
+button.play-transcript-btn i.shanticon {
+	margin-right: 6px;
+	padding: 18px 6px 6px 8px;
+	vertical-align: top;
 }
 
-button.play-transcript-btn div.btn-icon {
-	padding: 5%;
-	font-size: 150%;
-	font-weight: bold;
-	background-color:rgba(0, 0, 0, 0.2);
+button.play-transcript-btn span {
+	font-size: small;
 }
 
-button.play-transcript-btn div.btn-icon i.icon:after {
-	font-weight: bold;
-}
-
-button.play-transcript-btn div.btn-text {
-	width: 150px;
-	margin-top: 4px;
-	opacity: 0.7;
-	text-align: center;
+div.row.avdate, div.row.avduration {
+	margin: 6px 0px 6px -10px;
+	color: #777;
 }
 
 div.collimage {
 	max-width: 50%;
 	float: left;
 	padding-right: 20px;
+}
+
+div.avinfo {
+	margin-left: 20px;
 }

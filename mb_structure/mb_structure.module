@@ -451,6 +451,13 @@ function mb_structure_node_view($node, $view_mode, $langcode) {
    }
 }
 
+/**
+ * Add variable has_transcript
+ */
+function mb_structure_preprocess_node(&$vars) {
+  $vars['has_transcript'] =  transcripts_has_transcript($vars['node']);
+}
+
 function mb_structure_node_update($node) {
 	// Separate function to update a node's kaltura data in case it needs to be called from other contexts.
 	mb_update_node_kaltura_data($node);

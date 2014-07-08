@@ -232,16 +232,44 @@ function mb_solr_theme($existing) {
       ),
    );
 }  
-$tdone =0;
-function mb_solr_preprocess_mediabase_thumbnail(&$variables) {
-  global $tdone;
-  if ($tdone == 12 ) {
-    $node = node_load($variables['result']['fields']['entity_id']);
-    $f = field_get_items('node', $node, 'field_pbcore_coverage_spatial');
-    $fd = field_view_value('node', $node, 'field_pbcore_coverage_spatial', $f[0]);
-    $tdone = 1;
+
+/**
+ * Implements hook preproces node to add suggested items markup to a node's display
+ */
+function mb_solr_preprocess_node(&$variables) {
+  global $base_path;
+  $asdoc = apachesolr_document_id($variables['nid']);
+  $search_blocks = variable_get('apachesolr_search_mlt_blocks', array());
+  $sb = $search_blocks['mlt-001'];
+  $sb['num_results'] = 60;
+  $suggestions = apachesolr_search_mlt_suggestions($sb, $asdoc);
+  //dpm($suggestions, 'suggestions');
+  $output = '<div class="shanti-gallery">';
+  foreach($suggestions as $n => $entity) {
+    if($entity->entity_type == 'node') {
+      $node = node_load($entity->entity_id);
+      $item = array(
+        'fields' => array( 
+          'entity_id' => $entity->entity_id,
+          'created' => $node->created,
+         ),
+        'bundle' => $node->type,
+        'title' => $node->title,
+        'duration' => $node->duration,
+        'link' => drupal_get_path_alias('node/' . $node->nid),
+      );
+      $nid = $entity->entity_id;
+      $node = node_load($nid);
+      $coll = get_collection_ancestor_node($node);
+      if($coll) {
+          $coll->url = $base_path . drupal_get_path_alias('node/' . $coll->nid);
+      }
+      $output .=  mb_solr_make_teaser($item, $coll);
+    }
   }
-  
+  $output .= '</div>';
+  $variables['suggestions'] = $output;
+  //dpm($variables, 'vars 3 in pp page on mbsolr');
 }
 
 /**
@@ -251,13 +279,13 @@ function mb_solr_preprocess_mediabase_thumbnail(&$variables) {
 function theme_search_results__apachesolr_search__collection_home(&$vars) {
   global $base_path;
   $output = $vars['pager'] . '<div class="shanti-gallery">';
-  $nid = $vars['results'][0]['fields']['entity_id'];
-  $node = node_load($nid);
-  $coll = get_collection_ancestor_node($node);
-  if($coll) {
-      $coll->url = $base_path . drupal_get_path_alias('node/' . $coll->nid);
-  }
   foreach ($vars['results'] as $k => $v) {
+    $nid = $v['fields']['entity_id'];
+    $node = node_load($nid);
+    $coll = get_collection_ancestor_node($node);
+    if($coll) {
+        $coll->url = $base_path . drupal_get_path_alias('node/' . $coll->nid);
+    }
     $output .=  mb_solr_make_teaser($v, $coll);
   }
   $output .= '</div>' . $vars['pager'];
@@ -269,12 +297,13 @@ function theme_search_results__apachesolr_search__homepage(&$vars) {
   //dpm($vars, 'in home page theme');
   drupal_set_breadcrumb(array(l('','home')));
   $output = $vars['pager'] . '<div class="shanti-gallery">';
-  $nid = $vars['results'][0]['fields']['entity_id'];
-  $coll = get_collection_ancestor_node($nid);
-  if($coll) {
-      $coll->url = $base_path . drupal_get_path_alias('node/' . $coll->nid);
-  }
+  
   foreach ($vars['results'] as $k => $e) {
+    $nid = $e['fields']['entity_id'];
+    $coll = get_collection_ancestor_node($nid);
+    if($coll) {
+        $coll->url = $base_path . drupal_get_path_alias('node/' . $coll->nid);
+    }
     $output .=  mb_solr_make_teaser($e, $coll);
   }
   $output .= '</div>' . $vars['pager'];

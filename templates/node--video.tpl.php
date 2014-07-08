@@ -113,30 +113,57 @@
       </div>
       <!-- Info/Description row -->
       <div class="row">
-        <div class="info col-sm-2">
-          <button type="button" class="row btn btn-primary btn-md btn-block play-transcript-btn" href="<?php print $transcript_url; ?>">
-            <div class="inline btn-icon"><i class="icon shanticon-uniE04A"></i></div> 
-            <div class="inline btn-text">Play with <br/>Transcript</div>
-          </button>
-          <div class="row date"><i class="shanticon shanticon-calendar"></i> <?php print $date ;  ?></div>
-          <div class="row duration"><i class="shanticon shanticon-hourglass"></i> <?php print $node->duration['formatted'];  ?></div>
-          <div class="row rating">
-            
+        <div class="avinfo col-sm-2">
+          <?php if($variables['has_transcript']): ?>
+            <!--<button type="button" class="row btn btn-primary btn-md btn-block play-transcript-btn" href="<?php print $transcript_url; ?>">
+              <div class="inline btn-icon"><i class="icon shanticon-uniE04A"></i></div> 
+              <div class="inline btn-text">Play with <br/>Transcript</div>
+            </button>-->
+            <div class="row">
+              <button type="button" class="btn btn-primary form-submit play-transcript-btn" href="<?php print $transcript_url; ?>">
+                <i class="shanticon shanticon-texts"></i> <span>Play with <br/>Transcript</span>
+              </button>
+            </div>
+          <?php endif; ?>
+          <div class="row avdate"><i class="shanticon shanticon-calendar"></i> <?php print $date ;  ?></div>
+          <div class="row avduration"><i class="shanticon shanticon-hourglass"></i> <?php print $node->duration['formatted'];  ?></div>
+          <div class="row avrating">
+            <h5>Rating</h5>
             <?php print render($content['field_rating']); ?>
           </div>
           
         </div>
-        <div class="desc col-sm-10">
+        <div class="avdesc col-sm-6">
+          <h6><?php print t('Video Overview'); ?></h6>
           <?php print render($content['field_pbcore_description']); ?>
         </div>
       </div>
       <div>
-        <?php
-          print render($content);
-        ?>
+        <ul class="nav nav-tabs ss-full-tabs" role="tablist">
+          <li class="active"><a href="#related" role="tab" data-toggle="tab"><?php print t('Related Videos'); ?></a></li>
+          <li><a href="#details" role="tab" data-toggle="tab"><?php print t('Details'); ?></a></li>
+        </ul>
+        
+        <!-- Tab panes -->
+        <div class="tab-content">
+          <div class="tab-pane active" id="related">
+            <?php
+              if(isset($variables['suggestions'])) {
+                print $variables['suggestions'];
+              } else {
+                print t('<p>No Suggested Items Found</p>');
+              }
+            ?>
+          </div> <!-- End of #related -->
+          <div class="tab-pane" id="details">
+          <?php
+            print render($content);
+          ?>
+          </div> <!-- End of #details -->
+        </div>
       </div>
   </div>
-
+  <div class="clearfix"></div>
   <?php print render($content['links']); ?>
 
   <?php print render($content['comments']); ?>

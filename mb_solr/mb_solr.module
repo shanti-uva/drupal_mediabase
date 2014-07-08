@@ -245,6 +245,7 @@ function mb_solr_preprocess_node(&$variables) {
   $suggestions = apachesolr_search_mlt_suggestions($sb, $asdoc);
   //dpm($suggestions, 'suggestions');
   $output = '<div class="shanti-gallery">';
+  $done = 0;
   foreach($suggestions as $n => $entity) {
     if($entity->entity_type == 'node') {
       $node = node_load($entity->entity_id);
@@ -256,8 +257,13 @@ function mb_solr_preprocess_node(&$variables) {
         'bundle' => $node->type,
         'title' => $node->title,
         'duration' => $node->duration,
-        'link' => drupal_get_path_alias('node/' . $node->nid),
-      );
+        'link' => $base_path . drupal_get_path_alias('node/' . $node->nid),
+      ); 
+      if($done < 4) {
+        dpm($item);
+        $done++;
+      }
+      
       $nid = $entity->entity_id;
       $node = node_load($nid);
       $coll = get_collection_ancestor_node($node);

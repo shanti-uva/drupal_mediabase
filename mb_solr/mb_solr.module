@@ -237,40 +237,44 @@ function mb_solr_theme($existing) {
  * Implements hook preproces node to add suggested items markup to a node's display
  */
 function mb_solr_preprocess_node(&$variables) {
-  global $base_path;
-  $asdoc = apachesolr_document_id($variables['nid']);
-  $search_blocks = variable_get('apachesolr_search_mlt_blocks', array());
-  $sb = $search_blocks['mlt-001'];
-  $sb['num_results'] = 60;
-  $suggestions = apachesolr_search_mlt_suggestions($sb, $asdoc);
-  //dpm($suggestions, 'suggestions');
-  $output = '<div class="shanti-gallery">';
-  $done = 0;
-  foreach($suggestions as $n => $entity) {
-    if($entity->entity_type == 'node') {
-      $node = node_load($entity->entity_id);
-      $item = array(
-        'fields' => array( 
-          'entity_id' => $entity->entity_id,
-          'created' => $node->created,
-         ),
-        'bundle' => $node->type,
-        'title' => $node->title,
-        'duration' => $node->duration,
-        'link' => $base_path . drupal_get_path_alias('node/' . $node->nid),
-      ); 
-      $nid = $entity->entity_id;
-      $node = node_load($nid);
-      $coll = get_collection_ancestor_node($node);
-      if($coll) {
-          $coll->url = $base_path . drupal_get_path_alias('node/' . $coll->nid);
+  if(isset($variables['node']->type) && in_array($variables['node']->type, array('audio', 'video'))) {
+    global $base_path;
+    $asdoc = apachesolr_document_id($variables['nid']);
+    $search_blocks = variable_get('apachesolr_search_mlt_blocks', array());
+    $sb = $search_blocks['mlt-001'];
+    $sb['num_results'] = 60;
+    $suggestions = apachesolr_search_mlt_suggestions($sb, $asdoc);
+    //dpm($suggestions, 'suggestions');
+    $output = '<div class="shanti-gallery">';
+    $done = 0;
+    if($suggestions) { 
+      foreach($suggestions as $n => $entity) {
+        if($entity->entity_type == 'node') {
+          $node = node_load($entity->entity_id);
+          $item = array(
+            'fields' => array( 
+              'entity_id' => $entity->entity_id,
+              'created' => $node->created,
+             ),
+            'bundle' => $node->type,
+            'title' => $node->title,
+            'duration' => $node->duration,
+            'link' => $base_path . drupal_get_path_alias('node/' . $node->nid),
+          ); 
+          $nid = $entity->entity_id;
+          $node = node_load($nid);
+          $coll = get_collection_ancestor_node($node);
+          if($coll) {
+              $coll->url = $base_path . drupal_get_path_alias('node/' . $coll->nid);
+          }
+          $output .=  mb_solr_make_teaser($item, $coll);
+        }
       }
-      $output .=  mb_solr_make_teaser($item, $coll);
+      $output .= '</div>';
+      $variables['suggestions'] = $output;
+      //dpm($variables, 'vars 3 in pp page on mbsolr');
     }
   }
-  $output .= '</div>';
-  $variables['suggestions'] = $output;
-  //dpm($variables, 'vars 3 in pp page on mbsolr');
 }
 
 /**
@@ -595,6 +599,11 @@ function mb_solr_kmap_search($kid = '') {
  * Returns a solr add doc for node with $nid. Includes kmapid values for term ids with associated kmap ids
  */
 function mb_solr_get_solrdoc($nid = '') {
+  $type = 'xml';
+  if($res = preg_match('/(\d+)\.json/', $nid, $m)) {
+    $type = 'json';
+    $nid = $m[1];
+  }
   $docout = '';
   if($nid != '') { 
     // Using Apachesolr function convert nodes in list to ApacheSolrDocuments 
@@ -614,9 +623,26 @@ function mb_solr_get_solrdoc($nid = '') {
             $doc->addField('pdid', $term->place_dictionary_id['und'][0]['value']);
           }
         }
+        // Return JSON of Doc if asked for
+        if($type == 'json') {  
+          $docit = $doc->getIterator();
+          $outarray = array();
+          foreach($docit as $field => $value) {
+            $outarray[$field] = $value;
+          }
+          drupal_json_output($outarray);
+          return;
+        }
+        // Otherwise create XML markup
         $docout =  '<add>' . ApacheSolrDocument::documentToXml($doc) . '</add>';
       }
     } else {
+      // Return JSON error if JSON requested.
+      if($type == 'json') {  
+        drupal_json_output('{ "error": "Node ' . $nid . ' does not exists"}');
+        return;
+      }
+      // Else make XML Error message
       $docout = "<error><msg>Node $nid does not exist</msg></error>";
     }
   }

@@ -5,7 +5,7 @@
              alt="<?php print $result['title']; ?>" 
              src="<?php if(isset($result['thumb_url'])) { print $result['thumb_url']; } ?>" 
              typeof="foaf:Image" class="k-no-rotate">
-         <i class="shanticon-<?php if($result['bundle'] == 'video') { print 'video'; } else { print 'audio'; } ?>"></i> <!-- Need to switch icon based on bundle -->
+         <i class="shanticon-<?php if($result['bundle'] == 'video') { print 'video'; } else { print 'audio'; } ?> thumbtype"></i> <!-- Need to switch icon based on bundle -->
       </a>
     </div>
     <div class="shanti-thumbnail-info">

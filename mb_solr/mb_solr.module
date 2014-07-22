@@ -531,7 +531,7 @@ function mb_solr_kmap_search($kid = '') {
   $fields = $results->fetchAssoc();
   $dataout = array(
     'kmap_id' => $kid,
-    'query_type' => 'subjects',
+    'query_type' => ($is_place) ? 'places' : 'subjects',
     'tid' => '',
     'count' => 0,
     /*'debug' => array(
@@ -552,7 +552,6 @@ function mb_solr_kmap_search($kid = '') {
     $solrsort = '';
     $query = "im_field_characteristic:{$tid} OR im_field_subcollection:{$tid}";
     if($is_place == TRUE) {
-      $dataout['query_type'] = 'places';
       $query = "im_field_pbcore_coverage_spatial:{$tid}";
     }
     $params = array(
@@ -599,53 +598,68 @@ function mb_solr_kmap_search($kid = '') {
  * Returns a solr add doc for node with $nid. Includes kmapid values for term ids with associated kmap ids
  */
 function mb_solr_get_solrdoc($nid = '') {
+  // Set base url with path
+  global $base_url, $base_path; 
+  $base_loc = $base_url . $base_path;
+  // Determine output type requested
   $type = 'xml';
   if($res = preg_match('/(\d+)\.json/', $nid, $m)) {
     $type = 'json';
     $nid = $m[1];
   }
-  $docout = '';
-  if($nid != '') { 
-    // Using Apachesolr function convert nodes in list to ApacheSolrDocuments 
-    module_load_include('inc', 'apachesolr', 'apachesolr.index');
-    $node = node_load($nid);
-    if($node) {
-      $doc = apachesolr_convert_entity_to_documents($node, 'node', 'solr');
-      if($doc && count($doc) > 0) {
-        $doc = $doc[0];
-        // Convert TID associated with each node doc to Kmap IDs and add to Solr Doc for node
-        $tids = $doc->getField('tid');
-        foreach($tids['value'] as $n => $tid) {
-          $term = taxonomy_term_load($tid);
-          if(isset($term->kmap_id['und'][0]['value'])) {
-            $doc->addField('kmapid', $term->kmap_id['und'][0]['value']);
-          } else if(isset($term->place_dictionary_id['und'][0]['value'])) {
-            $doc->addField('pdid', $term->place_dictionary_id['und'][0]['value']);
-          }
+  $docout = ''; // docout is final xml document
+  if($nid != '') {
+    // Search for node doc using standard solr query 
+    $q = apachesolr_drupal_query('findnode', array( 'qt' => 'standard', 'q' => 'entity_id:' . $nid . ' AND entity_type:node', 'fl'=>'*'));
+    list($query, $response) = apachesolr_do_query($q);
+    if(isset($response->response->numFound)  && $response->response->numFound > 0) {
+      $doc = $response->response->docs[0];
+      // Convert TID associated with each node doc to Kmap subject or place IDs and add to Solr Doc for node
+      $tids = $doc->tid;
+      $doc->kmapid = array();
+      $doc->pdid = array();
+      foreach($tids as $n => $tid) {
+        $term = taxonomy_term_load($tid);
+        if(isset($term->kmap_id['und'][0]['value'])) {
+          $doc->kmapid[] = $term->kmap_id['und'][0]['value'];
+        } else if(isset($term->place_dictionary_id['und'][0]['value'])) {
+          $doc->pdid[] = $term->place_dictionary_id['und'][0]['value'];
         }
-        // Return JSON of Doc if asked for
-        if($type == 'json') {  
-          $docit = $doc->getIterator();
-          $outarray = array();
-          foreach($docit as $field => $value) {
-            $outarray[$field] = $value;
-          }
-          drupal_json_output($outarray);
-          return;
-        }
-        // Otherwise create XML markup
-        $docout =  '<add>' . ApacheSolrDocument::documentToXml($doc) . '</add>';
       }
-    } else {
-      // Return JSON error if JSON requested.
+      // Replace "default" url with the base location for this site
+      foreach($doc as $key => &$value) {
+        if(strpos($value, 'http://default/') > -1) {
+           $value = str_replace('http://default/', $base_loc, $value);
+         }
+      }
+      // Return JSON of Doc if asked for
       if($type == 'json') {  
-        drupal_json_output('{ "error": "Node ' . $nid . ' does not exists"}');
+        drupal_json_output($doc);
         return;
       }
-      // Else make XML Error message
-      $docout = "<error><msg>Node $nid does not exist</msg></error>";
+      // Otherwise create XML markup
+     $docout = '<add>';
+     foreach((array)$doc as $n1 => $v1) {
+       if (is_array($v1)) {
+         foreach($v1 as $n2 => $v2) {
+           $docout .= '<field name="' . $n1 . '">' . $v2 . '</field>';
+         }
+       } else {
+         $docout .= '<field name="' . $n1 . '">' . $v1 . '</field>';
+       }
+     }
+     $docout .= '</add>';
+   }
+  } else {
+    // Return JSON error if JSON requested.
+    if($type == 'json') {  
+      drupal_json_output('{ "error": "No Node ID given."}');
+      return;
     }
+    // Else make XML Error message
+    $docout = "<error><msg>No Node ID given.</msg></error>";
   }
+  //}
   // Convert Solr Doc to XML and add to output string
   drupal_add_http_header('Content-Type', 'text/xml');
   print '<?xml version="1.0"?>' . $docout;

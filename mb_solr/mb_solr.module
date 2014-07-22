@@ -628,7 +628,7 @@ function mb_solr_get_solrdoc($nid = '') {
       }
       // Replace "default" url with the base location for this site
       foreach($doc as $key => &$value) {
-        if(strpos($value, 'http://default/') > -1) {
+        if(is_string($value) && strpos($value, 'http://default/') > -1) {
            $value = str_replace('http://default/', $base_loc, $value);
          }
       }

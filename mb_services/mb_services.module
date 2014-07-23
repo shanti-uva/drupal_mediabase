@@ -122,6 +122,8 @@ function mb_services_collection($collid, $pg = 1) {
  * e.g.: http://mediabase.drupal-dev.shanti.virginia.edu/services/subject/302
  */
 function mb_services_subject($kmid) {
+  $pg = (isset($_GET['pg'])) ? $_GET['pg'] * 1 : 1;
+  $rows = (isset($_GET['rows'])) ? $_GET['rows'] * 1 : 10;
   // Load mb_kaltura include for its functions for calling kaltura
   module_load_include('inc', 'mb_kaltura', 'mb_kaltura');
   // Get array of this id and all its children ids
@@ -173,34 +175,47 @@ function mb_services_subject($kmid) {
     }
   }
   $n = 0;
+  $start = ($pg - 1) * $rows + 1;
+  $end = $pg * $rows;
   $gout = array();
   $items = array();
+
   // For entities that are video or audio nodes output json
+  ksort($entities);
   foreach($entities as $eid => $entity) {
     $type = $entity->bundle;
     if($type == 'video' || $type == 'audio') {
       $n++; 
-      $item = array();
-      $node = node_load($eid);
-      // Only output node info if it's public
-      if(node_access('view', $node, user_load(0))) {
-        $item['nid'] = $eid;
-        $item['title'] = $node->title;
-        $item['type'] = $type;
-        $kid = ($type == 'video') ? $node->field_video['und'][0]['entryid'] : $node->field_audio['und'][0]['entryid'];
-        // Retrieve and add Kaltura information
-        $item['kaltura_id'] = $kid;
-        $media = _get_media_from_entry_id($kid);
-        $item['thumbnail'] = $media->thumbnailUrl;
-        $item['video_url'] = $media->dataUrl;
-        $item['mb_url'] = url(drupal_get_path_alias('node/' . $eid), array('absolute' => 'true'));
-        
-        array_push($items, $item);
+      if($n >= $start && $n <= $end) {
+        $item = array();
+        $node = node_load($eid);
+        // Only output node info if it's public
+        if(node_access('view', $node, user_load(0))) {
+          $item['nid'] = $eid;
+          $item['title'] = $node->title;
+          $item['type'] = $type;
+          $kid = ($type == 'video') ? $node->field_video['und'][0]['entryid'] : $node->field_audio['und'][0]['entryid'];
+          // Retrieve and add Kaltura information
+          $item['kaltura_id'] = $kid;
+          /*$media = _get_media_from_entry_id($kid);
+          $item['thumbnail'] = $media->thumbnailUrl;
+          $item['video_url'] = $media->dataUrl;*/
+          $item['video_url'] = $node->video_url;
+          $item['thumbnail'] = $node->thumbnail_url;
+          $item['duration'] = $node->duration;
+          $item['created'] = $node->created;
+          $item['mb_url'] = url(drupal_get_path_alias('node/' . $eid), array('absolute' => 'true'));
+          
+          array_push($items, $item);
+        }
       }
     }
   }
-  $gout["media"] = $items;
+
   $gout["total"] = $n;
+  $gout["page"] = $pg;
+  $gout["rows"] = $rows;
+  $gout["media"] = $items;
   drupal_json_output($gout);
 }
 

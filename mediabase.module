@@ -181,6 +181,7 @@ function mediabase_node_load($nodes, $types) {
           // Add thumnail URL
           $thumburl = mb_kaltura_get_thumbnail_url($eid);
           $node->thumbnail_url = $thumburl;
+          $node->video_url = $media->dataUrl;
           // Add duration
           // Duration array consists of seconds (int) and formatted (str)
           $node->duration = array(

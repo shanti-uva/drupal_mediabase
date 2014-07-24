@@ -614,6 +614,8 @@ function mb_solr_get_solrdoc($nid = '') {
     list($query, $response) = apachesolr_do_query($q);
     if(isset($response->response->numFound)  && $response->response->numFound > 0) {
       $doc = $response->response->docs[0];
+      $node = node_load($nid);
+      $doc->thumbnail_url = $node->thumbnail_url;
       // Convert TID associated with each node doc to Kmap subject or place IDs and add to Solr Doc for node
       $tids = $doc->tid;
       $doc->kmapid = array();

@@ -617,15 +617,17 @@ function mb_solr_get_solrdoc($nid = '') {
       $node = node_load($nid);
       $doc->thumbnail_url = $node->thumbnail_url;
       // Convert TID associated with each node doc to Kmap subject or place IDs and add to Solr Doc for node
-      $tids = $doc->tid;
-      $doc->kmapid = array();
-      $doc->pdid = array();
-      foreach($tids as $n => $tid) {
-        $term = taxonomy_term_load($tid);
-        if(isset($term->kmap_id['und'][0]['value'])) {
-          $doc->kmapid[] = $term->kmap_id['und'][0]['value'];
-        } else if(isset($term->place_dictionary_id['und'][0]['value'])) {
-          $doc->pdid[] = $term->place_dictionary_id['und'][0]['value'];
+      if(!empty($doc->tid)) {
+        $tids = $doc->tid;
+        $doc->kmapid = array();
+        $doc->pdid = array();
+        foreach($tids as $n => $tid) {
+          $term = taxonomy_term_load($tid);
+          if(isset($term->kmap_id['und'][0]['value'])) {
+            $doc->kmapid[] = $term->kmap_id['und'][0]['value'];
+          } else if(isset($term->place_dictionary_id['und'][0]['value'])) {
+            $doc->pdid[] = $term->place_dictionary_id['und'][0]['value'];
+          }
         }
       }
       // Replace "default" url with the base location for this site

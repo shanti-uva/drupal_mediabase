@@ -746,7 +746,7 @@ function mb_structure_collections_carousel_block() {
       '#theme' => 'carousel',
       '#children' => '',
       'title' => t('Featured Collections'),
-      'link' => l(t('View All Collections +'), 'collections'),
+      'link' => l(t('View All Collections'), 'collections'),
       'slides' => $slides,
     ),
   );

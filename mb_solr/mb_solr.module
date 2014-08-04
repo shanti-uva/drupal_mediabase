@@ -258,7 +258,7 @@ function mb_solr_preprocess_node(&$variables) {
              ),
             'bundle' => $node->type,
             'title' => $node->title,
-            'duration' => $node->duration,
+            'duration' => (isset($node->duration)) ? $node->duration : 0,
             'link' => $base_path . drupal_get_path_alias('node/' . $node->nid),
           ); 
           $nid = $entity->entity_id;
@@ -331,7 +331,7 @@ function mb_solr_make_teaser($entity, $coll) {
   if($node) {
     $entity['thumb_url'] = mb_kaltura_get_thumbnail_url($entry_id, 360, 270);
     // Add Place Link to Render array
-    if($node->field_pbcore_coverage_spatial) {
+    if(!empty($node->field_pbcore_coverage_spatial)) {
       $entity['place_link'] = field_view_value('node', $node, 'field_pbcore_coverage_spatial', $node->field_pbcore_coverage_spatial[LANGUAGE_NONE][0]);
     }
   } else {

@@ -173,9 +173,32 @@ function mediabase_preprocess_node(&$variables) {
 function mediabase_node_load($nodes, $types) {
   if(in_array('audio', $types) || in_array('video', $types)) {
     module_load_include('inc', 'mb_kaltura', 'mb_kaltura');
-    foreach($nodes as $node) {
+    foreach($nodes as &$node) {
       if(in_array($node->type, array('audio', 'video'))) {
-        $eid = _get_entry_id_from_node($node);
+        $query = '';
+        if ($node->type == 'video') {
+           $query = "SELECT kaltura_thumbnail_url, kaltura_duration
+           FROM {field_data_field_video} 
+           JOIN {node_kaltura} ON field_video_entryid = kaltura_entryid
+           WHERE entity_id = :etid";
+        }
+        else if ($node->type == 'audio') {
+           $query = "SELECT kaltura_thumbnail_url, kaltura_duration
+           FROM {field_data_field_audio} 
+           JOIN {node_kaltura} ON field_audio_entryid = kaltura_entryid
+           WHERE entity_id = :etid";
+        }
+        
+        $res = db_query($query, array(':etid' => $node->nid) );
+        $qres = $res->fetchAll();
+        if(is_array($qres) && count($qres) > 0) {
+          $node->thumbnail_url = $qres[0]->kaltura_thumbnail_url;
+          $node->duration = array(
+            'seconds' => $qres[0]->kaltura_duration,
+            'formatted' => mediabase_format_duration($qres[0]->kaltura_duration),
+          );
+        }
+        /*$eid = _get_entry_id_from_node($node);
         if($eid) { 
           $media = _get_media_from_entry_id($eid);
           // Add thumnail URL
@@ -194,6 +217,7 @@ function mediabase_node_load($nodes, $types) {
           $node->duration = array('seconds' =>'', 'formatted' => '');
           watchdog('mediabase', 'No kaltura video found for node %nid', array('%nid' => $node->nid), WATCHDOG_WARNING);
         }
+        */
       }
     }
   // If collection or team, add an array of all children media node ids

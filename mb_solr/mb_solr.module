@@ -251,23 +251,25 @@ function mb_solr_preprocess_node(&$variables) {
       foreach($suggestions as $n => $entity) {
         if($entity->entity_type == 'node') {
           $node = node_load($entity->entity_id);
-          $item = array(
-            'fields' => array( 
-              'entity_id' => $entity->entity_id,
-              'created' => $node->created,
-             ),
-            'bundle' => $node->type,
-            'title' => $node->title,
-            'duration' => (isset($node->duration)) ? $node->duration : 0,
-            'link' => $base_path . drupal_get_path_alias('node/' . $node->nid),
-          ); 
-          $nid = $entity->entity_id;
-          $node = node_load($nid);
-          $coll = get_collection_ancestor_node($node);
-          if($coll) {
-              $coll->url = $base_path . drupal_get_path_alias('node/' . $coll->nid);
-          }
-          $output .=  mb_solr_make_teaser($item, $coll);
+		  if($node) { 
+	          $item = array(
+	            'fields' => array( 
+	              'entity_id' => $entity->entity_id,
+	              'created' => $node->created,
+	             ),
+	            'bundle' => $node->type,
+	            'title' => $node->title,
+	            'duration' => (isset($node->duration)) ? $node->duration : 0,
+	            'link' => $base_path . drupal_get_path_alias('node/' . $node->nid),
+	          ); 
+	          $nid = $entity->entity_id;
+	          $node = node_load($nid);
+	          $coll = get_collection_ancestor_node($node);
+	          if($coll) {
+	              $coll->url = $base_path . drupal_get_path_alias('node/' . $coll->nid);
+	          }
+	          $output .=  mb_solr_make_teaser($item, $coll);
+		  }
         }
       }
       $output .= '</div>';

@@ -96,7 +96,8 @@ projects[kaltura][version] = "2.0"
 projects[kaltura][subdir] = "contrib"
 projects[kaltura][patch][] = "https://drupal.org/files/1567302-kaltura-field-view-notice-5.patch"
 projects[kaltura][patch][] = "https://drupal.org/files/kaltura-undefined_variable-1547186.patch"
-projects[kaltura][patch][] = "https://drupal.org/files/kaltura-array-to-string-conversion-1772120-6.patch" ; if causes error, comment out this line and apply manually after set up
+; if the following causes error, comment out and apply manually after set up
+projects[kaltura][patch][] = "https://www.drupal.org/files/kaltura-array-to-string-conversion-1772120-6.patch"
 
 projects[job_scheduler][version] = "2.0-alpha3"
 projects[job_scheduler][subdir] = "contrib"

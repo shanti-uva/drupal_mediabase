@@ -191,17 +191,15 @@ function mb_services_subject($kmid) {
         $node = node_load($eid);
         // Only output node info if it's public
         if(node_access('view', $node, user_load(0))) {
+        	
           $item['nid'] = $eid;
           $item['title'] = $node->title;
           $item['type'] = $type;
           $kid = ($type == 'video') ? $node->field_video['und'][0]['entryid'] : $node->field_audio['und'][0]['entryid'];
-          // Retrieve and add Kaltura information
           $item['kaltura_id'] = $kid;
-          /*$media = _get_media_from_entry_id($kid);
-          $item['thumbnail'] = $media->thumbnailUrl;
-          $item['video_url'] = $media->dataUrl;*/
-          $item['video_url'] = $node->video_url;
           $item['thumbnail'] = $node->thumbnail_url;
+          $media = _get_media_from_entry_id($kid);
+          $item['video_url'] = $media->dataUrl;
           $item['duration'] = $node->duration;
           $item['created'] = $node->created;
           $item['mb_url'] = url(drupal_get_path_alias('node/' . $eid), array('absolute' => 'true'));

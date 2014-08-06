@@ -47,6 +47,9 @@ function mb_services_menu() {
     'page arguments' => array(2),
     'access callback' => TRUE,
   );
+	
+	// TODO: Need to implement a places service on the model of the above
+	
   // Return Embed code for audio or video
   $items['services/embed/%'] = array(
     'title' => 'Resource Embed Code',

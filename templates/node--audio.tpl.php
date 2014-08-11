@@ -84,8 +84,8 @@
 <?php if($teaser): 
 		//dpm($variables, 'in teaser');
 		?>
-		<div class="shanti-thumbnail video col-lg-2 col-md-3 col-sm-4 col-xs-12"> 
-    <div class="shanti-thumbnail-image shanti-field-video"> 
+		<div class="shanti-thumbnail audio col-lg-2 col-md-3 col-sm-4 col-xs-12"> 
+    <div class="shanti-thumbnail-image shanti-field-audio"> 
       <a href="<?php print $variables['node_url']; ?>" class="shanti-thumbnail-link">
          <span class="overlay">
             <span class="icon"></span>
@@ -94,7 +94,7 @@
              alt="<?php print $title; ?>" 
              src="<?php if(isset($variables['thumbnail_url'])) { print $variables['thumbnail_url']; } ?>" 
              typeof="foaf:Image" class="k-no-rotate">
-         <i class="icon shanticon-video"></i> 
+         <i class="icon shanticon-audio"></i> 
       </a>
     </div>
     <div class="shanti-thumbnail-info">      
@@ -164,7 +164,7 @@
     ?>
       <div class="row video-row">
         <div class="col-xs-12">
-          <?php print render($content['field_video']); ?>
+          <?php print render($content['field_audio']); ?>
         </div>
       </div>
       <!-- Info/Description row -->
@@ -190,7 +190,7 @@
           
         </div>
         <div class="avdesc col-sm-6">
-          <h6><?php print t('Video Overview'); ?></h6>
+          <h6><?php print t('Audio Overview'); ?></h6>
           <?php print render($content['field_pbcore_description']); ?>
         </div>
       </div>
@@ -202,7 +202,7 @@
         
         <!-- Tab panes -->
         <div class="tab-content">
-          <!--<div class="tab-pane active" id="related">
+         <!-- <div class="tab-pane active" id="related">
             <?php
               if(isset($variables['suggestions'])) {
                 print $variables['suggestions'];
@@ -210,7 +210,7 @@
                 print t('<p>No Suggested Items Found</p>');
               }
             ?>
-          </div> <!-- End of #related -->
+          </div> <!-- End of #related --> 
           <div class="tab-pane" id="details">
           <?php
             print render($content);

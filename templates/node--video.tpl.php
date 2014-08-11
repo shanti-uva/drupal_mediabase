@@ -80,6 +80,62 @@
  * @ingroup themeable
  */
 ?>
+<?php // TEASER Display ?>
+<?php if($teaser): 
+		//dpm($variables, 'in teaser');
+		?>
+		<div class="shanti-thumbnail video col-lg-2 col-md-3 col-sm-4 col-xs-12"> 
+    <div class="shanti-thumbnail-image shanti-field-video"> 
+      <a href="<?php print $variables['node_url']; ?>" class="shanti-thumbnail-link">
+         <span class="overlay">
+            <span class="icon"></span>
+         </span>
+         <img title="<?php print $title; ?>" 
+             alt="<?php print $title; ?>" 
+             src="<?php if(isset($variables['thumbnail_url'])) { print $variables['thumbnail_url']; } ?>" 
+             typeof="foaf:Image" class="k-no-rotate">
+         <i class="icon shanticon-video"></i> 
+      </a>
+    </div>
+    <div class="shanti-thumbnail-info">      
+     <div class="body-wrap">
+      <div class="shanti-thumbnail-field shanti-field-created">       
+          <span class="shanti-field-content"><?php print date('j F Y', $variables['created']); ?></span>  
+      </div>  
+      <div class="shanti-thumbnail-field shanti-field-title">        
+         <span class="field-content"><a href="<?php print $variables['node_url']; ?>" 
+             class="shanti-thumbnail-link"><?php print $title; ?></a></span>  
+      </div>  
+      <?php if(isset($variables['duration'])): ?>
+        <div class="shanti-thumbnail-field shanti-field-duration">        
+         <span class="field-content"> <?php print $variables['duration']['formatted'] ?></span>
+        </div>
+      <?php endif; ?>
+      
+            
+      <?php if($coll): ?>
+        <div class="shanti-field shanti-field-group-audience">     
+            <div class="shanti-field-content"><a href="<?php print $coll->url; ?>" 
+              class="shanti-thumbnail-link"><a href="<?php print $coll->url; ?>"><?php print $coll->title; ?></a>
+            </div>  
+        </div>  
+      <?php endif; ?>
+    </div> <!-- end body-wrap -->
+    
+    <div class="footer-wrap">  
+      <?php if(isset($variables['place_link'])): ?>
+        <div class="shanti-thumbnail-field shanti-field-place">        
+         <span class="field-content"><i class="shanticon shanticon-places"></i> 
+           <?php print render($variables['place_link']); ?>
+         </span>
+        </div>
+      <?php endif; ?>
+    </div> <!-- end footer -->  
+   </div> <!-- end shanti-thumbnail-info -->
+</div> <!-- end shanti-thumbnail -->
+
+<?php // Full Mode Display ?>
+<?php else: ?>
 <div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?> clearfix"<?php print $attributes; ?>>
 
   <?php print $user_picture; ?>
@@ -169,3 +225,4 @@
   <?php print render($content['comments']); ?>
 
 </div>
+<?php endif; ?>

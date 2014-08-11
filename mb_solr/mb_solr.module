@@ -335,6 +335,11 @@ function mb_solr_make_teaser($entity, $coll) {
     // Add Place Link to Render array
     if(!empty($node->field_pbcore_coverage_spatial)) {
       $entity['place_link'] = field_view_value('node', $node, 'field_pbcore_coverage_spatial', $node->field_pbcore_coverage_spatial[LANGUAGE_NONE][0]);
+			/*if(isset($view['#href'])) {
+				$entity['place_link'] = l($view['#title'], $view['#href']);
+			} else {
+				$entity['place_link'] = FALSE;
+			}*/
     }
   } else {
     $mbpath = drupal_get_path('module', 'mediabase');

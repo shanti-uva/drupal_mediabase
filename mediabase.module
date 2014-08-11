@@ -134,41 +134,60 @@ function mediabase_persistent_nid($nid) {
  
 /**
  * Implements hook_theme_registry_alter()
- *    Taken from http://www.metachunk.com/blog/adding-module-path-drupal-7-theme-registry
- *    Adds mediabase/templates folder to theme paths
+ *    Taken from https://www.drupal.org/node/715160
+ *    which is based on http://www.metachunk.com/blog/adding-module-path-drupal-7-theme-registry
+ *    Registers template folder for: node--audio, node--collection, node--video
 **/
 function mediabase_theme_registry_alter(&$theme_registry) {
-  $mod_path = drupal_get_path('module', 'mediabase');
-  $theme_registry_copy = $theme_registry;       // munge on a copy
-  _theme_process_registry($theme_registry_copy, 'phptemplate', 'theme_engine', 'shanti-sarvaka', $mod_path);
+  $theme_registry_copy = $theme_registry;
+  $module_path = drupal_get_path('module', 'mediabase');
+  _theme_process_registry($theme_registry_copy, 'phptemplate', 'theme_engine', 'shanti_sarvaka', $module_path);
   $theme_registry += array_diff_key($theme_registry_copy, $theme_registry);
-  $hooks = array('node');
-  foreach ($hooks as $h) {
-    _mediabase_insert_after_first_element($theme_registry[$h]['theme paths'], $mod_path);
+  // A list of templates the module will provide templates for
+  $hooks = array('node--audio', 'node--collection', 'node--video');
+  foreach ($hooks as $hook) {
+    // Add the key 'theme paths' if it doesn't exist in this theme's registry
+    if (!isset($theme_registry[$hook]['theme paths'])) {
+      $theme_registry[$hook]['theme paths'] = array();
+    }
+    // Shift this module's directory to the top of the theme path list
+    if (is_array($theme_registry[$hook]['theme paths'])) {
+      $first_element = array_shift($theme_registry[$hook]['theme paths']);
+      if ($first_element) {
+        array_unshift($theme_registry[$hook]['theme paths'], $first_element, $module_path);
+      }
+      else {
+        array_unshift($theme_registry[$hook]['theme paths'], $module_path);
+      }
+    }
   }
 }
 
 /**
- * Helper function for re-ordering arrays (needed by theme_registry_alter)
- *    See mediabase_theme_registry_alter above for source.
-*/
-function _mediabase_insert_after_first_element(&$a, $element) {
-  if(is_array($a)) {
-    $first_element = array_shift($a);
-    array_unshift($a, $first_element, $element);
-  }
-}
-
-/**
- *   Implements hook_preprocess_node to add url for transcript
+ *   Implements hook_preprocess_node to add url for transcript and collection
  */
 function mediabase_preprocess_node(&$variables) {
-  $variables['transcript_url'] = 'node/' . $variables['node']->nid . '/transcript';
+	global $base_path;
+	//dpm($variables, 'variables');
+	$node = $variables['node'];
+	if(in_array($variables['type'], array('audio', 'video'))) {
+		if(empty($variables['field_transcript'])) {
+			$variables['transcript_url'] = FALSE;
+		} else { 
+		  $variables['transcript_url'] = 'node/' . $node->nid . '/transcript';
+		}
+		$coll = get_collection_ancestor_node($node);
+	  if($coll) { $coll->url = $base_path . drupal_get_path_alias('node/' . $coll->nid); }
+		$variables['coll'] = $coll;
+		if(!empty($variables['field_pbcore_coverage_spatial'])) {
+			$variables['place_link'] =  field_view_value('node', $node, 'field_pbcore_coverage_spatial', $node->field_pbcore_coverage_spatial[LANGUAGE_NONE][0]);
+		}
+	}
 }
 
 /**
  * Implements hook_node_load adds fields to video and audio node info for api services and other things
- * Fields added: thumbnail Url, duration[seconds, format]
+ * Fields	 added: thumbnail Url, duration[seconds, format]
  */
 function mediabase_node_load($nodes, $types) {
   if(in_array('audio', $types) || in_array('video', $types)) {

@@ -202,7 +202,7 @@
         
         <!-- Tab panes -->
         <div class="tab-content">
-          <!--<div class="tab-pane active" id="related">
+          <div class="tab-pane" id="related">
             <?php
               if(isset($variables['suggestions'])) {
                 print $variables['suggestions'];
@@ -211,7 +211,7 @@
               }
             ?>
           </div> <!-- End of #related -->
-          <div class="tab-pane" id="details">
+          <div class="tab-pane active" id="details">
           <?php
             print render($content);
           ?>

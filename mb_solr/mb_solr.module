@@ -280,6 +280,21 @@ function mb_solr_preprocess_node(&$variables) {
 }
 
 /**
+ * Implements hook_form_alter to alter the search block form with checkboxes for description or transcript
+ */
+function mb_solr_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_id == 'search_block_form') {
+		$form['shanti_options'] = array(
+			'scope' => array(
+				'#type' => 'checkboxes',
+				'#options' => array(t('Descriptions'), t('Transcripts')),
+				'#attributes' => array('class' => array('shanti-options')),
+			),
+		);
+	}
+}
+
+/**
  * Search results theming function just creates mark up for items in the collect
  * This is included in the node display through mb_solr_node_view (below).
  */

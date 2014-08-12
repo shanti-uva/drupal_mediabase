@@ -219,8 +219,8 @@ function mb_services_get($type, $kmid) {
   module_load_include('inc', 'mb_kaltura', 'mb_kaltura');
   ksort($entities);
   foreach($entities as $eid => $entity) {
-    $type = $entity->bundle;
-    if($type == 'video' || $type == 'audio') {
+    $ntype = $entity->bundle;
+    if($ntype == 'video' || $ntype == 'audio') {
       $n++; 
       if($n >= $start && $n <= $end) {
         $item = array();
@@ -230,8 +230,8 @@ function mb_services_get($type, $kmid) {
         	
           $item['nid'] = $eid;
           $item['title'] = $node->title;
-          $item['type'] = $type;
-          $kid = ($type == 'video') ? $node->field_video['und'][0]['entryid'] : $node->field_audio['und'][0]['entryid'];
+          $item['type'] = $ntype;
+          $kid = ($ntype == 'video') ? $node->field_video['und'][0]['entryid'] : $node->field_audio['und'][0]['entryid'];
           $item['kaltura_id'] = $kid;
           $item['thumbnail'] = $node->thumbnail_url;
           $media = _get_media_from_entry_id($kid);

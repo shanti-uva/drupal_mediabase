@@ -11,6 +11,7 @@ Drupal.behaviors.mediabase={attach: function(context){
    addToggleToSearchForm( siteSearch);
    
    function addToggleToSearchForm( searchForm ) {
+   	return; // This should be done in Drupal with the Form API and possibly a submit function. Disabling for now.
       var toggleBlock = jQuery('<p class="search-toggle-box"/>');
       searchForm.find('form').append(toggleBlock);
       

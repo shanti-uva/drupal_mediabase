@@ -39,12 +39,13 @@ function mb_services_menu() {
     'access callback' => TRUE,
   );
   */
-  // Return JSON containing a list of a/v nodes tagged with given Kmap ID
-  $items['services/subject/%'] = array(
+  // Return JSON containing a list of a/v nodes tagged with given Kmap ID 
+  // First param is either place or subject; Second is the kmap id
+  $items['services/%/%'] = array(
     'title' => 'JSON output of Mediabase Nodes by Kmap ID',
     'description' => 'Return the JSON description for Mediabase nodes that are tagged with a given Kmap ID',
-    'page callback' => 'mb_services_subject',
-    'page arguments' => array(2),
+    'page callback' => 'mb_services_get',
+    'page arguments' => array(1,2),
     'access callback' => TRUE,
   );
 	
@@ -120,63 +121,93 @@ function mb_services_collection($collid, $pg = 1) {
 }
 
 /**
- * mb_services_subjects: Returns JSON for all resources tagged with a certain kmap subject or subcollection
+ * mb_services_get: Returns JSON for all resources tagged with a certain kmap subject, subcollection, or place
  * 
  * e.g.: http://mediabase.drupal-dev.shanti.virginia.edu/services/subject/302
+ * 
+ *  was mb_services_subject but adding place so that subject or place is first var
  */
-function mb_services_subject($kmid) {
+function mb_services_get($type, $kmid) {
   $pg = (isset($_GET['pg'])) ? $_GET['pg'] * 1 : 1;
   $rows = (isset($_GET['rows'])) ? $_GET['rows'] * 1 : 10;
-  // Load mb_kaltura include for its functions for calling kaltura
-  module_load_include('inc', 'mb_kaltura', 'mb_kaltura');
-  // Get array of this id and all its children ids
-  $kmids = mb_services_get_all_kmap_children($kmid);
-  if(!$kmids) {
-    drupal_json_output(array( 'media' => array(), 'total' => 0, ));
-    return;
-  } 
-  // Use this array of Kmap Ids to find the corresponding Term Ids (tid) in the Kmap Taxonomy
-  $query = db_select("field_data_kmap_id", "km")
-            ->condition("km.kmap_id_value", $kmids, "IN")
-            ->condition("km.entity_type", "taxonomy_term")
-            ->fields("km", array("entity_id"))
-            ->execute();
-  $result = $query->fetchAll();
-  $tids = array();
-  // Create an array of tids
-  foreach($result as $term) {
-    array_push($tids, $term->entity_id);
-  }
+  $tids = array(); // array for term IDs (Subjects and collections include subcategories)
+  if($type == 'subject') {
+	  // Get array of this id and all its children ids
+	  $kmids = mb_services_get_all_kmap_children($kmid);
+	  if(!$kmids) {
+	    drupal_json_output(array( 'media' => array(), 'total' => 0, ));
+	    return;
+	  } 
+	  // Use this array of Kmap Ids to find the corresponding Term Ids (tid) in the Kmap Taxonomy
+	  $query = db_select("field_data_kmap_id", "km")
+	            ->condition("km.kmap_id_value", $kmids, "IN")
+	            ->condition("km.entity_type", "taxonomy_term")
+	            ->fields("km", array("entity_id"))
+	            ->execute();
+	  $result = $query->fetchAll();
+	  // Create an array of tids
+	  foreach($result as $term) {
+	    array_push($tids, $term->entity_id);
+	  }
+	} else if($type == 'place') {
+		// Search field_data_place_dictionary_id for exact match on kmap id given
+	  $query = db_select("field_data_place_dictionary_id", "pdi")
+	            ->condition("pdi.place_dictionary_id_value", $kmid, "=")
+	            ->condition("pdi.entity_type", "taxonomy_term")
+	            ->fields("pdi", array("entity_id"))
+	            ->execute();
+	  $result = $query->fetchAll();
+	  // Create an array of tids
+	  foreach($result as $term) {
+	    array_push($tids, $term->entity_id);
+	  }
+	}
   if(count($tids) == 0) {
-    drupal_json_output(array( 'media' => array(), 'total' => 0, ));
+    drupal_json_output(array( 'media' => array(), 'total' => 0, 'type' => $type, 'kmid' => $kmid ));
     return;
   }
-  // Use array of Term Ids to find all Nodes tagged with with any of them
+  // Subjects: Use array of Term Ids to find all Nodes tagged with with any of the tids for subjects
   $entities = array();
   // Query the subjects field (characteristic)
-  $query = db_select("field_data_field_characteristic", "fdfc")
-            ->condition("fdfc.field_characteristic_tid", $tids, "IN")
-            ->fields("fdfc")
-            ->execute();
-  $results = $query->fetchAll();
-  // Sift results for duplicates and create array keyed on eid
-  foreach($results as $result) {
-    if (!key_exists($result->entity_id, $entities)) {
-      $entities[$result->entity_id] = $result;
-    }
-  }
-  // Query the subcollection fields
-  $query = db_select("field_data_field_subcollection", "fdfs")
-            ->condition("fdfs.field_subcollection_tid", $tids, "IN")
-            ->fields("fdfs")
-            ->execute();
-  $results = $query->fetchAll();
-  // Sift results for duplicates and create array keyed on eid
-  foreach($results as $result) {
-    if (!key_exists($result->entity_id, $entities)) {
-      $entities[$result->entity_id] = $result;
-    }
-  }
+  if($type == 'subject') { 
+	  $query = db_select("field_data_field_characteristic", "fdfc")
+	            ->condition("fdfc.field_characteristic_tid", $tids, "IN")
+	            ->fields("fdfc")
+	            ->execute();
+	  $results = $query->fetchAll();
+	  // Sift results for duplicates and create array keyed on eid
+	  foreach($results as $result) {
+	    if (!key_exists($result->entity_id, $entities)) {
+	      $entities[$result->entity_id] = $result;
+	    }
+	  }
+	  // Query the subcollection fields
+	  $query = db_select("field_data_field_subcollection", "fdfs")
+	            ->condition("fdfs.field_subcollection_tid", $tids, "IN")
+	            ->fields("fdfs")
+	            ->execute();
+	  $results = $query->fetchAll();
+	  // Sift results for duplicates and create array keyed on eid
+	  foreach($results as $result) {
+	    if (!key_exists($result->entity_id, $entities)) {
+	      $entities[$result->entity_id] = $result;
+	    }
+	  }
+	// Places: Use TID found to find all Nodes tagged with it. Keeping single TID in array for now.
+	} else if ($type == 'place') {
+		 $query = db_select("field_data_field_pbcore_coverage_spatial", "fdfp")
+	            ->condition("fdfp.field_pbcore_coverage_spatial_tid", $tids, "IN")
+	            ->fields("fdfp")
+	            ->execute();
+	  $results = $query->fetchAll();
+	  // Sift results for duplicates and create array keyed on eid
+	  foreach($results as $result) {
+	    if (!key_exists($result->entity_id, $entities)) {
+	      $entities[$result->entity_id] = $result;
+	    }
+	  }
+	}
+	// Do page calculations based on Rows and get the desired splice of nodes
   $n = 0;
   $start = ($pg - 1) * $rows + 1;
   $end = $pg * $rows;
@@ -184,6 +215,8 @@ function mb_services_subject($kmid) {
   $items = array();
 
   // For entities that are video or audio nodes output json
+  // Load mb_kaltura include for its functions for calling kaltura
+  module_load_include('inc', 'mb_kaltura', 'mb_kaltura');
   ksort($entities);
   foreach($entities as $eid => $entity) {
     $type = $entity->bundle;
@@ -214,6 +247,8 @@ function mb_services_subject($kmid) {
   }
 
   $gout["total"] = $n;
+	$gout["type"] = $type;
+	$gout["kmid"] = $kmid;
   $gout["page"] = $pg;
   $gout["rows"] = $rows;
   $gout["media"] = $items;

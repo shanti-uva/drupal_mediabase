@@ -3,3 +3,4 @@ files
 private
 .project
 .DS_Store
+nbproject/*

@@ -318,7 +318,7 @@ function theme_search_results__apachesolr_search__homepage(&$vars) {
   global $base_path;
   //dpm($vars, 'in home page theme');
   drupal_set_breadcrumb(array(l('','home')));
-	//return; // using views Browse Media > Home Block for gallery
+  return; // using views Browse Media > Home Block for gallery
   $output = $vars['pager'] . '<div class="shanti-gallery">';
   
   foreach ($vars['results'] as $k => $e) {
@@ -365,6 +365,9 @@ function mb_solr_make_teaser($entity, $coll) {
   return $html;
 }
 
+function mb_solr_preprocess_views_view(&$vars) {
+   // dpm($vars);
+}
 /**
  * Implements hook_node_view:
  *    Call the search page to get the list of a collections a/v items and adds these to the node's display.

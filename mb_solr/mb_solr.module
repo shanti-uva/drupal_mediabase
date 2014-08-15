@@ -224,10 +224,10 @@ function mb_solr_make_teaser($v, $coll) {
             class="views-ajax-processed-processed">' . $v['title'] . '</a></span>  </div>  
           <div class="views-field views-field-created">    <span class="views-label views-label-created">Posted</span>    
             <span class="field-content">' . date('M jS, Y', $v['fields']['created']) . '</span>  </div>  
-          <div class="views-field views-field-group-audience">    <span class="views-label views-label-group-audience">in </span>    
+          <!--<div class="views-field views-field-group-audience">    <span class="views-label views-label-group-audience">in </span>    
           <div class="field-content"><a href="/collection/tibetan-and-himalayan-library" 
             class="views-ajax-processed-processed">' . $coll . '</a></div>  
-    </div>  
+    </div>  -->
   </div>';
 }
 

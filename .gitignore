@@ -2,3 +2,5 @@ settings.php
 files
 private
 .project
+nbproject
+nbproject/*

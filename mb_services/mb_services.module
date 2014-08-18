@@ -6,7 +6,7 @@
 
  define('MB_SOLR_ITEMS_PER_PAGE', 50); 
  define('KMAP_SERVICE', "http://subjects.kmaps.virginia.edu/features/");
- define('KMAP_SOLR_INDEX_POST', "http://drupal-index.shanti.virginia.edu/solr-test/kmindex/update/json?commit=true&wt=json");
+ define('KMAP_SOLR_INDEX_POST', "http://kidx.shanti.virginia.edu/solr/kmindex/update/json?commit=true&wt=json");
  
 /*
  * Implements hook_menu. 
@@ -76,6 +76,7 @@ function mb_services_node_update($node) {
 	
 	$ewrap = entity_metadata_wrapper('node', $node);
 	$bundle = $ewrap->getBundle();
+	$nid = $ewrap->getIdentifier();
 	if(in_array($bundle, array('audio', 'video'))) {
 		$instantiation = $ewrap->field_pbcore_instantiation->value();
 		$desc_array = $ewrap->field_pbcore_description->value();
@@ -83,18 +84,19 @@ function mb_services_node_update($node) {
 		foreach($desc_array as $n => $desc_obj) {
 			$desc .= $desc_obj->field_description[LANGUAGE_NONE][0]['value'] . ' | '; // Separating multiple descriptions with vertical pipe
 		}
-		$data = array(
-			'url' => (!empty($node->path['alias'])) ? $node->path['alias'] : url('node/' . $node->nid),
+		$data[] = array(
+			'url' => (!empty($node->path['alias'])) ? $node->path['alias'] : url('node/' . $nid),
 			'bundle' => $bundle,
 			'summary' => $desc,
 			'caption' => $ewrap->label(),
+			'id' => $nid,
 			'service' => 'mediabase',
-			'uid' => 'mediabase-' . $node->nid,
+			'uid' => 'mediabase-' . $nid,
 			'thumbnail_url' => $node->thumbnail_url,
 			'timestamp' => (!empty($instantiation->field_date_created['und'][0]['value'])) ? $instantiation->field_date_created['und'][0]['value'] : $node->created,
 			'kmapid' => mb_services_get_node_kmapids($node),
 		);
-		//dpm(drupal_http_build_query($data), 'query build');
+		dpm(array($data, drupal_http_build_query($data)), 'query build');
 		$settings = array(
 			'method' => 'POST',
 			'data' => drupal_http_build_query($data),

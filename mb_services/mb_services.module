@@ -1,10 +1,12 @@
 <?php
 /*
- *  mb_services.module: Returns JSON objects representing entities in the Mediabase.
+ *  mb_services.module: Pertains to all API calls GETs & POSTs relating to MB that are not covered by the Services module.
+ * 									    Returns JSON objects representing entities in the Mediabase.
  */
 
  define('MB_SOLR_ITEMS_PER_PAGE', 50); 
  define('KMAP_SERVICE', "http://subjects.kmaps.virginia.edu/features/");
+ define('KMAP_SOLR_INDEX_POST', "http://drupal-index.shanti.virginia.edu/solr-test/kmindex/update/json?commit=true&wt=json");
  
 /*
  * Implements hook_menu. 
@@ -21,8 +23,8 @@
  */
 function mb_services_menu() {
   $items = array();
-  /** Old code from Travis. This module was not enabled. Commenting out until needed (ndg, 2014-04-24)
-  // Return json of a single collection (page 1)
+
+  // Return json of a single collection (page 1) (collection services by Travis)
   $items['services/coll/%'] = array(
     'title' => 'JSON output of Mediabase Data',
     'description' => 'Return the JSON description for Mediabase items',
@@ -38,7 +40,7 @@ function mb_services_menu() {
     'page arguments' => array(2, 3),
     'access callback' => TRUE,
   );
-  */
+  
   // Return JSON containing a list of a/v nodes tagged with given Kmap ID 
   // First param is either place or subject; Second is the kmap id
   $items['services/%/%'] = array(
@@ -48,8 +50,6 @@ function mb_services_menu() {
     'page arguments' => array(1,2),
     'access callback' => TRUE,
   );
-	
-	// TODO: Need to implement a places service on the model of the above
 	
   // Return Embed code for audio or video
   $items['services/embed/%'] = array(
@@ -61,6 +61,82 @@ function mb_services_menu() {
   );
   
   return $items;
+}
+
+/**
+ * Implements hook_node_update to post data changes to Kmaps Solr Index
+ * 
+ */
+function mb_services_node_update($node) {
+	/**
+	 * 
+	 * Record fields should have:
+	 * url, bundle, summary, caption, id, service = "mediabase", uid = "mediabase-" plus nid, thumbnail_url, timestamp, kmapid [array of subjects and places]
+	 */
+	
+	$ewrap = entity_metadata_wrapper('node', $node);
+	$bundle = $ewrap->getBundle();
+	if(in_array($bundle, array('audio', 'video'))) {
+		$instantiation = $ewrap->field_pbcore_instantiation->value();
+		$desc_array = $ewrap->field_pbcore_description->value();
+		$desc = '';
+		foreach($desc_array as $n => $desc_obj) {
+			$desc .= $desc_obj->field_description[LANGUAGE_NONE][0]['value'] . ' | '; // Separating multiple descriptions with vertical pipe
+		}
+		$data = array(
+			'url' => (!empty($node->path['alias'])) ? $node->path['alias'] : url('node/' . $node->nid),
+			'bundle' => $bundle,
+			'summary' => $desc,
+			'caption' => $ewrap->label(),
+			'service' => 'mediabase',
+			'uid' => 'mediabase-' . $node->nid,
+			'thumbnail_url' => $node->thumbnail_url,
+			'timestamp' => (!empty($instantiation->field_date_created['und'][0]['value'])) ? $instantiation->field_date_created['und'][0]['value'] : $node->created,
+			'kmapid' => mb_services_get_node_kmapids($node),
+		);
+		//dpm(drupal_http_build_query($data), 'query build');
+		$settings = array(
+			'method' => 'POST',
+			'data' => drupal_http_build_query($data),
+			'headers' => array('Content-Type' => 'application/x-www-form-urlencoded'),
+		);
+		$result = drupal_http_request(KMAP_SOLR_INDEX_POST, $settings);
+		dpm($result, 'result of push to SOLR');
+	}
+} 
+ 
+/**
+ * Helper function to get all Kmaps associated with a node as an array
+ */
+function mb_services_get_node_kmapids($node) {
+	if(is_int($node)) { $node = node_load($node); }
+	$field_data = array(
+		'places' => array(
+			'field' => 'field_pbcore_coverage_spatial',
+			'subfield' => 'place_dictionary_id',
+			'label' => 'places-',
+		),
+		'subjects' => array(
+			'field' => 'field_characteristic',
+			'subfield' => 'kmap_id',
+			'label' => 'subjects-',
+		),
+		'subcollection' => array(
+			'field' => 'field_subcollection',
+			'subfield' => 'kmap_id',
+			'label' => 'subjects-',
+		),
+	);
+	$kids = array();
+	$ewrap = entity_metadata_wrapper('node', $node);
+	foreach($field_data as $label => $fdata) {
+		$fobjarray = $ewrap->{$fdata['field']}->value();
+		foreach($fobjarray as $n => $fobj) {
+			$subfield = $fobj->{$fdata['subfield']};
+			array_push($kids, $fdata['label'] . $subfield[LANGUAGE_NONE][0]['value']);
+		}
+	}
+	return $kids;
 }
 
 /*

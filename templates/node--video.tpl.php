@@ -99,20 +99,21 @@
     </div>
     <div class="shanti-thumbnail-info">      
      <div class="body-wrap">
-      <div class="shanti-thumbnail-field shanti-field-created">       
-          <span class="shanti-field-content"><?php print date('j F Y', $variables['created']); ?></span>  
-      </div>  
       <div class="shanti-thumbnail-field shanti-field-title">        
          <span class="field-content"><a href="<?php print $variables['node_url']; ?>" 
              class="shanti-thumbnail-link"><?php print $title; ?></a></span>  
       </div>  
+      
       <?php if(isset($variables['duration'])): ?>
         <div class="shanti-thumbnail-field shanti-field-duration">        
          <span class="field-content"> <?php print $variables['duration']['formatted'] ?></span>
         </div>
       <?php endif; ?>
       
-            
+      <div class="shanti-thumbnail-field shanti-field-created">       
+          <span class="shanti-field-content"><?php print date('j F Y', $variables['created']); ?></span>  
+      </div>  
+      
       <?php if($coll): ?>
         <div class="shanti-field shanti-field-group-audience">     
             <div class="shanti-field-content"><a href="<?php print $coll->url; ?>" 

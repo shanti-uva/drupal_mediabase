@@ -603,12 +603,15 @@ function mb_structure_get_groups_for_user( $add_optgroup = TRUE ) {
    return $gids_with_labels;
 }
 
-function mb_structure_already_started_validate($element, &$form_state, $form) {
-   $gid = $form_state['input']['collection_id'];
+function mb_structure_already_started_validate(&$form_state, $form) {
+	 // this had $element,  as the first parameter but caused an error (ndg, 2014-08-19)
+   //dpm(array($form_state, $form), 'form state in started validate');
+	 $fobj = (empty($form_state['input'])) ? $form : $form_state; // Travis had form_state but it doesn't have input, form does. Doing this in case there is a situation where form_state does have input
+   $gid = $fobj['input']['collection_id'];
    $group = og_get_group('group',$gid);
    $nid = $group->etid;
    $path_format = 'node/add/%s';
-   $path = $form_state['clicked_button']['#id'] == 'edit-submit-video' ? sprintf($path_format, 'video') : sprintf($path_format, 'audio');
+   $path = $fobj['clicked_button']['#id'] == 'edit-submit-video' ? sprintf($path_format, 'video') : sprintf($path_format, 'audio');
    drupal_goto($path, array('query' => array('gids_node[]' => $nid)));
 }
 

@@ -6,7 +6,7 @@
 
  define('MB_SOLR_ITEMS_PER_PAGE', 50); 
  define('KMAP_SERVICE', "http://subjects.kmaps.virginia.edu/features/");
- define('KMAP_SOLR_INDEX_POST', "http://kidx.shanti.virginia.edu/solr/kmindex/update/json?commit=true&wt=json");
+ define('KMAP_SOLR_INDEX_POST', "http://kidx.shanti.virginia.edu/solr/kmindex/update/json");
  
 /*
  * Implements hook_menu. 
@@ -62,23 +62,46 @@ function mb_services_menu() {
   
   return $items;
 }
+/**
+ * Implements hook_node_insert to post data changes to Kmaps Solr Index
+ * 
+ */
+function mb_services_node_insert($node) {
+	
+	mb_services_post_to_solr($node);
+}
 
 /**
  * Implements hook_node_update to post data changes to Kmaps Solr Index
  * 
  */
 function mb_services_node_update($node) {
+	mb_services_post_to_solr($node);
+}
+
+function mb_services_post_to_solr($node) {
 	/**
 	 * 
 	 * Record fields should have:
 	 * url, bundle, summary, caption, id, service = "mediabase", uid = "mediabase-" plus nid, thumbnail_url, timestamp, kmapid [array of subjects and places]
 	 */
-	
+	if(empty($node->thumbnail_url)) {
+		$node->thumbnail_url = ''; 
+		if(count($node->field_video) > 0) {
+			list($lang, $vinfo) = each($node->field_video);
+			$kid = $vinfo[0]['entryid'];
+			$media = _get_media_from_entry_id($kid);
+			$node->thumbnail_url = (isset($media->thumbnailUrl)) ? $media->thumbnailUrl : '';
+		}
+	}
 	$ewrap = entity_metadata_wrapper('node', $node);
 	$bundle = $ewrap->getBundle();
+	if(empty($bundle)) { $bundle = $node->type; }
 	$nid = $ewrap->getIdentifier();
 	if(in_array($bundle, array('audio', 'video'))) {
 		$instantiation = $ewrap->field_pbcore_instantiation->value();
+		$caption = $ewrap->label();
+		if(empty($caption)) { $caption = $node->title; }
 		$desc_array = $ewrap->field_pbcore_description->value();
 		$desc = '';
 		foreach($desc_array as $n => $desc_obj) {
@@ -88,7 +111,7 @@ function mb_services_node_update($node) {
 			'url' => (!empty($node->path['alias'])) ? $node->path['alias'] : url('node/' . $nid),
 			'bundle' => $bundle,
 			'summary' => $desc,
-			'caption' => $ewrap->label(),
+			'caption' => $caption,
 			'id' => $nid,
 			'service' => 'mediabase',
 			'uid' => 'mediabase-' . $nid,
@@ -96,11 +119,17 @@ function mb_services_node_update($node) {
 			'timestamp' => (!empty($instantiation->field_date_created['und'][0]['value'])) ? $instantiation->field_date_created['und'][0]['value'] : $node->created,
 			'kmapid' => mb_services_get_node_kmapids($node),
 		);
-		dpm(array($data, drupal_http_build_query($data)), 'query build');
+		$data = json_encode($data);
+		$content_length = strlen($data);
+		dpm(array($data, $data), 'query build');
+		
 		$settings = array(
 			'method' => 'POST',
-			'data' => drupal_http_build_query($data),
-			'headers' => array('Content-Type' => 'application/x-www-form-urlencoded'),
+			'data' => json_encode($data),
+			'headers' => array(
+				'Content-Type' => 'application/json; charset=utf-8',
+				'Content-Length' => $content_length,
+			),
 		);
 		$result = drupal_http_request(KMAP_SOLR_INDEX_POST, $settings);
 		dpm($result, 'result of push to SOLR');

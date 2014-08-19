@@ -69,7 +69,8 @@ function mb_metadata_node_update_index($node) {
 * Copy the title from pbcore_title to node->title
 **/
 function mb_metadata_validate_title($element, &$form_state) {
-   $pbcore_title = $form_state['values']['field_pbcore_title']['und'][0];
+	 $fl = field_language('node', $form_state['node'], 'field_pbcore_title');
+   $pbcore_title = $form_state['values']['field_pbcore_title'][$fl][0];
    $title = $pbcore_title['field_title']['und'][0]['value'];
    $form_state['values']['title'] = $title;
 }

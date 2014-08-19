@@ -99,7 +99,7 @@ function mb_services_post_to_solr($node) {
 	if(empty($bundle)) { $bundle = $node->type; }
 	$nid = $ewrap->getIdentifier();
 	if(in_array($bundle, array('audio', 'video'))) {
-		$url = (!empty($node->path['alias'])) ? $node->path['alias'] : url('node/' . $nid);
+		$url = (!empty($node->path['alias'])) ? $node->path['alias'] : drupal_get_path_alias('node/' . $nid);
 		$desc_array = $ewrap->field_pbcore_description->value();
 		$desc = '';
 		foreach($desc_array as $n => $desc_obj) {

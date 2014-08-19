@@ -259,7 +259,8 @@ function mb_structure_form_team_node_form_alter(&$form, &$form_state, $form_id) 
 **/
 function mb_structure_form_video_node_form_alter(&$form, &$form_state, $form_id) {
 	// if Kaltura ID is defined, embed a player that allows thumbnail capture (ndg, 2013-06)
-	$kid = (isset($form_state['node']->field_video['und'][0]['entryid'])) ? $form_state['node']->field_video['und'][0]['entryid'] : NULL;
+	$flang = field_language('node', $form_state['node'], 'field_video');
+	$kid = (isset($form_state['node']->field_video[$flang][0]['entryid'])) ? $form_state['node']->field_video[$flang][0]['entryid'] : NULL;
 	if(!empty($kid)) {
 		$embed = '<script src="https://cdnapisec.kaltura.com/p/381832/sp/38183200/embedIframeJs/uiconf_id/14448611/partner_id/381832"></script>
       <div id="kaltura_player_1373286644" style="width: 400px; height: 360px; float:left; padding-right: 20px; padding-bottom: 20px;" itemprop="video" itemscope itemtype="http://schema.org/VideoObject">
@@ -290,8 +291,8 @@ function mb_structure_form_video_node_form_alter(&$form, &$form_state, $form_id)
         t('Use this video player to navigate to a frame in the video and press the camera icon to capture that frame for the video&rsquo;s thumbnail. ' . 
         'The newly-captured frame will replace the current default thumbnail after the video record is saved in Mediabase. ') . 
         '</p><div class="mb_oldthumb">';
-	   $form['field_video']['und']['#prefix'] .= $embed . $instruct;
-	   $form['field_video']['und']['#suffix'] = '</div>' . $form['field_video']['und']['#suffix'];
+	   $form['field_video'][$flang]['#prefix'] .= $embed . $instruct;
+	   $form['field_video'][$flang]['#suffix'] = '</div>' . $form['field_video'][$flang]['#suffix'];
 	   drupal_add_css('.mb_oldthumb .kaltura_field_thumb img, .mb_oldthumb .kaltura_field_thumb br { display: none; }', array('type' => 'inline'));
    } // End of thumbnail capture embed code
    

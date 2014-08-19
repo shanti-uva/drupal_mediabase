@@ -1313,8 +1313,9 @@ function xml_pbcore($nid) {
 * @todo post this as an issue on d.o
 **/
 function _write_to_node_kaltura($node) {
-   if(isset($node->{"field_$node->type"}['und'])) {
-     $entry_id = $node->{"field_$node->type"}['und'][0]['entryid'];
+	 $flang = field_language('node', $node, "field_$node->type");
+   if(isset($node->{"field_$node->type"}[$flang])) {
+     $entry_id = $node->{"field_$node->type"}[$flang][0]['entryid'];
      if ( empty($entry_id)) {
         return;
      }

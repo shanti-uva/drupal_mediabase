@@ -80,10 +80,20 @@ function mb_services_node_update($node) {
 }
 
 /**
+ * Implements hook_node_delete to remove records from kmaps index
+ */
+function mb_services_node_delete($node) {
+	/*  Doesn't work. Need to ask Yuji
+	 * $nid = $node->nid;
+	$data = '{"delete": {"doc": {"uid":"mediabase-' . $nid . '"}}}';
+	dpm($data, 'data');
+	mb_services_do_solr_post($data);*/
+}
+
+/**
  * Post Audio and Video Node updates to Solr Index
  */
 function mb_services_post_to_solr($node) {
-	
 	// Get Entity Wrapper and set field info to send
 	$ewrap = entity_metadata_wrapper('node', $node);
 	$bundle = $ewrap->getBundle();
@@ -124,21 +134,28 @@ function mb_services_post_to_solr($node) {
 		
 		// Serialize data and add to settings array
 		$data = json_encode($data);
-		$content_length = strlen($data);
-		$settings = array(
-			'method' => 'POST',
-			'data' => $data,
-			'headers' => array(
-				'Content-Type' => 'application/json; charset=utf-8',
-				'Content-Length' => $content_length,
-			),
-		);
-		
-		// Do Post to the SOLR Index
-		$result = drupal_http_request(KMAP_SOLR_INDEX_POST, $settings);
+		mb_services_do_solr_post($data);
 	}
 } 
- 
+
+/**
+ * mb_services_do_solr_post: posts to solr index
+ */
+function mb_services_do_solr_post($data) {
+	$content_length = strlen($data);
+	$settings = array(
+		'method' => 'POST',
+		'data' => $data,
+		'headers' => array(
+			'Content-Type' => 'application/json; charset=utf-8',
+			'Content-Length' => $content_length,
+		),
+	);
+	
+	// Do Post to the SOLR Index
+	$result = drupal_http_request(KMAP_SOLR_INDEX_POST, $settings);
+}
+
 /**
  * Helper function to get all Kmaps associated with a node as an array
  */

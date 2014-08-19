@@ -106,7 +106,6 @@ function mb_services_post_to_solr($node) {
 			$desc .= $desc_obj->field_description[LANGUAGE_NONE][0]['value'] . ' | '; // Separating multiple descriptions with vertical pipe
 		}
 		$instantiation = $ewrap->field_pbcore_instantiation->value();
-		$timestamp = (!empty($instantiation->field_date_created['und'][0]['value'])) ? $instantiation->field_date_created['und'][0]['value'] : $node->created;
 		$data[] = array(
 			'url' => $url,
 			'bundle' => $bundle,
@@ -116,7 +115,6 @@ function mb_services_post_to_solr($node) {
 			'service' => 'mediabase',
 			'uid' => 'mediabase-' . $nid,
 			'thumbnail_url' => $node->thumbnail_url,
-			'timestamp' => $timestamp,
 			'kmapid' => mb_services_get_node_kmapids($node),
 		);
 		$data = json_encode($data);
@@ -125,7 +123,7 @@ function mb_services_post_to_solr($node) {
 		
 		$settings = array(
 			'method' => 'POST',
-			'data' => json_encode($data),
+			'data' => $data,
 			'headers' => array(
 				'Content-Type' => 'application/json; charset=utf-8',
 				'Content-Length' => $content_length,

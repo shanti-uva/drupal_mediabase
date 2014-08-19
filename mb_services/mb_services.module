@@ -83,17 +83,8 @@ function mb_services_node_update($node) {
  * Post Audio and Video Node updates to Solr Index
  */
 function mb_services_post_to_solr($node) {
-	// Get thumbnail for node
-	if(empty($node->thumbnail_url)) {
-		$node->thumbnail_url = ''; 
-		if(count($node->field_video) > 0) {
-			list($lang, $vinfo) = each($node->field_video);
-			$kid = $vinfo[0]['entryid'];
-			$media = _get_media_from_entry_id($kid);
-			$node->thumbnail_url = (isset($media->thumbnailUrl)) ? $media->thumbnailUrl : '';
-		}
-	}
-	// Get Entity Wrappter
+
+	// Get Entity Wrapper and set field info to send
 	$ewrap = entity_metadata_wrapper('node', $node);
 	$bundle = $ewrap->getBundle();
 	if(empty($bundle)) { $bundle = $node->type; }
@@ -105,7 +96,19 @@ function mb_services_post_to_solr($node) {
 		foreach($desc_array as $n => $desc_obj) {
 			$desc .= $desc_obj->field_description[LANGUAGE_NONE][0]['value'] . ' | '; // Separating multiple descriptions with vertical pipe
 		}
-		$instantiation = $ewrap->field_pbcore_instantiation->value();
+		
+		// Get thumbnail for node
+		if(empty($node->thumbnail_url)) {
+			$node->thumbnail_url = ''; 
+			if(count($node->field_video) > 0) {
+				list($lang, $vinfo) = each($node->field_video);
+				$kid = $vinfo[0]['entryid'];
+				$media = _get_media_from_entry_id($kid);
+				$node->thumbnail_url = (isset($media->thumbnailUrl)) ? $media->thumbnailUrl : '';
+			}
+		}
+		
+		// Create Data Array from field info
 		$data[] = array(
 			'url' => $url,
 			'bundle' => $bundle,
@@ -117,10 +120,10 @@ function mb_services_post_to_solr($node) {
 			'thumbnail_url' => $node->thumbnail_url,
 			'kmapid' => mb_services_get_node_kmapids($node),
 		);
+		
+		// Serialize data and add to settings array
 		$data = json_encode($data);
 		$content_length = strlen($data);
-		dpm($data, 'json data');
-		
 		$settings = array(
 			'method' => 'POST',
 			'data' => $data,
@@ -129,8 +132,9 @@ function mb_services_post_to_solr($node) {
 				'Content-Length' => $content_length,
 			),
 		);
+		
+		// Do Post to the SOLR Index
 		$result = drupal_http_request(KMAP_SOLR_INDEX_POST, $settings);
-		dpm($result, 'result of push to SOLR');
 	}
 } 
  

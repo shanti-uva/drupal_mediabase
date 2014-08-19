@@ -121,7 +121,7 @@ function mb_services_post_to_solr($node) {
 		);
 		$data = json_encode($data);
 		$content_length = strlen($data);
-		dpm($data, 'query build');
+		dpm($data, 'json data');
 		
 		$settings = array(
 			'method' => 'POST',

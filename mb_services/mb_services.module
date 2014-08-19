@@ -83,14 +83,15 @@ function mb_services_node_update($node) {
  * Post Audio and Video Node updates to Solr Index
  */
 function mb_services_post_to_solr($node) {
-
+	
 	// Get Entity Wrapper and set field info to send
 	$ewrap = entity_metadata_wrapper('node', $node);
 	$bundle = $ewrap->getBundle();
 	if(empty($bundle)) { $bundle = $node->type; }
 	$nid = $ewrap->getIdentifier();
 	if(in_array($bundle, array('audio', 'video'))) {
-		$url = (!empty($node->path['alias'])) ? $node->path['alias'] : drupal_get_path_alias('node/' . $nid);
+		$alias = (!empty($node->path['alias'])) ? $node->path['alias'] : drupal_get_path_alias('node/' . $nid);
+		$url = url($alias, array("absolute" => TRUE));
 		$desc_array = $ewrap->field_pbcore_description->value();
 		$desc = '';
 		foreach($desc_array as $n => $desc_obj) {

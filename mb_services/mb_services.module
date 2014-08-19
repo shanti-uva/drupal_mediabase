@@ -127,7 +127,7 @@ function mb_services_post_to_solr($node) {
 			'method' => 'POST',
 			'data' => json_encode($data),
 			'headers' => array(
-				'Content-Type' => 'application/json; charset=utf-8',
+				'Content-type' => 'application/json; charset=utf-8',
 				'Content-Length' => $content_length,
 			),
 		);

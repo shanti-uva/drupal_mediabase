@@ -17,15 +17,16 @@
          <span class="field-content"><a href="<?php print $result['link']; ?>" 
              class="shanti-thumbnail-link"><?php print $result['title']; ?></a></span>  
       </div>  
+      
+      <div class="shanti-thumbnail-field shanti-field-created">       
+          <span class="shanti-field-content"><?php print date('j F Y', $result['fields']['created']); ?></span>  
+      </div>  
+      
       <?php if(isset($result['duration'])): ?>
         <div class="shanti-thumbnail-field shanti-field-duration">        
          <span class="field-content"> <?php print $result['duration']['formatted'] ?></span>
         </div>
       <?php endif; ?>
-      
-      <div class="shanti-thumbnail-field shanti-field-created">       
-          <span class="shanti-field-content"><?php print date('j F Y', $result['fields']['created']); ?></span>  
-      </div>  
             
       <?php if($coll && 2 == 1): ?>
         <div class="shanti-field shanti-field-group-audience">    

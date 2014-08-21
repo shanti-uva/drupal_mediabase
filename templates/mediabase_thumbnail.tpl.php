@@ -20,8 +20,8 @@
       
       <div class="shanti-thumbnail-field shanti-field-created">       
           <span class="shanti-field-content"><?php 
-          	if(!empty($result['fields']['media_create_date'])) {
-          		print date('j F Y', $result['fields']['media_create_date']);
+          	if(!empty($result['fields']['im_media_create_date'])) {
+          		print date('j F Y', $result['fields']['im_media_create_date'][0]);
 						} else {
           		print date('j F Y', $result['fields']['created']);
 						} 

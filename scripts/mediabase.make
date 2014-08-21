@@ -3,6 +3,7 @@ core = 7.x
 api = 2
 projects[drupal][version] = "7.26"
 projects[drupal][type] = core
+projects[drupal][patch][] = "https://www.drupal.org/files/issues/1525176_1.patch"
 
 ; CONTRIB MODULES
 ; HOW TO FIND GIT REVISION IDS for -dev versions of modules: http://www.wizonesolutions.com/2011/12/19/drush-make-avoid-the-unexpected/ for 

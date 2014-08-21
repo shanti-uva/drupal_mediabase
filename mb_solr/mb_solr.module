@@ -87,7 +87,7 @@ function mb_solr_apachesolr_index_document_build(ApacheSolrDocument $document, $
 	 if(!empty($field_inst->field_date_created)) {
 		  $media_create_date = strtotime($field_inst->field_date_created[$flang][0]['value']);
 	 }
-	 $document->addField('media_create_date', $media_create_date);
+	 $document->addField('im_media_create_date', $media_create_date);
 }
 
 /**
@@ -123,7 +123,12 @@ function mb_solr_apachesolr_query_alter($query) {
    //dpm($query->getParams());
    $path = $query->getPath(); // only alter query for collection pages. Solr re-indexing page urls begin with collection
    if ($path == "homepage/") {
+   	 // Add field im_media_create_date to fl param
      $query->setSolrsort('ds_created', 'desc'); // sort by date created so there can be pagination
+     $fl = $query->getParam('fl');
+		 $fl[] = 'im_media_create_date';
+		 $query->replaceParam('fl', $fl);
+		 
      // Random Sort filter
      /*
      $seed = rand(0, 9999);

@@ -105,7 +105,7 @@
       </div>  
       
       <div class="shanti-thumbnail-field shanti-field-created">       
-          <span class="shanti-field-content"><?php print date('j F Y', $variables['media_create_date']); ?></span>  
+          <span class="shanti-field-content"><?php print date('d M Y', $variables['media_create_date']); ?></span>  
       </div>  
       
       <?php if(isset($variables['duration'])): ?>
@@ -182,7 +182,7 @@
               </button>
             </div>
           <?php endif; ?>
-          <div class="row avdate"><i class="shanticon shanticon-calendar"></i> <?php print $date ;  ?></div>
+          <div class="row avdate"><i class="shanticon shanticon-calendar"></i> <?php print date('d M Y', $variables['media_create_date']); //$date ;  ?></div>
           <div class="row avduration"><i class="shanticon shanticon-hourglass"></i> <?php print $node->duration['formatted'];  ?></div>
           <div class="row avrating">
             <h5>Rating</h5>

@@ -354,11 +354,11 @@ function mb_services_get($type, $kmid) {
         $node = node_load($eid);
         // Only output node info if it's public
         if(node_access('view', $node, user_load(0))) {
-        	
+        	$flang = field_language('node', $node, "field_$ntype");
           $item['nid'] = $eid;
           $item['title'] = $node->title;
           $item['type'] = $ntype;
-          $kid = ($ntype == 'video') ? $node->field_video['und'][0]['entryid'] : $node->field_audio['und'][0]['entryid'];
+          $kid = $node->{"field_$ntype"}[$flang][0]['entryid'];
           $item['kaltura_id'] = $kid;
           $item['thumbnail'] = $node->thumbnail_url;
           $media = _get_media_from_entry_id($kid);

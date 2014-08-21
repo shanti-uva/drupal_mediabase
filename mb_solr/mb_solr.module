@@ -331,9 +331,7 @@ function theme_search_results__apachesolr_search__collection_home(&$vars) {
 
 function theme_search_results__apachesolr_search__homepage(&$vars) {
   global $base_path;
-  //dpm($vars, 'in home page theme');
-  drupal_set_breadcrumb(array(l('','home')));
-  //return; // using views Browse Media > Home Block for gallery
+
   $output = $vars['pager'] . '<div class="shanti-gallery">';
   
   foreach ($vars['results'] as $k => $e) {

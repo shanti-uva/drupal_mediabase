@@ -259,7 +259,8 @@ function _get_entry_id_from_node($node) {
    $node =  (object)$node;
    if($node && isset($node->type)) { 
      $media_field_name = 'field_' . $node->type; //video, audio, image
-     $entry_id = isset($node->{$media_field_name}['und']) ? $node->{$media_field_name}['und'][0]['entryid'] : FALSE; 
+     $flang = field_language('node', $node, $media_field_name);
+     $entry_id = isset($node->{$media_field_name}[$flang]) ? $node->{$media_field_name}[$flang][0]['entryid'] : FALSE; 
      return $entry_id;
    } else {
      return FALSE;

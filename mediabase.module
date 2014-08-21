@@ -182,6 +182,15 @@ function mediabase_preprocess_node(&$variables) {
 		if(!empty($variables['field_pbcore_coverage_spatial'])) {
 			$variables['place_link'] =  field_view_value('node', $node, 'field_pbcore_coverage_spatial', $node->field_pbcore_coverage_spatial[LANGUAGE_NONE][0]);
 		}
+		// Use create date when available for display (See mb_solr.module mb_solr_apachesolr_index_document_build() ln 83)
+		$ew = entity_metadata_wrapper('node', $node);
+		$field_inst = $ew->field_pbcore_instantiation->value();
+		$flang = field_language('node',$node, 'field_pbcore_instantiation');
+		$create_date = $node->created; // Default to node creation date.
+		if(!empty($field_inst->field_date_created)) {
+		  $create_date = strtotime($field_inst->field_date_created[$flang][0]['value']);
+		}
+		$variables['media_create_date'] = $create_date;
 	}
 }
 

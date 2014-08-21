@@ -19,7 +19,13 @@
       </div>  
       
       <div class="shanti-thumbnail-field shanti-field-created">       
-          <span class="shanti-field-content"><?php print date('j F Y', $result['fields']['created']); ?></span>  
+          <span class="shanti-field-content"><?php 
+          	if(!empty($result['fields']['media_create_date'])) {
+          		print date('j F Y', $result['fields']['media_create_date']);
+						} else {
+          		print date('j F Y', $result['fields']['created']);
+						} 
+					?></span>  
       </div>  
       
       <?php if(isset($result['duration'])): ?>

@@ -61,11 +61,12 @@ function mb_solr_menu() {
  *   The machine name of the environment.
  */
 function mb_solr_apachesolr_index_document_build(ApacheSolrDocument $document, $entity, $entity_type, $env_id) {
-   if (! isset($entity->type) || ! in_array($entity->type, array('video','audio'))) {
+	// only modify solr docs for nodes of subtype audio or video
+  if (! isset($entity->type) || ! in_array($entity->type, array('video','audio'))) {
       return;
-   }
-   $parent_group_gid = !empty($entity->group_audience['und']) ? $entity->group_audience['und'][0]['gid'] : null;
-   if (!empty($parent_group_gid)) {
+  }
+  $parent_group_gid = !empty($entity->group_audience['und']) ? $entity->group_audience['und'][0]['gid'] : null;
+  if (!empty($parent_group_gid)) {
       $gids=array($parent_group_gid);
       $parent_group = og_get_group('group',$parent_group_gid);
       $group_node = node_load($parent_group->etid);
@@ -78,6 +79,15 @@ function mb_solr_apachesolr_index_document_build(ApacheSolrDocument $document, $
          $document->addField('im_collection_gid', $gid);
       }
    }
+	 // Add Media Create Date (see also mediabase.module mediabase_preprocess_node() ln 185 )
+	 $media_create_date = $entity->created;
+	 $ew = entity_metadata_wrapper('node', $entity);
+	 $field_inst = $ew->field_pbcore_instantiation->value();
+	 $flang = field_language('node',$entity, 'field_pbcore_instantiation');
+	 if(!empty($field_inst->field_date_created)) {
+		  $media_create_date = strtotime($field_inst->field_date_created[$flang][0]['value']);
+	 }
+	 $document->addField('media_create_date', $media_create_date);
 }
 
 /**
@@ -190,7 +200,7 @@ function mb_solr_apachesolr_process_results(&$results, DrupalSolrQueryInterface 
            JOIN {node_kaltura} ON field_audio_entryid = kaltura_entryid
            WHERE entity_id = :etid";
         }
-        
+        // Add thumbnail url and duration
         $res = db_query($query, array(':etid' => $entity_id) );
         $qres = $res->fetchAll();
         if(is_array($qres) && count($qres) > 0) {
@@ -204,7 +214,7 @@ function mb_solr_apachesolr_process_results(&$results, DrupalSolrQueryInterface 
             );
           }
         }
-     }
+      }
    }
 }
 

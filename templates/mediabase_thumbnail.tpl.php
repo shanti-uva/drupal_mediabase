@@ -1,4 +1,4 @@
-<div class="shanti-thumbnail <?php print $result['bundle']; ?> col-lg-2 col-md-3 col-sm-4 col-xs-12"> 
+<li class="shanti-thumbnail <?php print $result['bundle']; ?> col-lg-2 col-md-3 col-sm-4 col-xs-12"> 
     <div class="shanti-thumbnail-image shanti-field-<?php print $result['bundle']; ?>"> 
       <a href="<?php print $result['link']; ?>" class="shanti-thumbnail-link">
          <span class="overlay">
@@ -54,4 +54,4 @@
       <?php endif; ?>
     </div> <!-- end footer -->  
    </div> <!-- end shanti-thumbnail-info -->
-</div> <!-- end shanti-thumbnail -->
+</li> <!-- end shanti-thumbnail -->

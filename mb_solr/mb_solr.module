@@ -260,7 +260,7 @@ function mb_solr_preprocess_node(&$variables) {
     $sb['num_results'] = 60;
     $suggestions = apachesolr_search_mlt_suggestions($sb, $asdoc);
     //dpm($suggestions, 'suggestions');
-    $output = '<div class="shanti-gallery">';
+    $output = '<ul class="shanti-gallery">';
     $done = 0;
     if($suggestions) { 
       foreach($suggestions as $n => $entity) {
@@ -287,7 +287,7 @@ function mb_solr_preprocess_node(&$variables) {
 		  }
         }
       }
-      $output .= '</div>';
+      $output .= '</ul>';
       $variables['suggestions'] = $output;
       //dpm($variables, 'vars 3 in pp page on mbsolr');
     }
@@ -315,7 +315,7 @@ function mb_solr_form_alter(&$form, &$form_state, $form_id) {
  */
 function theme_search_results__apachesolr_search__collection_home(&$vars) {
   global $base_path;
-  $output = $vars['pager'] . '<div class="shanti-gallery">';
+  $output = $vars['pager'] . '<ul class="shanti-gallery">';
   foreach ($vars['results'] as $k => $v) {
     $nid = $v['fields']['entity_id'];
     $node = node_load($nid);
@@ -325,14 +325,14 @@ function theme_search_results__apachesolr_search__collection_home(&$vars) {
     }
     $output .=  mb_solr_make_teaser($v, $coll);
   }
-  $output .= '</div>' . $vars['pager'];
+  $output .= '</ul>' . $vars['pager'];
   return $output;
 }
 
 function theme_search_results__apachesolr_search__homepage(&$vars) {
   global $base_path;
 
-  $output = $vars['pager'] . '<div class="shanti-gallery">';
+  $output = $vars['pager'] . '<ul class="shanti-gallery">';
   
   foreach ($vars['results'] as $k => $e) {
     $nid = $e['fields']['entity_id'];
@@ -342,7 +342,7 @@ function theme_search_results__apachesolr_search__homepage(&$vars) {
     }
     $output .=  mb_solr_make_teaser($e, $coll);
   }
-  $output .= '</div>' . $vars['pager'];
+  $output .= '</ul>' . $vars['pager'];
   return $output;
 }
 

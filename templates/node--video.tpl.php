@@ -84,29 +84,29 @@
 <?php if($teaser): 
 		//dpm($variables, 'in teaser');
 		?>
-		<div class="shanti-thumbnail video col-lg-2 col-md-3 col-sm-4 col-xs-12"> 
-    <div class="shanti-thumbnail-image shanti-field-video"> 
-      <a href="<?php print $variables['node_url']; ?>" class="shanti-thumbnail-link">
-         <span class="overlay">
-            <span class="icon"></span>
-         </span>
-         <img title="<?php print $title; ?>" 
-             alt="<?php print $title; ?>" 
-             src="<?php if(isset($variables['thumbnail_url'])) { print $variables['thumbnail_url']; } ?>" 
-             typeof="foaf:Image" class="k-no-rotate">
-         <i class="icon shanticon-video"></i> 
-      </a>
-    </div>
-    <div class="shanti-thumbnail-info">      
-     <div class="body-wrap">
-      <div class="shanti-thumbnail-field shanti-field-title">        
-         <span class="field-content"><a href="<?php print $variables['node_url']; ?>" 
-             class="shanti-thumbnail-link"><?php print $title; ?></a></span>  
-      </div>  
-      
-      <div class="shanti-thumbnail-field shanti-field-created">       
-          <span class="shanti-field-content"><?php print date('d M Y', $variables['media_create_date']); ?></span>  
-      </div>  
+		<li class="shanti-thumbnail video col-lg-2 col-md-3 col-sm-4 col-xs-12"> 
+	    <div class="shanti-thumbnail-image shanti-field-video"> 
+	      <a href="<?php print $variables['node_url']; ?>" class="shanti-thumbnail-link">
+	         <span class="overlay">
+	            <span class="icon"></span>
+	         </span>
+	         <img title="<?php print $title; ?>" 
+	             alt="<?php print $title; ?>" 
+	             src="<?php if(isset($variables['thumbnail_url'])) { print $variables['thumbnail_url']; } ?>" 
+	             typeof="foaf:Image" class="k-no-rotate">
+	         <i class="icon shanticon-video"></i> 
+	      </a>
+	    </div>
+	    <div class="shanti-thumbnail-info">      
+	     <div class="body-wrap">
+	      <div class="shanti-thumbnail-field shanti-field-title">        
+	         <span class="field-content"><a href="<?php print $variables['node_url']; ?>" 
+	             class="shanti-thumbnail-link"><?php print $title; ?></a></span>  
+	      </div>  
+	      
+	      <div class="shanti-thumbnail-field shanti-field-created">       
+	          <span class="shanti-field-content"><?php print date('d M Y', $variables['media_create_date']); ?></span>  
+	      </div>  
       
       <?php if(isset($variables['duration'])): ?>
         <div class="shanti-thumbnail-field shanti-field-duration">        
@@ -133,7 +133,7 @@
       <?php endif; ?>
     </div> <!-- end footer -->  
    </div> <!-- end shanti-thumbnail-info -->
-</div> <!-- end shanti-thumbnail -->
+</li> <!-- end shanti-thumbnail -->
 
 <?php // Full Mode Display ?>
 <?php else: ?>

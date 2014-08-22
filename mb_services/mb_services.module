@@ -83,11 +83,9 @@ function mb_services_node_update($node) {
  * Implements hook_node_delete to remove records from kmaps index
  */
 function mb_services_node_delete($node) {
-	/*  Doesn't work. Need to ask Yuji
-	 * $nid = $node->nid;
-	$data = '{"delete": {"doc": {"uid":"mediabase-' . $nid . '"}}}';
-	dpm($data, 'data');
-	mb_services_do_solr_post($data);*/
+	$nid = $node->nid;
+	$data = '{"delete": {"query": "uid:mediabase-' . $nid . '"}}';
+	$result = mb_services_do_solr_post($data);
 }
 
 /**
@@ -155,6 +153,7 @@ function mb_services_do_solr_post($data) {
 	
 	// Do Post to the SOLR Index
 	$result = drupal_http_request(KMAP_SOLR_INDEX_POST, $settings);
+	return $result;
 }
 
 /**

@@ -84,7 +84,7 @@
 <?php if($teaser): 
 		//dpm($variables, 'in teaser');
 		?>
-		<li class="shanti-thumbnail audio col-lg-2 col-md-3 col-sm-4 col-xs-12"> 
+		<li class="shanti-thumbnail audio"> 
 	    <div class="shanti-thumbnail-image shanti-field-audio"> 
 	      <a href="<?php print $variables['node_url']; ?>" class="shanti-thumbnail-link">
 	         <span class="overlay">

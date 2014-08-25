@@ -1,4 +1,4 @@
-<li class="shanti-thumbnail <?php print $result['bundle']; ?> col-lg-2 col-md-3 col-sm-4 col-xs-12"> 
+<li class="shanti-thumbnail <?php print $result['bundle']; ?>"> 
     <div class="shanti-thumbnail-image shanti-field-<?php print $result['bundle']; ?>"> 
       <a href="<?php print $result['link']; ?>" class="shanti-thumbnail-link">
          <span class="overlay">

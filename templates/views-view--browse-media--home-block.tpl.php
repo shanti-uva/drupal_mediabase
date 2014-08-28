@@ -66,7 +66,9 @@
     
   <?php if ($rows): ?>
     <div class="view-content">
-      <?php print $rows; ?>
+    	<ul class="shanti-gallery">
+      	<?php print $rows; ?>
+      </ul>
     </div>
   <?php elseif ($empty): ?>
     <div class="view-empty">

@@ -28,22 +28,27 @@
  */
 ?>
 
-<table>
-    <tr>
-        <td>
-            <?php if ($exposed): ?>
-              <span class="view-filters-mb">
-                <?php print $exposed; ?>
-              </span>
-            <?php endif; ?>
-        </td>
-        <td>
-            <?php if ($pager): ?>
-              <?php print $pager; ?>
-            <?php endif; ?>
-        </td>
-    </tr>
-</table>
+<?php if ($rows && ($exposed || $pager)): ?>
+	<div class="shanti-filters">
+  	<table>
+		    <tr>
+		        <td>
+		            <?php if ($exposed): ?>
+		              <span class="view-filters-mb">
+		                <?php print $exposed; ?>
+		              </span>
+		            <?php endif; ?>
+		        </td>
+		        <td>
+		            <?php if ($pager): ?>
+		              <?php print $pager; ?>
+		            <?php endif; ?>
+		        </td>
+		    </tr>
+		</table>
+	</div>
+<?php endif; ?>
+
 <div class="<?php print $classes; ?>">
   <?php print render($title_prefix); ?>
   <?php if ($title): ?>
@@ -63,21 +68,17 @@
     </div>
   <?php endif; ?>
 
-    
   <?php if ($rows): ?>
-    <div class="view-content">
-    	<ul class="shanti-gallery">
-      	<?php print $rows; ?>
-      </ul>
-    </div>
+	    <div class="view-content">
+	    	<ul class="shanti-gallery">
+	      	<?php print $rows; ?>
+	      </ul>
+	    </div>
+
   <?php elseif ($empty): ?>
     <div class="view-empty">
       <?php print $empty; ?>
     </div>
-  <?php endif; ?>
-
-  <?php if ($pager): ?>
-    <?php print $pager; ?>
   <?php endif; ?>
 
   <?php if ($attachment_after): ?>
@@ -103,3 +104,10 @@
   <?php endif; ?>
 
 </div><?php /* class view */ ?>
+
+<?php if ($rows && $pager): ?>
+	<div class="shanti-filters">
+ 		<?php print $pager; ?>
+ 	</div>
+<?php endif; ?>
+     

@@ -195,9 +195,6 @@
 	          		<ul>
 	          			<?php 
 	          				print render($content['service_links']); 
-										if(isset($content['links']['forward'])) {
-	          					 print render($content['links']['forward']); 
-										}
 									?>
 	          		</ul>
 	          	</div>

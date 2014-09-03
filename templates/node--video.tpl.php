@@ -188,14 +188,22 @@
             <h5>Rating</h5>
             <?php print render($content['field_rating']); ?>
           </div>
-          <!--<div class="row avshare">
-          	<div class="share-links"><h5>Share <span>&lt;/&gt; embed</span></h5>
-          		<ul>
-          			<?php //print render($content['service_links']); ?>
-          			<?php //dpm($content['links']['forward'], 'links forward'); ?>
-          		</ul>
-          </div>
-        </div>-->
+          <?php if(!empty($content['service_links'])): ?>
+	          <div class="row avshare">
+	          	<div class="share-links">
+	          		<h5>Share <span>&lt;/&gt; embed</span></h5>
+	          		<ul>
+	          			<?php 
+	          				print render($content['service_links']); 
+										if(isset($content['links']['forward'])) {
+	          					 print render($content['links']['forward']); 
+										}
+									?>
+	          		</ul>
+	          	</div>
+	          </div>
+	      <?php endif; ?>
+        </div>
         <div class="avdesc col-sm-6">
           <h6><?php print t('Video Overview'); ?></h6>
           <?php print render($content['field_pbcore_description']); ?>

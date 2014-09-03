@@ -6,7 +6,6 @@
 
 function mediabase_init() {
    $path = drupal_get_path('module', 'mediabase');
-   drupal_add_css(drupal_get_path('module', 'mediabase') . '/css/mediabase.css');
    drupal_add_js( array( 
         'mediabase' => array( 
           'path' => $path,

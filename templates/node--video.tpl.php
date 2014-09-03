@@ -126,7 +126,7 @@
     <div class="footer-wrap">  
       <?php if(isset($variables['place_link'])): ?>
         <div class="shanti-thumbnail-field shanti-field-place">        
-         <span class="field-content"><i class="shanticon shanticon-places"></i> 
+         <span class="field-content"><i class="icon shanticon-places"></i> 
            <?php print render($variables['place_link']); ?>
          </span>
         </div>
@@ -178,18 +178,24 @@
             </button>-->
             <div class="row">
               <button type="button" class="btn btn-primary form-submit play-transcript-btn" href="<?php print $transcript_url; ?>">
-                <i class="shanticon shanticon-texts"></i> <span>Play with <br/>Transcript</span>
+                <i class="icon shanticon-texts"></i> <span>Play with <br/>Transcript</span>
               </button>
             </div>
           <?php endif; ?>
-          <div class="row avdate"><i class="shanticon shanticon-calendar"></i> <?php print date('d M Y', $variables['media_create_date']); //$date ;  ?></div>
-          <div class="row avduration"><i class="shanticon shanticon-hourglass"></i> <?php print $node->duration['formatted'];  ?></div>
+          <div class="row avdate"><i class="icon shanticon-calendar"></i> <?php print date('d M Y', $variables['media_create_date']); //$date ;  ?></div>
+          <div class="row avduration"><i class="icon shanticon-hourglass"></i> <?php print $node->duration['formatted'];  ?></div>
           <div class="row avrating">
             <h5>Rating</h5>
             <?php print render($content['field_rating']); ?>
           </div>
-          
-        </div>
+          <!--<div class="row avshare">
+          	<div class="share-links"><h5>Share <span>&lt;/&gt; embed</span></h5>
+          		<ul>
+          			<?php //print render($content['service_links']); ?>
+          			<?php //dpm($content['links']['forward'], 'links forward'); ?>
+          		</ul>
+          </div>
+        </div>-->
         <div class="avdesc col-sm-6">
           <h6><?php print t('Video Overview'); ?></h6>
           <?php print render($content['field_pbcore_description']); ?>

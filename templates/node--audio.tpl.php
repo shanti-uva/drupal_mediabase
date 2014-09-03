@@ -126,7 +126,7 @@
     <div class="footer-wrap">  
       <?php if(isset($variables['place_link'])): ?>
         <div class="shanti-thumbnail-field shanti-field-place">        
-         <span class="field-content"><i class="shanticon shanticon-places"></i> 
+         <span class="field-content"><i class="icon shanticon-places"></i> 
            <?php print render($variables['place_link']); ?>
          </span>
         </div>
@@ -178,12 +178,12 @@
             </button>-->
             <div class="row">
               <button type="button" class="btn btn-primary form-submit play-transcript-btn" href="<?php print $transcript_url; ?>">
-                <i class="shanticon shanticon-texts"></i> <span>Play with <br/>Transcript</span>
+                <i class="icon shanticon-texts"></i> <span>Play with <br/>Transcript</span>
               </button>
             </div>
           <?php endif; ?>
-          <div class="row avdate"><i class="shanticon shanticon-calendar"></i> <?php print date('d M Y', $variables['media_create_date']); //$date ;  ?></div>
-          <div class="row avduration"><i class="shanticon shanticon-hourglass"></i> <?php print $node->duration['formatted'];  ?></div>
+          <div class="row avdate"><i class="icon shanticon-calendar"></i> <?php print date('d M Y', $variables['media_create_date']); //$date ;  ?></div>
+          <div class="row avduration"><i class="icon shanticon-hourglass"></i> <?php print $node->duration['formatted'];  ?></div>
           <div class="row avrating">
             <h5>Rating</h5>
             <?php print render($content['field_rating']); ?>

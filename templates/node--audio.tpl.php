@@ -189,6 +189,21 @@
             <?php print render($content['field_rating']); ?>
           </div>
           
+          <?php if(!empty($content['service_links'])): ?>
+	          <div class="row avshare">
+	          	<div class="share-links">
+	          		<h5>Share <span>&lt;/&gt; embed</span></h5>
+	          		<ul>
+	          			<?php 
+	          				print render($content['service_links']); 
+										if(isset($content['links']['forward'])) {
+	          					 print render($content['links']['forward']); 
+										}
+									?>
+	          		</ul>
+	          	</div>
+	          </div>
+	      	<?php endif; ?>
         </div>
         <div class="avdesc col-sm-6">
           <h6><?php print t('Audio Overview'); ?></h6>

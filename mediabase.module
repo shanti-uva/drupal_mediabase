@@ -269,7 +269,7 @@ function mediabase_node_load($nodes, $types) {
 /**
  * Implements hook node view
  */
-function mediabase_node_view($node, $view_mode, $langcode) {
+function mediabase_node_view($node, $view_mode, $langcode) { 
 	// Add metadata to audio/video nodes
 	if(in_array($node->type, array('audio', 'video')) && $view_mode == 'full' && !empty($node->thumbnail_url)) {
 		// Add an og:image meta tag for sharing

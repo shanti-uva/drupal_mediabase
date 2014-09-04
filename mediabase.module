@@ -267,6 +267,25 @@ function mediabase_node_load($nodes, $types) {
 } 
 
 /**
+ * Implements hook node view
+ */
+function mediabase_node_view($node, $view_mode, $langcode) {
+	// Add metadata to audio/video nodes
+	if(in_array($node->type, array('audio', 'video')) && $view_mode == 'full' && !empty($node->thumbnail_url)) {
+		// Add an og:image meta tag for sharing
+		// <meta property="og:image" content="http://davidwalsh.name/wp-content/themes/klass/img/facebooklogo.png"/>
+		$element = array(
+		  '#tag' => 'meta', // The #tag is the html tag - <link />
+		  '#attributes' => array( // Set up an array of attributes inside the tag
+		    'property' => 'og:image', 
+		    'content' => str_replace('height/140','width/1200', $node->thumbnail_url),
+		  ),
+		);
+		drupal_add_html_head($element, 'meta_og_image');
+	}
+}
+
+/**
  * Function to format duration
  */
 function mediabase_format_duration($secs = 0) {

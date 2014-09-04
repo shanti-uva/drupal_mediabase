@@ -197,7 +197,7 @@
 	          				print render($content['service_links']); 
 									?>
 	          		</ul>
-	          		<p class="hidden"><img src="<?php print $node->thumbnail_url; ?>"/></p>
+	          		<!--<p class="hidden"><img src="<?php print $node->thumbnail_url; ?>"/></p>-->
 	          	</div>
 	          </div>
 	      <?php endif; ?>

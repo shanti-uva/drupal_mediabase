@@ -72,6 +72,7 @@ class MediabaseLocation
 
 /* FUNCTIONS */
 function _mb_location_format_item( $item, $view_path ) {
+	// Find term ID for location item
    $location_vid = variable_get('mb_location_vid', NULL);
    $query = new EntityFieldQuery();
    $query->entityCondition('entity_type', 'taxonomy_term')
@@ -80,21 +81,22 @@ function _mb_location_format_item( $item, $view_path ) {
    $result = $query->execute();
    $entities = entity_load('taxonomy_term', array_keys($result['taxonomy_term']));
    $term = array_shift($entities);
-   $output = '';
-   
-   //place dictionary
+   $output = "<span>{$term->name}</span><div class=\"popover\"><h5>{$term->name}</h5><p>description here...</p><div class=\"parents\">";
+   $separator = ' > ';
+   // If there is a term, look it up in place dictionary using terms place dict. id
    if ( !empty($term->place_dictionary_id['und'])) {
       $place_dict_id = $term->place_dictionary_id['und'][0]['value'];
-      $delim = ! empty ( $output ) ? $separator : '';
+      //$delim = ! empty ( $output ) ? $separator : '';
       $hierarchy = fetch_place_dict_details($place_dict_id);
       $links = array();
       foreach ($hierarchy as $place_id => $place_name) {
          $path = str_replace('%place_id', $place_id, $view_path );
          array_unshift($links, l($place_name, $path));
       }
-      $rendered_place = implode(" > ", $links);
-      $output .= ! empty ( $rendered_place ) ? $delim . $rendered_place : '';
+      $output .= implode($separator, $links);
+      //$output .= ! empty ( $rendered_place ) ? $delim . $rendered_place : '';
    }
+	 $output .= '</div></div>';
    return $output;
 }
 

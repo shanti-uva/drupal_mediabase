@@ -177,21 +177,25 @@
               <div class="inline btn-text">Play with <br/>Transcript</div>
             </button>-->
             <div class="row">
-              <button type="button" class="btn btn-primary form-submit play-transcript-btn" href="<?php print $transcript_url; ?>">
-                <i class="icon shanticon-texts"></i> <span>Play with <br/>Transcript</span>
-              </button>
+            	<div class="col-xs-12">
+	              <button type="button" class="btn btn-primary form-submit play-transcript-btn" href="<?php print $transcript_url; ?>">
+	                <i class="icon shanticon-texts"></i> <span>Play with <br/>Transcript</span>
+	              </button>
+              </div>
             </div>
           <?php endif; ?>
-          <div class="row avdate"><i class="icon shanticon-calendar"></i> <?php print date('d M Y', $variables['media_create_date']); //$date ;  ?></div>
-          <div class="row avduration"><i class="icon shanticon-hourglass"></i> <?php print $node->duration['formatted'];  ?></div>
+          <div class="row avdate"><div class="col-xs-12"><i class="icon shanticon-calendar"></i> <?php print date('d M Y', $variables['media_create_date']); //$date ;  ?></div></div>
+          <div class="row avduration"><div class="col-xs-12"><i class="icon shanticon-hourglass"></i> <?php print $node->duration['formatted'];  ?></div></div>
           <div class="row avrating">
-            <h5>Rating</h5>
-            <?php print render($content['field_rating']); ?>
+          	<div class="col-xs-12">
+	            <h5>Rating</h5>
+	            <?php print render($content['field_rating']); ?>
+	          </div>
           </div>
           
           <?php if(!empty($content['service_links'])): ?>
 	          <div class="row avshare">
-	          	<div class="share-links">
+	          	<div class="col-xs-12 share-links">
 	          		<h5>Share <span>&lt;/&gt; embed</span></h5>
 	          		<ul>
 	          			<?php 
@@ -202,7 +206,7 @@
 	          </div>
 	      	<?php endif; ?>
         </div>
-        <div class="avdesc col-sm-6">
+        <div class="avdesc col-sm-7">
           <h6><?php print t('Audio Overview'); ?></h6>
           <?php print render($content['field_pbcore_description']); ?>
         </div>

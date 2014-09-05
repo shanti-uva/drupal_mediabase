@@ -229,7 +229,7 @@ function mb_location_field_formatter_view($entity_type, $entity, $field, $instan
    module_load_include( 'inc','mb_location','mb_location');
    $elements = array();
   foreach ($items as $delta => $item) {
-     $view_path = isset($instance['widget']['settings']['location_selector_settings']['view_path'] )? $instance['widget']['settings']['location_selector_settings']['view_path'] :$instance['widget']['settings']['view_path'] ; 
+    $view_path = isset($instance['widget']['settings']['location_selector_settings']['view_path'] )? $instance['widget']['settings']['location_selector_settings']['view_path'] :$instance['widget']['settings']['view_path'] ; 
     $elements[$delta] = array(
       '#markup' => _mb_location_format_item($item, $view_path),
     );

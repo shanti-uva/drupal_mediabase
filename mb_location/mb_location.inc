@@ -81,17 +81,24 @@ function _mb_location_format_item( $item, $view_path ) {
    $result = $query->execute();
    $entities = entity_load('taxonomy_term', array_keys($result['taxonomy_term']));
    $term = array_shift($entities);
-   $output = "<span>{$term->name}</span><div class=\"popover\"><h5>{$term->name}</h5><p>description here...</p><div class=\"parents\">";
+   $output ="";
    $separator = ' > ';
    // If there is a term, look it up in place dictionary using terms place dict. id
    if ( !empty($term->place_dictionary_id['und'])) {
       $place_dict_id = $term->place_dictionary_id['und'][0]['value'];
+   		$urlstr = variable_get('place_server', 'http://places.kmaps.virginia.edu') . '/features/%d.json';
+      $uri = sprintf($urlstr, $place_dict_id);
+		  $json = file_get_contents($uri);
+		  $data = json_decode($json);
+			$desc = (!empty($data->feature->summaries)) ? $data->feature->summaries[0]->content : '';
+			if(empty($desc) && !empty($data->feature->captions)) { $desc = $data->feature->captions[0]->content; }
+		 	$output = "<span>{$term->name}</span><span class=\"popover-link\"><span><i class=\"icon shanticon-menu3\"></i></span></span><div class=\"popover\"><h5>{$term->name}</h5>{$desc}<div class=\"parents\"><strong>" . t('Places:') . '</strong> ';
       //$delim = ! empty ( $output ) ? $separator : '';
       $hierarchy = fetch_place_dict_details($place_dict_id);
       $links = array();
       foreach ($hierarchy as $place_id => $place_name) {
          $path = str_replace('%place_id', $place_id, $view_path );
-         array_unshift($links, l($place_name, $path));
+         array_unshift($links, l($place_name, $path)); // . " ({$place_id})");
       }
       $output .= implode($separator, $links);
       //$output .= ! empty ( $rendered_place ) ? $delim . $rendered_place : '';

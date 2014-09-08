@@ -174,7 +174,7 @@
               <div class="inline btn-text">Play with <br/>Transcript</div>
             </button>-->
             <div class="trans-btn">
-	              <button type="button" class="btn btn-primary form-submit play-transcript-btn" href="<?php print $transcript_url; ?>">
+	              <button type="button" class="btn btn-primary btn-icon btn-wrap play-transcript-btn" href="<?php print $transcript_url; ?>">
 	                <i class="icon shanticon-texts"></i> <span>Play with <br/>Transcript</span>
 	              </button>
             </div>

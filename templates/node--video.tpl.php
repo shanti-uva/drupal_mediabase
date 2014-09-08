@@ -163,66 +163,50 @@
       // Description is compiled in mediabase_preprocess_node and contained in $description variable
       // Not working hide($content['field_pbcore_description']);
     ?>
-      <div class="row video-row">
-        <div class="col-xs-12">
+      <div class="video-row">
           <?php print render($content['field_video']); ?>
-        </div>
       </div>
       <!-- Info/Description row -->
-      <div class="row">
-        <div class="avinfo col-sm-2">
-          <?php if($variables['has_transcript']): ?>
-            <!--<button type="button" class="row btn btn-primary btn-md btn-block play-transcript-btn" href="<?php print $transcript_url; ?>">
-              <div class="inline btn-icon"><i class="icon shanticon-uniE04A"></i></div> 
-              <div class="inline btn-text">Play with <br/>Transcript</div>
-            </button>-->
-            <div class="row">
-            	<div class="col-xs-12">
-	              <button type="button" class="btn btn-primary form-submit play-transcript-btn" href="<?php print $transcript_url; ?>">
-	                <i class="icon shanticon-texts"></i> <span>Play with <br/>Transcript</span>
-	              </button>
-              </div>
-            </div>
-          <?php endif; ?>
-          <div class="row avdate"><div class="col-xs-12"><i class="icon shanticon-calendar"></i> <?php print date('d M Y', $variables['media_create_date']); //$date ;  ?></div></div>
-          <div class="row avduration"><div class="col-xs-12"><i class="icon shanticon-hourglass"></i> <?php print $node->duration['formatted'];  ?></div></div>
-          <div class="row avrating">
-          	<div class="col-xs-12">
-	            <h5>Rating</h5>
-	            <?php print render($content['field_rating']); ?>
-	          </div>
+      <div class="avinfo">
+        <?php if($variables['has_transcript']): ?>
+          <div class="trans-btn">
+              <button type="button" class="btn btn-primary form-submit play-transcript-btn" href="<?php print $transcript_url; ?>">
+                <i class="icon shanticon-texts"></i> <span>Play with <br/>Transcript</span>
+              </button>
           </div>
-          <?php if(!empty($content['service_links'])): ?>
-	          <div class="row avshare">
-	          	<div class="col-xs-12 share-links">
-	          		<h5>Share <span>&lt;/&gt; embed</span></h5>
-	          		<ul>
-	          			<?php  print render($content['service_links']);  ?>
-	          		</ul>
-	          		<!--<p class="hidden"><img src="<?php print $node->thumbnail_url; ?>"/></p>-->
-	          	</div>
-	          </div>
-	      <?php endif; ?>
+        <?php endif; ?>
+        <div class="avdate"><i class="icon shanticon-calendar"></i> <?php print date('d M Y', $variables['media_create_date']);  ?></div>
+        <div class="avduration"><i class="icon shanticon-hourglass"></i> <?php print $node->duration['formatted'];  ?></div>
+        <div class="avrating">
+            <h5>Rating</h5>
+            <?php print render($content['field_rating']); ?>
         </div>
-        <div class="avdesc col-sm-7">
-          <h6><?php print t('Video Overview'); ?></h6>
-          <div class="row avpbcoredesc">
-          	<div class="col-xs-12">
-          		<?php print render($content['field_pbcore_description']); ?>
+        <?php if(!empty($content['service_links'])): ?>
+          <div class="avshare">
+          	<div class="share-links">
+          		<h5>Share <span>&lt;/&gt; embed</span></h5>
+          		<ul>
+          			<?php  print render($content['service_links']);  ?>
+          		</ul>
+          		<!--<p class="hidden"><img src="<?php print $node->thumbnail_url; ?>"/></p>-->
           	</div>
           </div>
-          
-          <div class="row avplace">
-          	<div class="col-xs-12">
-	          	<i class="icon shanticon-places"></i> 
-	          	<?php 
-								$content['group_details']['field_pbcore_coverage_spatial']['#label_display'] = 'hidden';
-	          		print render($content['group_details']['field_pbcore_coverage_spatial']); 
-								$content['group_details']['field_pbcore_coverage_spatial']['#label_display'] = 'above';
-								show($content['group_details']['field_pbcore_coverage_spatial']);
-	          	?>
-	          </div>
-          </div>
+      <?php endif; ?>
+      </div>
+      <div class="avdesc">
+        <h6><?php print t('Video Overview'); ?></h6>
+        <div class="avpbcoredesc">
+        		<?php print render($content['field_pbcore_description']); ?>
+        </div>
+        
+        <div class="avplace">
+          	<i class="icon shanticon-places"></i> 
+          	<?php 
+							$content['group_details']['field_pbcore_coverage_spatial']['#label_display'] = 'hidden';
+          		print render($content['group_details']['field_pbcore_coverage_spatial']); 
+							$content['group_details']['field_pbcore_coverage_spatial']['#label_display'] = 'above';
+							show($content['group_details']['field_pbcore_coverage_spatial']);
+          	?>
         </div>
       </div>
       <div>

@@ -131,6 +131,19 @@ function mediabase_persistent_nid($nid) {
  * THEMING FUNCTIONS
  */
  
+function mediabase_theme() {
+	return array(
+    'info_popover' => array(
+      'variables' => array(
+				'label' => '',
+				'desc' => '',
+				'parents' => '',
+				'links' => NULL,
+			),
+    ),
+  );
+}
+
 /**
  * Implements hook_theme_registry_alter()
  *    Taken from https://www.drupal.org/node/715160

@@ -92,18 +92,32 @@ function _mb_location_format_item( $item, $view_path ) {
 		  $data = json_decode($json);
 			$desc = (!empty($data->feature->summaries)) ? $data->feature->summaries[0]->content : '';
 			if(empty($desc) && !empty($data->feature->captions)) { $desc = $data->feature->captions[0]->content; }
-		 	$output = "<span>{$term->name}</span><span class=\"popover-link\"><span><i class=\"icon shanticon-menu3\"></i></span></span><div class=\"popover\"><h5>{$term->name}</h5>{$desc}<div class=\"parents\"><strong>" . t('Places:') . '</strong> ';
-      //$delim = ! empty ( $output ) ? $separator : '';
+			if(empty($desc)) { $desc = t('Currently no description available.'); }
       $hierarchy = fetch_place_dict_details($place_dict_id);
-      $links = array();
+      $parents = array();
       foreach ($hierarchy as $place_id => $place_name) {
          $path = str_replace('%place_id', $place_id, $view_path );
-         array_unshift($links, l($place_name, $path)); // . " ({$place_id})");
+         array_unshift($parents, l($place_name, $path)); // . " ({$place_id})");
       }
-      $output .= implode($separator, $links);
-      //$output .= ! empty ( $rendered_place ) ? $delim . $rendered_place : '';
+			$links = array(
+				'Full Entry' => array('icon' => 'link-external', 'href' => 'http://aardvark.drupal-dev.shanti.virginia.edu/places#id=' . $place_dict_id),
+				'Related Audio-Video' => array('icon' => 'audio-video', 'href' => "http://aardvark.drupal-dev.shanti.virginia.edu/places#id={$place_dict_id}&que=tab-audio-video"),
+				'Related Images' => array('icon' => 'photos', 'href' => variable_get('place_server', 'http://places.kmaps.virginia.edu') . '/features/' . $place_dict_id),
+			);
+			// Uses custom theme function "info_popover" defined in shanti_sarvaka theme
+			// Once finalized that theme function needs to be duplicated in MB .module file to allow it to work with other themes.
+			// In a way not dependent on Bootstrap
+		 	$output = theme('info_popover', array(
+				 									'label' => $term->name, 
+				 									'desc' => $desc, 
+				 									'tree' => array(
+				 											'label' => t('Places'), 
+				 											'items' => $parents
+													 ), 
+													 'links' => $links)
+											);
    }
-	 $output .= '</div></div>';
+	 //$output .= '</div></div>';
    return $output;
 }
 

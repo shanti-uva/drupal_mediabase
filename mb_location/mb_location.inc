@@ -92,7 +92,7 @@ function _mb_location_format_item( $item, $view_path ) {
 		  $data = json_decode($json);
 			$desc = (!empty($data->feature->summaries)) ? $data->feature->summaries[0]->content : '';
 			if(empty($desc) && !empty($data->feature->captions)) { $desc = $data->feature->captions[0]->content; }
-			if(empty($desc)) { $desc = t('Currently no description available.'); }
+			if(empty($desc)) { $desc = t('<p>Currently no description available.</p>'); }
       $hierarchy = fetch_place_dict_details($place_dict_id);
       $parents = array();
       foreach ($hierarchy as $place_id => $place_name) {

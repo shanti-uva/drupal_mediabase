@@ -107,10 +107,12 @@ function kmap_annotation_field_formatter_info() {
 * @todo get $entity->field_kmap_annotation field name from a field setting
 */
 function kmap_annotation_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+	 global $base_theme_info, $theme;
    module_load_include('inc', 'kmap_taxonomy', 'includes/kmap');
    $elements = array();
    switch ($display['type']) {
-   case 'kmap_taxonomy_annotated':
+   	case 'kmap_taxonomy_annotated':
+	 
       foreach ($items as $delta => $item) {
          $tid = $item['tid'];
          // find our item tid among annotation field_collection items  in the node(aka, $entity)
@@ -137,7 +139,12 @@ function kmap_annotation_field_formatter_view($entity_type, $entity, $field, $in
          }
          $view_path = isset($instance['widget']['settings']['kmap_selector_settings']) ? $instance['widget']['settings']['kmap_selector_settings']['view_path'] : $instance['widget']['settings']['view_path'];
          if ($kmap) {
-            $elements[$delta] = array(
+				 		if($theme == 'shanti_sarvaka') {
+				 			$elements[$delta] = array(
+               '#markup' => _kmap_subject_popover($kmap),
+               );
+				 		} else { 
+            	$elements[$delta] = array(
                '#markup' => theme('kmap_annotation_formatter_'. $display['type'], array(
                   'element' => $item, 
                   'entity' => $annot_entity, 
@@ -148,6 +155,7 @@ function kmap_annotation_field_formatter_view($entity_type, $entity, $field, $in
                   )
                   ),
                );
+						}
          }
       }
       break;
@@ -189,4 +197,37 @@ function theme_kmap_annotation_formatter_kmap_taxonomy_annotated($element) {
    return $output;
 }
 
-
+function _kmap_subject_popover($kmap) {
+	$kid = $kmap->get_kmap_id();
+	$urlstr = variable_get('kmap_server', 'http://subjects.kmaps.virginia.edu') . '/features/%d.json';
+	$uri = sprintf($urlstr, $kid);
+  $json = file_get_contents($uri);
+  $data = json_decode($json);
+	$name = $data->feature->header;
+	$desc = (!empty($data->feature->summaries)) ? $data->feature->summaries[0]->content : '';
+	if(empty($desc) && !empty($data->feature->captions)) { $desc = $data->feature->captions[0]->content; }
+	if(empty($desc)) { $desc = t('<p>Currently no description available.</p>'); }
+	$ancestors = $kmap->get_kmap_lineage();
+	$parents = array();
+	foreach($ancestors as $n => $subject) {
+		$parents[] = l($subject['name'], sprintf($urlstr, $subject['kmap_id']));
+	}
+	$links = array(
+		'Full Entry' => array('icon' => 'link-external', 'href' => 'http://aardvark.drupal-dev.shanti.virginia.edu/subjects#id=' . $kid),
+		'Related Audio-Video' => array('icon' => 'audio-video', 'href' => "http://aardvark.drupal-dev.shanti.virginia.edu/subjects#id={$kid}&que=tab-audio-video"),
+		'Related Images' => array('icon' => 'photos', 'href' => variable_get('kmap_server', 'http://subjects.kmaps.virginia.edu') . '/features/' . $kid),
+	);
+	// Uses custom theme function "info_popover" defined in shanti_sarvaka theme
+	// Once finalized that theme function needs to be duplicated in MB .module file to allow it to work with other themes.
+	// In a way not dependent on Bootstrap
+ 	$output = theme('info_popover', array(
+		 									'label' => $name, 
+		 									'desc' => $desc, 
+		 									'tree' => array(
+		 											'label' => t('Subjects'), 
+		 											'items' => $parents
+											 ), 
+											 'links' => $links)
+									);
+	 return $output;
+}

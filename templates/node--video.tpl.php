@@ -160,6 +160,7 @@
       // We hide the comments and links now so that we can render them later.
       hide($content['comments']);
       hide($content['links']);
+			hide($content['field_tags']);
       // Description is compiled in mediabase_preprocess_node and contained in $description variable
       // Not working hide($content['field_pbcore_description']);
     ?>
@@ -196,9 +197,23 @@
       <div class="avdesc clearfix">
         <h6><?php print t('Video Overview'); ?></h6>
         <div class="avpbcoredesc">
-        		<?php print str_replace('clearfix', '', render($content['field_pbcore_description'])); ?>
+        		<?php 
+        		//dpm($content, 'content in template');
+        		print str_replace('clearfix', '', render($content['field_pbcore_description'])); ?>
         </div>
-        
+        <div class="avcollection">
+        	<?php 
+        		print render($content['group_details']['collection_ancestor']); ?>
+        </div>
+      	<div class="subcollection">
+      		<strong>Subcollection: </strong> 
+      		<?php
+        		$content['group_details']['field_subcollection']['#label_display'] = 'hidden';
+        		print render($content['group_details']['field_subcollection']); 
+						$content['group_details']['field_subcollection']['#label_display'] = 'above';
+						show($content['group_details']['field_subcollection']);
+      		?>
+        </div>
         <div class="avplace">
           	<i class="icon shanticon-places"></i> 
           	<?php 
@@ -208,6 +223,16 @@
 							show($content['group_details']['field_pbcore_coverage_spatial']);
           	?>
         </div>
+        <div class="avsubjects">
+        	<i class="icon shanticon-subjects"></i> 
+        	<?php
+        		$content['group_details']['field_characteristic']['#label_display'] = 'hidden';
+        		print render($content['group_details']['field_characteristic']); 
+						$content['group_details']['field_characteristic']['#label_display'] = 'above';
+						show($content['group_details']['field_characteristic']);
+        	?>
+        </div>
+        
       </div>
       <div>
         <ul class="nav nav-tabs ss-full-tabs" role="tablist">
@@ -227,6 +252,10 @@
             ?>
           </div> <!-- End of #related -->
           <div class="tab-pane active" id="details">
+          	<div class="expcoll-btns">
+          		<button type="button" class="btn btn-default btn-xs expand"> Expand All</button>
+          		<button type="button" class="btn btn-default btn-xs collapse"> Collapse All</button>
+          	</div>
           <?php
             print render($content);
 						/*

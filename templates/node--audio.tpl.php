@@ -201,7 +201,42 @@
         </div>
         <div class="avdesc clearfix">
           <h6><?php print t('Audio Overview'); ?></h6>
-          <?php print str_replace('clearfix', '', render($content['field_pbcore_description'])); ?>
+	        <div class="avpbcoredesc">
+	        		<?php print str_replace('clearfix', '', render($content['field_pbcore_description'])); ?>
+	        </div>
+	        <div class="avcollection">
+	        	<strong>Collection: </strong> 
+	        	<?php 
+		        	$content['group_details']['collection_ancestor']['#label_display'] = 'hidden';
+		        	print render($content['group_details']['collection_ancestor']); ?>
+		      </div>
+        	<div class="subcollection">
+        		<strong>Subcollection: </strong> 
+        		<?php
+	        		$content['group_details']['field_subcollection']['#label_display'] = 'hidden';
+	        		print render($content['group_details']['field_subcollection']); 
+							$content['group_details']['field_subcollection']['#label_display'] = 'above';
+							show($content['group_details']['field_subcollection']);
+        		?>
+        	</div>
+	        <div class="avplace">
+	          	<i class="icon shanticon-places"></i> 
+	          	<?php 
+								$content['group_details']['field_pbcore_coverage_spatial']['#label_display'] = 'hidden';
+	          		print render($content['group_details']['field_pbcore_coverage_spatial']); 
+								$content['group_details']['field_pbcore_coverage_spatial']['#label_display'] = 'above';
+								show($content['group_details']['field_pbcore_coverage_spatial']);
+	          	?>
+	        </div>
+	        <div class="avsubjects">
+	        	<i class="icon shanticon-subjects"></i> 
+	        	<?php
+	        		$content['group_details']['field_characteristic']['#label_display'] = 'hidden';
+	        		print render($content['group_details']['field_characteristic']); 
+							$content['group_details']['field_characteristic']['#label_display'] = 'above';
+							show($content['group_details']['field_characteristic']);
+	        	?>
+	        </div>
         </div>
       <div>
         <ul class="nav nav-tabs ss-full-tabs" role="tablist">

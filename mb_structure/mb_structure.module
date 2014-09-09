@@ -339,6 +339,7 @@ function mb_structure_lets_get_started_form() {
       );
    $form['submit'] = array(
       '#type' => 'submit',
+      '#icon' => 'texts',
       '#value' => t('Create a New Collection'),
        '#submit' => array('mb_structure_new_collection'),
       );
@@ -368,11 +369,13 @@ function mb_structure_already_started_form() {
       );
    $form['submit_video'] = array(
       '#type' => 'submit',
+      '#icon' => 'video',
       '#value' => t('Upload a video'),
       '#submit' => array( 'mb_structure_already_started_validate' ),
       );
    $form['submit_audio'] = array(
       '#type' => 'submit',
+      '#icon' => 'audio',
       '#value' => t('Upload audio'),
       '#submit' => array( 'mb_structure_already_started_validate' ),
       );

@@ -199,9 +199,9 @@
 	          </div>
 	      	<?php endif; ?>
         </div>
-        <div class="avdesc">
+        <div class="avdesc clearfix">
           <h6><?php print t('Audio Overview'); ?></h6>
-          <?php print render($content['field_pbcore_description']); ?>
+          <?php print str_replace('clearfix', '', render($content['field_pbcore_description'])); ?>
         </div>
       <div>
         <ul class="nav nav-tabs ss-full-tabs" role="tablist">

@@ -193,10 +193,10 @@
           </div>
       <?php endif; ?>
       </div>
-      <div class="avdesc">
+      <div class="avdesc clearfix">
         <h6><?php print t('Video Overview'); ?></h6>
         <div class="avpbcoredesc">
-        		<?php print render($content['field_pbcore_description']); ?>
+        		<?php print str_replace('clearfix', '', render($content['field_pbcore_description'])); ?>
         </div>
         
         <div class="avplace">

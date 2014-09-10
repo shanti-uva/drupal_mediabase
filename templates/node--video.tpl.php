@@ -169,34 +169,36 @@
       <div class="video-row">
           <?php print render($content['field_video']); ?>
       </div>
-      <!-- Info/Description row -->
-      <div class="avinfo">
-        <?php if($variables['has_transcript']): ?>
-          <div class="trans-btn">
-              <button type="button" class="btn btn-primary btn-icon btn-wrap play-transcript-btn" href="<?php print $transcript_url; ?>">
-                <i class="icon shanticon-texts"></i> <span>Play with <br/>Transcript</span>
-              </button>
-          </div>
-        <?php endif; ?>
-        <div class="avdate"><i class="icon shanticon-calendar"></i> <?php print date('d M Y', $variables['media_create_date']);  ?></div>
-        <div class="avduration"><i class="icon shanticon-hourglass"></i> <?php print $node->duration['formatted'];  ?></div>
-        <div class="avrating">
-            <h5>Rating</h5>
-            <?php print render($content['field_rating']); ?>
-        </div>
-        <?php if(!empty($content['service_links'])): ?>
-          <div class="avshare">
-          	<div class="share-links">
-          		<h5>Share <span>&lt;/&gt; embed</span></h5>
-          		<ul>
-          			<?php  print render($content['service_links']);  ?>
-          		</ul>
-          		<!--<p class="hidden"><img src="<?php print $node->thumbnail_url; ?>"/></p>-->
-          	</div>
-          </div>
-      <?php endif; ?>
-      </div>
       <div class="avdesc clearfix">
+      	<!-- Info/Description row -->
+	      <div class="avinfo">
+	        <?php if($variables['has_transcript']): ?>
+	          <div class="trans-btn">
+	            <form action="<?php print $transcript_url; ?>" method="post">
+	            	<button type="submit" class="btn btn-primary btn-icon btn-wrap play-transcript-btn">
+	            		<i class="icon shanticon-texts"></i> <span>Play with <br/>Transcript</span>
+	          		</button>
+	            </form>
+	          </div>
+	        <?php endif; ?>
+	        <div class="avdate"><i class="icon shanticon-calendar"></i> <?php print date('d M Y', $variables['media_create_date']);  ?></div>
+	        <div class="avduration"><i class="icon shanticon-hourglass"></i> <?php print $node->duration['formatted'];  ?></div>
+	        <div class="avrating">
+	            <h5>Rating</h5>
+	            <?php print render($content['field_rating']); ?>
+	        </div>
+	        <?php if(!empty($content['service_links'])): ?>
+	          <div class="avshare">
+	          	<div class="share-links">
+	          		<h5>Share <span>&lt;/&gt; embed</span></h5>
+	          		<ul>
+	          			<?php  print render($content['service_links']);  ?>
+	          		</ul>
+	          		<!--<p class="hidden"><img src="<?php print $node->thumbnail_url; ?>"/></p>-->
+	          	</div>
+	          </div>
+	        <?php endif; ?>
+	      </div> <!-- End of avinfo -->
         <h6><?php print t('Video Overview'); ?></h6>
         <div class="avpbcoredesc">
         		<?php 
@@ -235,7 +237,7 @@
         	?>
         </div>
         
-      </div>
+      </div> <!-- End of avdesc -->
       <div>
         <ul class="nav nav-tabs ss-full-tabs" role="tablist">
           <li class="active"><a href="#details" role="tab" data-toggle="tab"><?php print t('Details'); ?></a></li>

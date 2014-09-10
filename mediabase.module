@@ -177,6 +177,7 @@ function mediabase_theme_registry_alter(&$theme_registry) {
 
 /**
  *   Implements hook_preprocess_node to add url for transcript and collection
+ * 			Adds: 1. transcript url, 2. collection object, 3. media creation date
  */
 function mediabase_preprocess_node(&$variables) {
 	global $base_path;
@@ -185,7 +186,7 @@ function mediabase_preprocess_node(&$variables) {
 		if(empty($variables['field_transcript'])) {
 			$variables['transcript_url'] = FALSE;
 		} else { 
-		  $variables['transcript_url'] = 'node/' . $node->nid . '/transcript';
+		  $variables['transcript_url'] = $base_path . 'node/' . $node->nid . '/transcript';
 		}
 		$coll = get_collection_ancestor_node($node);
 	  if($coll) { $coll->url = $base_path . drupal_get_path_alias('node/' . $coll->nid); }

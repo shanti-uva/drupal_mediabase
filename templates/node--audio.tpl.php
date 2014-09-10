@@ -168,7 +168,8 @@
       <div class="video-row">
           <?php print render($content['field_audio']); ?>
       </div>
-      <!-- Info/Description row -->
+      <div class="avdesc clearfix">
+      	<!-- Info/Description row -->
         <div class="avinfo">
           <?php if($variables['has_transcript']): ?>
             <!--<button type="button" class="row btn btn-primary btn-md btn-block play-transcript-btn" href="<?php print $transcript_url; ?>">
@@ -176,9 +177,11 @@
               <div class="inline btn-text">Play with <br/>Transcript</div>
             </button>-->
             <div class="trans-btn">
-	              <button type="button" class="btn btn-primary btn-icon btn-wrap play-transcript-btn" href="<?php print $transcript_url; ?>">
+            	<form action="<?php print $transcript_url; ?>" method="post">
+	              <button type="button" class="btn btn-primary btn-icon btn-wrap play-transcript-btn">
 	                <i class="icon shanticon-texts"></i> <span>Play with <br/>Transcript</span>
 	              </button>
+	            </form>
             </div>
           <?php endif; ?>
           <div class="avdate"><i class="icon shanticon-calendar"></i> <?php print date('d M Y', $variables['media_create_date']); //$date ;  ?></div>
@@ -200,46 +203,45 @@
 	          	</div>
 	          </div>
 	      	<?php endif; ?>
+        </div> <!-- End of avinfo -->
+        <h6><?php print t('Audio Overview'); ?></h6>
+        <div class="avpbcoredesc">
+        		<?php print str_replace('clearfix', '', render($content['field_pbcore_description'])); ?>
         </div>
-        <div class="avdesc clearfix">
-          <h6><?php print t('Audio Overview'); ?></h6>
-	        <div class="avpbcoredesc">
-	        		<?php print str_replace('clearfix', '', render($content['field_pbcore_description'])); ?>
-	        </div>
-	        <div class="avcollection">
-	        	<strong>Collection: </strong> 
-	        	<?php 
-		        	$content['group_details']['collection_ancestor']['#label_display'] = 'hidden';
-		        	print render($content['group_details']['collection_ancestor']); ?>
-		      </div>
-        	<div class="subcollection">
-        		<strong>Subcollection: </strong> 
-        		<?php
-	        		$content['group_details']['field_subcollection']['#label_display'] = 'hidden';
-	        		print render($content['group_details']['field_subcollection']); 
-							$content['group_details']['field_subcollection']['#label_display'] = 'above';
-							show($content['group_details']['field_subcollection']);
-        		?>
-        	</div>
-	        <div class="avplace">
-	          	<i class="icon shanticon-places"></i> 
-	          	<?php 
-								$content['group_details']['field_pbcore_coverage_spatial']['#label_display'] = 'hidden';
-	          		print render($content['group_details']['field_pbcore_coverage_spatial']); 
-								$content['group_details']['field_pbcore_coverage_spatial']['#label_display'] = 'above';
-								show($content['group_details']['field_pbcore_coverage_spatial']);
-	          	?>
-	        </div>
-	        <div class="avsubjects">
-	        	<i class="icon shanticon-subjects"></i> 
-	        	<?php
-	        		$content['group_details']['field_characteristic']['#label_display'] = 'hidden';
-	        		print render($content['group_details']['field_characteristic']); 
-							$content['group_details']['field_characteristic']['#label_display'] = 'above';
-							show($content['group_details']['field_characteristic']);
-	        	?>
-	        </div>
+        <div class="avcollection">
+        	<strong>Collection: </strong> 
+        	<?php 
+	        	$content['group_details']['collection_ancestor']['#label_display'] = 'hidden';
+	        	print render($content['group_details']['collection_ancestor']); ?>
+	      </div>
+      	<div class="subcollection">
+      		<strong>Subcollection: </strong> 
+      		<?php
+        		$content['group_details']['field_subcollection']['#label_display'] = 'hidden';
+        		print render($content['group_details']['field_subcollection']); 
+						$content['group_details']['field_subcollection']['#label_display'] = 'above';
+						show($content['group_details']['field_subcollection']);
+      		?>
+      	</div>
+        <div class="avplace">
+          	<i class="icon shanticon-places"></i> 
+          	<?php 
+							$content['group_details']['field_pbcore_coverage_spatial']['#label_display'] = 'hidden';
+          		print render($content['group_details']['field_pbcore_coverage_spatial']); 
+							$content['group_details']['field_pbcore_coverage_spatial']['#label_display'] = 'above';
+							show($content['group_details']['field_pbcore_coverage_spatial']);
+          	?>
         </div>
+        <div class="avsubjects">
+        	<i class="icon shanticon-subjects"></i> 
+        	<?php
+        		$content['group_details']['field_characteristic']['#label_display'] = 'hidden';
+        		print render($content['group_details']['field_characteristic']); 
+						$content['group_details']['field_characteristic']['#label_display'] = 'above';
+						show($content['group_details']['field_characteristic']);
+        	?>
+        </div>
+      </div> <!-- End of avdesc -->
       <div>
         <ul class="nav nav-tabs ss-full-tabs" role="tablist">
           <li class="active"><a href="#details" role="tab" data-toggle="tab"><?php print t('Details'); ?></a></li>

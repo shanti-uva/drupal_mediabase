@@ -378,9 +378,6 @@ function mb_solr_make_teaser($entity, $coll) {
   return $html;
 }
 
-function mb_solr_preprocess_views_view(&$vars) {
-   // dpm($vars);
-}
 /**
  * Implements hook_node_view:
  *    Call the search page to get the list of a collections a/v items and adds these to the node's display.
@@ -401,7 +398,7 @@ function mb_solr_node_view($node, $view_mode, $langcode) {
         '<div id="mb_solr_items" class="content clearfix">' . drupal_render($search_page['search_results']) . '</div></div>',
       '#weight' => 45,  // set high weight so it appears after the body's description
     );
-  } else {
+  } elseif($view_mode == 'full') {
     module_load_include('inc','apachesolr','apachesolr_search.pages');
     $cpage = apachesolr_search_custom_page('core_search');
   }

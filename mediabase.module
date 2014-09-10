@@ -180,7 +180,6 @@ function mediabase_theme_registry_alter(&$theme_registry) {
  */
 function mediabase_preprocess_node(&$variables) {
 	global $base_path;
-	//dpm($variables, 'variables');
 	$node = $variables['node'];
 	if(in_array($variables['type'], array('audio', 'video'))) {
 		if(empty($variables['field_transcript'])) {
@@ -211,9 +210,11 @@ function mediabase_preprocess_node(&$variables) {
  * Fields	 added: thumbnail Url, duration[seconds, format]
  */
 function mediabase_node_load($nodes, $types) {
+	if(empty($nodes)) { return; }
   if(in_array('audio', $types) || in_array('video', $types)) {
     module_load_include('inc', 'mb_kaltura', 'mb_kaltura');
     foreach($nodes as &$node) {
+    	if($node === FALSE) { continue; }
       if(in_array($node->type, array('audio', 'video'))) {
         $query = '';
         if ($node->type == 'video') {
@@ -240,7 +241,7 @@ function mediabase_node_load($nodes, $types) {
         }
 				if(empty($node->thumbnail_url)) {
 					$node->thumbnail_url = ''; 
-					watchdog('mediabase', 'No Kaltura thumbnail found for node %nid. Item possibly deleted from Kaltura!', array('%nid' => $node->nid), WATCHDOG_WARNING);
+					//watchdog('mediabase', 'No Kaltura thumbnail found for node %nid. Item possibly deleted from Kaltura!', array('%nid' => $node->nid), WATCHDOG_WARNING);
 				}
 				if(empty($node->duration)) { $node->duration = array('seconds' =>'', 'formatted' => '');  }
 				
@@ -284,6 +285,7 @@ function mediabase_node_load($nodes, $types) {
  */
 function mediabase_node_view($node, $view_mode, $langcode) { 
 	// Add metadata to audio/video nodes
+	/* Removed for speed issue testing: 2014-09-10
 	if(in_array($node->type, array('audio', 'video')) && $view_mode == 'full' && !empty($node->thumbnail_url)) {
 		// Add an og:image meta tag for sharing
 		// <meta property="og:image" content="http://davidwalsh.name/wp-content/themes/klass/img/facebooklogo.png"/>
@@ -291,11 +293,12 @@ function mediabase_node_view($node, $view_mode, $langcode) {
 		  '#tag' => 'meta', // The #tag is the html tag - <link />
 		  '#attributes' => array( // Set up an array of attributes inside the tag
 		    'property' => 'og:image', 
-		    'content' => str_replace('height/140','width/1200', $node->thumbnail_url),
+		    'content' => $node->thumbnail_url,
 		  ),
 		);
 		drupal_add_html_head($element, 'meta_og_image');
 	}
+	 * */
 }
 
 /**

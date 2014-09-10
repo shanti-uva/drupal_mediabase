@@ -440,6 +440,7 @@ function mb_structure_views_query_alter(	&$view, &$query ) {
    
 }
 
+/** Not sure this is necessary: removing for speed improvement
 function mb_structure_node_view($node, $view_mode, $langcode) {
    if ( in_array($node->type, array('audio','video')) && $collection_node = get_collection_ancestor_node($node) ) {
       $path = "node/$collection_node->nid";
@@ -454,6 +455,7 @@ function mb_structure_node_view($node, $view_mode, $langcode) {
       $node->content['#group_children']['collection_ancestor'] = 'group_details';
    }
 }
+*/
 
 /**
  * Add variable has_transcript

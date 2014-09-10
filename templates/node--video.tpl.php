@@ -105,7 +105,9 @@
 	      </div>  
 	      
 	      <div class="shanti-thumbnail-field shanti-field-created">       
-	          <span class="shanti-field-content"><?php print date('d M Y', $variables['media_create_date']); ?></span>  
+	          <span class="shanti-field-content"><?php if(!empty($variables['media_create_date'])) {
+	          	print date('d M Y', $variables['media_create_date']); 
+	          } ?></span>  
 	      </div>  
       
       <?php if(isset($variables['duration'])): ?>

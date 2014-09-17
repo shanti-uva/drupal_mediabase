@@ -464,7 +464,13 @@ function mb_structure_node_view($node, $view_mode, $langcode) {
  * Add variable has_transcript
  */
 function mb_structure_preprocess_node(&$vars) {
-  $vars['has_transcript'] =  transcripts_has_transcript($vars['node']);
+	// Temporarily accounting for both old and new version of transcripts suite
+	// in the end transcripts_node is the new version
+	if(module_exists('transcripts_node')) {
+  	$vars['has_transcript'] =  transcripts_node_has_transcript($vars['node']);
+  } elseif (function_exists('transcripts_has_transcript')) {
+  	$vars['has_transcript'] =  transcripts_has_transcript($vars['node']);
+  }
 }
 
 function mb_structure_node_update($node) {

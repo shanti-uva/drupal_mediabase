@@ -48,7 +48,8 @@ function mb_services_menu() {
     'description' => 'Return the JSON description for Mediabase nodes that are tagged with a given Kmap ID',
     'page callback' => 'mb_services_get',
     'page arguments' => array(1,2),
-    'access callback' => TRUE,
+    'access callback' => 'user_access',
+    'access arguments' => array('access content'),
   );
 	
   // Return Embed code for audio or video
@@ -336,47 +337,58 @@ function mb_services_get($type, $kmid) {
 	}
 	// Do page calculations based on Rows and get the desired splice of nodes
   $n = 0;
-  $start = ($pg - 1) * $rows + 1;
-  $end = $pg * $rows;
+  $start = ($pg - 1) * $rows;
   $gout = array();
   $items = array();
-
+	
+  // Sift entities by type and permissions
+	$entities_filtered = array();
+	$debug = '';
+	foreach($entities as $eid => $entity) {
+		$ntype = $entity->bundle;
+    if($ntype == 'video' || $ntype == 'audio') {
+      $node = node_load($eid);
+      // Only output node info if it's public [user_load(0) == anonymous user]
+      if($node && node_access('view', $node, user_load(0))) {
+      	$entity->eid = $eid;
+      	$entities_filtered[$eid] = $entity;
+			}
+		}
+	}
+	$totalct = count($entities_filtered);
+  ksort($entities_filtered);
+	$entities = array_slice($entities_filtered, $start, $rows);
+	
   // For entities that are video or audio nodes output json
   // Load mb_kaltura include for its functions for calling kaltura
   module_load_include('inc', 'mb_kaltura', 'mb_kaltura');
-  ksort($entities);
-  foreach($entities as $eid => $entity) {
-    $ntype = $entity->bundle;
-    if($ntype == 'video' || $ntype == 'audio') {
-      $n++; 
-      if($n >= $start && $n <= $end) {
-        $item = array();
-        $node = node_load($eid);
-        // Only output node info if it's public
-        if(node_access('view', $node, user_load(0))) {
-        	$flang = field_language('node', $node, "field_$ntype");
-          $item['nid'] = $eid;
-          $item['title'] = $node->title;
-          $item['type'] = $ntype;
-          $kid = $node->{"field_$ntype"}[$flang][0]['entryid'];
-          $item['kaltura_id'] = $kid;
-          $item['thumbnail'] = $node->thumbnail_url;
-          $media = _get_media_from_entry_id($kid);
-          $item['video_url'] = $media->dataUrl;
-          $item['duration'] = $node->duration;
-          $item['created'] = $node->created;
-          $item['mb_url'] = url(drupal_get_path_alias('node/' . $eid), array('absolute' => 'true'));
-          
-          array_push($items, $item);
-        }
-      }
-    }
+  foreach($entities as $n => $entity) {
+    $item = array();
+		$eid = $entity->eid;
+    $ntype = $entity->bundle; 	
+    $node = node_load($eid);
+		if($node) { 
+	  	$flang = field_language('node', $node, "field_$ntype");
+	    $item['nid'] = $eid;
+	    $item['title'] = $node->title;
+	    $item['type'] = $ntype;
+	    $kid = $node->{"field_$ntype"}[$flang][0]['entryid'];
+	    $item['kaltura_id'] = $kid;
+	    $item['thumbnail'] = $node->thumbnail_url;
+	    $media = _get_media_from_entry_id($kid);
+	    $item['video_url'] = $media->dataUrl;
+	    $item['duration'] = $node->duration;
+	    $item['created'] = $node->created;
+	    $item['mb_url'] = url(drupal_get_path_alias('node/' . $eid), array('absolute' => 'true'));
+	    array_push($items, $item);
+		}
   }
 
-  $gout["total"] = $n;
+  $gout["total"] = $totalct; 
 	$gout["type"] = $type;
 	$gout["kmid"] = $kmid;
   $gout["page"] = $pg;
+  $gout["start"] = $start;
   $gout["rows"] = $rows;
   $gout["media"] = $items;
   drupal_json_output($gout);

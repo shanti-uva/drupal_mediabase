@@ -314,16 +314,19 @@ function mb_solr_form_alter(&$form, &$form_state, $form_id) {
  * This is included in the node display through mb_solr_node_view (below).
  */
 function theme_search_results__apachesolr_search__collection_home(&$vars) {
+	//dpm($vars, 'in collection home theme');
   global $base_path;
   $output = $vars['pager'] . '<ul class="shanti-gallery">';
   foreach ($vars['results'] as $k => $v) {
     $nid = $v['fields']['entity_id'];
     $node = node_load($nid);
-    $coll = get_collection_ancestor_node($node);
-    if($coll) {
-        $coll->url = $base_path . drupal_get_path_alias('node/' . $coll->nid);
-    }
-    $output .=  mb_solr_make_teaser($v, $coll);
+		if($node) { 
+	    $coll = get_collection_ancestor_node($node);
+	    if($coll) {
+	        $coll->url = $base_path . drupal_get_path_alias('node/' . $coll->nid);
+	    }
+	    $output .=  mb_solr_make_teaser($v, $coll);
+		}
   }
   $output .= '</ul>' . $vars['pager'];
   return $output;

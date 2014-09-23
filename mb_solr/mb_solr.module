@@ -258,8 +258,9 @@ function mb_solr_preprocess_node(&$variables) {
     $search_blocks = variable_get('apachesolr_search_mlt_blocks', array());
     $sb = $search_blocks['mlt-001'];
     $sb['num_results'] = 60;
-		// This is too expensive time wise. Need to load suggestion elsewise. ndg, 2014-09-22
+		// TODO: This is too expensive time wise. Need to load suggestion elsewise. ndg, 2014-09-22
     //$suggestions = apachesolr_search_mlt_suggestions($sb, $asdoc);
+    // Is this because PreProcessing is called even for teasers or is this just a bad way to do it?
     $suggestions = FALSE;
     //dpm($suggestions, 'suggestions');
     $output = '<ul class="shanti-gallery">';

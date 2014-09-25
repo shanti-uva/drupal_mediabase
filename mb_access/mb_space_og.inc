@@ -40,6 +40,10 @@ class mb_space_og extends space_og {
 	}
 	
 	function allow_archive_admin($account = NULL) {
+		return FALSE;
+		/**
+		 * TODO: Finish this. Travis left undone. mb_access_node_grants() does not work in this context. Need include?
+		 *
 	   $grants = mb_access_node_grants($account, 'view');
 	   if ( 
 	      $account
@@ -48,6 +52,7 @@ class mb_space_og extends space_og {
 	   {
 	      
 	   }
+		 **/
 	}
 
 }

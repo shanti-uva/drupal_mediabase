@@ -103,7 +103,7 @@ projects[kaltura][patch][] = "https://www.drupal.org/files/kaltura-array-to-stri
 projects[job_scheduler][version] = "2.0-alpha3"
 projects[job_scheduler][subdir] = "contrib"
 
-projects[jquery_update][version] = "2.3"
+projects[jquery_update][version] = "2.4"
 projects[jquery_update][subdir] = "contrib"
 
 projects[libraries][version] = "2.0"

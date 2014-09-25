@@ -153,33 +153,37 @@ function add_node_access_records($node) {
 * @todo fix the hardcoded 'team' node type hack
 **/
 function add_mb_collection_admin_node_access_records($node) {
-   $grants = array();                    
-   $field_language = field_language('node', $node, 'group_audience');
-   $collection_gid = NULL;
-   // COLLECTION GRANTS
-   if ( $node->type == 'team' && isset($node->{OG_GROUP_AUDIENCE_FIELD}[$field_language][0])) { // team has a collection
-      $collection_gid = $node->{OG_GROUP_AUDIENCE_FIELD}[$field_language][0]['gid'];
-   }
-   // AUDIO VIDEO GRANTS
-   elseif ( in_array($node->type, array('video', 'audio')) && isset($node->{OG_GROUP_AUDIENCE_FIELD}[$field_language]) ) {  // media item belongs to a team or collection
-      $gid = $node->{OG_GROUP_AUDIENCE_FIELD}[$field_language][0]['gid'];      
-      $group = og_get_group('group', $gid);
-      $node = node_load($group->etid);
-      $lang = field_language('node', $node, 'group_audience');
-      if ( isset($node->{OG_GROUP_AUDIENCE_FIELD}[$lang]) ) { // team has a collection
-         $collection_gid = $node->{OG_GROUP_AUDIENCE_FIELD}[$lang][0]['gid'];
-      }
-   }
-   if ( is_numeric($collection_gid) ) {
-      $grants[] = array (
-         'realm' => MB_COLLECTION_ADMIN_REALM,
-         'gid' => $collection_gid, // gid here is group id not grant id
-         'grant_view' => 1,
-         'grant_update' => 1,
-         'grant_delete' => 1,
-         'priority' => 0,
-         );
-   }
+   $grants = array();  
+	 if($node) {                   
+	   $field_language = field_language('node', $node, 'group_audience');
+	   $collection_gid = NULL;
+	   // COLLECTION GRANTS
+	   if ( $node->type == 'team' && isset($node->{OG_GROUP_AUDIENCE_FIELD}[$field_language][0])) { // team has a collection
+	      $collection_gid = $node->{OG_GROUP_AUDIENCE_FIELD}[$field_language][0]['gid'];
+	   }
+	   // AUDIO VIDEO GRANTS
+	   elseif ( in_array($node->type, array('video', 'audio')) && isset($node->{OG_GROUP_AUDIENCE_FIELD}[$field_language]) ) {  // media item belongs to a team or collection
+	      $gid = $node->{OG_GROUP_AUDIENCE_FIELD}[$field_language][0]['gid'];      
+	      $group = og_get_group('group', $gid);
+				if(!empty($group)) { 
+		      $node = node_load($group->etid);
+		      $lang = field_language('node', $node, 'group_audience');
+		      if ( isset($node->{OG_GROUP_AUDIENCE_FIELD}[$lang]) ) { // team has a collection
+		         $collection_gid = $node->{OG_GROUP_AUDIENCE_FIELD}[$lang][0]['gid'];
+		      }
+				}
+	   }
+	   if ( is_numeric($collection_gid) ) {
+	      $grants[] = array (
+	         'realm' => MB_COLLECTION_ADMIN_REALM,
+	         'gid' => $collection_gid, // gid here is group id not grant id
+	         'grant_view' => 1,
+	         'grant_update' => 1,
+	         'grant_delete' => 1,
+	         'priority' => 0,
+	         );
+	   }
+	 }
    return $grants;
 }
 

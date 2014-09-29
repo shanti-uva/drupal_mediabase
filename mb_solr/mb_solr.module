@@ -638,7 +638,9 @@ function mb_solr_kmap_search($kid = '') {
 
 /**
  * Returns a solr add doc for node with $nid. Includes kmapid values for term ids with associated kmap ids
- */
+ *
+ * OLD  mb_solr_get_solrdoc: returns doc as found in MB's apache solr module replaced by custom doc for new KIDX solr index
+ * 
 function mb_solr_get_solrdoc($nid = '') {
   // Set base url with path
   global $base_url, $base_path; 
@@ -709,6 +711,49 @@ function mb_solr_get_solrdoc($nid = '') {
   // Convert Solr Doc to XML and add to output string
   drupal_add_http_header('Content-Type', 'text/xml');
   print '<?xml version="1.0"?>' . $docout;
+}*/
+
+function mb_solr_get_solrdoc($nid = '') {
+	global $base_url;
+	$node = node_load($nid);
+	if($node) {
+		$servpts = explode('//', $base_url);
+		$service = str_replace('.', '_', $servpts[1]);
+ 		$alias = drupal_get_path_alias('node/' . $nid);
+		$kmaps = '';
+		if(isset($node->field_characteristic)) {
+			$fc = field_get_items('node', $node, 'field_characteristic');
+			foreach($fc as $fitem) {
+				$term = taxonomy_term_load($fitem['tid']);
+				if(isset($term->kmap_id['und'][0]['value'])) {
+					$kmaps .= '<str>subjects-' . $term->kmap_id['und'][0]['value'] . '</str>';
+				}
+			}
+		}
+		if(isset($node->field_pbcore_coverage_spatial)) {
+			$fpcs = field_get_items('node', $node, 'field_pbcore_coverage_spatial');
+			foreach($fpcs as $fpcsitem) {
+				$term = taxonomy_term_load($fpcsitem['tid']);
+				if(isset($term->place_dictionary_id['und'][0]['value'])) {
+					$kmaps .= '<str>places-' . $term->place_dictionary_id['und'][0]['value'] . '</str>';
+				}
+			}
+		}
+		
+		$doc = '<doc><str name="service">' . $service . '</str>
+		<str name="asset_type">' . $node->type . '</str>
+		<str name="id">' . $nid . '</str>
+		<str name="uid">' . $service . '-' . $nid . '</str>
+		<str name="url_html">' . $base_url . '/' . $alias . '</str>
+		<str name="url_ajax">' . $base_url . '/services/node_ajax/' . $nid . '</str>
+		<str name="url_json">' . $base_url . '/api/v1/media/node/' . $nid . '</str>
+		<str name="url_thumb">' . $node->thumbnail_url . '</str>
+		<str name="caption">' . $node->title . '</str>
+		<arr name="kmapid">' . $kmaps . '</arr></doc>';
+	  // Convert Solr Doc to XML and add to output string
+	  drupal_add_http_header('Content-Type', 'text/xml');
+	  print '<?xml version="1.0"?>' . $doc;
+	}
 }
 
 /**

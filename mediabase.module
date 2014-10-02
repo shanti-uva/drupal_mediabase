@@ -180,29 +180,55 @@ function mediabase_theme_registry_alter(&$theme_registry) {
  * 			Adds: 1. transcript url, 2. collection object, 3. media creation date
  */
 function mediabase_preprocess_node(&$variables) {
-	global $base_path;
+	global $base_path, $language;
 	$node = $variables['node'];
+	$currlang = $language->name;
+	if(strpos($currlang, 'Chinese') !== FALSE) { $currlang = 'Chinese'; } // Normalize Chinese, Simplified/Traditional
+	$variables['currlang'] = $currlang;
+	
 	if(in_array($variables['type'], array('audio', 'video'))) {
+		
+		$emw = entity_metadata_wrapper('node', $node);
+		// Create Transcript URL, set to false if missing
 		if(empty($variables['field_transcript'])) {
 			$variables['transcript_url'] = FALSE;
 		} else { 
 		  $variables['transcript_url'] = $base_path . 'node/' . $node->nid . '/transcript';
 		}
+		// Add $coll object to variables for template
 		$coll = get_collection_ancestor_node($node);
 	  if($coll) { $coll->url = $base_path . drupal_get_path_alias('node/' . $coll->nid); }
 		$variables['coll'] = $coll;
 		if(!empty($variables['field_pbcore_coverage_spatial'])) {
 			$variables['place_link'] =  field_view_value('node', $node, 'field_pbcore_coverage_spatial', $node->field_pbcore_coverage_spatial[LANGUAGE_NONE][0]);
 		}
+		
 		// Use create date when available for display (See mb_solr.module mb_solr_apachesolr_index_document_build() ln 83)
-		$ew = entity_metadata_wrapper('node', $node);
-		$field_inst = $ew->field_pbcore_instantiation->value();
+		$field_inst = $emw->field_pbcore_instantiation->value();
 		$flang = field_language('node',$node, 'field_pbcore_instantiation');
 		$create_date = $node->created; // Default to node creation date.
 		if(!empty($field_inst->field_date_created)) {
 		  $create_date = strtotime($field_inst->field_date_created[$flang][0]['value']);
 		}
 		$variables['media_create_date'] = $create_date;
+		// Modify if Full view mode
+		if ($variables['view_mode'] == "full") {
+			// Remove Descriptions Not of Current Language
+			if(is_array($variables['content']['field_pbcore_description'])) {
+				$toremove = array();
+				foreach($variables['content']['field_pbcore_description']['#items'] as $n => $item) {
+					$fci = field_collection_item_load($item['value']);
+					if($fci->field_language['und'][0]['value'] != $variables['currlang']) {
+						$toremove[] = $n;
+					}
+				}
+				// $toremove is array of indexes to remove need to reverse them to remove higher ones first
+				$nlist = array_reverse($toremove);
+				foreach($nlist as $n) {
+					unset($variables['content']['field_pbcore_description'][$n]);
+				}
+			}
+		}
 	}
 }
 
@@ -296,22 +322,43 @@ function mediabase_node_load($nodes, $types) {
 /**
  * Implements hook node view
  */
-function mediabase_node_view($node, $view_mode, $langcode) { 
-	// Add metadata to audio/video nodes
-	/* Removed for speed issue testing: 2014-09-10
-	if(in_array($node->type, array('audio', 'video')) && $view_mode == 'full' && !empty($node->thumbnail_url)) {
-		// Add an og:image meta tag for sharing
-		// <meta property="og:image" content="http://davidwalsh.name/wp-content/themes/klass/img/facebooklogo.png"/>
-		$element = array(
-		  '#tag' => 'meta', // The #tag is the html tag - <link />
-		  '#attributes' => array( // Set up an array of attributes inside the tag
-		    'property' => 'og:image', 
-		    'content' => $node->thumbnail_url,
-		  ),
-		);
-		drupal_add_html_head($element, 'meta_og_image');
+function mediabase_node_view($node, $view_mode, $langcode) {
+	// If it is full view mode of audio or video
+	if(in_array($node->type, array('audio', 'video')) && $view_mode == 'full') {
+		//dpm($node, 'node');
+		$emw = entity_metadata_wrapper('node', $node); // Get this nodes entity metadata wrapper
+		// If the current display language is not English
+		if($langcode != 'en') {
+			// Get Current Language
+			global $language;
+			$currlang = $language->name;
+			if(strpos($currlang, 'Chinese') !== FALSE) { $currlang = 'Chinese'; } // Normalize Chinese, Simplified/Traditional
+			
+			// Use first title of same language as display for node page title
+			$titles = $emw->field_pbcore_title->value();
+			foreach($titles as $n => $title) {
+				if($title->field_language['und'][0]['value'] == $currlang) {
+					drupal_set_title($title->field_title['und'][0]['value']);
+				}
+			}
+		}
+		
+		// Add metadata to audio/video nodes
+		/* Removed for speed issue testing: 2014-09-10
+		if(!empty($node->thumbnail_url)) {
+			// Add an og:image meta tag for sharing
+			// <meta property="og:image" content="http://davidwalsh.name/wp-content/themes/klass/img/facebooklogo.png"/>
+			$element = array(
+			  '#tag' => 'meta', // The #tag is the html tag - <link />
+			  '#attributes' => array( // Set up an array of attributes inside the tag
+			    'property' => 'og:image', 
+			    'content' => $node->thumbnail_url,
+			  ),
+			);
+			drupal_add_html_head($element, 'meta_og_image');
+		}
+		*/
 	}
-	 * */
 }
 
 /**

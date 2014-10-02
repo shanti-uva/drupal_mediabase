@@ -434,9 +434,9 @@ KmapSelector.prototype.initTreeSelector = function (servicePath, data) {
    }
    jQuery(browseLinkDiv).html(browseLink);
    // Create the JsTree
-   if(typeof(this.treeSelector.jstree) == "undefined") {
+   /*if(typeof(this.treeSelector.jstree) == "undefined") {
    	console.log(this, 'undefined');
-   }
+   }*/
    jQuery(this.treeSelector).jstree({
          ui: {
             select_limit: this.allowMultipleValues ? -1 : 1,

@@ -85,13 +85,17 @@ function KmapSelector(options) {
    // Allow multiple values
    this.allowMultipleValues = (typeof options.allowMultipleValues === 'undefined') ? true : options.allowMultipleValues;
    
-   // Set the base path of the script                                                                                                                
+   // Set the base path of the script        
+   /* Travis' old code for getting base path                                                                                                        
    scripts = jQuery("head script");
-   for (i = 0; i < scripts.length; i += 1) {
+   for (i = 0; i < scripts.length; i += 1) {;
       if (scripts[i].src && 'kmap-selector.js' === scripts[i].src.split('?')[0].split('/').pop()) {
          this.scriptBasePath = scripts[i].src.split('?')[0].split('/').slice(0, -1).join('/') + '/';
       }
-   }      
+   }    
+   */
+   this.scriptBasePath = Drupal.settings.basePath + Drupal.settings.mediabase.path + '/kmap_taxonomy/js/';
+   //console.log("script base path: " + this.scriptBasePath)  ;
    
    // Parentage formats
    this.parentageFormats = options.parentageFormats? options.parentageFormats :  {

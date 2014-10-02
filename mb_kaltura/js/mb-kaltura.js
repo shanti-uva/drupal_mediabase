@@ -86,8 +86,9 @@ Drupal.behaviors.mb_kaltura = {
       var closeButtonPath = Drupal.settings.basePath +  Drupal.settings.mediabase.path + '/images/close.png';
       jQuery('input.remove_media').css({
             'background-image': "url('" + closeButtonPath + "')",
+            'background-size': "15px",
       });
    }
-}
+};
 
 

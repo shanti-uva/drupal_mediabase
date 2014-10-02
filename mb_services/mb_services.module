@@ -416,7 +416,8 @@ function mb_services_node_ajax($nid) {
   if (user_access('access content')) { // This is already specified in the menu item
     if (in_array($node->type, array('audio', 'video'))) {
     	// This returns exact markup as when viewed in MB
-			$html = drupal_render(entity_view('node', array($node))); 
+    	$eview = entity_view('node', array($node));
+			$html = drupal_render($eview); 
 			print "<div class=\"mb-node-ajax\">$html</div>";
     } 
     else { drupal_not_found(); }

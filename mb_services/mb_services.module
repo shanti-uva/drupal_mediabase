@@ -54,11 +54,11 @@ function mb_services_menu() {
   );
 	
   // Return an HTML fragment suitable for embedding in page view ajax call
-  $items['services/node_ajax/%'] = array(
+  $items['services/node/ajax/%'] = array(
     'title' => 'A/V Node HTML Fragment',
     'description' => 'Returns an HTML fragment for a/v resource suitable for embedding via AJAX',
     'page callback' => 'mb_services_node_ajax',
-    'page arguments' => array(2),
+    'page arguments' => array(3),
     'type' => MENU_CALLBACK,
     'access callback' => 'user_access',
     'access arguments' => array('access content'),

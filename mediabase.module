@@ -141,6 +141,11 @@ function mediabase_theme() {
 				'links' => NULL,
 			),
     ),
+    'video_node_form' => array(
+			'template' => 'video-edit-form',
+			'render element' => 'form',
+      'path' => drupal_get_path('module', 'mediabase'),
+		),
   );
 }
 

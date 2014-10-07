@@ -18,7 +18,7 @@ index 34ccdab..9ef7689 100644
 + */
 +   $plugins['space_og'] = array(
 +    'handler' => array(
-+      'path' => drupal_get_path('module', 'mb_og_access'),
++      'path' => drupal_get_path('module', 'mb_access'),
 +      'file' => 'mb_space_og.inc',
 +      'class' => 'mb_space_og',
 +      'parent' => 'space_og',

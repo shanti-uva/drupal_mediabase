@@ -5,13 +5,14 @@
 		attach:function(context) {
 			// Ajax Service Call for More Like This Related videos
 			var data = $('div#related.mlt').data();
-			var nid = data.nid;
-			var ct = (typeof(data.count) != "undefined") ? '/' + data.count : '';
-			var url = Drupal.settings.basePath + 'services/mlt/' + nid + ct;
-			$('#related.mlt').load(url, function() { 
-				$("#related .dev-query").remove();
-			});
-			
+			if(data != null && typeof(data.nid) != 'undefined') { 
+				var nid = data.nid;
+				var ct = (typeof(data.count) != "undefined") ? '/' + data.count : '';
+				var url = Drupal.settings.basePath + 'services/mlt/' + nid + ct;
+				$('#related.mlt').load(url, function() { 
+					$("#related .dev-query").remove();
+				});
+			}
 			
 		 /* Old Code for loading Tree in Sidebar/search flyout
 		 makeTree();

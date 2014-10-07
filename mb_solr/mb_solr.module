@@ -47,6 +47,15 @@ function mb_solr_menu() {
     'access callback' => TRUE,
   );
   
+  // Return a solr add doc for the nid id given
+  $items['services/mlt/%'] = array(
+    'title' => 'More Like This',
+    'description' => 'Return an embeddable fragment with more-like-this a/v resources.',
+    'type' => MENU_CALLBACK,
+    'page callback' => 'mb_solr_get_mlt',
+    'page arguments' => array(2),
+    'access callback' => TRUE,
+  );
   return $items;
 }
 
@@ -253,47 +262,8 @@ function mb_solr_theme($existing) {
  */
 function mb_solr_preprocess_node(&$variables) {
   if(isset($variables['node']->type) && in_array($variables['node']->type, array('audio', 'video'))) {
-    global $base_path;
-    $asdoc = apachesolr_document_id($variables['nid']);
-    $search_blocks = variable_get('apachesolr_search_mlt_blocks', array());
-    $sb = $search_blocks['mlt-001'];
-    $sb['num_results'] = 60;
-		// TODO: This is too expensive time wise. Need to load suggestion elsewise. ndg, 2014-09-22
-    //$suggestions = apachesolr_search_mlt_suggestions($sb, $asdoc);
-    // Is this because PreProcessing is called even for teasers or is this just a bad way to do it?
-    $suggestions = FALSE;
-    //dpm($suggestions, 'suggestions');
-    $output = '<ul class="shanti-gallery">';
-    $done = 0;
-    if($suggestions) { 
-      foreach($suggestions as $n => $entity) {
-        if($entity->entity_type == 'node') {
-          $node = node_load($entity->entity_id);
-		  if($node) { 
-	          $item = array(
-	            'fields' => array( 
-	              'entity_id' => $entity->entity_id,
-	              'created' => $node->created,
-	             ),
-	            'bundle' => $node->type,
-	            'title' => $node->title,
-	            'duration' => (isset($node->duration)) ? $node->duration : 0,
-	            'link' => $base_path . drupal_get_path_alias('node/' . $node->nid),
-	          ); 
-	          $nid = $entity->entity_id;
-	          $node = node_load($nid);
-	          $coll = get_collection_ancestor_node($node);
-	          if($coll) {
-	              $coll->url = $base_path . drupal_get_path_alias('node/' . $coll->nid);
-	          }
-	          $output .=  mb_solr_make_teaser($item, $coll);
-		  }
-        }
-      }
-      $output .= '</ul>';
-      $variables['suggestions'] = $output;
-      //dpm($variables, 'vars 3 in pp page on mbsolr');
-    }
+  	//dpm($variables, 'vars in preprocess node');
+    
   }
 }
 
@@ -755,6 +725,48 @@ function mb_solr_get_solrdoc($nid = '') {
 	  print '<?xml version="1.0"?>' . $doc;
 	}
 }
+
+/**
+ * mb_solr_get_mlt: Returns a html fragment with a gallery of more-like-this thumbnails
+ */
+function mb_solr_get_mlt($nid, $ct = 25) {
+	global $base_path;
+  $asdoc = apachesolr_document_id($nid);
+  $search_blocks = variable_get('apachesolr_search_mlt_blocks', array());
+  $sb = $search_blocks['mlt-001'];
+  $sb['num_results'] = $ct;
+  $suggestions = apachesolr_search_mlt_suggestions($sb, $asdoc);
+  $output = '<ul class="shanti-gallery">';
+  $done = 0;
+  if($suggestions) { 
+    foreach($suggestions as $n => $entity) {
+      if($entity->entity_type == 'node') {
+        $node = node_load($entity->entity_id);
+			  if($node) { 
+		          $item = array(
+		            'fields' => array( 
+		              'entity_id' => $entity->entity_id,
+		              'created' => $node->created,
+		             ),
+		            'bundle' => $node->type,
+		            'title' => $node->title,
+		            'duration' => (isset($node->duration)) ? $node->duration : 0,
+		            'link' => $base_path . drupal_get_path_alias('node/' . $node->nid),
+		          ); 
+		          $nid = $entity->entity_id;
+		          $node = node_load($nid);
+		          $coll = get_collection_ancestor_node($node);
+		          if($coll) {
+		              $coll->url = $base_path . drupal_get_path_alias('node/' . $coll->nid);
+		          }
+		          $output .=  mb_solr_make_teaser($item, $coll);
+			  }
+      }
+    }
+    $output .= '</ul>';
+		print $output;
+  }
+} 
 
 /**
  * Implements hook_facteapi_realm_info. Adds a realm for Ajax calls to enable a widget that returns PHP object instead of markup

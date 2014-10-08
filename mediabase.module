@@ -103,6 +103,7 @@ function mediabase_settings_form_submit($form, &$form_state) {
 }
 
 function mediabase_form_alter(&$form, &$form_state, $form_id) {
+	//dpm($form_id, 'form id');
    if (in_array($form_id, array('search_block_form', 'apachesolr_search_custom_page_search_form'))) {
       drupal_add_js(drupal_get_path('module', 'mediabase') .'/js/mediabase.js', array('preprocess' => FALSE));
    }  
@@ -115,6 +116,12 @@ function mediabase_form_alter(&$form, &$form_state, $form_id) {
          '#submit' => array('mediabase_node_form_cancel'),
          );
    }
+	 // Alter the video edit form (add audio_node_form?)
+	 if($form_id == 'video_node_form') {
+	 	 //dpm($form, 'form: ' . $form_id);
+		 //works: $form['#groups']['group_transcript']->label = "Howdy Doody Show";
+		 //dpm(render($form['field_transcript']), 'field transript');
+	 }
 }
 
 function mediabase_node_form_cancel(&$form, &$form_state) {
@@ -142,12 +149,14 @@ function mediabase_theme() {
 			),
     ),
     'video_node_form' => array(
-			'template' => 'video-edit-form',
+			'template' => 'video-node-form',
 			'render element' => 'form',
-      'path' => drupal_get_path('module', 'mediabase'),
+      'path' => drupal_get_path('module', 'mediabase') . '/templates/',
 		),
   );
 }
+
+//function mediabase_video_node_form_alter()
 
 /**
  * Implements hook_theme_registry_alter()

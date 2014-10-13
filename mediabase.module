@@ -134,6 +134,7 @@ function mediabase_persistent_nid($nid) {
    $alias = drupal_lookup_path('alias', "node/$nid");
    drupal_goto($alias);
 }
+
 /**
  * THEMING FUNCTIONS
  */
@@ -148,11 +149,6 @@ function mediabase_theme() {
 				'links' => NULL,
 			),
     ),
-    'video_node_form' => array(
-			'template' => 'video-node-form',
-			'render element' => 'form',
-      'path' => drupal_get_path('module', 'mediabase') . '/templates/',
-		),
   );
 }
 

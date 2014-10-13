@@ -168,6 +168,8 @@ function get_node_from_path(){
    }
 }
 
+/** Form alter functions **/
+
 function mb_structure_form_views_exposed_form_alter(&$form, &$form_state, $form_id) {
    /*    dpm($form_state, "form_state");
    

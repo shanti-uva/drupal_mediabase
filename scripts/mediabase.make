@@ -210,17 +210,30 @@ projects[omega][patch][] = "https://raw.github.com/pinedrop/mediabase/master/pat
 
 ; CUSTOM MODULES
 projects[mediabase][download][type] = "git"
-projects[mediabase][download][url] = "git://github.com/pinedrop/mediabase.git"
+projects[mediabase][download][url] = "git://github.com/shanti-uva/drupal_mediabase.git"
 projects[mediabase][type] = "module"
 
 projects[transcripts][download][type] = "git"
-projects[transcripts][download][url] = "git://github.com/pinedrop/transcripts.git"
+projects[transcripts][download][url] = "git://github.com/pinedrop/transcripts.git" 
 projects[transcripts][type] = "module"
 
 ; CUSTOM THEMES
-projects[mb-html5][download][type] = "git"
-projects[mb-html5][download][url] = "git://github.com/pinedrop/mediabase-theme.git"
-projects[mb-html5][type] = "theme"
+; Old Mediabase Custom theme based on Omega
+;projects[mb-html5][download][type] = "git"
+;projects[mb-html5][download][url] = "git://github.com/pinedrop/mediabase-theme.git"
+;projects[mb-html5][type] = "theme"
+
+; Shanti Sarvaka Base Theme
+projects[shanti-sarvaka][download][type] = "git"
+projects[shanti-sarvaka][download][url] = "git://github.com/shanti-uva/drupal_shanti_sarvaka_theme.git"
+projects[shanti-sarvaka][type] = "theme"
+
+; Shanti Sarvaka Mediabase Sub Theme
+projects[shanti-sarvaka-mb][download][type] = "git"
+projects[shanti-sarvaka-mb][download][url] = "git://github.com/shanti-uva/drupal_shanti_sarvaka_mediabase.git"
+projects[shanti-sarvaka-mb][type] = "theme"
+
+
 
 ; LIBRARIES
 libraries[saxon][download][type] = "file"

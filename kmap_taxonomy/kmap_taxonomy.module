@@ -364,9 +364,9 @@ function kmap_taxonomy_field_formatter_info() {
 function kmap_taxonomy_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
    $elements = array();  
    foreach ($items as $delta => $item) {
-      $kmap = Kmap::createKmapByTid($item['tid']);
-      $view_path = $instance['widget']['settings']['view_path'];
-      $elements[$delta] = array(
+     $kmap = Kmap::createKmapByTid($item['tid']);
+     $view_path = $instance['widget']['settings']['view_path'];
+     $elements[$delta] = array(
          '#markup' => theme('kmap_taxonomy_formatter_'. $display['type'], array(
             'element' => $item, 
             'entity' => $entity, 
@@ -375,8 +375,8 @@ function kmap_taxonomy_field_formatter_view($entity_type, $entity, $field, $inst
             'formatted_lineage' => $kmap->render_kmap_lineage(Kmap::KMAP_LINEAGE_FULL, FALSE, $view_path),
             'rendered_formatted_lineage' => $kmap->render_kmap_lineage(Kmap::KMAP_LINEAGE_FULL, TRUE, $view_path),   
             )
-           ),
-         );
+          ),
+      );
   }
   return $elements;
 }

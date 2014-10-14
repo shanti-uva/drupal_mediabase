@@ -139,11 +139,11 @@ function kmap_annotation_field_formatter_view($entity_type, $entity, $field, $in
          }
          $view_path = isset($instance['widget']['settings']['kmap_selector_settings']) ? $instance['widget']['settings']['kmap_selector_settings']['view_path'] : $instance['widget']['settings']['view_path'];
          if ($kmap) {
-				 		if($theme == 'shanti_sarvaka') {
-				 			$elements[$delta] = array(
+				 		$elements[$delta] = array(
                '#markup' => _kmap_subject_popover($kmap),
-               );
-				 		} else { 
+            );
+						/*
+				 		} else {
             	$elements[$delta] = array(
                '#markup' => theme('kmap_annotation_formatter_'. $display['type'], array(
                   'element' => $item, 
@@ -155,7 +155,7 @@ function kmap_annotation_field_formatter_view($entity_type, $entity, $field, $in
                   )
                   ),
                );
-						}
+						}*/
          }
       }
       break;

@@ -202,23 +202,28 @@ LocationSelector.prototype.initWidgetMarkup = function () {
          acInput.addClass('throbber');
       }
       ));
-      
+      /*
+       * <button class="btn btn-primary form-submit btn-delete btn-sm btn-icon ajax-processed" title="Remove this field value" 
+       * 					type="submit" value="Remove"><span class="icon shanticon-trash"></span> <span></span></button>
+       */
       // autocomplete cancel button
-      jQuery(pdTarget).append(jQuery("<input/>").attr({
-            value:this.t('Cancel'),
-            type: 'button',
-            class: 'form-submit',
+      var delbtn = jQuery("<button/>").attr({
+            value: 'Remove',
+            type: 'submit',
+            class: 'btn btn-primary form-submit btn-delete btn-sm btn-icon',
+            title: this.t('Cancel')
       }).click( function() {
-         var acInput = jQuery( this ).siblings( '.' + formInputClass )
+         var acInput = jQuery( this ).siblings( '.' + formInputClass );
          acInput.removeClass('throbber');
-         acInput.autocomplete('destroy')
-      }));
-         
+         acInput.autocomplete('destroy');
+      });
+      delbtn.append('<span class="icon shanticon-trash"></span>');
+      jQuery(pdTarget).append(delbtn);   
       // add selection and display divs to to top-level container
       jQuery(target).append(pdTarget);
       jQuery(target).append(this.selectionResult);
    }
-}
+};
 
 
 /**
@@ -228,10 +233,10 @@ LocationSelector.prototype.initItems = function () {
    // Add the existing values
    if (typeof (this.selectedValues) == 'object') {
       for (var locId in this.selectedValues) {
-         var item = this.selectedValues[locId]
-         item.placeDictLabel = item.label
+         var item = this.selectedValues[locId];
+         item.placeDictLabel = item.label;
          this.displayItem(item);
-         var origVal = jQuery(this.hiddenInput).val()          // Add locId to the hidden input
+         var origVal = jQuery(this.hiddenInput).val();          // Add locId to the hidden input
          var values = this.empty(origVal) ? [] : jQuery(this.hiddenInput).val().split(',');
          if (values.indexOf(locId) == -1) {
             values.push(locId);
@@ -239,7 +244,7 @@ LocationSelector.prototype.initItems = function () {
          }
       }
    }
-}
+};
 
 /**
 * Create the t() function for a pluggable approach to l10n translation of strings
@@ -266,14 +271,14 @@ LocationSelector.prototype.addItem = function (item){
    this.displayItem(item);
 
    // Add locationId to the hidden input
-   var origVal = jQuery(this.hiddenInput).val()
+   var origVal = jQuery(this.hiddenInput).val();
    var values = typeof (origVal) == 'undefined' || origVal == '' ? [] : jQuery(this.hiddenInput).val().split(',');
    values.push(item.id);
    jQuery(this.hiddenInput).val(values.join(','));
 
    // Add location_id to selected values
    this.selectedValues[item.id] = item;
-}
+};
 
 LocationSelector.prototype.displayItem = function (item){
    var locSelector = this;
@@ -285,30 +290,30 @@ LocationSelector.prototype.displayItem = function (item){
    jQuery(this.selectionResult).append(itemSpan);
      
    // Remove link
-   var removeLink = jQuery('<a>').attr('href', '#').attr('title', this.t('Remove ' + item.placeDictLabel))
+   var removeLink = jQuery('<a>').attr('href', '#').attr('title', this.t('Remove ' + item.placeDictLabel));
    jQuery(spanSel).html(removeLink);
    jQuery(spanSel+" a").click( function (event){
-         var spanId = jQuery(this).parent().attr('id') // get the span parent of the link
+         var spanId = jQuery(this).parent().attr('id'); // get the span parent of the link
          var locId = spanId.split('_').pop();
          locSelector.removeItem(locId); //remove loc ids from form input
          jQuery(this).parent().remove(); //remove the display span 
-         event.preventDefault()
+         event.preventDefault();
    } );
    jQuery(spanSel+" a").append(jQuery('<img>').attr('src', this.scriptBasePath+'delete.png'));
    
    // Location label
    jQuery(spanSel+" a").after(item.placeDictLabel);
-}
+};
 
 LocationSelector.prototype.removeItem = function (locationId)  {
    // remove from selected values
-   delete this.selectedValues[locationId]
+   delete this.selectedValues[locationId];
    // remove from hidden input
-   var values = jQuery(this.hiddenInput).val().split(',')
-   var idx = values.indexOf(locationId)
-   values.splice(idx,1)
-   jQuery('#'+this.hiddenInputId).val(values.join(','))
-}
+   var values = jQuery(this.hiddenInput).val().split(',');
+   var idx = values.indexOf(locationId);
+   values.splice(idx,1);
+   jQuery('#'+this.hiddenInputId).val(values.join(','));
+};
 
 LocationSelector.prototype.initStylesheet = function (){
    jQuery("head").append("<link>");
@@ -318,7 +323,7 @@ LocationSelector.prototype.initStylesheet = function (){
          type: "text/css",
          href: this.scriptBasePath + "location-selector.css"
    });
-}
+};
 
 
 /*=========
@@ -326,7 +331,8 @@ LocationSelector.prototype.initStylesheet = function (){
   =========*/
 LocationSelector.prototype.isNumber = function (n) {
    return !isNaN(parseFloat(n)) && isFinite(n);
-}
+};
+
 LocationSelector.prototype.empty = function (mixed_var) {
    var key;
    if (mixed_var === "" ||
@@ -347,4 +353,4 @@ LocationSelector.prototype.empty = function (mixed_var) {
       return true;
    }
    return false;
-}
+};

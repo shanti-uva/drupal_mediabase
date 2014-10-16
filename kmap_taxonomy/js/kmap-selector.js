@@ -309,7 +309,10 @@ KmapSelector.prototype.initBranchFilter = function (data) {
             id: item.id
       };
    }
-   this.branchFilter = jQuery('<select>').attr('id', "branch_filter_"+this.targetDivId);
+   this.branchFilter = jQuery('<select>').attr({
+   	id: "branch_filter_"+this.targetDivId,
+   	class: "form-control form-select ss-select selectpicker"
+   });
    jQuery("#"+this.targetDivId + " .branch-filter").append(this.branchFilter);
    jQuery("#"+this.targetDivId +" .branch-filter").prepend(jQuery('<label/>').text(this.branchFilterLabel));
    var rootVal = this.rootKmapId ? this.rootKmapId : '';
@@ -367,6 +370,7 @@ KmapSelector.prototype.initBranchFilter = function (data) {
          }
    }
    );
+   jQuery(".selectpicker").selectpicker();
 };
 
 /**

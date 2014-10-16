@@ -117,13 +117,14 @@ LocationSelector.prototype.initWidgetMarkup = function () {
       jQuery(pdTarget).append(this.placeDictionaryInput);
       
       // autocomplete search button
-      jQuery(pdTarget).append(jQuery("<input/>").attr({
-            value:this.t('Search the Place Dictionary'),
-            type: 'button',
-            class: 'form-submit',
+      var searchbtn = jQuery("<button/>").attr({
+            value: 'Search',
+            title: this.t('Search the Place Dictionary'),
+            type: 'submit',
+            class: 'btn btn-primary form-submit btn-sm btn-icon',
       }).click( function() {
          // add the autocomplete config to the input
-         var acInput = jQuery( this ).siblings( '.' + formInputClass )
+         var acInput = jQuery( this ).siblings( '.' + formInputClass );
          if ( ! acInput.val() ) {
             jQuery('<p/>').html(locSelector.t('Please enter a search term and try your search again')).dialog({
                   modal: true,
@@ -138,7 +139,7 @@ LocationSelector.prototype.initWidgetMarkup = function () {
             return;
          }
          
-         console.log('Querying the place dictionary:', acSource.replace('{term}', acInput.val())) // Leave this in
+         //console.log('Querying the place dictionary:', acSource.replace('{term}', acInput.val())); // Leave this in
          
          acInput.autocomplete( {
                source: function( request, response ) {
@@ -153,9 +154,9 @@ LocationSelector.prototype.initWidgetMarkup = function () {
                              var results = jQuery.map( data.features, function( selection ) {
                                     var ftype = '';
                                     if (jQuery.isArray( selection.feature_types ) && selection.feature_types.length > 0 ) {
-                                       ftype = " — " + selection.feature_types[0].title 
+                                       ftype = " — " + selection.feature_types[0].title;
                                     } else if (selection.feature_types && selection.feature_types.title) {
-                                       ftype = " — " + selection.feature_types.title
+                                       ftype = " — " + selection.feature_types.title;
                                     }
                                     return {
                                        label: selection.header + ftype,
@@ -163,11 +164,11 @@ LocationSelector.prototype.initWidgetMarkup = function () {
                                        value: selection.id,
                                        id: "fid:" + selection.id,
                                        placeDictLabel: selection.header,
-                                    }
+                                    };
                               });
                            } else { 
                               acInput.removeClass('throbber');
-                              acInput.autocomplete('destroy')
+                              acInput.autocomplete('destroy');
                               jQuery('<p/>').html(locSelector.t('No results found. Please try another search.')).dialog({
                                     modal: true,
                                     width: 540,
@@ -200,8 +201,9 @@ LocationSelector.prototype.initWidgetMarkup = function () {
          });
          acInput.autocomplete('search');
          acInput.addClass('throbber');
-      }
-      ));
+      });
+      
+      jQuery(pdTarget).append(searchbtn.append('<span class="icon shanticon-magnify"></span>'));
       /*
        * <button class="btn btn-primary form-submit btn-delete btn-sm btn-icon ajax-processed" title="Remove this field value" 
        * 					type="submit" value="Remove"><span class="icon shanticon-trash"></span> <span></span></button>
@@ -210,14 +212,14 @@ LocationSelector.prototype.initWidgetMarkup = function () {
       var delbtn = jQuery("<button/>").attr({
             value: 'Remove',
             type: 'submit',
-            class: 'btn btn-primary form-submit btn-delete btn-sm btn-icon',
+            class: 'btn btn-primary form-submit btn-remove btn-sm btn-icon',
             title: this.t('Cancel')
       }).click( function() {
          var acInput = jQuery( this ).siblings( '.' + formInputClass );
          acInput.removeClass('throbber');
          acInput.autocomplete('destroy');
       });
-      delbtn.append('<span class="icon shanticon-trash"></span>');
+      delbtn.append('<span class="icon shanticon-close2b"></span>');
       jQuery(pdTarget).append(delbtn);   
       // add selection and display divs to to top-level container
       jQuery(target).append(pdTarget);
@@ -299,7 +301,7 @@ LocationSelector.prototype.displayItem = function (item){
          jQuery(this).parent().remove(); //remove the display span 
          event.preventDefault();
    } );
-   jQuery(spanSel+" a").append(jQuery('<img>').attr('src', this.scriptBasePath+'delete.png'));
+   jQuery(spanSel+" a").append(jQuery('<span>').attr('class', 'icon shanticon-close2b'));
    
    // Location label
    jQuery(spanSel+" a").after(item.placeDictLabel);

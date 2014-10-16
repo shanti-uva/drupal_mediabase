@@ -587,7 +587,8 @@ KmapSelector.prototype.displayItem = function (item){
          event.preventDefault(); // 
    });
    jQuery(spanSel).html(removeLink);
-   jQuery(spanSel+" a").append(jQuery('<img>').attr('src', this.scriptBasePath+'images/delete.png'));
+   //jQuery(spanSel+" a").append(jQuery('<img>').attr('src', this.scriptBasePath+'images/delete.png')); // old way before Sarvaka
+   jQuery(spanSel+" a").append(jQuery('<span>').attr('class', 'icon shanticon-close2b'));
    jQuery(spanSel+" a").after(item.label);
    
    // Display annotations   

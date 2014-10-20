@@ -30,22 +30,26 @@
 
 <?php if ($rows && ($exposed || $pager)): ?>
 	<div class="shanti-filters">
-  	<table>
-		    <tr>
-		        <td>
-		            <?php if ($exposed): ?>
+		<?php if ($exposed && $pager): ?>
+	  	<table>
+			    <tr>
+			        <td>
 		              <span class="view-filters-mb">
 		                <?php print $exposed; ?>
 		              </span>
-		            <?php endif; ?>
-		        </td>
-		        <td>
-		            <?php if ($pager): ?>
-		              <?php print $pager; ?>
-		            <?php endif; ?>
-		        </td>
-		    </tr>
-		</table>
+			        </td>
+			        <td>
+			            <?php print $pager; ?>
+			        </td>
+			    </tr>
+			</table>
+			<?php else: ?>
+				<?php if ($exposed): ?>
+					<?php print $exposed; ?>
+				<?php else: ?>
+					<?php print $pager; ?>
+				<?php endif; ?>
+			<?php endif; ?>
 	</div>
 <?php endif; ?>
 
@@ -105,9 +109,28 @@
 
 </div><?php /* class view */ ?>
 
-<?php if ($rows && $pager): ?>
+<?php if ($rows && ($exposed || $pager)): ?>
 	<div class="shanti-filters">
- 		<?php print $pager; ?>
- 	</div>
+		<?php if ($exposed && $pager): ?>
+	  	<table>
+			    <tr>
+			        <td>
+		              <span class="view-filters-mb">
+		                <?php print $exposed; ?>
+		              </span>
+			        </td>
+			        <td>
+			            <?php print $pager; ?>
+			        </td>
+			    </tr>
+			</table>
+			<?php else: ?>
+				<?php if ($exposed): ?>
+					<?php print $exposed; ?>
+				<?php else: ?>
+					<?php print $pager; ?>
+				<?php endif; ?>
+			<?php endif; ?>
+	</div>
 <?php endif; ?>
      

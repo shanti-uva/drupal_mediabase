@@ -30,7 +30,7 @@
 
 <?php if ($rows && $pager): ?>
 	<?php // record dom-id for reloading by BEF so that it replaces the whole div ?>
-	<div class="shanti-view-dom-id" data-dom-id="<?php print $variables['dom_id']; ?>">
+	<div class="shanti-view-dom-id" <?php if(isset($variables['dom_id'])) print 'data-dom-id="' . $variables['dom_id'] . '"'; ?>>
 		<div class="shanti-filters">
 		  	<table>
 				    <tr>

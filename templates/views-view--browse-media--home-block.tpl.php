@@ -28,81 +28,84 @@
  */
 ?>
 
-<?php if ($rows && ($exposed || $pager)): ?>
-	<div class="shanti-filters">
-	  	<table>
-			    <tr>
-			    		<td>
-			    			<?php print $header; ?>
-			    		</td>
-			        <td>
-			        	<?php if ($exposed): ?>
-		              <span class="view-filters-mb">
-		                <?php print $exposed; ?>
-		              </span>
-		            <?php endif;?>
-			        </td>
-			        <td>
-			            <?php print $pager; ?>
-			        </td>
-			    </tr>
-			</table>
-	</div>
-<?php endif; ?>
-
-<div class="<?php print $classes; ?>">
-  <?php print render($title_prefix); ?>
-  <?php if ($title): ?>
-    <?php print $title; ?>
-  <?php endif; ?>
-  <?php print render($title_suffix); ?>
-
-  <?php if ($attachment_before): ?>
-    <div class="attachment attachment-before">
-      <?php print $attachment_before; ?>
-    </div>
-  <?php endif; ?>
-
-  <?php if ($rows): ?>
-	    <div class="view-content">
-	    	<ul class="shanti-gallery">
-	      	<?php print $rows; ?>
-	      </ul>
-	    </div>
-
-  <?php elseif ($empty): ?>
-    <div class="view-empty">
-      <?php print $empty; ?>
-    </div>
-  <?php endif; ?>
-
-  <?php if ($attachment_after): ?>
-    <div class="attachment attachment-after">
-      <?php print $attachment_after; ?>
-    </div>
-  <?php endif; ?>
-
-  <?php if ($more): ?>
-    <?php print $more; ?>
-  <?php endif; ?>
-
-  <?php if ($footer): ?>
-    <div class="view-footer">
-      <?php print $footer; ?>
-    </div>
-  <?php endif; ?>
-
-  <?php if ($feed_icon): ?>
-    <div class="feed-icon">
-      <?php print $feed_icon; ?>
-    </div>
-  <?php endif; ?>
-
-</div><?php /* class view */ ?>
-
 <?php if ($rows && $pager): ?>
-	<div class="shanti-filters bottom">
-		<?php print $pager; ?>
-	</div>
-<?php endif; ?>
+	<?php // record dom-id for reloading by BEF so that it replaces the whole div ?>
+	<div class="shanti-view-dom-id" data-dom-id="<?php print $variables['dom_id']; ?>">
+		<div class="shanti-filters">
+		  	<table>
+				    <tr>
+				    		<td>
+				    			<?php print $header; ?>
+				    		</td>
+				        <td>
+				        	<?php if ($exposed): ?>
+			              <span class="view-filters-mb">
+			                <?php print $exposed; ?>
+			              </span>
+			            <?php endif;?>
+				        </td>
+				        <td>
+				            <?php print $pager; ?>
+				        </td>
+				    </tr>
+				</table>
+		</div>
+	<?php endif; ?>
+	
+	<div class="<?php print $classes; ?>">
+	  <?php print render($title_prefix); ?>
+	  <?php if ($title): ?>
+	    <?php print $title; ?>
+	  <?php endif; ?>
+	  <?php print render($title_suffix); ?>
+	
+	  <?php if ($attachment_before): ?>
+	    <div class="attachment attachment-before">
+	      <?php print $attachment_before; ?>
+	    </div>
+	  <?php endif; ?>
+	
+	  <?php if ($rows): ?>
+		    <div class="view-content">
+		    	<ul class="shanti-gallery">
+		      	<?php print $rows; ?>
+		      </ul>
+		    </div>
+	
+	  <?php elseif ($empty): ?>
+	    <div class="view-empty">
+	      <?php print $empty; ?>
+	    </div>
+	  <?php endif; ?>
+	
+	  <?php if ($attachment_after): ?>
+	    <div class="attachment attachment-after">
+	      <?php print $attachment_after; ?>
+	    </div>
+	  <?php endif; ?>
+	
+	  <?php if ($more): ?>
+	    <?php print $more; ?>
+	  <?php endif; ?>
+	
+	  <?php if ($footer): ?>
+	    <div class="view-footer">
+	      <?php print $footer; ?>
+	    </div>
+	  <?php endif; ?>
+	
+	  <?php if ($feed_icon): ?>
+	    <div class="feed-icon">
+	      <?php print $feed_icon; ?>
+	    </div>
+	  <?php endif; ?>
+	
+	</div><?php /* class view */ ?>
+	
+	<?php if ($rows && $pager): ?>
+		<div class="shanti-filters bottom">
+			<?php print $pager; ?>
+		</div>
+	<?php endif; ?>
+</div>
      

@@ -103,7 +103,6 @@ function mediabase_settings_form_submit($form, &$form_state) {
 }
 
 function mediabase_form_alter(&$form, &$form_state, $form_id) {
-	//dpm($form_id, 'form id');
    if (in_array($form_id, array('search_block_form', 'apachesolr_search_custom_page_search_form'))) {
       drupal_add_js(drupal_get_path('module', 'mediabase') .'/js/mediabase.js', array('preprocess' => FALSE));
    }  

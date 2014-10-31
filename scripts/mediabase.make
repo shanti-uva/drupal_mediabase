@@ -175,7 +175,7 @@ projects[subform][subdir] = "contrib"
 projects[token][version] = "1.4"
 projects[token][subdir] = "contrib"
 
-projects[views][version] = "3.x-dev"
+projects[views][version] = "3.8"
 projects[views][subdir] = "contrib"
 projects[views][download][type] = "git" 
 projects[views][download][revision] = "f7cb51aad6943973e22197d54d202453292d6a27"

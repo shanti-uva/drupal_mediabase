@@ -82,6 +82,42 @@ function mediabase_settings_form($form_id, $form_state) {
         '#maxlength' => 255, 
         '#required' => TRUE,
      );
+		 
+     $form['kmaps_site_root'] = array(
+        '#title' => t('Kmaps Site Root'),
+        '#type' => 'textfield', 
+        '#default_value' => variable_get('kmaps_site_root', 'http://badger.drupal-dev.shanti.virginia.edu/'),
+        '#size' => 60, 
+        '#maxlength' => 255, 
+        '#required' => TRUE,
+     );
+		 
+     $form['kmaps_site_subjects'] = array(
+        '#title' => t('Subjects URL'),
+        '#type' => 'textfield', 
+        '#default_value' => variable_get('kmaps_site_subjects', 'http://badger.drupal-dev.shanti.virginia.edu/subjects/'),
+        '#size' => 60, 
+        '#maxlength' => 255, 
+        '#required' => TRUE,
+     );
+		 
+     $form['kmaps_site_places'] = array(
+        '#title' => t('Places URL'),
+        '#type' => 'textfield', 
+        '#default_value' => variable_get('kmaps_site_places', 'http://badger.drupal-dev.shanti.virginia.edu/places/'),
+        '#size' => 60, 
+        '#maxlength' => 255, 
+        '#required' => TRUE,
+     );
+		 
+     $form['kmaps_site_path_format'] = array(
+        '#title' => t('KMaps Site Sprint Format'),
+        '#type' => 'textfield', 
+        '#default_value' => variable_get('kmaps_site_path_format', '%d/overview/nojs'),
+        '#size' => 60, 
+        '#maxlength' => 255, 
+        '#required' => TRUE,
+     );
    }
    
    return system_settings_form($form);

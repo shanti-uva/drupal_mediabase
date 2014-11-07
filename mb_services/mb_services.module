@@ -278,6 +278,7 @@ function mb_services_get($type, $kmid) {
 	    drupal_json_output(array( 'media' => array(), 'total' => 0, ));
 	    return;
 	  } 
+		
 	  // Use this array of Kmap Ids to find the corresponding Term Ids (tid) in the Kmap Taxonomy
 	  $query = db_select("field_data_kmap_id", "km")
 	            ->condition("km.kmap_id_value", $kmids, "IN")

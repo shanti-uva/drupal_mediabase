@@ -1,5 +1,6 @@
 <?php
 
+
 /**
 * Check the form_state for the textarea field named kmap_annotation_json and add those items to the node
 **/
@@ -212,10 +213,12 @@ function _kmap_subject_popover($kmap) {
 	foreach($ancestors as $n => $subject) {
 		$parents[] = l($subject['name'], sprintf($urlstr, $subject['kmap_id']));
 	}
+	$subject_url = variable_get('kmaps_site_subjects', 'http://badger.drupal-dev.shanti.virginia.edu/subjects/');
+	$path_format = variable_get('kmaps_site_path_format', '%d/overview/nojs');
 	$links = array(
-		'Full Entry' => array('icon' => 'link-external', 'href' => 'http://aardvark.drupal-dev.shanti.virginia.edu/subjects#id=' . $kid),
-		'Related Audio-Video' => array('icon' => 'audio-video', 'href' => "http://aardvark.drupal-dev.shanti.virginia.edu/subjects#id={$kid}&que=tab-audio-video"),
-		'Related Images' => array('icon' => 'photos', 'href' => variable_get('kmap_server', 'http://subjects.kmaps.virginia.edu') . '/features/' . $kid),
+		'Full Entry' => array('icon' => 'link-external', 'href' => $subject_url . sprintf($path_format, $kid), 'external' => TRUE),
+		'Related Audio-Video' => array('icon' => 'audio-video', 'href' =>  sprintf("list/subjects/%d", $kid)), // old url: http://aardvark.drupal-dev.shanti.virginia.edu/subjects#id={$kid}&que=tab-audio-video
+		//'Related Images' => array('icon' => 'photos', 'href' => variable_get('kmap_server', 'http://subjects.kmaps.virginia.edu') . '/features/' . $kid),
 	);
 	// Uses custom theme function "info_popover" defined in shanti_sarvaka theme
 	// Once finalized that theme function needs to be duplicated in MB .module file to allow it to work with other themes.

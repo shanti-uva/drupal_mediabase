@@ -99,10 +99,13 @@ function _mb_location_format_item( $item, $view_path ) {
          $path = str_replace('%place_id', $place_id, $view_path );
          array_unshift($parents, l($place_name, $path)); // . " ({$place_id})");
       }
+			
+			$place_url = variable_get('kmaps_site_places', 'http://badger.drupal-dev.shanti.virginia.edu/places/');
+			$path_format = variable_get('kmaps_site_path_format', '%d/overview/nojs');
 			$links = array(
-				'Full Entry' => array('icon' => 'link-external', 'href' => 'http://aardvark.drupal-dev.shanti.virginia.edu/places#id=' . $place_dict_id),
-				'Related Audio-Video' => array('icon' => 'audio-video', 'href' => "http://aardvark.drupal-dev.shanti.virginia.edu/places#id={$place_dict_id}&que=tab-audio-video"),
-				'Related Images' => array('icon' => 'photos', 'href' => variable_get('place_server', 'http://places.kmaps.virginia.edu') . '/features/' . $place_dict_id),
+				'Full Entry' => array('icon' => 'link-external', 'href' => $place_url . sprintf($path_format, $place_dict_id), 'external' => TRUE),
+				'Related Audio-Video' => array('icon' => 'audio-video', 'href' => sprintf("list/places/%d", $place_dict_id)), //old url: "http://aardvark.drupal-dev.shanti.virginia.edu/places#id={$place_dict_id}&que=tab-audio-video"),
+				//'Related Images' => array('icon' => 'photos', 'href' => variable_get('place_server', 'http://places.kmaps.virginia.edu') . '/features/' . $place_dict_id),
 			);
 			// Uses custom theme function "info_popover" defined in shanti_sarvaka theme
 			// Once finalized that theme function needs to be duplicated in MB .module file to allow it to work with other themes.

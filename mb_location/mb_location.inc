@@ -153,18 +153,28 @@ function wkt_to_lat_long($wkt) {
 }
 
 /**
+ * _get_kmap_place
+ */
+function _get_kmap_place($place_id) {
+	$place_server = variable_get('place_server', 'http://places.kmaps.virginia.edu');
+	$place_service = $place_server . '/features/%place_id.json';
+	$uri = str_replace('%place_id', $place_id, $place_service );
+	$json = file_get_contents($uri);
+	$data = json_decode($json);
+	$place = $data->feature;
+	return $place;
+}
+
+/**
 * the location detail page menu callback
 **/
 function location_detail_page($place_id) {
    $output = '';
    $place_server = variable_get('place_server', 'http://places.kmaps.virginia.edu');
-   $place_service = $place_server . '/features/%place_id.json';
    $description_service = $place_server . '/features/%place_id/descriptions.json';
    $place_remote_link = $place_server . '/features/%place_id';
-   $uri = str_replace('%place_id', $place_id, $place_service );
-   $json = file_get_contents($uri);
-   $data = json_decode($json);
-   $place = $data->feature;
+	 
+   $place = _get_kmap_place($place_id);
    
    drupal_set_title(t('Resources for @place', array('@place' => $place->header)));
    // wrappers

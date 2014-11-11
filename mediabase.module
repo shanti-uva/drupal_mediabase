@@ -263,7 +263,7 @@ function mediabase_preprocess_node(&$variables) {
 				$toremove = array();
 				foreach($variables['content']['field_pbcore_description']['#items'] as $n => $item) {
 					$fci = field_collection_item_load($item['value']);
-					if($fci->field_language['und'][0]['value'] != $variables['currlang']) {
+					if(isset($fci->field_language['und'][0]) && $fci->field_language['und'][0]['value'] != $variables['currlang']) {
 						$toremove[] = $n;
 					}
 				}

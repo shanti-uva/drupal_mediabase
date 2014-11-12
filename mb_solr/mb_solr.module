@@ -273,12 +273,25 @@ function mb_solr_preprocess_node(&$variables) {
 function mb_solr_form_alter(&$form, &$form_state, $form_id) {
   if ($form_id == 'search_block_form') {
 		$form['shanti_options'] = array(
-			'scope' => array(
-				'#type' => 'checkboxes',
-				'#options' => array(t('Descriptions'), t('Transcripts')),
+			'mbscope' => array(
+				'#type' => 'radios',
+				'#default_value' => 0,
+				'#options' => array(0 => t('Descriptions'), 1 => t('Transcripts')),
 				'#attributes' => array('class' => array('shanti-options')),
 			),
 		);
+		$form['#validate'] = array('mb_solr_search_validate');
+	}
+}
+
+function mb_solr_search_validate($form, &$form_state) {
+	//dpm($form_state);
+	$scope = $form_state['complete form']['shanti_options']['mbscope'];
+	$desc = ($scope[0]['#return_value'] == 1) ? TRUE : FALSE;
+	$trans = ($scope[1]['#return_value'] == 1) ? TRUE : FALSE;
+	if($trans && !$desc) {
+		$url = 'search/transcripts/' . $form_state['input']['search_block_form'];
+		drupal_goto($url);
 	}
 }
 

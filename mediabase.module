@@ -175,6 +175,7 @@ function mediabase_persistent_nid($nid) {
  */
  
 function mediabase_theme() {
+	/* old code: 
 	return array(
     'info_popover' => array(
       'variables' => array(
@@ -184,7 +185,7 @@ function mediabase_theme() {
 				'links' => NULL,
 			),
     ),
-  );
+  ); */
 }
 
 //function mediabase_video_node_form_alter()

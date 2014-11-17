@@ -260,12 +260,13 @@ function mb_solr_theme($existing) {
 /**
  * Implements hook preproces node to add suggested items markup to a node's display
  */
+ /*
 function mb_solr_preprocess_node(&$variables) {
   if(isset($variables['node']->type) && in_array($variables['node']->type, array('audio', 'video'))) {
   	//dpm($variables, 'vars in preprocess node');
     
   }
-}
+}*/
 
 /**
  * Implements hook_form_alter to alter the search block form with checkboxes for description or transcript
@@ -285,11 +286,11 @@ function mb_solr_form_alter(&$form, &$form_state, $form_id) {
 }
 
 function mb_solr_search_validate($form, &$form_state) {
-	//dpm($form_state);
-	$scope = $form_state['complete form']['shanti_options']['mbscope'];
-	$desc = ($scope[0]['#return_value'] == 1) ? TRUE : FALSE;
-	$trans = ($scope[1]['#return_value'] == 1) ? TRUE : FALSE;
-	if($trans && !$desc) {
+	$scope = $form_state['values']['mbscope'];
+	//dpm($scope, 'scope in validate');
+	$trans = ($scope == 1) ? TRUE : FALSE;
+	//dpm($form_state, 'Search Validate');
+	if($trans) {
 		$url = 'search/transcripts/' . $form_state['input']['search_block_form'];
 		drupal_goto($url);
 	}

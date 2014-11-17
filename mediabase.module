@@ -174,9 +174,10 @@ function mediabase_persistent_nid($nid) {
  * THEMING FUNCTIONS
  */
  
-function mediabase_theme() {
 	/* old code: 
+function mediabase_theme() {
 	return array(
+	
     'info_popover' => array(
       'variables' => array(
 				'label' => '',
@@ -185,9 +186,9 @@ function mediabase_theme() {
 				'links' => NULL,
 			),
     ),
-  ); */
+  );
 }
-
+ */
 //function mediabase_video_node_form_alter()
 
 /**

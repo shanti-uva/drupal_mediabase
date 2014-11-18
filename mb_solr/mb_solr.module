@@ -8,6 +8,7 @@
  
  /**
   * Implemente hook_menu
+  * 	Collections and Home page are done through Solr Search Pages
   */
 function mb_solr_menu() {
   $items = array();

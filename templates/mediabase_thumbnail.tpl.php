@@ -1,3 +1,22 @@
+<?php
+/**
+ * Mediabase Thumbnail Variables:
+ * 	$result:
+ * 		bundle: 	'audio' or 'video'
+ * 		link: 		the link to the node
+ * 		title: 		title of the node
+ * 		thumb_url: thumbnail for the node
+ * 		fields:		result['fields']
+ * 			im_media_create_date or created
+ * 		duration:
+ * 		place_link
+ * 
+ * 	$coll: object for the collection it belongs to
+ * 		
+ */
+ 
+ //dpm($result, 'result in template');
+?>
 <li class="shanti-thumbnail <?php print $result['bundle']; ?>"> 
     <div class="shanti-thumbnail-image shanti-field-<?php print $result['bundle']; ?>"> 
       <a href="<?php print $result['link']; ?>" class="shanti-thumbnail-link">

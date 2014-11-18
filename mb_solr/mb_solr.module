@@ -104,6 +104,7 @@ function mb_solr_apachesolr_index_document_build(ApacheSolrDocument $document, $
  */
 function mb_solr_apachesolr_search_page_alter(&$build, $search_page) {
   //dpm(array($build, $search_page));
+	//$build['search_results']['#theme'] = 'mediabase_thumbnail';
   // add js for js tree on all pages so sub collection hierarchy can appear on non-search pages.
   $jsscripts = drupal_add_js(NULL, NULL, NULL);
   if (!array_key_exists('sites/all/modules/mediabase/mb_solr/js/mb_solr.js', $jsscripts)) { 
@@ -195,7 +196,18 @@ function mb_solr_apachesolr_query_alter($query) {
 function mb_solr_apachesolr_process_results(&$results, DrupalSolrQueryInterface $query) {
    $path = $query->getPath();
    //if ($path == "homepage/" || (preg_match("/^collection\//",$path) && !preg_match("/admin\/config/", $path)))  {
-   if (!preg_match("/search\/transcripts/",$path) && !preg_match("/admin\/config/", $path))  {
+   if(preg_match("/search\/transcripts/",$path)) {
+   		foreach ( $results as $idx => $item ) {
+        $nid = $item['fields']['is_eid'];
+				$node = node_load($nid);
+				if($node) {
+					$results[$idx]['title'] = $node->title;
+					$results[$idx]['bundle'] = $node->type;
+          $results[$idx]['thumb_url'] = $node->thumbnail_url;
+					$results[$idx]['duration'] = $node->duration;
+				}
+			}
+   } else if (!preg_match("/admin\/config/", $path))  {
      foreach ( $results as $idx => $item ) {
         $bundle = $item['bundle'];
         $media_field_table = "field_data_field_$bundle";
@@ -238,12 +250,12 @@ function mb_solr_apachesolr_process_results(&$results, DrupalSolrQueryInterface 
 
 function mb_solr_theme($existing) {
  return array(
-   'search_results__apachesolr_search__collection_home' => array(
+    'search_results__apachesolr_search' => array(
         'variables' => array('search_results' => NULL, 'module' => array()),
        ),
-   'search_results__apachesolr_search__homepage' => array(
+ /* 'search_results__apachesolr_search__homepage' => array(
         'variables' => array('search_results' => NULL, 'module' => array()),
-       ),
+       ),*/
     'search_result__apachesolr_search' => array(
         'template' => 'mediabase_thumbnail',
         'path' => drupal_get_path('module', 'mediabase') . '/templates',
@@ -296,10 +308,31 @@ function mb_solr_search_validate($form, &$form_state) {
 	}
 }
 
+function theme_search_results__apachesolr_search(&$vars) {
+	//dpm($vars, 'apsol search results');
+  global $base_path;
+  $output = $vars['pager'] . '<ul class="shanti-gallery">';
+  foreach ($vars['results'] as $k => $v) {
+    $nid = (!empty($v['fields']['is_eid'])) ? $v['fields']['is_eid'] : $v['fields']['entity_id'];
+    $node = node_load($nid);
+		if($node) { 
+	    $coll = get_collection_ancestor_node($node);
+	    if($coll) {
+	        $coll->url = $base_path . drupal_get_path_alias('node/' . $coll->nid);
+	    }
+			if(empty($v['fields']['created'])) { $v['fields']['created'] = $node->created; }
+	    $output .=  theme('mediabase_thumbnail', array('result' => $v, 'coll' => $coll));
+		}
+  }
+  $output .= '</ul>' . $vars['pager'];
+  return $output;
+}
+
 /**
  * Search results theming function just creates mark up for items in the collect
  * This is included in the node display through mb_solr_node_view (below).
  */
+ /*
 function theme_search_results__apachesolr_search__collection_home(&$vars) {
 	//dpm($vars, 'in collection home theme');
   global $base_path;
@@ -335,6 +368,7 @@ function theme_search_results__apachesolr_search__homepage(&$vars) {
   $output .= '</ul>' . $vars['pager'];
   return $output;
 }
+  * */
 
 /**
  *  Function called by theming function above to create the markup for a a/v "teaser" in the standard Mediabase model from the home page.

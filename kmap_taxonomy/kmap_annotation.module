@@ -217,9 +217,7 @@ function _kmap_subject_popover($kmap) {
 	$subject_url = variable_get('kmaps_site_subjects', 'http://badger.drupal-dev.shanti.virginia.edu/subjects/');
 	$path_format = variable_get('kmaps_site_path_format', '%d/overview/nojs');
 	$list_type = 'subjects';
-	if(isset($kmap->field_name) && $kmap->field_name == 'field_subcollection') {
-		$list_type = 'subcollections';
-	}
+	if(isset($kmap->field_name) && $kmap->field_name == 'field_subcollection') { $list_type = 'subcollections'; }
 	$links = array(
 		'Full Entry' => array('icon' => 'link-external', 'href' => $subject_url . sprintf($path_format, $kid), 'external' => TRUE),
 		'Related Audio-Video' => array('icon' => 'audio-video', 'href' =>  sprintf("list/{$list_type}/%d", $kid)), // old url: http://aardvark.drupal-dev.shanti.virginia.edu/subjects#id={$kid}&que=tab-audio-video
@@ -228,12 +226,13 @@ function _kmap_subject_popover($kmap) {
 	// Uses custom theme function "info_popover" defined in shanti_sarvaka theme
 	// Once finalized that theme function needs to be duplicated in MB .module file to allow it to work with other themes.
 	// In a way not dependent on Bootstrap
+	$label = ($list_type == 'subcollections') ? t('Subcollections'):t('Subjects');
  	$output = theme('info_popover', array(
 		 									'label' => $name, 
 		 									'desc' => $desc, 
 		 									'tree' => array(
-		 											'label' => t('Subjects'), 
-		 											'items' => $parents
+		 											'label' => $label, 
+		 											'items' => $parents,
 											 ), 
 											 'links' => $links)
 									);

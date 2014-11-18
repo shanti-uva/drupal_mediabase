@@ -109,16 +109,18 @@
       // Not working hide($content['field_pbcore_description']);
     ?>	
     	<div class="row">
-    		<div class="col-md-4 pull-left">
+    		<div class="col-md-4 pull-left collimage">
     			<div class="content-heading clearfix media">
     				<?php print $collimage; ?>
 		      </div>
 		    </div>
 		    <div>
           <?php print render($content['body']); ?>
-          <div class="field field-subcollection">
-          	<label>Subcollection: </label> <?php print $subcolls; ?>
-          </div>
+          <?php if(!empty($subcolls)): ?>
+	          <div class="field field-subcollection">
+	          	<label>Subcollection: </label> <?php print $subcolls; ?>
+	          </div>
+	        <?php endif; ?>
     		</div>
     	</div>
           

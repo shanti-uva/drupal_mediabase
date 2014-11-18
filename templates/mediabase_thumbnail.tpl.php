@@ -12,6 +12,8 @@
  * 		place_link
  * 
  * 	$coll: object for the collection it belongs to
+ * 		title: 	title of collection
+ * 		url: 		url for collection
  * 		
  */
  

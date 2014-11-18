@@ -103,21 +103,28 @@
       // We hide the comments and links now so that we can render them later.
       hide($content['comments']);
       hide($content['links']);
+			hide($content['field_images']);
+			hide($content['field_subcoll_root_kmap_id']);
       // Description is compiled in mediabase_preprocess_node and contained in $description variable
       // Not working hide($content['field_pbcore_description']);
-    ?>
-      <div class="row">
-          <div class="collimage">
-            <?php print render($content['field_images']); ?>
-          </div>
+    ?>	
+    	<div class="row">
+    		<div class="col-md-4 pull-left">
+    			<div class="content-heading clearfix media">
+    				<?php print $collimage; ?>
+		      </div>
+		    </div>
+		    <div>
           <?php print render($content['body']); ?>
-          <?php print render($content['field_subcoll_root_kmap_id']); ?>
-      </div>
-      <div class="row clearfix">
+          <div class="field field-subcollection">
+          	<label>Subcollection: </label> <?php print $subcolls; ?>
+          </div>
+    		</div>
+    	</div>
+          
         <?php
           print render($content);
         ?>
-      </div>
   </div>
 
   <?php print render($content['links']); ?>

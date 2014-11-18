@@ -194,10 +194,11 @@ function mb_solr_apachesolr_query_alter($query) {
 *     Add thumbnail url to the result items
 **/
 function mb_solr_apachesolr_process_results(&$results, DrupalSolrQueryInterface $query) {
+	global $base_path;
    $path = $query->getPath();
    //if ($path == "homepage/" || (preg_match("/^collection\//",$path) && !preg_match("/admin\/config/", $path)))  {
    if(preg_match("/search\/transcripts/",$path)) {
-   		foreach ( $results as $idx => $item ) {
+   		foreach ( $results as $idx => &$item ) {
         $nid = $item['fields']['is_eid'];
 				$node = node_load($nid);
 				if($node) {
@@ -205,15 +206,23 @@ function mb_solr_apachesolr_process_results(&$results, DrupalSolrQueryInterface 
 					$results[$idx]['bundle'] = $node->type;
           $results[$idx]['thumb_url'] = $node->thumbnail_url;
 					$results[$idx]['duration'] = $node->duration;
+					if(empty($results[$idx]['fields']['created'])) { $results[$idx]['fields']['created'] = $node->created; }
+					$results[$idx]['coll'] = get_collection_ancestor_node($node);
+			    if($results[$idx]['coll']) {
+		        $results[$idx]['coll']->url = $base_path . drupal_get_path_alias('node/' . $results[$idx]['coll']->nid);
+			    }
 				}
 			}
    } else if (!preg_match("/admin\/config/", $path))  {
-     foreach ( $results as $idx => $item ) {
+     foreach ( $results as $idx => &$item ) {
         $bundle = $item['bundle'];
         $media_field_table = "field_data_field_$bundle";
         $entryid_column = "field_$bundle" . "_entryid";
         $entity_id = $item['fields']['entity_id'];
-        
+				$item['coll'] = get_collection_ancestor_node($entity_id);
+				if($item['coll']) {
+					$item['coll']->url = $base_path . drupal_get_path_alias('node/' . $item['coll']->nid);
+				}
         if ('video' == $bundle) {
            $query = "SELECT kaltura_thumbnail_url, kaltura_duration
            FROM {field_data_field_video} 
@@ -231,10 +240,10 @@ function mb_solr_apachesolr_process_results(&$results, DrupalSolrQueryInterface 
         $qres = $res->fetchAll();
         if(is_array($qres) && count($qres) > 0) {
           $thumb_url = $qres[0]->kaltura_thumbnail_url;
-          $results[$idx]['thumb_url'] = $thumb_url;
+          $item['thumb_url'] = $thumb_url;
           $dur = $qres[0]->kaltura_duration;
           if($dur) { 
-            $results[$idx]['duration'] = array(
+            $item['duration'] = array(
               'seconds' => $dur,
               'formatted' => mediabase_format_duration($dur),
             );
@@ -313,16 +322,7 @@ function theme_search_results__apachesolr_search(&$vars) {
   global $base_path;
   $output = $vars['pager'] . '<ul class="shanti-gallery">';
   foreach ($vars['results'] as $k => $v) {
-    $nid = (!empty($v['fields']['is_eid'])) ? $v['fields']['is_eid'] : $v['fields']['entity_id'];
-    $node = node_load($nid);
-		if($node) { 
-	    $coll = get_collection_ancestor_node($node);
-	    if($coll) {
-	        $coll->url = $base_path . drupal_get_path_alias('node/' . $coll->nid);
-	    }
-			if(empty($v['fields']['created'])) { $v['fields']['created'] = $node->created; }
-	    $output .=  theme('mediabase_thumbnail', array('result' => $v, 'coll' => $coll));
-		}
+  	$output .=  theme('mediabase_thumbnail', array('result' => $v, 'coll' => $v['coll']));
   }
   $output .= '</ul>' . $vars['pager'];
   return $output;

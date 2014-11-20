@@ -322,6 +322,7 @@ function theme_search_results__apachesolr_search(&$vars) {
 	//dpm($vars, 'apsol search results');
   global $base_path;
   $output = $vars['pager'] . '<ul class="shanti-gallery">';
+	if(empty($v['coll'])) { $v['coll'] = array(); }
   foreach ($vars['results'] as $k => $v) {
   	$output .=  theme('mediabase_thumbnail', array('result' => $v, 'coll' => $v['coll']));
   }

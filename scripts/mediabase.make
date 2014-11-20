@@ -127,7 +127,7 @@ projects[og_create_perms][subdir] = "contrib"
 projects[og_views][version] = "1.0"
 projects[og_views][subdir] = "contrib"
 
-projects[pagerer][version] = "1.0-beta2"
+projects[pagerer][version] = "1.1"
 projects[pagerer][subdir] = "contrib"
 
 projects[nice_menus][version] = "2.5"

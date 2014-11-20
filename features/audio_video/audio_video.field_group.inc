@@ -76,7 +76,7 @@ function audio_video_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Availability & Access',
-    'weight' => '8',
+    'weight' => '6',
     'children' => array(
       0 => 'field_available_from',
     ),
@@ -106,6 +106,10 @@ function audio_video_field_group_info() {
     'weight' => '6',
     'children' => array(
       0 => 'field_available_from',
+      1 => 'group_content_access',
+      2 => 'field_rating',
+      3 => 'flag',
+      4 => 'path',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -203,6 +207,7 @@ function audio_video_field_group_info() {
       2 => 'field_pbcore_coverage_spatial',
       3 => 'field_pbcore_relation',
       4 => 'field_kmap_annotation',
+      5 => 'field_subcollection',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -228,13 +233,15 @@ function audio_video_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Details',
-    'weight' => '5',
+    'weight' => '3',
     'children' => array(
       0 => 'field_pbcore_coverage',
-      1 => 'field_characteristic',
-      2 => 'field_pbcore_coverage_spatial',
-      3 => 'field_pbcore_relation',
-      4 => 'field_subcollection',
+      1 => 'field_pbcore_title',
+      2 => 'field_tags',
+      3 => 'field_characteristic',
+      4 => 'field_pbcore_coverage_spatial',
+      5 => 'field_pbcore_relation',
+      6 => 'field_subcollection',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -259,13 +266,15 @@ function audio_video_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Details',
-    'weight' => '4',
+    'weight' => '3',
     'children' => array(
       0 => 'field_pbcore_coverage',
       1 => 'field_characteristic',
-      2 => 'field_pbcore_coverage_spatial',
-      3 => 'field_pbcore_relation',
-      4 => 'field_kmap_annotation',
+      2 => 'group_audience',
+      3 => 'field_pbcore_coverage_spatial',
+      4 => 'field_pbcore_relation',
+      5 => 'field_kmap_annotation',
+      6 => 'field_subcollection',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -445,7 +454,7 @@ function audio_video_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'People',
-    'weight' => '6',
+    'weight' => '4',
     'children' => array(
       0 => 'field_pbcore_contributor',
       1 => 'field_pbcore_creator',
@@ -565,7 +574,7 @@ function audio_video_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Rights & Licensing',
-    'weight' => '7',
+    'weight' => '5',
     'children' => array(
       0 => 'field_copyright_owner',
       1 => 'field_license',
@@ -685,7 +694,7 @@ function audio_video_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Technical Metadata',
-    'weight' => '9',
+    'weight' => '7',
     'children' => array(
       0 => 'field_pbcore_identifier',
       1 => 'field_pbcore_instantiation',
@@ -830,7 +839,7 @@ function audio_video_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Title & Description',
-    'weight' => '3',
+    'weight' => '2',
     'children' => array(
       0 => 'field_pbcore_description',
       1 => 'field_pbcore_title',
@@ -929,7 +938,7 @@ function audio_video_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Transcript',
-    'weight' => '2',
+    'weight' => '4',
     'children' => array(
       0 => 'field_transcript',
       1 => 'field_transcripts_xsl',

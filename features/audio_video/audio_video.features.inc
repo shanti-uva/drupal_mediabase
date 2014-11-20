@@ -7,16 +7,13 @@
 /**
  * Implements hook_ctools_plugin_api().
  */
-function audio_video_ctools_plugin_api() {
-  list($module, $api) = func_get_args();
+function audio_video_ctools_plugin_api($module = NULL, $api = NULL) {
   if ($module == "context" && $api == "context") {
     return array("version" => "3");
   }
-  list($module, $api) = func_get_args();
   if ($module == "field_group" && $api == "field_group") {
     return array("version" => "1");
   }
-  list($module, $api) = func_get_args();
   if ($module == "strongarm" && $api == "strongarm") {
     return array("version" => "1");
   }
@@ -25,8 +22,8 @@ function audio_video_ctools_plugin_api() {
 /**
  * Implements hook_views_api().
  */
-function audio_video_views_api() {
-  return array("version" => "3.0");
+function audio_video_views_api($module = NULL, $api = NULL) {
+  return array("api" => "3.0");
 }
 
 /**
@@ -38,7 +35,7 @@ function audio_video_flag_default_flags() {
   $flags['editors_pick'] = array(
     'content_type' => 'node',
     'title' => 'Editor\'s pick',
-    'global' => '1',
+    'global' => 1,
     'types' => array(
       0 => 'audio',
       1 => 'video',
@@ -53,10 +50,10 @@ function audio_video_flag_default_flags() {
     'link_type' => 'toggle',
     'roles' => array(
       'flag' => array(
-        0 => '4',
+        0 => 4,
       ),
       'unflag' => array(
-        0 => '4',
+        0 => 4,
       ),
     ),
     'weight' => 0,
@@ -76,7 +73,7 @@ function audio_video_flag_default_flags() {
   $flags['favorites'] = array(
     'content_type' => 'node',
     'title' => 'Favorites',
-    'global' => '0',
+    'global' => 0,
     'types' => array(
       0 => 'audio',
       1 => 'video',
@@ -91,10 +88,10 @@ function audio_video_flag_default_flags() {
     'link_type' => 'toggle',
     'roles' => array(
       'flag' => array(
-        0 => '2',
+        0 => 2,
       ),
       'unflag' => array(
-        0 => '2',
+        0 => 2,
       ),
     ),
     'weight' => 0,
@@ -114,7 +111,7 @@ function audio_video_flag_default_flags() {
   $flags['loanable'] = array(
     'content_type' => 'node',
     'title' => 'Loanable',
-    'global' => '1',
+    'global' => 1,
     'types' => array(
       0 => 'audio',
       1 => 'video',
@@ -129,10 +126,10 @@ function audio_video_flag_default_flags() {
     'link_type' => 'toggle',
     'roles' => array(
       'flag' => array(
-        0 => '2',
+        0 => 2,
       ),
       'unflag' => array(
-        0 => '2',
+        0 => 2,
       ),
     ),
     'weight' => 0,
@@ -149,6 +146,63 @@ function audio_video_flag_default_flags() {
     'api_version' => 2,
   );
   return $flags;
+
+}
+
+/**
+ * Implements hook_image_default_styles().
+ */
+function audio_video_image_default_styles() {
+  $styles = array();
+
+  // Exported image style: carousel_image.
+  $styles['carousel_image'] = array(
+    'name' => 'carousel_image',
+    'label' => 'Carousel Image',
+    'effects' => array(
+      2 => array(
+        'label' => 'Scale and crop',
+        'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => 400,
+          'height' => 300,
+          'upscale' => TRUE,
+        ),
+        'weight' => 0,
+      ),
+    ),
+  );
+
+  // Exported image style: gallery_thumb.
+  $styles['gallery_thumb'] = array(
+    'name' => 'gallery_thumb',
+    'label' => 'Gallery Thumb',
+    'effects' => array(
+      4 => array(
+        'label' => 'Scale and crop',
+        'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => 170,
+          'height' => 104,
+        ),
+        'weight' => 1,
+      ),
+    ),
+  );
+
+  return $styles;
 }
 
 /**
@@ -173,5 +227,6 @@ function audio_video_node_info() {
       'help' => '',
     ),
   );
+  drupal_alter('node_info', $items);
   return $items;
 }

@@ -318,8 +318,6 @@ function mb_solr_search_validate($form, &$form_state) {
 
 function theme_search_results__apachesolr_search(&$vars) {
 	global $base_path;
-	$pid = (isset($vars['search_page']['page_id'])) ? $vars['search_page']['page_id'] : 'none';
-	$mod =  (isset($vars['module'])) ? $vars['module'] : 'none';
   $output = $vars['pager'] . '<ul class="shanti-gallery">';
   foreach ($vars['results'] as $k => $v) {
 		if(empty($v['coll'])) { $v['coll'] = array(); }

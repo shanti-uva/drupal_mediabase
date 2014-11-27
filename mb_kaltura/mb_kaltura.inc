@@ -1213,7 +1213,8 @@ function get_importable_entries($order = NULL, $sort = NULL, $limit = 500) {
    }
    
    // $session_user = KalturaHelpers::getSessionUser();
-   $kaltura_client = KalturaHelpers::getKalturaClient($isAdmin=true); // this is an admin task and should be able to import all entries in the account
+   $kalturaHelpers = new KalturaHelpers();
+   $kaltura_client = $kalturaHelpers->getKalturaClient($isAdmin=true); // this is an admin task and should be able to import all entries in the account
    $filter = new KalturaMediaEntryFilter();
    $filter->orderBy = $order_by;
    $pager_filter = new KalturaFilterPager();

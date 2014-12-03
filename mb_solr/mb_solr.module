@@ -767,7 +767,7 @@ function mb_solr_get_solrdoc($nid = '') {
 				if(isset($term->kmap_id['und'][0]['value'])) {
 					$sval = $term->kmap_id['und'][0]['value'];
 					$kmaps .= '<str>subjects-' . $sval . '</str>';
-					$kmapsjson[] = $sval;
+					$kmapsjson[] = 'subjects-' . $sval;
 				}
 			}
 		}
@@ -778,7 +778,7 @@ function mb_solr_get_solrdoc($nid = '') {
 				if(isset($term->place_dictionary_id['und'][0]['value'])) {
 					$pval = $term->place_dictionary_id['und'][0]['value'];
 					$kmaps .= '<str>places-' . $pval . '</str>';
-					$kmapsjson[] = $pval;
+					$kmapsjson[] = 'places-' . $pval;
 				}
 			}
 		}

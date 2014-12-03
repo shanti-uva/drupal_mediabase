@@ -732,18 +732,27 @@ function mb_solr_get_solrdoc($nid = '') {
 
 function mb_solr_get_solrdoc($nid = '') {
 	global $base_url;
+	$json = FALSE;
+	if(strpos($nid,'.') > -1) {
+		$pts = explode('.', $nid);
+		$nid = $pts[0];
+		if($pts[1] == 'json') { $json = TRUE; }
+	}
 	$node = node_load($nid);
 	if($node) {
 		$servpts = explode('//', $base_url);
 		$service = str_replace('.', '_', $servpts[1]);
  		$alias = drupal_get_path_alias('node/' . $nid);
 		$kmaps = '';
+		$kmapsjson = array();
 		if(isset($node->field_characteristic)) {
 			$fc = field_get_items('node', $node, 'field_characteristic');
 			foreach($fc as $fitem) {
 				$term = taxonomy_term_load($fitem['tid']);
 				if(isset($term->kmap_id['und'][0]['value'])) {
-					$kmaps .= '<str>subjects-' . $term->kmap_id['und'][0]['value'] . '</str>';
+					$sval = $term->kmap_id['und'][0]['value'];
+					$kmaps .= '<str>subjects-' . $sval . '</str>';
+					$kmapsjson[] = $sval;
 				}
 			}
 		}
@@ -752,24 +761,49 @@ function mb_solr_get_solrdoc($nid = '') {
 			foreach($fpcs as $fpcsitem) {
 				$term = taxonomy_term_load($fpcsitem['tid']);
 				if(isset($term->place_dictionary_id['und'][0]['value'])) {
-					$kmaps .= '<str>places-' . $term->place_dictionary_id['und'][0]['value'] . '</str>';
+					$pval = $term->place_dictionary_id['und'][0]['value'];
+					$kmaps .= '<str>places-' . $pval . '</str>';
+					$kmapsjson[] = $pval;
 				}
 			}
 		}
 		
-		$doc = '<doc><str name="service">' . $service . '</str>
-		<str name="asset_type">' . $node->type . '</str>
-		<str name="id">' . $nid . '</str>
-		<str name="uid">' . $service . '-' . $nid . '</str>
-		<str name="url_html">' . $base_url . '/' . $alias . '</str>
-		<str name="url_ajax">' . $base_url . '/services/node_ajax/' . $nid . '</str>
-		<str name="url_json">' . $base_url . '/api/v1/media/node/' . $nid . '.json</str>
-		<str name="url_thumb">' . $node->thumbnail_url . '</str>
-		<str name="caption">' . $node->title . '</str>
-		<arr name="kmapid">' . $kmaps . '</arr></doc>';
-	  // Convert Solr Doc to XML and add to output string
-	  drupal_add_http_header('Content-Type', 'text/xml');
-	  print '<?xml version="1.0"?>' . $doc;
+		$uid = $service . '-' . $nid;
+		$url_html = $base_url . '/' . $alias;
+		$url_ajax = $base_url . '/services/node_ajax/' . $nid;
+		$url_json = $base_url . '/services/node_ajax/' . $nid;
+		
+		// Return JSON if url ends in .json
+		if($json) {
+			$jsonout = array('doc' => array());
+			$jsonout['doc']['service'] = $service;
+			$jsonout['doc']['asset_type'] = $node->type;
+			$jsonout['doc']['id'] = $nid;
+			$jsonout['doc']['uid'] = $uid;
+			$jsonout['doc']['url_html'] = $url_html;
+			$jsonout['doc']['url_ajax'] = $url_ajax;
+			$jsonout['doc']['url_json'] = $url_json;
+			$jsonout['doc']['url_thumb'] = $url_json;
+			$jsonout['doc']['caption'] = $url_json;
+			$jsonout['doc']['kmapid'] = $kmapsjson;
+			drupal_json_output($jsonout);
+			
+		} else {
+			// Otherwise Return XML
+			$doc = '<doc><str name="service">' . $service . '</str>
+			<str name="asset_type">' . $node->type . '</str>
+			<str name="id">' . $nid . '</str>
+			<str name="uid">' . $uid . '</str>
+			<str name="url_html">' . $url_html . '</str>
+			<str name="url_ajax">' . $url_ajax . '</str>
+			<str name="url_json">' . $url_json . '.json</str>
+			<str name="url_thumb">' . $node->thumbnail_url . '</str>
+			<str name="caption">' . $node->title . '</str>
+			<arr name="kmapid">' . $kmaps . '</arr></doc>';
+		  // Convert Solr Doc to XML and add to output string
+		  drupal_add_http_header('Content-Type', 'text/xml');
+		  print '<?xml version="1.0"?>' . $doc;
+		}
 	}
 }
 

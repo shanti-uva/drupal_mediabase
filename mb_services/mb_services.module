@@ -5,7 +5,8 @@
  */
 
  define('MB_SOLR_ITEMS_PER_PAGE', 50); 
- define('KMAP_SERVICE', "http://subjects.kmaps.virginia.edu/features/");
+ define('KMAP_SERVICE_SUBJECTS', "http://subjects.kmaps.virginia.edu/features/");
+ define('KMAP_SERVICE_PLACES', "http://places.kmaps.virginia.edu/features/");
  define('KMAP_SOLR_INDEX_POST', "http://kidx.shanti.virginia.edu/solr/kmindex/update/json?commit=true");
  
 /*
@@ -271,7 +272,10 @@ function mb_services_get($type, $kmid) {
   $pg = (isset($_GET['pg'])) ? $_GET['pg'] * 1 : 1;
   $rows = (isset($_GET['rows'])) ? $_GET['rows'] * 1 : 10;
   $tids = array(); // array for term IDs (Subjects and collections include subcategories)
+  $json = mb_services_get_kmap_info($kmid, $type . 's');
+  $kmnm = ($json)? $json['feature']['header'] : 'not found';
   if($type == 'subject') {
+  	
 	  // Get array of this id and all its children ids
 	  $kmids = mb_services_get_all_kmap_children($kmid);
 	  if(!$kmids) {
@@ -285,6 +289,7 @@ function mb_services_get($type, $kmid) {
 	            ->condition("km.entity_type", "taxonomy_term")
 	            ->fields("km", array("entity_id"))
 	            ->execute();
+		
 	  $result = $query->fetchAll();
 	  // Create an array of tids
 	  foreach($result as $term) {
@@ -400,6 +405,7 @@ function mb_services_get($type, $kmid) {
   $gout["total"] = $totalct; 
 	$gout["type"] = $type;
 	$gout["kmid"] = $kmid;
+	$gout["kmname"] = $kmnm;
   $gout["page"] = $pg;
   $gout["start"] = $start;
   $gout["rows"] = $rows;
@@ -448,16 +454,13 @@ function mb_services_embed($nid) {
 /**
  * Returns an array of the parent id and all children id for a kmap
  */
-function mb_services_get_all_kmap_children($kmid) {
-  $url = KMAP_SERVICE . $kmid . '/all.json';
-  if($jstr = @file_get_contents($url)) {
-    $json = json_decode($jstr, TRUE);
+function mb_services_get_all_kmap_children($kmid, $type='subjects') {
+  if($json = mb_services_get_kmap_info($kmid, $type)) {
     $kids = mb_services_process_features($json['feature']);
     return $kids;
   } else {
     return FALSE;
   }
- 
 }
 
 function mb_services_process_features($feature, $fids = array()) {
@@ -470,3 +473,13 @@ function mb_services_process_features($feature, $fids = array()) {
   return $fids;
 }
 
+/**
+ * Returns Kmap info in JSON format for a feature
+ */
+function mb_services_get_kmap_info($kmid, $type='subjects') {
+	$service = ($type == 'places') ? KMAP_SERVICE_PLACES : KMAP_SERVICE_SUBJECTS;
+  $url = $service . $kmid . '/all.json';
+	$jstr = @file_get_contents($url);
+	$json = json_decode($jstr, TRUE);
+	return $json;
+}

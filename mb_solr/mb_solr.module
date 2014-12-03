@@ -798,8 +798,8 @@ function mb_solr_get_solrdoc($nid = '') {
 			$jsonout['doc']['url_html'] = $url_html;
 			$jsonout['doc']['url_ajax'] = $url_ajax;
 			$jsonout['doc']['url_json'] = $url_json;
-			$jsonout['doc']['url_thumb'] = $url_json;
-			$jsonout['doc']['caption'] = $url_json;
+			$jsonout['doc']['url_thumb'] = $node->thumbnail_url;
+			$jsonout['doc']['caption'] = $node->title;
 			$jsonout['doc']['kmapid'] = $kmapsjson;
 			drupal_json_output($jsonout);
 			

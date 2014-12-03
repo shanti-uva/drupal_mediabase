@@ -785,7 +785,7 @@ function mb_solr_get_solrdoc($nid = '') {
 		
 		$uid = $service . '-' . $nid;
 		$url_html = $base_url . '/' . $alias;
-		$url_ajax = $base_url . '/services/node_ajax/' . $nid;
+		$url_ajax = $base_url . '/services/node/ajax/' . $nid;
 		$url_json = $base_url . '/api/v1/media/node/' . $nid . '.json';
 		
 		// Return JSON if url ends in .json

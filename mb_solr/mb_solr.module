@@ -276,6 +276,9 @@ function mb_solr_theme($existing) {
         'path' => drupal_get_path('module', 'mediabase') . '/templates',
         'variables' => array('result' => NULL, 'coll' => NULL),
       ),
+     'mb_solr_results' => array(
+		 	'variables' => array('results' => NULL, 'node' => NULL)
+		 ),
    );
 }  
 
@@ -318,12 +321,18 @@ function mb_solr_search_validate($form, &$form_state) {
 
 function theme_search_results__apachesolr_search(&$vars) {
 	global $base_path;
-  $output = $vars['pager'] . '<ul class="shanti-gallery">';
+	$response = $vars['response']->response;
+	$start = $response->start + 1;
+	$end = count($response->docs);
+	$total = $response->numFound;
+	$output = '<div class="head">';
+	$output .= sprintf('<span class="label">Related Media:</span> <span class="count">(Displaying %d-%d of %d)</span>', $start, $end, $total);
+  $output .= $vars['pager'] . '</div><div class="results"><ul class="shanti-gallery">';
   foreach ($vars['results'] as $k => $v) {
 		if(empty($v['coll'])) { $v['coll'] = array(); }
   	$output .=  theme('mediabase_thumbnail', array('result' => $v, 'coll' => $v['coll']));
   }
-  $output .= '</ul>' . $vars['pager'];
+  $output .= '</ul></div><div class="foot">' . $vars['pager'] . '</div>';
   return $output;
 }
 
@@ -415,10 +424,8 @@ function mb_solr_node_view($node, $view_mode, $langcode) {
     $alias = str_replace('collection/', '', drupal_get_path_alias(current_path()));
     module_load_include('inc','apachesolr','apachesolr_search.pages');
     $search_page = apachesolr_search_custom_page('collection_home','', $alias);
-    $node->content['collcontent'] = array( 
-      '#markup' => '<div id="mb-solr-collection-content" class="block-inner clearfix">' . 
-        '<h2 class="block-title">Media in ' . $node->title . '</h2>' . 
-        '<div id="mb_solr_items" class="content clearfix">' . drupal_render($search_page['search_results']) . '</div></div>',
+		$node->content['collcontent'] = array( 
+      '#markup' => theme('mb_solr_results', array('results' => $search_page['search_results'], 'node' => $node)),
       '#weight' => 45,  // set high weight so it appears after the body's description
     );
   } elseif($view_mode == 'full') {
@@ -427,6 +434,14 @@ function mb_solr_node_view($node, $view_mode, $langcode) {
   }
 }
 
+function theme_mb_solr_results($vars) {
+	$results = $vars['results'];
+	$node = $vars['node'];
+	$html = '<div class="mb-solr-results block-inner clearfix">'. drupal_render($results) . '</div>';
+	return $html;
+}
+
+/*' *.
 /**
  * Function to return results of a search for Ajax calls
  */

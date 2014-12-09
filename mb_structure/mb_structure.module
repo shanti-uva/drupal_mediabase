@@ -8,35 +8,30 @@ function mb_structure_block_info() {
    $blocks=array();
    $blocks['collection_detail'] = array(
       'info' => 'Collection Detail',
-      'custom' => FALSE,
-      );
+      'cache' => DRUPAL_NO_CACHE,
+   );
 	 $blocks['collection_manage'] = array(
 	 		'info' => 'Collection Links (Manage)',
-	 		'custom' => FALSE,
-      'visibility' => BLOCK_VISIBILITY_PHP,
+      'cache' => DRUPAL_NO_CACHE,
 	 );
    $blocks['collection_media_listing'] = array(
       'info' => 'Collection Media Listing',
-      'custom' => FALSE,
-      );
+   );
    $blocks['lets_get_started'] = array(
       'info' => 'Let\'s get started!',
-      'custom' => FALSE,
       'visibility' => BLOCK_VISIBILITY_PHP,
       //'pages' => 'user_is_logged_in()'
-      );
+   );
    $blocks['already_started'] = array(
       'info' => 'Already started?',
-      'custom' => FALSE,
       'visibility' => BLOCK_VISIBILITY_PHP,
       //'pages' => 'user_is_logged_in()'
-      );
+   );
       
    $blocks['collections_carousel'] = array(
       'info' => 'Collections Carousel',
-      'custom' => FALSE,
       'visibility' => BLOCK_VISIBILITY_NOTLISTED,
-      );
+   );
    return $blocks;
 }
 

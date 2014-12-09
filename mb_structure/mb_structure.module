@@ -43,23 +43,20 @@ function mb_structure_block_info() {
 function mb_structure_block_view($delta) {
    switch($delta) { 
      case 'collection_detail':
-        $coll_det = t("Collection");
-        if ( $node = get_node_from_path() ) {
-           $team_det = t("Team");
-           $block_subj = "collection" == $node->type ? $coll_det : $team_det;
-        } else {
-           $block_subj = $coll_det;
-        }         
-        $block['subject'] = $block_subj;
-        $block['content'] = collection_block_details();
-        return $block;
+			 $block = array();
+			 $node = get_node_from_path();
+       if ( $node && in_array($node->type, array( "collection", "team")) ) {
+          $block_subj = ("collection" == $node->type) ? t("Collection") : t("Team");
+	        $block['subject'] = $block_subj;
+	        $block['content'] = collection_block_details($node);
+       }       
+       return $block;
 				
 		 case 'collection_manage':
 			 $block = array();
-			 $alias = current_path();
-			 $node = menu_get_object("node", 1, $alias);
-  		 if ( in_array($node->type, array( "collection", "team") ) )    {
-				  if ( !empty($node->nid) && $perms = mb_structure_get_group_access_level($node) ) {
+			 $node = get_node_from_path();
+  		 if ( $node && in_array($node->type, array( "collection", "team") ) )    {
+				  if ( $perms = mb_structure_get_group_access_level($node) ) {
 		        $block['subject'] = t("Manage");
 		        $block['content'] = manage_collection_block($node, $perms);
 					}
@@ -94,47 +91,42 @@ function mb_structure_block_view($delta) {
        return $block;
    }
 }
-function collection_block_details() {
-   global $user;
-   if ( ! $node = get_node_from_path() ) {
-      return;
-   }
-   if ( in_array($node->type, array( "collection", "team") ) )    {
-   	
-			// get the collection group object from the nid
-			$group = og_get_group('node', $node->nid);
-			$owner = user_load($node->uid);
-			$is_owner = $user->uid == $node->uid;
-			$gid = $group->gid;
-			
-			// administrator user link
-      $coll_man = t("Manager: ");
-      $team_man = t("Team Manager: ");
-      $man_label = ("collection" == $node->type) ? $coll_man : $team_man;
-      $man_name = $owner->name;
-      if ( module_exists('realname')) {
-         $man_name = realname_load($owner);
-      } 
-				
-			
-      //count media objects in collection/team
-      $query = new EntityFieldQuery();
-      $result = $query
-	      ->entityCondition('entity_type', 'node')
-	      ->propertyCondition('type', array('audio','video'), 'IN')
-	      ->fieldCondition('group_audience', 'state', array(1), 'IN', 0)
-	      ->fieldCondition('group_audience', 'gid', $gid, '=', 0)
-	      ->execute();
-      $count = isset($result['node']) ? sizeof($result['node']) : 0;
-      $count_str = t("@count media item(s)", array('@count' => $count));
-			
-			$output = '<div class="collection-stats">';
-			$output .= '<div class="owner"><span class="stat">' . $man_label . '</span> <span class="value">' . $man_name . '</div>';
-			$output .= '<div class="item-count">' . $count_str . '</div>';
-			$output .= '</div>';
-			return $output;
-	 }
+
+function collection_block_details($node) {
+  global $user;
+	// get the collection group object from the nid
+	$group = og_get_group('node', $node->nid);
+	$owner = user_load($node->uid);
+	$is_owner = $user->uid == $node->uid;
+	$gid = $group->gid;
+	
+	// administrator user link
+	$coll_man = t("Manager: ");
+	$team_man = t("Team Manager: ");
+	$man_label = ("collection" == $node->type) ? $coll_man : $team_man;
+	$man_name = $owner->name;
+	if ( module_exists('realname')) {
+	   $man_name = realname_load($owner);
+	} 
+		
+	//count media objects in collection/team
+	$query = new EntityFieldQuery();
+	$result = $query
+	  ->entityCondition('entity_type', 'node')
+	  ->propertyCondition('type', array('audio','video'), 'IN')
+	  ->fieldCondition('group_audience', 'state', array(1), 'IN', 0)
+	  ->fieldCondition('group_audience', 'gid', $gid, '=', 0)
+	  ->execute();
+	$count = isset($result['node']) ? sizeof($result['node']) : 0;
+	$count_str = t("@count media item(s)", array('@count' => $count));
+	
+	$output = '<div class="collection-stats">';
+	$output .= '<div class="owner"><span class="stat">' . $man_label . '</span> <span class="value">' . $man_name . '</span></div>';
+	$output .= '<div class="item-count">' . $count_str . '</div>';
+	$output .= '</div>';
+	return $output;
 }
+
 /** old collection block for reference (12-5-2014) */
 function collection_block_details_old() {
    global $user;

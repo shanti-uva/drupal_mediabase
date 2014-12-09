@@ -11,8 +11,9 @@ function mb_structure_block_info() {
       'custom' => FALSE,
       );
 	 $blocks['collection_manage'] = array(
-	 		'info' => 'Collection Links',
+	 		'info' => 'Collection Links (Manage)',
 	 		'custom' => FALSE,
+      'visibility' => BLOCK_VISIBILITY_PHP,
 	 );
    $blocks['collection_media_listing'] = array(
       'info' => 'Collection Media Listing',
@@ -54,8 +55,15 @@ function mb_structure_block_view($delta) {
         return $block;
 				
 		 case 'collection_manage':
-        $block['subject'] = t("Manage");
-        $block['content'] = manage_collection_block();
+			 $block = array();
+			 $alias = current_path();
+			 $node = menu_get_object("node", 1, $alias);
+  		 if ( in_array($node->type, array( "collection", "team") ) )    {
+				  if ( !empty($node->nid) && $perms = mb_structure_get_group_access_level($node) ) {
+		        $block['subject'] = t("Manage");
+		        $block['content'] = manage_collection_block($node, $perms);
+					}
+			  }
 				return $block;
 				
      case 'collection_media_listing':
@@ -197,51 +205,63 @@ function collection_block_details_old() {
    return $output;
 }
 
-function manage_collection_block() {
+/**
+ * Returns currents users access to group. False = none; 1 = user (add content), 2 = add members, 3 = administrator
+ */
+function mb_structure_get_group_access_level($node) {
 	global $user;
-  if ( !$node = get_node_from_path() ) {
-     return;
-  }
-  
-  if ( in_array($node->type, array( "collection", "team") ) )    {
-     $output = '<div class="manage-collection">';
-      
-     // get the collection group object from the nid
-     $group = og_get_group('node', $node->nid);
-     $owner = user_load($node->uid);
-     $is_owner = $user->uid == $node->uid;
-     $gid = $group->gid;
-      
-     // create video
-     if(og_is_member($gid, 'user') || og_user_access($gid, 'administer group') ){
-        $create_video_link = l("Upload a Video", "node/add/video", array('query' => array('gids_node[]' => $node->nid))); 
-        $output .= "<div class=\"link\">$create_video_link</div>";
-     }
-      
-     // create audio
-     if(og_is_member($gid, 'user') || og_user_access($gid, 'administer group') ){
-        $create_audio_link = l("Upload Audio", "node/add/audio", array('query' => array('gids_node[]' => $node->nid))); 
-        $output .= "<div class=\"link\">$create_audio_link</div>";
-     }
-      
-     if (og_user_access_by_entity('add user', 'node', $node->nid)) {
-        // Add members
-        $add_members_link = l("Add Members", "group/node/$node->nid/admin/people/add-user"); 
-        $output .= "<div class=\"link\">$add_members_link</div>";
-         
-        // View members (Admin)
-        $view_members_link = l("Manage Members", "group/node/$node->nid/admin/people"); 
-        $output .= "<div class=\"link\">$view_members_link</div>";
-     }
-      
-     // add a new team
-     if( "collection" == $node->type && og_user_access($gid, 'administer group') ){
-        $create_team_link = l("Add a new Team", "node/add/team", array('query' => array('gids_node[]' => $node->nid))); 
-        $output .= "<div class=\"link\">$create_team_link</div>";
-     }
-		 $output .= '</div>';
-		 return $output;  
+	
+	$can_manage = FALSE;
+	$group = og_get_group('node', $node->nid);
+	$owner = user_load($node->uid);
+	$is_owner = $user->uid == $node->uid;
+	$gid = $group->gid;
+	if(og_is_member($gid, 'user')) {
+		$can_manage = 1;
+	}
+	if(og_user_access_by_entity('add user', 'node', $node->nid)) {
+		$can_manage = 2;
+	}
+	if(og_user_access($gid, 'administer group')) {
+		$can_manage = 3;
+	}
+	return $can_manage;
+}
+
+function manage_collection_block($node, $perms) {
+
+   $output = '<div class="manage-collection">';
+    
+   // create video
+   if($perms){
+      $create_video_link = l("Upload a Video", "node/add/video", array('query' => array('gids_node[]' => $node->nid))); 
+      $output .= "<div class=\"link\">$create_video_link</div>";
    }
+    
+   // create audio
+   if($perms){
+      $create_audio_link = l("Upload Audio", "node/add/audio", array('query' => array('gids_node[]' => $node->nid))); 
+      $output .= "<div class=\"link\">$create_audio_link</div>";
+   }
+    
+   if ($perms > 1) {
+      // Add members
+      $add_members_link = l("Add Members", "group/node/$node->nid/admin/people/add-user"); 
+      $output .= "<div class=\"link\">$add_members_link</div>";
+       
+      // View members (Admin)
+      $view_members_link = l("Manage Members", "group/node/$node->nid/admin/people"); 
+      $output .= "<div class=\"link\">$view_members_link</div>";
+   }
+    
+   // add a new team
+   if( "collection" == $node->type && $perms == 3 ){
+      $create_team_link = l("Add a new Team", "node/add/team", array('query' => array('gids_node[]' => $node->nid))); 
+      $output .= "<div class=\"link\">$create_team_link</div>";
+   }
+	 $output .= '</div>';
+	 return $output;  
+	 
 }
 
 function get_node_from_path(){

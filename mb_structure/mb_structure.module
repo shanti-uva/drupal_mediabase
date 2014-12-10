@@ -325,6 +325,9 @@ function mb_structure_form_views_exposed_form_alter(&$form, &$form_state, $form_
 * Implementation of hook_form_alter for COLLECTION_NODE_FORM
 **/
 function mb_structure_form_collection_node_form_alter(&$form, &$form_state, $form_id) {
+	//dpm($form, 'form: ' . $form_id);
+	//dpm($form_state, 'form state');
+	
    // Make sure there are no dupe titles
    $form['title']['#element_validate'][] = 'mb_structure_validate_title';   
    // Hide the ability to set Collection to not be a group

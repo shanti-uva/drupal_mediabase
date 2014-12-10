@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the My Content feature.
+ */
+
+include_once 'my_content.features.inc';

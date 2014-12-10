@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * my_stuff.views_default.inc
+ * my_content.views_default.inc
  */
 
 /**
  * Implements hook_views_default_views().
  */
-function my_stuff_views_default_views() {
+function my_content_views_default_views() {
   $export = array();
 
   $view = new view();
@@ -124,22 +124,6 @@ function my_stuff_views_default_views() {
   $handler->display->display_options['relationships']['uid']['id'] = 'uid';
   $handler->display->display_options['relationships']['uid']['table'] = 'node';
   $handler->display->display_options['relationships']['uid']['field'] = 'uid';
-  /* Relationship: Broken/missing handler */
-  $handler->display->display_options['relationships']['field_av_file_value']['id'] = 'field_av_file_value';
-  $handler->display->display_options['relationships']['field_av_file_value']['table'] = 'field_data_field_av_file';
-  $handler->display->display_options['relationships']['field_av_file_value']['field'] = 'field_av_file_value';
-  /* Relationship: Broken/missing handler */
-  $handler->display->display_options['relationships']['field_catalog_record_value']['id'] = 'field_catalog_record_value';
-  $handler->display->display_options['relationships']['field_catalog_record_value']['table'] = 'field_data_field_catalog_record';
-  $handler->display->display_options['relationships']['field_catalog_record_value']['field'] = 'field_catalog_record_value';
-  /* Relationship: Broken/missing handler */
-  $handler->display->display_options['relationships']['field_transcription_value']['id'] = 'field_transcription_value';
-  $handler->display->display_options['relationships']['field_transcription_value']['table'] = 'field_data_field_transcription';
-  $handler->display->display_options['relationships']['field_transcription_value']['field'] = 'field_transcription_value';
-  /* Relationship: Broken/missing handler */
-  $handler->display->display_options['relationships']['field_translation_value']['id'] = 'field_translation_value';
-  $handler->display->display_options['relationships']['field_translation_value']['table'] = 'field_data_field_translation';
-  $handler->display->display_options['relationships']['field_translation_value']['field'] = 'field_translation_value';
   /* Field: Content: Video */
   $handler->display->display_options['fields']['field_video']['id'] = 'field_video';
   $handler->display->display_options['fields']['field_video']['table'] = 'field_data_field_video';
@@ -362,49 +346,9 @@ function my_stuff_views_default_views() {
   $handler->display->display_options['filters']['type']['expose']['label'] = 'Type';
   $handler->display->display_options['filters']['type']['expose']['operator'] = 'type_op';
   $handler->display->display_options['filters']['type']['expose']['identifier'] = 'type';
-  /* Filter criterion: Broken/missing handler */
-  $handler->display->display_options['filters']['field_workflow_status_value']['id'] = 'field_workflow_status_value';
-  $handler->display->display_options['filters']['field_workflow_status_value']['table'] = 'field_data_field_workflow_status';
-  $handler->display->display_options['filters']['field_workflow_status_value']['field'] = 'field_workflow_status_value';
-  $handler->display->display_options['filters']['field_workflow_status_value']['relationship'] = 'field_translation_value';
-  $handler->display->display_options['filters']['field_workflow_status_value']['ui_name'] = 'Translation Status';
-  $handler->display->display_options['filters']['field_workflow_status_value']['group'] = 1;
-  $handler->display->display_options['filters']['field_workflow_status_value']['exposed'] = TRUE;
-  $handler->display->display_options['filters']['field_workflow_status_value']['expose']['operator_id'] = 'field_workflow_status_value_op';
-  $handler->display->display_options['filters']['field_workflow_status_value']['expose']['label'] = 'Translation Status';
-  $handler->display->display_options['filters']['field_workflow_status_value']['expose']['operator'] = 'field_workflow_status_value_op';
-  $handler->display->display_options['filters']['field_workflow_status_value']['expose']['identifier'] = 'field_workflow_status_value';
-  $handler->display->display_options['filters']['field_workflow_status_value']['expose']['multiple'] = TRUE;
-  /* Filter criterion: Broken/missing handler */
-  $handler->display->display_options['filters']['field_workflow_status_value_1']['id'] = 'field_workflow_status_value_1';
-  $handler->display->display_options['filters']['field_workflow_status_value_1']['table'] = 'field_data_field_workflow_status';
-  $handler->display->display_options['filters']['field_workflow_status_value_1']['field'] = 'field_workflow_status_value';
-  $handler->display->display_options['filters']['field_workflow_status_value_1']['relationship'] = 'field_av_file_value';
-  $handler->display->display_options['filters']['field_workflow_status_value_1']['ui_name'] = 'AV Status';
-  $handler->display->display_options['filters']['field_workflow_status_value_1']['group'] = 1;
-  $handler->display->display_options['filters']['field_workflow_status_value_1']['exposed'] = TRUE;
-  $handler->display->display_options['filters']['field_workflow_status_value_1']['expose']['operator_id'] = 'field_workflow_status_value_1_op';
-  $handler->display->display_options['filters']['field_workflow_status_value_1']['expose']['label'] = 'AV Status';
-  $handler->display->display_options['filters']['field_workflow_status_value_1']['expose']['operator'] = 'field_workflow_status_value_1_op';
-  $handler->display->display_options['filters']['field_workflow_status_value_1']['expose']['identifier'] = 'field_workflow_status_value_1';
-  $handler->display->display_options['filters']['field_workflow_status_value_1']['expose']['multiple'] = TRUE;
-  /* Filter criterion: Broken/missing handler */
-  $handler->display->display_options['filters']['field_workflow_status_value_2']['id'] = 'field_workflow_status_value_2';
-  $handler->display->display_options['filters']['field_workflow_status_value_2']['table'] = 'field_data_field_workflow_status';
-  $handler->display->display_options['filters']['field_workflow_status_value_2']['field'] = 'field_workflow_status_value';
-  $handler->display->display_options['filters']['field_workflow_status_value_2']['relationship'] = 'field_transcription_value';
-  $handler->display->display_options['filters']['field_workflow_status_value_2']['ui_name'] = 'Transcription Status';
-  $handler->display->display_options['filters']['field_workflow_status_value_2']['group'] = 1;
-  $handler->display->display_options['filters']['field_workflow_status_value_2']['exposed'] = TRUE;
-  $handler->display->display_options['filters']['field_workflow_status_value_2']['expose']['operator_id'] = 'field_workflow_status_value_2_op';
-  $handler->display->display_options['filters']['field_workflow_status_value_2']['expose']['label'] = 'Transcript Status';
-  $handler->display->display_options['filters']['field_workflow_status_value_2']['expose']['operator'] = 'field_workflow_status_value_2_op';
-  $handler->display->display_options['filters']['field_workflow_status_value_2']['expose']['identifier'] = 'field_workflow_status_value_2';
-  $handler->display->display_options['filters']['field_workflow_status_value_2']['expose']['multiple'] = TRUE;
 
   /* Display: My Collections */
   $handler = $view->new_display('page', 'My Collections', 'page');
-  $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
   /* Filter criterion: Content: Published */
@@ -437,106 +381,60 @@ function my_stuff_views_default_views() {
   $handler->display->display_options['filters']['type']['expose']['label'] = 'Type';
   $handler->display->display_options['filters']['type']['expose']['operator'] = 'type_op';
   $handler->display->display_options['filters']['type']['expose']['identifier'] = 'type';
-  $handler->display->display_options['path'] = 'my-stuff/collections';
+  $handler->display->display_options['path'] = 'my-content/collections';
   $handler->display->display_options['menu']['type'] = 'tab';
   $handler->display->display_options['menu']['title'] = 'My Collections';
   $handler->display->display_options['menu']['weight'] = '2';
-  $handler->display->display_options['menu']['name'] = 'main-menu';
+  $handler->display->display_options['menu']['name'] = 'user-menu';
+  $handler->display->display_options['menu']['context'] = 0;
+  $handler->display->display_options['menu']['context_only_inline'] = 0;
+  $translatables['my_collections'] = array(
+    t('Master'),
+    t('My Collections'),
+    t('more'),
+    t('Apply'),
+    t('Reset'),
+    t('Sort by'),
+    t('Asc'),
+    t('Desc'),
+    t('Items per page'),
+    t('- All -'),
+    t('Offset'),
+    t('« first'),
+    t('‹ previous'),
+    t('next ›'),
+    t('last »'),
+    t('author'),
+    t('Media'),
+    t('Title'),
+    t('Comment count'),
+    t('.'),
+    t(','),
+    t('Type'),
+    t('Author'),
+    t('Post date'),
+    t('Updated date'),
+    t('Edit link'),
+    t('Delete link'),
+    t('Bulk operations'),
+    t('All'),
+    t('Search Terms'),
+  );
   $export['my_collections'] = $view;
 
   $view = new view();
-  $view->name = 'my_memberships';
-  $view->description = '';
-  $view->tag = 'mediabase';
-  $view->base_table = 'users';
-  $view->human_name = 'My Memberships';
-  $view->core = 7;
-  $view->api_version = '3.0';
-  $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
-
-  /* Display: Master */
-  $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'My Memberships';
-  $handler->display->display_options['use_more_always'] = FALSE;
-  $handler->display->display_options['access']['type'] = 'perm';
-  $handler->display->display_options['cache']['type'] = 'none';
-  $handler->display->display_options['query']['type'] = 'views_query';
-  $handler->display->display_options['query']['options']['query_comment'] = FALSE;
-  $handler->display->display_options['exposed_form']['type'] = 'basic';
-  $handler->display->display_options['pager']['type'] = 'full';
-  $handler->display->display_options['pager']['options']['items_per_page'] = '10';
-  $handler->display->display_options['style_plugin'] = 'default';
-  $handler->display->display_options['row_plugin'] = 'fields';
-  /* Relationship: OG membership: OG membership from User */
-  $handler->display->display_options['relationships']['og_membership_rel']['id'] = 'og_membership_rel';
-  $handler->display->display_options['relationships']['og_membership_rel']['table'] = 'users';
-  $handler->display->display_options['relationships']['og_membership_rel']['field'] = 'og_membership_rel';
-  /* Relationship: OG membership: OG group gid */
-  $handler->display->display_options['relationships']['group']['id'] = 'group';
-  $handler->display->display_options['relationships']['group']['table'] = 'og_membership';
-  $handler->display->display_options['relationships']['group']['field'] = 'group';
-  $handler->display->display_options['relationships']['group']['relationship'] = 'og_membership_rel';
-  $handler->display->display_options['relationships']['group']['required'] = TRUE;
-  /* Field: OG group: Entity id */
-  $handler->display->display_options['fields']['etid']['id'] = 'etid';
-  $handler->display->display_options['fields']['etid']['table'] = 'og';
-  $handler->display->display_options['fields']['etid']['field'] = 'etid';
-  $handler->display->display_options['fields']['etid']['relationship'] = 'group';
-  $handler->display->display_options['fields']['etid']['exclude'] = TRUE;
-  /* Field: OG group: Label */
-  $handler->display->display_options['fields']['label']['id'] = 'label';
-  $handler->display->display_options['fields']['label']['table'] = 'og';
-  $handler->display->display_options['fields']['label']['field'] = 'label';
-  $handler->display->display_options['fields']['label']['relationship'] = 'group';
-  $handler->display->display_options['fields']['label']['label'] = '';
-  $handler->display->display_options['fields']['label']['alter']['make_link'] = TRUE;
-  $handler->display->display_options['fields']['label']['alter']['path'] = 'node/[etid]';
-  $handler->display->display_options['fields']['label']['element_label_colon'] = FALSE;
-  /* Sort criterion: User: Created date */
-  $handler->display->display_options['sorts']['created']['id'] = 'created';
-  $handler->display->display_options['sorts']['created']['table'] = 'users';
-  $handler->display->display_options['sorts']['created']['field'] = 'created';
-  $handler->display->display_options['sorts']['created']['order'] = 'DESC';
-  /* Contextual filter: User: Uid */
-  $handler->display->display_options['arguments']['uid']['id'] = 'uid';
-  $handler->display->display_options['arguments']['uid']['table'] = 'users';
-  $handler->display->display_options['arguments']['uid']['field'] = 'uid';
-  $handler->display->display_options['arguments']['uid']['default_action'] = 'default';
-  $handler->display->display_options['arguments']['uid']['default_argument_type'] = 'current_user';
-  $handler->display->display_options['arguments']['uid']['summary']['number_of_records'] = '0';
-  $handler->display->display_options['arguments']['uid']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['uid']['summary_options']['items_per_page'] = '25';
-  /* Filter criterion: User: Active */
-  $handler->display->display_options['filters']['status']['id'] = 'status';
-  $handler->display->display_options['filters']['status']['table'] = 'users';
-  $handler->display->display_options['filters']['status']['field'] = 'status';
-  $handler->display->display_options['filters']['status']['value'] = '1';
-  $handler->display->display_options['filters']['status']['group'] = 0;
-  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
-
-  /* Display: Page */
-  $handler = $view->new_display('page', 'Page', 'page');
-  $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
-  $handler->display->display_options['path'] = 'my-stuff/memberships';
-  $handler->display->display_options['menu']['type'] = 'tab';
-  $handler->display->display_options['menu']['title'] = 'My Memberships';
-  $handler->display->display_options['menu']['weight'] = '4';
-  $handler->display->display_options['menu']['name'] = 'main-menu';
-  $export['my_memberships'] = $view;
-
-  $view = new view();
-  $view->name = 'my_stuff';
+  $view->name = 'my_content';
   $view->description = '';
   $view->tag = 'mediabase';
   $view->base_table = 'node';
-  $view->human_name = 'My Stuff';
+  $view->human_name = 'My Content';
   $view->core = 7;
   $view->api_version = '3.0';
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'My Collections';
+  $handler->display->display_options['title'] = 'My Content';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['access']['perm'] = 'edit own video content';
@@ -639,22 +537,6 @@ function my_stuff_views_default_views() {
   $handler->display->display_options['relationships']['uid']['id'] = 'uid';
   $handler->display->display_options['relationships']['uid']['table'] = 'node';
   $handler->display->display_options['relationships']['uid']['field'] = 'uid';
-  /* Relationship: Broken/missing handler */
-  $handler->display->display_options['relationships']['field_av_file_value']['id'] = 'field_av_file_value';
-  $handler->display->display_options['relationships']['field_av_file_value']['table'] = 'field_data_field_av_file';
-  $handler->display->display_options['relationships']['field_av_file_value']['field'] = 'field_av_file_value';
-  /* Relationship: Broken/missing handler */
-  $handler->display->display_options['relationships']['field_catalog_record_value']['id'] = 'field_catalog_record_value';
-  $handler->display->display_options['relationships']['field_catalog_record_value']['table'] = 'field_data_field_catalog_record';
-  $handler->display->display_options['relationships']['field_catalog_record_value']['field'] = 'field_catalog_record_value';
-  /* Relationship: Broken/missing handler */
-  $handler->display->display_options['relationships']['field_transcription_value']['id'] = 'field_transcription_value';
-  $handler->display->display_options['relationships']['field_transcription_value']['table'] = 'field_data_field_transcription';
-  $handler->display->display_options['relationships']['field_transcription_value']['field'] = 'field_transcription_value';
-  /* Relationship: Broken/missing handler */
-  $handler->display->display_options['relationships']['field_translation_value']['id'] = 'field_translation_value';
-  $handler->display->display_options['relationships']['field_translation_value']['table'] = 'field_data_field_translation';
-  $handler->display->display_options['relationships']['field_translation_value']['field'] = 'field_translation_value';
   /* Field: Content: Video */
   $handler->display->display_options['fields']['field_video']['id'] = 'field_video';
   $handler->display->display_options['fields']['field_video']['table'] = 'field_data_field_video';
@@ -727,42 +609,63 @@ function my_stuff_views_default_views() {
   $handler->display->display_options['fields']['views_bulk_operations']['field'] = 'views_bulk_operations';
   $handler->display->display_options['fields']['views_bulk_operations']['vbo']['entity_load_capacity'] = '10';
   $handler->display->display_options['fields']['views_bulk_operations']['vbo']['operations'] = array(
-    'action::node_assign_owner_action' => array(
+    'node_assign_owner_action' => array(
       'selected' => 0,
       'use_queue' => 0,
       'skip_confirmation' => 0,
       'override_label' => 0,
       'label' => '',
     ),
-    'action::views_bulk_operations_delete_item' => array(
+    'views_bulk_operations_delete_item' => array(
+      'selected' => 1,
+      'use_queue' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
+    ),
+    'system_message_action' => array(
       'selected' => 0,
       'use_queue' => 0,
       'skip_confirmation' => 0,
       'override_label' => 0,
       'label' => '',
     ),
-    'action::system_message_action' => array(
+    'views_bulk_operations_script_action' => array(
       'selected' => 0,
       'use_queue' => 0,
       'skip_confirmation' => 0,
       'override_label' => 0,
       'label' => '',
     ),
-    'action::node_make_sticky_action' => array(
+    'mb_bulk_actions_filter_subcollection_action' => array(
       'selected' => 0,
       'use_queue' => 0,
       'skip_confirmation' => 0,
       'override_label' => 0,
       'label' => '',
     ),
-    'action::node_make_unsticky_action' => array(
+    'flag_node_action' => array(
+      'selected' => 1,
+      'use_queue' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
+    ),
+    'node_make_sticky_action' => array(
       'selected' => 0,
       'use_queue' => 0,
       'skip_confirmation' => 0,
       'override_label' => 0,
       'label' => '',
     ),
-    'action::views_bulk_operations_argument_selector_action' => array(
+    'node_make_unsticky_action' => array(
+      'selected' => 0,
+      'use_queue' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
+    ),
+    'views_bulk_operations_argument_selector_action' => array(
       'selected' => 0,
       'skip_confirmation' => 0,
       'override_label' => 0,
@@ -771,57 +674,64 @@ function my_stuff_views_default_views() {
         'url' => '',
       ),
     ),
-    'action::node_promote_action' => array(
+    'node_promote_action' => array(
       'selected' => 0,
       'use_queue' => 0,
       'skip_confirmation' => 0,
       'override_label' => 0,
       'label' => '',
     ),
-    'action::node_publish_action' => array(
+    'node_publish_action' => array(
       'selected' => 1,
       'use_queue' => 0,
       'skip_confirmation' => 0,
       'override_label' => 0,
       'label' => '',
     ),
-    'action::system_goto_action' => array(
+    'system_goto_action' => array(
       'selected' => 0,
       'use_queue' => 0,
       'skip_confirmation' => 0,
       'override_label' => 0,
       'label' => '',
     ),
-    'action::node_unpromote_action' => array(
+    'node_unpromote_action' => array(
       'selected' => 0,
       'use_queue' => 0,
       'skip_confirmation' => 0,
       'override_label' => 0,
       'label' => '',
     ),
-    'action::node_save_action' => array(
-      'selected' => 0,
-      'use_queue' => 0,
-      'skip_confirmation' => 0,
-      'override_label' => 0,
-      'label' => '',
-    ),
-    'action::system_send_email_action' => array(
-      'selected' => 0,
-      'use_queue' => 0,
-      'skip_confirmation' => 0,
-      'override_label' => 0,
-      'label' => '',
-    ),
-    'action::node_unpublish_action' => array(
+    'node_save_action' => array(
       'selected' => 1,
       'use_queue' => 0,
       'skip_confirmation' => 0,
       'override_label' => 0,
       'label' => '',
     ),
-    'action::node_unpublish_by_keyword_action' => array(
+    'system_send_email_action' => array(
       'selected' => 0,
+      'use_queue' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
+    ),
+    'node_unpublish_action' => array(
+      'selected' => 1,
+      'use_queue' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
+    ),
+    'node_unpublish_by_keyword_action' => array(
+      'selected' => 0,
+      'use_queue' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
+    ),
+    'pathauto_node_update_action' => array(
+      'selected' => 1,
       'use_queue' => 0,
       'skip_confirmation' => 0,
       'override_label' => 0,
@@ -878,33 +788,184 @@ function my_stuff_views_default_views() {
   $handler->display->display_options['filters']['type']['expose']['operator'] = 'type_op';
   $handler->display->display_options['filters']['type']['expose']['identifier'] = 'type';
 
-  /* Display: My Media */
-  $handler = $view->new_display('page', 'My Media', 'page_3');
+  /* Display: My Content (Parent) */
+  $handler = $view->new_display('page', 'My Content (Parent)', 'page_3');
   $handler->display->display_options['defaults']['title'] = FALSE;
-  $handler->display->display_options['title'] = 'My Media';
-  $handler->display->display_options['display_description'] = 'Same as "My Stuff All" here for the parent item';
-  $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
-  $handler->display->display_options['path'] = 'my-stuff';
+  $handler->display->display_options['title'] = 'My Content';
+  $handler->display->display_options['display_description'] = 'Parent item for "My ..."';
+  $handler->display->display_options['path'] = 'my-content';
   $handler->display->display_options['menu']['type'] = 'normal';
-  $handler->display->display_options['menu']['title'] = 'My Media';
+  $handler->display->display_options['menu']['title'] = 'My Content';
   $handler->display->display_options['menu']['weight'] = '0';
-  $handler->display->display_options['menu']['name'] = 'main-menu';
+  $handler->display->display_options['menu']['name'] = 'user-menu';
   $handler->display->display_options['menu']['context'] = 0;
+  $handler->display->display_options['menu']['context_only_inline'] = 0;
 
-  /* Display: My Media */
-  $handler = $view->new_display('page', 'My Media', 'page_2');
+  /* Display: My Content: Media */
+  $handler = $view->new_display('page', 'My Content: Media', 'page_2');
   $handler->display->display_options['defaults']['title'] = FALSE;
-  $handler->display->display_options['title'] = 'My Media';
-  $handler->display->display_options['display_description'] = 'Same as "My Stuff All" here for the parent item';
-  $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
-  $handler->display->display_options['path'] = 'my-stuff/media';
+  $handler->display->display_options['title'] = 'My Content';
+  $handler->display->display_options['display_description'] = 'Parent item for My ...';
+  $handler->display->display_options['path'] = 'my-content/media';
   $handler->display->display_options['menu']['type'] = 'default tab';
   $handler->display->display_options['menu']['title'] = 'My Media';
   $handler->display->display_options['menu']['weight'] = '0';
   $handler->display->display_options['menu']['name'] = 'main-menu';
   $handler->display->display_options['menu']['context'] = 0;
+  $handler->display->display_options['menu']['context_only_inline'] = 0;
   $handler->display->display_options['tab_options']['weight'] = '0';
-  $export['my_stuff'] = $view;
+  $translatables['my_content'] = array(
+    t('Master'),
+    t('My Content'),
+    t('more'),
+    t('Apply'),
+    t('Reset'),
+    t('Sort by'),
+    t('Asc'),
+    t('Desc'),
+    t('Items per page'),
+    t('- All -'),
+    t('Offset'),
+    t('« first'),
+    t('‹ previous'),
+    t('next ›'),
+    t('last »'),
+    t('author'),
+    t('Media'),
+    t('Title'),
+    t('Comment count'),
+    t('.'),
+    t(','),
+    t('Type'),
+    t('Author'),
+    t('Post date'),
+    t('Updated date'),
+    t('Edit link'),
+    t('Delete link'),
+    t('Bulk operations'),
+    t('All'),
+    t('Search Terms'),
+    t('My Content (Parent)'),
+    t('Parent item for "My ..."'),
+    t('My Content: Media'),
+    t('Parent item for My ...'),
+  );
+  $export['my_content'] = $view;
+
+  $view = new view();
+  $view->name = 'my_memberships';
+  $view->description = '';
+  $view->tag = 'mediabase';
+  $view->base_table = 'users';
+  $view->human_name = 'My Memberships';
+  $view->core = 7;
+  $view->api_version = '3.0';
+  $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
+
+  /* Display: Master */
+  $handler = $view->new_display('default', 'Master', 'default');
+  $handler->display->display_options['title'] = 'My Memberships';
+  $handler->display->display_options['use_more_always'] = FALSE;
+  $handler->display->display_options['access']['type'] = 'perm';
+  $handler->display->display_options['cache']['type'] = 'none';
+  $handler->display->display_options['query']['type'] = 'views_query';
+  $handler->display->display_options['query']['options']['query_comment'] = FALSE;
+  $handler->display->display_options['exposed_form']['type'] = 'basic';
+  $handler->display->display_options['pager']['type'] = 'full';
+  $handler->display->display_options['pager']['options']['items_per_page'] = '10';
+  $handler->display->display_options['style_plugin'] = 'default';
+  $handler->display->display_options['row_plugin'] = 'fields';
+  /* Header: Global: Text area */
+  $handler->display->display_options['header']['area']['id'] = 'area';
+  $handler->display->display_options['header']['area']['table'] = 'views';
+  $handler->display->display_options['header']['area']['field'] = 'area';
+  $handler->display->display_options['header']['area']['label'] = 'My Memberships Description';
+  $handler->display->display_options['header']['area']['content'] = 'You are a member or owner of the following collections and teams:';
+  $handler->display->display_options['header']['area']['format'] = 'filtered_html';
+  /* Relationship: OG membership: OG membership from User */
+  $handler->display->display_options['relationships']['og_membership_rel']['id'] = 'og_membership_rel';
+  $handler->display->display_options['relationships']['og_membership_rel']['table'] = 'users';
+  $handler->display->display_options['relationships']['og_membership_rel']['field'] = 'og_membership_rel';
+  /* Relationship: OG membership: OG group gid */
+  $handler->display->display_options['relationships']['group']['id'] = 'group';
+  $handler->display->display_options['relationships']['group']['table'] = 'og_membership';
+  $handler->display->display_options['relationships']['group']['field'] = 'group';
+  $handler->display->display_options['relationships']['group']['relationship'] = 'og_membership_rel';
+  $handler->display->display_options['relationships']['group']['required'] = TRUE;
+  /* Field: OG group: Entity id */
+  $handler->display->display_options['fields']['etid']['id'] = 'etid';
+  $handler->display->display_options['fields']['etid']['table'] = 'og';
+  $handler->display->display_options['fields']['etid']['field'] = 'etid';
+  $handler->display->display_options['fields']['etid']['relationship'] = 'group';
+  $handler->display->display_options['fields']['etid']['exclude'] = TRUE;
+  /* Field: OG group: Label */
+  $handler->display->display_options['fields']['label']['id'] = 'label';
+  $handler->display->display_options['fields']['label']['table'] = 'og';
+  $handler->display->display_options['fields']['label']['field'] = 'label';
+  $handler->display->display_options['fields']['label']['relationship'] = 'group';
+  $handler->display->display_options['fields']['label']['label'] = '';
+  $handler->display->display_options['fields']['label']['alter']['make_link'] = TRUE;
+  $handler->display->display_options['fields']['label']['alter']['path'] = 'node/[etid]';
+  $handler->display->display_options['fields']['label']['element_label_colon'] = FALSE;
+  /* Sort criterion: User: Created date */
+  $handler->display->display_options['sorts']['created']['id'] = 'created';
+  $handler->display->display_options['sorts']['created']['table'] = 'users';
+  $handler->display->display_options['sorts']['created']['field'] = 'created';
+  $handler->display->display_options['sorts']['created']['order'] = 'DESC';
+  /* Contextual filter: User: Uid */
+  $handler->display->display_options['arguments']['uid']['id'] = 'uid';
+  $handler->display->display_options['arguments']['uid']['table'] = 'users';
+  $handler->display->display_options['arguments']['uid']['field'] = 'uid';
+  $handler->display->display_options['arguments']['uid']['default_action'] = 'default';
+  $handler->display->display_options['arguments']['uid']['default_argument_type'] = 'current_user';
+  $handler->display->display_options['arguments']['uid']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['uid']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['uid']['summary_options']['items_per_page'] = '25';
+  /* Filter criterion: User: Active */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'users';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['value'] = '1';
+  $handler->display->display_options['filters']['status']['group'] = 0;
+  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+
+  /* Display: My Content: Memberships */
+  $handler = $view->new_display('page', 'My Content: Memberships', 'page');
+  $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
+  $handler->display->display_options['path'] = 'my-content/memberships';
+  $handler->display->display_options['menu']['type'] = 'tab';
+  $handler->display->display_options['menu']['title'] = 'My Memberships';
+  $handler->display->display_options['menu']['weight'] = '4';
+  $handler->display->display_options['menu']['name'] = 'user-menu';
+  $handler->display->display_options['menu']['context'] = 0;
+  $handler->display->display_options['menu']['context_only_inline'] = 0;
+  $translatables['my_memberships'] = array(
+    t('Master'),
+    t('My Memberships'),
+    t('more'),
+    t('Apply'),
+    t('Reset'),
+    t('Sort by'),
+    t('Asc'),
+    t('Desc'),
+    t('Items per page'),
+    t('- All -'),
+    t('Offset'),
+    t('« first'),
+    t('‹ previous'),
+    t('next ›'),
+    t('last »'),
+    t('My Memberships Description'),
+    t('You are a member or owner of the following collections and teams:'),
+    t('OG membership from user'),
+    t('OG group'),
+    t('Entity id'),
+    t('.'),
+    t(','),
+    t('All'),
+    t('My Content: Memberships'),
+  );
+  $export['my_memberships'] = $view;
 
   $view = new view();
   $view->name = 'my_workflow';
@@ -1415,17 +1476,76 @@ function my_stuff_views_default_views() {
   $handler->display->display_options['filters']['field_trans_proofed_lang_3_value']['expose']['operator'] = 'field_trans_proofed_lang_3_value_op';
   $handler->display->display_options['filters']['field_trans_proofed_lang_3_value']['expose']['identifier'] = 'field_trans_proofed_lang_3_value';
 
-  /* Display: My Workflow */
-  $handler = $view->new_display('page', 'My Workflow', 'page_2');
-  $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
-  $handler->display->display_options['path'] = 'my-stuff/workflow';
+  /* Display: My Content: Workflow */
+  $handler = $view->new_display('page', 'My Content: Workflow', 'page_2');
+  $handler->display->display_options['path'] = 'my-content/workflow';
   $handler->display->display_options['menu']['type'] = 'tab';
   $handler->display->display_options['menu']['title'] = 'My Workflow';
   $handler->display->display_options['menu']['weight'] = '6';
-  $handler->display->display_options['menu']['name'] = 'main-menu';
+  $handler->display->display_options['menu']['name'] = 'user-menu';
   $handler->display->display_options['menu']['context'] = 0;
+  $handler->display->display_options['menu']['context_only_inline'] = 0;
   $handler->display->display_options['tab_options']['title'] = 'My Workflow';
   $handler->display->display_options['tab_options']['weight'] = '0';
+  $translatables['my_workflow'] = array(
+    t('Master'),
+    t('My Workflow'),
+    t('more'),
+    t('Apply'),
+    t('Reset'),
+    t('Sort by'),
+    t('Asc'),
+    t('Desc'),
+    t('Items per page'),
+    t('- All -'),
+    t('Offset'),
+    t('« first'),
+    t('‹ previous'),
+    t('next ›'),
+    t('last »'),
+    t('author'),
+    t('field collection item from field_workflow'),
+    t('Media'),
+    t('Title'),
+    t('Comment count'),
+    t('.'),
+    t(','),
+    t('Type'),
+    t('Author'),
+    t('Post date'),
+    t('Updated date'),
+    t('Edit link'),
+    t('Delete link'),
+    t('Media Present'),
+    t('Video Quality Acceptable'),
+    t('Audio Quality Acceptable'),
+    t('Media Needs Recompression'),
+    t('Media Needs Re-editing'),
+    t('Logging files/EDLs archived (field_edls_archived)'),
+    t('Masters Archived'),
+    t('Media Problem #1'),
+    t('Media Problem #2 '),
+    t('Media Problem #3'),
+    t('Basic Cataloging'),
+    t('Place Data Present'),
+    t('Cataloging Proofed'),
+    t('Extended Cataloging'),
+    t('Translation Language 1'),
+    t('Translation Language 2'),
+    t('Timecode too infrequent'),
+    t('Timecoding problem 1'),
+    t('Timecoding problem 2'),
+    t('Transcript Input'),
+    t('Transcript Proofed'),
+    t('Transcript Timecoded'),
+    t('Translation Input Language 1'),
+    t('Translation Input Language 2'),
+    t('Translation Input Language 3'),
+    t('Translation Proofed Language 1'),
+    t('Translation Proofed Language 2'),
+    t('Translation Proofed Language 3'),
+    t('My Content: Workflow'),
+  );
   $export['my_workflow'] = $view;
 
   return $export;

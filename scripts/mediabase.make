@@ -50,11 +50,13 @@ projects[diff][version] = "3.2"
 projects[diff][subdir] = "contrib"
 
 projects[entity][version] = "1.x-dev"
+; on local dev have updated to 7.x-1.5
 projects[entity][subdir] = "contrib"
 projects[entity][download][type] = "git" 
 projects[entity][download][revision] = "5731f741e3366889e95b5357f1f85b0acc51a9fe"
 
 projects[entityreference][version] = "1.0-rc3"
+; on local dev have updated to 7.x-1.1
 projects[entityreference][subdir] = "contrib"
 
 projects[facetapi][version] = "1.2"
@@ -69,12 +71,14 @@ projects[features][version] = "1.0"
 projects[features][subdir] = "contrib"
 
 projects[field_collection] = "1.x-dev"
+; on local I have updated to 7.x-1.0-beta8
 projects[field_collection][subdir] = "	contrib"
 projects[field_collection][download][type] = "git" 
 projects[field_collection][download][revision] = "4e0a52349a3f97b346622cda2e0e9ceb24787604"
 projects[field_collection][patch][] = "https://raw.github.com/pinedrop/mediabase/master/patches/missing-bundle-patch-for-field-collection.patch"
 projects[field_collection][patch][] = "https://drupal.org/files/issues/field_collection-non-object-field_collection_field_get_entity-1880312-9.patch"
 projects[field_collection][patch][] = "https://www.drupal.org/files/field_collection-broken_beta5_upgrade-1877800-31.patch"
+
 projects[field_group][version] = "1.x-dev"
 projects[field_group][subdir] = "contrib"
 projects[field_group][download][type] = "git" 

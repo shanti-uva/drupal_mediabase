@@ -261,7 +261,7 @@ function mediabase_preprocess_node(&$variables) {
 		// Modify if Full view mode
 		if ($variables['view_mode'] == "full") {
 			// Remove Descriptions Not of Current Language
-			if(is_array($variables['content']['field_pbcore_description'])) {
+			if(!empty($variables['content']['field_pbcore_description']) && is_array($variables['content']['field_pbcore_description'])) {
 				$toremove = array();
 				foreach($variables['content']['field_pbcore_description']['#items'] as $n => $item) {
 					$fci = field_collection_item_load($item['value']);

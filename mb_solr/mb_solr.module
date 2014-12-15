@@ -325,14 +325,14 @@ function theme_search_results__apachesolr_search(&$vars) {
 	$start = $response->start + 1;
 	$end = count($response->docs);
 	$total = $response->numFound;
-	$output = '<div class="head">';
+	$output = '<div class="mb-solr-results"><div class="head">';
 	$output .= sprintf('<span class="label">Related Media:</span> <span class="count">(Displaying %d-%d of %d)</span>', $start, $end, $total);
   $output .= $vars['pager'] . '</div><div class="results"><ul class="shanti-gallery">';
   foreach ($vars['results'] as $k => $v) {
 		if(empty($v['coll'])) { $v['coll'] = array(); }
   	$output .=  theme('mediabase_thumbnail', array('result' => $v, 'coll' => $v['coll']));
   }
-  $output .= '</ul></div><div class="foot">' . $vars['pager'] . '</div>';
+  $output .= '</ul></div><div class="foot">' . $vars['pager'] . '</div></div>';
   return $output;
 }
 

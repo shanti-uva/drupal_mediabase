@@ -195,7 +195,6 @@ function mb_solr_apachesolr_query_alter($query) {
 *     Add thumbnail url to the result items
 **/
 function mb_solr_apachesolr_process_results(&$results, DrupalSolrQueryInterface $query) {
-	global $base_path;
    $path = $query->getPath();
    //if ($path == "homepage/" || (preg_match("/^collection\//",$path) && !preg_match("/admin\/config/", $path)))  {
    if(preg_match("/search\/transcripts/",$path)) {
@@ -208,10 +207,7 @@ function mb_solr_apachesolr_process_results(&$results, DrupalSolrQueryInterface 
           $results[$idx]['thumb_url'] = $node->thumbnail_url;
 					$results[$idx]['duration'] = $node->duration;
 					if(empty($results[$idx]['fields']['created'])) { $results[$idx]['fields']['created'] = $node->created; }
-					$results[$idx]['coll'] = get_collection_ancestor_node($node);
-			    if($results[$idx]['coll']) {
-		        $results[$idx]['coll']->url = $base_path . drupal_get_path_alias('node/' . $results[$idx]['coll']->nid);
-			    }
+					$results[$idx]['coll'] = _get_collection_name($node->nid);
 				}
 			}
    } else if (!preg_match("/admin\/config/", $path))  {
@@ -220,10 +216,7 @@ function mb_solr_apachesolr_process_results(&$results, DrupalSolrQueryInterface 
         $media_field_table = "field_data_field_$bundle";
         $entryid_column = "field_$bundle" . "_entryid";
         $entity_id = $item['fields']['entity_id'];
-				$item['coll'] = get_collection_ancestor_node($entity_id);
-				if($item['coll']) {
-					$item['coll']->url = $base_path . drupal_get_path_alias('node/' . $item['coll']->nid);
-				}
+				$results[$idx]['coll'] = _get_collection_name($entity_id);
         if ('video' == $bundle) {
            $query = "SELECT kaltura_thumbnail_url, kaltura_duration
            FROM {field_data_field_video} 
@@ -252,6 +245,29 @@ function mb_solr_apachesolr_process_results(&$results, DrupalSolrQueryInterface 
         }
       }
    }
+}
+
+function _get_collection_name($nid, $coll = FALSE) {
+	global $base_path;
+	if(!$coll) { 
+		$coll = new stdClass();
+		$coll->title = '';
+		$coll->url = '';
+		$coll->nid = '';
+	}
+	$query = db_select('og_membership', 'ogm')->condition('etid', $nid)->fields('ogm', array('gid'))->execute();
+	$result = $query->fetchAll();
+	if(!empty($result[0]->gid)) {
+		$gid = $result[0]->gid;
+		$query = db_select('og','og')->condition('gid', $gid)->fields('og', array('etid', 'label'))->execute();
+		$result = $query->fetchAll();
+		if(!empty($result[0]->label)) {
+			$coll->title = $result[0]->label;
+			$coll->url = $base_path . drupal_get_path_alias('node/' . $result[0]->etid);
+			$coll->nid = $result[0]->etid;
+		}
+	}
+	return $coll;
 }
 
 /**

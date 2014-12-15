@@ -55,9 +55,9 @@
         </div>
       <?php endif; ?>
             
-      <?php if($coll && 2 == 1): ?>
+      <?php if($coll): ?>
         <div class="shanti-field shanti-field-group-audience">    
-            <span class="shanti-label shanti-label-group-audience">in </span>    
+            <!--<span class="shanti-label shanti-label-group-audience">in </span>    -->
             <div class="shanti-field-content"><a href="<?php print $coll->url; ?>" 
               class="shanti-thumbnail-link"><a href="<?php print $coll->url; ?>"><?php print $coll->title; ?></a>
             </div>  

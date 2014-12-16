@@ -8,4 +8,3 @@ function _is_mb_collection($filter) {
   } 
   return FALSE;
 }
-

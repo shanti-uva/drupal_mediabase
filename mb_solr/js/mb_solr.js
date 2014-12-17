@@ -1,8 +1,8 @@
 (function ($) {
 	
 	//  ndg8f 2013-11-14
-	Drupal.behaviors.mb_solr={ 
-		attach:function(context) {
+	Drupal.behaviors.mbSolr={ 
+		attach: function(context) {
 			if(context == document) { 
 				// Ajax Service Call for More Like This Related videos
 				var data = $('div#related').data();
@@ -13,6 +13,7 @@
 					$('#related.mlt').load(url, function() { 
 						$("#related.mlt .dev-query").remove();
 						$("#related.mlt .shanti-gallery").addClass('clearfix'); 
+						Drupal.behaviors.shantiSarvakaGalleryInit.attach($("#related.mlt"));
 					});
 				}
 		 }

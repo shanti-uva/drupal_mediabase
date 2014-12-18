@@ -273,10 +273,14 @@ function _get_collection_name($nid, $coll = FALSE) {
 /**
 * Implements hook_theme().
 */
-
 function mb_solr_theme($existing) {
  return array(
     'search_results__apachesolr_search' => array(
+        'variables' => array('search_results' => NULL, 'module' => array()),
+       ),
+    'search_results__apachesolr_search__transcripts' => array(
+        'template' => 'transcripts_search_results',
+        'path' => drupal_get_path('module', 'mediabase') . '/templates',
         'variables' => array('search_results' => NULL, 'module' => array()),
        ),
  /* 'search_results__apachesolr_search__homepage' => array(
@@ -287,16 +291,21 @@ function mb_solr_theme($existing) {
         'path' => drupal_get_path('module', 'mediabase') . '/templates',
         'variables' => array('result' => NULL, 'coll' => NULL),
        ),
+    'search_result__apachesolr_search__tcu' => array(
+        'template' => 'transcripts_search_result',
+        'path' => drupal_get_path('module', 'mediabase') . '/templates',
+        'variables' => array('result' => NULL, 'coll' => NULL),
+       ),
     'mediabase_thumbnail' => array(
         'template' => 'mediabase_thumbnail',
         'path' => drupal_get_path('module', 'mediabase') . '/templates',
         'variables' => array('result' => NULL, 'coll' => NULL),
       ),
      'mb_solr_results' => array(
-		 	'variables' => array('results' => NULL, 'node' => NULL)
-		 ),
+                        'variables' => array('results' => NULL, 'node' => NULL)
+                 ),
    );
-}  
+}
 
 /**
  * Implements hook preproces node to add suggested items markup to a node's display

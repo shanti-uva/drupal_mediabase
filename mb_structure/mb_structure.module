@@ -595,11 +595,11 @@ function mb_structure_preprocess_node(&$vars) {
 			$trid = transcripts_apachesolr_already_indexed_trid('transcripts_node', 'node', $vars['node']->nid);
 			if ($trid) {
 				$ui = transcripts_ui_ui('transcripts_apachesolr', $trid, $options);
-	        		if ($ui->tcuCount > 0) {
+	      if ($ui->tcuCount > 0) {
 					$vars['trid'] = $trid;
 					$vars['has_transcript'] = TRUE;
 					$vars = array_merge($vars, transcripts_ui_render($ui));
-		   		}
+		   	}
 			}
 		}
   } elseif (function_exists('transcripts_has_transcript')) {

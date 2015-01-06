@@ -302,8 +302,11 @@ function mb_solr_theme($existing) {
         'variables' => array('result' => NULL, 'coll' => NULL),
       ),
      'mb_solr_results' => array(
-                        'variables' => array('results' => NULL, 'node' => NULL)
-                 ),
+	          'variables' => array('results' => NULL, 'node' => NULL)
+	   ),
+	   'mb_solr_facets' => array(
+	   		'variables' => array('item' => NULL),
+		 ),
    );
 }
 
@@ -919,6 +922,13 @@ function mb_solr_facetapi_widgets() {
         'query types' => array('term', 'date'),
       ),
     ),
+    'mb_solr_facet_fancytree' => array(
+      'handler' => array(
+        'label' => t('Mediabase Fancy Tree'),
+        'class' => 'MbSolrFacetapiWidgetFancyTree',
+        'query types' => array('term', 'date'),
+      ),
+    ),
     'mb_solr_ajax_facets' => array(
       'handler' => array(
         'label' => t('Mediabase Ajax Facets'),
@@ -1054,6 +1064,66 @@ class MbSolrFacetapiWidgetMbSolrTree extends FacetapiWidgetLinks {
     }
     return $items;
   }
+}
+
+/*
+ * MbSolrFacetapiWidgetFancyTree: This extends the FacetapiWidgetLinks class found in the facetapi module
+ *    It only makes two changes to the execute() and buildListItems() function, changing the path to the current path of the collection.
+ * 		Creates output for the FancyTree JS plugin
+ */
+class MbSolrFacetapiWidgetFancyTree extends FacetapiWidgetLinks {
+   /**
+    * Modifies the standard facet tree by changing the path from the standard search path to the collection or current path
+    */
+  public function execute() {
+    $elements = &$this->build[$this->facet['field alias']];
+		//dpm((array)$this, 'this');
+    foreach($elements as $n => &$element) {
+      $element['#path'] = current_path();
+    }
+    // Hack to not show Collections root item at top of tree
+    // TODO: This should be generalized to see if Kmap Root Id field is used and if this TID matches that Kmaps TID. Then don't show.
+    if(isset($elements[4]) && $elements[4]['#markup'] == "Collections") {
+      $elements = $elements[4]['#item_children'];
+    }
+    // Sets each item's theme hook, builds item list.
+    $this->setThemeHooks($elements);
+    //dpm($elements, 'elements');
+    $markup = $this->buildListItems($elements);
+    
+    $elements = array(
+      /*'#theme' => 'item_list',*/
+      //'#items' => $items,
+      '#markup' => $markup,
+      /*
+      'title' => 'mb-solr-facet-tree',
+      '#attributes' => $this->build['#attributes'],
+			 * */
+    );
+    
+    //dpm($elements);
+  }
+  
+  function buildListItems($build) {
+  	// Builds html markup of list.
+    $markup = '<ul>';
+    foreach ($build as $value => $item) {
+			$markup .= theme('mb_solr_facets', array('item' => $item));
+    	if(!empty($item['#item_children'])) {
+    		$markup .= $this->buildListItems($item['#item_children']);
+			}
+		}
+		$markup .= "</ul>";
+		return $markup;
+		
+  }
+}
+
+function theme_mb_solr_facets($variables) {
+	$item = $variables['item'];
+  $temp = explode(':', $item['#query']['f'][0]);
+  $fname = $temp[0];
+	return "<li><a href=\"#\" data-fname=\"{$fname}\" data-fid=\"{$item['#indexed_value']}\" data-count=\"{$item['#count']}\">{$item['#markup']} ({$item['#count']})</a></li>";
 }
 
 class MbSolrFacetapiWidgetAjax extends FacetapiWidgetLinks {

@@ -65,11 +65,20 @@
  */
 ?>
 <li class="list-group-item <?php print $classes; ?>"<?php print $attributes; ?>>
-  <?php print render($title_prefix); ?>
-  <h3 class="title"<?php print $title_attributes; ?>>
-    <a href="<?php print $url; ?>"><?php print $title; ?></a>
-  </h3>
-  <?php print render($title_suffix); ?>
+  <?php $parent = $result['transcripts_node']; ?>
+  <div class='transcript-search-result'>
+    <div class="shanti-thumbnail-image shanti-field-<?php print $parent['bundle']; ?>">
+      <a href="<?php print $parent['link']; ?>" class="shanti-thumbnail-link">
+         <span class="overlay">
+            <span class="icon"></span>
+         </span>
+         <img title="<?php print $parent['title']; ?>"
+             alt="<?php print $parent['title']; ?>"
+             src="<?php if(isset($parent['thumb_url'])) { print $parent['thumb_url']; } ?>"
+             typeof="foaf:Image" class="k-no-rotate">
+         <i class="icon shanticon-<?php if($parent['bundle'] == 'video') { print 'video'; } else { print 'audio'; } ?>"></i>
+      </a>
+    </div>
   <div class="search-snippet-info">
     <?php if ($snippet): ?>
       <p class="search-snippet"<?php print $content_attributes; ?>><?php print $snippet; ?></p>
@@ -77,5 +86,35 @@
     <?php if ($info): ?>
       <p class="search-info"><?php print $info; ?></p>
     <?php endif; ?>
+  </div>
+    <div class="shanti-thumbnail-info">
+     <div class="body-wrap">
+      <div class="shanti-thumbnail-field shanti-field-title">
+         <span class="field-content"><a href="<?php print $parent['link']; ?>"
+             class="shanti-thumbnail-link"><?php print $parent['title']; ?></a></span>
+      </div>
+      <div class="shanti-thumbnail-field shanti-field-created">
+          <span class="shanti-field-content"><?php
+                if(!empty($result['fields']['im_media_create_date'])) {
+                        print date('j F Y', $result['fields']['im_media_create_date'][0]);
+                                                } else {
+                        print date('j F Y', $parent['created']);
+                                                }
+                                        ?></span>
+      </div>
+      <?php if(isset($parent['duration'])): ?>
+        <div class="shanti-thumbnail-field shanti-field-duration">
+         <span class="field-content"> <?php print $parent['duration']['formatted'] ?></span>
+        </div>
+      <?php endif; ?>
+      <?php if($parent['coll']): ?>
+        <div class="shanti-field shanti-field-group-audience">
+            <!--<span class="shanti-label shanti-label-group-audience">in </span>    -->
+            <div class="shanti-field-content"><a href="<?php print $parent['coll']->url; ?>"
+              class="shanti-thumbnail-link"><a href="<?php print $parent['coll']->url; ?>"><?php print $parent['coll']->title; ?></a>
+            </div>
+        </div>
+      <?php endif; ?>
+    </div>
   </div>
 </li>

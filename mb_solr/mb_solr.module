@@ -204,21 +204,26 @@ function mb_solr_apachesolr_query_alter($query) {
 *     Add thumbnail url to the result items
 **/
 function mb_solr_apachesolr_process_results(&$results, DrupalSolrQueryInterface $query) {
+//dpm($results);
    $path = $query->getPath();
    //if ($path == "homepage/" || (preg_match("/^collection\//",$path) && !preg_match("/admin\/config/", $path)))  {
    if(preg_match("/search\/transcripts/",$path)) {
    		foreach ( $results as $idx => &$item ) {
-        $nid = $item['fields']['is_eid'];
+			if ($item['fields']['entity_type'] == 'tcu') {
+				$query = "SELECT id FROM {transcripts_apachesolr_transcript} WHERE trid=:trid";
+				$nid = db_query($query, array(':trid' => $item['fields']['is_trid']))->fetchField();
 				$node = node_load($nid);
 				if($node) {
-					$results[$idx]['title'] = $node->title;
-					$results[$idx]['bundle'] = $node->type;
-          $results[$idx]['thumb_url'] = $node->thumbnail_url;
-					$results[$idx]['duration'] = $node->duration;
-					if(empty($results[$idx]['fields']['created'])) { $results[$idx]['fields']['created'] = $node->created; }
-					$results[$idx]['coll'] = _get_collection_name($node->nid);
+					$item['transcripts_node']['title'] = $node->title;
+					$item['transcripts_node']['link'] = url('node/'.$nid, array('absolute' => TRUE));
+					$item['transcripts_node']['bundle'] = $node->type;
+          				$item['transcripts_node']['thumb_url'] = $node->thumbnail_url;
+					$item['transcripts_node']['duration'] = $node->duration;
+					$item['transcripts_node']['created'] = $node->created;
+					$item['transcripts_node']['coll'] = _get_collection_name($nid);
 				}
 			}
+		}
    } else if (!preg_match("/admin\/config/", $path))  {
      foreach ( $results as $idx => &$item ) {
         $bundle = $item['bundle'];
@@ -357,6 +362,7 @@ function mb_solr_search_validate($form, &$form_state) {
 }
 
 function theme_search_results__apachesolr_search(&$vars) {
+//dpm($vars);
 	global $base_path;
 	$response = $vars['response']->response;
 	$start = $response->start + 1;

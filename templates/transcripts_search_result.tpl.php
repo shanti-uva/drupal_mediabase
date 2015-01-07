@@ -66,7 +66,8 @@
 ?>
 <li class="list-group-item <?php print $classes; ?>"<?php print $attributes; ?>>
   <?php $parent = $result['transcripts_node']; ?>
-  <div class='transcript-search-result'>
+  <div class='clearfix transcript-search-result'>
+
     <div class="shanti-thumbnail-image shanti-field-<?php print $parent['bundle']; ?>">
       <a href="<?php print $parent['link']; ?>" class="shanti-thumbnail-link">
          <span class="overlay">
@@ -79,6 +80,7 @@
          <i class="icon shanticon-<?php if($parent['bundle'] == 'video') { print 'video'; } else { print 'audio'; } ?>"></i>
       </a>
     </div>
+
   <div class="search-snippet-info">
     <?php if ($snippet): ?>
       <p class="search-snippet"<?php print $content_attributes; ?>><?php print $snippet; ?></p>
@@ -87,6 +89,7 @@
       <p class="search-info"><?php print $info; ?></p>
     <?php endif; ?>
   </div>
+
     <div class="shanti-thumbnail-info">
      <div class="body-wrap">
       <div class="shanti-thumbnail-field shanti-field-title">
@@ -116,5 +119,7 @@
         </div>
       <?php endif; ?>
     </div>
+   </div>
+
   </div>
 </li>

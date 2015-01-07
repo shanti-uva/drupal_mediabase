@@ -25,9 +25,11 @@ function mb_solr_menu() {
   $items['services/facets/%'] = array(
     'title' => 'Facet search results',
     'description' => 'Return HTML for AJAX facet search results',
+    'type' => MENU_CALLBACK,
     'page callback' => 'mb_solr_facets_ajax',
     'page arguments' => array(2),
-    'access callback' => TRUE,
+    'access arguments' => array('access content'),
+    'delivery callback' => 'mb_solr_ajax_delivery',  // Magic goes here
   );
 	
   // Return results of search in gallery form for Ajax calls
@@ -430,7 +432,7 @@ function theme_search_results__apachesolr_search__homepage(&$vars) {
  * 
  */
 
-function mb_solr_make_teaser($entity, $coll) {
+function mb_solr_make_teaser($entity, $coll = FALSE) {
   $entity['place_link'] = array();
   $node = node_load($entity['fields']['entity_id']);
   $entry_id = _get_entry_id_from_node($node);
@@ -512,7 +514,20 @@ function mb_solr_ajax_search() {
 }
 
 function mb_solr_facets_ajax($facets) {
-	return "<div>Fix this in mb_solr.module line 509: {$facets}</div>";
+	list($facet_name, $fid) = explode(':', $facets);
+	$facet_pairs = array($facet_name => $fid);
+	list($results, $terms, $fnames) = mb_solr_do_facet_search($facet_pairs);
+	$html = '<div class="region region-content"><div class="content"><ul class="shanti-gallery">';
+	foreach($results as $n => $entity) {
+		$teaser = mb_solr_make_teaser($entity);
+		$html .= $teaser;
+	}
+	$html .= '</ul></div></div>';
+	return $html;
+}
+
+function mb_solr_ajax_delivery($result) {
+	print $result;
 }
 
 /**
@@ -523,7 +538,7 @@ function mb_solr_facet_search($facet_name, $fid, $pgname = "homepage", $collid =
   // TODO: Need to make this work for collection search pages and Ajax as well
   
   // Do Search and get Results
-  list($results, $term, $label) = mb_solr_do_facet_search($facet_name, $fid, $pgname);
+  list($results, $term, $label) = mb_solr_do_facet_search(array($facet_name=>$fid), $pgname);
   $facet_data = mb_solr_get_facet_data($facet_name);
 
   // Create HTML Array of results themed as thumbnails
@@ -560,18 +575,30 @@ function mb_solr_facet_search($facet_name, $fid, $pgname = "homepage", $collid =
 
 /**
  * Perform a search for items tagged with a particular facet tag
+ *   Parameters facet_pairs is an array() of pairs: facet name (e.g., im_field_subcollection) => id
+ * 	 Repeat facet name in each pair even if identical with previous
+ * 	 When called without parameters, should retern all results, but is this useful?
  */
-function mb_solr_do_facet_search($facet_name, $fid, $pgname = "homepage") {
+function mb_solr_do_facet_search($facet_pairs = FALSE, $pgname = "homepage") {
   $searcher = 'apachesolr@solr';
   $adapter = facetapi_adapter_load($searcher);
-  $facet = facetapi_facet_load($facet_name, $searcher);
-  $term = taxonomy_term_load($fid);
   // Load Search page and search
   $search_page = apachesolr_search_page_load($pgname);
   $conditions = apachesolr_search_conditions_default($search_page);
-  $conditions['fq'][] = array("$facet_name:$fid");
+	$fnames = $terms = "all";
+	if($facet_pairs) {
+		$fnames = $facets = $terms = array();
+		foreach($facet_pairs as $fname => $fid) {
+			$facets[] = "$fname:$fid";
+  		$facetobj = facetapi_facet_load($fname, $searcher);
+			$fnames[] = $facetobj['label'];
+  		$term = taxonomy_term_load($fid);
+			$terms[] = $term->name;
+		}
+  	$conditions['fq'][] = $facets;
+	}
   $results = apachesolr_search_search_results('', $conditions, $search_page);
-  return array($results, $term->name, $facet['label']);
+  return array($results, $terms, $fnames);
 }
 
 /**
@@ -589,40 +616,7 @@ function mb_solr_get_facet_data($facet_name) {
   $realm = facetapi_realm_load('ajax');
   $facet_build = $facet->build($realm, $processor);
   $facet_build = $facet_build[$facet_name][$facet_name];
-  $facet_data = array();
-  mb_solr_process_facet_data($facet_name, $facet_build, $facet_data);
-  return $facet_data;
-}
-
-/**
- * Iterate through facet results and process into easily readable data (filter out unnecessary fields)
- */
-function mb_solr_process_facet_data($facet_name, $facet_data, &$info_out) {
-  if(isset($facet_data['#items'])) {
-    foreach($facet_data['#items'] as $key => $item) {
-      $info_out[] = array(
-        'facet' => $facet_name,
-        'fid' => $item['#indexed_value'],
-        'ftitle' => $item['#markup'],
-        'count' => $item['#count'],
-      );
-      if(is_array($item['#item_children']) && count($item['#item_children']) > 0) {
-        mb_solr_process_facet_data($facet_name, $item['#item_children'], $info_out);
-      }
-    } 
-  } else {
-    foreach($facet_data as $key => $item) {
-        $info_out[] = array(
-        'facet' => $facet_name,
-        'fid' => $item['#indexed_value'],
-        'ftitle' => $item['#markup'],
-        'count' => $item['#count'],
-      );
-      if(is_array($item['#item_children']) && count($item['#item_children']) > 0) {
-        mb_solr_process_facet_data($facet_name, $item['#item_children'], $info_out);
-      }
-    }
-  }
+  return $facet_build;
 }
 
 /**
@@ -943,8 +937,8 @@ function mb_solr_facetapi_widgets() {
     ),
     'mb_solr_facet_fancytree' => array(
       'handler' => array(
-        'label' => t('Mediabase Fancy Tree'),
-        'class' => 'MbSolrFacetapiWidgetFancyTree',
+        'label' => t('Mediabase Fancy Facet'),
+        'class' => 'MbSolrFacetapiWidgetFancyFacet',
         'query types' => array('term', 'date'),
       ),
     ),
@@ -985,6 +979,7 @@ function mb_solr_facetapi_empty_behaviors() {
 
 function mb_solr_block_view_alter(&$data, $block) {
 	if($block->module == 'facetapi') {
+		//dpm(array($data, $block));
 		$fname = $data['content']['#facet']['name'];
 		$jsondata = drupal_json_encode($data['content'][$fname]['#items']);
 		drupal_add_js(array('mediabase' => array('facetblocks' => array(strtolower($block->delta) => $jsondata))), 
@@ -1114,7 +1109,7 @@ class MbSolrFacetapiWidgetMbSolrTree extends FacetapiWidgetLinks {
  *    It only makes two changes to the execute() and buildListItems() function, changing the path to the current path of the collection.
  * 		Creates output for the FancyTree JS plugin
  */
-class MbSolrFacetapiWidgetFancyTree extends FacetapiWidgetLinks {
+class MbSolrFacetapiWidgetFancyFacet extends FacetapiWidgetLinks {
    /**
     * Modifies the standard facet tree by changing the path from the standard search path to the collection or current path
     */
@@ -1138,6 +1133,7 @@ class MbSolrFacetapiWidgetFancyTree extends FacetapiWidgetLinks {
   	$elements = array(
 			'#theme' => 'kmaps_navigator_block',
 			'#items' => $items,
+			'#facet' => $this->build['#title'],
 		);
     //dpm($elements);
   }

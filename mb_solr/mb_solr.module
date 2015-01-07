@@ -21,6 +21,15 @@ function mb_solr_menu() {
     'access callback' => TRUE,
   );
   
+  // Return HTML results of facet search for AJAX embedding
+  $items['services/facets/%'] = array(
+    'title' => 'Facet search results',
+    'description' => 'Return HTML for AJAX facet search results',
+    'page callback' => 'mb_solr_facets_ajax',
+    'page arguments' => array(2),
+    'access callback' => TRUE,
+  );
+	
   // Return results of search in gallery form for Ajax calls
   $items['services/ajaxsearch'] = array(
     'title' => 'Ajax Search Results',
@@ -496,6 +505,10 @@ function mb_solr_ajax_search() {
   drupal_json_output($out);
 }
 
+function mb_solr_facets_ajax($facets) {
+	return "<div>Fix this in mb_solr.module line 509: {$facets}</div>";
+}
+
 /**
  * API Function called through /services/facet/%/% returns JSON information for a facet filtered search
  *  A call of clear/all will clear the facet search and return all results for the page
@@ -964,6 +977,30 @@ function mb_solr_facetapi_empty_behaviors() {
   );
 }
 
+function mb_solr_block_view_alter(&$data, $block) {
+	if($block->module == 'facetapi') {
+		$fname = $data['content']['#facet']['name'];
+		$jsondata = drupal_json_encode($data['content'][$fname]['#items']);
+		drupal_add_js(array('mediabase' => array('facetblocks' => array(strtolower($block->delta) => $jsondata))), 
+			array('type' => 'setting', 'group' => JS_LIBRARY));
+		$jspath = drupal_get_path('module', 'kmaps_navigator');
+		drupal_add_js("{$jspath}/js/kmaps_navigator.js");
+		$data['content']['#attached'] = array(
+	      'libraries_load' => array(
+	          array(
+	              'fancytree'
+	          ),
+	          array(
+	              'ajaxsolr'
+	          )
+	      ),
+	      'library' => array(
+	          'system', 'drupal.ajax'
+	      ),
+	  );
+	}
+}
+
 /*
  * MbSolrFacetapiWidgetMbSolrTree: This extends the FacetapiWidgetLinks class found in the facetapi module
  *    It only makes two changes to the execute() and buildListItems() function, changing the path to the current path of the collection.
@@ -1088,35 +1125,64 @@ class MbSolrFacetapiWidgetFancyTree extends FacetapiWidgetLinks {
     }
     // Sets each item's theme hook, builds item list.
     $this->setThemeHooks($elements);
-    //dpm($elements, 'elements');
-    $markup = $this->buildListItems($elements);
+//    dpm($elements, 'elements');
+    $items = $this->buildListItems($elements);
     
-    $elements = array(
-      /*'#theme' => 'item_list',*/
-      //'#items' => $items,
-      '#markup' => $markup,
-      /*
-      'title' => 'mb-solr-facet-tree',
-      '#attributes' => $this->build['#attributes'],
-			 * */
-    );
-    
+		//$form = drupal_get_form('mb_solr_fancy_facet_form', $items, $this->build['#title']);
+  	$elements = array(
+			'#theme' => 'kmaps_navigator_block',
+			'#items' => $items,
+		);
     //dpm($elements);
   }
   
   function buildListItems($build) {
   	// Builds html markup of list.
-    $markup = '<ul>';
+    $items = array();
     foreach ($build as $value => $item) {
-			$markup .= theme('mb_solr_facets', array('item' => $item));
+    	$key = (empty($item['#query']['f'])) ? $item['#query'] : $item['#query']['f'][0];
+			$item_array = array(
+				'title' => $item['#markup'] . " ({$item['#count']})",
+				'count' => $item['#count'],
+				'key' => $key,
+			);
     	if(!empty($item['#item_children'])) {
-    		$markup .= $this->buildListItems($item['#item_children']);
+    		$children = $this->buildListItems($item['#item_children']);
+				$item_array['folder'] = 'true';
+				$item_array['children'] = $children;
 			}
+			$items[] = $item_array;
 		}
-		$markup .= "</ul>";
-		return $markup;
-		
+		return $items;
   }
+}
+
+function mb_solr_fancy_facet_form($form, &$form_state) {
+//	dpm($form_state, 'form state');
+	$options = isset($form_state['build_info']['args'][0]) ? $form_state['build_info']['args'][0] : array();
+	$title =  isset($form_state['build_info']['args'][1]) ? $form_state['build_info']['args'][1] : "Facets";
+  $form['facets'] = array(
+      '#type' => 'fancytree',
+      '#title' => $title,
+      '#options' => $options,
+      //'#description' => t('You can test the fanciness of this tree here'),
+      '#settings' => array(
+      	'checkbox' => FALSE,
+      	'icons' => FALSE,
+      	//'minExpandLevel' => '2',
+      	'filter' => array(
+                'mode' => "hide",
+                'leavesOnly' => FALSE,
+            ),
+			),
+  );
+  $form['facets']['#default_value'] = array(
+        'image_galleries' => array(
+          2 => TRUE
+          ),
+        'authors' => TRUE,
+        'genres' => array('authors' => array(4 => TRUE)));
+	return $form;
 }
 
 function theme_mb_solr_facets($variables) {

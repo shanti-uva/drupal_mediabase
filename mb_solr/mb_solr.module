@@ -71,6 +71,29 @@ function mb_solr_menu() {
   return $items;
 }
 
+ /**
+  * Implemente hook_menu_alter
+  */
+function mb_solr_menu_alter(&$items) {
+  $items['transcript/%']['page callback'] = 'mb_solr_transcripts_redirect';
+}
+
+function mb_solr_transcripts_redirect($trid, $tcuid = '') {
+  $transcript = db_query("SELECT * FROM {transcripts_apachesolr_transcript} WHERE trid=:trid", array(':trid' => $trid))
+    ->fetchAssoc();
+
+  if (count($transcript) > 0) {
+    $fragment = !intval($tcuid) ? NULL : 'tcu/' .$tcuid;
+    $path = 'node/'.$transcript['id'];
+    if ($fragment === NULL) {
+      drupal_goto($path);
+    }
+    else {
+      drupal_goto($path, array('fragment' => $fragment));
+    }
+  }
+}
+
 /**
  * Implements of hook_apachesolr_index_document_build
  * Adds collection parent gids of a team

@@ -537,8 +537,7 @@ function mb_solr_ajax_search() {
 }
 
 function mb_solr_facets_ajax($facets) {
-	list($facet_name, $fid) = explode(':', $facets);
-	$facet_pairs = array($facet_name => $fid);
+	$facet_pairs = explode('::', $facets);
 	list($results, $terms, $fnames) = mb_solr_do_facet_search($facet_pairs);
 	$html = '<div class="region region-content"><div class="content"><ul class="shanti-gallery">';
 	foreach($results as $n => $entity) {
@@ -608,11 +607,13 @@ function mb_solr_do_facet_search($facet_pairs = FALSE, $pgname = "homepage") {
   // Load Search page and search
   $search_page = apachesolr_search_page_load($pgname);
   $conditions = apachesolr_search_conditions_default($search_page);
+	
 	$fnames = $terms = "all";
 	if($facet_pairs) {
 		$fnames = $facets = $terms = array();
-		foreach($facet_pairs as $fname => $fid) {
-			$facets[] = "$fname:$fid";
+		foreach($facet_pairs as $n => $fp) {
+			$facets[] = $fp;
+			list($fname, $fid) = explode(':',$fp);
   		$facetobj = facetapi_facet_load($fname, $searcher);
 			$fnames[] = $facetobj['label'];
   		$term = taxonomy_term_load($fid);
@@ -620,8 +621,22 @@ function mb_solr_do_facet_search($facet_pairs = FALSE, $pgname = "homepage") {
 		}
   	$conditions['fq'][] = $facets;
 	}
+	dpm(array('facet pairs' => $facet_pairs, 'fq' => $conditions['fq']), 'facet info');
   $results = apachesolr_search_search_results('', $conditions, $search_page);
-  return array($results, $terms, $fnames);
+	 $build = facetapi_build_realm($searcher, 'block');
+	 $fnames = element_children($build);
+	 if($key = array_search('bundle', $fnames)) {
+	 		unset($fnames[$key]);
+	 }
+	/* dpm($build, 'build');
+	 dpm($fnames, 'facet names');*/
+	 $fnnew = array();
+	 foreach($fnames as $key => $fn) {
+	 	 $fnnew[$fn]['#items'] = $build[$fn][$fn]['#items'];
+		 $fnnew[$fn]['#facet'] =  $build[$fn][$fn]['#facet'];
+	 }
+	 dpm($fnnew, 'facets');
+  return array($results, $terms, $fnnew);
 }
 
 /**

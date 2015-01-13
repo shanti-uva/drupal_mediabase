@@ -537,19 +537,44 @@ function mb_solr_ajax_search() {
 }
 
 function mb_solr_facets_ajax($facets) {
-	$facet_pairs = explode('::', $facets);
+	$commands = array();
+  $facet_pairs = explode('::', $facets);
 	list($results, $terms, $fnames) = mb_solr_do_facet_search($facet_pairs);
-	$html = '<div class="region region-content"><div class="content"><ul class="shanti-gallery">';
+	$html = '<article class="tab-pane main-col active" id="tab-overview"><div class="region region-content"><div class="content"><p>Facet String: ' . $facets . '</p><ul class="shanti-gallery">';
 	foreach($results as $n => $entity) {
 		$teaser = mb_solr_make_teaser($entity);
 		$html .= $teaser;
 	}
-	$html .= '</ul></div></div>';
-	return $html;
+	$html .= '</ul></div></div></article>';
+	$newfacets = array();
+	foreach($fnames as $fn => $facet) {
+		$facet_list = mb_solr_process_facet_list($facet['#items']);
+		$newfacets[$fn] = $facet_list;
+	}
+  $commands[] = ajax_command_replace('#tab-overview', $html);
+  $commands[] = ajax_command_settings(array('mediabase' => array('facets' => $newfacets)), TRUE);
+  $commands[] = ajax_command_settings(array('mediabase' => array('oldfacets' => $fnames)), TRUE);
+	$commands[] = ajax_command_invoke('.kmaps-tree', "updateFacetTree");
+  $ajax = array('#type' => 'ajax', '#commands' => $commands);
+	return $ajax;
 }
 
-function mb_solr_ajax_delivery($result) {
-	print $result;
+function mb_solr_ajax_delivery($ajax) {
+	print ajax_deliver($ajax);
+}
+
+/** Flatten out facet results into a fid => count single dimension array */
+function mb_solr_process_facet_list($fnames) {
+	$facet_list = array();
+	foreach($fnames as $n => $facet) {
+		$fid = array_pop(explode(':', $facet['key']));
+		$facet_list[$fid] = $facet['count'];
+		if(!empty($facet['children'])) {
+			$children = mb_solr_process_facet_list($facet['children']);
+			$facet_list = array_replace($facet_list, $children);
+		}
+	}
+	return $facet_list;
 }
 
 /**
@@ -621,7 +646,7 @@ function mb_solr_do_facet_search($facet_pairs = FALSE, $pgname = "homepage") {
 		}
   	$conditions['fq'][] = $facets;
 	}
-	dpm(array('facet pairs' => $facet_pairs, 'fq' => $conditions['fq']), 'facet info');
+//	dpm(array('facet pairs' => $facet_pairs, 'fq' => $conditions['fq']), 'facet info');
   $results = apachesolr_search_search_results('', $conditions, $search_page);
 	 $build = facetapi_build_realm($searcher, 'block');
 	 $fnames = element_children($build);
@@ -635,7 +660,7 @@ function mb_solr_do_facet_search($facet_pairs = FALSE, $pgname = "homepage") {
 	 	 $fnnew[$fn]['#items'] = $build[$fn][$fn]['#items'];
 		 $fnnew[$fn]['#facet'] =  $build[$fn][$fn]['#facet'];
 	 }
-	 dpm($fnnew, 'facets');
+	 //dpm($fnnew, 'facets');
   return array($results, $terms, $fnnew);
 }
 
@@ -1018,12 +1043,20 @@ function mb_solr_facetapi_empty_behaviors() {
 function mb_solr_block_view_alter(&$data, $block) {
 	if($block->module == 'facetapi') {
 		//dpm(array($data, $block));
+		// TODO: Process #items into a UL list with hidden use-ajax links and use this to init Fancytree so that we can rely on the Drupal Ajax framework. On activate in Fancytree can call click on the embedded/hidden links.
 		$fname = $data['content']['#facet']['name'];
+		$items = $data['content'][$fname]['#items'];
+		//dpm($items, 'items in block view alter');
+		$html = mb_solr_facet_tree_render($items);
+		//dpm($html);
+		$data['content']['#markup'] = "<div class=\"view-section\"><div class=\"kmaps-tree facet-{$fname}\">{$html}</div></div>";
+		
 		$jsondata = drupal_json_encode($data['content'][$fname]['#items']);
 		drupal_add_js(array('mediabase' => array('facetblocks' => array(strtolower($block->delta) => $jsondata))), 
-			array('type' => 'setting', 'group' => JS_LIBRARY));
+			array('type' => 'setting', 'group' => JS_LIBRARY)); 
 		$jspath = drupal_get_path('module', 'kmaps_navigator');
 		drupal_add_js("{$jspath}/js/kmaps_navigator.js");
+  	drupal_add_library('system', 'drupal.ajax');
 		$data['content']['#attached'] = array(
 	      'libraries_load' => array(
 	          array(
@@ -1038,6 +1071,22 @@ function mb_solr_block_view_alter(&$data, $block) {
 	      ),
 	  );
 	}
+}
+
+function mb_solr_facet_tree_render($items) {
+	$html = '<ul>';
+	foreach($items as $n => $item) {
+		list($fname, $fid) = explode(':', $item['key']);
+		$key = htmlspecialchars($item['key']);
+		$html .= "<li data-facet=\"{$fname}\" data-fid=\"{$fid}\" data-count=\"{$item['count']}\" data-title=\"{$item['title']}\">";
+		$html .= "<a href=\"/services/facets/{$key}/nojs\" class=\"use-ajax\">{$item['title']}</a>";
+		if(!empty($item['children'])) {
+			$html .= mb_solr_facet_tree_render($item['children']);
+		}
+		$html .= '</li>';
+	}
+	$html .= '</ul>';
+	return $html;
 }
 
 /*
@@ -1166,7 +1215,7 @@ class MbSolrFacetapiWidgetFancyFacet extends FacetapiWidgetLinks {
     $this->setThemeHooks($elements);
 //    dpm($elements, 'elements');
     $items = $this->buildListItems($elements);
-    
+    //dpm($items, 'items');
 		//$form = drupal_get_form('mb_solr_fancy_facet_form', $items, $this->build['#title']);
   	$elements = array(
 			'#theme' => 'kmaps_navigator_block',
@@ -1182,7 +1231,7 @@ class MbSolrFacetapiWidgetFancyFacet extends FacetapiWidgetLinks {
     foreach ($build as $value => $item) {
     	$key = (empty($item['#query']['f'])) ? $item['#query'] : $item['#query']['f'][0];
 			$item_array = array(
-				'title' => $item['#markup'] . " ({$item['#count']})",
+				'title' => $item['#markup'],
 				'count' => $item['#count'],
 				'key' => $key,
 			);

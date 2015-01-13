@@ -19,4 +19,26 @@
 		 }
 	 	}
 	};
+	
+	// Called by ajax_command_invoke in mb_solr.module from mb_solr_facets_ajax() function
+	$.fn.updateFacetTree = function(data) {
+		for(var fname in Drupal.settings.mediabase.facets) {
+			var tree = jQuery('.facet-' + fname).fancytree('getTree');
+			tree.clearFilter();
+			var fcounts = Drupal.settings.mediabase.facets[fname];
+			var root = tree.getRootNode();
+			root.visit(function(node) {
+				if(fcounts.hasOwnProperty(node.data.fid)) {
+					node.data.count = fcounts[node.data.fid];
+					node.setExpanded();
+				}
+			});
+		 var ct = tree.filterNodes(function(node) { 
+				var showit = fcounts.hasOwnProperty(node.data.fid);
+				return showit;
+			});
+		}
+		
+	};
+	
 } (jQuery));

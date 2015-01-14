@@ -553,7 +553,7 @@ function mb_solr_facets_ajax($facets) {
 	}
   $commands[] = ajax_command_replace('#tab-overview', $html);
   $commands[] = ajax_command_settings(array('mediabase' => array('facets' => $facets, 'facetcounts' => $facetcounts)), TRUE);
-	$commands[] = ajax_command_invoke('.kmaps-tree', "updateFacetTree");
+	$commands[] = ajax_command_invoke('.kmaps-tree', "updateFacetTree", array('data' => $facets));
   $ajax = array('#type' => 'ajax', '#commands' => $commands);
 	return $ajax;
 }
@@ -1044,11 +1044,12 @@ function mb_solr_block_view_alter(&$data, $block) {
 		//dpm(array($data, $block));
 		// TODO: Process #items into a UL list with hidden use-ajax links and use this to init Fancytree so that we can rely on the Drupal Ajax framework. On activate in Fancytree can call click on the embedded/hidden links.
 		$fname = $data['content']['#facet']['name'];
+		$label = $data['content']['#title'];
 		$items = $data['content'][$fname]['#items'];
 		//dpm($items, 'items in block view alter');
 		$html = mb_solr_facet_tree_render($items);
 		//dpm($html);
-		$data['content']['#markup'] = "<div class=\"view-section\"><div class=\"kmaps-tree facet-{$fname}\">{$html}</div></div>";
+		$data['content']['#markup'] = $html;
 		
 		$jsondata = drupal_json_encode($data['content'][$fname]['#items']);
 		drupal_add_js(array('mediabase' => array('facetblocks' => array(strtolower($block->delta) => $jsondata))), 

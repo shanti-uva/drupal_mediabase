@@ -566,12 +566,14 @@ function mb_solr_ajax_delivery($ajax) {
 function mb_solr_process_facet_list($fnames) {
 	$facet_list = array();
 	foreach($fnames as $n => $facet) {
-		$fpts = explode(':', $facet['key']);
-		$fid = array_pop($fpts);
-		$facet_list[$fid] = $facet['count'];
-		if(!empty($facet['children'])) {
-			$children = mb_solr_process_facet_list($facet['children']);
-			$facet_list = array_replace($facet_list, $children);
+		if(!empty($facet['key'])) {
+			$fpts = explode(':', $facet['key']);
+			$fid = array_pop($fpts);
+			$facet_list[$fid] = (!empty($facet['count'])) ? $facet['count'] : 0;
+			if(!empty($facet['children'])) {
+				$children = mb_solr_process_facet_list($facet['children']);
+				$facet_list = array_replace($facet_list, $children);
+			}
 		}
 	}
 	return $facet_list;

@@ -566,7 +566,8 @@ function mb_solr_ajax_delivery($ajax) {
 function mb_solr_process_facet_list($fnames) {
 	$facet_list = array();
 	foreach($fnames as $n => $facet) {
-		$fid = array_pop(explode(':', $facet['key']));
+		$fpts = explode(':', $facet['key']);
+		$fid = array_pop($fpts);
 		$facet_list[$fid] = $facet['count'];
 		if(!empty($facet['children'])) {
 			$children = mb_solr_process_facet_list($facet['children']);
@@ -1041,22 +1042,32 @@ function mb_solr_facetapi_empty_behaviors() {
 
 function mb_solr_block_view_alter(&$data, $block) {
 	if($block->module == 'facetapi') {
+		error_log("loading fancytree: " . print_r(libraries_load('fancytree','source'),true));
+    error_log("loading ajaxsolr: " . print_r(libraries_load('ajaxsolr'),true));
+    error_log("loading navigator: " . print_r(drupal_add_js(drupal_get_path('module', 'kmaps_navigator') . "/js/kmaps_navigator.js",array(
+            'group' => JS_THEME,
+        )),true));
+		drupal_add_library('system', 'drupal.ajax');
 		//dpm(array($data, $block));
 		// TODO: Process #items into a UL list with hidden use-ajax links and use this to init Fancytree so that we can rely on the Drupal Ajax framework. On activate in Fancytree can call click on the embedded/hidden links.
 		$fname = $data['content']['#facet']['name'];
 		$label = $data['content']['#title'];
 		$items = $data['content'][$fname]['#items'];
 		//dpm($items, 'items in block view alter');
-		$html = mb_solr_facet_tree_render($items);
-		//dpm($html);
-		$data['content']['#markup'] = $html;
-		
-		$jsondata = drupal_json_encode($data['content'][$fname]['#items']);
-		drupal_add_js(array('mediabase' => array('facetblocks' => array(strtolower($block->delta) => $jsondata))), 
-			array('type' => 'setting', 'group' => JS_LIBRARY)); 
-		$jspath = drupal_get_path('module', 'kmaps_navigator');
-		drupal_add_js("{$jspath}/js/kmaps_navigator.js");
-  	drupal_add_library('system', 'drupal.ajax');
+		if(!empty($items)) {
+			$html = mb_solr_facet_tree_render($items);
+			//dpm($html);
+			$data['content']['#markup'] = $html;
+			if($fname != '') {
+				$jsondata = drupal_json_encode($data['content'][$fname]['#items']);
+				drupal_add_js(array('mediabase' => array('facetblocks' => array(strtolower($block->delta) => $jsondata))), 
+					array('type' => 'setting', 'group' => JS_LIBRARY)); 
+				//$jspath = drupal_get_path('module', 'kmaps_navigator');
+				//drupal_add_js("{$jspath}/js/kmaps_navigator.js");
+		  	//drupal_add_library('system', 'drupal.ajax');
+			}
+		}
+  	/*
 		$data['content']['#attached'] = array(
 	      'libraries_load' => array(
 	          array(
@@ -1069,7 +1080,7 @@ function mb_solr_block_view_alter(&$data, $block) {
 	      'library' => array(
 	          'system', 'drupal.ajax'
 	      ),
-	  );
+	  );*/
 	}
 }
 

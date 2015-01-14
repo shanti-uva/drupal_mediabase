@@ -1042,12 +1042,20 @@ function mb_solr_facetapi_empty_behaviors() {
 
 function mb_solr_block_view_alter(&$data, $block) {
 	if($block->module == 'facetapi') {
-		error_log("loading fancytree: " . print_r(libraries_load('fancytree','source'),true));
-    error_log("loading ajaxsolr: " . print_r(libraries_load('ajaxsolr'),true));
-    error_log("loading navigator: " . print_r(drupal_add_js(drupal_get_path('module', 'kmaps_navigator') . "/js/kmaps_navigator.js",array(
+		$ftload = libraries_load('fancytree','source');
+		$ftload = (empty($ftload['loaded'])) ? 0: $ftload['loaded'];
+		$asload = libraries_load('ajaxsolr');
+		$asload = (empty($asload['loaded'])) ? 0: $asload['loaded'];
+		$navload = drupal_add_js(drupal_get_path('module', 'kmaps_navigator') . "/js/kmaps_navigator.js",array(
             'group' => JS_THEME,
-        )),true));
-		drupal_add_library('system', 'drupal.ajax');
+        ));
+		$navload = ($navload) ? 'loaded' : 'not loaded';
+		$dajax = drupal_add_library('system', 'drupal.ajax');
+		$dajax = ($dajax) ? 'loaded' : 'not loaded';
+		error_log("loading fancytree: $ftload files loaded");
+    error_log("loading ajaxsolr: $asload files loaded");
+    error_log("loading navigator: $navload");
+		error_log("loading drupal ajax: $dajax");
 		//dpm(array($data, $block));
 		// TODO: Process #items into a UL list with hidden use-ajax links and use this to init Fancytree so that we can rely on the Drupal Ajax framework. On activate in Fancytree can call click on the embedded/hidden links.
 		$fname = $data['content']['#facet']['name'];

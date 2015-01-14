@@ -22,18 +22,21 @@
 	
 	// Called by ajax_command_invoke in mb_solr.module from mb_solr_facets_ajax() function
 	$.fn.updateFacetTree = function(data) {
-		for(var fname in Drupal.settings.mediabase.facets) {
+		var fsel = Drupal.settings.mediabase.facets;
+		console.log(fsel + " - facet selected");
+		for(var fname in Drupal.settings.mediabase.facetcounts) {
 			var tree = jQuery('.facet-' + fname).fancytree('getTree');
 			tree.clearFilter();
-			var fcounts = Drupal.settings.mediabase.facets[fname];
+			var fcounts = Drupal.settings.mediabase.facetcounts[fname];
 			var root = tree.getRootNode();
 			root.visit(function(node) {
 				if(fcounts.hasOwnProperty(node.data.fid)) {
 					node.data.count = fcounts[node.data.fid];
+					if(fsel.indexOf(':' + node.data.fid) > -1) { node.setSelected(); }
 					node.setExpanded();
 				}
-			});
-		 var ct = tree.filterNodes(function(node) { 
+		  });
+		  var ct = tree.filterNodes(function(node) { 
 				var showit = fcounts.hasOwnProperty(node.data.fid);
 				return showit;
 			});

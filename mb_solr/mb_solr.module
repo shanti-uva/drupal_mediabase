@@ -1054,10 +1054,10 @@ function mb_solr_block_view_alter(&$data, $block) {
 		$navload = ($navload) ? 'loaded' : 'not loaded';
 		$dajax = drupal_add_library('system', 'drupal.ajax');
 		$dajax = ($dajax) ? 'loaded' : 'not loaded';
-		error_log("loading fancytree: $ftload files loaded");
+		/*error_log("loading fancytree: $ftload files loaded");
     error_log("loading ajaxsolr: $asload files loaded");
     error_log("loading navigator: $navload");
-		error_log("loading drupal ajax: $dajax");
+		error_log("loading drupal ajax: $dajax");*/
 		//dpm(array($data, $block));
 		// TODO: Process #items into a UL list with hidden use-ajax links and use this to init Fancytree so that we can rely on the Drupal Ajax framework. On activate in Fancytree can call click on the embedded/hidden links.
 		$fname = $data['content']['#facet']['name'];

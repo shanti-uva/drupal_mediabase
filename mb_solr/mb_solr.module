@@ -1097,14 +1097,16 @@ function mb_solr_block_view_alter(&$data, $block) {
 function mb_solr_facet_tree_render($items) {
 	$html = '<ul>';
 	foreach($items as $n => $item) {
-		list($fname, $fid) = explode(':', $item['key']);
-		$key = htmlspecialchars($item['key']);
-		$html .= "<li data-facet=\"{$fname}\" data-fid=\"{$fid}\" data-count=\"{$item['count']}\" data-title=\"{$item['title']}\">";
-		$html .= "<a href=\"/services/facets/{$key}/nojs\" class=\"use-ajax\">{$item['title']}</a>";
-		if(!empty($item['children'])) {
-			$html .= mb_solr_facet_tree_render($item['children']);
+		if(!empty($item['key']) && !empty($item['title'])) {
+			list($fname, $fid) = explode(':', $item['key']);
+			$key = htmlspecialchars($item['key']);
+			$html .= "<li data-facet=\"{$fname}\" data-fid=\"{$fid}\" data-count=\"{$item['count']}\" data-title=\"{$item['title']}\">";
+			$html .= "<a href=\"/services/facets/{$key}/nojs\" class=\"use-ajax\">{$item['title']}</a>";
+			if(!empty($item['children'])) {
+				$html .= mb_solr_facet_tree_render($item['children']);
+			}
+			$html .= '</li>';
 		}
-		$html .= '</li>';
 	}
 	$html .= '</ul>';
 	return $html;

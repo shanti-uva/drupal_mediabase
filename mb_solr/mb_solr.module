@@ -898,7 +898,7 @@ function mb_solr_get_solrdoc($nid = '') {
 		if($json) {
 			$jsonout = array('doc' => array());
 			$jsonout['doc']['service'] = $service;
-			$jsonout['doc']['asset_type'] = $node->type;
+			$jsonout['doc']['asset_type'] = "audio-video"; //$node->type;
 			$jsonout['doc']['id'] = $nid;
 			$jsonout['doc']['uid'] = $uid;
 			$jsonout['doc']['url_html'] = $url_html;

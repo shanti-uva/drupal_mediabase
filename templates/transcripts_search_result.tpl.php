@@ -93,8 +93,7 @@
     <div class="shanti-thumbnail-info">
      <div class="body-wrap">
       <div class="shanti-thumbnail-field shanti-field-title">
-         <span class="field-content"><a href="<?php print $parent['link']; ?>"
-             class="shanti-thumbnail-link"><?php print $parent['title']; ?></a></span>
+         <span class="field-content"><?php print $parent['title']; ?></span>
       </div>
       <div class="shanti-thumbnail-field shanti-field-created">
           <span class="shanti-field-content"><?php
@@ -118,8 +117,16 @@
             </div>
         </div>
       <?php endif; ?>
-    </div>
-   </div>
+	<div>
+                <a class="btn btn-default" role="button"
+                        href="<?php print $parent['link']; ?>"
+                        class="shanti-thumbnail-link">
+                        <span class="glyphicon glyphicon-play"></span>
+                        Media Resource
+                </a>
+        </div>
+      </div>
+     </div>
 
   </div>
 </li>

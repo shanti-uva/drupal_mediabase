@@ -184,6 +184,10 @@ function mb_kaltura_get_media_info($kid = NULL) {
   return FALSE;
 }
 
+function mb_kaltura_transcripts_ui_js_alter(&$scripts) {
+	$scripts['ui'] = drupal_get_path('module', 'mb_kaltura') . '/js/transcripts_ui.js';
+}
+
 function mb_kaltura_theme() {
    return array(
       'kaltura_player_html5_video' => array(

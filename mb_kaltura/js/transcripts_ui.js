@@ -7,7 +7,7 @@
                 .each(function () {
 			var $scroller = ScrollingTranscript.getUI($(this));
 			$(window).load(function() {
-				var $iframe = jQuery('.kaltura-embed iframe').first().contents();
+				var $iframe = $('.kaltura-embed iframe').first().contents();
 				$scroller.setVideo($('video,audio', $iframe)[0]);				
 			});
                 });

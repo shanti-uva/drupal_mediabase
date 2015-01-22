@@ -387,11 +387,10 @@ function mb_solr_search_validate($form, &$form_state) {
 }
 
 function theme_search_results__apachesolr_search(&$vars) {
-//dpm($vars);
 	global $base_path;
 	$response = $vars['response']->response;
 	$start = $response->start + 1;
-	$end = count($response->docs);
+	$end = $response->start + count($response->docs);
 	$total = $response->numFound;
 	$output = '<div class="mb-solr-results"><div class="head">';
 	$output .= sprintf('<span class="label">Related Media:</span> <span class="count">(Displaying %d-%d of %d)</span>', $start, $end, $total);
@@ -403,48 +402,6 @@ function theme_search_results__apachesolr_search(&$vars) {
   $output .= '</ul></div><div class="foot">' . $vars['pager'] . '</div></div>';
   return $output;
 }
-
-/**
- * Search results theming function just creates mark up for items in the collect
- * This is included in the node display through mb_solr_node_view (below).
- */
- /*
-function theme_search_results__apachesolr_search__collection_home(&$vars) {
-	//dpm($vars, 'in collection home theme');
-  global $base_path;
-  $output = $vars['pager'] . '<ul class="shanti-gallery">';
-  foreach ($vars['results'] as $k => $v) {
-    $nid = $v['fields']['entity_id'];
-    $node = node_load($nid);
-		if($node) { 
-	    $coll = get_collection_ancestor_node($node);
-	    if($coll) {
-	        $coll->url = $base_path . drupal_get_path_alias('node/' . $coll->nid);
-	    }
-	    $output .=  mb_solr_make_teaser($v, $coll);
-		}
-  }
-  $output .= '</ul>' . $vars['pager'];
-  return $output;
-}
-
-function theme_search_results__apachesolr_search__homepage(&$vars) {
-  global $base_path;
-
-  $output = $vars['pager'] . '<ul class="shanti-gallery">';
-  
-  foreach ($vars['results'] as $k => $e) {
-    $nid = $e['fields']['entity_id'];
-    $coll = get_collection_ancestor_node($nid);
-    if($coll) {
-        $coll->url = $base_path . drupal_get_path_alias('node/' . $coll->nid);
-    }
-    $output .=  mb_solr_make_teaser($e, $coll);
-  }
-  $output .= '</ul>' . $vars['pager'];
-  return $output;
-}
-  * */
 
 /**
  *  Function called by theming function above to create the markup for a a/v "teaser" in the standard Mediabase model from the home page.
@@ -536,22 +493,26 @@ function mb_solr_ajax_search() {
   drupal_json_output($out);
 }
 
+/**
+ * Called by hook_menu (services/facets/%) from an ajax call initiated by clicking on Fancy Tree facet
+ * Returns an ajax render array
+ */
 function mb_solr_facets_ajax($facets) {
 	$commands = array();
   $facet_pairs = explode('::', $facets);
-	list($results, $terms, $fnames) = mb_solr_do_facet_search($facet_pairs);
-	$html = '<article class="tab-pane main-col active" id="tab-overview"><div class="region region-content"><div class="content"><!--<p>Facet String: ' . $facets . '</p>--><ul class="shanti-gallery">';
-	foreach($results as $n => $entity) {
-		$teaser = mb_solr_make_teaser($entity);
-		$html .= $teaser;
-	}
-	$html .= '</ul></div></div></article>';
+	list($results_html, $fnames) = mb_solr_do_facet_search($facet_pairs); // Do The Search
+	// Mark it up
+	$html = '<article class="tab-pane main-col active" id="tab-overview"><div class="region region-content"><div class="content">';
+	$html .= mb_solr_process_ajax_paging($results_html); // Enable links for ajax processing
+	$html .= '</div></div></article>';
+	// Create a facet count array to be added to Mediabase JS settings in Drupal. Used by mb_solr.js to update facet counts in tree.
 	$facetcounts = array();
 	foreach($fnames as $fn => $facet) {
 		$facet_list = mb_solr_process_facet_list($facet['#items']);
 		$facetcounts[$fn] = $facet_list;
 	}
-
+	
+	// Build & Return Ajax render array
   $commands[] = ajax_command_replace('#tab-overview', $html);
   $commands[] = ajax_command_settings(array('mediabase' => array('facets' => $facets, 'facetcounts' => $facetcounts)), TRUE);
 	$commands[] = ajax_command_invoke('.kmaps-tree', "updateFacetTree", array('data' => $facets));
@@ -559,8 +520,24 @@ function mb_solr_facets_ajax($facets) {
 	return $ajax;
 }
 
+/**
+ * Ajax delivery function called by hook_menu (services/facets/%) as delivery callback
+ */
 function mb_solr_ajax_delivery($ajax) {
 	print ajax_deliver($ajax);
+}
+
+/**
+ * Proesses an html gallery of search results from SOLR to enable ajax loading of pages.
+ */
+function mb_solr_process_ajax_paging($results_html) {
+	$path = str_replace('/','\/', current_path());
+	$path = str_replace(':', '%3A', $path);
+	$pattern = '/(href="\/' . $path . '[^"]*")/';
+	$rep = '$1 class="use-ajax"';
+	$results_html = preg_replace($pattern, $rep, $results_html);
+	$results_html = str_replace('input type="text" class="pagerer-page"','input type="text" class="pagerer-page" disabled="disabled"', $results_html);
+	return $results_html;
 }
 
 /** Flatten out facet results into a fid => count single dimension array */
@@ -578,6 +555,80 @@ function mb_solr_process_facet_list($fnames) {
 		}
 	}
 	return $facet_list;
+}
+
+/**
+ * Perform a search for items tagged with a particular facet tag
+ *   Parameters facet_pairs is an array() of pairs: facet name (e.g., im_field_subcollection) => id
+ * 	 Repeat facet name in each pair even if identical with previous
+ * 	 When called without parameters, should retern all results, but is this useful?
+ */
+function mb_solr_do_facet_search($facet_pairs = FALSE, $pgname = "homepage") {
+  $searcher = 'apachesolr@solr';
+  $adapter = facetapi_adapter_load($searcher);
+  // Load Search Page 
+  $search_page = apachesolr_search_page_load($pgname);
+	$search_page['settings']['apachesolr_search_per_page'] = 30;
+  $conditions = apachesolr_search_conditions_default($search_page);
+	
+	// Add the facets to the search conditions (fq), create list of facet names
+	if($facet_pairs == "" || count($facet_pairs) == 0) { $facet_pairs = FALSE; }
+	if(is_array($facet_pairs) && count($facet_pairs) == 1 && $facet_pairs[0] == "") { $facet_pairs = FALSE; }
+	$fnames = "all";
+	if($facet_pairs) {
+		$fnames = $facets = array();
+		foreach($facet_pairs as $n => $fp) {
+			$facets[] = $fp;
+			list($fname, $fid) = explode(':',$fp);
+  		$facetobj = facetapi_facet_load($fname, $searcher);
+			$fnames[] = $facetobj['label'];
+		}
+  	$conditions['fq'][] = $facets;
+	}
+	
+	// Do Search and Process Results
+  $results = apachesolr_search_search_results('', $conditions, $search_page);
+	$build = array();
+	$build['search_results'] = array(
+    '#theme' => 'search_results',
+    '#results' => $results,
+    '#module' => 'apachesolr_search',
+    '#search_page' => $search_page,
+  );
+	$results_html = render($build);
+	
+	// Build the Facet List
+	$build = facetapi_build_realm($searcher, 'block');
+	$fnames = element_children($build);
+	if($key = array_search('bundle', $fnames)) {
+	 		unset($fnames[$key]);
+	}
+
+	$fnnew = array();
+	foreach($fnames as $key => $fn) {
+	 	 $fnnew[$fn]['#items'] = $build[$fn][$fn]['#items'];
+		 $fnnew[$fn]['#facet'] =  $build[$fn][$fn]['#facet'];
+	}
+
+  return array($results_html, $fnnew);
+}
+
+/**
+ * Get the facet data for a programmatic search from mb_solr_facet_search
+ * Called from the facet service function mb_solr_facet_search() to return json facet search data
+ */
+function mb_solr_get_facet_data($facet_name) {
+  // TODO: Check if this will work on collection page searches or if it always searches all.
+  $searcher = 'apachesolr@solr';
+  $adapter = facetapi_adapter_load($searcher);
+  $facet = facetapi_facet_load($facet_name, $searcher);
+  $adapter->processFacets();
+  $processor = $adapter->getProcessor($facet_name);
+  $facet = $adapter->getFacet($facet);
+  $realm = facetapi_realm_load('ajax');
+  $facet_build = $facet->build($realm, $processor);
+  $facet_build = $facet_build[$facet_name][$facet_name];
+  return $facet_build;
 }
 
 /**
@@ -621,70 +672,6 @@ function mb_solr_facet_search($facet_name, $fid, $pgname = "homepage", $collid =
     'html' => render($html),
   );
   drupal_json_output($output);
-}
-
-/**
- * Perform a search for items tagged with a particular facet tag
- *   Parameters facet_pairs is an array() of pairs: facet name (e.g., im_field_subcollection) => id
- * 	 Repeat facet name in each pair even if identical with previous
- * 	 When called without parameters, should retern all results, but is this useful?
- */
-function mb_solr_do_facet_search($facet_pairs = FALSE, $pgname = "homepage") {
-  $searcher = 'apachesolr@solr';
-  $adapter = facetapi_adapter_load($searcher);
-  // Load Search page and search
-  $search_page = apachesolr_search_page_load($pgname);
-	$search_page['settings']['apachesolr_search_per_page'] = 30;
-  $conditions = apachesolr_search_conditions_default($search_page);
-	if($facet_pairs == "" || count($facet_pairs) == 0) { $facet_pairs = FALSE; }
-	if(is_array($facet_pairs) && count($facet_pairs) == 1 && $facet_pairs[0] == "") { $facet_pairs = FALSE; }
-	$fnames = $terms = "all";
-	if($facet_pairs) {
-		$fnames = $facets = $terms = array();
-		foreach($facet_pairs as $n => $fp) {
-			$facets[] = $fp;
-			list($fname, $fid) = explode(':',$fp);
-  		$facetobj = facetapi_facet_load($fname, $searcher);
-			$fnames[] = $facetobj['label'];
-  		$term = taxonomy_term_load($fid);
-			$terms[] = $term->name;
-		}
-  	$conditions['fq'][] = $facets;
-	}
-//	dpm(array('facet pairs' => $facet_pairs, 'fq' => $conditions['fq']), 'facet info');
-  $results = apachesolr_search_search_results('', $conditions, $search_page);
-	 $build = facetapi_build_realm($searcher, 'block');
-	 $fnames = element_children($build);
-	 if($key = array_search('bundle', $fnames)) {
-	 		unset($fnames[$key]);
-	 }
-	/* dpm($build, 'build');
-	 dpm($fnames, 'facet names');*/
-	 $fnnew = array();
-	 foreach($fnames as $key => $fn) {
-	 	 $fnnew[$fn]['#items'] = $build[$fn][$fn]['#items'];
-		 $fnnew[$fn]['#facet'] =  $build[$fn][$fn]['#facet'];
-	 }
-	 //dpm($fnnew, 'facets');
-  return array($results, $terms, $fnnew);
-}
-
-/**
- * Get the facet data for a programmatic search from mb_solr_facet_search
- * Called from the facet service function mb_solr_facet_search() to return json facet search data
- */
-function mb_solr_get_facet_data($facet_name) {
-  // TODO: Check if this will work on collection page searches or if it always searches all.
-  $searcher = 'apachesolr@solr';
-  $adapter = facetapi_adapter_load($searcher);
-  $facet = facetapi_facet_load($facet_name, $searcher);
-  $adapter->processFacets();
-  $processor = $adapter->getProcessor($facet_name);
-  $facet = $adapter->getFacet($facet);
-  $realm = facetapi_realm_load('ajax');
-  $facet_build = $facet->build($realm, $processor);
-  $facet_build = $facet_build[$facet_name][$facet_name];
-  return $facet_build;
 }
 
 /**

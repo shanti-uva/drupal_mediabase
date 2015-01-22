@@ -540,7 +540,7 @@ function mb_solr_facets_ajax($facets) {
 	$commands = array();
   $facet_pairs = explode('::', $facets);
 	list($results, $terms, $fnames) = mb_solr_do_facet_search($facet_pairs);
-	$html = '<article class="tab-pane main-col active" id="tab-overview"><div class="region region-content"><div class="content"><p>Facet String: ' . $facets . '</p><ul class="shanti-gallery">';
+	$html = '<article class="tab-pane main-col active" id="tab-overview"><div class="region region-content"><div class="content"><!--<p>Facet String: ' . $facets . '</p>--><ul class="shanti-gallery">';
 	foreach($results as $n => $entity) {
 		$teaser = mb_solr_make_teaser($entity);
 		$html .= $teaser;
@@ -551,6 +551,7 @@ function mb_solr_facets_ajax($facets) {
 		$facet_list = mb_solr_process_facet_list($facet['#items']);
 		$facetcounts[$fn] = $facet_list;
 	}
+
   $commands[] = ajax_command_replace('#tab-overview', $html);
   $commands[] = ajax_command_settings(array('mediabase' => array('facets' => $facets, 'facetcounts' => $facetcounts)), TRUE);
 	$commands[] = ajax_command_invoke('.kmaps-tree', "updateFacetTree", array('data' => $facets));
@@ -633,8 +634,10 @@ function mb_solr_do_facet_search($facet_pairs = FALSE, $pgname = "homepage") {
   $adapter = facetapi_adapter_load($searcher);
   // Load Search page and search
   $search_page = apachesolr_search_page_load($pgname);
+	$search_page['settings']['apachesolr_search_per_page'] = 30;
   $conditions = apachesolr_search_conditions_default($search_page);
-	
+	if($facet_pairs == "" || count($facet_pairs) == 0) { $facet_pairs = FALSE; }
+	if(is_array($facet_pairs) && count($facet_pairs) == 1 && $facet_pairs[0] == "") { $facet_pairs = FALSE; }
 	$fnames = $terms = "all";
 	if($facet_pairs) {
 		$fnames = $facets = $terms = array();

@@ -6,9 +6,9 @@
                 .once('scrolling-transcript')
                 .each(function () {
 			var $scroller = ScrollingTranscript.getUI($(this));
-			$(window).load(function() {
-				var $iframe = $('.kaltura-embed iframe').first().contents();
-				$scroller.setVideo($('video,audio', $iframe)[0]);				
+			kWidget.addReadyCallback(function(playerId) {
+                                var $iframe = $('.kaltura-embed iframe').first().contents();
+				$scroller.setVideo($('video,audio', $iframe).attr('preload', 'metadata')[0]);
 			});
                 });
         }

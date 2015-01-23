@@ -3,6 +3,7 @@
 	//  ndg8f 2013-11-14
 	Drupal.behaviors.mbSolr={ 
 		attach: function(context) {
+			//console.log('mb solr js context:', $(context).attr('id'));
 			if(context == document) { 
 				// Ajax Service Call for More Like This Related videos
 				var data = $('div#related').data();
@@ -23,11 +24,24 @@
 							$(this).children('.content').height(hgt); 
 					});
 				}, 1000);
+		 } else if($(context).attr('id') == 'views-exposed-form-browse-media-home-block') {
+		 		// Home block views ajax sort/filter request
+		 		if ($('#no-views-filter-results').length > 0) {
+		 				var p = jQuery('#no-views-filter-results').parents('.shanti-gallery');
+		 				var cl = p.attr('class');
+		 				var mtch = cl.match(/view-dom-id-([^\s]+)/); // mtch[0] is full string, mtch[1] is just alphanumeric id
+		 				if(mtch && mtch.length > 1) {
+			 				var vdid = 'views_dom_id:' + mtch[1];
+			 				setTimeout( function() {
+								Drupal.views.instances[vdid].$view.trigger('RefreshView');
+							}, 1000);
+						}
+		 		}
 		 }
 	 	}
 	};
 	
-	// Called by ajax_command_invoke in mb_solr.module from mb_solr_facets_ajax() function
+	// Called by ajax_command_invoke in mb_solr.module from mb_solr_facets_ajax() function. Needs to be JQuery function
 	$.fn.updateFacetTree = function(data) {
 		var fsel = Drupal.settings.mediabase.facets;
 		var ifsfids = []; //fsel.split(":").pop();
@@ -75,5 +89,7 @@
 		
 		Drupal.settings.mediabase.facetcounts = []; // reset facet counts so they don't get merged between calls
 	};
+	
+	
 	
 } (jQuery));

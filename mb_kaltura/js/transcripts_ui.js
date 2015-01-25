@@ -43,17 +43,19 @@
 							player.kBind('playerSeekEnd', function() {
 								player.sendNotification('changeVolume', volume);
 								that.container.scrollTo($tcu);
+								$tcu.addClass('playing');
 							});
 							player.kBind('mediaReady', function() {
 								player.sendNotification('changeVolume', 0);
 								player.sendNotification('doSeek', $tcu.attr('data-begin'));
 							});
-			                                // that.startPlay($('#' + jump.replace('tcu/', '')));
 			                        }
 					},
 
                 			playFrom: function(seconds) {
              					if (player != null) {
+							//pause first
+							player.sendNotification('doPause');
 							//behaves poorly if seek precedes play
 							player.sendNotification('doPlay');
                 				        player.sendNotification('doSeek', seconds);

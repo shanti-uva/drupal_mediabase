@@ -36,11 +36,25 @@
 								that.checkScroll(now);
 							}
 						});
+			                        var jump = $.param.fragment();
+			                        if (jump != '') {
+							var volume = player.evaluate('{video.volume}');
+							var $tcu = $('#' + jump.replace('tcu/', ''));
+							player.kBind('playerSeekEnd', function() {
+								player.sendNotification('changeVolume', volume);
+								that.container.scrollTo($tcu);
+							});
+							player.kBind('mediaReady', function() {
+								player.sendNotification('changeVolume', 0);
+								player.sendNotification('doSeek', $tcu.attr('data-begin'));
+							});
+			                                // that.startPlay($('#' + jump.replace('tcu/', '')));
+			                        }
 					},
 
                 			playFrom: function(seconds) {
              					if (player != null) {
-							//play before seek, not sure why
+							//behaves poorly if seek precedes play
 							player.sendNotification('doPlay');
                 				        player.sendNotification('doSeek', seconds);
               					}

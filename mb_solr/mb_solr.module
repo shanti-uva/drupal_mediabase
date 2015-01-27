@@ -242,7 +242,7 @@ function mb_solr_apachesolr_process_results(&$results, DrupalSolrQueryInterface 
 					$item['transcripts_node']['title'] = $node->title;
 					$item['transcripts_node']['link'] = url('node/'.$nid, array('absolute' => TRUE));
 					$item['transcripts_node']['bundle'] = $node->type;
-          				$item['transcripts_node']['thumb_url'] = $node->thumbnail_url;
+          			$item['transcripts_node']['thumb_url'] = $node->thumbnail_url;
 					$item['transcripts_node']['duration'] = $node->duration;
 					$item['transcripts_node']['created'] = $node->created;
 					$item['transcripts_node']['coll'] = _get_collection_name($nid);

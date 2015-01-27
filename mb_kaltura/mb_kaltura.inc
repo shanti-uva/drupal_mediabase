@@ -277,7 +277,7 @@ function _get_media_from_entry_id($entry_id) {
       return $result;
    } 
    catch ( Exception $e ) {
-      $msg = t("Had trouble getting remote Kaltura entry: @entry_id", array('@entry_id' => $entry_id));
+      $msg = t("This resource was not found on the Kaltura server: @entry_id", array('@entry_id' => $entry_id));
       _report_kaltura_exception( $e, $msg);
    }
 }
@@ -1327,23 +1327,26 @@ function _write_to_node_kaltura($node) {
      $kaltura_client = $kalturaHelpers->getKalturaClient($isAdmin = true); 
      $session_user = $kalturaHelpers->getSessionUser();
      $entry_details = _get_media_from_entry_id($entry_id);
-     
-     // check if a row already exists for this entry id
-     module_load_include('inc','kaltura','includes/kaltura.admin');
-     $entry = kaltura_kmc_obj_to_drupal_array($entry_details);
-     $query = db_select('node_kaltura', 'k')
-     ->fields('k', array('kaltura_entryid'))
-     ->condition('kaltura_entryid', $entry['kaltura_entryid'], '=')
-     ->execute()
-     ->fetchCol();
-  
-     if (empty($query)) {
-        $entry['kaltura_created_date'] = REQUEST_TIME; //we have no way when the entry was created on the KMC so the create date is when we received the notifcation
-        drupal_write_record('node_kaltura', $entry);
-     }
-     else {
-        drupal_write_record('node_kaltura', $entry, 'kaltura_entryid');
-     }
+		 if(!empty($entry_details)) {
+	     // check if a row already exists for this entry id
+	     module_load_include('inc','kaltura','includes/kaltura.admin');
+	     $entry = kaltura_kmc_obj_to_drupal_array($entry_details);
+			 if(!empty($entry['kaltura_entryid'])) {
+		     $query = db_select('node_kaltura', 'k')
+		     ->fields('k', array('kaltura_entryid'))
+		     ->condition('kaltura_entryid', $entry['kaltura_entryid'], '=')
+		     ->execute()
+		     ->fetchCol();
+	  
+		     if (empty($query)) {
+		        $entry['kaltura_created_date'] = REQUEST_TIME; //we have no way when the entry was created on the KMC so the create date is when we received the notifcation
+		        drupal_write_record('node_kaltura', $entry);
+		     }
+		     else {
+		        drupal_write_record('node_kaltura', $entry, 'kaltura_entryid');
+		     }
+			 }
+		 }
    }
 }
 
@@ -1351,12 +1354,18 @@ function _write_to_node_kaltura($node) {
 * report all kaltura exceptions to watchdog with stack trace and messages
 **/
 function _report_kaltura_exception($e, $msg) {
-   watchdog('mb_kaltura', t('Kaltura Exception: @message, backtrace: <pre>@trace</pre>'), array('@message' => $e->getMessage(), '@trace' => $e->getTrace()));
+	$trace = '';
+	foreach($e->getTrace() as $item) {
+		if(isset($item['file']) && isset($item['line'])) {
+			$trace .= $item['file'] . '(' . $item['line'] . ")\n";
+		}
+	}
+   watchdog('mb_kaltura', t('Kaltura Exception: @message, backtrace: <pre>@trace</pre>'), array('@message' => $e->getMessage(), '@trace' => $trace));
    $msg .= sprintf( "%s: %s %s <br/> %s %s", get_class($e), $e->getMessage(), $e->getCode(), $e->getFile(), $e->getLine());
    switch ( $e->getCode() ) {
     case 'ENTRY_ID_NOT_FOUND' :
-      drupal_set_message( t('Entry not found on Kaltura server: @message', array('@message' => $e->getMessage())), "error", FALSE);
-      drupal_set_message( $msg, "error", FALSE); 
+      drupal_set_message( t('This media resource was not found on the Kaltura server: @message', array('@message' => $e->getMessage())), "error", FALSE);
+      //drupal_set_message( $msg, "error", FALSE); 
       break ;
     default :
       drupal_set_message( $msg, "error" ); 

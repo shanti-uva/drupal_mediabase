@@ -5,8 +5,6 @@
 		   replaceBrokenImages(); 
 		   //mbCarouselInit();
 		   
-		   fixListPages();
-		   
 			// Code to add transcript and description radiobuttons to search form
 		   var transcriptSearch = jQuery('#block-transcripts-transcript-search');
 		   var siteSearch = jQuery('#block-search-form');
@@ -104,16 +102,6 @@
 		         jQuery(this).attr('src', url);
 		       }
 		     });
-		   }
-		   
-		   function fixListPages() {
-					// Fix Weirdness with Pager on /list/{tag} pages
-					if(window.location.pathname.indexOf('/list/') > -1) {
-						setTimeout(function() {
-							$('ul.pager > li').attr('style',' ');
-							console.info('doing it!');
-						}, 1000);
-					}
 		   }
 		}
 	};

@@ -69,7 +69,7 @@
   <div class='clearfix transcript-search-result'>
 
     <div class="shanti-thumbnail-image shanti-field-<?php print $parent['bundle']; ?>">
-      <a href="<?php print $parent['link']; ?>" class="shanti-thumbnail-link">
+      <a href="<?php print url($result['fields']['path']); ?>" class="shanti-thumbnail-link">
          <span class="overlay">
             <span class="icon"></span>
          </span>

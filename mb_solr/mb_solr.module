@@ -915,6 +915,15 @@ function mb_solr_get_solrdoc($nid = '') {
 		  drupal_add_http_header('Content-Type', 'text/xml');
 		  print '<?xml version="1.0"?>' . $doc;
 		}
+	// Return 404 not found respones
+	} else {
+		drupal_add_http_header('Status', '404 Not Found');
+		if($json) {
+			drupal_json_output(array('error' => "Node $nid not found."));
+		} else {
+			drupal_add_http_header('Content-Type', 'text/xml');
+		  print "<?xml version=\"1.0\"?><error>Node $nid not found.</error>";
+		}
 	}
 }
 

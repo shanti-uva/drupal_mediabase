@@ -17,6 +17,7 @@
 						Drupal.attachBehaviors('#related.mlt');
 					});
 				}
+				// Set height of facet block to match height of flyout
 				setTimeout(function() {
 					$('.block-facetapi').each(function() { 
 							var hgt = $(this).parent().height(); 
@@ -24,6 +25,7 @@
 							$(this).children('.content').height(hgt); 
 					});
 				}, 1000);
+				
 		 } else if($(context).attr('id') == 'views-exposed-form-browse-media-home-block') {
 		 		// Home block views ajax sort/filter request
 		 		if ($('#no-views-filter-results').length > 0) {

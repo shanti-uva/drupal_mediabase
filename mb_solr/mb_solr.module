@@ -131,23 +131,31 @@ function mb_solr_apachesolr_index_document_build(ApacheSolrDocument $document, $
 	 if(!empty($field_inst->field_date_created)) {
 		  $media_create_date = strtotime($field_inst->field_date_created[$flang][0]['value']);
 	 }
-	 dpm($entity, $entity_type);
 	 // Adjustments for Audio/Video Nodes
 	 if($entity_type == "node" && in_array($entity->type, array('audio', 'video'))) {
-	 	// media create date
-			$document->addField('im_media_create_date', $media_create_date);
-		 
-	 	// Using description for content & teaser fields
-			$description = '';
-			$emw = entity_metadata_wrapper('node', $entity);
-			foreach ($emw->field_pbcore_description->getIterator() as $delta => $term_wrapper) {
-			   $description .= $term_wrapper->field_description->value() . " ";
-			}
-			$document->setField('content', $description);
-			$document->setField('teaser', $description);
-			dpm('here');
+	 	 // media create date
+		 $document->addField('im_media_create_date', $media_create_date);
+			
+		 // Using description for content & teaser fields
+		 try {
+				$description = '';
+				$emw = entity_metadata_wrapper('node', $entity);
+				if(!empty($emw->field_pbcore_description)) {
+					foreach ($emw->field_pbcore_description->getIterator() as $delta => $term_wrapper) {
+						if(!empty($term_wrapper) && !empty($term_wrapper->field_description)) {
+						   $description .= $term_wrapper->field_description->value() . " ";
+						}
+					}
+					$document->setField('content', $description);
+					$document->setField('teaser', $description);
+				}
+		 } catch (Exception $e) {
+		 	 
+		 		// EntityMetadataWrapperException 
+		 		//echo "\n";
+			  //echo 'Exception Caught for node ' . $entity->entity_id . ': ' .  $e->getMessage() . "\n";
+		 }
 	 }
-	 dpm((array)$document, 'apache solr doc');
 }
 
 /**

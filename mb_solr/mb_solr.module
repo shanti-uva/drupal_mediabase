@@ -849,10 +849,11 @@ function mb_solr_get_solrdoc($nid = '') {
 		$nid = $pts[0];
 		if($pts[1] == 'json') { $json = TRUE; }
 	}
+	$servpts = explode('//', $base_url);
+	$service = str_replace('.', '_', $servpts[1]);
+	$uid = $service . '-' . $nid;
 	$node = node_load($nid);
 	if($node) {
-		$servpts = explode('//', $base_url);
-		$service = str_replace('.', '_', $servpts[1]);
  		$alias = drupal_get_path_alias('node/' . $nid);
 		$kmaps = '';
 		$kmapsjson = array();
@@ -879,7 +880,6 @@ function mb_solr_get_solrdoc($nid = '') {
 			}
 		}
 		
-		$uid = $service . '-' . $nid;
 		$url_html = $base_url . '/' . $alias;
 		$url_ajax = $base_url . '/services/node/ajax/' . $nid;
 		$url_json = $base_url . '/api/v1/media/node/' . $nid . '.json';
@@ -915,14 +915,24 @@ function mb_solr_get_solrdoc($nid = '') {
 		  drupal_add_http_header('Content-Type', 'text/xml');
 		  print '<?xml version="1.0"?>' . $doc;
 		}
-	// Return 404 not found respones
+	// If node does not exist, Return 404 not found respones
 	} else {
 		drupal_add_http_header('Status', '404 Not Found');
 		if($json) {
-			drupal_json_output(array('error' => "Node $nid not found."));
+			drupal_json_output(array(
+				"error" => "Node $nid not found.",
+				"status" => 404,
+				"service" => $service,
+				"uid" => $uid,
+			));
 		} else {
 			drupal_add_http_header('Content-Type', 'text/xml');
-		  print "<?xml version=\"1.0\"?><error>Node $nid not found.</error>";
+		  print "<?xml version=\"1.0\"?><result>
+		  	<error>Node $nid not found.</error>
+		  	<status>404</status>
+		  	<service>$service</service>
+		  	<uid>$uid</uid>
+		  </result>";
 		}
 	}
 }

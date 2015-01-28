@@ -44,7 +44,9 @@
                                     init = true;
                                 }
 
+                                var playerPlaying = false;
                                 var $playpause = $('[data-transcripts-role=transcript-controls][data-transcripts-id=' + this.trid + '] .playpause');
+
                                 vid.kBind('playerPlayed', function () {
                                     playerPlaying = true;
                                     $('.fa', $playpause).removeClass('fa-play').addClass('fa-pause');

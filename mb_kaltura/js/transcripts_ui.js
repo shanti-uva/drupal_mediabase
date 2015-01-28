@@ -44,8 +44,18 @@
                                     init = true;
                                 }
 
+                                var $playpause = $('[data-transcripts-role=transcript-controls][data-transcripts-id=' + this.trid + '] .playpause');
+                                vid.kBind('playerPlayed', function () {
+                                    playerPlaying = true;
+                                    $('.fa', $playpause).removeClass('fa-play').addClass('fa-pause');
+                                });
                                 vid.kBind('playerPaused', function () {
+                                    playerPlaying = false;
+                                    $('.fa', $playpause).removeClass('fa-pause').addClass('fa-play');
                                     vid.kUnbind('.playOne');
+                                });
+                                $playpause.click(function () {
+                                    vid.sendNotification(playerPlaying ? 'doPause' : 'doPlay');
                                 });
 
                                 this.player = vid;

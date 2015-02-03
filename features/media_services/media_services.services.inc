@@ -16,11 +16,19 @@ function media_services_default_services_endpoint() {
   $endpoint->name = 'media_service';
   $endpoint->server = 'rest_server';
   $endpoint->path = 'api/v1/media';
-  $endpoint->authentication = array(
-    'services' => 'services',
-  );
+  $endpoint->authentication = array();
   $endpoint->server_settings = array();
   $endpoint->resources = array(
+    'node' => array(
+      'operations' => array(
+        'retrieve' => array(
+          'enabled' => '1',
+        ),
+        'index' => array(
+          'enabled' => '1',
+        ),
+      ),
+    ),
     'views' => array(
       'operations' => array(
         'retrieve' => array(

@@ -32,13 +32,13 @@ function media_listings_views_default_views() {
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['query']['options']['query_comment'] = FALSE;
   $handler->display->display_options['exposed_form']['type'] = 'basic';
-  $handler->display->display_options['pager']['type'] = 'mini';
+  $handler->display->display_options['pager']['type'] = 'pagerer';
   $handler->display->display_options['pager']['options']['items_per_page'] = '30';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['pager']['options']['id'] = '0';
+  $handler->display->display_options['pager']['options']['quantity'] = '9';
   $handler->display->display_options['pager']['options']['expose']['items_per_page_options'] = '24,48,96';
-  $handler->display->display_options['pager']['options']['tags']['previous'] = '‹';
-  $handler->display->display_options['pager']['options']['tags']['next'] = '›';
+  $handler->display->display_options['pager']['options']['preset'] = 'core_replace';
   $handler->display->display_options['style_plugin'] = 'list';
   $handler->display->display_options['style_options']['row_class'] = 'shanti-thumbnail';
   $handler->display->display_options['style_options']['default_row_class'] = FALSE;
@@ -47,6 +47,19 @@ function media_listings_views_default_views() {
   $handler->display->display_options['style_options']['wrapper_class'] = '';
   $handler->display->display_options['row_plugin'] = 'fields';
   $handler->display->display_options['row_options']['default_field_elements'] = FALSE;
+  /* No results behavior: Global: Text area */
+  $handler->display->display_options['empty']['area']['id'] = 'area';
+  $handler->display->display_options['empty']['area']['table'] = 'views';
+  $handler->display->display_options['empty']['area']['field'] = 'area';
+  $handler->display->display_options['empty']['area']['empty'] = TRUE;
+  $handler->display->display_options['empty']['area']['content'] = '<?php
+module_load_include(\'inc\',\'kmap_taxonomy\',\'includes/kmap\');
+$kmap = new Kmap(%1);
+$t = $kmap->get_term();
+print \'<h3>No Entries Found</h3> <p>No audio-video entries tagged with \' . $t->name . \' were found.</p>\';
+?>';
+  $handler->display->display_options['empty']['area']['format'] = 'php_code';
+  $handler->display->display_options['empty']['area']['tokenize'] = TRUE;
   /* Relationship: Content: Author */
   $handler->display->display_options['relationships']['uid']['id'] = 'uid';
   $handler->display->display_options['relationships']['uid']['table'] = 'node';
@@ -142,6 +155,7 @@ function media_listings_views_default_views() {
   $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
   $handler->display->display_options['fields']['title']['spaces'] = array(
     'type' => 'spaces_og',
     'frontpage' => 0,
@@ -182,8 +196,7 @@ function media_listings_views_default_views() {
 	      </div>  
             
               <div class="shanti-field shanti-field-group-audience">     
-            <div class="shanti-field-content"><a href="#" class="shanti-thumbnail-link">[group_audience]</a>
-            </div>  
+            <div class="shanti-field-content shanti-thumbnail-link">[group_audience]</div>  
         </div>  
           </div> <!-- end body-wrap -->
     
@@ -264,23 +277,12 @@ function media_listings_views_default_views() {
   $handler = $view->new_display('page', 'Subject List', 'list_subjects');
   $handler->display->display_options['display_description'] = 'List of A/V nodes tagged with a KMap subject';
   $handler->display->display_options['defaults']['header'] = FALSE;
-  /* Header: Global: Text area */
-  $handler->display->display_options['header']['area_1']['id'] = 'area_1';
-  $handler->display->display_options['header']['area_1']['table'] = 'views';
-  $handler->display->display_options['header']['area_1']['field'] = 'area';
-  $handler->display->display_options['header']['area_1']['content'] = '<?php
-module_load_include(\'inc\',\'kmap_taxonomy\',\'includes/kmap\');
-$kmap = new Kmap(%1);
-$t = $kmap->get_term();
-print \'<h1>Subject: <span class="kmap-name">\' . $t->name . \'</span></h1>\';
-?>';
-  $handler->display->display_options['header']['area_1']['format'] = 'php_code';
-  $handler->display->display_options['header']['area_1']['tokenize'] = TRUE;
   /* Header: Global: Result summary */
   $handler->display->display_options['header']['result']['id'] = 'result';
   $handler->display->display_options['header']['result']['table'] = 'views';
   $handler->display->display_options['header']['result']['field'] = 'result';
   $handler->display->display_options['header']['result']['content'] = '(Displaying @start - @end of @total)';
+  $handler->display->display_options['defaults']['empty'] = FALSE;
   $handler->display->display_options['defaults']['fields'] = FALSE;
   /* Field: Content: Path */
   $handler->display->display_options['fields']['path']['id'] = 'path';
@@ -453,18 +455,6 @@ print \'<h1>Subject: <span class="kmap-name">\' . $t->name . \'</span></h1>\';
   $handler->display->display_options['title'] = 'Media By Subcollection';
   $handler->display->display_options['display_description'] = 'List of Nodes by Kmap Subcollection';
   $handler->display->display_options['defaults']['header'] = FALSE;
-  /* Header: Global: Text area */
-  $handler->display->display_options['header']['area']['id'] = 'area';
-  $handler->display->display_options['header']['area']['table'] = 'views';
-  $handler->display->display_options['header']['area']['field'] = 'area';
-  $handler->display->display_options['header']['area']['content'] = '<?php
-module_load_include(\'inc\',\'kmap_taxonomy\',\'includes/kmap\');
-$kmid = arg(2);
-$kmap = new Kmap($kmid);
-$t = $kmap->get_term();
-print \'<h1>Subcollection: <span class="kmap-name">\' . $t->name . \'</span></h1>\';
-?>';
-  $handler->display->display_options['header']['area']['format'] = 'php_code';
   /* Header: Global: Result summary */
   $handler->display->display_options['header']['result']['id'] = 'result';
   $handler->display->display_options['header']['result']['table'] = 'views';
@@ -490,17 +480,6 @@ print \'<h1>Subcollection: <span class="kmap-name">\' . $t->name . \'</span></h1
   $handler->display->display_options['title'] = 'Media By Location';
   $handler->display->display_options['display_description'] = 'List of Nodes by Kmap Location';
   $handler->display->display_options['defaults']['header'] = FALSE;
-  /* Header: Global: Text area */
-  $handler->display->display_options['header']['area']['id'] = 'area';
-  $handler->display->display_options['header']['area']['table'] = 'views';
-  $handler->display->display_options['header']['area']['field'] = 'area';
-  $handler->display->display_options['header']['area']['content'] = '<?php
-module_load_include(\'inc\',\'mb_location\',\'mb_location\');
-$kmid = arg(2);
-$place =_get_kmap_place($kmid);
-print \'<h1>Location: <span class="kmap-name">\' . $place->header . \'</span></h1>\';
-?>';
-  $handler->display->display_options['header']['area']['format'] = 'php_code';
   /* Header: Global: Result summary */
   $handler->display->display_options['header']['result']['id'] = 'result';
   $handler->display->display_options['header']['result']['table'] = 'views';
@@ -536,97 +515,6 @@ print \'<h1>Location: <span class="kmap-name">\' . $place->header . \'</span></h
   $handler->display->display_options['arguments']['place_dictionary_id_value']['summary']['format'] = 'default_summary';
   $handler->display->display_options['arguments']['place_dictionary_id_value']['summary_options']['items_per_page'] = '25';
   $handler->display->display_options['path'] = 'list/places/%';
-  $translatables['media_by_kmap'] = array(
-    t('Master'),
-    t('Media By Category'),
-    t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('Items per page'),
-    t('- All -'),
-    t('Offset'),
-    t('« first'),
-    t('‹'),
-    t('›'),
-    t('last »'),
-    t('author'),
-    t('term from field_characteristic'),
-    t('term from field_subcollection'),
-    t('term from field_pbcore_coverage_spatial'),
-    t('<div class="shanti-thumbnail-image shanti-field-audio"> <a href="[path]" class="shanti-thumbnail-link">
-    <span class="overlay">
-        <span class="icon"></span>
-    </span>
-    [field_audio]
-    <span class="icon shanticon-audio"></span>  
-</a>
-</div>'),
-    t('<div class="shanti-thumbnail-image shanti-field-video"> <a href="[path]" class="shanti-thumbnail-link">
-    <span class="overlay">
-        <span class="icon"></span>
-    </span>
-    [field_video]
-    <span class="icon shanticon-video"></span>  
-</a>
-</div>'),
-    t('[field_audio]'),
-    t('[field_video]
-<div class="shanti-thumbnail-info">      
-	     <div class="body-wrap">
-	      <div class="shanti-thumbnail-field shanti-field-title">        
-	         <span class="field-content"><a href="[path]" class="shanti-thumbnail-link">[title]</a></span>  
-	      </div>  
-	      
-	      <div class="shanti-thumbnail-field shanti-field-created">       
-	          <span class="shanti-field-content">[created]</span>  
-	      </div>  
-            
-              <div class="shanti-field shanti-field-group-audience">     
-            <div class="shanti-field-content"><a href="#" class="shanti-thumbnail-link">[group_audience]</a>
-            </div>  
-        </div>  
-          </div> <!-- end body-wrap -->
-    
-    <div class="footer-wrap">  
-          </div> <!-- end footer -->  
-   </div>'),
-    t('.'),
-    t(','),
-    t('%1'),
-    t('All'),
-    t('Tags (field_tags)'),
-    t('Subject List'),
-    t('List of A/V nodes tagged with a KMap subject'),
-    t('<?php
-module_load_include(\'inc\',\'kmap_taxonomy\',\'includes/kmap\');
-$kmap = new Kmap(%1);
-$t = $kmap->get_term();
-print \'<h1>Subject: <span class="kmap-name">\' . $t->name . \'</span></h1>\';
-?>'),
-    t('(Displaying @start - @end of @total)'),
-    t('Subcollection List'),
-    t('Media By Subcollection'),
-    t('List of Nodes by Kmap Subcollection'),
-    t('<?php
-module_load_include(\'inc\',\'kmap_taxonomy\',\'includes/kmap\');
-$kmid = arg(2);
-$kmap = new Kmap($kmid);
-$t = $kmap->get_term();
-print \'<h1>Subcollection: <span class="kmap-name">\' . $t->name . \'</span></h1>\';
-?>'),
-    t('Location List'),
-    t('Media By Location'),
-    t('List of Nodes by Kmap Location'),
-    t('<?php
-module_load_include(\'inc\',\'mb_location\',\'mb_location\');
-$kmid = arg(2);
-$place =_get_kmap_place($kmid);
-print \'<h1>Location: <span class="kmap-name">\' . $place->header . \'</span></h1>\';
-?>'),
-  );
   $export['media_by_kmap'] = $view;
 
   $view = new view();
@@ -656,7 +544,8 @@ print \'<h1>Location: <span class="kmap-name">\' . $place->header . \'</span></h
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['pager']['options']['id'] = '0';
   $handler->display->display_options['pager']['options']['quantity'] = '9';
-  $handler->display->display_options['pager']['options']['expose']['items_per_page_options'] = '12,24,48,96';
+  $handler->display->display_options['pager']['options']['expose']['items_per_page'] = TRUE;
+  $handler->display->display_options['pager']['options']['expose']['items_per_page_options'] = '12,24,60,48,96';
   $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all'] = TRUE;
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['style_options']['row_class'] = 'shanti-teaser';
@@ -809,46 +698,6 @@ print \'<h1>Location: <span class="kmap-name">\' . $place->header . \'</span></h
   /* Display: Block */
   $handler = $view->new_display('block', 'Block', 'block');
   $handler->display->display_options['link_url'] = 'location/%1/detail';
-  $handler->display->display_options['defaults']['style_plugin'] = FALSE;
-  $handler->display->display_options['style_plugin'] = 'default';
-  $handler->display->display_options['style_options']['row_class'] = 'shanti-teaser';
-  $handler->display->display_options['style_options']['default_row_class'] = FALSE;
-  $handler->display->display_options['defaults']['style_options'] = FALSE;
-  $handler->display->display_options['defaults']['row_plugin'] = FALSE;
-  $handler->display->display_options['row_plugin'] = 'node';
-  $handler->display->display_options['defaults']['row_options'] = FALSE;
-  $translatables['media_by_location'] = array(
-    t('Master'),
-    t('Media By Location'),
-    t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('Items per page'),
-    t('- All -'),
-    t('Offset'),
-    t('« first'),
-    t('‹ previous'),
-    t('next ›'),
-    t('last »'),
-    t('author'),
-    t('term from field_pbcore_coverage_spatial'),
-    t('<a href="[path]"><span class="play-icon-overlay"></span>
-[field_audio]</a>'),
-    t('<a href="[path]"><span class="play-icon-overlay"></span>
-[field_video]</a>'),
-    t('Posted'),
-    t('by'),
-    t('in '),
-    t('Comments'),
-    t('.'),
-    t(','),
-    t('All'),
-    t('Tags (field_tags)'),
-    t('Block'),
-  );
   $export['media_by_location'] = $view;
 
   $view = new view();
@@ -1034,37 +883,6 @@ print \'<h1>Location: <span class="kmap-name">\' . $place->header . \'</span></h
   $handler->display->display_options['pager']['options']['expose']['items_per_page_options'] = '10, 25, 50, 100';
   $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all'] = TRUE;
   $handler->display->display_options['path'] = 'recent/media';
-  $translatables['recent_media'] = array(
-    t('Master'),
-    t('More recent media'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('author'),
-    t('<a href="[path]"><span class="play-icon-overlay"></span>
-[field_audio]</a>'),
-    t('<a href="[path]"><span class="play-icon-overlay"></span>
-[field_video]</a>'),
-    t('Posted'),
-    t('by'),
-    t('in '),
-    t('Comments'),
-    t('.'),
-    t(','),
-    t('Tags (field_tags)'),
-    t('Block'),
-    t('more'),
-    t('Page'),
-    t('Items per page'),
-    t('- All -'),
-    t('Offset'),
-    t('« first'),
-    t('‹ previous'),
-    t('next ›'),
-    t('last »'),
-  );
   $export['recent_media'] = $view;
 
   return $export;

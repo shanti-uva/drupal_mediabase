@@ -9,7 +9,8 @@ projects[admin_menu][subdir] = "contrib"
 projects[admin_menu][version] = "3.0-rc4"
 
 projects[apachesolr][subdir] = "contrib"
-projects[apachesolr][version] = "1.6+3-dev"
+projects[apachesolr][version] = "1.x-dev"
+projects[apachesolr][download][revision] = "f57c2012e12a2a9d5992813d136813a9442e07c0"
 
 projects[apachesolr_views][subdir] = "contrib"
 projects[apachesolr_views][version] = "1.0-beta2"

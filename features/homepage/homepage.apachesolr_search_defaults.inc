@@ -17,7 +17,7 @@ function homepage_apachesolr_search_default_searchers() {
   $searcher->label = 'Homepage';
   $searcher->description = '';
   $searcher->search_path = 'homepage';
-  $searcher->page_title = 'Homepage';
+  $searcher->page_title = 'Audio-Video';
   $searcher->env_id = 'solr';
   $searcher->settings = array(
     'fq' => array(

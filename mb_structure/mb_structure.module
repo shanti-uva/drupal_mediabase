@@ -8,64 +8,122 @@ function mb_structure_block_info() {
    $blocks=array();
    $blocks['collection_detail'] = array(
       'info' => 'Collection Detail',
-      'custom' => FALSE,
-      );
+      'cache' => DRUPAL_NO_CACHE,
+   );
+	 $blocks['collection_manage'] = array(
+	 		'info' => 'Collection Links (Manage)',
+      'cache' => DRUPAL_NO_CACHE,
+	 );
    $blocks['collection_media_listing'] = array(
       'info' => 'Collection Media Listing',
-      'custom' => FALSE,
-      );
+   );
    $blocks['lets_get_started'] = array(
       'info' => 'Let\'s get started!',
-      'custom' => FALSE,
       'visibility' => BLOCK_VISIBILITY_PHP,
       //'pages' => 'user_is_logged_in()'
-      );
+   );
    $blocks['already_started'] = array(
       'info' => 'Already started?',
-      'custom' => FALSE,
       'visibility' => BLOCK_VISIBILITY_PHP,
       //'pages' => 'user_is_logged_in()'
-      );
+   );
+      
+   $blocks['collections_carousel'] = array(
+      'info' => 'Collections Carousel',
+      'visibility' => BLOCK_VISIBILITY_NOTLISTED,
+   );
    return $blocks;
 }
 
 function mb_structure_block_view($delta) {
    switch($delta) { 
-   case 'collection_detail':
-      $coll_det = t("Collection");
-      if ( $node = get_node_from_path() ) {
-         $team_det = t("Team");
-         $block_subj = "collection" == $node->type ? $coll_det : $team_det;
-      } else {
-         $block_subj = $coll_det;
-      }         
-      $block['subject'] = $block_subj;
-      $block['content'] = collection_block_details();
-      return $block;
-   case 'collection_media_listing':
-      $block['subject'] = t('Media');
-      $block['content'] = collection_media_listing();
-      return $block;
-      
-   case 'lets_get_started':
-      if(!user_is_logged_in()) { // is there a better way to do this?
-         return null; 
-      }
-      $block['subject'] = t('Create a collection');
-      $block['content'] = drupal_get_form('mb_structure_lets_get_started_form');
-      return $block;
-   case 'already_started':
-      $groups = mb_structure_get_groups_for_user();
-      if(!user_is_logged_in() || empty($groups) ) { // is there a better way to do this?
-         return null; 
-      }
-      $block['subject'] = t('Add to your collections');
-      $block['content'] = drupal_get_form('mb_structure_already_started_form');
-      return $block;
+     case 'collection_detail':
+			 $block = array();
+			 $node = get_node_from_path();
+       if ( $node && in_array($node->type, array( "collection", "team")) ) {
+          $block_subj = ("collection" == $node->type) ? t("Collection") : t("Team");
+	        $block['subject'] = $block_subj;
+	        $block['content'] = collection_block_details($node);
+       }       
+       return $block;
+				
+		 case 'collection_manage':
+			 $block = array();
+			 $node = get_node_from_path();
+  		 if ( $node && in_array($node->type, array( "collection", "team") ) )    {
+				  if ( $perms = mb_structure_get_group_access_level($node) ) {
+		        $block['subject'] = t("Manage");
+		        $block['content'] = manage_collection_block($node, $perms);
+					}
+			  }
+				return $block;
+				
+     case 'collection_media_listing':
+        $block['subject'] = t('Media');
+        $block['content'] = collection_media_listing();
+        return $block;
+        
+     case 'lets_get_started':
+        if(!user_is_logged_in()) { // is there a better way to do this?
+           return null; 
+        }
+        $block['subject'] = t('Create a collection');
+        $block['content'] = drupal_get_form('mb_structure_lets_get_started_form');
+        return $block;
+        
+     case 'already_started':
+        $groups = mb_structure_get_groups_for_user();
+        if(!user_is_logged_in() || empty($groups) ) { // is there a better way to do this?
+           return null; 
+        }
+        $block['subject'] = t('Add to your collections');
+        $block['content'] = drupal_get_form('mb_structure_already_started_form');
+        return $block;
+               
+     case 'collections_carousel':
+       $block['subject'] = t('Collections');
+       $block['content'] = mb_structure_collections_carousel_block();
+       return $block;
    }
 }
 
-function collection_block_details() {
+function collection_block_details($node) {
+  global $user;
+	// get the collection group object from the nid
+	$group = og_get_group('node', $node->nid);
+	$owner = user_load($node->uid);
+	$is_owner = $user->uid == $node->uid;
+	$gid = $group->gid;
+	
+	// administrator user link
+	$coll_man = t("Manager: ");
+	$team_man = t("Team Manager: ");
+	$man_label = ("collection" == $node->type) ? $coll_man : $team_man;
+	$man_name = $owner->name;
+	if ( module_exists('realname')) {
+	   $man_name = realname_load($owner);
+	} 
+		
+	//count media objects in collection/team
+	$query = new EntityFieldQuery();
+	$result = $query
+	  ->entityCondition('entity_type', 'node')
+	  ->propertyCondition('type', array('audio','video'), 'IN')
+	  ->fieldCondition('group_audience', 'state', array(1), 'IN', 0)
+	  ->fieldCondition('group_audience', 'gid', $gid, '=', 0)
+	  ->execute();
+	$count = isset($result['node']) ? sizeof($result['node']) : 0;
+	$count_str = t("@count media item(s)", array('@count' => $count));
+	
+	$output = '<div class="collection-stats">';
+	$output .= '<div class="owner"><span class="stat">' . $man_label . '</span> <span class="value">' . $man_name . '</span></div>';
+	$output .= '<div class="item-count">' . $count_str . '</div>';
+	$output .= '</div>';
+	return $output;
+}
+
+/** old collection block for reference (12-5-2014) */
+function collection_block_details_old() {
    global $user;
    if ( ! $node = get_node_from_path() ) {
       return;
@@ -134,6 +192,65 @@ function collection_block_details() {
    return $output;
 }
 
+/**
+ * Returns currents users access to group. False = none; 1 = user (add content), 2 = add members, 3 = administrator
+ */
+function mb_structure_get_group_access_level($node) {
+	global $user;
+	
+	$can_manage = FALSE;
+	$group = og_get_group('node', $node->nid);
+	$owner = user_load($node->uid);
+	$is_owner = $user->uid == $node->uid;
+	$gid = $group->gid;
+	if(og_is_member($gid, 'user')) {
+		$can_manage = 1;
+	}
+	if(og_user_access_by_entity('add user', 'node', $node->nid)) {
+		$can_manage = 2;
+	}
+	if(og_user_access($gid, 'administer group')) {
+		$can_manage = 3;
+	}
+	return $can_manage;
+}
+
+function manage_collection_block($node, $perms) {
+
+   $output = '<div class="manage-collection">';
+    
+   // create video
+   if($perms){
+      $create_video_link = l("Upload a Video", "node/add/video", array('query' => array('gids_node[]' => $node->nid))); 
+      $output .= "<div class=\"link\">$create_video_link</div>";
+   }
+    
+   // create audio
+   if($perms){
+      $create_audio_link = l("Upload Audio", "node/add/audio", array('query' => array('gids_node[]' => $node->nid))); 
+      $output .= "<div class=\"link\">$create_audio_link</div>";
+   }
+    
+   if ($perms > 1) {
+      // Add members
+      $add_members_link = l("Add Members", "group/node/$node->nid/admin/people/add-user"); 
+      $output .= "<div class=\"link\">$add_members_link</div>";
+       
+      // View members (Admin)
+      $view_members_link = l("Manage Members", "group/node/$node->nid/admin/people"); 
+      $output .= "<div class=\"link\">$view_members_link</div>";
+   }
+    
+   // add a new team
+   if( "collection" == $node->type && $perms == 3 ){
+      $create_team_link = l("Add a new Team", "node/add/team", array('query' => array('gids_node[]' => $node->nid))); 
+      $output .= "<div class=\"link\">$create_team_link</div>";
+   }
+	 $output .= '</div>';
+	 return $output;  
+	 
+}
+
 function get_node_from_path(){
    $object = menu_get_object();
    // Check if this is an existing node.
@@ -154,6 +271,8 @@ function get_node_from_path(){
      }
    }
 }
+
+/** Form alter functions **/
 
 function mb_structure_form_views_exposed_form_alter(&$form, &$form_state, $form_id) {
    /*    dpm($form_state, "form_state");
@@ -206,6 +325,9 @@ function mb_structure_form_views_exposed_form_alter(&$form, &$form_state, $form_
 * Implementation of hook_form_alter for COLLECTION_NODE_FORM
 **/
 function mb_structure_form_collection_node_form_alter(&$form, &$form_state, $form_id) {
+	//dpm($form, 'form: ' . $form_id);
+	//dpm($form_state, 'form state');
+	
    // Make sure there are no dupe titles
    $form['title']['#element_validate'][] = 'mb_structure_validate_title';   
    // Hide the ability to set Collection to not be a group
@@ -245,8 +367,17 @@ function mb_structure_form_team_node_form_alter(&$form, &$form_state, $form_id) 
 * Implementation of hook_form_alter for VIDEO_NODE_FORM
 **/
 function mb_structure_form_video_node_form_alter(&$form, &$form_state, $form_id) {
+	//dpm(array('form' => $form, 'form state' => $form_state), "vids f and fs");
+	
+	// If pbcore title is empty but there is a node title, then use the latter to fill the former
+	// This happens with videos imported from Kaltura (ndg, 2014-12-12)
+	if(empty($form['field_pbcore_title']['und'][0]['field_title']['und'][0]['value']['#default_value']) && !empty($form['#node']->title)) {
+		$form['field_pbcore_title']['und'][0]['field_title']['und'][0]['value']['#default_value'] = $form['#node']->title;
+	}
+	
 	// if Kaltura ID is defined, embed a player that allows thumbnail capture (ndg, 2013-06)
-	$kid = (isset($form_state['node']->field_video['und'][0]['entryid'])) ? $form_state['node']->field_video['und'][0]['entryid'] : NULL;
+	$flang = field_language('node', $form_state['node'], 'field_video');
+	$kid = (isset($form_state['node']->field_video[$flang][0]['entryid'])) ? $form_state['node']->field_video[$flang][0]['entryid'] : NULL;
 	if(!empty($kid)) {
 		$embed = '<script src="https://cdnapisec.kaltura.com/p/381832/sp/38183200/embedIframeJs/uiconf_id/14448611/partner_id/381832"></script>
       <div id="kaltura_player_1373286644" style="width: 400px; height: 360px; float:left; padding-right: 20px; padding-bottom: 20px;" itemprop="video" itemscope itemtype="http://schema.org/VideoObject">
@@ -277,8 +408,8 @@ function mb_structure_form_video_node_form_alter(&$form, &$form_state, $form_id)
         t('Use this video player to navigate to a frame in the video and press the camera icon to capture that frame for the video&rsquo;s thumbnail. ' . 
         'The newly-captured frame will replace the current default thumbnail after the video record is saved in Mediabase. ') . 
         '</p><div class="mb_oldthumb">';
-	   $form['field_video']['und']['#prefix'] .= $embed . $instruct;
-	   $form['field_video']['und']['#suffix'] = '</div>' . $form['field_video']['und']['#suffix'];
+	   $form['field_video'][$flang]['#prefix'] .= $embed . $instruct;
+	   $form['field_video'][$flang]['#suffix'] = '</div>' . $form['field_video'][$flang]['#suffix'];
 	   drupal_add_css('.mb_oldthumb .kaltura_field_thumb img, .mb_oldthumb .kaltura_field_thumb br { display: none; }', array('type' => 'inline'));
    } // End of thumbnail capture embed code
    
@@ -325,6 +456,8 @@ function mb_structure_lets_get_started_form() {
       );
    $form['submit'] = array(
       '#type' => 'submit',
+      '#icon' => 'texts',
+      '#attributes' => array('class' => array('btn-block')),
       '#value' => t('Create a New Collection'),
        '#submit' => array('mb_structure_new_collection'),
       );
@@ -354,11 +487,15 @@ function mb_structure_already_started_form() {
       );
    $form['submit_video'] = array(
       '#type' => 'submit',
+      '#icon' => 'video',
+      '#attributes' => array('class' => array('btn-block')),
       '#value' => t('Upload a video'),
       '#submit' => array( 'mb_structure_already_started_validate' ),
       );
    $form['submit_audio'] = array(
       '#type' => 'submit',
+      '#icon' => 'audio',
+      '#attributes' => array('class' => array('btn-block')),
       '#value' => t('Upload audio'),
       '#submit' => array( 'mb_structure_already_started_validate' ),
       );
@@ -423,6 +560,7 @@ function mb_structure_views_query_alter(	&$view, &$query ) {
    
 }
 
+/** Not sure this is necessary: removing for speed improvement
 function mb_structure_node_view($node, $view_mode, $langcode) {
    if ( in_array($node->type, array('audio','video')) && $collection_node = get_collection_ancestor_node($node) ) {
       $path = "node/$collection_node->nid";
@@ -437,11 +575,80 @@ function mb_structure_node_view($node, $view_mode, $langcode) {
       $node->content['#group_children']['collection_ancestor'] = 'group_details';
    }
 }
+*/
+
+/**
+ * Add variable has_transcript
+ */
+function mb_structure_preprocess_html(&$vars) {
+	if (function_exists('transcripts_node_has_transcript')) {
+		if ($node = menu_get_object()) {
+			if (arg(2) == NULL && transcripts_node_has_transcript($node)) {
+				$vars['classes_array'][] = 'has-transcript';
+			}
+		}
+	}
+}
+
+/**
+ * Add variable has_transcript
+ */
+function mb_structure_preprocess_node(&$vars) {
+	// Only do following code if full view mode due to time consuming factor on galleries of multiple nodes
+	if($vars['view_mode'] != 'full') { return; }
+  // Temporarily accounting for both old and new version of transcripts suite
+  // in the end transcripts_node is the new version
+  if(module_exists('transcripts_node')) {
+		$vars['has_transcript'] = FALSE;
+		if (transcripts_node_has_transcript($vars['node'])) {
+			$options = array(
+				'term' => isset($_GET['term']) ? '"'.$_GET['term'].'"' : '',
+		                'justhits' => isset($_GET['justhits']) ? true : false,
+	        	);
+			$trid = transcripts_apachesolr_already_indexed_trid('transcripts_node', 'node', $vars['node']->nid);
+			if ($trid) {
+				$ui = transcripts_ui_ui('transcripts_apachesolr', $trid, $options);
+	      if ($ui->tcuCount > 0) {
+					$vars['trid'] = $trid;
+					$vars['has_transcript'] = TRUE;
+					$vars = array_merge($vars, transcripts_ui_render($ui));
+		   	}
+			}
+		}
+  } elseif (function_exists('transcripts_node_has_transcript')) {
+  	$vars['has_transcript'] =  transcripts_node_has_transcript($vars['node']);
+  }
+}
 
 function mb_structure_node_update($node) {
 	// Separate function to update a node's kaltura data in case it needs to be called from other contexts.
 	mb_update_node_kaltura_data($node);
 }
+
+/**
+ * Impements hook_form_FORM_ID_alter for node delete form to test whether a collection has associated media before deleting
+ * Does not allow one to delete a collection if it has content.
+ * TODO: add option to delete content as well.
+ */
+function mb_structure_form_node_delete_confirm_alter(&$form, &$form_state, $form_id){
+  $node = $form['#node'];
+  if($node->type == "collection" || $node->type == "team") {
+    $content_nodes = mb_structure_get_groups_nodes($node->nid);
+    $n = count($content_nodes);
+    $items = '';
+    foreach($content_nodes as $nid) {
+      $n2 = node_load($nid);
+      $items .= l($n2->title, 'node/' . $nid . '/edit') . ', ';
+    }
+    $items = substr($items, 0, strlen($items) - 2) . '.';
+    if($n > 0) {
+      drupal_set_message(t('This group cannot be deleted because it has @n media items associated with it. Please delete or relocate the following items: !items', 
+      array('@n' => $n, '!items' => $items)), 'error');
+      drupal_goto('node/' . $node->nid . '/edit');
+    }
+  }
+}
+   
 
 function mb_update_node_kaltura_data($node) {
 	/* 
@@ -487,6 +694,10 @@ function mb_update_node_kaltura_data($node) {
 }
 
 function get_collection_ancestor_node($node) {
+   if(is_integer($node)) {
+     $node = node_load($node);
+     if(!$node) { return null; }
+   }
    $collection_node = null;
    if ( $gids = og_get_entity_groups('node', $node) ) { 
       $gid = array_pop( $gids );
@@ -513,11 +724,21 @@ function mb_structure_get_team_gids($collection_gid) {
    $gids = array();
    $query = new EntityFieldQuery();
    $result = $query
-   ->entityCondition('entity_type', 'node')
-   ->propertyCondition('type', 'team')
-   ->fieldCondition('group_audience', 'state', array(1), 'IN', 0)
-   ->fieldCondition('group_audience', 'gid', $gid, '=', 0)
-   ->execute();
+	   ->entityCondition('entity_type', 'node')
+	   ->propertyCondition('type', 'team')
+	   ->fieldCondition('group_audience', 'state', array(1), 'IN', 0)
+	   ->fieldCondition('group_audience', 'gid', $collection_gid, '=', 0)
+	   ->execute();
+	 $teams = array();
+	 if (!empty($result['node'])) {
+	 		foreach($result['node'] as $nid => $team) {
+	 			$node = node_load($nid);
+				$team->title = $node->title;
+				$team->path = drupal_get_path_alias('node/' . $nid);
+				$teams[$nid] = (array)$team;
+	 		}
+	 }
+	 return $teams;
 }
 
 function mb_structure_get_collection_gid($team_gid) {
@@ -554,12 +775,15 @@ function mb_structure_get_groups_for_user( $add_optgroup = TRUE ) {
    return $gids_with_labels;
 }
 
-function mb_structure_already_started_validate($element, &$form_state, $form) {
-   $gid = $form_state['input']['collection_id'];
+function mb_structure_already_started_validate(&$form_state, $form) {
+	 // this had $element,  as the first parameter but caused an error (ndg, 2014-08-19)
+   //dpm(array($form_state, $form), 'form state in started validate');
+	 $fobj = (empty($form_state['input'])) ? $form : $form_state; // Travis had form_state but it doesn't have input, form does. Doing this in case there is a situation where form_state does have input
+   $gid = $fobj['input']['collection_id'];
    $group = og_get_group('group',$gid);
    $nid = $group->etid;
    $path_format = 'node/add/%s';
-   $path = $form_state['clicked_button']['#id'] == 'edit-submit-video' ? sprintf($path_format, 'video') : sprintf($path_format, 'audio');
+   $path = $fobj['clicked_button']['#id'] == 'edit-submit-video' ? sprintf($path_format, 'video') : sprintf($path_format, 'audio');
    drupal_goto($path, array('query' => array('gids_node[]' => $nid)));
 }
 
@@ -603,35 +827,149 @@ function mb_structure_breadcrumb_items_collection_team($node) {
 
 function mb_structure_breadcrumb_items_audio_video($node) {
    $coll_team_group = og_get_group('group', $node->group_audience[LANGUAGE_NONE][0]['gid']);
-   $coll_team_node = node_load($coll_team_group->etid);
-
-   if ($coll_team_node->type == 'team'  ) {
-      $coll_crumb = mb_structure_breadcrumb_items_collection_team($coll_team_node);
-      $team_crumb = array(
-         'title' => $coll_team_node->title,
-         'href' => 'node/' . $coll_team_node->nid,
-         'link_path' => '',
-         'localized_options' => array(),
-         'type' => 0,
-         );
-      if (  mb_structure_is_team_super_user($coll_team_node)
-         ||  (og_is_member($coll_team_group->gid, 'user') || og_user_access($coll_team_group->gid, 'administer group'))
-      ) {
-      return array($coll_crumb, $team_crumb);
-      }
-      else {
-         return array($coll_crumb);         
-      }
-   }
-   else {
-      $coll_crumb = array(
-         'title' => $coll_team_node->title,
-         'href' => 'node/' . $coll_team_node->nid,
-         'link_path' => '',
-         'localized_options' => array(),
-         'type' => 0,
-         );
-      return array($coll_crumb);
+   if($coll_team_group) {
+     $coll_team_node = node_load($coll_team_group->etid); 
+     if ($coll_team_node->type == 'team'  ) {
+        $coll_crumb = mb_structure_breadcrumb_items_collection_team($coll_team_node);
+        $team_crumb = array(
+           'title' => $coll_team_node->title,
+           'href' => 'node/' . $coll_team_node->nid,
+           'link_path' => '',
+           'localized_options' => array(),
+           'type' => 0,
+           );
+        if (  mb_structure_is_team_super_user($coll_team_node)
+           ||  (og_is_member($coll_team_group->gid, 'user') || og_user_access($coll_team_group->gid, 'administer group'))
+        ) {
+        return array($coll_crumb, $team_crumb);
+        }
+        else {
+           return array($coll_crumb);         
+        }
+     }
+     else {
+        $coll_crumb = array(
+           'title' => $coll_team_node->title,
+           'href' => 'node/' . $coll_team_node->nid,
+           'link_path' => '',
+           'localized_options' => array(),
+           'type' => 0,
+           );
+        return array($coll_crumb);
+     }
+   } else {
+     drupal_set_message(t("Node @nid is not part of a collection or team", array('@nid' => $node->nid)), 'warning', FALSE);
+     return array();
    }
 }
 
+/**
+ * Creates a Bootstrap carousel for all collections
+ * 
+ */
+function mb_structure_collections_carousel_block() {
+  $nodes = node_load_multiple(array(), array('type' => 'collection'));
+  $genimage = drupal_get_path('module', 'mediabase') . '/images/collections-generic.png';
+  $slides = array();
+  foreach($nodes as $nid => $node) { // nid = node id, not sequential but node number in Drupal
+    $itemcount = $node->child_count;
+    // if status = published and viewable by anonymous users then add to carousel
+    if($node->status == 1 && node_access('view', $node, user_load(0)) && $itemcount > 4) {
+      // Get Author and Date Info
+      $usr = user_load_by_name($node->name);
+      $author = $usr->realname;
+      if($author == '') {
+        $author = $usr->name;
+        if($author == '') {
+          $author = 'Unknown User';
+        }
+      }
+      $date = date('F Y', $node->created);
+      // Get image
+      $imgurl = $genimage;
+      // use carousel image if it exists
+      if(isset($node->field_images['und'][0]['uri'])) {
+        $imgurl = image_style_url('carousel_image', $node->field_images['und'][0]['uri']);
+      }
+      
+      // Get Summary
+      $settings = array(
+          'type' => 'text_summary_or_trimmed',
+          'settings'=>array('trim_length' => 700),
+          'label' => 'hidden',
+       );
+       
+      $field_view = field_view_field('node', $node, 'body', $settings );
+      $summary = render($field_view);
+      $itemcount = $node->child_count;
+      if($itemcount == 1) {$itemcount .= ' ' . t('item');} else {$itemcount .= ' ' . t('items');}
+      $slide = array(
+        'nid' => $nid,
+        'title' => $node->title,
+        'author' => $author,
+        'date' => $date,
+        'path' => drupal_get_path_alias('node/' . $nid),
+        'img' => $imgurl,
+        'summary' => $summary,
+        'itemcount' => $itemcount,
+      );
+      $slides[] = $slide;
+    }
+  }
+  $carousel = array(
+    'element' => array(
+      '#theme' => 'carousel',
+      '#children' => '',
+      'title' => t('Featured Collections'),
+      'link' => l(t('View All Collections'), 'collections'),
+      'slides' => $slides,
+    ),
+  );
+  return drupal_render($carousel); 
+}
+
+/**
+ * Returns list of nids content that are content of a group when given then groups NID
+ */
+function mb_structure_get_groups_nodes($nid) {
+  $nids = array();
+  if($g = og_get_group('node', $nid)) {
+    $query = new EntityFieldQuery();
+    $query
+      ->entityCondition("entity_type", "og_membership", "=")
+      ->propertyCondition("gid", $g->gid, "=");
+    $result = $query->execute();
+    if(!isset($result["og_membership"]) || !is_array($result["og_membership"])) {return array(); }
+    foreach($result["og_membership"] as $record) {
+      $m = og_membership_load($record->id);
+      if($m->entity_type == "node") {
+        $nids[] = $m->etid;
+      }
+    }
+  }
+  return $nids;
+}
+
+/* For collection list should use render array if needed. This is old code commented out
+function mb_structure_collections_list_form() {
+  $form = array();
+  $nodes = node_load_multiple(array(), array('type' => 'collection'));
+  $markup = '
+    <div class="btn-group">
+    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+      Collections <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" role="menu">
+  ';
+  foreach($nodes as $n => $node) {
+    $path = drupal_get_path_alias('node/' . $node->nid);
+    $markup .= '<li><a href="' . url($path) . '">' . $node->title . '</a></li>';
+  }
+  $markup .= '</ul></div>';
+  $form['collections_list'] = array(
+    '#type' => 'markup',
+    '#markup' => $markup,
+  );
+  return $form;
+}
+*/

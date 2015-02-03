@@ -257,9 +257,14 @@ function _get_cck_instantiation_field_data($node) {
 
 function _get_entry_id_from_node($node) {
    $node =  (object)$node;
-   $media_field_name = 'field_' . $node->type; //video, audio, image
-   $entry_id = $node->{$media_field_name}['und'][0]['entryid'];
-   return $entry_id;
+   if($node && isset($node->type)) { 
+     $media_field_name = 'field_' . $node->type; //video, audio, image
+     $flang = field_language('node', $node, $media_field_name);
+     $entry_id = isset($node->{$media_field_name}[$flang]) ? $node->{$media_field_name}[$flang][0]['entryid'] : FALSE; 
+     return $entry_id;
+   } else {
+     return FALSE;
+   }
 }
 
 function _get_media_from_entry_id($entry_id) {
@@ -272,7 +277,7 @@ function _get_media_from_entry_id($entry_id) {
       return $result;
    } 
    catch ( Exception $e ) {
-      $msg = t("Had trouble getting remote Kaltura entry: @entry_id", array('@entry_id' => $entry_id));
+      $msg = t("This resource was not found on the Kaltura server: @entry_id", array('@entry_id' => $entry_id));
       _report_kaltura_exception( $e, $msg);
    }
 }
@@ -1208,7 +1213,8 @@ function get_importable_entries($order = NULL, $sort = NULL, $limit = 500) {
    }
    
    // $session_user = KalturaHelpers::getSessionUser();
-   $kaltura_client = KalturaHelpers::getKalturaClient($isAdmin=true); // this is an admin task and should be able to import all entries in the account
+   $kalturaHelpers = new KalturaHelpers();
+   $kaltura_client = $kalturaHelpers->getKalturaClient($isAdmin=true); // this is an admin task and should be able to import all entries in the account
    $filter = new KalturaMediaEntryFilter();
    $filter->orderBy = $order_by;
    $pager_filter = new KalturaFilterPager();
@@ -1309,8 +1315,9 @@ function xml_pbcore($nid) {
 * @todo post this as an issue on d.o
 **/
 function _write_to_node_kaltura($node) {
-   if(isset($node->{"field_$node->type"}['und'])) {
-     $entry_id = $node->{"field_$node->type"}['und'][0]['entryid'];
+	 $flang = field_language('node', $node, "field_$node->type");
+   if(isset($node->{"field_$node->type"}[$flang])) {
+     $entry_id = $node->{"field_$node->type"}[$flang][0]['entryid'];
      if ( empty($entry_id)) {
         return;
      }
@@ -1320,23 +1327,26 @@ function _write_to_node_kaltura($node) {
      $kaltura_client = $kalturaHelpers->getKalturaClient($isAdmin = true); 
      $session_user = $kalturaHelpers->getSessionUser();
      $entry_details = _get_media_from_entry_id($entry_id);
-     
-     // check if a row already exists for this entry id
-     module_load_include('inc','kaltura','includes/kaltura.admin');
-     $entry = kaltura_kmc_obj_to_drupal_array($entry_details);
-     $query = db_select('node_kaltura', 'k')
-     ->fields('k', array('kaltura_entryid'))
-     ->condition('kaltura_entryid', $entry['kaltura_entryid'], '=')
-     ->execute()
-     ->fetchCol();
-  
-     if (empty($query)) {
-        $entry['kaltura_created_date'] = REQUEST_TIME; //we have no way when the entry was created on the KMC so the create date is when we received the notifcation
-        drupal_write_record('node_kaltura', $entry);
-     }
-     else {
-        drupal_write_record('node_kaltura', $entry, 'kaltura_entryid');
-     }
+		 if(!empty($entry_details)) {
+	     // check if a row already exists for this entry id
+	     module_load_include('inc','kaltura','includes/kaltura.admin');
+	     $entry = kaltura_kmc_obj_to_drupal_array($entry_details);
+			 if(!empty($entry['kaltura_entryid'])) {
+		     $query = db_select('node_kaltura', 'k')
+		     ->fields('k', array('kaltura_entryid'))
+		     ->condition('kaltura_entryid', $entry['kaltura_entryid'], '=')
+		     ->execute()
+		     ->fetchCol();
+	  
+		     if (empty($query)) {
+		        $entry['kaltura_created_date'] = REQUEST_TIME; //we have no way when the entry was created on the KMC so the create date is when we received the notifcation
+		        drupal_write_record('node_kaltura', $entry);
+		     }
+		     else {
+		        drupal_write_record('node_kaltura', $entry, 'kaltura_entryid');
+		     }
+			 }
+		 }
    }
 }
 
@@ -1344,16 +1354,24 @@ function _write_to_node_kaltura($node) {
 * report all kaltura exceptions to watchdog with stack trace and messages
 **/
 function _report_kaltura_exception($e, $msg) {
-   watchdog('mb_kaltura', t('Kaltura Exception: @message, backtrace: <pre>@trace</pre>'), array('@message' => $e->getMessage(), '@trace' => $e->getTrace()));
+	$trace = '';
+	foreach($e->getTrace() as $item) {
+		if(isset($item['file']) && isset($item['line'])) {
+			$trace .= $item['file'] . '(' . $item['line'] . ")\n";
+		}
+	}
+   watchdog('mb_kaltura', t('Kaltura Exception: @message, backtrace: <pre>@trace</pre>'), array('@message' => $e->getMessage(), '@trace' => $trace));
    $msg .= sprintf( "%s: %s %s <br/> %s %s", get_class($e), $e->getMessage(), $e->getCode(), $e->getFile(), $e->getLine());
    switch ( $e->getCode() ) {
-   case 'ENTRY_ID_NOT_FOUND' :
-      drupal_set_message( t('Entry not found on Kaltura server: @message', array('@message' => $e->getMessage())));
+    case 'ENTRY_ID_NOT_FOUND' :
+      drupal_set_message( t('This media resource was not found on the Kaltura server: @message', array('@message' => $e->getMessage())), "error", FALSE);
+      //drupal_set_message( $msg, "error", FALSE); 
       break ;
-      default :
+    default :
       drupal_set_message( $msg, "error" ); 
    }
 }
+
 /**
 * simple keepalive callback to allow browser to ping the drupal and keep session alive during long kaltura uploads 
 * which communicate with kaltura but not drupal .
@@ -1363,3 +1381,15 @@ function mb_upload_keepalive() {
    drupal_json_output();
    print json_encode('mediabase upload keep-alive ' . date(DATE_RFC822));
 }
+
+/**
+ * Function to retrieve thumbnail URL from Kaltura
+ *   entry_id : kaltura entry id 
+ *   width & height : are numeric
+ **/
+function mb_kaltura_get_thumbnail_url($entry_id, $width=240, $height=180) {
+   $kalturaHelpers = new KalturaHelpers();
+   $thumburl = $kalturaHelpers->getThumbnailUrl(NULL, $entry_id, $width, $height);
+   return $thumburl;
+}
+

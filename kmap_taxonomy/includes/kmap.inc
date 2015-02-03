@@ -33,7 +33,7 @@ class Kmap {
    **/
    public static function createKmapByTid($tid) {
       $term = taxonomy_term_load($tid);
-      $kmap = new Kmap( $term->kmap_id[LANGUAGE_NONE][0]['value']);   
+      $kmap = new Kmap($term->kmap_id[LANGUAGE_NONE][0]['value']);   
       return $kmap;
    }
 

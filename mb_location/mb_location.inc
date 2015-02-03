@@ -72,6 +72,7 @@ class MediabaseLocation
 
 /* FUNCTIONS */
 function _mb_location_format_item( $item, $view_path ) {
+	// Find term ID for location item
    $location_vid = variable_get('mb_location_vid', NULL);
    $query = new EntityFieldQuery();
    $query->entityCondition('entity_type', 'taxonomy_term')
@@ -80,21 +81,46 @@ function _mb_location_format_item( $item, $view_path ) {
    $result = $query->execute();
    $entities = entity_load('taxonomy_term', array_keys($result['taxonomy_term']));
    $term = array_shift($entities);
-   $output = '';
-   
-   //place dictionary
+   $output ="";
+   $separator = ' > ';
+   // If there is a term, look it up in place dictionary using terms place dict. id
    if ( !empty($term->place_dictionary_id['und'])) {
       $place_dict_id = $term->place_dictionary_id['und'][0]['value'];
-      $delim = ! empty ( $output ) ? $separator : '';
+   		$urlstr = variable_get('place_server', 'http://places.kmaps.virginia.edu') . '/features/%d.json';
+      $uri = sprintf($urlstr, $place_dict_id);
+		  $json = file_get_contents($uri);
+		  $data = json_decode($json);
+			$desc = (!empty($data->feature->summaries)) ? $data->feature->summaries[0]->content : '';
+			if(empty($desc) && !empty($data->feature->captions)) { $desc = $data->feature->captions[0]->content; }
+			if(empty($desc)) { $desc = t('<p>Currently no description available.</p>'); }
       $hierarchy = fetch_place_dict_details($place_dict_id);
-      $links = array();
+      $parents = array();
       foreach ($hierarchy as $place_id => $place_name) {
          $path = str_replace('%place_id', $place_id, $view_path );
-         array_unshift($links, l($place_name, $path));
+         array_unshift($parents, l($place_name, $path)); // . " ({$place_id})");
       }
-      $rendered_place = implode(" > ", $links);
-      $output .= ! empty ( $rendered_place ) ? $delim . $rendered_place : '';
+			
+			$place_url = variable_get('kmaps_site_places', 'http://badger.drupal-dev.shanti.virginia.edu/places/');
+			$path_format = variable_get('kmaps_site_path_format', '%d/overview/nojs');
+			$links = array(
+				'Full Entry' => array('icon' => 'link-external', 'href' => $place_url . sprintf($path_format, $place_dict_id), 'external' => TRUE),
+				'Related Audio-Video' => array('icon' => 'audio-video', 'href' => sprintf("list/places/%d", $place_dict_id)), //old url: "http://aardvark.drupal-dev.shanti.virginia.edu/places#id={$place_dict_id}&que=tab-audio-video"),
+				//'Related Images' => array('icon' => 'photos', 'href' => variable_get('place_server', 'http://places.kmaps.virginia.edu') . '/features/' . $place_dict_id),
+			);
+			// Uses custom theme function "info_popover" defined in shanti_sarvaka theme
+			// Once finalized that theme function needs to be duplicated in MB .module file to allow it to work with other themes.
+			// In a way not dependent on Bootstrap
+		 	$output = theme('info_popover', array(
+				 									'label' => $term->name, 
+				 									'desc' => $desc, 
+				 									'tree' => array(
+				 											'label' => t('Places'), 
+				 											'items' => $parents
+													 ), 
+													 'links' => $links)
+											);
    }
+	 //$output .= '</div></div>';
    return $output;
 }
 
@@ -127,18 +153,28 @@ function wkt_to_lat_long($wkt) {
 }
 
 /**
+ * _get_kmap_place
+ */
+function _get_kmap_place($place_id) {
+	$place_server = variable_get('place_server', 'http://places.kmaps.virginia.edu');
+	$place_service = $place_server . '/features/%place_id.json';
+	$uri = str_replace('%place_id', $place_id, $place_service );
+	$json = file_get_contents($uri);
+	$data = json_decode($json);
+	$place = $data->feature;
+	return $place;
+}
+
+/**
 * the location detail page menu callback
 **/
 function location_detail_page($place_id) {
    $output = '';
    $place_server = variable_get('place_server', 'http://places.kmaps.virginia.edu');
-   $place_service = $place_server . '/features/%place_id.json';
    $description_service = $place_server . '/features/%place_id/descriptions.json';
    $place_remote_link = $place_server . '/features/%place_id';
-   $uri = str_replace('%place_id', $place_id, $place_service );
-   $json = file_get_contents($uri);
-   $data = json_decode($json);
-   $place = $data->feature;
+	 
+   $place = _get_kmap_place($place_id);
    
    drupal_set_title(t('Resources for @place', array('@place' => $place->header)));
    // wrappers

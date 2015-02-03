@@ -11,6 +11,7 @@ function mediabase_init() {
           'path' => $path,
           'kmapServer' => variable_get('kmap_server', 'http://subjects.kmaps.virginia.edu') . '/',
           'placeServer' => variable_get('place_server', 'http://places.kmaps.virginia.edu') . '/',
+          'facets' => array(),
         )), 'setting' ); 
 }
 
@@ -82,6 +83,42 @@ function mediabase_settings_form($form_id, $form_state) {
         '#maxlength' => 255, 
         '#required' => TRUE,
      );
+		 
+     $form['kmaps_site_root'] = array(
+        '#title' => t('Kmaps Site Root'),
+        '#type' => 'textfield', 
+        '#default_value' => variable_get('kmaps_site_root', 'http://badger.drupal-dev.shanti.virginia.edu/'),
+        '#size' => 60, 
+        '#maxlength' => 255, 
+        '#required' => TRUE,
+     );
+		 
+     $form['kmaps_site_subjects'] = array(
+        '#title' => t('Subjects URL'),
+        '#type' => 'textfield', 
+        '#default_value' => variable_get('kmaps_site_subjects', 'http://badger.drupal-dev.shanti.virginia.edu/subjects/'),
+        '#size' => 60, 
+        '#maxlength' => 255, 
+        '#required' => TRUE,
+     );
+		 
+     $form['kmaps_site_places'] = array(
+        '#title' => t('Places URL'),
+        '#type' => 'textfield', 
+        '#default_value' => variable_get('kmaps_site_places', 'http://badger.drupal-dev.shanti.virginia.edu/places/'),
+        '#size' => 60, 
+        '#maxlength' => 255, 
+        '#required' => TRUE,
+     );
+		 
+     $form['kmaps_site_path_format'] = array(
+        '#title' => t('KMaps Site Sprint Format'),
+        '#type' => 'textfield', 
+        '#default_value' => variable_get('kmaps_site_path_format', '%d/overview/nojs'),
+        '#size' => 60, 
+        '#maxlength' => 255, 
+        '#required' => TRUE,
+     );
    }
    
    return system_settings_form($form);
@@ -115,6 +152,12 @@ function mediabase_form_alter(&$form, &$form_state, $form_id) {
          '#submit' => array('mediabase_node_form_cancel'),
          );
    }
+	 // Alter the video edit form (add audio_node_form?)
+	 if($form_id == 'video_node_form') {
+	 	 //dpm($form, 'form: ' . $form_id);
+		 //works: $form['#groups']['group_transcript']->label = "Howdy Doody Show";
+		 //dpm(render($form['field_transcript']), 'field transript');
+	 }
 }
 
 function mediabase_node_form_cancel(&$form, &$form_state) {
@@ -126,4 +169,267 @@ function mediabase_node_form_cancel(&$form, &$form_state) {
 function mediabase_persistent_nid($nid) {
    $alias = drupal_lookup_path('alias', "node/$nid");
    drupal_goto($alias);
+}
+
+/**
+ * THEMING FUNCTIONS
+ */
+ 
+	/* old code: 
+function mediabase_theme() {
+	return array(
+	
+    'info_popover' => array(
+      'variables' => array(
+				'label' => '',
+				'desc' => '',
+				'parents' => '',
+				'links' => NULL,
+			),
+    ),
+  );
+}
+ */
+//function mediabase_video_node_form_alter()
+
+/**
+ * Implements hook_theme_registry_alter()
+ *    Taken from https://www.drupal.org/node/715160
+ *    which is based on http://www.metachunk.com/blog/adding-module-path-drupal-7-theme-registry
+ *    Registers template folder for: node--audio, node--collection, node--video
+**/
+function mediabase_theme_registry_alter(&$theme_registry) {
+  $theme_registry_copy = $theme_registry;
+  $module_path = drupal_get_path('module', 'mediabase');
+  _theme_process_registry($theme_registry_copy, 'phptemplate', 'theme_engine', 'shanti_sarvaka', $module_path);
+  $theme_registry += array_diff_key($theme_registry_copy, $theme_registry);
+  // A list of templates the module will provide templates for
+  $hooks = array('node--audio', 'node--collection', 'node--video');
+  foreach ($hooks as $hook) {
+    // Add the key 'theme paths' if it doesn't exist in this theme's registry
+    if (!isset($theme_registry[$hook]['theme paths'])) {
+      $theme_registry[$hook]['theme paths'] = array();
+    }
+    // Shift this module's directory to the top of the theme path list
+    if (is_array($theme_registry[$hook]['theme paths'])) {
+      $first_element = array_shift($theme_registry[$hook]['theme paths']);
+      if ($first_element) {
+        array_unshift($theme_registry[$hook]['theme paths'], $first_element, $module_path);
+      }
+      else {
+        array_unshift($theme_registry[$hook]['theme paths'], $module_path);
+      }
+    }
+  }
+}
+
+/**
+ *   Implements hook_preprocess_node to add url for transcript and collection
+ * 			Adds: 1. transcript url, 2. collection object, 3. media creation date
+ */
+function mediabase_preprocess_node(&$variables) {
+	global $base_path, $language;
+	$node = $variables['node'];
+	$currlang = $language->name;
+	if(strpos($currlang, 'Chinese') !== FALSE) { $currlang = 'Chinese'; } // Normalize Chinese, Simplified/Traditional
+	$variables['currlang'] = $currlang;
+	
+	if(in_array($variables['type'], array('audio', 'video'))) {
+		
+		$emw = entity_metadata_wrapper('node', $node);
+		// Create Transcript URL, set to false if missing
+		if(empty($variables['field_transcript'])) {
+			$variables['transcript_url'] = FALSE;
+		} else { 
+		  $variables['transcript_url'] = $base_path . 'node/' . $node->nid . '/transcript';
+		}
+		// Add $coll object to variables for template
+		$coll = get_collection_ancestor_node($node);
+	  if($coll) { $coll->url = $base_path . drupal_get_path_alias('node/' . $coll->nid); }
+		$variables['coll'] = $coll;
+		if(!empty($variables['field_pbcore_coverage_spatial'])) {
+			$variables['place_link'] =  field_view_value('node', $node, 'field_pbcore_coverage_spatial', $node->field_pbcore_coverage_spatial[LANGUAGE_NONE][0]);
+		}
+		
+		// Use create date when available for display (See mb_solr.module mb_solr_apachesolr_index_document_build() ln 83)
+		$field_inst = $emw->field_pbcore_instantiation->value();
+		$flang = field_language('node',$node, 'field_pbcore_instantiation');
+		$create_date = $node->created; // Default to node creation date.
+		if(!empty($field_inst->field_date_created)) {
+		  $create_date = strtotime($field_inst->field_date_created[$flang][0]['value']);
+		}
+		$variables['media_create_date'] = $create_date;
+		// Modify if Full view mode
+		if ($variables['view_mode'] == "full") {
+			// Remove Descriptions Not of Current Language
+			if(!empty($variables['content']['field_pbcore_description']) && is_array($variables['content']['field_pbcore_description'])) {
+				$toremove = array();
+				foreach($variables['content']['field_pbcore_description']['#items'] as $n => $item) {
+					$fci = field_collection_item_load($item['value']);
+					if(isset($fci->field_language['und'][0]) && $fci->field_language['und'][0]['value'] != $variables['currlang']) {
+						$toremove[] = $n;
+					}
+				}
+				// $toremove is array of indexes to remove need to reverse them to remove higher ones first
+				$nlist = array_reverse($toremove);
+				foreach($nlist as $n) {
+					unset($variables['content']['field_pbcore_description'][$n]);
+				}
+			}
+		}
+	}
+}
+
+/**
+ * Implements hook_node_load adds fields to video and audio node info for api services and other things
+ * Fields	 added: thumbnail Url, duration[seconds, format]
+ */
+function mediabase_node_load($nodes, $types) {
+	if(empty($nodes)) { return; }
+  if(in_array('audio', $types) || in_array('video', $types)) {
+    module_load_include('inc', 'mb_kaltura', 'mb_kaltura');
+    foreach($nodes as &$node) {
+    	if($node === FALSE) { continue; }
+      if(in_array($node->type, array('audio', 'video'))) {
+        $query = '';
+        if ($node->type == 'video') {
+           $query = "SELECT kaltura_thumbnail_url, kaltura_duration
+           FROM {field_data_field_video} 
+           JOIN {node_kaltura} ON field_video_entryid = kaltura_entryid
+           WHERE entity_id = :etid";
+        }
+        else if ($node->type == 'audio') {
+           $query = "SELECT kaltura_thumbnail_url, kaltura_duration
+           FROM {field_data_field_audio} 
+           JOIN {node_kaltura} ON field_audio_entryid = kaltura_entryid
+           WHERE entity_id = :etid";
+        }
+        
+        $res = db_query($query, array(':etid' => $node->nid) );
+        $qres = $res->fetchAll();
+        if(is_array($qres) && count($qres) > 0) {
+          $node->thumbnail_url = $qres[0]->kaltura_thumbnail_url . '/height/140';
+          $node->duration = array(
+            'seconds' => $qres[0]->kaltura_duration,
+            'formatted' => mediabase_format_duration($qres[0]->kaltura_duration),
+          );
+        }
+				if(empty($node->thumbnail_url)) {
+					$node->thumbnail_url = ''; 
+					//watchdog('mediabase', 'No Kaltura thumbnail found for node %nid. Item possibly deleted from Kaltura!', array('%nid' => $node->nid), WATCHDOG_WARNING);
+				}
+				if(empty($node->duration)) { $node->duration = array('seconds' =>'', 'formatted' => '');  }
+				
+        /*  OLD CODE : Keep for now 2014-08-05
+				 * 
+				 * $eid = _get_entry_id_from_node($node);
+        if($eid) { 
+          $media = _get_media_from_entry_id($eid);
+          // Add thumnail URL
+          $thumburl = mb_kaltura_get_thumbnail_url($eid);
+          $node->thumbnail_url = $thumburl;
+          $node->video_url = $media->dataUrl;
+          // Add duration
+          // Duration array consists of seconds (int) and formatted (str)
+          $node->duration = array(
+            'seconds' => $media->duration,
+            'formatted' => mediabase_format_duration($media->duration),
+          );
+        } else {
+          //dpm(array($types, $node), 'no eid in kaltura');
+          $node->thumbnail_url = '';
+          $node->duration = array('seconds' =>'', 'formatted' => '');
+          watchdog('mediabase', 'No kaltura video found for node %nid', array('%nid' => $node->nid), WATCHDOG_WARNING);
+        }
+        */
+        
+      }
+    }
+  // If collection or team, add an array of all children media node ids
+  } else if(in_array('collection', $types) || in_array('team', $types)) {
+    foreach($nodes as $node) {
+  		$g = og_get_group('node', $node->nid);
+      if(in_array($node->type, array('collection', 'team'))) {
+        $query = new EntityFieldQuery();
+		    $result = $query
+		      ->entityCondition('entity_type', 'og_membership')
+		      // Type can be "node" or "user"
+		      ->propertyCondition('entity_type', 'node', '=')
+		      // This is the group ID
+		      ->propertyCondition('gid', $g->gid, '=')
+		      // Get only the active members
+		      ->propertyCondition('state', OG_STATE_ACTIVE, '=')
+		      ->count()
+		      ->execute();
+        $node->child_count = $result;
+      }
+    }
+  }
+} 
+
+/**
+ * Implements hook node view
+ */
+function mediabase_node_view($node, $view_mode, $langcode) {
+	// If it is full view mode of audio or video
+	if(in_array($node->type, array('audio', 'video')) && $view_mode == 'full') {
+		//dpm($node, 'node');
+		$emw = entity_metadata_wrapper('node', $node); // Get this nodes entity metadata wrapper
+		// If the current display language is not English
+		if($langcode != 'en') {
+			// Get Current Language
+			global $language;
+			$currlang = $language->name;
+			if(strpos($currlang, 'Chinese') !== FALSE) { $currlang = 'Chinese'; } // Normalize Chinese, Simplified/Traditional
+			
+			// Use first title of same language as display for node page title
+			$titles = $emw->field_pbcore_title->value();
+			foreach($titles as $n => $title) {
+				if($title->field_language['und'][0]['value'] == $currlang) {
+					drupal_set_title($title->field_title['und'][0]['value']);
+				}
+			}
+		}
+		
+		// Add metadata to audio/video nodes
+		/* Removed for speed issue testing: 2014-09-10
+		if(!empty($node->thumbnail_url)) {
+			// Add an og:image meta tag for sharing
+			// <meta property="og:image" content="http://davidwalsh.name/wp-content/themes/klass/img/facebooklogo.png"/>
+			$element = array(
+			  '#tag' => 'meta', // The #tag is the html tag - <link />
+			  '#attributes' => array( // Set up an array of attributes inside the tag
+			    'property' => 'og:image', 
+			    'content' => $node->thumbnail_url,
+			  ),
+			);
+			drupal_add_html_head($element, 'meta_og_image');
+		}
+		*/
+	}
+}
+
+/**
+ * Function to format duration
+ */
+function mediabase_format_duration($secs = 0) {
+  // TODO: Check I18N documentation for time strings to makes sure this is right below
+  $mins = 0;
+  if($secs > 60) {
+    $mins = floor($secs/60);
+    $secs = $secs % 60;
+  }
+  $hrs = 0;
+  if($mins > 60) {
+    $hrs = floor($mins/60);
+    $mins = $mins % 60;
+  }
+  $durstr = ($hrs > 0) ? $hrs . t(" hr ") : "";
+  if($mins > 0) {
+    $durstr .= $mins . t(" min ");
+  }
+  if($secs > 0) {
+    $durstr .= $secs . t(" sec");
+  }
+  return $durstr;
 }

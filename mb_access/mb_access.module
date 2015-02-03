@@ -94,12 +94,12 @@ function add_node_access_records($node) {
    // GROUP
    if ( isset($node->{OG_ACCESS_FIELD}) )  { 
       switch ($node->{OG_ACCESS_FIELD}[LANGUAGE_NONE][0]['value']) {
-      case OG_ACCESS_UVA:
-         $add_uva_grant = TRUE;
-         break;
-      case OG_ACCESS_PUBLIC:
-         $add_public_grant = TRUE;
-         break;
+	      case OG_ACCESS_UVA:
+	         $add_uva_grant = TRUE;
+	         break;
+	      case OG_ACCESS_PUBLIC:
+	         $add_public_grant = TRUE;
+	         break;
       }
    }
    // GROUP CONTENT

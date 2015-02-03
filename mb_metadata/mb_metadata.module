@@ -69,7 +69,8 @@ function mb_metadata_node_update_index($node) {
 * Copy the title from pbcore_title to node->title
 **/
 function mb_metadata_validate_title($element, &$form_state) {
-   $pbcore_title = $form_state['values']['field_pbcore_title']['und'][0];
+	 $fl = field_language('node', $form_state['node'], 'field_pbcore_title');
+   $pbcore_title = $form_state['values']['field_pbcore_title'][$fl][0];
    $title = $pbcore_title['field_title']['und'][0]['value'];
    $form_state['values']['title'] = $title;
 }
@@ -93,12 +94,13 @@ function mb_metadata_node_view($node) {
 * Add a mediabase id (i.e. nid) display to every audio/video node view. 
 **/
 function add_mediabase_id($node) {
-   $node->content['mb_identifier'] = array(
-      '#markup' => "<div class='mb-identifier'><label>" . t('Shanti AV Id') . ": </label><span>$node->nid</span></div>",
+	$markup = '<div class="mb-identifier field field-label-inline clearfix"><div class="field-label">' . t('Shanti AV Id') . ": </div>";
+	$markup .= '<div class="field-items"><div class="field-item even">' . $node->nid . '</div></div></div>';
+  $node->content['mb_identifier'] = array(
+      '#markup' => $markup,
       '#weight' => 0,
-      );
-   $node->content['#group_children']['mb_identifier'] = 'group_technical';
-   
+  );
+  $node->content['#group_children']['mb_identifier'] = 'group_technical';
 }
 
 /**

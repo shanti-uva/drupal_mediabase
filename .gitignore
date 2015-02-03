@@ -2,6 +2,6 @@ settings.php
 files
 private
 .project
+.DS_Store
 nbproject
 nbproject/*
-

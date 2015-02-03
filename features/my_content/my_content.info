@@ -1,0 +1,17 @@
+name = My Content
+description = Views for My Content (replaces my stuff)
+core = 7.x
+package = Mediabase
+version = 7.x-1.0-alpha2
+project = my_content
+dependencies[] = ctools
+dependencies[] = features
+dependencies[] = menu
+dependencies[] = views
+features[ctools][] = views:views_default:3.0
+features[features_api][] = api:2
+features[menu_custom][] = user-menu
+features[views_view][] = my_collections
+features[views_view][] = my_content
+features[views_view][] = my_memberships
+features[views_view][] = my_workflow

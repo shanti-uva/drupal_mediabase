@@ -4,6 +4,6 @@ package = "SHANTI Mediabase"
 dependencies[] = og_access
 core = 7.x
 version = VERSION
-files[] = mb_space_og.inc
+;files[] = mb_space_og.inc
 
 

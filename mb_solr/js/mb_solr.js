@@ -1,62 +1,97 @@
-//  ndg8f 2013-11-14
-Drupal.behaviors.mb_solr={ attach:function(context) {
-	//makeTree();
- 
- function makeTree() { 
- 	return;
-		var div = jQuery('.facetapi-mb-solr-facet-tree').parent();
-		// remove drupal divs around children lists
-		jQuery(div).find('div.item-list ul').each(function(i) {
-			jQuery(this).unwrap();
-		});
-		var openels = [];
-		
-		// Deal with Active Facets and Set Open Elements
-		if(jQuery('a.facetapi-active').length > 0) { 
-		// Put text inside active a tags for jstree
-			jQuery('a.facetapi-active').each(function(i) {
-				var $this = jQuery(this);
-				var label = $this.parent().contents().eq(1).text();
-				$this.append(label);
-				$this.attr('title', $this.find('span.element-invisible').text());
-				var id = 'startopen' + i;
-				$this.parent('li').attr('id', id);
-				openels.push('#' + id);
-			});
-		} else {
-			// set open element
-			jQuery(div).find('ul:eq(0) > li:eq(0)').attr('id', 'startopen1').find('ul:eq(0) > li:eq(0)').attr('id', 'startopen2');
-			openels = [ '#startopen1', '#startopen2' ];
+(function ($) {
+	
+	//  ndg8f 2013-11-14
+	Drupal.behaviors.mbSolr={ 
+		attach: function(context) {
+			//console.log('mb solr js context:', $(context).attr('id'));
+			if(context == document) { 
+				// Ajax Service Call for More Like This Related videos
+				var data = $('div#related').data();
+				if(data != null && typeof(data.nid) != 'undefined') { 
+					var nid = data.nid;
+					var ct = (typeof(data.count) != "undefined") ? '/' + data.count : '';
+					var url = Drupal.settings.basePath + 'services/mlt/' + nid + ct;
+					$('#related.mlt').load(url, function() { 
+						$("#related.mlt .dev-query").remove();
+						$("#related.mlt .shanti-gallery").addClass('clearfix');
+						Drupal.attachBehaviors('#related.mlt');
+					});
+				}
+				// Set height of facet block to match height of flyout
+				setTimeout(function() {
+					$('.block-facetapi').each(function() { 
+							var hgt = $(this).parent().height(); 
+							$(this).height(hgt); 
+							$(this).children('.content').height(hgt); 
+					});
+				}, 1000);
+				
+		 } else if($(context).attr('id') == 'views-exposed-form-browse-media-home-block') {
+		 		// Home block views ajax sort/filter request
+		 		if ($('#no-views-filter-results').length > 0) {
+		 				var p = jQuery('#no-views-filter-results').parents('.shanti-gallery');
+		 				var cl = p.attr('class');
+		 				var mtch = cl.match(/view-dom-id-([^\s]+)/); // mtch[0] is full string, mtch[1] is just alphanumeric id
+		 				if(mtch && mtch.length > 1) {
+			 				var vdid = 'views_dom_id:' + mtch[1];
+			 				setTimeout( function() {
+								Drupal.views.instances[vdid].$view.trigger('RefreshView');
+							}, 1000);
+						}
+		 		}
+		 }
+	 	}
+	};
+	
+	// Called by ajax_command_invoke in mb_solr.module from mb_solr_facets_ajax() function. Needs to be JQuery function
+	$.fn.updateFacetTree = function(data) {
+		var fsel = Drupal.settings.mediabase.facets;
+		var ifsfids = []; //fsel.split(":").pop();
+		var fcts = fsel.split("::");
+		for(var n in fcts) {
+			pts = fcts[n].split(":");
+			if (pts[0] == "im_field_subcollection") {
+				ifsfids.push(parseInt(pts[1]));
+			}
 		}
 		
-		// Create the JSTree and Bind to the jstree onload event
-		div.bind("loaded.jstree", function (event, data) {
-					// Deal with Long Facet Labels
-					setTimeout( function() {
-						var out = [];
-						jQuery('.jstree li a').each(function(i) {
-								$this = jQuery(this);
-								out.push({'name': $this.text(),'test': $this.context.clientWidth, 'width:': $this.width(),  'outerWidth': $this.outerWidth(), 'innerWidth': $this.innerWidth(), 'el': $this});
-								if($this.outerWidth() > 300) {
-									var mytext = $this.text();
-									var pts = mytext.split(')Apply'); // Remove the Apply ... hidden text
-									// Add a <br/> into string to wrap it at first space before index 45
-									mytext = pts[0] + ')';
-									var ind = mytext.lastIndexOf(' ', 45);
-									mytext = jQuery('<div>' + jQuery.trim(mytext.slice(0, ind)) + ' <br/> ' + jQuery.trim(mytext.slice(ind)) + '</div>');
-									$this.text('').prepend(mytext.html());
-								}
-						});
-					}, 500);
-			// bind events to the tree being loaded
-			}).jstree({
-				// the `plugins` array allows you to configure the active plugins on this instance
-			"plugins" : ["themes","html_data"],
-			// each plugin you have included can have its own config object
-			"core" : { "initially_open" : openels }, 
-			// it makes sense to configure a plugin only if overriding the defaults
-			"themes" : { "theme" : "classic", "icons" : false }
-		});
-  }
- }
-};
+		for(var fname in Drupal.settings.mediabase.facetcounts) {
+			var flabel = fname.split('_').pop();
+			if(flabel == 'characteristic') {flabel = 'subject';}
+			var tree = $('.facet-' + flabel + ' .content').fancytree('getTree');
+			if(typeof(tree) != 'undefined' && typeof(tree.widget) != "undefined") {
+				tree.clearFilter();
+				var fcounts = Drupal.settings.mediabase.facetcounts[fname];
+				var root = tree.getRootNode();
+				var res = root.visit(function(node) { 
+					node.setSelected(false);
+					node.data.count = fcounts[node.data.fid];
+					return true;
+				});
+				if(ifsfids.length > 0) {
+				  var ct = tree.filterNodes(function(node) { 
+						var showit = fcounts.hasOwnProperty(node.data.fid);
+						if(ifsfids.indexOf(node.data.fid) > -1) {
+							node.setSelected(true);
+						}
+						return showit;
+					});
+				} else {
+					var ct = tree.filterNodes(function(node) { 
+						var parents = node.getParentList();
+						var showit = (parents.length > 1) ? false : true;
+						return showit;
+					});
+				}
+			// Unable to find a tree
+			} else {
+				console.info("No tree found to filter: " + flabel);
+			}
+		}
+		
+		Drupal.settings.mediabase.facetcounts = []; // reset facet counts so they don't get merged between calls
+	};
+	
+	
+	
+} (jQuery));

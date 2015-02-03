@@ -132,7 +132,7 @@ function collection_team_views_default_views() {
   $handler->display->display_options['fields']['realname']['label'] = 'by';
   $handler->display->display_options['fields']['realname']['exclude'] = TRUE;
   $handler->display->display_options['fields']['realname']['element_label_colon'] = FALSE;
-  /* Field: Field: Collection */
+  /* Field: Field: Groups audience */
   $handler->display->display_options['fields']['group_audience']['id'] = 'group_audience';
   $handler->display->display_options['fields']['group_audience']['table'] = 'field_data_group_audience';
   $handler->display->display_options['fields']['group_audience']['field'] = 'group_audience';
@@ -229,40 +229,135 @@ function collection_team_views_default_views() {
   $handler = $view->new_display('block', 'Team Media Listing', 'block_4');
   $handler->display->display_options['defaults']['title'] = FALSE;
   $handler->display->display_options['title'] = 'Team Media';
-  $translatables['collection_media'] = array(
-    t('Master'),
-    t('Collection Media'),
-    t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('Items per page'),
-    t('- All -'),
-    t('Offset'),
-    t('« first'),
-    t('‹ previous'),
-    t('next ›'),
-    t('last »'),
-    t('Empty View'),
-    t('There are no media items for this collection'),
-    t('author'),
-    t('Collection'),
-    t('<a href="[path]"><span class="play-icon-overlay"></span>
-[field_video]</a>'),
-    t('Posted'),
-    t('by'),
-    t('in '),
-    t('Comments'),
-    t('.'),
-    t(','),
-    t('Post date'),
-    t('All'),
-    t('Collection Media Listing'),
-    t('Team Media Listing'),
-    t('Team Media'),
+  $handler->display->display_options['defaults']['css_class'] = FALSE;
+  $handler->display->display_options['css_class'] = 'team-media';
+  $handler->display->display_options['defaults']['style_plugin'] = FALSE;
+  $handler->display->display_options['style_plugin'] = 'list';
+  $handler->display->display_options['style_options']['row_class'] = 'shanti-thumbnail ';
+  $handler->display->display_options['style_options']['default_row_class'] = FALSE;
+  $handler->display->display_options['style_options']['row_class_special'] = FALSE;
+  $handler->display->display_options['style_options']['class'] = 'shanti-gallery';
+  $handler->display->display_options['style_options']['wrapper_class'] = 'results';
+  $handler->display->display_options['defaults']['style_options'] = FALSE;
+  $handler->display->display_options['defaults']['row_plugin'] = FALSE;
+  $handler->display->display_options['row_plugin'] = 'fields';
+  $handler->display->display_options['defaults']['row_options'] = FALSE;
+  $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Field: Content: Path */
+  $handler->display->display_options['fields']['path']['id'] = 'path';
+  $handler->display->display_options['fields']['path']['table'] = 'node';
+  $handler->display->display_options['fields']['path']['field'] = 'path';
+  $handler->display->display_options['fields']['path']['label'] = '';
+  $handler->display->display_options['fields']['path']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['path']['element_label_colon'] = FALSE;
+  /* Field: Content: Audio */
+  $handler->display->display_options['fields']['field_audio']['id'] = 'field_audio';
+  $handler->display->display_options['fields']['field_audio']['table'] = 'field_data_field_audio';
+  $handler->display->display_options['fields']['field_audio']['field'] = 'field_audio';
+  $handler->display->display_options['fields']['field_audio']['label'] = '';
+  $handler->display->display_options['fields']['field_audio']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_audio']['click_sort_column'] = 'entryid';
+  $handler->display->display_options['fields']['field_audio']['type'] = 'field_kaltura_thumbnail_only';
+  $handler->display->display_options['fields']['field_audio']['settings'] = array(
+    'thumbsize_width' => '142',
+    'thumbsize_height' => '106',
+    'rotate' => 0,
+    'entry_widget' => '48501',
+    'player_width' => '400',
+    'player_height' => '330',
+    'dispaly_metadata' => 0,
+    'delivery' => 'HTTP',
+    'custom_player' => '',
   );
+  /* Field: Content: Video */
+  $handler->display->display_options['fields']['field_video']['id'] = 'field_video';
+  $handler->display->display_options['fields']['field_video']['table'] = 'field_data_field_video';
+  $handler->display->display_options['fields']['field_video']['field'] = 'field_video';
+  $handler->display->display_options['fields']['field_video']['label'] = '';
+  $handler->display->display_options['fields']['field_video']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['field_video']['alter']['text'] = '<a href="[path]"><span class="play-icon-overlay"></span>
+[field_video]</a>';
+  $handler->display->display_options['fields']['field_video']['alter']['path'] = '[path]';
+  $handler->display->display_options['fields']['field_video']['alter']['absolute'] = TRUE;
+  $handler->display->display_options['fields']['field_video']['element_type'] = 'div';
+  $handler->display->display_options['fields']['field_video']['element_class'] = 'shanti-thumbnail-image shanti-field-video';
+  $handler->display->display_options['fields']['field_video']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_video']['element_default_classes'] = FALSE;
+  $handler->display->display_options['fields']['field_video']['click_sort_column'] = 'entryid';
+  $handler->display->display_options['fields']['field_video']['type'] = 'field_kaltura_thumbnail_only';
+  $handler->display->display_options['fields']['field_video']['settings'] = array(
+    'thumbsize_width' => '142',
+    'thumbsize_height' => '80',
+    'rotate' => 0,
+    'entry_widget' => '48501',
+    'player_width' => '400',
+    'player_height' => '330',
+    'display_metadata' => 0,
+    'delivery' => 'HTTP',
+    'custom_player' => '',
+  );
+  /* Field: Content: Title */
+  $handler->display->display_options['fields']['title']['id'] = 'title';
+  $handler->display->display_options['fields']['title']['table'] = 'node';
+  $handler->display->display_options['fields']['title']['field'] = 'title';
+  $handler->display->display_options['fields']['title']['label'] = '';
+  $handler->display->display_options['fields']['title']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['title']['alter']['max_length'] = '80';
+  $handler->display->display_options['fields']['title']['alter']['trim'] = TRUE;
+  $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['title']['spaces'] = array(
+    'type' => 'spaces_og',
+    'frontpage' => 0,
+  );
+  /* Field: Content: Post date */
+  $handler->display->display_options['fields']['created']['id'] = 'created';
+  $handler->display->display_options['fields']['created']['table'] = 'node';
+  $handler->display->display_options['fields']['created']['field'] = 'created';
+  $handler->display->display_options['fields']['created']['label'] = 'Posted';
+  $handler->display->display_options['fields']['created']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['created']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['created']['date_format'] = 'custom';
+  $handler->display->display_options['fields']['created']['custom_date_format'] = 'M jS, Y';
+  $handler->display->display_options['fields']['created']['second_date_format'] = 'long';
+  /* Field: Realname: Real name */
+  $handler->display->display_options['fields']['realname']['id'] = 'realname';
+  $handler->display->display_options['fields']['realname']['table'] = 'realname';
+  $handler->display->display_options['fields']['realname']['field'] = 'realname';
+  $handler->display->display_options['fields']['realname']['relationship'] = 'uid';
+  $handler->display->display_options['fields']['realname']['label'] = 'by';
+  $handler->display->display_options['fields']['realname']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['realname']['element_label_colon'] = FALSE;
+  /* Field: Field: Groups audience */
+  $handler->display->display_options['fields']['group_audience']['id'] = 'group_audience';
+  $handler->display->display_options['fields']['group_audience']['table'] = 'field_data_group_audience';
+  $handler->display->display_options['fields']['group_audience']['field'] = 'group_audience';
+  $handler->display->display_options['fields']['group_audience']['label'] = '';
+  $handler->display->display_options['fields']['group_audience']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['group_audience']['alter']['text'] = '<div class="shanti-thumbnail-info">      
+     <div class="body-wrap">
+      <div class="shanti-thumbnail-field shanti-field-title">        
+         <span class="field-content">[title]</span>  
+      </div>  
+      
+      <div class="shanti-thumbnail-field shanti-field-created">       
+          <span class="shanti-field-content">[created]</span>  
+      </div>  
+    </div> <!-- end body-wrap -->
+    
+    <div class="footer-wrap">  
+     </div> <!-- end footer -->  
+   </div>';
+  $handler->display->display_options['fields']['group_audience']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['group_audience']['click_sort_column'] = 'gid';
+  $handler->display->display_options['fields']['group_audience']['group_column'] = 'gid';
+  $handler->display->display_options['fields']['group_audience']['delta_offset'] = '0';
+  /* Field: Content: Comment count */
+  $handler->display->display_options['fields']['comment_count']['id'] = 'comment_count';
+  $handler->display->display_options['fields']['comment_count']['table'] = 'node_comment_statistics';
+  $handler->display->display_options['fields']['comment_count']['field'] = 'comment_count';
+  $handler->display->display_options['fields']['comment_count']['label'] = 'Comments';
+  $handler->display->display_options['fields']['comment_count']['hide_empty'] = TRUE;
+  $handler->display->display_options['fields']['comment_count']['empty_zero'] = TRUE;
   $export['collection_media'] = $view;
 
   $view = new view();
@@ -328,26 +423,6 @@ function collection_team_views_default_views() {
   /* Display: Block */
   $handler = $view->new_display('block', 'Block', 'block_1');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
-  $translatables['collection_team_list'] = array(
-    t('Defaults'),
-    t('Teams'),
-    t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('Items per page'),
-    t('- All -'),
-    t('Offset'),
-    t('« first'),
-    t('‹ previous'),
-    t('next ›'),
-    t('last »'),
-    t('OG membership from node'),
-    t('All'),
-    t('Block'),
-  );
   $export['collection_team_list'] = $view;
 
   $view = new view();
@@ -695,8 +770,6 @@ function collection_team_views_default_views() {
       ),
     ),
   );
-  $handler->display->display_options['exposed_form']['options']['input_required'] = 0;
-  $handler->display->display_options['exposed_form']['options']['text_input_required_format'] = 'filtered_html';
   $handler->display->display_options['defaults']['pager'] = FALSE;
   $handler->display->display_options['pager']['type'] = 'mini';
   $handler->display->display_options['pager']['options']['items_per_page'] = '24';
@@ -895,64 +968,6 @@ function collection_team_views_default_views() {
   $handler->display->display_options['menu']['type'] = 'normal';
   $handler->display->display_options['menu']['title'] = 'Collections';
   $handler->display->display_options['menu']['name'] = 'main-menu';
-  $translatables['collections'] = array(
-    t('Master'),
-    t('Collections'),
-    t('more'),
-    t('Search'),
-    t('Reset'),
-    t('Sort by'),
-    t('A-Z'),
-    t('Z-A'),
-    t('Items per page'),
-    t('- All -'),
-    t('Offset'),
-    t('« first'),
-    t('‹ previous'),
-    t('next ›'),
-    t('last »'),
-    t('<div class="view-result-count-info">Displaying @start - @end of @total</div>'),
-    t('author'),
-    t('[realname], [created]'),
-    t('Title'),
-    t('Date Created'),
-    t('Published'),
-    t('Manager'),
-    t('Page List'),
-    t('Block'),
-    t('Recent Collections'),
-    t('Collections Admin List'),
-    t('List of all collections for admins'),
-    t('Page Thumbs'),
-    t('Filter'),
-    t('Asc'),
-    t('Desc'),
-    t('Select any filter and click on Apply to see results'),
-    t('[name]'),
-    t(' <a href="[path]"><img src="/sites/all/modules/mediabase/images/collections-generic.png" width="170" /></a>'),
-    t('<div class="shanti-thumbnail-image shanti-field-collection">
-   <a href="[path]" class="shanti-thumbnail-link">
-      <span class="overlay"><span class="icon"></span></span>
-      [field_images]
-      <span class="icon shanticon-grid"></span>
-   </a>
-</div>
-<div class="shanti-thumbnail-info">      
-  <div class="body-wrap">
-    <div class="shanti-thumbnail-field shanti-field-title">        
-      <span class="field-content"><a href="[path]" class="shanti-thumbnail-link">[title]</a></span>  
-    </div>  
-    <div class="shanti-thumbnail-field shanti-field-author">       
-        <span class="shanti-field-content">[realname]</span>  
-    </div>  
-    <div class="shanti-thumbnail-field shanti-field-created">       
-        <span class="shanti-field-content">[created]</span>  
-    </div>  
-    <div class="shanti-thumbnail-field shanti-field-body">[body]</div>
-  </div> <!-- end body-wrap -->
-</div>'),
-    t('Owner'),
-  );
   $export['collections'] = $view;
 
   $view = new view();
@@ -1046,28 +1061,6 @@ function collection_team_views_default_views() {
   $handler = $view->new_display('block', 'Sub-collection', 'block_1');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['block_description'] = 'Sub-collections';
-  $translatables['sub_collections'] = array(
-    t('Master'),
-    t('Sub-collections'),
-    t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('Items per page'),
-    t('- All -'),
-    t('Offset'),
-    t('« first'),
-    t('‹ previous'),
-    t('next ›'),
-    t('last »'),
-    t('field_subcollection'),
-    t('OG membership from node'),
-    t('[name] ([nid])'),
-    t('All'),
-    t('Sub-collection'),
-  );
   $export['sub_collections'] = $view;
 
   return $export;

@@ -4299,7 +4299,7 @@ function audio_video_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 15,
+        'weight' => 18,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -4577,7 +4577,7 @@ function audio_video_field_default_field_instances() {
         'label' => 'hidden',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 12,
+        'weight' => 15,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -4879,7 +4879,7 @@ function audio_video_field_default_field_instances() {
       'module' => 'fivestar',
       'settings' => array(),
       'type' => 'exposed',
-      'weight' => 24,
+      'weight' => 13,
     ),
   );
 
@@ -4997,7 +4997,7 @@ function audio_video_field_default_field_instances() {
         'module' => 'taxonomy',
         'settings' => array(),
         'type' => 'taxonomy_term_reference_link',
-        'weight' => 8,
+        'weight' => 7,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -5035,7 +5035,7 @@ function audio_video_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 14,
+        'weight' => 17,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -5098,7 +5098,7 @@ function audio_video_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 13,
+        'weight' => 16,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -5158,14 +5158,14 @@ function audio_video_field_default_field_instances() {
         'module' => 'field_kaltura',
         'settings' => array(
           'custom_player' => '',
-          'delivery' => 'RTMP',
+          'delivery' => 'HTTP',
           'entry_widget' => 24762821,
-          'player_height' => 450,
-          'player_width' => 800,
+          'player_height' => 429,
+          'player_width' => 756,
           'rotate' => 0,
           'stretch' => NULL,
-          'thumbsize_height' => 90,
-          'thumbsize_width' => 120,
+          'thumbsize_height' => 45,
+          'thumbsize_width' => 80,
         ),
         'type' => 'field_kaltura_player',
         'weight' => 0,
@@ -5257,7 +5257,7 @@ function audio_video_field_default_field_instances() {
           'view_mode' => 'full',
         ),
         'type' => 'field_collection_fields',
-        'weight' => 8,
+        'weight' => 13,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -5278,7 +5278,7 @@ function audio_video_field_default_field_instances() {
       'module' => 'field_collection',
       'settings' => array(),
       'type' => 'field_collection_embed',
-      'weight' => 9,
+      'weight' => 10,
     ),
   );
 
@@ -5334,7 +5334,7 @@ function audio_video_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 10,
+        'weight' => 14,
       ),
       'teaser' => array(
         'label' => 'above',

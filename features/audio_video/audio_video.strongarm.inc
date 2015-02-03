@@ -187,24 +187,13 @@ function audio_video_strongarm() {
           'weight' => '0',
         ),
         'path' => array(
-          'weight' => '22',
+          'weight' => '12',
         ),
         'flag' => array(
-          'weight' => '25',
+          'weight' => '11',
         ),
       ),
-      'display' => array(
-        'sharethis' => array(
-          'default' => array(
-            'weight' => '2',
-            'visible' => TRUE,
-          ),
-          'teaser' => array(
-            'weight' => '0',
-            'visible' => TRUE,
-          ),
-        ),
-      ),
+      'display' => array(),
     ),
   );
   $export['field_bundle_settings_node__video'] = $strongarm;

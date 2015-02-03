@@ -3064,7 +3064,14 @@ function audio_video_field_default_field_bases() {
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_relation_identifier',
-    'foreign keys' => array(),
+    'foreign keys' => array(
+      'node' => array(
+        'columns' => array(
+          'target_id' => 'nid',
+        ),
+        'table' => 'node',
+      ),
+    ),
     'indexes' => array(
       'target_id' => array(
         0 => 'target_id',
@@ -3953,7 +3960,7 @@ function audio_video_field_default_field_bases() {
       'custom_cw' => '',
       'custom_player' => '',
       'delivery' => 'HTTP',
-      'entry_widget' => 2389012,
+      'entry_widget' => 24762821,
       'kaltura_entry_video_display' => array(
         'advanced' => array(
           'custom_player' => '',

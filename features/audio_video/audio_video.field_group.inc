@@ -107,9 +107,6 @@ function audio_video_field_group_info() {
     'children' => array(
       0 => 'field_available_from',
       1 => 'group_content_access',
-      2 => 'field_rating',
-      3 => 'flag',
-      4 => 'path',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -237,11 +234,10 @@ function audio_video_field_group_info() {
     'children' => array(
       0 => 'field_pbcore_coverage',
       1 => 'field_pbcore_title',
-      2 => 'field_tags',
-      3 => 'field_characteristic',
-      4 => 'field_pbcore_coverage_spatial',
-      5 => 'field_pbcore_relation',
-      6 => 'field_subcollection',
+      2 => 'field_characteristic',
+      3 => 'field_pbcore_coverage_spatial',
+      4 => 'field_pbcore_relation',
+      5 => 'field_subcollection',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -302,28 +298,31 @@ function audio_video_field_group_info() {
     'label' => 'Media Workflow',
     'weight' => '0',
     'children' => array(
-      0 => 'field_media_present',
-      1 => 'field_video_quality_acceptable',
-      2 => 'field_audio_quality_acceptable',
-      3 => 'field_media_needs_recompression',
+      0 => 'field_audio_quality_acceptable',
+      1 => 'field_edl_log_files',
+      2 => 'field_edls_archived',
+      3 => 'field_masters_archived',
       4 => 'field_media_needs_re_editing',
-      5 => 'field_edls_archived',
-      6 => 'field_masters_archived',
+      5 => 'field_media_needs_recompression',
+      6 => 'field_media_present',
       7 => 'field_media_problem_1',
       8 => 'field_media_problem_2',
       9 => 'field_media_problem_3',
       10 => 'field_media_workflow_note',
-      11 => 'field_edl_log_files',
+      11 => 'field_video_quality_acceptable',
     ),
-    'format_type' => 'fieldset',
+    'format_type' => 'div',
     'format_settings' => array(
-      'label' => 'Media Workflow',
+      'formatter' => 'open',
       'instance_settings' => array(
-        'required_fields' => 1,
-        'classes' => '',
         'description' => '',
+        'show_label' => 1,
+        'label_element' => 'h3',
+        'effect' => 'none',
+        'speed' => 'fast',
+        'classes' => 'group-media-workflow field-group-div ',
+        'required_fields' => 1,
       ),
-      'formatter' => 'collapsed',
     ),
   );
   $export['group_media_workflow|field_collection_item|field_workflow|form'] = $field_group;
@@ -580,6 +579,7 @@ function audio_video_field_group_info() {
       1 => 'field_license',
       2 => 'field_pbcore_rights_summary',
       3 => 'field_year_published',
+      4 => 'group_content_access',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -694,7 +694,7 @@ function audio_video_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Technical Metadata',
-    'weight' => '7',
+    'weight' => '8',
     'children' => array(
       0 => 'field_pbcore_identifier',
       1 => 'field_pbcore_instantiation',

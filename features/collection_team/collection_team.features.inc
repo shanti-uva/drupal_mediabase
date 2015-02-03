@@ -50,8 +50,8 @@ function collection_team_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale_and_crop',
         'data' => array(
-          'width' => 360,
-          'height' => 360,
+          'width' => 250,
+          'height' => 250,
         ),
         'weight' => 1,
       ),

@@ -1,7 +1,7 @@
 core = 7.x
 
 api = 2
-projects[drupal][version] = "7.26"
+projects[drupal][version] = "7.32"
 projects[drupal][type] = core
 projects[drupal][patch][] = "https://www.drupal.org/files/issues/1525176_1.patch"
 
@@ -49,15 +49,18 @@ projects[devel][subdir] = "contrib"
 projects[diff][version] = "3.2"
 projects[diff][subdir] = "contrib"
 
-projects[entity][version] = "1.x-dev"
-; on local dev have updated to 7.x-1.5
+projects[entity][version] = "1.3"
+; was 1.x-dev, 1.3 is on drupal-dev, but on local dev have updated to 7.x-1.5
 projects[entity][subdir] = "contrib"
-projects[entity][download][type] = "git" 
-projects[entity][download][revision] = "5731f741e3366889e95b5357f1f85b0acc51a9fe"
+;projects[entity][download][type] = "git" 
+;projects[entity][download][revision] = "5731f741e3366889e95b5357f1f85b0acc51a9fe"
 
 projects[entityreference][version] = "1.0-rc3"
 ; on local dev have updated to 7.x-1.1
 projects[entityreference][subdir] = "contrib"
+
+projects[expire][version] = "2.0-rc3"
+projects[expire][subdir] = "contrib"
 
 projects[facetapi][version] = "1.2"
 projects[facetapi][subdir] = "contrib"
@@ -67,7 +70,7 @@ projects[facetapi_slider][subdir] = "contrib"
 projects[facetapi_slider][download][type] = "git" 
 projects[facetapi_slider][download][revision] = "99b57fc670f6a5ca9dfcfaaa57acb6db93765b70"
 
-projects[features][version] = "1.0"
+projects[features][version] = "2.2"
 projects[features][subdir] = "contrib"
 
 projects[field_collection] = "1.x-dev"
@@ -97,18 +100,24 @@ projects[flexslider][version] = "1.0-rc3"
 projects[flexslider][subdir] = "contrib"
 ; see libraries for flexslider
 
+projects[forward][version] = "7.x-2.0"
+projects[forward][subdir] = "contrib"
+
+projects[i18n][version] = "1.11"
+projects[i18n][subdir] = "contrib"
+ 
+projects[job_scheduler][version] = "2.0-alpha3"
+projects[job_scheduler][subdir] = "contrib"
+
+projects[jquery_update][version] = "2.4"
+projects[jquery_update][subdir] = "contrib"
+
 projects[kaltura][version] = "2.0"
 projects[kaltura][subdir] = "contrib"
 projects[kaltura][patch][] = "https://drupal.org/files/1567302-kaltura-field-view-notice-5.patch"
 projects[kaltura][patch][] = "https://drupal.org/files/kaltura-undefined_variable-1547186.patch"
 ; if the following causes error, comment out and apply manually after set up
 projects[kaltura][patch][] = "https://www.drupal.org/files/kaltura-array-to-string-conversion-1772120-6.patch"
-
-projects[job_scheduler][version] = "2.0-alpha3"
-projects[job_scheduler][subdir] = "contrib"
-
-projects[jquery_update][version] = "2.4"
-projects[jquery_update][subdir] = "contrib"
 
 projects[libraries][version] = "2.0"
 projects[libraries][subdir] = "contrib"
@@ -208,24 +217,42 @@ projects[votingapi][subdir] = "contrib"
 projects[wysiwyg][version] = "2.2"
 projects[wysiwyg][subdir] = "contrib"
 
-; CONTRIB THEMES
-projects[omega][version] = "3.1"
-projects[omega][patch][] = "https://raw.github.com/pinedrop/mediabase/master/patches/rename-omega_pager-func-for-pagerer-module.patch"
-
 ; CUSTOM MODULES
 projects[mediabase][download][type] = "git"
 projects[mediabase][download][url] = "git://github.com/shanti-uva/drupal_mediabase.git"
+projects[mediabase][download][branch] = "release"
 projects[mediabase][type] = "module"
 
-projects[transcripts][download][type] = "git"
-projects[transcripts][download][url] = "git://github.com/pinedrop/transcripts.git" 
-projects[transcripts][type] = "module"
+projects[kmaps_modules][download][type] = "git"
+projects[kmaps_modules][download][url] = "git://github.com/shanti-uva/drupal_kmaps_modules.git" 
+projects[kmaps_modules][download][branch] = "release"
+projects[kmaps_modules][type] = "module"
+projects[kmaps_modules][subdir] = "contrib/shanti"
+
+projects[kmaps_navigator][download][type] = "git"
+projects[kmaps_navigator][download][url] = "git://github.com/shanti-uva/drupal_kmaps_navigator.git" 
+projects[kmaps_navigator][download][branch] = "release"
+projects[kmaps_navigator][type] = "module"
+projects[kmaps_navigator][subdir] = "contrib/shanti"
+
+projects[sarvaka_modules][download][type] = "git"
+projects[sarvaka_modules][download][url] = "git://github.com/shanti-uva/drupal_shanti_sarvaka_modules.git" 
+projects[sarvaka_modules][download][branch] = "release"
+projects[sarvaka_modules][type] = "module"
+projects[sarvaka_modules][subdir] = "contrib/shanti"
+
+projects[transcripts_apachesolr][download][type] = "git"
+projects[transcripts_apachesolr][download][url] = "git://github.com/pinedrop/transcripts_apachesolr.git"
+projects[transcripts_apachesolr][type] = "module"
+projects[transcripts_apachesolr][subdir] = "transcripts"
+
+projects[transcripts_ui][download][type] = "git"
+projects[transcripts_ui][download][url] = "git://github.com/pinedrop/transcripts_ui.git"
+projects[transcripts_ui][type] = "module"
+projects[transcripts_ui][subdir] = "transcripts"
+
 
 ; CUSTOM THEMES
-; Old Mediabase Custom theme based on Omega
-;projects[mb-html5][download][type] = "git"
-;projects[mb-html5][download][url] = "git://github.com/pinedrop/mediabase-theme.git"
-;projects[mb-html5][type] = "theme"
 
 ; Shanti Sarvaka Base Theme
 projects[shanti-sarvaka][download][type] = "git"
@@ -240,16 +267,23 @@ projects[shanti-sarvaka-mb][type] = "theme"
 
 
 ; LIBRARIES
-libraries[saxon][download][type] = "file"
-libraries[saxon][download][url] = "http://downloads.sourceforge.net/project/saxon/Saxon-HE/9.4/SaxonHE9-4-0-3J.zip"
-;libraries[saxon][download][url] = "https://raw.github.com/pinedrop/transcripts/master/transcripts.xsl"
 
-libraries[jquery.cycle][download][type] = "file"
-libraries[jquery.cycle][download][url] = "https://github.com/malsup/cycle/tarball/master"                         
+libraries[fancytree][download][type] = "git"
+libraries[fancytree][dowload][url] = "git://github.com/mar10/fancytree/tree/master/dist"
 
 libraries[flexslider][download][type] = "file"
 libraries[flexslider][download][type] = "git"
 libraries[flexslider][download][url] = "git://github.com/woothemes/FlexSlider.git"                         
 
+libraries[jquery.cycle][download][type] = "file"
+libraries[jquery.cycle][download][url] = "https://github.com/malsup/cycle/tarball/master"                         
+
+libraries[json2][dowload][type] = "git"
+libraries[json2][dowload][url] = "git://github.com/douglascrockford/JSON-js.git"
+
+libraries[saxon][download][type] = "file"
+libraries[saxon][download][url] = "http://downloads.sourceforge.net/project/saxon/Saxon-HE/9.4/SaxonHE9-4-0-3J.zip"
+
 libraries[tinymce][download][type] = "file"
 libraries[tinymce][download][url] = "http://download.moxiecode.com/tinymce/tinymce_3.5.8.zip"
+

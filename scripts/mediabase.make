@@ -59,7 +59,7 @@ projects[features][version] = "2.2"
 
 projects[field_collection] = "1.x-dev"
 ; on local I have updated to 7.x-1.0-beta8
-projects[field_collection][subdir] = "	contrib"
+projects[field_collection][subdir] = "contrib"
 projects[field_collection][download][type] = "git" 
 projects[field_collection][download][revision] = "4e0a52349a3f97b346622cda2e0e9ceb24787604"
 projects[field_collection][patch][] = "https://raw.github.com/pinedrop/mediabase/master/patches/missing-bundle-patch-for-field-collection.patch"
@@ -186,11 +186,13 @@ projects[kmaps_modules][type] = "module"
 projects[kmaps_modules][download][type] = "git"
 projects[kmaps_modules][download][url] = "https://github.com/shanti-uva/drupal_kmaps_modules.git"
 ;projects[kmaps_modules][download][branch] = "release"
+projects[kmaps_modules][subdir] = "contrib/shanti"
 
 projects[kmaps_navigator][type] = "module"
 projects[kmaps_navigator][download][type] = "git"
 projects[kmaps_navigator][download][url] = "https://github.com/shanti-uva/drupal_kmaps_navigator.git"
 projects[kmaps_navigator][download][branch] = "mediabase"
+projects[kmaps_navigator][subdir] = "contrib/shanti"
 
 projects[mediabase][type] = "module"
 projects[mediabase][download][type] = "git"
@@ -201,14 +203,17 @@ projects[sarvaka_modules][type] = "module"
 projects[sarvaka_modules][download][type] = "git"
 projects[sarvaka_modules][download][url] = "https://github.com/shanti-uva/drupal_shanti_sarvaka_modules.git"
 projects[sarvaka_modules][download][branch] = "release"
+projects[sarvaka_modules][subdir] = "contrib/shanti"
 
 projects[transcripts_apachesolr][type] = "module"
 projects[transcripts_apachesolr][download][type] = "git"
 projects[transcripts_apachesolr][download][url] = "https://github.com/pinedrop/transcripts_apachesolr.git"
+projects[transcripts_apachesolr][subdir] = "transcripts"
 
 projects[transcripts_ui][type] = "module"
 projects[transcripts_ui][download][type] = "git"
 projects[transcripts_ui][download][url] = "https://github.com/pinedrop/transcripts_ui.git"
+projects[transcripts_ui][subdir] = "transcripts"
 
 ; Custom Themes
 projects[sarvaka_mediabase][type] = "theme"
@@ -220,6 +225,15 @@ projects[shanti_sarvaka][type] = "theme"
 projects[shanti_sarvaka][download][type] = "git"
 projects[shanti_sarvaka][download][url] = "https://github.com/shanti-uva/drupal_shanti_sarvaka_theme.git"
 projects[shanti_sarvaka][download][branch] = "release"
+
+; Old Mediabase Custom theme based on Omega
+projects[mb-html5][download][type] = "git"
+projects[mb-html5][download][url] = "git://github.com/shanti-uva/drupal_mediabase_theme_old.git"
+projects[mb-html5][type] = "theme"
+
+; Omega base theme for old mediabase theme
+projects[omega][version] = "3.1"
+projects[omega][type] = "theme"
 
 ; Libraries
 

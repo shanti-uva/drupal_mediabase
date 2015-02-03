@@ -264,6 +264,14 @@ projects[shanti-sarvaka-mb][download][type] = "git"
 projects[shanti-sarvaka-mb][download][url] = "git://github.com/shanti-uva/drupal_shanti_sarvaka_mediabase.git"
 projects[shanti-sarvaka-mb][type] = "theme"
 
+; Old Mediabase Custom theme based on Omega
+projects[mb-html5][download][type] = "git"
+projects[mb-html5][download][url] = "git://github.com/shanti-uva/drupal_mediabase_theme_old.git"
+projects[mb-html5][type] = "theme"
+
+; Omega base theme for old mediabase theme
+projects[omega][version] = "3.1"
+projects[omega][type] = "theme"
 
 
 ; LIBRARIES

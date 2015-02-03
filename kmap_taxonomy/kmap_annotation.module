@@ -214,7 +214,6 @@ function _kmap_subject_popover($kmap) {
 	foreach($ancestors as $n => $subject) {
 		$parents[] = l($subject['name'], sprintf($urlstr, $subject['kmap_id']));
 	}
-	dpm($parents, 'parents');
 	$subject_url = variable_get('kmaps_site_subjects', 'http://badger.drupal-dev.shanti.virginia.edu/subjects/');
 	$path_format = variable_get('kmaps_site_path_format', '%d/overview/nojs');
 	$list_type = 'subjects';

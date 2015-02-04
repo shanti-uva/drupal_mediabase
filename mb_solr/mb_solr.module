@@ -926,7 +926,7 @@ function mb_solr_get_solrdoc($nid = '') {
 		} else {
 			// Otherwise Return XML
 			$doc = '<doc><str name="service">' . $service . '</str>
-			<str name="asset_type">' . $node->type . '</str>
+			<str name="asset_type">audio-video</str>
 			<str name="id">' . $nid . '</str>
 			<str name="uid">' . $uid . '</str>
 			<str name="url_html">' . $url_html . '</str>

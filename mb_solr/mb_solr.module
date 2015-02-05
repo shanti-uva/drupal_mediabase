@@ -907,6 +907,7 @@ function mb_solr_get_solrdoc($nid = '') {
 		$url_html = $base_url . '/' . $alias;
 		$url_ajax = $base_url . '/services/node/ajax/' . $nid;
 		$url_json = $base_url . '/api/v1/media/node/' . $nid . '.json';
+		$thumb = (!empty($node->thumbnail_url)) ? $node->thumbnail_url : '';
 		
 		// Return JSON if url ends in .json
 		if($json) {
@@ -918,7 +919,7 @@ function mb_solr_get_solrdoc($nid = '') {
 			$jsonout['doc']['url_html'] = $url_html;
 			$jsonout['doc']['url_ajax'] = $url_ajax;
 			$jsonout['doc']['url_json'] = $url_json;
-			$jsonout['doc']['url_thumb'] = $node->thumbnail_url;
+			$jsonout['doc']['url_thumb'] = $thumb;
 			$jsonout['doc']['caption'] = $node->title;
 			$jsonout['doc']['kmapid'] = $kmapsjson;
 			drupal_json_output($jsonout);
@@ -932,7 +933,7 @@ function mb_solr_get_solrdoc($nid = '') {
 			<str name="url_html">' . $url_html . '</str>
 			<str name="url_ajax">' . $url_ajax . '</str>
 			<str name="url_json">' . $url_json . '</str>
-			<str name="url_thumb">' . $node->thumbnail_url . '</str>
+			<str name="url_thumb">' . $thumb . '</str>
 			<str name="caption">' . $node->title . '</str>
 			<arr name="kmapid">' . $kmaps . '</arr></doc>';
 		  // Convert Solr Doc to XML and add to output string

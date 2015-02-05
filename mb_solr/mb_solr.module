@@ -137,7 +137,7 @@ function mb_solr_apachesolr_index_document_build(ApacheSolrDocument $document, $
 		 $document->addField('im_media_create_date', $media_create_date);
 			
 		 // Using description for content & teaser fields
-		 /*try {
+		 try {
 				$description = '';
 				$emw = entity_metadata_wrapper('node', $entity);
 				if(!empty($emw->field_pbcore_description)) {
@@ -154,7 +154,7 @@ function mb_solr_apachesolr_index_document_build(ApacheSolrDocument $document, $
 		 		// EntityMetadataWrapperException 
 		 		//echo "\n";
 			  //echo 'Exception Caught for node ' . $entity->entity_id . ': ' .  $e->getMessage() . "\n";
-		 }*/
+		 }
 	 }
 }
 

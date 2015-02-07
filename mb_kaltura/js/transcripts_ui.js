@@ -77,8 +77,8 @@
 
                             setOne: function ($tcu) {
                                 this.one = $tcu;
-                                this.one.addClass('playing');
                                 this.playIndex = parseInt(this.one.attr('data-starts-index'));
+                                this.startPlay($tcu); //scroll to sweet spot
                             },
 
                             playOne: function ($tcu) {
@@ -113,12 +113,13 @@
                                 });
 
                                 this.endAll();
+                                if (this.resetSweet) {
+                                    this.sweetSpot = $tcu.position().top;
+                                }
                                 this.setOne($tcu);
                                 this.playingThrough = false;
 
                                 vid.sendNotification('doPlay');
-
-                                //window.location.hash = 'tcu/' + $item.attr('data-tcuid');
                             }
                         };
                         $.extend(scroller, kaltura);

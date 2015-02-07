@@ -14,7 +14,7 @@
 
                         //if using Kaltura API abstraction
                         var kaltura = {
-                            pauser: null,
+                            playingThrough: true,
 
                             setVideo: function (vid) {
                                 var init = false;
@@ -46,21 +46,33 @@
 
                                 var playerPlaying = false;
                                 var $playpause = $('[data-transcripts-role=transcript-controls][data-transcripts-id=' + this.trid + '] .playpause');
+                                var that = this;
 
                                 vid.kBind('playerPlayed', function () {
                                     playerPlaying = true;
                                     $('.fa', $playpause).removeClass('fa-play').addClass('fa-pause');
+
+                                    if (that.playingThrough) {
+                                        vid.kBind('playerUpdatePlayhead.playThrough', function (now, id) {
+                                            that.checkScroll(now);
+                                        });
+                                    }
                                 });
                                 vid.kBind('playerPaused', function () {
                                     playerPlaying = false;
                                     $('.fa', $playpause).removeClass('fa-pause').addClass('fa-play');
-                                    vid.kUnbind('.playOne');
+                                    that.unbindPlayListener(true);
                                 });
                                 $playpause.click(function () {
                                     vid.sendNotification(playerPlaying ? 'doPause' : 'doPlay');
                                 });
 
                                 this.player = vid;
+                            },
+
+                            unbindPlayListener: function(newThrough) {
+                                this.player.kUnbind(this.playingThrough ? '.playThrough' : '.playOne');
+                                this.playingThrough = newThrough;
                             },
 
                             setOne: function ($tcu) {
@@ -72,14 +84,14 @@
                             playOne: function ($tcu) {
                                 var vid = this.player;
 
-                                var begin = $tcu.attr('data-begin');
-                                var end = $tcu.attr('data-end');
+                                var begin = parseFloat($tcu.attr('data-begin'));
+                                var end = parseFloat($tcu.attr('data-end'));
 
                                 var seekStarted = false;
                                 var seekEnded = false;
                                 var pauseStarted = false;
 
-                                vid.kUnbind('.playOne');
+                                this.unbindPlayListener(false);
 
                                 vid.kBind('playerSeekEnd.playOne', function () {
                                     if (!seekEnded) {
@@ -100,21 +112,14 @@
                                     }
                                 });
 
-                                vid.sendNotification('doPlay');
-
                                 this.endAll();
                                 this.setOne($tcu);
-                                //window.location.hash = 'tcu/' + $item.attr('data-tcuid');
-                            },
+                                this.playingThrough = false;
 
-                            playFrom: function (from) {
-                                if (this.player != null) {
-                                    //behaves poorly if seek precedes play
-                                    this.started = false;
-                                    this.player.sendNotification('doPlay');
-                                    this.player.sendNotification('doSeek', from);
-                                }
-                            },
+                                vid.sendNotification('doPlay');
+
+                                //window.location.hash = 'tcu/' + $item.attr('data-tcuid');
+                            }
                         };
                         $.extend(scroller, kaltura);
                         scroller.setVideo(document.getElementById(playerId));
@@ -124,4 +129,3 @@
     }
 
 })(jQuery);
-

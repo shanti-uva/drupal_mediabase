@@ -139,7 +139,7 @@ function kmap_annotation_field_formatter_view($entity_type, $entity, $field, $in
             $annot_entity->field_annot_note =array();
          }
          $view_path = isset($instance['widget']['settings']['kmap_selector_settings']) ? $instance['widget']['settings']['kmap_selector_settings']['view_path'] : $instance['widget']['settings']['view_path'];
-         if ($kmap) {
+         if (!empty($kmap)) {
          		$kmap->field_name = $field['field_name'];
 				 		$elements[$delta] = array(
                '#markup' => _kmap_subject_popover($kmap),

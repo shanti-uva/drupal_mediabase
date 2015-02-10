@@ -228,14 +228,17 @@ function _kmap_subject_popover($kmap) {
 	// Once finalized that theme function needs to be duplicated in MB .module file to allow it to work with other themes.
 	// In a way not dependent on Bootstrap
 	$label = ($list_type == 'subcollections') ? t('Subcollections'):t('Subjects');
- 	$output = theme('info_popover', array(
-		 									'label' => $name, 
-		 									'desc' => $desc, 
-		 									'tree' => array(
-		 											'label' => $label, 
-		 											'items' => $parents,
-											 ), 
-											 'links' => $links)
-									);
+	$output = "<div class=\"popover\"><div class=\"name\">$name</div><div class=\"description\">$desc</div></div>";
+	if(function_exists('shanti_sarvaka_info_popover')) {
+	 	$output = theme('info_popover', array(
+			 									'label' => $name, 
+			 									'desc' => $desc, 
+			 									'tree' => array(
+			 											'label' => $label, 
+			 											'items' => $parents,
+												 ), 
+												 'links' => $links)
+										);
+	 }
 	 return $output;
 }

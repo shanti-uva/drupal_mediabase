@@ -110,15 +110,18 @@ function _mb_location_format_item( $item, $view_path ) {
 			// Uses custom theme function "info_popover" defined in shanti_sarvaka theme
 			// Once finalized that theme function needs to be duplicated in MB .module file to allow it to work with other themes.
 			// In a way not dependent on Bootstrap
-		 	$output = theme('info_popover', array(
-				 									'label' => $term->name, 
-				 									'desc' => $desc, 
-				 									'tree' => array(
-				 											'label' => t('Places'), 
-				 											'items' => $parents
-													 ), 
-													 'links' => $links)
-											);
+			$output = "<div class=\"popover\"><div class=\"name\">{$term->name}</div><div class=\"description\">$desc</div></div>";
+			if(function_exists('shanti_sarvaka_info_popover')) {
+			 	$output = theme('info_popover', array(
+					 									'label' => $term->name, 
+					 									'desc' => $desc, 
+					 									'tree' => array(
+					 											'label' => t('Places'), 
+					 											'items' => $parents
+														 ), 
+														 'links' => $links)
+												);
+			}
    }
 	 //$output .= '</div></div>';
    return $output;

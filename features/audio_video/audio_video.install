@@ -197,6 +197,6 @@ function audio_video_update_7002() {
 		if(is_int($rows_deleted)) { $row_count += $rows_deleted; }
 	}
 
-	$msg = "Audio-Video Update 7002: Deleted {$rows_deleted} rows related to partially deleted fields.";
+	$msg = "Audio-Video Update 7002: Deleted {$rows_count} rows related to partially deleted fields.";
 	drupal_set_message($msg);
 }

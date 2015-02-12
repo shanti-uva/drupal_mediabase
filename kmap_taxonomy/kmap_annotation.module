@@ -139,7 +139,7 @@ function kmap_annotation_field_formatter_view($entity_type, $entity, $field, $in
             $annot_entity->field_annot_note =array();
          }
          $view_path = isset($instance['widget']['settings']['kmap_selector_settings']) ? $instance['widget']['settings']['kmap_selector_settings']['view_path'] : $instance['widget']['settings']['view_path'];
-         if ($kmap) {
+         if (!empty($kmap)) {
          		$kmap->field_name = $field['field_name'];
 				 		$elements[$delta] = array(
                '#markup' => _kmap_subject_popover($kmap),
@@ -228,14 +228,17 @@ function _kmap_subject_popover($kmap) {
 	// Once finalized that theme function needs to be duplicated in MB .module file to allow it to work with other themes.
 	// In a way not dependent on Bootstrap
 	$label = ($list_type == 'subcollections') ? t('Subcollections'):t('Subjects');
- 	$output = theme('info_popover', array(
-		 									'label' => $name, 
-		 									'desc' => $desc, 
-		 									'tree' => array(
-		 											'label' => $label, 
-		 											'items' => $parents,
-											 ), 
-											 'links' => $links)
-									);
+	$output = "<div class=\"popover\"><div class=\"name\">$name</div><div class=\"description\">$desc</div></div>";
+	if(function_exists('shanti_sarvaka_info_popover')) {
+	 	$output = theme('info_popover', array(
+			 									'label' => $name, 
+			 									'desc' => $desc, 
+			 									'tree' => array(
+			 											'label' => $label, 
+			 											'items' => $parents,
+												 ), 
+												 'links' => $links)
+										);
+	 }
 	 return $output;
 }

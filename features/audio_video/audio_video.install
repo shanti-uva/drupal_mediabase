@@ -75,44 +75,47 @@ function audio_video_update_7001() {
 	}
 	// Compare first and second array to find nodes with no group association
 	$nogroup = array_diff($nids, $gnids);
-	
-	// Check to see if Admin Collection Exists and if not create it
-	$result = db_query("SELECT gid from og where label = 'Admin Collection'")->fetchAll();
-	$admingroup = FALSE;
-	if(count($result) == 0) {
-		$adminuser = user_load(1);
-		$admincoll = new stdClass();
-		$admincoll->type = 'collection';
-		$admincoll->status = 1;
-		$admincoll->title = 'Admin Collection';
-		$admincoll->uid = $adminuser->uid;
-		$admincoll->name = $adminuser->name;
-		$admincoll->language = 'en';
-		$admincoll->comment = 0;
-		$admincoll->promote = 0;
-		$admincoll->revision = 0;
-		//Organic groups fields
-		$admincoll->og_description = 'A collection for administration purposes, such as nodes without a group and so forth';
-		$admincoll->og_register = 0;
-		$admincoll->og_directory = 0;
-		$admincoll->og_private = 1;
-		$admincoll->og_selective = 3;
-		//create the node
-		$admincoll = node_submit($admincoll);
-		node_save($admincoll);
-		$admingroup = og_get_group('node', $admincoll->nid);
-	} else {
-		$adcollid = $result[0]->gid;
-		$admingroup = og_get_group('node', $adcollid);
-	}
-	
-	// Add unassociated nodes to admin group
-	if($admingroup) {
-		foreach ($nogroup as $i => $nid) {
-			$node = node_load($nid);
-			$values = array('entity type' => 'node', 'entity' => $node, 'state' => OG_STATE_ACTIVE);
-			og_group($admingroup->gid, $values);
-			node_save($node);
+	$ngct = count($nogroup);
+	if($ngct > 0) {
+		// Check to see if Admin Collection Exists and if not create it
+		$result = db_query("SELECT gid from og where label = 'Admin Collection'")->fetchAll();
+		$admingroup = FALSE;
+		if(count($result) == 0) {
+			$adminuser = user_load(1);
+			$admincoll = new stdClass();
+			$admincoll->type = 'collection';
+			$admincoll->status = 1;
+			$admincoll->title = 'Admin Collection';
+			$admincoll->uid = $adminuser->uid;
+			$admincoll->name = $adminuser->name;
+			$admincoll->language = 'en';
+			$admincoll->comment = 0;
+			$admincoll->promote = 0;
+			$admincoll->revision = 0;
+			//Organic groups fields
+			$admincoll->og_description = 'A collection for administration purposes, such as nodes without a group and so forth';
+			$admincoll->og_register = 0;
+			$admincoll->og_directory = 0;
+			$admincoll->og_private = 1;
+			$admincoll->og_selective = 3;
+			//create the node
+			$admincoll = node_submit($admincoll);
+			node_save($admincoll);
+			$admingroup = og_get_group('node', $admincoll->nid);
+		} else {
+			$adcollid = $result[0]->gid;
+			$admingroup = og_get_group('node', $adcollid);
+		}
+		
+		// Add unassociated nodes to admin group
+		if($admingroup) {
+			foreach ($nogroup as $i => $nid) {
+				$node = node_load($nid);
+				$values = array('entity type' => 'node', 'entity' => $node, 'state' => OG_STATE_ACTIVE);
+				og_group($admingroup->gid, $values);
+				node_save($node);
+			}
+			drupal_set_message("Av Update 7001: Moved {$ngct} nodes to Admin Collection");
 		}
 	}
 }
@@ -194,6 +197,6 @@ function audio_video_update_7002() {
 		if(is_int($rows_deleted)) { $row_count += $rows_deleted; }
 	}
 
-	$msg = "Audio-Video Update 7002: Deleted {$rows_deleted} rows related to partially deleted fields: " . implode(', ', $old_workflow_fields);
+	$msg = "Audio-Video Update 7002: Deleted {$rows_deleted} rows related to partially deleted fields.";
 	drupal_set_message($msg);
 }

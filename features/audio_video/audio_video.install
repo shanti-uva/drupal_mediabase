@@ -36,7 +36,7 @@ function audio_video_update_7000() {
       'field_transcript_workflow_note',
       'field_translation_lang_1',
       'field_translation_lang_2',
-      );
+   );
    
    foreach ( $old_workflow_fields as $f_name) {
       if (  field_read_field($f_name) ) {
@@ -57,3 +57,143 @@ function audio_video_update_7000() {
    }
 }
 
+/**
+ * Clean up database for upgrade to Drupal 7.34. Assign nodes without a group to private "Admin Collection".
+ */
+function audio_video_update_7001() {
+	// Get all node nids for a/v nodes
+	$result = db_query("SELECT nid FROM node WHERE type in (:nt)", array(':nt' => array('video','audio')));
+	$nids = array();
+	foreach ($result as $obj) {
+		$nids[] = $obj->nid;
+	}
+	// Get all node nids that have a group
+	$result = db_query("select etid FROM og_membership WHERE entity_type='node'");
+	$gnids = array();
+	foreach ($result as $obj) {
+		$gnids[] = $obj->etid;
+	}
+	// Compare first and second array to find nodes with no group association
+	$nogroup = array_diff($nids, $gnids);
+	
+	// Check to see if Admin Collection Exists and if not create it
+	$result = db_query("SELECT gid from og where label = 'Admin Collection'")->fetchAll();
+	$admingroup = FALSE;
+	if(count($result) == 0) {
+		$adminuser = user_load(1);
+		$admincoll = new stdClass();
+		$admincoll->type = 'collection';
+		$admincoll->status = 1;
+		$admincoll->title = 'Admin Collection';
+		$admincoll->uid = $adminuser->uid;
+		$admincoll->name = $adminuser->name;
+		$admincoll->language = 'en';
+		$admincoll->comment = 0;
+		$admincoll->promote = 0;
+		$admincoll->revision = 0;
+		//Organic groups fields
+		$admincoll->og_description = 'A collection for administration purposes, such as nodes without a group and so forth';
+		$admincoll->og_register = 0;
+		$admincoll->og_directory = 0;
+		$admincoll->og_private = 1;
+		$admincoll->og_selective = 3;
+		//create the node
+		$admincoll = node_submit($admincoll);
+		node_save($admincoll);
+		$admingroup = og_get_group('node', $admincoll->nid);
+	} else {
+		$adcollid = $result[0]->gid;
+		$admingroup = og_get_group('node', $adcollid);
+	}
+	
+	// Add unassociated nodes to admin group
+	if($admingroup) {
+		foreach ($nogroup as $i => $nid) {
+			$node = node_load($nid);
+			$values = array('entity type' => 'node', 'entity' => $node, 'state' => OG_STATE_ACTIVE);
+			og_group($admingroup->gid, $values);
+			node_save($node);
+		}
+	}
+}
+
+/**
+ * Clean up database for upgrade to Drupal 7.34. Fully remove from database references to fields deleted in update 7000.
+ */
+
+function audio_video_update_7002() {
+	 
+   $old_workflow_fields = array(
+      //audio workflow fields
+      'field_av_file',
+      'field_catalog_record',
+      'field_transcription',
+      'field_translation',
+      // video workflow fields                   
+      'field_basic_catalog',
+      'field_catalog_workflow_note',
+      'field_edl_log_files',
+      'field_extended_cataloging',
+      'field_media_masters_archived',
+      'field_media_present',
+      'field_media_quality_ok',
+      'field_media_recompress',
+      'field_media_workflow_note',
+      'field_proofed_catalog',
+      'field_timecode_ok',
+      'field_timecode_problem_1',
+      'field_timecode_problem_2',
+      'field_transcript_input',
+      'field_transcript_input_lang_1',
+      'field_transcript_input_lang_2',
+      'field_transcript_input_lang_3',
+      'field_transcript_proofed',
+      'field_transcript_proofed_lang_1',
+      'field_transcript_proofed_lang_2',
+      'field_transcript_proofed_lang_3',
+      'field_transcript_timecoded',
+      'field_transcript_workflow_note',
+      'field_translation_lang_1',
+      'field_translation_lang_2',
+   );
+  /** 
+  * MYSQL Commands to USE:
+  * 
+  * select group_concat(item_id) from field_collection_item where field_name = 'field_av_file';
+  * delete from field_collection_item_revision where item_id in (27554,27559,27564,27569,27575,27662,27689,27694,27877,28026,28032,28038,28044,28050,28056,28062,28068,28074,28080,28086,28095,28101,28107,28113,28119,28125,28131,28137,28143,28149,28155,28161,28167,28173,28179,28185,28191,28197,28203,28209,28215,28221,28227,28233,28239,28245,28251,28257,28263,28269,28275,28281,28288,28295,28302,28309,28316,28323,28330,28337,28344,28351,28358,28365,28372,28379,28386,28393,28400,28535,28699,28704,28847,28859,28913,28919,28925,28931,28937,28943,28949,28955,28961,28967,28973,28979,28985);
+  * delete from field_collection_item where field_name = 'field_av_file';
+  * delete from field_config_instance where field_name = 'field_av_file';
+  * delete from field_config where field_name = 'field_av_file';
+	**/
+	$row_count = 0;
+
+	foreach ($old_workflow_fields as $field_name) {
+		$msg .= "\t{$field_name}: ";
+		// Find all item_ids from field_collection_item for this field name
+		$result = db_select('field_collection_item', 'fci')->fields('fci', array('item_id'))->condition('field_name', $field_name, '=')->execute();
+		$fcids = array();
+		while ($record = $result->fetchAssoc()) {
+			$fcids[] = $record['item_id'];
+		}
+		if(count($fcids) > 0) {
+			// remove any references to any of those item ids in field_collection_item_revision
+			$rows_deleted = db_delete('field_collection_item_revision')->condition('item_id', $fcids, 'IN')->execute();
+			if(is_int($rows_deleted)) { $row_count += $rows_deleted; }
+		}
+		
+		// Then, remove all the above item_ids from field_collection_item
+		$rows_deleted = db_delete('field_collection_item')->condition('field_name', $field_name, '=')->execute();
+		if(is_int($rows_deleted)) { $row_count += $rows_deleted; }
+		
+		// Then, remove rows in field_config_instance
+		$rows_deleted = db_delete('field_config_instance')->condition('field_name', $field_name, '=')->execute();
+		if(is_int($rows_deleted)) { $row_count += $rows_deleted; }
+		
+		// Then, remove all the above item_ids
+		$rows_deleted = db_delete('field_config')->condition('field_name', $field_name, '=')->execute();
+		if(is_int($rows_deleted)) { $row_count += $rows_deleted; }
+	}
+
+	$msg = "Audio-Video Update 7002: Deleted {$rows_deleted} rows related to partially deleted fields: " . implode(', ', $old_workflow_fields);
+	drupal_set_message($msg);
+}

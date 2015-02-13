@@ -73,8 +73,8 @@
          <span class="overlay">
             <span class="icon"></span>
          </span>
-         <img title="<?php print $parent['title']; ?>"
-             alt="<?php print $parent['title']; ?>"
+         <img title="<?php print htmlentities($parent['title']); ?>"
+             alt="<?php print htmlentities($parent['title']); ?>"
              src="<?php if(isset($parent['thumb_url'])) { print $parent['thumb_url']; } ?>"
              typeof="foaf:Image" class="k-no-rotate">
          <i class="icon shanticon-<?php if($parent['bundle'] == 'video') { print 'video'; } else { print 'audio'; } ?>"></i>
@@ -113,7 +113,7 @@
         <div class="shanti-field shanti-field-group-audience">
             <!--<span class="shanti-label shanti-label-group-audience">in </span>    -->
             <div class="shanti-field-content"><a href="<?php print $parent['coll']->url; ?>"
-              class="shanti-thumbnail-link"><a href="<?php print $parent['coll']->url; ?>"><?php print $parent['coll']->title; ?></a>
+              class="shanti-thumbnail-link"><?php print $parent['coll']->title; ?></a>
             </div>
         </div>
       <?php endif; ?>

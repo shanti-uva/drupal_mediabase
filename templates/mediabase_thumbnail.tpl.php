@@ -25,8 +25,8 @@
          <span class="overlay">
             <span class="icon"></span>
          </span>
-         <img title="<?php print $result['title']; ?>" 
-             alt="<?php print $result['title']; ?>" 
+         <img title="<?php print htmlentities($result['title']); ?>" 
+             alt="<?php print htmlentities($result['title']); ?>" 
              src="<?php if(isset($result['thumb_url'])) { print $result['thumb_url']; } ?>" 
              typeof="foaf:Image" class="k-no-rotate">
          <i class="icon shanticon-<?php if($result['bundle'] == 'video') { print 'video'; } else { print 'audio'; } ?>"></i> 

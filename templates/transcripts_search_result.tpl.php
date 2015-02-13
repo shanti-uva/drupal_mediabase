@@ -113,7 +113,7 @@
         <div class="shanti-field shanti-field-group-audience">
             <!--<span class="shanti-label shanti-label-group-audience">in </span>    -->
             <div class="shanti-field-content"><a href="<?php print $parent['coll']->url; ?>"
-              class="shanti-thumbnail-link"><a href="<?php print $parent['coll']->url; ?>"><?php print $parent['coll']->title; ?></a>
+              class="shanti-thumbnail-link"><?php print $parent['coll']->title; ?></a>
             </div>
         </div>
       <?php endif; ?>

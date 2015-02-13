@@ -27,7 +27,8 @@ class mb_space_og extends space_og {
       $allow_archive_admin = $this->allow_archive_admin($account);
       return $allow_og || $allow_uva || $allow_archive_admin;
    }
-
+	
+	
 	function allow_uva($account = NULL) {
 	   if ( $account
 	      && isset($this->menu_object->{OG_CONTENT_ACCESS_FIELD}) 

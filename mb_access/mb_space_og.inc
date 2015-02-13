@@ -27,26 +27,27 @@ class mb_space_og extends space_og {
       $allow_archive_admin = $this->allow_archive_admin($account);
       return $allow_og || $allow_uva || $allow_archive_admin;
    }
-}
-
-function allow_uva($account = NULL) {
-   if ( $account
-      && isset($this->menu_object->{OG_CONTENT_ACCESS_FIELD}) 
-      && $this->menu_object->{OG_CONTENT_ACCESS_FIELD}[LANGUAGE_NONE][0]['value'] == OG_CONTENT_ACCESS_UVA 
-      && in_array('authenticated user', $account->roles)
-      )
-   {
-      return TRUE;
-   }
-}
-
-function allow_archive_admin($account = NULL) {
-   $grants = mb_access_node_grants($account, 'view');
-   if ( 
-      $account
-      && isset($this->menu_object->{OG_GROUP_AUDIENCE_FIELD})
-      )
-   {
-      
-   }
+	
+	
+	function allow_uva($account = NULL) {
+	   if ( $account
+	      && isset($this->menu_object->{OG_CONTENT_ACCESS_FIELD}) 
+	      && $this->menu_object->{OG_CONTENT_ACCESS_FIELD}[LANGUAGE_NONE][0]['value'] == OG_CONTENT_ACCESS_UVA 
+	      && in_array('authenticated user', $account->roles)
+	      )
+	   {
+	      return TRUE;
+	   }
+	}
+	
+	function allow_archive_admin($account = NULL) {
+	   $grants = mb_access_node_grants($account, 'view');
+	   if ( 
+	      $account
+	      && isset($this->menu_object->{OG_GROUP_AUDIENCE_FIELD})
+	      )
+	   {
+	      
+	   }
+	}
 }

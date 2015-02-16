@@ -1,0 +1,16 @@
+diff --git a/includes/features.context.inc b/includes/features.context.inc
+index 2da59a7..abe0cc3 100644
+--- a/includes/features.context.inc
++++ b/includes/features.context.inc
+@@ -49,6 +49,11 @@ function context_features_export($data, &$export, $module_name = '') {
+  */
+ function context_features_revert($module = NULL) {
+   $return = ctools_component_features_revert('context', $module);
++  if ($objects = features_get_default('context', $module)) {
++    foreach ($objects as $object) {
++      context_save($object);
++    }
++  }
+   context_invalidate_cache();
+   return $return;
+ }

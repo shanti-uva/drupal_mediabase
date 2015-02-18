@@ -417,6 +417,7 @@ function mb_services_get($type, $kmid) {
  * mb_services_node_ajax: returns AJAX embeddable fragment for a certin node
  */
 function mb_services_node_ajax($nid) {
+	global $base_url, $base_path;
 	$node = node_load($nid);
   if (!$node) { return MENU_NOT_FOUND; }
   if (!node_access('view', $node)) { return MENU_ACCESS_DENIED; }
@@ -425,7 +426,25 @@ function mb_services_node_ajax($nid) {
     	// This returns exact markup as when viewed in MB
     	$eview = entity_view('node', array($node));
 			$html = drupal_render($eview); 
-			print "<div class=\"mb-node-ajax\">$html</div>";
+			$kurl =  variable_get('kaltura_server_url', '');
+			$kpi = variable_get('kaltura_partner_id', '');
+			$ksi = variable_get('kaltura_subp_id', '');
+			$base = $base_url . $base_path;
+			$transcript_folder = drupal_get_path('module', 'transcripts_ui');
+			$kaltura_folder = drupal_get_path('module', 'mb_kaltura');
+			$jss = array(
+				$kurl . '/p/' . $kpi . '/sp/' . $ksi . '/embedIframeJs/uiconf_id/' . MB_MAIN_PLAYER_ID . '/partner_id/' . $kpi,
+				$base . $transcript_folder . '/js/transcripts_navigation.js',
+				$base . $transcript_folder . '/js/transcripts_scroller.js',
+				$base . $transcript_folder . '/js/transcripts_search.js',
+				$base . $transcript_folder . '/js/transcripts_tier_selector.js',
+				$base . $kaltura_folder. '/js/transcripts_ui.js'
+			);
+			$scripts = "";
+			foreach($jss as $jurl) {
+				$scripts .= "<script type=\"text/javascript\" src=\"$jurl\"></script>";
+			}
+			print "<div class=\"mb-node-ajax\">$html $scripts</div>";
     } 
     else { drupal_not_found(); }
   } 

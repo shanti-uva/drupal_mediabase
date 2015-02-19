@@ -7,7 +7,7 @@
  define('MB_SOLR_ITEMS_PER_PAGE', 50); 
  define('KMAP_SERVICE_SUBJECTS', "http://subjects.kmaps.virginia.edu/features/");
  define('KMAP_SERVICE_PLACES', "http://places.kmaps.virginia.edu/features/");
- define('KMAP_SOLR_INDEX_POST', "http://kidx.shanti.virginia.edu/solr/kmindex/update/json?commit=true");
+ define('KMAP_SOLR_INDEX_POST', "http://kidx.shanti.virginia.edu/solr/kmindex-dev/update/json?commit=true");
  
 /*
  * Implements hook_menu. 

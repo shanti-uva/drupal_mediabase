@@ -122,7 +122,8 @@ LocationSelector.prototype.initWidgetMarkup = function () {
             title: this.t('Search the Place Dictionary'),
             type: 'submit',
             class: 'btn btn-primary form-submit btn-sm btn-icon',
-      }).click( function() {
+      }).click( function(event) {
+      	 event.preventDefault();
          // add the autocomplete config to the input
          var acInput = jQuery( this ).siblings( '.' + formInputClass );
          if ( ! acInput.val() ) {

@@ -26,6 +26,7 @@
 
 define("METADATA_PROFILE_ID", 2631);
 define("METADATA_OBJECT_TYPE", 1);
+define("MB_MAIN_PLAYER_ID", 24762821);
 
 function mb_kaltura_init() {
    drupal_add_js(drupal_get_path('module', 'mb_kaltura') . '/js/mb-kaltura.js');

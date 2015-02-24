@@ -147,7 +147,12 @@ function mb_services_post_to_solr($node) {
 		
 		// Serialize data and add to settings array
 		$data = json_encode($data);
-		mb_services_do_solr_post($data);
+		$result = mb_services_do_solr_post($data);
+		if($result) {
+			dpm($result, 'result of push to solr');
+		} else {
+			dpm("no result from push to solr");
+		}
 	}
 } 
 

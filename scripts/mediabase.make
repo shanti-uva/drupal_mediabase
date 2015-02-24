@@ -12,6 +12,9 @@ projects[apachesolr][subdir] = "contrib"
 projects[apachesolr][version] = "1.x-dev"
 projects[apachesolr][download][revision] = "f57c2012e12a2a9d5992813d136813a9442e07c0"
 
+projects[apachesolr_realtime][subdir] = "contrib"
+projects[apachesolr_realtime][version] = "1.1"
+
 projects[apachesolr_views][subdir] = "contrib"
 projects[apachesolr_views][version] = "1.0-beta2"
 projects[apachesolr_views][patches][] = "https://drupal.org/files/use_arguments-1750952-13.patch"

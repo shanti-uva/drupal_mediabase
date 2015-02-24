@@ -883,23 +883,27 @@ function mb_solr_get_solrdoc($nid = '') {
 		$kmapsjson = array();
 		if(isset($node->field_characteristic)) {
 			$fc = field_get_items('node', $node, 'field_characteristic');
-			foreach($fc as $fitem) {
-				$term = taxonomy_term_load($fitem['tid']);
-				if(isset($term->kmap_id['und'][0]['value'])) {
-					$sval = $term->kmap_id['und'][0]['value'];
-					$kmaps .= '<str>subjects-' . $sval . '</str>';
-					$kmapsjson[] = 'subjects-' . $sval;
+			if(!empty($fc)) {
+				foreach($fc as $fitem) {
+					$term = taxonomy_term_load($fitem['tid']);
+					if(isset($term->kmap_id['und'][0]['value'])) {
+						$sval = $term->kmap_id['und'][0]['value'];
+						$kmaps .= '<str>subjects-' . $sval . '</str>';
+						$kmapsjson[] = 'subjects-' . $sval;
+					}
 				}
 			}
 		}
 		if(isset($node->field_pbcore_coverage_spatial)) {
 			$fpcs = field_get_items('node', $node, 'field_pbcore_coverage_spatial');
-			foreach($fpcs as $fpcsitem) {
-				$term = taxonomy_term_load($fpcsitem['tid']);
-				if(isset($term->place_dictionary_id['und'][0]['value'])) {
-					$pval = $term->place_dictionary_id['und'][0]['value'];
-					$kmaps .= '<str>places-' . $pval . '</str>';
-					$kmapsjson[] = 'places-' . $pval;
+			if(!empty($fpcs)) {
+				foreach($fpcs as $fpcsitem) {
+					$term = taxonomy_term_load($fpcsitem['tid']);
+					if(isset($term->place_dictionary_id['und'][0]['value'])) {
+						$pval = $term->place_dictionary_id['und'][0]['value'];
+						$kmaps .= '<str>places-' . $pval . '</str>';
+						$kmapsjson[] = 'places-' . $pval;
+					}
 				}
 			}
 		}

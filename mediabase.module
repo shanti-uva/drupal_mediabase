@@ -111,6 +111,15 @@ function mediabase_settings_form($form_id, $form_state) {
         '#required' => TRUE,
      );
 		 
+     $form['kmaps_site_path_format'] = array(
+        '#title' => t('KMaps Site Sprint Format'),
+        '#type' => 'textfield', 
+        '#default_value' => variable_get('kmaps_site_path_format', '%d/overview/nojs'),
+        '#size' => 60, 
+        '#maxlength' => 255, 
+        '#required' => TRUE,
+     );
+		 
      $form['kmaps_solr_index'] = array(
         '#title' => t('Solr Index for Kmaps Associations'),
         '#type' => 'textfield', 
@@ -121,14 +130,6 @@ function mediabase_settings_form($form_id, $form_state) {
         '#required' => FALSE,
      );
 		 
-     $form['kmaps_site_path_format'] = array(
-        '#title' => t('KMaps Site Sprint Format'),
-        '#type' => 'textfield', 
-        '#default_value' => variable_get('kmaps_site_path_format', '%d/overview/nojs'),
-        '#size' => 60, 
-        '#maxlength' => 255, 
-        '#required' => TRUE,
-     );
    }
    
    return system_settings_form($form);

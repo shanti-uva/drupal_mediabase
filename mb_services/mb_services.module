@@ -171,7 +171,7 @@ function mb_services_do_solr_post($data) {
 				'Content-Length' => $content_length,
 			),
 		);
-		
+		dpm($settings, 'posted to: ' . $solr_index . '/update/json?commit=true');
 		// Do Post to the SOLR Index
 		$result = drupal_http_request($solr_index . '/update/json?commit=true', $settings);
 		return $result;

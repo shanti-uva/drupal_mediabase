@@ -145,6 +145,7 @@ function mb_services_post_to_solr($node) {
  * mb_services_do_solr_post: posts to solr index
  */
 function mb_services_do_solr_post($data) {
+	dpm($data, 'data posted');
 	$solr_index = variable_get('kmaps_solr_index', '');
 	if(!empty($solr_index)) {
 		$content_length = strlen($data);

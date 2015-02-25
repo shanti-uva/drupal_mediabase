@@ -142,6 +142,8 @@ function mediabase_settings_form($form_id, $form_state) {
 			    '#prefix' => '<div class="form-item" style="padding-top: 2.5em;">',
 			    '#suffix' => '<div id="em-update-msg"></div></div><br style="clear:both;" />',
 			  );
+		 } else {
+		 	$form['br'] = array( '#markup' => '<br style="clear:both;" />');
 		 }
 		 
 		 $form['#validate'][] = 'mediabase_settings_form_validate';

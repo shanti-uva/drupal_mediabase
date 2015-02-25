@@ -922,7 +922,7 @@ function mb_solr_get_solrdoc($nid = '', $format = 'xml') {
 			}
 		}
 		
-		$kmapsjson = array_unique($kmapsjson);
+		$kmapsjson = array_values(array_unique($kmapsjson));
 		foreach($kmapsjson as $km) {
 			$kmaps .= "<str>$km</str>";
 		}

@@ -159,7 +159,7 @@ function mb_services_do_solr_post($data) {
 			),
 		);
 		// Do Post to the SOLR Index
-		$result = drupal_http_request($solr_index . 'update/json?commit=true', $settings);
+		$result = drupal_http_request($solr_index . '/update/json?commit=true', $settings);
 		return $result;
 	}
 	drupal_set_message(t('You have not defined a solr-index for posting kmaps information. Please go to the <a href="@link">Mediabase Settings</a> page.',

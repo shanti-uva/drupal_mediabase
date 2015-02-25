@@ -865,14 +865,17 @@ function mb_solr_get_solrdoc($nid = '') {
   print '<?xml version="1.0"?>' . $docout;
 }*/
 
-function mb_solr_get_solrdoc($nid = '') {
+function mb_solr_get_solrdoc($nid = '', $format = 'xml') {
 	global $base_url;
-	$json = FALSE;
-	if(strpos($nid,'.') > -1) {
+	module_load_include('inc', 'kmap_taxonomy', 'includes/kmap');
+	module_load_include('inc', 'mb_location', 'mb_location');
+	$is_api_call = FALSE;
+	if(strpos($nid,'.') > -1) { // if the url has "." in it, it's an api call. Otherwise it's a function call
+		$is_api_call = TRUE;
 		$pts = explode('.', $nid);
 		$nid = $pts[0];
 		if($pts[1] == 'json') { $json = TRUE; }
-	}
+	} else if($format == 'json') { $json = TRUE; }
 	$servpts = explode('//', $base_url);
 	$service = str_replace('.', '_', $servpts[1]);
 	$uid = $service . '-' . $nid;
@@ -883,27 +886,46 @@ function mb_solr_get_solrdoc($nid = '') {
 		$kmapsjson = array();
 		if(isset($node->field_characteristic)) {
 			$fc = field_get_items('node', $node, 'field_characteristic');
-			foreach($fc as $fitem) {
-				$term = taxonomy_term_load($fitem['tid']);
-				if(isset($term->kmap_id['und'][0]['value'])) {
-					$sval = $term->kmap_id['und'][0]['value'];
-					$kmaps .= '<str>subjects-' . $sval . '</str>';
-					$kmapsjson[] = 'subjects-' . $sval;
+			if(!empty($fc)) {
+				foreach($fc as $fitem) {
+					$kmap = Kmap::createKmapByTid($fitem['tid']);
+					$lineage = $kmap->get_kmap_lineage();
+					foreach($lineage as $ancestor) {  // ancester includes self in this instance
+						$basestr = 'subjects-' . $ancestor['kmap_id'];
+						$kmapsjson[] = $basestr;
+					}
+					/*
+					$term = taxonomy_term_load($fitem['tid']);
+					if(isset($term->kmap_id['und'][0]['value'])) {
+						$sval = $term->kmap_id['und'][0]['value'];
+						$kmaps .= '<str>subjects-' . $sval . '</str>';
+						$kmapsjson[] = 'subjects-' . $sval;
+					}*/
 				}
 			}
 		}
 		if(isset($node->field_pbcore_coverage_spatial)) {
 			$fpcs = field_get_items('node', $node, 'field_pbcore_coverage_spatial');
-			foreach($fpcs as $fpcsitem) {
-				$term = taxonomy_term_load($fpcsitem['tid']);
-				if(isset($term->place_dictionary_id['und'][0]['value'])) {
-					$pval = $term->place_dictionary_id['und'][0]['value'];
-					$kmaps .= '<str>places-' . $pval . '</str>';
-					$kmapsjson[] = 'places-' . $pval;
+			if(!empty($fpcs)) {
+				foreach($fpcs as $fpcsitem) {
+					$km = fetch_place_dict_details($fpcsitem['tid']);
+					foreach ($km as $kmid => $data) {
+						$kmapsjson[] = 'places-' . $kmid;
+					}
+					/*
+					$term = taxonomy_term_load($fpcsitem['tid']);
+					if(isset($term->place_dictionary_id['und'][0]['value'])) {
+						$pval = $term->place_dictionary_id['und'][0]['value'];
+						$kmapsjson[] = 'places-' . $pval;
+					}*/
 				}
 			}
 		}
 		
+		$kmapsjson = array_unique($kmapsjson);
+		foreach($kmapsjson as $km) {
+			$kmaps .= "<str>$km</str>";
+		}
 		$url_html = $base_url . '/' . $alias;
 		$url_ajax = $base_url . '/services/node/ajax/' . $nid;
 		$url_json = $base_url . '/api/v1/media/node/' . $nid . '.json';
@@ -922,10 +944,15 @@ function mb_solr_get_solrdoc($nid = '') {
 			$jsonout['doc']['url_thumb'] = $thumb;
 			$jsonout['doc']['caption'] = $node->title;
 			$jsonout['doc']['kmapid'] = $kmapsjson;
-			drupal_json_output($jsonout);
+			if($is_api_call) {
+				drupal_json_output($jsonout);
+			} else {
+				return $jsonout;
+			}
 			
 		} else {
 			// Otherwise Return XML
+		  // Convert Solr Doc to XML and add to output string
 			$doc = '<doc><str name="service">' . $service . '</str>
 			<str name="asset_type">audio-video</str>
 			<str name="id">' . $nid . '</str>
@@ -936,12 +963,15 @@ function mb_solr_get_solrdoc($nid = '') {
 			<str name="url_thumb">' . $thumb . '</str>
 			<str name="caption">' . $node->title . '</str>
 			<arr name="kmapid">' . $kmaps . '</arr></doc>';
-		  // Convert Solr Doc to XML and add to output string
-		  drupal_add_http_header('Content-Type', 'text/xml');
-		  print '<?xml version="1.0"?>' . $doc;
+		  if($is_api_call) {
+			  drupal_add_http_header('Content-Type', 'text/xml');
+			  print '<?xml version="1.0"?>' . $doc;
+			} else {
+				return $doc;
+			}
 		}
 	// If node does not exist, Return 404 not found respones
-	} else {
+	} else if($is_api_call) {
 		drupal_add_http_header('Status', '404 Not Found');
 		if($json) {
 			drupal_json_output(array(
@@ -959,6 +989,8 @@ function mb_solr_get_solrdoc($nid = '') {
 		  	<uid>$uid</uid>
 		  </result>";
 		}
+	} else {
+		return FALSE;
 	}
 }
 

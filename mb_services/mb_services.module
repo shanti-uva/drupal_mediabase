@@ -7,7 +7,7 @@
  define('MB_SOLR_ITEMS_PER_PAGE', 50); 
  define('KMAP_SERVICE_SUBJECTS', "http://subjects.kmaps.virginia.edu/features/");
  define('KMAP_SERVICE_PLACES', "http://places.kmaps.virginia.edu/features/");
- define('KMAP_SOLR_INDEX_POST', "http://kidx.shanti.virginia.edu/solr/kmindex-dev/update/json?commit=true");
+ //define('KMAP_SOLR_INDEX_POST', "http://kidx.shanti.virginia.edu/solr/kmindex-dev/update/json?commit=true");
  
 /*
  * Implements hook_menu. 
@@ -133,21 +133,12 @@ function mb_services_post_to_solr($node) {
 		}
 		
 		// Create Data Array from field info
-		$data[] = array(
-			'url' => $url,
-			'bundle' => $bundle,
-			'summary' => $desc,
-			'caption' => $node->title,
-			'id' => $nid,
-			'service' => 'mediabase',
-			'uid' => 'mediabase-' . $nid,
-			'thumbnail_url' => $node->thumbnail_url,
-			'kmapid' => mb_services_get_node_kmapids($node),
-		);
-		
+		$solrdoc_array = mb_solr_get_solrdoc($node->nid, 'json');
+		$data = $solrdoc_array['doc'];
 		// Serialize data and add to settings array
-		$data = json_encode($data);
-		mb_services_do_solr_post($data);
+		$data = json_encode(array($data));
+		$result = mb_services_do_solr_post($data);
+		return $result;
 	}
 } 
 
@@ -155,19 +146,25 @@ function mb_services_post_to_solr($node) {
  * mb_services_do_solr_post: posts to solr index
  */
 function mb_services_do_solr_post($data) {
-	$content_length = strlen($data);
-	$settings = array(
-		'method' => 'POST',
-		'data' => $data,
-		'headers' => array(
-			'Content-Type' => 'application/json; charset=utf-8',
-			'Content-Length' => $content_length,
-		),
-	);
-	
-	// Do Post to the SOLR Index
-	$result = drupal_http_request(KMAP_SOLR_INDEX_POST, $settings);
-	return $result;
+	//dpm($data, 'data posted');
+	$solr_index = variable_get('kmaps_solr_index', '');
+	if(!empty($solr_index)) {
+		$content_length = strlen($data);
+		$settings = array(
+			'method' => 'POST',
+			'data' => $data,
+			'headers' => array(
+				'Content-Type' => 'application/json; charset=utf-8',
+				'Content-Length' => $content_length,
+			),
+		);
+		// Do Post to the SOLR Index
+		$result = drupal_http_request($solr_index . 'update/json?commit=true', $settings);
+		return $result;
+	}
+	drupal_set_message(t('You have not defined a solr-index for posting kmaps information. Please go to the <a href="@link">Mediabase Settings</a> page.',
+												array('@link' => url('admin/config/media/mediabase') . '#edit-kmaps-solr-index')), 'warning');
+	return FALSE;
 }
 
 /**

@@ -58,6 +58,7 @@ function mediabase_menu() {
 }
 
 function mediabase_settings_form($form_id, $form_state) {
+
    $form['partner_data'] = array(
       '#type' => 'textarea',
       '#title' => t('Partner data prefix patterns'),
@@ -119,24 +120,114 @@ function mediabase_settings_form($form_id, $form_state) {
         '#maxlength' => 255, 
         '#required' => TRUE,
      );
+		 
+     $form['kmaps_solr_index'] = array(
+        '#title' => t('Solr Index for Kmaps Associations'),
+        '#type' => 'textfield', 
+        '#description' => 'The URL for the solr index to which Kmap associations get posted',
+        '#default_value' => variable_get('kmaps_solr_index', ''),
+        '#size' => 60, 
+        '#maxlength' => 255, 
+        '#required' => FALSE,
+        '#prefix' => '<div style="float:left; padding-right: 12px;">',
+        '#suffix' => '</div>',
+     );
+		 
+		 if(variable_get('kmaps_solr_index', FALSE)) { 
+			  $form['index_nodes'] = array(
+			    '#type' => 'button',
+			    '#executes_submit_callback' => TRUE,
+			    '#value' => t('Index All Nodes (KMaps)'),
+			    '#attributes' => array('title' => t('Submit all nodes to the global kmaps solr index')),
+			    '#prefix' => '<div class="form-item" style="padding-top: 2.5em;">',
+			    '#suffix' => '<div id="em-update-msg"></div></div><br style="clear:both;" />',
+			  );
+		 }
+		 
+		 $form['#validate'][] = 'mediabase_settings_form_validate';
+		 $form['#submit'][] = 'mediabase_settings_form_submit';
    }
    
    return system_settings_form($form);
 }
 
 function mediabase_settings_form_validate($form, &$form_state) {
+	// Make sure urls end with /
   if(substr($form_state['values']['kmap_server'], -1) == "/") {
     $form_state['values']['kmap_server'] = substr( $form_state['values']['kmap_server'], 0, strlen($form_state['values']['kmap_server']) - 1);
   }
   if(substr($form_state['values']['place_server'], -1) == "/") {
     $form_state['values']['place_server'] = substr( $form_state['values']['place_server'], 0, strlen($form_state['values']['place_server']) - 1);
   }
+  if(substr($form_state['values']['kmaps_solr_index'], -1) == "/") {
+    $form_state['values']['kmaps_solr_index'] = substr( $form_state['values']['kmaps_solr_index'], 0, strlen($form_state['values']['kmaps_solr_index']) - 1);
+  }
 }
 
 function mediabase_settings_form_submit($form, &$form_state) {
-   // partner data prefixes are a way of managing imports from kaltura
-   variable_set('mediabase_partner_data_prefixes', $form_state['values']['partner_data']);
-   drupal_set_message(t('The settings have been saved'));
+  // partner data prefixes are a way of managing imports from kaltura
+  variable_set('mediabase_partner_data_prefixes', $form_state['values']['partner_data']);
+	if($form_state['triggering_element']['#id'] == 'edit-index-nodes') {
+		mediabase_do_batch_solr_index();
+	}
+  drupal_set_message(t('The settings have been saved'));
+}
+
+function mediabase_do_batch_solr_index() {
+	$query = "select max(nid) from node;";
+	$result = db_query($query)->fetchCol();
+	$max = (array)$result;
+	$max = $max[0];
+	$batch = array(
+		'title' => t('Sending Nodes to Solr Index'),
+		'operations' => array(
+			array('mediabase_solr_index_nodes', array($max)),
+		),
+		'finished' => 'mediabase_solr_index_nodes_finished',
+	);
+	batch_set($batch);
+}
+
+function mediabase_solr_index_nodes($max, &$context) {
+	if (empty($context['sandbox'])) {
+    $context['sandbox']['progress'] = 0;
+    $context['sandbox']['current_node'] = 0;
+    $context['sandbox']['max'] = $max;
+  }
+	$limit = 5;
+  $result = db_select('node')
+    ->fields('node', array('nid'))
+    ->condition('nid', $context['sandbox']['current_node'], '>')
+    ->orderBy('nid')
+    ->range(0, $limit)
+    ->execute();
+  foreach ($result as $row) {
+    $context['sandbox']['progress']++; 
+    $node = node_load($row->nid, NULL, TRUE);
+    if($node && in_array($node->type, array('audio', 'video'))) {
+			$res = mb_services_post_to_solr($node);
+			if($res->status_message == 'OK') {
+			   $context['results'][] = $node->nid . ' : ' . check_plain($node->title);
+			   $context['sandbox']['current_node'] = $node->nid;
+			   $context['message'] = check_plain($node->title);
+			}
+		}
+  }
+  if ($context['sandbox']['progress'] < $context['sandbox']['max']) {
+    $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
+  }
+}
+
+function mediabase_solr_index_nodes_finished($success, $results, $operations) {
+  // The 'success' parameter means no fatal PHP errors were detected. All
+  // other error management should be handled using 'results'.
+  if ($success) {
+    $message = format_plural(count($results), 'One av node indexed.', '@count av nodes indexed.');
+  }
+  else {
+    $message = t('Finished with an error.');
+  }
+  drupal_set_message($message);
 }
 
 function mediabase_form_alter(&$form, &$form_state, $form_id) {

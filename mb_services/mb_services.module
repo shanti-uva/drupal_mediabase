@@ -105,7 +105,7 @@ function mb_services_node_delete($node) {
 /**
  * Post Audio and Video Node updates to Solr Index
  */
-function mb_services_post_to_solr($node) {
+function mb_services_post_to_solr($node, $show_result = FALSE) {
 	// Get Entity Wrapper and set field info to send
 	$ewrap = entity_metadata_wrapper('node', $node);
 	$bundle = $ewrap->getBundle();
@@ -138,7 +138,7 @@ function mb_services_post_to_solr($node) {
 		// Serialize data and add to settings array
 		$data = json_encode(array($data));
 		$result = mb_services_do_solr_post($data);
-		return $result;
+		if($show_result) { return $result; }
 	}
 } 
 

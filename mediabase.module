@@ -172,7 +172,7 @@ function mediabase_settings_form_submit($form, &$form_state) {
 	if($form_state['triggering_element']['#id'] == 'edit-index-nodes') {
 		mediabase_do_batch_solr_index();
 	}
-  drupal_set_message(t('The settings have been saved'));
+  //drupal_set_message(t('The settings have been saved')); // Drupal has built in message for this
 }
 
 function mediabase_do_batch_solr_index() {

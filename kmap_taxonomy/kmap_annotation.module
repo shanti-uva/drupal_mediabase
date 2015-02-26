@@ -210,8 +210,8 @@ function _kmap_subject_popover($kmap) {
 	if(empty($desc) && !empty($data->feature->captions)) { $desc = $data->feature->captions[0]->content; }
 	if(empty($desc)) { $desc = t('<p>Currently no description available.</p>'); }
 	$ancestors = $kmap->get_kmap_lineage();
-	$subject_url = variable_get('kmaps_site_subjects', 'http://badger.drupal-dev.shanti.virginia.edu/subjects/');
-	$path_format = variable_get('kmaps_site_path_format', '%d/overview/nojs');
+	$subject_url = variable_get('kmaps_site_subjects', 'http://badger.drupal-dev.shanti.virginia.edu/subjects');
+	$path_format = variable_get('kmaps_site_path_format', '/%d/overview/nojs');
 	$parents = array();
 	foreach($ancestors as $n => $subject) {
 		$parents[] = l($subject['name'], $subject_url . sprintf($path_format, $subject['kmap_id']), 

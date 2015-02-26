@@ -100,8 +100,8 @@ function _mb_location_format_item( $item, $view_path ) {
          array_unshift($parents, l($place_name, $path)); // . " ({$place_id})");
       }
 			
-			$place_url = variable_get('kmaps_site_places', 'http://badger.drupal-dev.shanti.virginia.edu/places/');
-			$path_format = variable_get('kmaps_site_path_format', '%d/overview/nojs');
+			$place_url = variable_get('kmaps_site_places', 'http://badger.drupal-dev.shanti.virginia.edu/places');
+			$path_format = variable_get('kmaps_site_path_format', '/%d/overview/nojs');
 			$links = array(
 				'Full Entry' => array('icon' => 'link-external', 'href' => $place_url . sprintf($path_format, $place_dict_id), 'external' => TRUE),
 				'Related Audio-Video' => array('icon' => 'audio-video', 'href' => sprintf("list/places/%d", $place_dict_id)), //old url: "http://aardvark.drupal-dev.shanti.virginia.edu/places#id={$place_dict_id}&que=tab-audio-video"),

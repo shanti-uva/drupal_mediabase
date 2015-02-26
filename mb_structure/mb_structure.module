@@ -620,6 +620,17 @@ function mb_structure_preprocess_node(&$vars) {
   }
 }
 
+function mb_structure_node_load($nodes, $types) {
+	// Fix problem with kaltura_node_index_update expects lang='en' instead of 'und'
+	if(in_array('audio', $types)) {
+		foreach($nodes as $node) {
+			if($node->type == 'audio' && isset($node->field_audio['und'])) {
+				$node->field_audio['en'] = $node->field_audio['und'];
+			}
+		}
+	}
+}
+
 function mb_structure_node_update($node) {
 	// Separate function to update a node's kaltura data in case it needs to be called from other contexts.
 	mb_update_node_kaltura_data($node);

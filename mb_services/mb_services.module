@@ -95,11 +95,20 @@ function mb_services_node_update($node) {
 
 /**
  * Implements hook_node_delete to remove records from kmaps index
+ *   Can pass either an nid or node object
  */
-function mb_services_node_delete($node) {
-	$nid = $node->nid;
-	$data = '{"delete": {"query": "uid:mediabase-' . $nid . '"}}';
-	$result = mb_services_do_solr_post($data);
+function mb_services_node_delete($node, $return_result = FALSE) {
+	global $base_root;
+	$nid = (is_int($node)) ? $node : $node->nid;
+	$pts = explode('://', $base_root);
+	if(count($pts) > 1) {
+		$server = str_replace('.', '_', $pts[1]) . '-';
+		$data = '{"delete": {"query": "uid:' . $server . $nid . '"}}';
+		$result = mb_services_do_solr_post($data);
+		if($return_result) { return $result; }
+	} else {
+		drupal_set_message(t('Unable to parse base_root (@broot) for deletion in solr index.', array('@broot' => $base_root)), 'warning');
+	}
 }
 
 /**

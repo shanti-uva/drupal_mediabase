@@ -215,7 +215,8 @@ LocationSelector.prototype.initWidgetMarkup = function () {
             type: 'submit',
             class: 'btn btn-primary form-submit btn-remove btn-sm btn-icon',
             title: this.t('Cancel')
-      }).click( function() {
+      }).click( function(event) {
+      	 event.preventDefault();
          var acInput = jQuery( this ).siblings( '.' + formInputClass );
          acInput.removeClass('throbber');
          acInput.autocomplete('destroy');

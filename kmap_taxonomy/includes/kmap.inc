@@ -132,10 +132,10 @@ class Kmap {
       
       $output='';
       foreach ( $rendered_lineage as $index => $term ) {
-         $view_path_processed = str_replace('%tid', $term['tid'], $view_path);
-         $view_path_processed = str_replace('%kmap_id', $term['kmap_id'], $view_path_processed);
+         $path_processed = variable_get('kmaps_site_subjects', 'http://badger.drupal-dev.shanti.virginia.edu/subjects');
+				 $path_processed .= sprintf(variable_get('kmaps_site_path_format', '/%d/overview/nojs'), $term['kmap_id']);
          $output .= ! empty($output) ? ' > ' : ''; 
-         $output .= $taxo_links ? l($term['name'], $view_path_processed) : $term['name'];
+         $output .= $taxo_links ? l($term['name'], $path_processed) : $term['name'];
       }
       return $output;
    }

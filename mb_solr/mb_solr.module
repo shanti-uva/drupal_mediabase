@@ -218,16 +218,17 @@ function mb_solr_apachesolr_query_alter($query) {
           // we've likely got an alias as the filter value
           $alias_path = "collection/$value";
           $node_path = drupal_lookup_path('source', $alias_path);
-          if ( empty($node_path) ) {
+					if(strpos($_SERVER['HTTP_REFERER'], 'node/add/collection') > -1) { return; }
+          /*if ( empty($node_path) ) {
             // redirect to page not found to avoid error when non-existent collection is searched. (2014-01-21)
             drupal_not_found();
             module_invoke_all('exit');
             exit();
-          }
+          }*/
           $parts = explode('/', $node_path);
           $nid = array_pop( $parts );
           $group = og_get_group('node', $nid);
-          $query->removeFilter('im_collection_gid', $value);
+          $query = $query->removeFilter('im_collection_gid', $value);
           $query->addFilter('im_collection_gid', $group->gid);
      }
      
@@ -471,6 +472,7 @@ function mb_solr_make_teaser($entity, $coll = FALSE) {
 function mb_solr_node_view($node, $view_mode, $langcode) {
   if($node->type == 'collection') {
     $alias = str_replace('collection/', '', drupal_get_path_alias(current_path()));
+		if(strpos($_SERVER['HTTP_REFERER'], 'node/add/collection') > -1) { return; } // prevent solr error
     module_load_include('inc','apachesolr','apachesolr_search.pages');
     $search_page = apachesolr_search_custom_page('collection_home','', $alias);
 		$node->content['collcontent'] = array( 

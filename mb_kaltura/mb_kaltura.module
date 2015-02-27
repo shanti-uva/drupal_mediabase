@@ -108,6 +108,7 @@ function mb_kaltura_node_delete($node) {
 function mb_kaltura_node_update($node) {
    /* $results = _save_kaltura_metadata($node); */
 }
+
 function mb_kaltura_node_insert($node) {
    /* $results = _save_kaltura_metadata($node); */
 }

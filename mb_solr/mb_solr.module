@@ -865,8 +865,11 @@ function mb_solr_get_solrdoc($nid = '') {
   print '<?xml version="1.0"?>' . $docout;
 }*/
 
-function mb_solr_get_solrdoc($nid = '', $format = 'xml') {
+function mb_solr_get_solrdoc($node, $format = 'xml') {
 	global $base_url;
+	// Allow for a nid to be passed instead of an object
+	$nid = (is_int($node)) ? $node : $node->nid;
+	$node = (is_int($node)) ? node_load($nid) : $node;
 	module_load_include('inc', 'kmap_taxonomy', 'includes/kmap');
 	module_load_include('inc', 'mb_location', 'mb_location');
 	$is_api_call = FALSE;
@@ -879,7 +882,6 @@ function mb_solr_get_solrdoc($nid = '', $format = 'xml') {
 	$servpts = explode('//', $base_url);
 	$service = str_replace('.', '_', $servpts[1]);
 	$uid = $service . '-' . $nid;
-	$node = node_load($nid);
 	if($node) {
  		$alias = drupal_get_path_alias('node/' . $nid);
 		$kmaps = '';
@@ -894,13 +896,6 @@ function mb_solr_get_solrdoc($nid = '', $format = 'xml') {
 						$basestr = 'subjects-' . $ancestor['kmap_id'];
 						$kmapsjson[] = $basestr;
 					}
-					/*
-					$term = taxonomy_term_load($fitem['tid']);
-					if(isset($term->kmap_id['und'][0]['value'])) {
-						$sval = $term->kmap_id['und'][0]['value'];
-						$kmaps .= '<str>subjects-' . $sval . '</str>';
-						$kmapsjson[] = 'subjects-' . $sval;
-					}*/
 				}
 			}
 		}
@@ -912,12 +907,6 @@ function mb_solr_get_solrdoc($nid = '', $format = 'xml') {
 					foreach ($km as $kmid => $data) {
 						$kmapsjson[] = 'places-' . $kmid;
 					}
-					/*
-					$term = taxonomy_term_load($fpcsitem['tid']);
-					if(isset($term->place_dictionary_id['und'][0]['value'])) {
-						$pval = $term->place_dictionary_id['und'][0]['value'];
-						$kmapsjson[] = 'places-' . $pval;
-					}*/
 				}
 			}
 		}

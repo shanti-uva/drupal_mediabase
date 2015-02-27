@@ -466,6 +466,7 @@ function mb_structure_lets_get_started_form() {
 
 function mb_structure_new_collection(&$form_state, $form) {
 	global $base_root, $base_path;
+	watchdog('mb structure', 'redirect to node add collection');
 	drupal_goto($base_root . $base_path . 'node/add/collection');
 }
 

@@ -81,8 +81,9 @@ function mb_services_menu() {
  * 
  */
 function mb_services_node_insert($node) {
-	
-	mb_services_post_to_solr($node);
+	if(in_array($node->type, array('audio', 'video'))) {
+		mb_services_post_to_solr($node);
+	}
 }
 
 /**
@@ -90,7 +91,9 @@ function mb_services_node_insert($node) {
  * 
  */
 function mb_services_node_update($node) {
-	mb_services_post_to_solr($node);
+	if(in_array($node->type, array('audio', 'video'))) {
+		mb_services_post_to_solr($node);
+	}
 }
 
 /**

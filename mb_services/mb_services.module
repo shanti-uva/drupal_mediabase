@@ -44,7 +44,7 @@ function mb_services_menu() {
   
   // Return JSON containing a list of a/v nodes tagged with given Kmap ID 
   // First param is either place or subject; Second is the kmap id
-  // TODO: Change to services/kmaps/%/% (awaiting to hear back from Yuji, Raf, Gerard)
+  // TODO: Possibly change to services/kmaps/%/%
   $items['services/%/%'] = array(
     'title' => 'JSON output of Mediabase Nodes by Kmap ID',
     'description' => 'Return the JSON description for Mediabase nodes that are tagged with a given Kmap ID',

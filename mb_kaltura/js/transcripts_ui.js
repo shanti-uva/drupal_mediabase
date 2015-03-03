@@ -38,8 +38,8 @@
                                         }
                                     });
 
-                                    this.container.scrollTo($tcu);
                                     this.setOne($tcu);
+                                    this.container.scrollTo($tcu);
                                 }
                                 else {
                                     init = true;

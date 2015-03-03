@@ -1,10 +1,19 @@
 (function ($) {
 	
+	function clearAllMBTrees() {
+		ftrees = Drupal.settings.mediabase.ftrees;
+		for(var fi = 0; fi < ftrees.length; fi++) {
+			tr = ftrees[fi];
+			tr.clearFilter();
+		}
+	}
+	
 	//  ndg8f 2013-11-14
 	Drupal.behaviors.mbSolr={ 
 		attach: function(context) {
 			//console.log('mb solr js context:', $(context).attr('id'));
 			if(context == document) { 
+
 				// Ajax Service Call for More Like This Related videos
 				var data = $('div#related').data();
 				if(data != null && typeof(data.nid) != 'undefined') { 
@@ -43,9 +52,13 @@
 	 	}
 	};
 	
+	
 	// Called by ajax_command_invoke in mb_solr.module from mb_solr_facets_ajax() function. Needs to be JQuery function
 	$.fn.updateFacetTree = function(data) {
 		var fsel = Drupal.settings.mediabase.facets;
+		if(fsel == "") {
+			setTimeout(clearAllMBTrees, 500);
+		}
 		var ifsfids = []; //fsel.split(":").pop();
 		var fcts = fsel.split("::");
 		for(var n in fcts) {
@@ -91,7 +104,6 @@
 		
 		Drupal.settings.mediabase.facetcounts = []; // reset facet counts so they don't get merged between calls
 	};
-	
 	
 	
 } (jQuery));

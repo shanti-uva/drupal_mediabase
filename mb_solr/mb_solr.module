@@ -445,12 +445,9 @@ function mb_solr_make_teaser($entity, $coll = FALSE) {
     $entity['thumb_url'] = mb_kaltura_get_thumbnail_url($entry_id, 360, 270);
     // Add Place Link to Render array
     if(!empty($node->field_pbcore_coverage_spatial)) {
-      $entity['place_link'] = field_view_value('node', $node, 'field_pbcore_coverage_spatial', $node->field_pbcore_coverage_spatial[LANGUAGE_NONE][0]);
-			/*if(isset($view['#href'])) {
-				$entity['place_link'] = l($view['#title'], $view['#href']);
-			} else {
-				$entity['place_link'] = FALSE;
-			}*/
+      $place_field = field_view_value('node', $node, 'field_pbcore_coverage_spatial', $node->field_pbcore_coverage_spatial[LANGUAGE_NONE][0]);
+			$pfew = entity_metadata_wrapper('taxonomy_term', $place_field['#options']['entity']);
+			$variables['place_link'] = l($place_field['#title'], 'list/places/' . $pfew->place_dictionary_id->value());
     }
   } else {
     $mbpath = drupal_get_path('module', 'mediabase');

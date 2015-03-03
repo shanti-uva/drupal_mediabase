@@ -69,7 +69,7 @@
       <?php if(isset($result['place_link']) && count($result['place_link']) > 0): ?>
         <div class="shanti-thumbnail-field shanti-field-place">        
          <span class="field-content"><i class="shanticon shanticon-places"></i> 
-           <?php print render($result['place_link']); ?>
+           <?php print $result['place_link']; ?>
          </span>
         </div>
       <?php endif; ?>

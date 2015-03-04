@@ -142,10 +142,10 @@ function audio_video_strongarm() {
           'weight' => '0',
         ),
         'path' => array(
-          'weight' => '14',
+          'weight' => '11',
         ),
         'flag' => array(
-          'weight' => '13',
+          'weight' => '10',
         ),
       ),
       'display' => array(),

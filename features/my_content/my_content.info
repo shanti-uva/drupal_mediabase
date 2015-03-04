@@ -1,8 +1,8 @@
 name = My Content
-description = Views for My Content (replaces my stuff)
+description = Views for My Content
 core = 7.x
 package = Mediabase
-version = 7.x-1.0-alpha2
+version = 7.x-1.0-alpha3
 project = my_content
 dependencies[] = ctools
 dependencies[] = features

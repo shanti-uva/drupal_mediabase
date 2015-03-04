@@ -1843,40 +1843,6 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_workflow-field_catalog_workflow_note'
-  $field_instances['field_collection_item-field_workflow-field_catalog_workflow_note'] = array(
-    'bundle' => 'field_workflow',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'inline',
-        'module' => 'text',
-        'settings' => array(),
-        'type' => 'text_default',
-        'weight' => 31,
-      ),
-    ),
-    'entity_type' => 'field_collection_item',
-    'field_name' => 'field_catalog_workflow_note',
-    'label' => 'Catalog Workflow Note',
-    'required' => 0,
-    'settings' => array(
-      'text_processing' => 0,
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'text',
-      'settings' => array(
-        'rows' => 5,
-      ),
-      'type' => 'text_textarea',
-      'weight' => 19,
-    ),
-  );
-
   // Exported field_instance: 'field_collection_item-field_workflow-field_cataloging_proofed'
   $field_instances['field_collection_item-field_workflow-field_cataloging_proofed'] = array(
     'bundle' => 'field_workflow',
@@ -1912,40 +1878,6 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_workflow-field_edl_log_files'
-  $field_instances['field_collection_item-field_workflow-field_edl_log_files'] = array(
-    'bundle' => 'field_workflow',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'inline',
-        'module' => 'text',
-        'settings' => array(),
-        'type' => 'text_default',
-        'weight' => 12,
-      ),
-    ),
-    'entity_type' => 'field_collection_item',
-    'field_name' => 'field_edl_log_files',
-    'label' => 'Logging files/EDLs',
-    'required' => 0,
-    'settings' => array(
-      'text_processing' => 0,
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'text',
-      'settings' => array(
-        'rows' => 5,
-      ),
-      'type' => 'text_textarea',
-      'weight' => 11,
-    ),
-  );
-
   // Exported field_instance: 'field_collection_item-field_workflow-field_edls_archived'
   $field_instances['field_collection_item-field_workflow-field_edls_archived'] = array(
     'bundle' => 'field_workflow',
@@ -1978,41 +1910,6 @@ function audio_video_field_default_field_instances() {
       'settings' => array(),
       'type' => 'options_select',
       'weight' => 6,
-    ),
-  );
-
-  // Exported field_instance: 'field_collection_item-field_workflow-field_extended_cataloging'
-  $field_instances['field_collection_item-field_workflow-field_extended_cataloging'] = array(
-    'bundle' => 'field_workflow',
-    'default_value' => array(
-      0 => array(
-        'value' => 'Not Reviewed',
-      ),
-    ),
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'inline',
-        'module' => 'list',
-        'settings' => array(),
-        'type' => 'list_default',
-        'weight' => 16,
-      ),
-    ),
-    'entity_type' => 'field_collection_item',
-    'field_name' => 'field_extended_cataloging',
-    'label' => 'Extended Cataloging',
-    'required' => 0,
-    'settings' => array(
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'options',
-      'settings' => array(),
-      'type' => 'options_select',
-      'weight' => 16,
     ),
   );
 
@@ -2121,41 +2018,6 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_workflow-field_media_present'
-  $field_instances['field_collection_item-field_workflow-field_media_present'] = array(
-    'bundle' => 'field_workflow',
-    'default_value' => array(
-      0 => array(
-        'value' => 'Not Reviewed',
-      ),
-    ),
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'inline',
-        'module' => 'list',
-        'settings' => array(),
-        'type' => 'list_default',
-        'weight' => 1,
-      ),
-    ),
-    'entity_type' => 'field_collection_item',
-    'field_name' => 'field_media_present',
-    'label' => 'Media Present',
-    'required' => 0,
-    'settings' => array(
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'options',
-      'settings' => array(),
-      'type' => 'options_select',
-      'weight' => 1,
-    ),
-  );
-
   // Exported field_instance: 'field_collection_item-field_workflow-field_media_problem_1'
   $field_instances['field_collection_item-field_workflow-field_media_problem_1'] = array(
     'bundle' => 'field_workflow',
@@ -2258,40 +2120,6 @@ function audio_video_field_default_field_instances() {
       'settings' => array(),
       'type' => 'options_select',
       'weight' => 10,
-    ),
-  );
-
-  // Exported field_instance: 'field_collection_item-field_workflow-field_media_workflow_note'
-  $field_instances['field_collection_item-field_workflow-field_media_workflow_note'] = array(
-    'bundle' => 'field_workflow',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'inline',
-        'module' => 'text',
-        'settings' => array(),
-        'type' => 'text_default',
-        'weight' => 11,
-      ),
-    ),
-    'entity_type' => 'field_collection_item',
-    'field_name' => 'field_media_workflow_note',
-    'label' => 'Media Workflow Note',
-    'required' => 0,
-    'settings' => array(
-      'text_processing' => 0,
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'text',
-      'settings' => array(
-        'rows' => 5,
-      ),
-      'type' => 'text_textarea',
-      'weight' => 12,
     ),
   );
 
@@ -2537,215 +2365,6 @@ function audio_video_field_default_field_instances() {
       'settings' => array(),
       'type' => 'options_select',
       'weight' => 30,
-    ),
-  );
-
-  // Exported field_instance: 'field_collection_item-field_workflow-field_transcript_input'
-  $field_instances['field_collection_item-field_workflow-field_transcript_input'] = array(
-    'bundle' => 'field_workflow',
-    'default_value' => array(
-      0 => array(
-        'value' => 'Not Reviewed',
-      ),
-    ),
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'inline',
-        'module' => 'list',
-        'settings' => array(),
-        'type' => 'list_default',
-        'weight' => 19,
-      ),
-    ),
-    'entity_type' => 'field_collection_item',
-    'field_name' => 'field_transcript_input',
-    'label' => 'Transcript Input',
-    'required' => 0,
-    'settings' => array(
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'options',
-      'settings' => array(),
-      'type' => 'options_select',
-      'weight' => 19,
-    ),
-  );
-
-  // Exported field_instance: 'field_collection_item-field_workflow-field_transcript_proofed'
-  $field_instances['field_collection_item-field_workflow-field_transcript_proofed'] = array(
-    'bundle' => 'field_workflow',
-    'default_value' => array(
-      0 => array(
-        'value' => 'Not Reviewed',
-      ),
-    ),
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'inline',
-        'module' => 'list',
-        'settings' => array(),
-        'type' => 'list_default',
-        'weight' => 24,
-      ),
-    ),
-    'entity_type' => 'field_collection_item',
-    'field_name' => 'field_transcript_proofed',
-    'label' => 'Transcript Proofed',
-    'required' => 0,
-    'settings' => array(
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'options',
-      'settings' => array(),
-      'type' => 'options_select',
-      'weight' => 24,
-    ),
-  );
-
-  // Exported field_instance: 'field_collection_item-field_workflow-field_transcript_timecoded'
-  $field_instances['field_collection_item-field_workflow-field_transcript_timecoded'] = array(
-    'bundle' => 'field_workflow',
-    'default_value' => array(
-      0 => array(
-        'value' => 'Not Reviewed',
-      ),
-    ),
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'inline',
-        'module' => 'list',
-        'settings' => array(),
-        'type' => 'list_default',
-        'weight' => 20,
-      ),
-    ),
-    'entity_type' => 'field_collection_item',
-    'field_name' => 'field_transcript_timecoded',
-    'label' => 'Transcript Timecoded',
-    'required' => 0,
-    'settings' => array(
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'options',
-      'settings' => array(),
-      'type' => 'options_select',
-      'weight' => 20,
-    ),
-  );
-
-  // Exported field_instance: 'field_collection_item-field_workflow-field_transcript_workflow_note'
-  $field_instances['field_collection_item-field_workflow-field_transcript_workflow_note'] = array(
-    'bundle' => 'field_workflow',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'inline',
-        'module' => 'text',
-        'settings' => array(),
-        'type' => 'text_default',
-        'weight' => 32,
-      ),
-    ),
-    'entity_type' => 'field_collection_item',
-    'field_name' => 'field_transcript_workflow_note',
-    'label' => 'Transcript Workflow Note',
-    'required' => 0,
-    'settings' => array(
-      'text_processing' => 0,
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'text',
-      'settings' => array(
-        'rows' => 5,
-      ),
-      'type' => 'text_textarea',
-      'weight' => 31,
-    ),
-  );
-
-  // Exported field_instance: 'field_collection_item-field_workflow-field_translation_lang_1'
-  $field_instances['field_collection_item-field_workflow-field_translation_lang_1'] = array(
-    'bundle' => 'field_workflow',
-    'default_value' => array(
-      0 => array(
-        'value' => 'Not Reviewed',
-      ),
-    ),
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'inline',
-        'module' => 'list',
-        'settings' => array(),
-        'type' => 'list_default',
-        'weight' => 25,
-      ),
-    ),
-    'entity_type' => 'field_collection_item',
-    'field_name' => 'field_translation_lang_1',
-    'label' => 'Translation Input Language 1',
-    'required' => 0,
-    'settings' => array(
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'options',
-      'settings' => array(),
-      'type' => 'options_select',
-      'weight' => 25,
-    ),
-  );
-
-  // Exported field_instance: 'field_collection_item-field_workflow-field_translation_lang_2'
-  $field_instances['field_collection_item-field_workflow-field_translation_lang_2'] = array(
-    'bundle' => 'field_workflow',
-    'default_value' => array(
-      0 => array(
-        'value' => 'Not Reviewed',
-      ),
-    ),
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'inline',
-        'module' => 'list',
-        'settings' => array(),
-        'type' => 'list_default',
-        'weight' => 26,
-      ),
-    ),
-    'entity_type' => 'field_collection_item',
-    'field_name' => 'field_translation_lang_2',
-    'label' => 'Translation Input Language 2',
-    'required' => 0,
-    'settings' => array(
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'options',
-      'settings' => array(),
-      'type' => 'options_select',
-      'weight' => 26,
     ),
   );
 
@@ -2997,7 +2616,7 @@ function audio_video_field_default_field_instances() {
         'year_range' => '-3:+3',
       ),
       'type' => 'date_popup',
-      'weight' => 9,
+      'weight' => 10,
     ),
   );
 
@@ -3688,7 +3307,7 @@ function audio_video_field_default_field_instances() {
       'module' => 'fivestar',
       'settings' => array(),
       'type' => 'exposed',
-      'weight' => 14,
+      'weight' => 12,
     ),
   );
 
@@ -3981,7 +3600,7 @@ function audio_video_field_default_field_instances() {
     ),
     'entity_type' => 'node',
     'field_name' => 'field_workflow',
-    'label' => 'Workflow',
+    'label' => 'Workflow Categories',
     'required' => 0,
     'settings' => array(
       'user_register_form' => FALSE,
@@ -3991,7 +3610,7 @@ function audio_video_field_default_field_instances() {
       'module' => 'field_collection',
       'settings' => array(),
       'type' => 'field_collection_embed',
-      'weight' => 23,
+      'weight' => 14,
     ),
   );
 
@@ -4133,7 +3752,7 @@ function audio_video_field_default_field_instances() {
       'module' => 'options',
       'settings' => array(),
       'type' => 'options_select',
-      'weight' => 12,
+      'weight' => 9,
     ),
     'widget_type' => 'options_select',
   );
@@ -5207,46 +4826,7 @@ function audio_video_field_default_field_instances() {
   // Exported field_instance: 'node-video-field_workflow'
   $field_instances['node-video-field_workflow'] = array(
     'bundle' => 'video',
-    'default_value' => array(
-      0 => array(
-        'entity' => '{
-            "item_id" : null,
-            "field_name" : "field_workflow",
-            "field_media_present" : { "und" : [ { "value" : "Not Reviewed" } ] },
-            "field_video_quality_acceptable" : { "und" : [ { "value" : "Not Reviewed" } ] },
-            "field_audio_quality_acceptable" : { "und" : [ { "value" : "Not Reviewed" } ] },
-            "field_media_needs_recompression" : { "und" : [ { "value" : "Not Reviewed" } ] },
-            "field_media_needs_re_editing" : { "und" : [ { "value" : "Not Reviewed" } ] },
-            "field_edls_archived" : { "und" : [ { "value" : "Not Reviewed" } ] },
-            "field_masters_archived" : { "und" : [ { "value" : "Not Reviewed" } ] },
-            "field_media_problem_1" : { "und" : [ { "value" : "Not Reviewed" } ] },
-            "field_media_problem_2" : { "und" : [ { "value" : "Not Reviewed" } ] },
-            "field_media_problem_3" : { "und" : [ { "value" : "Not Reviewed" } ] },
-            "field_media_workflow_note" : { "und" : [] },
-            "field_edl_log_files" : { "und" : [] },
-            "field_basic_cataloging" : { "und" : [ { "value" : "Not Reviewed" } ] },
-            "field_place_data_present" : { "und" : [ { "value" : "Not Reviewed" } ] },
-            "field_cataloging_proofed" : { "und" : [ { "value" : "Not Reviewed" } ] },
-            "field_extended_cataloging" : { "und" : [ { "value" : "Not Reviewed" } ] },
-            "field_translation_language_1" : { "und" : [ { "value" : "Not Reviewed" } ] },
-            "field_translation_language_2" : { "und" : [ { "value" : "Not Reviewed" } ] },
-            "field_transcript_input" : { "und" : [ { "value" : "Not Reviewed" } ] },
-            "field_transcript_timecoded" : { "und" : [ { "value" : "Not Reviewed" } ] },
-            "field_timecode_too_infrequent" : { "und" : [ { "value" : "Not Reviewed" } ] },
-            "field_timecoding_problem_1" : { "und" : [ { "value" : "Not Reviewed" } ] },
-            "field_timecoding_problem_2" : { "und" : [ { "value" : "Not Reviewed" } ] },
-            "field_transcript_proofed" : { "und" : [ { "value" : "Not Reviewed" } ] },
-            "field_translation_lang_1" : { "und" : [ { "value" : "Not Reviewed" } ] },
-            "field_translation_lang_2" : { "und" : [ { "value" : "Not Reviewed" } ] },
-            "field_translation_lang_3" : { "und" : [ { "value" : "Not Reviewed" } ] },
-            "field_trans_proofed_lang_1" : { "und" : [ { "value" : "Not Reviewed" } ] },
-            "field_trans_proofed_lang_2" : { "und" : [ { "value" : "Not Reviewed" } ] },
-            "field_trans_proofed_lang_3" : { "und" : [ { "value" : "Not Reviewed" } ] },
-            "field_catalog_workflow_note" : { "und" : [] },
-            "field_transcript_workflow_note" : { "und" : [] }
-          }',
-      ),
-    ),
+    'default_value' => NULL,
     'deleted' => 0,
     'description' => '',
     'display' => array(
@@ -5268,7 +4848,7 @@ function audio_video_field_default_field_instances() {
     ),
     'entity_type' => 'node',
     'field_name' => 'field_workflow',
-    'label' => 'Workflow',
+    'label' => 'Workflow Categories',
     'required' => 0,
     'settings' => array(
       'user_register_form' => FALSE,
@@ -5540,7 +5120,6 @@ function audio_video_field_default_field_instances() {
   t('Available From (date)');
   t('Basic Cataloging');
   t('Bit Depth');
-  t('Catalog Workflow Note');
   t('Cataloging Proofed');
   t('Channel Config');
   t('Collection');
@@ -5560,7 +5139,6 @@ function audio_video_field_default_field_instances() {
   t('Digital Format');
   t('Duration');
   t('Encoding Scheme');
-  t('Extended Cataloging');
   t('Extension');
   t('Extension Authority');
   t('File Size');
@@ -5578,17 +5156,14 @@ function audio_video_field_default_field_instances() {
   t('Kmap Parent Id');
   t('Language');
   t('Location');
-  t('Logging files/EDLs');
   t('Logging files/EDLs archived');
   t('Masters Archived');
   t('Media Needs Re-editing');
   t('Media Needs Recompression');
-  t('Media Present');
   t('Media Problem #1');
   t('Media Problem #2');
   t('Media Problem #3');
   t('Media Type');
-  t('Media Workflow Note');
   t('Note');
   t('Numeric Label');
   t('Physical Format');
@@ -5618,13 +5193,7 @@ function audio_video_field_default_field_instances() {
   t('Title Type');
   t('Track Data');
   t('Transcript');
-  t('Transcript Input');
-  t('Transcript Proofed');
-  t('Transcript Timecoded');
-  t('Transcript Workflow Note');
   t('Transformer');
-  t('Translation Input Language 1');
-  t('Translation Input Language 2');
   t('Translation Input Language 3');
   t('Translation Language 1');
   t('Translation Language 2');
@@ -5635,7 +5204,7 @@ function audio_video_field_default_field_instances() {
   t('Video');
   t('Video Quality Acceptable');
   t('Visibility');
-  t('Workflow');
+  t('Workflow Categories');
   t('Year Published');
 
   return $field_instances;

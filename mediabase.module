@@ -445,7 +445,7 @@ function mediabase_node_load($nodes, $types) {
 		if(current_path() != 'node/add/collection' && current_path() != 'node/add/team') {
 	    foreach($nodes as $node) {
 	  		$g = og_get_group('node', $node->nid);
-	      if(in_array($node->type, array('collection', 'team'))) {
+	      if($g && in_array($node->type, array('collection', 'team'))) {
 	        $query = new EntityFieldQuery();
 			    $result = $query
 			      ->entityCondition('entity_type', 'og_membership')

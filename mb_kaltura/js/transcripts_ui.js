@@ -42,9 +42,9 @@
                                     this.container.scrollTo($tcu);
                                 }
                                 else {
-                                    //var $first = this.starts[0].$item;
-                                    //this.setOne($first);
-                                    //this.container.scrollTo($first);
+                                    var $first = this.starts[0].$item;
+                                    this.container.scrollTo($first);
+                                    this.sweetSpot = $first.position().top;
                                     init = true;
                                 }
 

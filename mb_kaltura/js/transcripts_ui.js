@@ -42,6 +42,9 @@
                                     this.container.scrollTo($tcu);
                                 }
                                 else {
+                                    var $first = this.starts[0].$item;
+                                    this.container.scrollTo($first);
+                                    this.sweetSpot = $first.position().top;
                                     init = true;
                                 }
 
@@ -74,12 +77,6 @@
                             unbindPlayListener: function(newThrough) {
                                 this.player.kUnbind(this.playingThrough ? '.playThrough' : '.playOne');
                                 this.playingThrough = newThrough;
-                            },
-
-                            setOne: function ($tcu) {
-                                this.one = $tcu;
-                                this.playIndex = parseInt(this.one.attr('data-starts-index'));
-                                this.startPlay($tcu); //scroll to sweet spot
                             },
 
                             playOne: function ($tcu) {

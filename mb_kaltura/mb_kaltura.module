@@ -119,8 +119,7 @@ function mb_kaltura_node_insert($node) {
  * Imports thumbnail image into Kaltura.
  */
 function _mb_kaltura_add_audio_thumb($node) {
-	if(!isset($node->original->field_thumbnail_image)) { return; }
-	dpm($node);
+	if(!isset($node->original->field_thumbnail_image) || !isset($node->original->field_thumbnail_image[LANGUAGE_NONE])) { return; }
 	$ofid = $node->original->field_thumbnail_image[LANGUAGE_NONE][0]['fid'];
 	$nfid = $node->field_thumbnail_image[LANGUAGE_NONE][0]['fid'];
 	if($ofid == $nfid) { return; } // if file is the same do not update in kaltura

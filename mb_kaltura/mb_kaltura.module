@@ -120,9 +120,10 @@ function mb_kaltura_node_insert($node) {
  */
 function _mb_kaltura_add_audio_thumb($node) {
 	if(!isset($node->original->field_thumbnail_image)) { return; }
+	dpm($node);
 	$ofid = $node->original->field_thumbnail_image[LANGUAGE_NONE][0]['fid'];
 	$nfid = $node->field_thumbnail_image[LANGUAGE_NONE][0]['fid'];
-	if($ofid == $nfid) { dpm('thumb not changed'); return; } // if file is the same do not update in kaltura
+	if($ofid == $nfid) { return; } // if file is the same do not update in kaltura
 	$kid = $node->field_audio[LANGUAGE_NONE][0]['entryid']; 
 	$ew = entity_metadata_wrapper('node', $node);
 	$thumb = $ew->field_thumbnail_image->value();

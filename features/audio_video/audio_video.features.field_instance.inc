@@ -266,9 +266,8 @@ function audio_video_field_default_field_instances() {
     'display' => array(
       'default' => array(
         'label' => 'inline',
-        'module' => 'list',
         'settings' => array(),
-        'type' => 'list_default',
+        'type' => 'hidden',
         'weight' => 2,
       ),
     ),
@@ -365,9 +364,8 @@ function audio_video_field_default_field_instances() {
     'display' => array(
       'default' => array(
         'label' => 'inline',
-        'module' => 'list',
         'settings' => array(),
-        'type' => 'list_default',
+        'type' => 'hidden',
         'weight' => 1,
       ),
     ),
@@ -1588,9 +1586,8 @@ function audio_video_field_default_field_instances() {
     'display' => array(
       'default' => array(
         'label' => 'inline',
-        'module' => 'list',
         'settings' => array(),
-        'type' => 'list_default',
+        'type' => 'hidden',
         'weight' => 1,
       ),
     ),
@@ -2518,15 +2515,15 @@ function audio_video_field_default_field_instances() {
         'label' => 'hidden',
         'module' => 'field_kaltura',
         'settings' => array(
-          'custom_player' => '',
-          'delivery' => 'HTTP',
-          'entry_widget' => 3410832,
-          'player_height' => 30,
-          'player_width' => 400,
-          'rotate' => 0,
+          'custom_player' => NULL,
+          'delivery' => NULL,
+          'entry_widget' => NULL,
+          'player_height' => NULL,
+          'player_width' => NULL,
+          'rotate' => NULL,
           'stretch' => NULL,
-          'thumbsize_height' => 90,
-          'thumbsize_width' => 120,
+          'thumbsize_height' => NULL,
+          'thumbsize_width' => NULL,
         ),
         'type' => 'field_kaltura_player',
         'weight' => 0,
@@ -2727,7 +2724,7 @@ function audio_video_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 15,
+        'weight' => 18,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -3005,7 +3002,7 @@ function audio_video_field_default_field_instances() {
         'label' => 'hidden',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 12,
+        'weight' => 15,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -3453,6 +3450,75 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-audio-field_thumbnail_image'
+  $field_instances['node-audio-field_thumbnail_image'] = array(
+    'bundle' => 'audio',
+    'deleted' => 0,
+    'description' => 'Add an image to show in thumbnails for this audio file',
+    'display' => array(
+      'default' => array(
+        'label' => 'hidden',
+        'module' => 'image',
+        'settings' => array(
+          'image_link' => '',
+          'image_style' => 'medium',
+        ),
+        'type' => 'image',
+        'weight' => 12,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_thumbnail_image',
+    'label' => 'Thumbnail Image',
+    'required' => 0,
+    'settings' => array(
+      'alt_field' => 0,
+      'default_image' => 0,
+      'file_directory' => '',
+      'file_extensions' => 'png gif jpg jpeg',
+      'max_filesize' => '',
+      'max_resolution' => '',
+      'min_resolution' => '',
+      'title_field' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'image',
+      'settings' => array(
+        'filefield_sources' => array(
+          'filefield_sources' => array(
+            'attach' => 0,
+            'clipboard' => 0,
+            'reference' => 0,
+            'remote' => 0,
+          ),
+          'source_attach' => array(
+            'absolute' => 0,
+            'attach_mode' => 'move',
+            'path' => 'file_attach',
+          ),
+          'source_imce' => array(
+            'imce_mode' => 0,
+          ),
+          'source_reference' => array(
+            'autocomplete' => 0,
+          ),
+        ),
+        'preview_image_style' => 'gallery_thumb',
+        'progress_indicator' => 'throbber',
+      ),
+      'type' => 'image_image',
+      'weight' => 19,
+    ),
+  );
+
   // Exported field_instance: 'node-audio-field_transcript'
   $field_instances['node-audio-field_transcript'] = array(
     'bundle' => 'audio',
@@ -3463,7 +3529,7 @@ function audio_video_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 13,
+        'weight' => 16,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -3526,7 +3592,7 @@ function audio_video_field_default_field_instances() {
         'label' => 'hidden',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 14,
+        'weight' => 17,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -3589,7 +3655,7 @@ function audio_video_field_default_field_instances() {
           'view_mode' => 'full',
         ),
         'type' => 'field_collection_fields',
-        'weight' => 30,
+        'weight' => 11,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -3666,7 +3732,7 @@ function audio_video_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 10,
+        'weight' => 13,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -3721,7 +3787,7 @@ function audio_video_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 11,
+        'weight' => 14,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -3774,7 +3840,7 @@ function audio_video_field_default_field_instances() {
           'multiple_to' => '',
         ),
         'type' => 'date_default',
-        'weight' => 24,
+        'weight' => 12,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -4967,8 +5033,9 @@ function audio_video_field_default_field_instances() {
     'display' => array(
       'default' => array(
         'label' => 'above',
+        'module' => 'list',
         'settings' => array(),
-        'type' => 'hidden',
+        'type' => 'list_default',
         'weight' => 11,
       ),
       'teaser' => array(
@@ -5112,6 +5179,7 @@ function audio_video_field_default_field_instances() {
 
   // Translatables
   // Included for use with string extractors like potx.
+  t('Add an image to show in thumbnails for this audio file');
   t('Alternate Modes');
   t('Annotation');
   t('Aspect Ratio');
@@ -5183,6 +5251,7 @@ function audio_video_field_default_field_instances() {
   t('Subject');
   t('Tags');
   t('Text Label');
+  t('Thumbnail Image');
   t('Tid');
   t('Time');
   t('Timecode too infrequent');

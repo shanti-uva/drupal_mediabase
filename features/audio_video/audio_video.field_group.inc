@@ -80,6 +80,7 @@ function audio_video_field_group_info() {
     'weight' => '6',
     'children' => array(
       0 => 'field_available_from',
+      1 => 'group_content_access',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -334,6 +335,7 @@ function audio_video_field_group_info() {
     'weight' => '1',
     'children' => array(
       0 => 'field_audio',
+      1 => 'field_thumbnail_image',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -572,7 +574,6 @@ function audio_video_field_group_info() {
       1 => 'field_license',
       2 => 'field_pbcore_rights_summary',
       3 => 'field_year_published',
-      4 => 'group_content_access',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(

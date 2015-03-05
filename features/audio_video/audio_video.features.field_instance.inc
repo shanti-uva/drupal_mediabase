@@ -2509,7 +2509,7 @@ function audio_video_field_default_field_instances() {
   $field_instances['node-audio-field_audio'] = array(
     'bundle' => 'audio',
     'deleted' => 0,
-    'description' => '',
+    'description' => 'Click on button to add a media item or click on X to remove the media item',
     'display' => array(
       'default' => array(
         'label' => 'hidden',
@@ -5190,6 +5190,7 @@ function audio_video_field_default_field_instances() {
   t('Bit Depth');
   t('Cataloging Proofed');
   t('Channel Config');
+  t('Click on button to add a media item or click on X to remove the media item');
   t('Collection');
   t('Colors');
   t('Contributor');

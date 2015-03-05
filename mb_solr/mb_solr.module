@@ -413,11 +413,13 @@ function mb_solr_search_validate($form, &$form_state) {
 
 function theme_search_results__apachesolr_search(&$vars) {
 	global $base_path;
+	$q = $vars['query']->getParam('q');
 	$response = $vars['response']->response;
 	$start = $response->start + 1;
 	$end = $response->start + count($response->docs);
 	$total = $response->numFound;
 	$output = '<div class="mb-solr-results"><div class="head">';
+	$output .= "<h4>Search on &ldquo;{$q}&rdquo;</h4>";
 	$output .= sprintf('<span class="label">Related Media:</span> <span class="count">(Displaying %d-%d of %d)</span>', $start, $end, $total);
   $output .= $vars['pager'] . '</div><div class="results"><ul class="shanti-gallery">';
   foreach ($vars['results'] as $k => $v) {

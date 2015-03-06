@@ -116,10 +116,10 @@ function mb_kaltura_node_insert($node) {
 }
 
 /**
- * Imports thumbnail image into Kaltura.
+ * Imports thumbnail image into Kaltura. Called from hook_node_presave to test if thumbnail has been changed.
  */
 function _mb_kaltura_add_audio_thumb($node) {
-	if(!isset($node->original->field_thumbnail_image) || !isset($node->original->field_thumbnail_image[LANGUAGE_NONE])) {
+	if(!empty($node->original->field_thumbnail_image[LANGUAGE_NONE][0]['fid']) || !empty($node->original->field_thumbnail_image[LANGUAGE_NONE][0]['fid'])) {
 		$ofid = $node->original->field_thumbnail_image[LANGUAGE_NONE][0]['fid'];
 		$nfid = $node->field_thumbnail_image[LANGUAGE_NONE][0]['fid'];
 		if($ofid == $nfid) { return; } // if file is the same do not update in kaltura
@@ -128,9 +128,10 @@ function _mb_kaltura_add_audio_thumb($node) {
 	$ew = entity_metadata_wrapper('node', $node);
 	$thumb = $ew->field_thumbnail_image->value();
 	if(!empty($kid) && !empty($thumb)) {
+		drupal_set_message("adding thumb");
 		$client = KalturaHelpers::getKalturaClient($isAdmin=TRUE);
 		$thumbHelper = $client->thumbAsset;
-		// Remove old thumbnails
+		// Get old thumbnails to remove later
 		$oldThumb = $thumbHelper->getByEntryId($kid);
 		$file = file_load($thumb['fid']);
 		$url = file_create_url($file->uri);

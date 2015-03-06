@@ -32,17 +32,3 @@ function mb_shibboleth_form_alter(&$form, &$form_state, $form_id) {
       break;
    }
 }
-
-function mb_shibboleth_username_alter(&$name, $account) {
-  /*  $username = $name;
-   $profile = (array)array_shift(profile2_load_by_user($account));
-   if ( isset($profile['field_firstname']['und'][0]['safe_value']) && isset($profile['field_lastname']['und'][0]['safe_value'])) {
-      $username = $profile['field_firstname']['und'][0]['safe_value'] . " " . $profile['field_lastname']['und'][0]['safe_value'];
-   }
-   dpm($profile, "profile");
-   dpm($username, "username");
-   return $username;
-   // dpm($name, "name");
-   // dpm($account, "account"); */
-}
-

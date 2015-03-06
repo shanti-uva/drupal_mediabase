@@ -55,6 +55,7 @@ function audio_video_user_default_permissions() {
   $permissions['delete own audio content'] = array(
     'name' => 'delete own audio content',
     'roles' => array(
+      'authenticated user' => 'authenticated user',
       'content admin' => 'content admin',
       'site admin' => 'site admin',
     ),

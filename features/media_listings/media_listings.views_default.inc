@@ -1160,14 +1160,162 @@ print \'<h1>No Entries Found</h1> <p>No audio-video entries tagged with \' . $t-
   $handler->display->display_options['relationships']['field_pbcore_coverage_spatial_tid']['id'] = 'field_pbcore_coverage_spatial_tid';
   $handler->display->display_options['relationships']['field_pbcore_coverage_spatial_tid']['table'] = 'field_data_field_pbcore_coverage_spatial';
   $handler->display->display_options['relationships']['field_pbcore_coverage_spatial_tid']['field'] = 'field_pbcore_coverage_spatial_tid';
-  /* Relationship: Content: Subject (field_characteristic) */
-  $handler->display->display_options['relationships']['field_characteristic_tid']['id'] = 'field_characteristic_tid';
-  $handler->display->display_options['relationships']['field_characteristic_tid']['table'] = 'field_data_field_characteristic';
-  $handler->display->display_options['relationships']['field_characteristic_tid']['field'] = 'field_characteristic_tid';
   /* Relationship: Content: Subcollection (field_subcollection) */
   $handler->display->display_options['relationships']['field_subcollection_tid']['id'] = 'field_subcollection_tid';
   $handler->display->display_options['relationships']['field_subcollection_tid']['table'] = 'field_data_field_subcollection';
   $handler->display->display_options['relationships']['field_subcollection_tid']['field'] = 'field_subcollection_tid';
+  $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Field: Content: Path */
+  $handler->display->display_options['fields']['path']['id'] = 'path';
+  $handler->display->display_options['fields']['path']['table'] = 'node';
+  $handler->display->display_options['fields']['path']['field'] = 'path';
+  $handler->display->display_options['fields']['path']['label'] = '';
+  $handler->display->display_options['fields']['path']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['path']['element_label_colon'] = FALSE;
+  /* Field: Content: Audio */
+  $handler->display->display_options['fields']['field_audio']['id'] = 'field_audio';
+  $handler->display->display_options['fields']['field_audio']['table'] = 'field_data_field_audio';
+  $handler->display->display_options['fields']['field_audio']['field'] = 'field_audio';
+  $handler->display->display_options['fields']['field_audio']['label'] = '';
+  $handler->display->display_options['fields']['field_audio']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_audio']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['field_audio']['alter']['text'] = '<div class="shanti-thumbnail-image shanti-field-audio"> <a href="[path]" class="shanti-thumbnail-link">
+    <span class="overlay">
+        <span class="icon"></span>
+    </span>
+    [field_audio]
+    <span class="icon shanticon-audio"></span>  
+</a>
+</div>';
+  $handler->display->display_options['fields']['field_audio']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_audio']['element_default_classes'] = FALSE;
+  $handler->display->display_options['fields']['field_audio']['hide_empty'] = TRUE;
+  $handler->display->display_options['fields']['field_audio']['click_sort_column'] = 'entryid';
+  $handler->display->display_options['fields']['field_audio']['type'] = 'field_kaltura_thumbnail_only';
+  $handler->display->display_options['fields']['field_audio']['settings'] = array(
+    'thumbsize_width' => '170',
+    'thumbsize_height' => '140',
+    'rotate' => 0,
+    'entry_widget' => '48501',
+    'player_width' => '400',
+    'player_height' => '330',
+    'display_metadata' => 0,
+    'delivery' => 'HTTP',
+    'custom_player' => '',
+  );
+  /* Field: Content: Video */
+  $handler->display->display_options['fields']['field_video']['id'] = 'field_video';
+  $handler->display->display_options['fields']['field_video']['table'] = 'field_data_field_video';
+  $handler->display->display_options['fields']['field_video']['field'] = 'field_video';
+  $handler->display->display_options['fields']['field_video']['label'] = '';
+  $handler->display->display_options['fields']['field_video']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_video']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['field_video']['alter']['text'] = '<div class="shanti-thumbnail-image shanti-field-video"> <a href="[path]" class="shanti-thumbnail-link">
+    <span class="overlay">
+        <span class="icon"></span>
+    </span>
+    [field_video]
+    <span class="icon shanticon-video"></span>  
+</a>
+</div>';
+  $handler->display->display_options['fields']['field_video']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_video']['element_default_classes'] = FALSE;
+  $handler->display->display_options['fields']['field_video']['empty'] = '[field_audio]';
+  $handler->display->display_options['fields']['field_video']['click_sort_column'] = 'entryid';
+  $handler->display->display_options['fields']['field_video']['type'] = 'field_kaltura_thumbnail_only';
+  $handler->display->display_options['fields']['field_video']['settings'] = array(
+    'thumbsize_width' => '170',
+    'thumbsize_height' => '140',
+    'rotate' => 0,
+    'entry_widget' => '48501',
+    'player_width' => '400',
+    'player_height' => '330',
+    'display_metadata' => 0,
+    'delivery' => 'HTTP',
+    'custom_player' => '',
+  );
+  $handler->display->display_options['fields']['field_video']['group_column'] = 'entryid';
+  /* Field: Content: Post date */
+  $handler->display->display_options['fields']['created']['id'] = 'created';
+  $handler->display->display_options['fields']['created']['table'] = 'node';
+  $handler->display->display_options['fields']['created']['field'] = 'created';
+  $handler->display->display_options['fields']['created']['label'] = '';
+  $handler->display->display_options['fields']['created']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['created']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['created']['date_format'] = 'custom';
+  $handler->display->display_options['fields']['created']['custom_date_format'] = 'M jS, Y';
+  $handler->display->display_options['fields']['created']['second_date_format'] = 'long';
+  /* Field: Realname: Real name */
+  $handler->display->display_options['fields']['realname']['id'] = 'realname';
+  $handler->display->display_options['fields']['realname']['table'] = 'realname';
+  $handler->display->display_options['fields']['realname']['field'] = 'realname';
+  $handler->display->display_options['fields']['realname']['relationship'] = 'uid';
+  $handler->display->display_options['fields']['realname']['label'] = '';
+  $handler->display->display_options['fields']['realname']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['realname']['element_label_colon'] = FALSE;
+  /* Field: Field: Collection */
+  $handler->display->display_options['fields']['group_audience']['id'] = 'group_audience';
+  $handler->display->display_options['fields']['group_audience']['table'] = 'field_data_group_audience';
+  $handler->display->display_options['fields']['group_audience']['field'] = 'group_audience';
+  $handler->display->display_options['fields']['group_audience']['label'] = '';
+  $handler->display->display_options['fields']['group_audience']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['group_audience']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['group_audience']['click_sort_column'] = 'gid';
+  $handler->display->display_options['fields']['group_audience']['group_column'] = 'gid';
+  $handler->display->display_options['fields']['group_audience']['delta_offset'] = '0';
+  /* Field: Content: Title */
+  $handler->display->display_options['fields']['title']['id'] = 'title';
+  $handler->display->display_options['fields']['title']['table'] = 'node';
+  $handler->display->display_options['fields']['title']['field'] = 'title';
+  $handler->display->display_options['fields']['title']['label'] = '';
+  $handler->display->display_options['fields']['title']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['title']['alter']['text'] = '[field_video]
+<div class="shanti-thumbnail-info">      
+	     <div class="body-wrap">
+	      <div class="shanti-thumbnail-field shanti-field-title">        
+	         <span class="field-content"><a href="[path]" class="shanti-thumbnail-link">[title]</a></span>  
+	      </div>  
+	      
+	      <div class="shanti-thumbnail-field shanti-field-created">       
+	          <span class="shanti-field-content">[created]</span>  
+	      </div>  
+            
+              <div class="shanti-field shanti-field-group-audience">     
+            <div class="shanti-field-content shanti-thumbnail-link">[group_audience]</div>  
+        </div>  
+          </div> <!-- end body-wrap -->
+    
+    <div class="footer-wrap">  
+          </div> <!-- end footer -->  
+   </div>';
+  $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
+  $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
+  $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
+  $handler->display->display_options['fields']['title']['spaces'] = array(
+    'type' => 'spaces_og',
+    'frontpage' => 0,
+  );
+  /* Field: Content: Comment count */
+  $handler->display->display_options['fields']['comment_count']['id'] = 'comment_count';
+  $handler->display->display_options['fields']['comment_count']['table'] = 'node_comment_statistics';
+  $handler->display->display_options['fields']['comment_count']['field'] = 'comment_count';
+  $handler->display->display_options['fields']['comment_count']['label'] = '';
+  $handler->display->display_options['fields']['comment_count']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['comment_count']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['comment_count']['hide_empty'] = TRUE;
+  $handler->display->display_options['fields']['comment_count']['empty_zero'] = TRUE;
+  /* Field: Content: Subject */
+  $handler->display->display_options['fields']['field_characteristic']['id'] = 'field_characteristic';
+  $handler->display->display_options['fields']['field_characteristic']['table'] = 'field_data_field_characteristic';
+  $handler->display->display_options['fields']['field_characteristic']['field'] = 'field_characteristic';
+  $handler->display->display_options['fields']['field_characteristic']['label'] = '';
+  $handler->display->display_options['fields']['field_characteristic']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_characteristic']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['field_characteristic']['alter']['text'] = '%1';
+  $handler->display->display_options['fields']['field_characteristic']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_characteristic']['type'] = 'taxonomy_term_reference_plain';
+  $handler->display->display_options['fields']['field_characteristic']['delta_offset'] = '0';
   $handler->display->display_options['defaults']['arguments'] = FALSE;
   /* Contextual filter: Taxonomy term: Place Dictionary Id (place_dictionary_id) */
   $handler->display->display_options['arguments']['place_dictionary_id_value']['id'] = 'place_dictionary_id_value';

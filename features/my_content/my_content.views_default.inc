@@ -190,46 +190,83 @@ function my_content_views_default_views() {
   $handler->display->display_options['fields']['delete_node']['id'] = 'delete_node';
   $handler->display->display_options['fields']['delete_node']['table'] = 'views_entity_node';
   $handler->display->display_options['fields']['delete_node']['field'] = 'delete_node';
-  /* Field: Content: Bulk operations */
+  /* Field: Bulk operations: Content */
   $handler->display->display_options['fields']['views_bulk_operations']['id'] = 'views_bulk_operations';
   $handler->display->display_options['fields']['views_bulk_operations']['table'] = 'node';
   $handler->display->display_options['fields']['views_bulk_operations']['field'] = 'views_bulk_operations';
-  $handler->display->display_options['fields']['views_bulk_operations']['vbo']['entity_load_capacity'] = '10';
-  $handler->display->display_options['fields']['views_bulk_operations']['vbo']['operations'] = array(
+  $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['display_type'] = '0';
+  $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['enable_select_all_pages'] = 1;
+  $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['force_single'] = 0;
+  $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['entity_load_capacity'] = '10';
+  $handler->display->display_options['fields']['views_bulk_operations']['vbo_operations'] = array(
     'action::node_assign_owner_action' => array(
       'selected' => 0,
-      'use_queue' => 0,
+      'postpone_processing' => 0,
       'skip_confirmation' => 0,
       'override_label' => 0,
       'label' => '',
     ),
     'action::views_bulk_operations_delete_item' => array(
-      'selected' => 0,
-      'use_queue' => 0,
+      'selected' => 1,
+      'postpone_processing' => 0,
       'skip_confirmation' => 0,
       'override_label' => 0,
       'label' => '',
     ),
-    'action::system_message_action' => array(
+    'action::views_bulk_operations_delete_revision' => array(
       'selected' => 0,
-      'use_queue' => 0,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
+    ),
+    'action::views_bulk_operations_script_action' => array(
+      'selected' => 0,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
+    ),
+    'action::mb_bulk_actions_filter_subcollection_action' => array(
+      'selected' => 0,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
+    ),
+    'action::flag_node_action' => array(
+      'selected' => 0,
+      'postpone_processing' => 0,
       'skip_confirmation' => 0,
       'override_label' => 0,
       'label' => '',
     ),
     'action::node_make_sticky_action' => array(
       'selected' => 0,
-      'use_queue' => 0,
+      'postpone_processing' => 0,
       'skip_confirmation' => 0,
       'override_label' => 0,
       'label' => '',
     ),
     'action::node_make_unsticky_action' => array(
       'selected' => 0,
-      'use_queue' => 0,
+      'postpone_processing' => 0,
       'skip_confirmation' => 0,
       'override_label' => 0,
       'label' => '',
+    ),
+    'action::views_bulk_operations_modify_action' => array(
+      'selected' => 0,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
+      'settings' => array(
+        'show_all_tokens' => 1,
+        'display_values' => array(
+          '_all_' => '_all_',
+        ),
+      ),
     ),
     'action::views_bulk_operations_argument_selector_action' => array(
       'selected' => 0,
@@ -242,66 +279,61 @@ function my_content_views_default_views() {
     ),
     'action::node_promote_action' => array(
       'selected' => 0,
-      'use_queue' => 0,
+      'postpone_processing' => 0,
       'skip_confirmation' => 0,
       'override_label' => 0,
       'label' => '',
     ),
     'action::node_publish_action' => array(
       'selected' => 1,
-      'use_queue' => 0,
-      'skip_confirmation' => 0,
-      'override_label' => 0,
-      'label' => '',
-    ),
-    'action::system_goto_action' => array(
-      'selected' => 0,
-      'use_queue' => 0,
+      'postpone_processing' => 0,
       'skip_confirmation' => 0,
       'override_label' => 0,
       'label' => '',
     ),
     'action::node_unpromote_action' => array(
       'selected' => 0,
-      'use_queue' => 0,
+      'postpone_processing' => 0,
       'skip_confirmation' => 0,
       'override_label' => 0,
       'label' => '',
     ),
     'action::node_save_action' => array(
-      'selected' => 0,
-      'use_queue' => 0,
+      'selected' => 1,
+      'postpone_processing' => 0,
       'skip_confirmation' => 0,
       'override_label' => 0,
       'label' => '',
     ),
     'action::system_send_email_action' => array(
       'selected' => 0,
-      'use_queue' => 0,
+      'postpone_processing' => 0,
       'skip_confirmation' => 0,
       'override_label' => 0,
       'label' => '',
     ),
     'action::node_unpublish_action' => array(
       'selected' => 1,
-      'use_queue' => 0,
+      'postpone_processing' => 0,
       'skip_confirmation' => 0,
       'override_label' => 0,
       'label' => '',
     ),
     'action::node_unpublish_by_keyword_action' => array(
       'selected' => 0,
-      'use_queue' => 0,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
+    ),
+    'action::pathauto_node_update_action' => array(
+      'selected' => 1,
+      'postpone_processing' => 0,
       'skip_confirmation' => 0,
       'override_label' => 0,
       'label' => '',
     ),
   );
-  $handler->display->display_options['fields']['views_bulk_operations']['vbo']['enable_select_all_pages'] = 1;
-  $handler->display->display_options['fields']['views_bulk_operations']['vbo']['display_type'] = '0';
-  $handler->display->display_options['fields']['views_bulk_operations']['vbo']['display_result'] = 1;
-  $handler->display->display_options['fields']['views_bulk_operations']['vbo']['merge_single_action'] = 0;
-  $handler->display->display_options['fields']['views_bulk_operations']['vbo']['force_single'] = 0;
   /* Sort criterion: Content: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';
@@ -388,38 +420,6 @@ function my_content_views_default_views() {
   $handler->display->display_options['menu']['name'] = 'user-menu';
   $handler->display->display_options['menu']['context'] = 0;
   $handler->display->display_options['menu']['context_only_inline'] = 0;
-  $translatables['my_collections'] = array(
-    t('Master'),
-    t('My Collections'),
-    t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('Items per page'),
-    t('- All -'),
-    t('Offset'),
-    t('« first'),
-    t('‹ previous'),
-    t('next ›'),
-    t('last »'),
-    t('author'),
-    t('Media'),
-    t('Title'),
-    t('Comment count'),
-    t('.'),
-    t(','),
-    t('Type'),
-    t('Author'),
-    t('Post date'),
-    t('Updated date'),
-    t('Edit link'),
-    t('Delete link'),
-    t('Bulk operations'),
-    t('All'),
-    t('Search Terms'),
-  );
   $export['my_collections'] = $view;
 
   $view = new view();
@@ -603,69 +603,58 @@ function my_content_views_default_views() {
   $handler->display->display_options['fields']['delete_node']['id'] = 'delete_node';
   $handler->display->display_options['fields']['delete_node']['table'] = 'views_entity_node';
   $handler->display->display_options['fields']['delete_node']['field'] = 'delete_node';
-  /* Field: Content: Bulk operations */
+  /* Field: Bulk operations: Content */
   $handler->display->display_options['fields']['views_bulk_operations']['id'] = 'views_bulk_operations';
   $handler->display->display_options['fields']['views_bulk_operations']['table'] = 'node';
   $handler->display->display_options['fields']['views_bulk_operations']['field'] = 'views_bulk_operations';
-  $handler->display->display_options['fields']['views_bulk_operations']['vbo']['entity_load_capacity'] = '10';
-  $handler->display->display_options['fields']['views_bulk_operations']['vbo']['operations'] = array(
-    'node_assign_owner_action' => array(
+  $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['display_type'] = '0';
+  $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['enable_select_all_pages'] = 1;
+  $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['force_single'] = 0;
+  $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['entity_load_capacity'] = '10';
+  $handler->display->display_options['fields']['views_bulk_operations']['vbo_operations'] = array(
+    'action::node_assign_owner_action' => array(
       'selected' => 0,
-      'use_queue' => 0,
       'skip_confirmation' => 0,
       'override_label' => 0,
       'label' => '',
+      'postpone_processing' => 0,
     ),
-    'views_bulk_operations_delete_item' => array(
+    'action::views_bulk_operations_delete_item' => array(
       'selected' => 1,
-      'use_queue' => 0,
       'skip_confirmation' => 0,
       'override_label' => 0,
       'label' => '',
+      'postpone_processing' => 0,
     ),
-    'system_message_action' => array(
+    'action::views_bulk_operations_script_action' => array(
       'selected' => 0,
-      'use_queue' => 0,
       'skip_confirmation' => 0,
       'override_label' => 0,
       'label' => '',
+      'postpone_processing' => 0,
     ),
-    'views_bulk_operations_script_action' => array(
+    'action::mb_bulk_actions_filter_subcollection_action' => array(
       'selected' => 0,
-      'use_queue' => 0,
       'skip_confirmation' => 0,
       'override_label' => 0,
       'label' => '',
+      'postpone_processing' => 0,
     ),
-    'mb_bulk_actions_filter_subcollection_action' => array(
+    'action::node_make_sticky_action' => array(
       'selected' => 0,
-      'use_queue' => 0,
       'skip_confirmation' => 0,
       'override_label' => 0,
       'label' => '',
+      'postpone_processing' => 0,
     ),
-    'flag_node_action' => array(
-      'selected' => 1,
-      'use_queue' => 0,
-      'skip_confirmation' => 0,
-      'override_label' => 0,
-      'label' => '',
-    ),
-    'node_make_sticky_action' => array(
+    'action::node_make_unsticky_action' => array(
       'selected' => 0,
-      'use_queue' => 0,
       'skip_confirmation' => 0,
       'override_label' => 0,
       'label' => '',
+      'postpone_processing' => 0,
     ),
-    'node_make_unsticky_action' => array(
-      'selected' => 0,
-      'use_queue' => 0,
-      'skip_confirmation' => 0,
-      'override_label' => 0,
-      'label' => '',
-    ),
-    'views_bulk_operations_argument_selector_action' => array(
+    'action::views_bulk_operations_argument_selector_action' => array(
       'selected' => 0,
       'skip_confirmation' => 0,
       'override_label' => 0,
@@ -674,75 +663,63 @@ function my_content_views_default_views() {
         'url' => '',
       ),
     ),
-    'node_promote_action' => array(
+    'action::node_promote_action' => array(
       'selected' => 0,
-      'use_queue' => 0,
       'skip_confirmation' => 0,
       'override_label' => 0,
       'label' => '',
+      'postpone_processing' => 0,
     ),
-    'node_publish_action' => array(
+    'action::node_publish_action' => array(
       'selected' => 1,
-      'use_queue' => 0,
       'skip_confirmation' => 0,
       'override_label' => 0,
       'label' => '',
+      'postpone_processing' => 0,
     ),
-    'system_goto_action' => array(
+    'action::node_unpromote_action' => array(
       'selected' => 0,
-      'use_queue' => 0,
       'skip_confirmation' => 0,
       'override_label' => 0,
       'label' => '',
+      'postpone_processing' => 0,
     ),
-    'node_unpromote_action' => array(
-      'selected' => 0,
-      'use_queue' => 0,
-      'skip_confirmation' => 0,
-      'override_label' => 0,
-      'label' => '',
-    ),
-    'node_save_action' => array(
+    'action::node_save_action' => array(
       'selected' => 1,
-      'use_queue' => 0,
       'skip_confirmation' => 0,
       'override_label' => 0,
       'label' => '',
+      'postpone_processing' => 0,
     ),
-    'system_send_email_action' => array(
+    'action::system_send_email_action' => array(
       'selected' => 0,
-      'use_queue' => 0,
       'skip_confirmation' => 0,
       'override_label' => 0,
       'label' => '',
+      'postpone_processing' => 0,
     ),
-    'node_unpublish_action' => array(
+    'action::node_unpublish_action' => array(
       'selected' => 1,
-      'use_queue' => 0,
       'skip_confirmation' => 0,
       'override_label' => 0,
       'label' => '',
+      'postpone_processing' => 0,
     ),
-    'node_unpublish_by_keyword_action' => array(
+    'action::node_unpublish_by_keyword_action' => array(
       'selected' => 0,
-      'use_queue' => 0,
       'skip_confirmation' => 0,
       'override_label' => 0,
       'label' => '',
+      'postpone_processing' => 0,
     ),
-    'pathauto_node_update_action' => array(
+    'action::pathauto_node_update_action' => array(
       'selected' => 1,
-      'use_queue' => 0,
       'skip_confirmation' => 0,
       'override_label' => 0,
       'label' => '',
+      'postpone_processing' => 0,
     ),
   );
-  $handler->display->display_options['fields']['views_bulk_operations']['vbo']['enable_select_all_pages'] = 1;
-  $handler->display->display_options['fields']['views_bulk_operations']['vbo']['display_type'] = '0';
-  $handler->display->display_options['fields']['views_bulk_operations']['vbo']['display_result'] = 1;
-  $handler->display->display_options['fields']['views_bulk_operations']['vbo']['merge_single_action'] = 0;
-  $handler->display->display_options['fields']['views_bulk_operations']['vbo']['force_single'] = 0;
   /* Sort criterion: Content: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';
@@ -814,42 +791,6 @@ function my_content_views_default_views() {
   $handler->display->display_options['menu']['context'] = 0;
   $handler->display->display_options['menu']['context_only_inline'] = 0;
   $handler->display->display_options['tab_options']['weight'] = '0';
-  $translatables['my_content'] = array(
-    t('Master'),
-    t('My Content'),
-    t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('Items per page'),
-    t('- All -'),
-    t('Offset'),
-    t('« first'),
-    t('‹ previous'),
-    t('next ›'),
-    t('last »'),
-    t('author'),
-    t('Media'),
-    t('Title'),
-    t('Comment count'),
-    t('.'),
-    t(','),
-    t('Type'),
-    t('Author'),
-    t('Post date'),
-    t('Updated date'),
-    t('Edit link'),
-    t('Delete link'),
-    t('Bulk operations'),
-    t('All'),
-    t('Search Terms'),
-    t('My Content (Parent)'),
-    t('Parent item for "My ..."'),
-    t('My Content: Media'),
-    t('Parent item for My ...'),
-  );
   $export['my_content'] = $view;
 
   $view = new view();
@@ -939,32 +880,6 @@ function my_content_views_default_views() {
   $handler->display->display_options['menu']['name'] = 'user-menu';
   $handler->display->display_options['menu']['context'] = 0;
   $handler->display->display_options['menu']['context_only_inline'] = 0;
-  $translatables['my_memberships'] = array(
-    t('Master'),
-    t('My Memberships'),
-    t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('Items per page'),
-    t('- All -'),
-    t('Offset'),
-    t('« first'),
-    t('‹ previous'),
-    t('next ›'),
-    t('last »'),
-    t('My Memberships Description'),
-    t('You are a member or owner of the following collections and teams:'),
-    t('OG membership from user'),
-    t('OG group'),
-    t('Entity id'),
-    t('.'),
-    t(','),
-    t('All'),
-    t('My Content: Memberships'),
-  );
   $export['my_memberships'] = $view;
 
   $view = new view();
@@ -1073,7 +988,7 @@ function my_content_views_default_views() {
   $handler->display->display_options['relationships']['uid']['id'] = 'uid';
   $handler->display->display_options['relationships']['uid']['table'] = 'node';
   $handler->display->display_options['relationships']['uid']['field'] = 'uid';
-  /* Relationship: Content: Workflow (field_workflow) */
+  /* Relationship: Content: Workflow Categories (field_workflow) */
   $handler->display->display_options['relationships']['field_workflow_value']['id'] = 'field_workflow_value';
   $handler->display->display_options['relationships']['field_workflow_value']['table'] = 'field_data_field_workflow';
   $handler->display->display_options['relationships']['field_workflow_value']['field'] = 'field_workflow_value';
@@ -1167,7 +1082,7 @@ function my_content_views_default_views() {
   $handler->display->display_options['filters']['type']['expose']['label'] = 'Type';
   $handler->display->display_options['filters']['type']['expose']['operator'] = 'type_op';
   $handler->display->display_options['filters']['type']['expose']['identifier'] = 'type';
-  /* Filter criterion: Field collection item: Media Present (field_media_present) */
+  /* Filter criterion: Broken/missing handler */
   $handler->display->display_options['filters']['field_media_present_value']['id'] = 'field_media_present_value';
   $handler->display->display_options['filters']['field_media_present_value']['table'] = 'field_data_field_media_present';
   $handler->display->display_options['filters']['field_media_present_value']['field'] = 'field_media_present_value';
@@ -1310,7 +1225,7 @@ function my_content_views_default_views() {
   $handler->display->display_options['filters']['field_cataloging_proofed_value']['expose']['label'] = 'Cataloging Proofed';
   $handler->display->display_options['filters']['field_cataloging_proofed_value']['expose']['operator'] = 'field_cataloging_proofed_value_op';
   $handler->display->display_options['filters']['field_cataloging_proofed_value']['expose']['identifier'] = 'field_cataloging_proofed_value';
-  /* Filter criterion: Field collection item: Extended Cataloging (field_extended_cataloging) */
+  /* Filter criterion: Broken/missing handler */
   $handler->display->display_options['filters']['field_extended_cataloging_value']['id'] = 'field_extended_cataloging_value';
   $handler->display->display_options['filters']['field_extended_cataloging_value']['table'] = 'field_data_field_extended_cataloging';
   $handler->display->display_options['filters']['field_extended_cataloging_value']['field'] = 'field_extended_cataloging_value';
@@ -1376,7 +1291,7 @@ function my_content_views_default_views() {
   $handler->display->display_options['filters']['field_timecoding_problem_2_value']['expose']['label'] = 'Timecoding problem 2';
   $handler->display->display_options['filters']['field_timecoding_problem_2_value']['expose']['operator'] = 'field_timecoding_problem_2_value_op';
   $handler->display->display_options['filters']['field_timecoding_problem_2_value']['expose']['identifier'] = 'field_timecoding_problem_2_value';
-  /* Filter criterion: Field collection item: Transcript Input (field_transcript_input) */
+  /* Filter criterion: Broken/missing handler */
   $handler->display->display_options['filters']['field_transcript_input_value']['id'] = 'field_transcript_input_value';
   $handler->display->display_options['filters']['field_transcript_input_value']['table'] = 'field_data_field_transcript_input';
   $handler->display->display_options['filters']['field_transcript_input_value']['field'] = 'field_transcript_input_value';
@@ -1387,7 +1302,7 @@ function my_content_views_default_views() {
   $handler->display->display_options['filters']['field_transcript_input_value']['expose']['label'] = 'Transcript Input';
   $handler->display->display_options['filters']['field_transcript_input_value']['expose']['operator'] = 'field_transcript_input_value_op';
   $handler->display->display_options['filters']['field_transcript_input_value']['expose']['identifier'] = 'field_transcript_input_value';
-  /* Filter criterion: Field collection item: Transcript Proofed (field_transcript_proofed) */
+  /* Filter criterion: Broken/missing handler */
   $handler->display->display_options['filters']['field_transcript_proofed_value']['id'] = 'field_transcript_proofed_value';
   $handler->display->display_options['filters']['field_transcript_proofed_value']['table'] = 'field_data_field_transcript_proofed';
   $handler->display->display_options['filters']['field_transcript_proofed_value']['field'] = 'field_transcript_proofed_value';
@@ -1398,7 +1313,7 @@ function my_content_views_default_views() {
   $handler->display->display_options['filters']['field_transcript_proofed_value']['expose']['label'] = 'Transcript Proofed';
   $handler->display->display_options['filters']['field_transcript_proofed_value']['expose']['operator'] = 'field_transcript_proofed_value_op';
   $handler->display->display_options['filters']['field_transcript_proofed_value']['expose']['identifier'] = 'field_transcript_proofed_value';
-  /* Filter criterion: Field collection item: Transcript Timecoded (field_transcript_timecoded) */
+  /* Filter criterion: Broken/missing handler */
   $handler->display->display_options['filters']['field_transcript_timecoded_value']['id'] = 'field_transcript_timecoded_value';
   $handler->display->display_options['filters']['field_transcript_timecoded_value']['table'] = 'field_data_field_transcript_timecoded';
   $handler->display->display_options['filters']['field_transcript_timecoded_value']['field'] = 'field_transcript_timecoded_value';
@@ -1409,7 +1324,7 @@ function my_content_views_default_views() {
   $handler->display->display_options['filters']['field_transcript_timecoded_value']['expose']['label'] = 'Transcript Timecoded';
   $handler->display->display_options['filters']['field_transcript_timecoded_value']['expose']['operator'] = 'field_transcript_timecoded_value_op';
   $handler->display->display_options['filters']['field_transcript_timecoded_value']['expose']['identifier'] = 'field_transcript_timecoded_value';
-  /* Filter criterion: Field collection item: Translation Input Language 1 (field_translation_lang_1) */
+  /* Filter criterion: Broken/missing handler */
   $handler->display->display_options['filters']['field_translation_lang_1_value']['id'] = 'field_translation_lang_1_value';
   $handler->display->display_options['filters']['field_translation_lang_1_value']['table'] = 'field_data_field_translation_lang_1';
   $handler->display->display_options['filters']['field_translation_lang_1_value']['field'] = 'field_translation_lang_1_value';
@@ -1420,7 +1335,7 @@ function my_content_views_default_views() {
   $handler->display->display_options['filters']['field_translation_lang_1_value']['expose']['label'] = 'Translation Input Language 1';
   $handler->display->display_options['filters']['field_translation_lang_1_value']['expose']['operator'] = 'field_translation_lang_1_value_op';
   $handler->display->display_options['filters']['field_translation_lang_1_value']['expose']['identifier'] = 'field_translation_lang_1_value';
-  /* Filter criterion: Field collection item: Translation Input Language 2 (field_translation_lang_2) */
+  /* Filter criterion: Broken/missing handler */
   $handler->display->display_options['filters']['field_translation_lang_2_value']['id'] = 'field_translation_lang_2_value';
   $handler->display->display_options['filters']['field_translation_lang_2_value']['table'] = 'field_data_field_translation_lang_2';
   $handler->display->display_options['filters']['field_translation_lang_2_value']['field'] = 'field_translation_lang_2_value';
@@ -1487,65 +1402,6 @@ function my_content_views_default_views() {
   $handler->display->display_options['menu']['context_only_inline'] = 0;
   $handler->display->display_options['tab_options']['title'] = 'My Workflow';
   $handler->display->display_options['tab_options']['weight'] = '0';
-  $translatables['my_workflow'] = array(
-    t('Master'),
-    t('My Workflow'),
-    t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('Items per page'),
-    t('- All -'),
-    t('Offset'),
-    t('« first'),
-    t('‹ previous'),
-    t('next ›'),
-    t('last »'),
-    t('author'),
-    t('field collection item from field_workflow'),
-    t('Media'),
-    t('Title'),
-    t('Comment count'),
-    t('.'),
-    t(','),
-    t('Type'),
-    t('Author'),
-    t('Post date'),
-    t('Updated date'),
-    t('Edit link'),
-    t('Delete link'),
-    t('Media Present'),
-    t('Video Quality Acceptable'),
-    t('Audio Quality Acceptable'),
-    t('Media Needs Recompression'),
-    t('Media Needs Re-editing'),
-    t('Logging files/EDLs archived (field_edls_archived)'),
-    t('Masters Archived'),
-    t('Media Problem #1'),
-    t('Media Problem #2 '),
-    t('Media Problem #3'),
-    t('Basic Cataloging'),
-    t('Place Data Present'),
-    t('Cataloging Proofed'),
-    t('Extended Cataloging'),
-    t('Translation Language 1'),
-    t('Translation Language 2'),
-    t('Timecode too infrequent'),
-    t('Timecoding problem 1'),
-    t('Timecoding problem 2'),
-    t('Transcript Input'),
-    t('Transcript Proofed'),
-    t('Transcript Timecoded'),
-    t('Translation Input Language 1'),
-    t('Translation Input Language 2'),
-    t('Translation Input Language 3'),
-    t('Translation Proofed Language 1'),
-    t('Translation Proofed Language 2'),
-    t('Translation Proofed Language 3'),
-    t('My Content: Workflow'),
-  );
   $export['my_workflow'] = $view;
 
   return $export;

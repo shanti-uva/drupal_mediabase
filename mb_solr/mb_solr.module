@@ -419,7 +419,9 @@ function theme_search_results__apachesolr_search(&$vars) {
 	$end = $response->start + count($response->docs);
 	$total = $response->numFound;
 	$output = '<div class="mb-solr-results"><div class="head">';
-	$output .= "<h4>Search on &ldquo;{$q}&rdquo;</h4>";
+	if(strlen($q) > 0) {
+		$output .= "<h4>Search on &ldquo;{$q}&rdquo;</h4>";
+	}
 	$output .= sprintf('<span class="label">Related Media:</span> <span class="count">(Displaying %d-%d of %d)</span>', $start, $end, $total);
   $output .= $vars['pager'] . '</div><div class="results"><ul class="shanti-gallery">';
   foreach ($vars['results'] as $k => $v) {

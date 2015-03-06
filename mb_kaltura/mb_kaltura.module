@@ -147,7 +147,9 @@ function _mb_kaltura_add_audio_thumb($node) {
 			}
 		}
 	} else {
-		dpm(array($kid, $thumb), 'empty kid or thumb');
+		if(user_access('administer')) {
+			drupal_set_message('Problem setting Audio thumbnail, either empty kid or thumb');
+		}
 	}
 }
 

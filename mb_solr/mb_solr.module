@@ -532,8 +532,9 @@ function mb_solr_facets_ajax($facets) {
 	$solrhtml = '<article class="tab-pane main-col active" id="tab-overview"><div class="region region-content"><div class="content">';
 	if(empty($results_html)) {
 		$solrhtml .= t('<p>Sorry, this search returned no results.</p>');
+	} else {
+		$solrhtml .= mb_solr_process_ajax_paging($results_html); // Enable links for ajax processing
 	}
-	$solrhtml .= mb_solr_process_ajax_paging($results_html); // Enable links for ajax processing
 	$solrhtml .= '</div></div></article>';
 	// Create a facet count array to be added to Mediabase JS settings in Drupal. Used by mb_solr.js to update facet counts in tree.
 	$facetcounts = array();

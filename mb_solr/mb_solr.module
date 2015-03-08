@@ -569,13 +569,18 @@ function mb_solr_ajax_delivery($ajax) {
  * Proesses an html gallery of search results from SOLR to enable ajax loading of pages.
  */
 function mb_solr_process_ajax_paging($results_html) {
+	$original = $results_html;
 	$path = str_replace('/','\/', current_path());
 	$path = str_replace(':', '%3A', $path);
 	$pattern = '/(href="\/' . $path . '[^"]*")/';
 	$rep = '$1 class="use-ajax"';
 	$results_html = preg_replace($pattern, $rep, $results_html);
 	$results_html = str_replace('input type="text" class="pagerer-page"','input type="text" class="pagerer-page" disabled="disabled"', $results_html);
-	return $results_html;
+	if(empty($results_html)) {
+		return $original;
+	} else {
+		return $results_html;
+	}
 }
 
 /** Flatten out facet results into a fid => count single dimension array */

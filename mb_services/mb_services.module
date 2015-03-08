@@ -74,6 +74,8 @@ function mb_services_menu() {
     'access callback' => TRUE,
   );
   
+	// Urls with service/facets are in mb_solr.module
+	
   return $items;
 }
 /**

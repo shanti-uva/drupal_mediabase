@@ -536,17 +536,24 @@ function mb_solr_facets_ajax($facets) {
 		$solrhtml .= mb_solr_process_ajax_paging($results_html); // Enable links for ajax processing
 	}
 	$solrhtml .= '</div></div></article>';
-	// Create a facet count array to be added to Mediabase JS settings in Drupal. Used by mb_solr.js to update facet counts in tree.
-	$facetcounts = array();
-	foreach($fnames as $fn => $facet) {
-		$facet_list = mb_solr_process_facet_list($facet['#items']);
-		$facetcounts[$fn] = $facet_list;
-	}
 	
 	// Build & Return Ajax render array
   $commands[] = ajax_command_replace('#tab-overview', $solrhtml);
-  $commands[] = ajax_command_settings(array('mediabase' => array('facets' => $facets, 'facetcounts' => $facetcounts)), TRUE);
-	$commands[] = ajax_command_invoke('.kmaps-tree', "updateFacetTree", array('data' => $facets));
+	
+	// If results do facets
+	if(!empty($results_html)) {
+		// Create a facet count array to be added to Mediabase JS settings in Drupal. Used by mb_solr.js to update facet counts in tree.
+		$facetcounts = array();
+		foreach($fnames as $fn => $facet) {
+			$facet_list = mb_solr_process_facet_list($facet['#items']);
+			$facetcounts[$fn] = $facet_list;
+		}
+		$commands[] = ajax_command_settings(array('mediabase' => array('facets' => $facets, 'facetcounts' => $facetcounts)), TRUE);
+		$commands[] = ajax_command_invoke('.kmaps-tree', "updateFacetTree", array('data' => $facets));
+	} else {
+		$commands[] = ajax_command_invoke('.kmaps-tree', "clearFacetTree");
+	}
+  
   $ajax = array('#type' => 'ajax', '#commands' => $commands);
 	return $ajax;
 }

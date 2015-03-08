@@ -52,9 +52,13 @@
 	 	}
 	};
 	
+	$.fn.clearFacetTree = function() {
+		Drupal.settings.mediabase.facets = "";
+		$(this).updateFacetTree();
+	};
 	
 	// Called by ajax_command_invoke in mb_solr.module from mb_solr_facets_ajax() function. Needs to be JQuery function
-	$.fn.updateFacetTree = function(data) {
+	$.fn.updateFacetTree = function() {
 		var fsel = Drupal.settings.mediabase.facets;
 		if(fsel == "") {
 			setTimeout(clearAllMBTrees, 500);
@@ -98,7 +102,7 @@
 				}
 			// Unable to find a tree
 			} else {
-				console.info("No tree found to filter: " + flabel);
+				console.warn("No tree found to filter: " + flabel);
 			}
 		}
 		

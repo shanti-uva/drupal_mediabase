@@ -12,6 +12,7 @@ function mediabase_init() {
           'kmapServer' => variable_get('kmap_server', 'http://subjects.kmaps.virginia.edu') . '/',
           'placeServer' => variable_get('place_server', 'http://places.kmaps.virginia.edu') . '/',
           'facets' => array(),
+          'carouselBlockSpeed' => variable_get('carousel_block_speed', '8'),
         )), 'setting' ); 
 }
 

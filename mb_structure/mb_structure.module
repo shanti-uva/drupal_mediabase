@@ -192,6 +192,41 @@ function collection_block_details_old() {
    return $output;
 }
 
+/*
+ * Configure carousel block to determine which projects to highlight
+ */
+function mb_structure_block_configure($delta='') {
+	$form = array();
+	if($delta == 'collections_carousel') {
+  	$form['collections_carousel'] = array(
+			'#type' => 'fieldset',
+			'#title' => t('Carousel Settings'),
+		);
+		$form['collections_carousel']['project_ids'] = array(
+			'#type' => 'textfield',
+			'#title' => t('Project ID to Include in Carousel'),
+			'#description' => t('Enter the Node IDs for the projects you wish to show in the carousel separated by commas'),
+      '#default_value' => variable_get('carousel_block_project_ids', '3'),
+			'#required' => TRUE,
+		);
+		$form['collections_carousel']['block_speed'] = array(
+			'#type' => 'textfield',
+			'#title' => t('Speed of Carousel'),
+			'#description' => t('Enter the number of seconds to pause between frames'),
+      '#default_value' => variable_get('carousel_block_speed', 8),
+			'#required' => TRUE,
+		);
+	}
+	return $form;
+}
+
+function mb_structure_block_save($delta = '', $edit = array()) {
+	if($delta == 'collections_carousel') {
+		variable_set('carousel_block_project_ids', str_replace(' ', '', $edit['project_ids']));
+		variable_set('carousel_block_speed', $edit['block_speed']);
+	}
+}
+			
 /**
  * Returns currents users access to group. False = none; 1 = user (add content), 2 = add members, 3 = administrator
  */
@@ -883,10 +918,13 @@ function mb_structure_collections_carousel_block() {
   $nodes = node_load_multiple(array(), array('type' => 'collection'));
   $genimage = drupal_get_path('module', 'mediabase') . '/images/collections-generic.png';
   $slides = array();
+	$nids = variable_get('carousel_block_project_ids', '3');
+	$nids = explode(',', str_replace(' ','',$nids));
+	$nodes = node_load_multiple($nids);
   foreach($nodes as $nid => $node) { // nid = node id, not sequential but node number in Drupal
     $itemcount = $node->child_count;
     // if status = published and viewable by anonymous users then add to carousel
-    if($node->status == 1 && node_access('view', $node, user_load(0)) && $itemcount > 4) {
+    if($node) {
       // Get Author and Date Info
       $usr = user_load_by_name($node->name);
       $author = $usr->realname;
@@ -934,6 +972,7 @@ function mb_structure_collections_carousel_block() {
       '#children' => '',
       'title' => t('Featured Collections'),
       'link' => l(t('View All Collections'), 'collections'),
+      'speed' => variable_get('carousel_block_speed', 8),
       'slides' => $slides,
     ),
   );

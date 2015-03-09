@@ -110,7 +110,7 @@
 		if($('#tab-overview').length == 0) { 
 			$htmlErr = '<article class="tab-pane main-col active" id="tab-overview"><div class="region region-content">';
 			$htmlErr += '<div class="content"><h4>Search Error</h4><p>There was a problem retrieving these results. ';
-			$htmlErr += 'Please try again later. If the problem persists, please contact us from the contact link in the main menu.</p>';
+			$htmlErr += 'Please try again later.</p>';
 			$htmlErr += '</div></div></article>';
 			$('.main-content .content-section > .tab-content').html($htmlErr); 
 		}

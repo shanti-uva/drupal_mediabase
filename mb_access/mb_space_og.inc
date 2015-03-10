@@ -47,7 +47,7 @@ class mb_space_og extends space_og {
 	      && isset($this->menu_object->{OG_GROUP_AUDIENCE_FIELD})
 	      )
 	   {
-	      
+	      return TRUE;
 	   }
 	}
 }

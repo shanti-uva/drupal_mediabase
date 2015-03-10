@@ -453,10 +453,14 @@ function mb_structure_form_video_node_form_alter(&$form, &$form_state, $form_id)
    $form['group_audience'][LANGUAGE_NONE]['#options'] = $new_opts;
    
    // Set the ROOT KMAP BRANCH for SUB-COLLECTIONS
-   // if set in the gids_node param get that otherwise load through get_collection_ancestor_node
-   $collection_node = (isset($_GET['gids_node'])) ? node_load($_GET['gids_node'][0]) : get_collection_ancestor_node($form['#node']);
-  
-   if ( isset($collection_node->field_subcoll_root_kmap_id[LANGUAGE_NONE]) ) {
+   // if set in the gids_node param get that otherwise if existing node load through get_collection_ancestor_node
+   $collection_node = FALSE;
+	 if(isset($form['#node']->nid)) {
+	 	$collection_node = get_collection_ancestor_node($form['#node']);
+	 } else if (isset($_GET['gids_node'])) {
+	 	node_load($_GET['gids_node'][0]);
+	 }
+   if ( $collection_node && isset($collection_node->field_subcoll_root_kmap_id[LANGUAGE_NONE]) ) {
       $tid = $collection_node->field_subcoll_root_kmap_id[LANGUAGE_NONE][0]['tid'];
       $term = taxonomy_term_load($tid);
       $kmap_id = $term->kmap_id[LANGUAGE_NONE][0]['value'];

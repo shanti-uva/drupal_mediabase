@@ -822,10 +822,6 @@ print \'<h1>No Entries Found</h1> <p>No audio-video entries tagged with \' . $t-
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
-  $handler->display->display_options['fields']['title']['spaces'] = array(
-    'type' => 'spaces_og',
-    'frontpage' => 0,
-  );
   /* Field: Content: Post date */
   $handler->display->display_options['fields']['created']['id'] = 'created';
   $handler->display->display_options['fields']['created']['table'] = 'node';
@@ -949,6 +945,15 @@ print \'<h1>No Entries Found</h1> <p>No audio-video entries tagged with \' . $t-
   $handler->display->display_options['header']['result']['field'] = 'result';
   $handler->display->display_options['header']['result']['content'] = '(Displaying @start - @end of @total)';
   $handler->display->display_options['defaults']['empty'] = FALSE;
+  $handler->display->display_options['defaults']['relationships'] = FALSE;
+  /* Relationship: Content: Author */
+  $handler->display->display_options['relationships']['uid']['id'] = 'uid';
+  $handler->display->display_options['relationships']['uid']['table'] = 'node';
+  $handler->display->display_options['relationships']['uid']['field'] = 'uid';
+  /* Relationship: Content: Subject (field_characteristic) */
+  $handler->display->display_options['relationships']['field_characteristic_tid']['id'] = 'field_characteristic_tid';
+  $handler->display->display_options['relationships']['field_characteristic_tid']['table'] = 'field_data_field_characteristic';
+  $handler->display->display_options['relationships']['field_characteristic_tid']['field'] = 'field_characteristic_tid';
   $handler->display->display_options['defaults']['fields'] = FALSE;
   /* Field: Content: Path */
   $handler->display->display_options['fields']['path']['id'] = 'path';
@@ -1029,10 +1034,6 @@ print \'<h1>No Entries Found</h1> <p>No audio-video entries tagged with \' . $t-
   $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['title']['spaces'] = array(
-    'type' => 'spaces_og',
-    'frontpage' => 0,
-  );
   /* Field: Content: Post date */
   $handler->display->display_options['fields']['created']['id'] = 'created';
   $handler->display->display_options['fields']['created']['table'] = 'node';
@@ -1126,6 +1127,15 @@ print \'<h1>No Entries Found</h1> <p>No audio-video entries tagged with \' . $t-
   $handler->display->display_options['header']['result']['table'] = 'views';
   $handler->display->display_options['header']['result']['field'] = 'result';
   $handler->display->display_options['header']['result']['content'] = '(Displaying @start - @end of @total)';
+  $handler->display->display_options['defaults']['relationships'] = FALSE;
+  /* Relationship: Content: Subcollection (field_subcollection) */
+  $handler->display->display_options['relationships']['field_subcollection_tid']['id'] = 'field_subcollection_tid';
+  $handler->display->display_options['relationships']['field_subcollection_tid']['table'] = 'field_data_field_subcollection';
+  $handler->display->display_options['relationships']['field_subcollection_tid']['field'] = 'field_subcollection_tid';
+  /* Relationship: Content: Author */
+  $handler->display->display_options['relationships']['uid']['id'] = 'uid';
+  $handler->display->display_options['relationships']['uid']['table'] = 'node';
+  $handler->display->display_options['relationships']['uid']['field'] = 'uid';
   $handler->display->display_options['defaults']['arguments'] = FALSE;
   /* Contextual filter: Field: Kmap Id (kmap_id) */
   $handler->display->display_options['arguments']['kmap_id_value']['id'] = 'kmap_id_value';
@@ -1160,10 +1170,6 @@ print \'<h1>No Entries Found</h1> <p>No audio-video entries tagged with \' . $t-
   $handler->display->display_options['relationships']['field_pbcore_coverage_spatial_tid']['id'] = 'field_pbcore_coverage_spatial_tid';
   $handler->display->display_options['relationships']['field_pbcore_coverage_spatial_tid']['table'] = 'field_data_field_pbcore_coverage_spatial';
   $handler->display->display_options['relationships']['field_pbcore_coverage_spatial_tid']['field'] = 'field_pbcore_coverage_spatial_tid';
-  /* Relationship: Content: Subcollection (field_subcollection) */
-  $handler->display->display_options['relationships']['field_subcollection_tid']['id'] = 'field_subcollection_tid';
-  $handler->display->display_options['relationships']['field_subcollection_tid']['table'] = 'field_data_field_subcollection';
-  $handler->display->display_options['relationships']['field_subcollection_tid']['field'] = 'field_subcollection_tid';
   $handler->display->display_options['defaults']['fields'] = FALSE;
   /* Field: Content: Path */
   $handler->display->display_options['fields']['path']['id'] = 'path';
@@ -1292,10 +1298,6 @@ print \'<h1>No Entries Found</h1> <p>No audio-video entries tagged with \' . $t-
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
-  $handler->display->display_options['fields']['title']['spaces'] = array(
-    'type' => 'spaces_og',
-    'frontpage' => 0,
-  );
   /* Field: Content: Comment count */
   $handler->display->display_options['fields']['comment_count']['id'] = 'comment_count';
   $handler->display->display_options['fields']['comment_count']['table'] = 'node_comment_statistics';
@@ -1605,10 +1607,6 @@ print \'<h1>No Entries Found</h1> <p>No audio-video entries tagged with \' . $t-
   $handler->display->display_options['fields']['title']['alter']['max_length'] = '60';
   $handler->display->display_options['fields']['title']['alter']['trim'] = TRUE;
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['title']['spaces'] = array(
-    'type' => 'spaces_og',
-    'frontpage' => 0,
-  );
   /* Field: Content: Post date */
   $handler->display->display_options['fields']['created']['id'] = 'created';
   $handler->display->display_options['fields']['created']['table'] = 'node';

@@ -23,6 +23,7 @@ function my_content_views_default_views() {
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['title'] = 'My Collections';
+  $handler->display->display_options['css_class'] = 'view-my-content';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';
@@ -435,6 +436,7 @@ function my_content_views_default_views() {
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['title'] = 'My Content';
+  $handler->display->display_options['css_class'] = 'my-content';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['access']['perm'] = 'edit own video content';
@@ -607,6 +609,7 @@ function my_content_views_default_views() {
   $handler->display->display_options['fields']['views_bulk_operations']['id'] = 'views_bulk_operations';
   $handler->display->display_options['fields']['views_bulk_operations']['table'] = 'node';
   $handler->display->display_options['fields']['views_bulk_operations']['field'] = 'views_bulk_operations';
+  $handler->display->display_options['fields']['views_bulk_operations']['element_class'] = 'vbo-checkbox';
   $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['display_type'] = '0';
   $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['enable_select_all_pages'] = 1;
   $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['force_single'] = 0;
@@ -614,45 +617,72 @@ function my_content_views_default_views() {
   $handler->display->display_options['fields']['views_bulk_operations']['vbo_operations'] = array(
     'action::node_assign_owner_action' => array(
       'selected' => 0,
+      'postpone_processing' => 0,
       'skip_confirmation' => 0,
       'override_label' => 0,
       'label' => '',
-      'postpone_processing' => 0,
     ),
     'action::views_bulk_operations_delete_item' => array(
       'selected' => 1,
+      'postpone_processing' => 0,
       'skip_confirmation' => 0,
       'override_label' => 0,
       'label' => '',
+    ),
+    'action::views_bulk_operations_delete_revision' => array(
+      'selected' => 0,
       'postpone_processing' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
     ),
     'action::views_bulk_operations_script_action' => array(
       'selected' => 0,
+      'postpone_processing' => 0,
       'skip_confirmation' => 0,
       'override_label' => 0,
       'label' => '',
-      'postpone_processing' => 0,
     ),
     'action::mb_bulk_actions_filter_subcollection_action' => array(
       'selected' => 0,
+      'postpone_processing' => 0,
       'skip_confirmation' => 0,
       'override_label' => 0,
       'label' => '',
+    ),
+    'action::flag_node_action' => array(
+      'selected' => 0,
       'postpone_processing' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
     ),
     'action::node_make_sticky_action' => array(
       'selected' => 0,
+      'postpone_processing' => 0,
       'skip_confirmation' => 0,
       'override_label' => 0,
       'label' => '',
-      'postpone_processing' => 0,
     ),
     'action::node_make_unsticky_action' => array(
       'selected' => 0,
+      'postpone_processing' => 0,
       'skip_confirmation' => 0,
       'override_label' => 0,
       'label' => '',
+    ),
+    'action::views_bulk_operations_modify_action' => array(
+      'selected' => 0,
       'postpone_processing' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
+      'settings' => array(
+        'show_all_tokens' => 1,
+        'display_values' => array(
+          '_all_' => '_all_',
+        ),
+      ),
     ),
     'action::views_bulk_operations_argument_selector_action' => array(
       'selected' => 0,
@@ -665,59 +695,59 @@ function my_content_views_default_views() {
     ),
     'action::node_promote_action' => array(
       'selected' => 0,
+      'postpone_processing' => 0,
       'skip_confirmation' => 0,
       'override_label' => 0,
       'label' => '',
-      'postpone_processing' => 0,
     ),
     'action::node_publish_action' => array(
       'selected' => 1,
+      'postpone_processing' => 0,
       'skip_confirmation' => 0,
       'override_label' => 0,
       'label' => '',
-      'postpone_processing' => 0,
     ),
     'action::node_unpromote_action' => array(
       'selected' => 0,
+      'postpone_processing' => 0,
       'skip_confirmation' => 0,
       'override_label' => 0,
       'label' => '',
-      'postpone_processing' => 0,
     ),
     'action::node_save_action' => array(
       'selected' => 1,
+      'postpone_processing' => 0,
       'skip_confirmation' => 0,
       'override_label' => 0,
       'label' => '',
-      'postpone_processing' => 0,
     ),
     'action::system_send_email_action' => array(
       'selected' => 0,
+      'postpone_processing' => 0,
       'skip_confirmation' => 0,
       'override_label' => 0,
       'label' => '',
-      'postpone_processing' => 0,
     ),
     'action::node_unpublish_action' => array(
       'selected' => 1,
+      'postpone_processing' => 0,
       'skip_confirmation' => 0,
       'override_label' => 0,
       'label' => '',
-      'postpone_processing' => 0,
     ),
     'action::node_unpublish_by_keyword_action' => array(
       'selected' => 0,
+      'postpone_processing' => 0,
       'skip_confirmation' => 0,
       'override_label' => 0,
       'label' => '',
-      'postpone_processing' => 0,
     ),
     'action::pathauto_node_update_action' => array(
       'selected' => 1,
+      'postpone_processing' => 0,
       'skip_confirmation' => 0,
       'override_label' => 0,
       'label' => '',
-      'postpone_processing' => 0,
     ),
   );
   /* Sort criterion: Content: Post date */
@@ -741,16 +771,25 @@ function my_content_views_default_views() {
   $handler->display->display_options['filters']['status']['value'] = 1;
   $handler->display->display_options['filters']['status']['group'] = 1;
   $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
-  /* Filter criterion: Search: Search Terms */
+  /* Filter criterion: Search Filter My Content */
   $handler->display->display_options['filters']['keys']['id'] = 'keys';
   $handler->display->display_options['filters']['keys']['table'] = 'search_index';
   $handler->display->display_options['filters']['keys']['field'] = 'keys';
+  $handler->display->display_options['filters']['keys']['ui_name'] = 'Search Filter My Content';
   $handler->display->display_options['filters']['keys']['group'] = 1;
   $handler->display->display_options['filters']['keys']['exposed'] = TRUE;
   $handler->display->display_options['filters']['keys']['expose']['operator_id'] = 'keys_op';
   $handler->display->display_options['filters']['keys']['expose']['label'] = 'Search Terms';
   $handler->display->display_options['filters']['keys']['expose']['operator'] = 'keys_op';
   $handler->display->display_options['filters']['keys']['expose']['identifier'] = 'keys';
+  $handler->display->display_options['filters']['keys']['expose']['remember_roles'] = array(
+    2 => '2',
+    1 => 0,
+    3 => 0,
+    4 => 0,
+    5 => 0,
+    7 => 0,
+  );
   /* Filter criterion: Content: Type */
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'node';
@@ -782,6 +821,8 @@ function my_content_views_default_views() {
   $handler = $view->new_display('page', 'My Content: Media', 'page_2');
   $handler->display->display_options['defaults']['title'] = FALSE;
   $handler->display->display_options['title'] = 'My Content';
+  $handler->display->display_options['defaults']['css_class'] = FALSE;
+  $handler->display->display_options['css_class'] = 'my-media-view';
   $handler->display->display_options['display_description'] = 'Parent item for My ...';
   $handler->display->display_options['path'] = 'my-content/media';
   $handler->display->display_options['menu']['type'] = 'default tab';
@@ -903,6 +944,7 @@ function my_content_views_default_views() {
   $handler->display->display_options['exposed_form']['type'] = 'basic';
   $handler->display->display_options['exposed_form']['options']['reset_button'] = TRUE;
   $handler->display->display_options['exposed_form']['options']['autosubmit'] = TRUE;
+  $handler->display->display_options['exposed_form']['options']['autosubmit_hide'] = FALSE;
   $handler->display->display_options['pager']['type'] = 'full';
   $handler->display->display_options['pager']['options']['items_per_page'] = '50';
   $handler->display->display_options['style_plugin'] = 'table';
@@ -1082,17 +1124,6 @@ function my_content_views_default_views() {
   $handler->display->display_options['filters']['type']['expose']['label'] = 'Type';
   $handler->display->display_options['filters']['type']['expose']['operator'] = 'type_op';
   $handler->display->display_options['filters']['type']['expose']['identifier'] = 'type';
-  /* Filter criterion: Broken/missing handler */
-  $handler->display->display_options['filters']['field_media_present_value']['id'] = 'field_media_present_value';
-  $handler->display->display_options['filters']['field_media_present_value']['table'] = 'field_data_field_media_present';
-  $handler->display->display_options['filters']['field_media_present_value']['field'] = 'field_media_present_value';
-  $handler->display->display_options['filters']['field_media_present_value']['relationship'] = 'field_workflow_value';
-  $handler->display->display_options['filters']['field_media_present_value']['group'] = 1;
-  $handler->display->display_options['filters']['field_media_present_value']['exposed'] = TRUE;
-  $handler->display->display_options['filters']['field_media_present_value']['expose']['operator_id'] = 'field_media_present_value_op';
-  $handler->display->display_options['filters']['field_media_present_value']['expose']['label'] = 'Media Present';
-  $handler->display->display_options['filters']['field_media_present_value']['expose']['operator'] = 'field_media_present_value_op';
-  $handler->display->display_options['filters']['field_media_present_value']['expose']['identifier'] = 'field_media_present_value';
   /* Filter criterion: Field collection item: Video Quality Acceptable (field_video_quality_acceptable) */
   $handler->display->display_options['filters']['field_video_quality_acceptable_value']['id'] = 'field_video_quality_acceptable_value';
   $handler->display->display_options['filters']['field_video_quality_acceptable_value']['table'] = 'field_data_field_video_quality_acceptable';
@@ -1145,9 +1176,17 @@ function my_content_views_default_views() {
   $handler->display->display_options['filters']['field_edls_archived_value']['group'] = 1;
   $handler->display->display_options['filters']['field_edls_archived_value']['exposed'] = TRUE;
   $handler->display->display_options['filters']['field_edls_archived_value']['expose']['operator_id'] = 'field_edls_archived_value_op';
-  $handler->display->display_options['filters']['field_edls_archived_value']['expose']['label'] = 'Logging files/EDLs archived (field_edls_archived)';
+  $handler->display->display_options['filters']['field_edls_archived_value']['expose']['label'] = 'Logging files/EDLs archived';
   $handler->display->display_options['filters']['field_edls_archived_value']['expose']['operator'] = 'field_edls_archived_value_op';
   $handler->display->display_options['filters']['field_edls_archived_value']['expose']['identifier'] = 'field_edls_archived_value';
+  $handler->display->display_options['filters']['field_edls_archived_value']['expose']['remember_roles'] = array(
+    2 => '2',
+    1 => 0,
+    3 => 0,
+    4 => 0,
+    5 => 0,
+    7 => 0,
+  );
   /* Filter criterion: Field collection item: Masters Archived (field_masters_archived) */
   $handler->display->display_options['filters']['field_masters_archived_value']['id'] = 'field_masters_archived_value';
   $handler->display->display_options['filters']['field_masters_archived_value']['table'] = 'field_data_field_masters_archived';
@@ -1225,17 +1264,6 @@ function my_content_views_default_views() {
   $handler->display->display_options['filters']['field_cataloging_proofed_value']['expose']['label'] = 'Cataloging Proofed';
   $handler->display->display_options['filters']['field_cataloging_proofed_value']['expose']['operator'] = 'field_cataloging_proofed_value_op';
   $handler->display->display_options['filters']['field_cataloging_proofed_value']['expose']['identifier'] = 'field_cataloging_proofed_value';
-  /* Filter criterion: Broken/missing handler */
-  $handler->display->display_options['filters']['field_extended_cataloging_value']['id'] = 'field_extended_cataloging_value';
-  $handler->display->display_options['filters']['field_extended_cataloging_value']['table'] = 'field_data_field_extended_cataloging';
-  $handler->display->display_options['filters']['field_extended_cataloging_value']['field'] = 'field_extended_cataloging_value';
-  $handler->display->display_options['filters']['field_extended_cataloging_value']['relationship'] = 'field_workflow_value';
-  $handler->display->display_options['filters']['field_extended_cataloging_value']['group'] = 1;
-  $handler->display->display_options['filters']['field_extended_cataloging_value']['exposed'] = TRUE;
-  $handler->display->display_options['filters']['field_extended_cataloging_value']['expose']['operator_id'] = 'field_extended_cataloging_value_op';
-  $handler->display->display_options['filters']['field_extended_cataloging_value']['expose']['label'] = 'Extended Cataloging';
-  $handler->display->display_options['filters']['field_extended_cataloging_value']['expose']['operator'] = 'field_extended_cataloging_value_op';
-  $handler->display->display_options['filters']['field_extended_cataloging_value']['expose']['identifier'] = 'field_extended_cataloging_value';
   /* Filter criterion: Field collection item: Translation Language 1 (field_translation_language_1) */
   $handler->display->display_options['filters']['field_translation_language_1_value']['id'] = 'field_translation_language_1_value';
   $handler->display->display_options['filters']['field_translation_language_1_value']['table'] = 'field_data_field_translation_language_1';
@@ -1291,61 +1319,6 @@ function my_content_views_default_views() {
   $handler->display->display_options['filters']['field_timecoding_problem_2_value']['expose']['label'] = 'Timecoding problem 2';
   $handler->display->display_options['filters']['field_timecoding_problem_2_value']['expose']['operator'] = 'field_timecoding_problem_2_value_op';
   $handler->display->display_options['filters']['field_timecoding_problem_2_value']['expose']['identifier'] = 'field_timecoding_problem_2_value';
-  /* Filter criterion: Broken/missing handler */
-  $handler->display->display_options['filters']['field_transcript_input_value']['id'] = 'field_transcript_input_value';
-  $handler->display->display_options['filters']['field_transcript_input_value']['table'] = 'field_data_field_transcript_input';
-  $handler->display->display_options['filters']['field_transcript_input_value']['field'] = 'field_transcript_input_value';
-  $handler->display->display_options['filters']['field_transcript_input_value']['relationship'] = 'field_workflow_value';
-  $handler->display->display_options['filters']['field_transcript_input_value']['group'] = 1;
-  $handler->display->display_options['filters']['field_transcript_input_value']['exposed'] = TRUE;
-  $handler->display->display_options['filters']['field_transcript_input_value']['expose']['operator_id'] = 'field_transcript_input_value_op';
-  $handler->display->display_options['filters']['field_transcript_input_value']['expose']['label'] = 'Transcript Input';
-  $handler->display->display_options['filters']['field_transcript_input_value']['expose']['operator'] = 'field_transcript_input_value_op';
-  $handler->display->display_options['filters']['field_transcript_input_value']['expose']['identifier'] = 'field_transcript_input_value';
-  /* Filter criterion: Broken/missing handler */
-  $handler->display->display_options['filters']['field_transcript_proofed_value']['id'] = 'field_transcript_proofed_value';
-  $handler->display->display_options['filters']['field_transcript_proofed_value']['table'] = 'field_data_field_transcript_proofed';
-  $handler->display->display_options['filters']['field_transcript_proofed_value']['field'] = 'field_transcript_proofed_value';
-  $handler->display->display_options['filters']['field_transcript_proofed_value']['relationship'] = 'field_workflow_value';
-  $handler->display->display_options['filters']['field_transcript_proofed_value']['group'] = 1;
-  $handler->display->display_options['filters']['field_transcript_proofed_value']['exposed'] = TRUE;
-  $handler->display->display_options['filters']['field_transcript_proofed_value']['expose']['operator_id'] = 'field_transcript_proofed_value_op';
-  $handler->display->display_options['filters']['field_transcript_proofed_value']['expose']['label'] = 'Transcript Proofed';
-  $handler->display->display_options['filters']['field_transcript_proofed_value']['expose']['operator'] = 'field_transcript_proofed_value_op';
-  $handler->display->display_options['filters']['field_transcript_proofed_value']['expose']['identifier'] = 'field_transcript_proofed_value';
-  /* Filter criterion: Broken/missing handler */
-  $handler->display->display_options['filters']['field_transcript_timecoded_value']['id'] = 'field_transcript_timecoded_value';
-  $handler->display->display_options['filters']['field_transcript_timecoded_value']['table'] = 'field_data_field_transcript_timecoded';
-  $handler->display->display_options['filters']['field_transcript_timecoded_value']['field'] = 'field_transcript_timecoded_value';
-  $handler->display->display_options['filters']['field_transcript_timecoded_value']['relationship'] = 'field_workflow_value';
-  $handler->display->display_options['filters']['field_transcript_timecoded_value']['group'] = 1;
-  $handler->display->display_options['filters']['field_transcript_timecoded_value']['exposed'] = TRUE;
-  $handler->display->display_options['filters']['field_transcript_timecoded_value']['expose']['operator_id'] = 'field_transcript_timecoded_value_op';
-  $handler->display->display_options['filters']['field_transcript_timecoded_value']['expose']['label'] = 'Transcript Timecoded';
-  $handler->display->display_options['filters']['field_transcript_timecoded_value']['expose']['operator'] = 'field_transcript_timecoded_value_op';
-  $handler->display->display_options['filters']['field_transcript_timecoded_value']['expose']['identifier'] = 'field_transcript_timecoded_value';
-  /* Filter criterion: Broken/missing handler */
-  $handler->display->display_options['filters']['field_translation_lang_1_value']['id'] = 'field_translation_lang_1_value';
-  $handler->display->display_options['filters']['field_translation_lang_1_value']['table'] = 'field_data_field_translation_lang_1';
-  $handler->display->display_options['filters']['field_translation_lang_1_value']['field'] = 'field_translation_lang_1_value';
-  $handler->display->display_options['filters']['field_translation_lang_1_value']['relationship'] = 'field_workflow_value';
-  $handler->display->display_options['filters']['field_translation_lang_1_value']['group'] = 1;
-  $handler->display->display_options['filters']['field_translation_lang_1_value']['exposed'] = TRUE;
-  $handler->display->display_options['filters']['field_translation_lang_1_value']['expose']['operator_id'] = 'field_translation_lang_1_value_op';
-  $handler->display->display_options['filters']['field_translation_lang_1_value']['expose']['label'] = 'Translation Input Language 1';
-  $handler->display->display_options['filters']['field_translation_lang_1_value']['expose']['operator'] = 'field_translation_lang_1_value_op';
-  $handler->display->display_options['filters']['field_translation_lang_1_value']['expose']['identifier'] = 'field_translation_lang_1_value';
-  /* Filter criterion: Broken/missing handler */
-  $handler->display->display_options['filters']['field_translation_lang_2_value']['id'] = 'field_translation_lang_2_value';
-  $handler->display->display_options['filters']['field_translation_lang_2_value']['table'] = 'field_data_field_translation_lang_2';
-  $handler->display->display_options['filters']['field_translation_lang_2_value']['field'] = 'field_translation_lang_2_value';
-  $handler->display->display_options['filters']['field_translation_lang_2_value']['relationship'] = 'field_workflow_value';
-  $handler->display->display_options['filters']['field_translation_lang_2_value']['group'] = 1;
-  $handler->display->display_options['filters']['field_translation_lang_2_value']['exposed'] = TRUE;
-  $handler->display->display_options['filters']['field_translation_lang_2_value']['expose']['operator_id'] = 'field_translation_lang_2_value_op';
-  $handler->display->display_options['filters']['field_translation_lang_2_value']['expose']['label'] = 'Translation Input Language 2';
-  $handler->display->display_options['filters']['field_translation_lang_2_value']['expose']['operator'] = 'field_translation_lang_2_value_op';
-  $handler->display->display_options['filters']['field_translation_lang_2_value']['expose']['identifier'] = 'field_translation_lang_2_value';
   /* Filter criterion: Field collection item: Translation Input Language 3 (field_translation_lang_3) */
   $handler->display->display_options['filters']['field_translation_lang_3_value']['id'] = 'field_translation_lang_3_value';
   $handler->display->display_options['filters']['field_translation_lang_3_value']['table'] = 'field_data_field_translation_lang_3';

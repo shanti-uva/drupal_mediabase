@@ -101,6 +101,9 @@ function mb_services_node_update($node) {
 /**
  * Implements hook_node_delete to remove records from kmaps index
  *   Can pass either an nid or node object
+ *   To Delete all records:
+ *     $data = '{"delete": {"query": "service:mediabase*"}}';
+ * 		 $res = mb_services_do_solr_post($data);
  */
 function mb_services_node_delete($node, $return_result = FALSE) {
 	global $base_root;

@@ -123,21 +123,25 @@ function mb_solr_apachesolr_index_document_build(ApacheSolrDocument $document, $
          $document->addField('im_collection_gid', $gid);
       }
    }
-	 // Add Media Create Date (see also mediabase.module mediabase_preprocess_node() ln 185 )
-	 $media_create_date = $entity->created;
-	 $ew = entity_metadata_wrapper('node', $entity);
-	 $field_inst = $ew->field_pbcore_instantiation->value();
-	 $flang = field_language('node',$entity, 'field_pbcore_instantiation');
-	 if(!empty($field_inst->field_date_created)) {
-		  $media_create_date = strtotime($field_inst->field_date_created[$flang][0]['value']);
-	 }
+	
 	 // Adjustments for Audio/Video Nodes
 	 if($entity_type == "node" && in_array($entity->type, array('audio', 'video'))) {
-	 	 // media create date
-		 $document->addField('im_media_create_date', $media_create_date);
-			
-		 // Using description for content & teaser fields
+	 	
 		 try {
+			 // Add Media Create Date (see also mediabase.module mediabase_preprocess_node() )
+			 $media_create_date = $entity->created;
+			 $ew = entity_metadata_wrapper('node', $entity);
+			 $field_inst = $ew->field_pbcore_instantiation->value();
+			 $flang = field_language('node',$entity, 'field_pbcore_instantiation');
+			 if(!empty($field_inst->field_date_created)) {
+				  $media_create_date = strtotime($field_inst->field_date_created[$flang][0]['value']);
+					if(!empty($media_create_date)) {
+				 	 // media create date
+					 $document->addField('im_media_create_date', $media_create_date);
+				 }
+			 }
+				
+		 		// Using description for content & teaser fields
 				$description = '';
 				$emw = entity_metadata_wrapper('node', $entity);
 				if(!empty($emw->field_pbcore_description)) {
@@ -150,10 +154,9 @@ function mb_solr_apachesolr_index_document_build(ApacheSolrDocument $document, $
 					$document->setField('teaser', $description);
 				}
 		 } catch (Exception $e) {
-		 	 
-		 		// EntityMetadataWrapperException 
-		 		//echo "\n";
-			  //echo 'Exception Caught for node ' . $entity->entity_id . ': ' .  $e->getMessage() . "\n";
+		 	 	watchdog('mb_solr', 'Exception thrown in building solr index doc (@eid): @message', array(
+		 	 		'@eid' => $entity->entity_id,
+		 	 		'@message' => $e->getMessage()));
 		 }
 	 }
 }

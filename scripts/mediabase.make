@@ -256,7 +256,7 @@ libraries[jquery.cycle][directory_name] = "jquery.cycle"
 libraries[jquery.cycle][type] = "library"
 
 libraries[json2][dowload][type] = "git"
-libraries[json2][dowload][url] = "git://github.com/douglascrockford/JSON-js.git"
+libraries[json2][dowload][url] = "https://github.com/douglascrockford/JSON-js.git"
 libraries[json2][directory_name] = "json2"
 libraries[json2][type] = "library"
 

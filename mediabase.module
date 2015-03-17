@@ -210,7 +210,9 @@ function mediabase_solr_index_nodes($max, &$context) {
     $node = node_load($row->nid, NULL, TRUE);
 		$res = mb_services_post_to_solr($node);
 		$resval = $node->nid . ' : ' . check_plain($node->title);
-		$resmsg = check_plain($node->title);
+		if(isset($res->code)) { $resval .= " ({$res->code})"; }
+		$resmsg = t("Sending A/V Nodes to master index... (@progress of @max)", 
+								array('@progress' => $context['sandbox']['progress'], '@max' => $max));
 		$context['results'][] = $resval;
 		$context['sandbox']['current_node'] = $node->nid;
 		$context['message'] = $resmsg;
@@ -350,7 +352,7 @@ function mediabase_preprocess_node(&$variables) {
 		$field_inst = $emw->field_pbcore_instantiation->value();
 		$flang = field_language('node',$node, 'field_pbcore_instantiation');
 		$create_date = $node->created; // Default to node creation date.
-		if(!empty($field_inst->field_date_created)) {
+		if(!empty($field_inst->field_date_created[$flang][0]['value'])) {
 		  $create_date = strtotime($field_inst->field_date_created[$flang][0]['value']);
 		}
 		$variables['media_create_date'] = $create_date;

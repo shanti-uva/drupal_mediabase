@@ -135,10 +135,10 @@ function mb_solr_apachesolr_index_document_build(ApacheSolrDocument $document, $
 			 $flang = field_language('node',$entity, 'field_pbcore_instantiation');
 			 if(!empty($field_inst->field_date_created)) {
 				  $media_create_date = strtotime($field_inst->field_date_created[$flang][0]['value']);
-					if(!empty($media_create_date)) {
+				  // make sure something in $media_create_date;
+					if(empty($media_create_date)) { $media_create_date = (is_int($entity->created)) ? $entity->created : time(); }
 				 	 // media create date
 					 $document->addField('im_media_create_date', $media_create_date);
-				 }
 			 }
 				
 		 		// Using description for content & teaser fields

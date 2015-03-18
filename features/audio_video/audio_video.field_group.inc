@@ -656,7 +656,7 @@ function audio_video_field_group_info() {
   $field_group->mode = 'form';
   $field_group->parent_name = '';
   $field_group->data = array(
-    'label' => 'Techinical Metadata',
+    'label' => 'Technical Metadata',
     'weight' => '8',
     'children' => array(
       0 => 'field_pbcore_extension',
@@ -666,7 +666,7 @@ function audio_video_field_group_info() {
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
-      'label' => 'Techinical Metadata',
+      'label' => 'Technical Metadata',
       'instance_settings' => array(
         'required_fields' => 1,
         'classes' => ' group-technical field-group-fieldset',

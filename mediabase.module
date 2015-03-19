@@ -411,6 +411,7 @@ function mediabase_node_load($nodes, $types) {
             'formatted' => mediabase_format_duration($qres[0]->kaltura_duration),
           );
         }
+
 				if(empty($node->thumbnail_url)) {
 					$node->thumbnail_url = ''; 
 					//watchdog('mediabase', 'No Kaltura thumbnail found for node %nid. Item possibly deleted from Kaltura!', array('%nid' => $node->nid), WATCHDOG_WARNING);

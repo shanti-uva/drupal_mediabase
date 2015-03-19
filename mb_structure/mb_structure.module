@@ -706,6 +706,7 @@ function mb_update_node_kaltura_data($node) {
 	 * Use this function to refresh thumbnail and other Kaltura data for the media object, 
 	 * If it has a kaltura id, $kid = $node->field_video['und'][0]['entryid'];
 	 * Code taked from kaltura_cron() in kaltura.module line 567 
+	 * Added code to get kaltura video thumb from function (ndg, 2015-03-19)
 	 * 
 	 */
 	$kid = (isset($node->field_video['und'][0]['entryid'])) ? $node->field_video['und'][0]['entryid'] : NULL;
@@ -714,13 +715,15 @@ function mb_update_node_kaltura_data($node) {
 			$result = kaltura_get_entries(array($kid), TRUE);
 			if ($result[0] !== FALSE) {
 				foreach ($result[0]->objects as $resultObject) {
+					$thumb_url = mb_kaltura_get_thumbnail_url($resultObject->id);
+					if(empty($thumb_url)) { $thumb_url = $resultObject->thumbnailUrl; }
 					$ent['kaltura_entryid'] = $resultObject->id;
 					$ent['kaltura_tags'] = $resultObject->tags;
 					$ent['kaltura_admin_tags'] = $resultObject->adminTags;
 					$ent['kstatus'] = $resultObject->status;
 					$ent['kaltura_media_type'] = $resultObject->mediaType;
 					$ent['kaltura_duration']= $resultObject->duration;
-					$ent['kaltura_thumbnail_url'] = $resultObject->thumbnailUrl;
+					$ent['kaltura_thumbnail_url'] = $thumb_url;
 					$ent['kaltura_partner_data'] = $resultObject->partnerData;
 					$ent['kaltura_source'] = $resultObject->sourceType;
 					$ent['kaltura_width'] = $resultObject->width;

@@ -671,6 +671,27 @@ function mb_structure_node_load($nodes, $types) {
 	}
 }
 
+function mb_structure_node_insert($node) {
+	// Separate function to update a node's kaltura data in case it needs to be called from other contexts.
+	mb_update_node_kaltura_data($node);
+	
+	$lang = array_shift(array_keys($node->field_video));
+	$lang = (empty($lang)) ? LANGUAGE_NONE : $lang;
+	$kid = (isset($node->field_video[$lang][0]['entryid'])) ? $node->field_video[$lang][0]['entryid'] : NULL;
+	if(!empty($kid)) {
+		try { 
+			$ent['kaltura_entryid'] = $kid;
+			$ent['kstatus'] = 2;
+			$ent['kaltura_thumbnail_url'] = mb_kaltura_get_thumbnail_url($kid);
+			$ent['kaltura_source'] = 1;
+			$ent['kaltura_title'] = $node->title;
+			$wres = drupal_write_record('node_kaltura', $ent, 'kaltura_entryid');
+		} catch (Exception $ex) {
+    	//dpm('Problem');
+    	//dpm($ex);
+    }
+	}
+}
 function mb_structure_node_update($node) {
 	// Separate function to update a node's kaltura data in case it needs to be called from other contexts.
 	mb_update_node_kaltura_data($node);
@@ -709,7 +730,9 @@ function mb_update_node_kaltura_data($node) {
 	 * Added code to get kaltura video thumb from function (ndg, 2015-03-19)
 	 * 
 	 */
-	$kid = (isset($node->field_video['und'][0]['entryid'])) ? $node->field_video['und'][0]['entryid'] : NULL;
+	$lang = array_shift(array_keys($node->field_video));
+	$lang = (empty($lang)) ? LANGUAGE_NONE : $lang;
+	$kid = (isset($node->field_video[$lang][0]['entryid'])) ? $node->field_video[$lang][0]['entryid'] : NULL;
 	if(!empty($kid)) {
 		try {
 			$result = kaltura_get_entries(array($kid), TRUE);

@@ -3,7 +3,7 @@
 		attach: function(context){
 			
 		   replaceBrokenImages(); 
-		   //mbCarouselInit();
+		   fixVBOCheckBoxes();
 		   
 			// Code to add transcript and description radiobuttons to search form
 		   var transcriptSearch = jQuery('#block-transcripts-transcript-search');
@@ -11,6 +11,11 @@
 		   siteSearch.addClass('active');
 		   addToggleToSearchForm( transcriptSearch);
 		   addToggleToSearchForm( siteSearch);
+		   
+		   function fixVBOCheckBoxes() {
+		   		// vbo click anywhere in the row to enable messes up the ICheck function so disabling on view-my-content forms
+		   		$('.view-my-content .views-table tbody tr').unbind('click');
+		   }
 		   
 		   function addToggleToSearchForm( searchForm ) {
 		   	return; // This should be done in Drupal with the Form API and possibly a submit function. Disabling for now.
@@ -103,6 +108,7 @@
 		       }
 		     });
 		   }
+		   
 		}
 	};
 	

@@ -356,16 +356,25 @@ function my_content_views_default_views() {
   $handler->display->display_options['filters']['status']['value'] = 1;
   $handler->display->display_options['filters']['status']['group'] = 1;
   $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
-  /* Filter criterion: Search: Search Terms */
-  $handler->display->display_options['filters']['keys']['id'] = 'keys';
-  $handler->display->display_options['filters']['keys']['table'] = 'search_index';
-  $handler->display->display_options['filters']['keys']['field'] = 'keys';
-  $handler->display->display_options['filters']['keys']['group'] = 1;
-  $handler->display->display_options['filters']['keys']['exposed'] = TRUE;
-  $handler->display->display_options['filters']['keys']['expose']['operator_id'] = 'keys_op';
-  $handler->display->display_options['filters']['keys']['expose']['label'] = 'Search Terms';
-  $handler->display->display_options['filters']['keys']['expose']['operator'] = 'keys_op';
-  $handler->display->display_options['filters']['keys']['expose']['identifier'] = 'keys';
+  /* Filter criterion: Content: Title */
+  $handler->display->display_options['filters']['title']['id'] = 'title';
+  $handler->display->display_options['filters']['title']['table'] = 'node';
+  $handler->display->display_options['filters']['title']['field'] = 'title';
+  $handler->display->display_options['filters']['title']['operator'] = 'contains';
+  $handler->display->display_options['filters']['title']['group'] = 1;
+  $handler->display->display_options['filters']['title']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['title']['expose']['operator_id'] = 'title_op';
+  $handler->display->display_options['filters']['title']['expose']['label'] = 'Keyword';
+  $handler->display->display_options['filters']['title']['expose']['operator'] = 'title_op';
+  $handler->display->display_options['filters']['title']['expose']['identifier'] = 'title';
+  $handler->display->display_options['filters']['title']['expose']['remember_roles'] = array(
+    2 => '2',
+    1 => 0,
+    3 => 0,
+    4 => 0,
+    5 => 0,
+    7 => 0,
+  );
   /* Filter criterion: Content: Type */
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'node';
@@ -391,16 +400,6 @@ function my_content_views_default_views() {
   $handler->display->display_options['filters']['status']['value'] = 1;
   $handler->display->display_options['filters']['status']['group'] = 1;
   $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
-  /* Filter criterion: Search: Search Terms */
-  $handler->display->display_options['filters']['keys']['id'] = 'keys';
-  $handler->display->display_options['filters']['keys']['table'] = 'search_index';
-  $handler->display->display_options['filters']['keys']['field'] = 'keys';
-  $handler->display->display_options['filters']['keys']['group'] = 1;
-  $handler->display->display_options['filters']['keys']['exposed'] = TRUE;
-  $handler->display->display_options['filters']['keys']['expose']['operator_id'] = 'keys_op';
-  $handler->display->display_options['filters']['keys']['expose']['label'] = 'Search Terms';
-  $handler->display->display_options['filters']['keys']['expose']['operator'] = 'keys_op';
-  $handler->display->display_options['filters']['keys']['expose']['identifier'] = 'keys';
   /* Filter criterion: Content: Type */
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'node';
@@ -414,6 +413,25 @@ function my_content_views_default_views() {
   $handler->display->display_options['filters']['type']['expose']['label'] = 'Type';
   $handler->display->display_options['filters']['type']['expose']['operator'] = 'type_op';
   $handler->display->display_options['filters']['type']['expose']['identifier'] = 'type';
+  /* Filter criterion: Content: Title */
+  $handler->display->display_options['filters']['title']['id'] = 'title';
+  $handler->display->display_options['filters']['title']['table'] = 'node';
+  $handler->display->display_options['filters']['title']['field'] = 'title';
+  $handler->display->display_options['filters']['title']['operator'] = 'contains';
+  $handler->display->display_options['filters']['title']['group'] = 1;
+  $handler->display->display_options['filters']['title']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['title']['expose']['operator_id'] = 'title_op';
+  $handler->display->display_options['filters']['title']['expose']['label'] = 'Keyword';
+  $handler->display->display_options['filters']['title']['expose']['operator'] = 'title_op';
+  $handler->display->display_options['filters']['title']['expose']['identifier'] = 'title';
+  $handler->display->display_options['filters']['title']['expose']['remember_roles'] = array(
+    2 => '2',
+    1 => 0,
+    3 => 0,
+    4 => 0,
+    5 => 0,
+    7 => 0,
+  );
   $handler->display->display_options['path'] = 'my-content/collections';
   $handler->display->display_options['menu']['type'] = 'tab';
   $handler->display->display_options['menu']['title'] = 'My Collections';
@@ -444,6 +462,7 @@ function my_content_views_default_views() {
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['query']['options']['query_comment'] = FALSE;
   $handler->display->display_options['exposed_form']['type'] = 'basic';
+  $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Filter';
   $handler->display->display_options['exposed_form']['options']['reset_button'] = TRUE;
   $handler->display->display_options['exposed_form']['options']['autosubmit'] = TRUE;
   $handler->display->display_options['exposed_form']['options']['autosubmit_hide'] = FALSE;
@@ -771,25 +790,6 @@ function my_content_views_default_views() {
   $handler->display->display_options['filters']['status']['value'] = 1;
   $handler->display->display_options['filters']['status']['group'] = 1;
   $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
-  /* Filter criterion: Search Filter My Content */
-  $handler->display->display_options['filters']['keys']['id'] = 'keys';
-  $handler->display->display_options['filters']['keys']['table'] = 'search_index';
-  $handler->display->display_options['filters']['keys']['field'] = 'keys';
-  $handler->display->display_options['filters']['keys']['ui_name'] = 'Search Filter My Content';
-  $handler->display->display_options['filters']['keys']['group'] = 1;
-  $handler->display->display_options['filters']['keys']['exposed'] = TRUE;
-  $handler->display->display_options['filters']['keys']['expose']['operator_id'] = 'keys_op';
-  $handler->display->display_options['filters']['keys']['expose']['label'] = 'Search Terms';
-  $handler->display->display_options['filters']['keys']['expose']['operator'] = 'keys_op';
-  $handler->display->display_options['filters']['keys']['expose']['identifier'] = 'keys';
-  $handler->display->display_options['filters']['keys']['expose']['remember_roles'] = array(
-    2 => '2',
-    1 => 0,
-    3 => 0,
-    4 => 0,
-    5 => 0,
-    7 => 0,
-  );
   /* Filter criterion: Content: Type */
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'node';
@@ -803,6 +803,25 @@ function my_content_views_default_views() {
   $handler->display->display_options['filters']['type']['expose']['label'] = 'Type';
   $handler->display->display_options['filters']['type']['expose']['operator'] = 'type_op';
   $handler->display->display_options['filters']['type']['expose']['identifier'] = 'type';
+  /* Filter criterion: Content: Title */
+  $handler->display->display_options['filters']['title']['id'] = 'title';
+  $handler->display->display_options['filters']['title']['table'] = 'node';
+  $handler->display->display_options['filters']['title']['field'] = 'title';
+  $handler->display->display_options['filters']['title']['operator'] = 'contains';
+  $handler->display->display_options['filters']['title']['group'] = 1;
+  $handler->display->display_options['filters']['title']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['title']['expose']['operator_id'] = 'title_op';
+  $handler->display->display_options['filters']['title']['expose']['label'] = 'Keyword';
+  $handler->display->display_options['filters']['title']['expose']['operator'] = 'title_op';
+  $handler->display->display_options['filters']['title']['expose']['identifier'] = 'title';
+  $handler->display->display_options['filters']['title']['expose']['remember_roles'] = array(
+    2 => '2',
+    1 => 0,
+    3 => 0,
+    4 => 0,
+    5 => 0,
+    7 => 0,
+  );
 
   /* Display: My Content (Parent) */
   $handler = $view->new_display('page', 'My Content (Parent)', 'page_3');

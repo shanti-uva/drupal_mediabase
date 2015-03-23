@@ -123,6 +123,9 @@ function mb_services_node_delete($node, $return_result = FALSE) {
  * Post Audio and Video Node updates to Solr Index
  */
 function mb_services_post_to_solr($node, $show_result = FALSE) {
+	// Make sure node is public
+	$is_public = node_access('view', $node, user_load(0));
+	if (!$is_public) { return "Private node ({$node->nid})"; }
 	// Get Entity Wrapper and set field info to send
 	$ewrap = entity_metadata_wrapper('node', $node);
 	$bundle = $ewrap->getBundle();

@@ -673,8 +673,8 @@ function mb_structure_node_load($nodes, $types) {
 
 function mb_structure_node_insert($node) {
 	// Separate function to update a node's kaltura data in case it needs to be called from other contexts.
-	mb_update_node_kaltura_data($node);
-	
+	// mb_update_node_kaltura_data($node); // Doesn't work for new node because Kaltura Client doesn't return full info
+	if($node->type != 'video') { return; }
 	$lang = array_shift(array_keys($node->field_video));
 	$lang = (empty($lang)) ? LANGUAGE_NONE : $lang;
 	$kid = (isset($node->field_video[$lang][0]['entryid'])) ? $node->field_video[$lang][0]['entryid'] : NULL;
@@ -694,6 +694,7 @@ function mb_structure_node_insert($node) {
 }
 function mb_structure_node_update($node) {
 	// Separate function to update a node's kaltura data in case it needs to be called from other contexts.
+	if($node->type != 'video') { return; } // TODO: Check if we need to do this for audio also.
 	mb_update_node_kaltura_data($node);
 }
 
@@ -730,6 +731,7 @@ function mb_update_node_kaltura_data($node) {
 	 * Added code to get kaltura video thumb from function (ndg, 2015-03-19)
 	 * 
 	 */
+	 
 	$lang = array_shift(array_keys($node->field_video));
 	$lang = (empty($lang)) ? LANGUAGE_NONE : $lang;
 	$kid = (isset($node->field_video[$lang][0]['entryid'])) ? $node->field_video[$lang][0]['entryid'] : NULL;

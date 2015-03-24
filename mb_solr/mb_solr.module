@@ -913,6 +913,7 @@ function mb_solr_get_solrdoc($node, $format = 'xml') {
  		$alias = drupal_get_path_alias('node/' . $nid);
 		$kmaps = '';
 		$kmapsjson = array();
+		$metadata = array();
 		if(isset($node->field_characteristic)) {
 			$fc = field_get_items('node', $node, 'field_characteristic');
 			if(!empty($fc)) {
@@ -934,6 +935,9 @@ function mb_solr_get_solrdoc($node, $format = 'xml') {
 						$tm = taxonomy_term_load($fpcsitem['tid']);
 						$tw = entity_metadata_wrapper('taxonomy_term', $tm);
 						$pid = $tw->place_dictionary_id->value();
+						if (empty($metadata['place'])) {
+							$metadata['place'] = array( 'name' => $tm->name, 'pid' => $pid );
+						}
 						$km = fetch_place_dict_details($pid);
 						foreach ($km as $kmid => $data) {
 							$kmapsjson[] = 'places-' . $kmid;
@@ -946,6 +950,14 @@ function mb_solr_get_solrdoc($node, $format = 'xml') {
 			}
 		}
 		
+		// Metadata
+		
+		$ew = entity_metadata_wrapper('node', $node);
+		$grp = $ew->group_audience->value();
+		$grp = array_shift($grp);
+		$metadata['collection'] = $grp->label;
+		$metadata['date'] = gmdate('Y-m-d\TH:i:s\Z',  $ew->created->value());
+		$metadata['length'] = $node->duration['formatted'];
 		$kmapsjson = array_values(array_unique($kmapsjson));
 		foreach($kmapsjson as $km) {
 			$kmaps .= "<str>$km</str>";
@@ -962,18 +974,21 @@ function mb_solr_get_solrdoc($node, $format = 'xml') {
 			$jsonout['doc']['asset_type'] = "audio-video"; //$node->type;
 			$jsonout['doc']['id'] = $nid;
 			$jsonout['doc']['uid'] = $uid;
+			$jsonout['doc']['collection'] = $metadata['collection'];
+			$jsonout['doc']['date'] = $metadata['date'];
+			$jsonout['doc']['duration_s'] = $metadata['length'];
 			$jsonout['doc']['url_html'] = $url_html;
 			$jsonout['doc']['url_ajax'] = $url_ajax;
 			$jsonout['doc']['url_json'] = $url_json;
 			$jsonout['doc']['url_thumb'] = $thumb;
 			$jsonout['doc']['caption'] = $node->title;
+			//$jsonout['doc']['metadata'] = json_encode($metadata);
 			$jsonout['doc']['kmapid'] = $kmapsjson;
 			if($is_api_call) {
 				drupal_json_output($jsonout);
 			} else {
 				return $jsonout;
 			}
-			
 		} else {
 			// Otherwise Return XML
 		  // Convert Solr Doc to XML and add to output string
@@ -981,6 +996,9 @@ function mb_solr_get_solrdoc($node, $format = 'xml') {
 			<str name="asset_type">audio-video</str>
 			<str name="id">' . $nid . '</str>
 			<str name="uid">' . $uid . '</str>
+			<str name="collection">' . $metadata['collection'] . '</str> 
+			<str name="date">' . $metadata['date'] . '</str> 
+			<str name="duration_s">' . $metadata['length'] . '</str> 
 			<str name="url_html">' . $url_html . '</str>
 			<str name="url_ajax">' . $url_ajax . '</str>
 			<str name="url_json">' . $url_json . '</str>

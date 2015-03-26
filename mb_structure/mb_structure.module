@@ -731,8 +731,8 @@ function mb_update_node_kaltura_data($node) {
 	 * Added code to get kaltura video thumb from function (ndg, 2015-03-19)
 	 * 
 	 */
-	 
-	$lang = array_shift(array_keys($node->field_video));
+	$langs = array_keys($node->field_video);
+	$lang = array_shift($langs);
 	$lang = (empty($lang)) ? LANGUAGE_NONE : $lang;
 	$kid = (isset($node->field_video[$lang][0]['entryid'])) ? $node->field_video[$lang][0]['entryid'] : NULL;
 	if(!empty($kid)) {

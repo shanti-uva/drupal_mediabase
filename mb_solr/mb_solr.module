@@ -126,7 +126,6 @@ function mb_solr_apachesolr_index_document_build(ApacheSolrDocument $document, $
 	
 	 // Adjustments for Audio/Video Nodes
 	 if($entity_type == "node" && in_array($entity->type, array('audio', 'video'))) {
-	 	
 		 try {
 			 // Add Media Create Date (see also mediabase.module mediabase_preprocess_node() )
 			 $media_create_date = $entity->created;
@@ -150,13 +149,21 @@ function mb_solr_apachesolr_index_document_build(ApacheSolrDocument $document, $
 						   $description .= $term_wrapper->field_description->value() . " ";
 						}
 					}
-					$document->setField('content', $description);
-					$document->setField('teaser', $description);
+					if(!empty($description)) {
+						$document->setField('content', $description);
+						$document->setField('teaser', $description);
+					}
 				}
 		 } catch (Exception $e) {
-		 	 	watchdog('mb_solr', 'Exception thrown in building solr index doc (@eid): @message', array(
-		 	 		'@eid' => $entity->entity_id,
-		 	 		'@message' => $e->getMessage()));
+		 		$eid = (isset($entity->entity_id)) ? $entity->entity_id : FALSE;
+				$eid = (!$eid && !empty($entity->nid)) ? $entity->nid : FALSE;
+				$eid = (!$eid && is_object($entity)) ? implode(', ', array_keys((array)$entity)) : $eid;
+		 	 	watchdog('mb_solr', 'Exception thrown in building solr index doc for eid @eid (@file, @line): @message', array(
+		 	 		'@eid' => $eid,
+		 	 		'@message' => $e->getMessage(),
+					'@file' => $e->getFile(),
+					'@line' => $e->getLine(),
+				));
 		 }
 	 }
 }

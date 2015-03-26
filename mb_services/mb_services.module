@@ -139,7 +139,9 @@ function mb_services_post_to_solr($node, $show_result = FALSE) {
 		$desc_array = $ewrap->field_pbcore_description->value();
 		$desc = '';
 		foreach($desc_array as $n => $desc_obj) {
-			$desc .= $desc_obj->field_description[LANGUAGE_NONE][0]['value'] . ' | '; // Separating multiple descriptions with vertical pipe
+			if(is_object($desc_obj) && !empty($desc_obj->field_description[LANGUAGE_NONE][0]['value'])) {
+				$desc .= $desc_obj->field_description[LANGUAGE_NONE][0]['value'] . ' | '; // Separating multiple descriptions with vertical pipe
+			}
 		}
 		
 		// Get thumbnail for node

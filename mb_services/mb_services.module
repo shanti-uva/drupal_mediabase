@@ -102,9 +102,11 @@ function mb_services_node_update($node) {
  * Implements hook_node_delete to remove records from kmaps index
  *   Can pass either an nid or node object
  *   To Delete all records:
- *     $data = '{"delete": {"query": "service:mediabase*"}}';
- * 		 $res = mb_services_do_solr_post($data);
- */
+ * 
+      		$data = '{"delete": {"query": "service:mediabase*"}}';
+  		 		$res = mb_services_do_solr_post($data);
+ * 
+ **/
 function mb_services_node_delete($node, $return_result = FALSE) {
 	global $base_root;
 	$nid = (is_int($node)) ? $node : $node->nid;
@@ -123,6 +125,9 @@ function mb_services_node_delete($node, $return_result = FALSE) {
  * Post Audio and Video Node updates to Solr Index
  */
 function mb_services_post_to_solr($node, $show_result = FALSE) {
+	// Make sure node is public
+	$is_public = node_access('view', $node, user_load(0));
+	if (!$is_public) { return "Private node ({$node->nid})"; }
 	// Get Entity Wrapper and set field info to send
 	$ewrap = entity_metadata_wrapper('node', $node);
 	$bundle = $ewrap->getBundle();
@@ -134,7 +139,9 @@ function mb_services_post_to_solr($node, $show_result = FALSE) {
 		$desc_array = $ewrap->field_pbcore_description->value();
 		$desc = '';
 		foreach($desc_array as $n => $desc_obj) {
-			$desc .= $desc_obj->field_description[LANGUAGE_NONE][0]['value'] . ' | '; // Separating multiple descriptions with vertical pipe
+			if(is_object($desc_obj) && !empty($desc_obj->field_description[LANGUAGE_NONE][0]['value'])) {
+				$desc .= $desc_obj->field_description[LANGUAGE_NONE][0]['value'] . ' | '; // Separating multiple descriptions with vertical pipe
+			}
 		}
 		
 		// Get thumbnail for node

@@ -20,9 +20,19 @@ function mb_bulk_actions_action_info() {
       'vbo_configurable' => FALSE,
       'triggers' => array('any'),
     ),
+    'mb_bulk_actions_assign_subject' => array(
+      'aggregate' => FALSE,
+      'type' => 'node',
+      'label' => t('Tag with Kmaps Subject'),
+      'behavior' => array('changes_property'),
+      'configurable' => TRUE,
+      'vbo_configurable' => FALSE,
+      'triggers' => array('any'),
+    ),
   );
 }
 
+/**** Filter Subcollection Action ******/
 function mb_bulk_actions_filter_subcollection_action(&$node, $context) {
   
   // Create node's field_subcollection array if not already there
@@ -92,3 +102,60 @@ function _find_tid_in_field($field_array, $tid) {
   }
   return FALSE;
 }
+
+/**** End of Filter Subcollection Action ******/
+
+/**** Assign Kmaps Subject *******/
+
+// Form Functions to get KMap Subject ID
+function mb_bulk_actions_assign_subject_views_bulk_operations_form($options) {
+  $form = array();
+  $form['kid'] = array(
+    '#type' => 'textfield', 
+    '#title' => t('Enter the numeric Kmaps Subject ID'),
+    '#default_value' => !empty($options['kid']) ? $options['kid'] : '',
+  );
+  return $form;
+}
+
+function mb_bulk_actions_assign_subject_form($settings, &$form_state) {
+  $form = array();
+  $form['kid'] = array(
+    '#type' => 'textfield', 
+    '#title' => t('Enter the numeric Kmaps Subject ID'),
+    '#required' => TRUE,
+    '#default_value' => isset($settings['settings']['kid']) ? $settings['settings']['kid'] : '',
+  );
+  return $form;
+}
+
+// TODO: Add a validation function?
+
+function mb_bulk_actions_assign_subject_submit($form, $form_state) {
+  $return = array();
+  $return['kid'] = $form_state['values']['kid'];
+  return $return;
+}
+
+// Function to assign subject kmap tag
+function mb_bulk_actions_assign_subject(&$node, $context) {
+	//dpm($context, 'context in assign subject');
+	try {
+		$kmo = new Kmap($context['kid']);
+		$tm = $kmo->get_term();
+		$ew = entity_metadata_wrapper('node', $node);
+		$fc = $ew->field_characteristic->value();
+		foreach($fc as $n => $fctm) {
+			if($fctm->tid == $tm->tid) {
+				 watchdog('mb_bulk_action', "Node {$node->nid} already has term '{$tm->name}'");
+				 return; 
+			}
+		}
+		$ew->field_characteristic[] = $tm->tid;
+		$ew->save();
+	} catch (Exception $e) {
+		watchdog('mb_bulk_action', "No field_characteristic in node: " . $node->nid . " ({$e->getMessage()})");
+	}
+}
+
+/**** End Assign Kmaps Subject *****/

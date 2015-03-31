@@ -107,6 +107,13 @@ function media_listings_views_default_views() {
   $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['force_single'] = 0;
   $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['entity_load_capacity'] = '10';
   $handler->display->display_options['fields']['views_bulk_operations']['vbo_operations'] = array(
+    'action::mb_bulk_actions_change_collection' => array(
+      'selected' => 1,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
+    ),
     'action::node_assign_owner_action' => array(
       'selected' => 1,
       'postpone_processing' => 0,
@@ -205,6 +212,16 @@ function media_listings_views_default_views() {
       'skip_confirmation' => 0,
       'override_label' => 0,
       'label' => '',
+    ),
+    'action::mb_bulk_actions_remove_subject' => array(
+      'selected' => 1,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
+      'settings' => array(
+        'kid' => '',
+      ),
     ),
     'action::node_save_action' => array(
       'selected' => 1,

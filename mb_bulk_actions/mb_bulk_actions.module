@@ -239,6 +239,26 @@ function mb_bulk_actions_remove_subject(&$node, $context) {
 }
 
 /**** End Remove Kmaps Subject *****/
+/**** Add Kmaps Place Tag *****/
+/*
+module_load_include('inc', 'mb_location', 'mb_location');
+$nid1 = 1854;  // without a place
+$node1 = node_load($nid1);
+$nid2 = 2170; // with a place
+$node2 = node_load($nid2);
+dpm($node1, 'no place');
+dpm($node2, 'with place');
+$lid = "place:15885";
+$loc = new MediabaseLocation($lid, 'Golok');
+$term = $loc->getTerm();
+$flang = field_language('node', $node2, 'field_pbcore_coverage_spatial');
+if(empty($node1->field_pbcore_coverage_spatial)) {
+$node1->field_pbcore_coverage_spatial = array( $flang => array(array('tid' => $term->tid)));
+}
+node_save($node1);
+dpm($node1, 'after adding place');
+*/
+/*** End Add Place Tag ****/
 
 /**** Change Collection for Multiple Nodes ****/
 

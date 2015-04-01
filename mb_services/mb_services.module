@@ -448,7 +448,7 @@ function mb_services_node_ajax($nid) {
     	$eview = entity_view('node', array($node));
 			$html = drupal_render($eview); 
 			// Following line makes all relative MB URLs into absolute ones for embed.
-			//$html = str_replace('<a href="/', '<a target="_blank" href="' . $base_url . '/', $html);
+			$html = str_replace('<a href="/', '<a target="_blank" href="' . $base_url . '/', $html);
 			$kurl =  variable_get('kaltura_server_url', '');
 			$kpi = variable_get('kaltura_partner_id', '');
 			$ksi = variable_get('kaltura_subp_id', '');

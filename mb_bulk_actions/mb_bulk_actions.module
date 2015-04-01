@@ -11,6 +11,7 @@
  
 function mb_bulk_actions_action_info() {
   return array(
+  	// Separate out subcollection kmaps from subject field (one time process)
     'mb_bulk_actions_filter_subcollection_action' => array(
       'aggregate' => FALSE,
       'type' => 'node',
@@ -20,6 +21,8 @@ function mb_bulk_actions_action_info() {
       'vbo_configurable' => FALSE,
       'triggers' => array('any'),
     ),
+    
+    // Assign a kmaps subject tag to multiple nodes
     'mb_bulk_actions_assign_subject' => array(
       'aggregate' => FALSE,
       'type' => 'node',
@@ -29,6 +32,40 @@ function mb_bulk_actions_action_info() {
       'vbo_configurable' => FALSE,
       'triggers' => array('any'),
     ),
+    
+    // Remove a kmaps subject tag from multiple nodes
+    'mb_bulk_actions_remove_subject' => array(
+      'aggregate' => FALSE,
+      'type' => 'node',
+      'label' => t('Remove Kmaps Subject'),
+      'behavior' => array('changes_property'),
+      'configurable' => TRUE,
+      'vbo_configurable' => FALSE,
+      'triggers' => array('any'),
+    ),
+		    
+    // Assign a kmaps place tag to multiple nodes
+    'mb_bulk_actions_assign_place' => array(
+      'aggregate' => FALSE,
+      'type' => 'node',
+      'label' => t('Tag/Untag with Kmaps Place'),
+      'behavior' => array('changes_property'),
+      'configurable' => TRUE,
+      'vbo_configurable' => FALSE,
+      'triggers' => array('any'),
+    ),
+    
+		// Change Collection for Multiple nodes
+		'mb_bulk_actions_change_collection' =>  array(
+      'aggregate' => FALSE,
+      'type' => 'node',
+      'label' => t('Change collection'),
+      'behavior' => array('changes_property'),
+      'configurable' => TRUE,
+      'vbo_configurable' => TRUE,
+      'triggers' => array('any'),
+    ),
+    
   );
 }
 
@@ -159,3 +196,217 @@ function mb_bulk_actions_assign_subject(&$node, $context) {
 }
 
 /**** End Assign Kmaps Subject *****/
+
+/**** Remove Kmaps Subject *******/
+
+// Form Functions to get KMap Subject ID
+function mb_bulk_actions_remove_subject_views_bulk_operations_form($options) {
+  $form = array();
+  $form['kid'] = array(
+    '#type' => 'textfield', 
+    '#title' => t('Enter the numeric Kmaps Subject ID'),
+    '#default_value' => !empty($options['kid']) ? $options['kid'] : '',
+  );
+  return $form;
+}
+
+function mb_bulk_actions_remove_subject_form($settings, &$form_state) {
+  $form = array();
+  $form['kid'] = array(
+    '#type' => 'textfield', 
+    '#title' => t('Enter the numeric Kmaps Subject ID'),
+    '#required' => TRUE,
+    '#default_value' => isset($settings['settings']['kid']) ? $settings['settings']['kid'] : '',
+  );
+  return $form;
+}
+
+// TODO: Add a validation function to test if kmap id is valid?
+
+function mb_bulk_actions_remove_subject_submit($form, $form_state) {
+  $return = array();
+  $return['kid'] = $form_state['values']['kid'];
+  return $return;
+}
+
+// Function to remove subject kmap tag
+function mb_bulk_actions_remove_subject(&$node, $context) {
+	$kmid = $context['kid'];
+	try {
+		$km = new Kmap($kmid);
+		$term = $km->get_term();
+		$flang = field_language('node', $node, 'field_characteristic');
+		$ind = -1;
+		foreach($node->field_characteristic[$flang] as $n => $subject) {
+			if($subject['tid'] == $term->tid) { $ind = $n; break; }
+		}
+		if($ind > -1) {
+			array_splice($node->field_characteristic[$flang], $ind, 1);
+			node_save($node);
+		}
+	} catch (Exception $e) {
+		watchdog('mb_bulk_action', "Problem removing kmid {$kmid} from node {$node->nid}: {$e->getMessage()}");
+	}
+}
+
+/**** End Remove Kmaps Subject *****/
+/**** Add Kmaps Place Tag *****/
+
+// Form Functions to get KMap Subject ID
+function mb_bulk_actions_assign_place_views_bulk_operations_form($options) {
+  $form = array();
+  $form['kid'] = array(
+    '#type' => 'textfield', 
+    '#title' => t('Enter the numeric Kmaps Place ID'),
+    '#default_value' => !empty($options['kid']) ? $options['kid'] : '',
+  );
+  $form['remove'] = array(
+    '#type' => 'checkbox', 
+    '#title' => t('Check here to remove place ID from records'),
+    '#default_value' => !empty($options['remove']) ? $options['remove'] : FALSE,
+  );
+  return $form;
+}
+
+function mb_bulk_actions_assign_place_form($settings, &$form_state) {
+  $form = array();
+  $form['kid'] = array(
+    '#type' => 'textfield', 
+    '#title' => t('Enter the numeric Kmaps Place ID'),
+    '#required' => TRUE,
+    '#default_value' => isset($settings['settings']['kid']) ? $settings['settings']['kid'] : '',
+  );
+  $form['remove'] = array(
+    '#type' => 'checkbox', 
+    '#title' => t('Check here to remove place ID from records'),
+    '#default_value' => isset($settings['settings']['remove']) ? $settings['settings']['remove'] : FALSE,
+  );
+  return $form;
+}
+
+// TODO: Add a validation function?
+
+function mb_bulk_actions_assign_place_submit($form, $form_state) {
+  $return = array();
+  $return['kid'] = $form_state['values']['kid'];
+  $return['remove'] = $form_state['values']['remove'];
+  return $return;
+}
+
+// Function to assign subject kmap tag
+function mb_bulk_actions_assign_place(&$node, $context) {
+	module_load_include('inc', 'mb_location', 'mb_location');
+	try { 
+		$kid = $context['kid'];
+		$kmp = new Kmap_place($kid);
+		$tm = $kmp->getTerm();
+		$flang = field_language('node', $node, 'field_pbcore_coverage_spatial');
+		if(empty($flang)) { $flang = LANGUAGE_NONE; }
+		if($context['remove']) {
+			$rind = -1;
+			foreach($node->field_pbcore_coverage_spatial[$flang] as $n => $val) {
+				if($val['tid'] == $tm->tid) { $rind = $n; break;}
+			}
+			if($rind > -1) {
+				array_splice($node->field_pbcore_coverage_spatial[$flang], $rind, 1);
+				node_save($node);
+			}
+		} else {
+			foreach($node->field_pbcore_coverage_spatial[$flang] as $n => $fctm) {
+				if($fctm['tid'] == $tm->tid) {
+					 watchdog('mb_bulk_action', "Node {$node->nid} already has term '{$tm->name}'");
+					 return; 
+				}
+			}
+			if(empty($node->field_pbcore_coverage_spatial)) {
+				$node->field_pbcore_coverage_spatial = array( $flang => array(array('tid' => $tm->tid)));
+			} else {
+				$node->field_pbcore_coverage_spatial[$flang][] = array( 'tid' => $tm->tid);
+			}
+			node_save($node);
+		}
+	} catch(Exception $e) {
+		watchdog('mb_bulk_action', "Problem assigning place id ({$kid}) to node {$node->nid}: {$e->getMessage()}");
+	}
+}
+/*** End Add Place Tag ****/
+
+/**** Change Collection for Multiple Nodes ****/
+
+// Form Functions to get new Collection Node ID
+function mb_bulk_actions_change_collection_bulk_operations_form($options) {
+  $form = array();
+  $form['cid'] = array(
+    '#type' => 'textfield', 
+    '#title' => t('Enter the Node ID for the new collection'),
+    '#required' => TRUE,
+    '#default_value' => !empty($options['cid']) ? $options['cid'] : '',
+  );
+  $form['isnid'] = array(
+    '#type' => 'checkbox', 
+    '#title' => t('Is the Group ID a Node ID?'),
+    '#required' => TRUE,
+    '#default_value' => !empty($options['isnid']) ? $options['isnid'] : TRUE,
+  );
+  return $form;
+}
+
+function mb_bulk_actions_change_collection_form($settings, &$form_state) {
+  $form = array();
+  $form['cid'] = array(
+    '#type' => 'textfield', 
+    '#title' => t('Enter the Node ID for the new collection'),
+    '#required' => TRUE,
+    '#default_value' => isset($settings['settings']['cid']) ? $settings['settings']['cid'] : '',
+  );
+  $form['isnid'] = array(
+    '#type' => 'checkbox', 
+    '#title' => t('Is the Group ID a Node ID?'),
+    '#required' => TRUE,
+    '#default_value' => isset($settings['settings']['isnid']) ? $settings['settings']['isnid'] : TRUE,
+  );
+  return $form;
+}
+
+// TODO: Add a validation function to make sure collection id is valid?
+
+function mb_bulk_actions_change_collection_submit($form, $form_state) {
+  $return = array();
+  $return['cid'] = $form_state['values']['cid'];
+	$return['isnid'] = $form_state['values']['isnid'];
+  return $return;
+}
+
+function mb_bulk_actions_change_collection(&$node, $context) {
+	$gid = $context['cid'];
+	$isnid = $context['isnid'];
+	try { 
+		if($isnid) {
+			$gobj = og_get_group('node', $gid);
+			$gid = $gobj->gid;
+		}
+		$flang = field_language('node', $node, 'group_audience');
+		$gpstosave = array();
+		foreach($node->group_audience[$flang] as $n => $farray) {
+		  $g = og_get_group('group', $farray['gid']);
+			if(isset($g->etid)) {
+			  $gnode = node_load($g->etid);
+			  if($gnode->type != 'collection') { $gpstosave[] = $farray; }
+			} else {
+				watchdog('mb bulk actions change coll', "GID " . $farray['gid'] . ": etid not set!");
+			}
+		}
+		$newgid = array(
+			'gid' => $gid,
+			'state' => 1,
+			'created' => time(),
+		);
+		$gpstosave[] = $newgid;
+		$node->group_audience[$flang] = $gpstosave;
+		node_save($node);
+	} catch (Exception $e) {
+		watchdog('mb_bulk_action', "Problem changing collection on node {$node->nid}: {$e->getMessage()}");
+	}
+}
+
+/**** End of Change Collection ****/

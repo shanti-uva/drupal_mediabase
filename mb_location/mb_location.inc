@@ -1,6 +1,9 @@
 <?php
 
 /* CLASSES */
+/**
+ * Old MediabaseLocation Class used by chooser Widget in node edit form
+ */
 class MediabaseLocation
 {
    // A parameterized factory method
@@ -12,13 +15,13 @@ class MediabaseLocation
       $this->location_name = $location_name;
       $this->location_vid = variable_get('mb_location_vid', null);
       if ( empty($this->location_id)  ) {
-         throw new Exception(' Could not create a valid mb_location: no location id was provided');
+         throw new Exception(' Could not create a valid mb_location: no location id was provided 1');
       }
       if ( empty($this->location_type)  ) {
-         throw new Exception(' Could not create a valid mb_location: no location id was provided');
+         throw new Exception(' Could not create a valid mb_location: no location id was provided 2');
       }
       if ( empty($this->location_vid) ) {
-         throw new Exception(' Could not create a valid mb_location: no vocab id was provided');
+         throw new Exception(' Could not create a valid mb_location: no vocab id was provided 3');
       }
    }
    
@@ -68,6 +71,60 @@ class MediabaseLocation
       taxonomy_term_save($term); 
       return $term;
    }
+}
+/**
+ * New Kmap_place class on the model of the Kmap subject class (see kmap.inc in kmap_taxonomy/includes)
+ * Used in VBO add place to multiple nodes
+ * Created by ndg8f (Mar. 31, 2015)
+ */
+class Kmap_place {
+	private $kmap_id = NULL;
+	private $vid = NULL;
+	private $term = NULL;
+	private $lineage = NULL;
+	private $name = NULL;
+	   
+   /**
+   * Kmap constructor
+   **/
+   public function __construct($kmap_id) {
+      $this->kmap_id = $kmap_id;
+      $this->vid = variable_get('mb_location_vid', NULL);
+			$this->setTerm();
+			$this->name = $this->term->name;
+   }
+	 
+	 private function setTerm() {
+	 		$q = db_select('field_data_place_dictionary_id', 'fdpd')
+				->fields('fdpd', array('entity_id'))
+				->condition('entity_type','taxonomy_term')
+				->condition('place_dictionary_id_value', $this->kmap_id)
+				->execute();
+			$res = $q->fetchAssoc();
+			if($res) {
+				$this->term = taxonomy_term_load($res['entity_id']);
+			} else {
+				$term = new stdClass();
+				$term->vid = variable_get('mb_location_vid', NULL);
+	   		$urlstr = variable_get('place_server', 'http://places.kmaps.virginia.edu') . '/features/%d.json';
+	      $uri = sprintf($urlstr, $this->kmap_id);
+			  $json = file_get_contents($uri);
+			  $pdobj = json_decode($json);
+				$term->name = $pdobj->feature->header;
+				$term->place_dictionary_id[LANGUAGE_NONE][0]['value'] = $this->kmap_id;
+				$isnew = taxonomy_term_save($term);
+				//if($isnew == SAVED_NEW) {drupal_set_message("A new term has been created!");}
+				$this->term = $term;
+			}
+	 }
+	 
+	 public function getTerm() {
+	 		return $this->term;
+	 }
+	 
+	 public function getName() {
+	 		return $this->name;
+	 }
 }
 
 /* FUNCTIONS */

@@ -3,6 +3,9 @@
 		attach: function(context){
 			
 		   replaceBrokenImages(); 
+		   if(window.location.pathname.indexOf("/collection/") > -1) {
+		   	fixCollectionImages();
+			 }
 		   fixVBOCheckBoxes();
 		   
 			// Code to add transcript and description radiobuttons to search form
@@ -107,6 +110,18 @@
 		         jQuery(this).attr('src', url);
 		       }
 		     });
+		   }
+		   
+		   // Update the resolution of thumbnails on collection pages
+		   function fixCollectionImages() {
+		   		$('img').each(function() { 
+		   			var img = $(this); 
+		   			var src = img.attr('src'); 
+		   			if(src.indexOf('kaltura.com') > -1) { 
+		   					src = src + '/height/140'; 
+		   					img.attr('src', src);
+		   			}
+		   		});
 		   }
 		   
 		}

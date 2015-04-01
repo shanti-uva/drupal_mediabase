@@ -43,6 +43,17 @@ function mb_bulk_actions_action_info() {
       'vbo_configurable' => FALSE,
       'triggers' => array('any'),
     ),
+		    
+    // Assign a kmaps place tag to multiple nodes
+    'mb_bulk_actions_assign_place' => array(
+      'aggregate' => FALSE,
+      'type' => 'node',
+      'label' => t('Tag/Untag with Kmaps Place'),
+      'behavior' => array('changes_property'),
+      'configurable' => TRUE,
+      'vbo_configurable' => FALSE,
+      'triggers' => array('any'),
+    ),
     
 		// Change Collection for Multiple nodes
 		'mb_bulk_actions_change_collection' =>  array(
@@ -240,24 +251,84 @@ function mb_bulk_actions_remove_subject(&$node, $context) {
 
 /**** End Remove Kmaps Subject *****/
 /**** Add Kmaps Place Tag *****/
-/*
-module_load_include('inc', 'mb_location', 'mb_location');
-$nid1 = 1854;  // without a place
-$node1 = node_load($nid1);
-$nid2 = 2170; // with a place
-$node2 = node_load($nid2);
-dpm($node1, 'no place');
-dpm($node2, 'with place');
-$lid = "place:15885";
-$loc = new MediabaseLocation($lid, 'Golok');
-$term = $loc->getTerm();
-$flang = field_language('node', $node2, 'field_pbcore_coverage_spatial');
-if(empty($node1->field_pbcore_coverage_spatial)) {
-$node1->field_pbcore_coverage_spatial = array( $flang => array(array('tid' => $term->tid)));
+
+// Form Functions to get KMap Subject ID
+function mb_bulk_actions_assign_place_views_bulk_operations_form($options) {
+  $form = array();
+  $form['kid'] = array(
+    '#type' => 'textfield', 
+    '#title' => t('Enter the numeric Kmaps Place ID'),
+    '#default_value' => !empty($options['kid']) ? $options['kid'] : '',
+  );
+  $form['remove'] = array(
+    '#type' => 'checkbox', 
+    '#title' => t('Check here to remove place ID from records'),
+    '#default_value' => !empty($options['remove']) ? $options['remove'] : FALSE,
+  );
+  return $form;
 }
-node_save($node1);
-dpm($node1, 'after adding place');
-*/
+
+function mb_bulk_actions_assign_place_form($settings, &$form_state) {
+  $form = array();
+  $form['kid'] = array(
+    '#type' => 'textfield', 
+    '#title' => t('Enter the numeric Kmaps Place ID'),
+    '#required' => TRUE,
+    '#default_value' => isset($settings['settings']['kid']) ? $settings['settings']['kid'] : '',
+  );
+  $form['remove'] = array(
+    '#type' => 'checkbox', 
+    '#title' => t('Check here to remove place ID from records'),
+    '#default_value' => isset($settings['settings']['remove']) ? $settings['settings']['remove'] : FALSE,
+  );
+  return $form;
+}
+
+// TODO: Add a validation function?
+
+function mb_bulk_actions_assign_place_submit($form, $form_state) {
+  $return = array();
+  $return['kid'] = $form_state['values']['kid'];
+  $return['remove'] = $form_state['values']['remove'];
+  return $return;
+}
+
+// Function to assign subject kmap tag
+function mb_bulk_actions_assign_place(&$node, $context) {
+	module_load_include('inc', 'mb_location', 'mb_location');
+	try { 
+		$kid = $context['kid'];
+		$kmp = new Kmap_place($kid);
+		$tm = $kmp->getTerm();
+		$flang = field_language('node', $node, 'field_pbcore_coverage_spatial');
+		if(empty($flang)) { $flang = LANGUAGE_NONE; }
+		if($context['remove']) {
+			$rind = -1;
+			foreach($node->field_pbcore_coverage_spatial[$flang] as $n => $val) {
+				if($val['tid'] == $tm->tid) { $rind = $n; break;}
+			}
+			if($rind > -1) {
+				array_splice($node->field_pbcore_coverage_spatial[$flang], $rind, 1);
+				node_save($node);
+			}
+		} else {
+			foreach($node->field_pbcore_coverage_spatial[$flang] as $n => $fctm) {
+				if($fctm['tid'] == $tm->tid) {
+					 watchdog('mb_bulk_action', "Node {$node->nid} already has term '{$tm->name}'");
+					 return; 
+				}
+			}
+			if(empty($node->field_pbcore_coverage_spatial)) {
+				$node->field_pbcore_coverage_spatial = array( $flang => array(array('tid' => $tm->tid)));
+			} else {
+				$node->field_pbcore_coverage_spatial[$flang][] = array( 'tid' => $tm->tid);
+			}
+			node_save($node);
+		}
+	} catch(Exception $e) {
+		watchdog('mb_bulk_action', "Problem assigning place id ({$kid}) to node {$node->nid}: {$e->getMessage()}");
+	}
+}
 /*** End Add Place Tag ****/
 
 /**** Change Collection for Multiple Nodes ****/
@@ -317,7 +388,6 @@ function mb_bulk_actions_change_collection(&$node, $context) {
 		$flang = field_language('node', $node, 'group_audience');
 		$gpstosave = array();
 		foreach($node->group_audience[$flang] as $n => $farray) {
-			watchdog('mb bulk actions change coll', "Current GID: " . $farray['gid']);
 		  $g = og_get_group('group', $farray['gid']);
 			if(isset($g->etid)) {
 			  $gnode = node_load($g->etid);

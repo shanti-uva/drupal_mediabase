@@ -457,11 +457,11 @@ function mb_services_node_ajax($nid) {
 			$kaltura_folder = drupal_get_path('module', 'mb_kaltura');
 			$jss = array(
 				$kurl . '/p/' . $kpi . '/sp/' . $ksi . '/embedIframeJs/uiconf_id/' . MB_MAIN_PLAYER_ID . '/partner_id/' . $kpi,
-				$base . $transcript_folder . '/js/transcripts_navigation.js',
-				$base . $transcript_folder . '/js/transcripts_scroller.js',
-				$base . $transcript_folder . '/js/transcripts_search.js',
 				$base . $transcript_folder . '/js/transcripts_tier_selector.js',
-				$base . $kaltura_folder. '/js/transcripts_ui.js'
+				$base . $transcript_folder . '/js/transcripts_navigation.js',
+				$base . $transcript_folder . '/js/transcripts_search.js',
+				$base . $kaltura_folder. '/js/transcripts_ui.js',
+				$base . $transcript_folder . '/js/transcripts_scroller.js'
 			);
 			$scripts = "";
 			foreach($jss as $jurl) {

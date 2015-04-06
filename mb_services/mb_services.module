@@ -454,8 +454,12 @@ function mb_services_node_ajax($nid) {
 			$ksi = variable_get('kaltura_subp_id', '');
 			$base = $base_url . $base_path;
 			$transcript_folder = drupal_get_path('module', 'transcripts_ui');
-			$kaltura_folder = drupal_get_path('module', 'mb_kaltura');
+			$kaltura_folder = drupal_get_path('module', 'kaltura');
+			$mbkal_folder = drupal_get_path('module', 'mb_kaltura');
 			$jss = array(
+				$kaltura_folder . '/js/kaltura.js',
+				$kaltura_folder . '/js/kaltura.behaviors.js',
+				$kaltura_folder . '/js/mb-kaltura.js',
 				$kurl . '/p/' . $kpi . '/sp/' . $ksi . '/embedIframeJs/uiconf_id/' . MB_MAIN_PLAYER_ID . '/partner_id/' . $kpi,
 				$base . $transcript_folder . '/js/transcripts_tier_selector.js',
 				$base . $transcript_folder . '/js/transcripts_navigation.js',

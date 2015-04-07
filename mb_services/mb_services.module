@@ -461,11 +461,11 @@ function mb_services_node_ajax($nid) {
 				$base . $kaltura_folder . '/js/kaltura.behaviors.js',
 				$kurl . '/p/' . $kpi . '/sp/' . $ksi . '/embedIframeJs/uiconf_id/' . MB_MAIN_PLAYER_ID . '/partner_id/' . $kpi,*/
 				$base . $transcript_folder . '/js/jquery.scrollTo.min.js',
+				$base . $mbkal_folder . '/js/transcripts_ui.js',
+				$base . $transcript_folder . '/js/transcripts_tier_selector.js',
 				$base . $transcript_folder . '/js/transcripts_scroller.js',
 				$base . $transcript_folder . '/js/transcripts_navigation.js',
 				$base . $transcript_folder . '/js/transcripts_search.js',
-				$base . $transcript_folder . '/js/transcripts_tier_selector.js',
-				$base . $mbkal_folder . '/js/transcripts_ui.js',
 				$base . $mbservices_folder . '/mb_services.js'
 			);
 			$scripts = "";

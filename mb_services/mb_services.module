@@ -472,8 +472,13 @@ function mb_services_node_ajax($nid) {
 			foreach($jss as $jurl) {
 				$scripts .= "<script type=\"text/javascript\" src=\"$jurl\"></script>";
 			}
-			
-			print "<div class=\"mb-node-ajax\">$html $scripts</div>";
+			$js = drupal_get_js();
+			$pts = explode('<!--//-->', $js);
+			if(count($pts) > 1) {
+				$js = "<script type=\"text/javascript\">\n<!--//-->" . array_pop($pts);
+			} else { $js = ''; }
+			$js = str_replace('Drupal.settings', 'Drupal.avfrag.settings', $js);
+			print "<div class=\"mb-node-ajax\">$html $scripts <div class=\"jssettings\">$js</div></div>";
     } 
     else { drupal_not_found(); }
   } 

@@ -486,7 +486,7 @@ function mb_services_node_ajax($nid) {
 			$js = $pts[0] . '}}';
 			$json = json_decode($js);
 			$json = $json->ajax;
-			$json = "<script type=\"text/javascript\">\njQuery.extend(Drupal.settings.ajax, " . json_encode($json) . ");\n</script>";
+			$json = "<script type=\"text/javascript\">\njQuery.extend(Drupal.settings, {\"ajax\": {" . json_encode($json) . "}});\n</script>";
 			print "<div class=\"mb-node-ajax\">$html $scripts <div class=\"jssettings\">$json</div></div>";
     } 
     else { drupal_not_found(); }

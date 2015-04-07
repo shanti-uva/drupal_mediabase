@@ -477,7 +477,8 @@ function mb_services_node_ajax($nid) {
 			if(count($pts) > 1) {
 				$js = "<script type=\"text/javascript\">\n<!--//-->" . array_pop($pts);
 			} else { $js = ''; }
-			$js = str_replace('Drupal.settings', 'Drupal.avfrag.settings', $js);
+			$js = str_replace('Drupal.settings, {', 'Drupal.settings, {"avfrag": {', $js);
+			$js = str_replace('}});', '}}});', $js);
 			print "<div class=\"mb-node-ajax\">$html $scripts <div class=\"jssettings\">$js</div></div>";
     } 
     else { drupal_not_found(); }

@@ -473,13 +473,21 @@ function mb_services_node_ajax($nid) {
 				$scripts .= "<script type=\"text/javascript\" src=\"$jurl\"></script>";
 			}
 			$js = drupal_get_js();
+			$jorig = $js;
 			$pts = explode('<!--//-->', $js);
 			if(count($pts) > 1) {
 				$js = "<script type=\"text/javascript\">\n<!--//-->" . array_pop($pts);
 			} else { $js = ''; }
-			$js = str_replace('Drupal.settings, {', 'Drupal.settings, {"avfrag": {', $js);
-			$js = str_replace('}});', '}}});', $js);
-			print "<div class=\"mb-node-ajax\">$html $scripts <div class=\"jssettings\">$js</div></div>";
+			
+			$js = str_replace('Drupal.settings, {', '{', $js);
+			$pts = explode('jQuery.extend(', $js);
+			$js = $pts[1];
+			$pts = explode('}});', $js);
+			$js = $pts[0] . '}}';
+			$json = json_decode($js);
+			$json = $json->ajax;
+			$json = "<!--//--><![CDATA[//><!-- \njQuery.extend(Drupal.settings.ajax, " . json_encode($json) . ");\n//--><!]]>";
+			print "<div class=\"mb-node-ajax\">$html $scripts <div class=\"jssettings\">$json</div></div>";
     } 
     else { drupal_not_found(); }
   } 

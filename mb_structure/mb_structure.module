@@ -793,6 +793,26 @@ function get_collection_ancestor_node($node) {
    return $collection_node;
 }
 
+function get_team_node($node) {
+   if(is_integer($node)) {
+     $node = node_load($node);
+     if(!$node) { return null; }
+   }
+   $team_node = FALSE;
+   if ( $gids = og_get_entity_groups('node', $node) ) {
+      while($gid = array_pop( $gids )) {
+	      $parent_group = og_load($gid);
+	      if ($parent_group->entity_type == 'node') {
+	         $group_node = node_load($parent_group->etid);
+	         if ( $group_node->type == 'team' ) {
+	            $team_node = $group_node;
+	         }
+	      }
+			}
+   }
+   return $team_node;
+}
+
 function mb_structure_is_team_super_user($node) {
    if( $node->type == 'team' && isset($node->group_audience[LANGUAGE_NONE]) && $collection_gids = $node->group_audience[LANGUAGE_NONE]) {
       return og_user_access($collection_gids[0]['gid'], 'administer group');

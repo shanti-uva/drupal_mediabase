@@ -463,8 +463,8 @@ function mb_services_node_ajax($nid) {
 				$base . $transcript_folder . '/js/jquery.scrollTo.min.js',
 				$base . $transcript_folder . '/js/transcripts_scroller.js',
 				$base . $transcript_folder . '/js/transcripts_navigation.js',
-				$base . $transcript_folder . '/js/transcripts_tier_selector.js',
 				$base . $transcript_folder . '/js/transcripts_search.js',
+				$base . $transcript_folder . '/js/transcripts_tier_selector.js',
 				$base . $mbkal_folder . '/js/transcripts_ui.js',
 				$base . $mbservices_folder . '/mb_services.js'
 			);

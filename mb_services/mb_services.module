@@ -455,20 +455,40 @@ function mb_services_node_ajax($nid) {
 			$ksi = variable_get('kaltura_subp_id', '');
 			$base = $base_url . $base_path;
 			$transcript_folder = drupal_get_path('module', 'transcripts_ui');
-			$kaltura_folder = drupal_get_path('module', 'mb_kaltura');
+			$mbservices_folder = drupal_get_path('module', 'mb_services');
+			$mbkal_folder = drupal_get_path('module', 'mb_kaltura');
 			$jss = array(
-				$kurl . '/p/' . $kpi . '/sp/' . $ksi . '/embedIframeJs/uiconf_id/' . MB_MAIN_PLAYER_ID . '/partner_id/' . $kpi,
-				$base . $transcript_folder . '/js/transcripts_navigation.js',
-				$base . $transcript_folder . '/js/transcripts_scroller.js',
-				$base . $transcript_folder . '/js/transcripts_search.js',
+				/*$base . $kaltura_folder . '/js/kaltura.js',
+				$base . $kaltura_folder . '/js/kaltura.behaviors.js',
+				$kurl . '/p/' . $kpi . '/sp/' . $ksi . '/embedIframeJs/uiconf_id/' . MB_MAIN_PLAYER_ID . '/partner_id/' . $kpi,*/
 				$base . $transcript_folder . '/js/transcripts_tier_selector.js',
-				$base . $kaltura_folder. '/js/transcripts_ui.js'
+				$base . $transcript_folder . '/js/transcripts_navigation.js',
+				$base . $transcript_folder . '/js/transcripts_search.js',
+				$base . $transcript_folder . '/js/jquery.scrollTo.min.js',
+				$base . $mbkal_folder . '/js/transcripts_ui.js',
+				$base . $transcript_folder . '/js/transcripts_scroller.js',
+				//$base . $mbservices_folder . '/mb_services.js'
 			);
 			$scripts = "";
 			foreach($jss as $jurl) {
 				$scripts .= "<script type=\"text/javascript\" src=\"$jurl\"></script>";
 			}
-			print "<div class=\"mb-node-ajax\">$html $scripts</div>";
+			$js = drupal_get_js();
+			$jorig = $js;
+			$pts = explode('<!--//-->', $js);
+			if(count($pts) > 1) {
+				$js = "<script type=\"text/javascript\">\n<!--//-->" . array_pop($pts);
+			} else { $js = ''; }
+			
+			$js = str_replace('Drupal.settings, {', '{', $js);
+			$pts = explode('jQuery.extend(', $js);
+			$js = $pts[1];
+			$pts = explode('}});', $js);
+			$js = $pts[0] . '}}';
+			$json = json_decode($js);
+			$json = $json->ajax;
+			$json = "<script type=\"text/javascript\">\njQuery.extend(Drupal.settings, {\"ajaxfrag\": " . json_encode($json) . "});\n</script>";
+			print "<div class=\"mb-node-ajax\">$html $scripts <div class=\"jssettings\">$json</div></div>";
     } 
     else { drupal_not_found(); }
   } 

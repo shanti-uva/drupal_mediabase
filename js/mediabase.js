@@ -3,9 +3,9 @@
 		attach: function(context){
 			
 		   replaceBrokenImages(); 
-		   if(window.location.pathname.indexOf("/collection/") > -1) {
+		   /*if(window.location.pathname.indexOf("/collection/") > -1) {
 		   	fixCollectionImages();
-			 }
+			 }*/
 		   fixVBOCheckBoxes();
 		   
 			// Code to add transcript and description radiobuttons to search form

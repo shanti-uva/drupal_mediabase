@@ -641,6 +641,9 @@ function mb_solr_do_facet_search($facet_pairs = FALSE, $pgname = "homepage") {
 	
 	// Do Search and Process Results
   $results = apachesolr_search_search_results('', $conditions, $search_page);
+	foreach ($results as &$result) {
+		$result['title'] = unicode_escape_sequences($result['title']);
+	}
 	$build = array();
 	$build['search_results'] = array(
     '#theme' => 'search_results',
@@ -664,6 +667,12 @@ function mb_solr_do_facet_search($facet_pairs = FALSE, $pgname = "homepage") {
 	}
 
   return array($results_html, $fnnew);
+}
+
+function unicode_escape_sequences($str){
+	$working = json_encode($str); 
+	$working = preg_replace('/\\\u([0-9a-z]{4})/', '&#x$1;', $working); 
+	return json_decode($working); 
 }
 
 /**

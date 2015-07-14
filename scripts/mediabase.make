@@ -114,6 +114,9 @@ projects[libraries][version] = "2.2"
 projects[masquerade][subdir] = "contrib"
 projects[masquerade][version] = "1.0-rc4"
 
+projects[menu_target][subdir] = "contrib"
+projects[menu_target][version] = "1.4"
+
 projects[module_filter][subdir] = "contrib"
 projects[module_filter][version] = "1.7"
 

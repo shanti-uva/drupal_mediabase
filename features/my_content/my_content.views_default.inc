@@ -893,20 +893,43 @@ function my_content_views_default_views() {
   $handler->display->display_options['relationships']['group']['field'] = 'group';
   $handler->display->display_options['relationships']['group']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['relationships']['group']['required'] = TRUE;
+  /* Relationship: OG group: Node from OG group */
+  $handler->display->display_options['relationships']['og_related_node']['id'] = 'og_related_node';
+  $handler->display->display_options['relationships']['og_related_node']['table'] = 'og';
+  $handler->display->display_options['relationships']['og_related_node']['field'] = 'og_related_node';
+  $handler->display->display_options['relationships']['og_related_node']['relationship'] = 'group';
   /* Field: OG group: Entity id */
   $handler->display->display_options['fields']['etid']['id'] = 'etid';
   $handler->display->display_options['fields']['etid']['table'] = 'og';
   $handler->display->display_options['fields']['etid']['field'] = 'etid';
   $handler->display->display_options['fields']['etid']['relationship'] = 'group';
   $handler->display->display_options['fields']['etid']['exclude'] = TRUE;
+  /* Field: Content: Nid */
+  $handler->display->display_options['fields']['nid']['id'] = 'nid';
+  $handler->display->display_options['fields']['nid']['table'] = 'node';
+  $handler->display->display_options['fields']['nid']['field'] = 'nid';
+  $handler->display->display_options['fields']['nid']['relationship'] = 'og_related_node';
+  $handler->display->display_options['fields']['nid']['label'] = '';
+  $handler->display->display_options['fields']['nid']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['nid']['element_label_colon'] = FALSE;
+  /* Field: Content: Type */
+  $handler->display->display_options['fields']['type']['id'] = 'type';
+  $handler->display->display_options['fields']['type']['table'] = 'node';
+  $handler->display->display_options['fields']['type']['field'] = 'type';
+  $handler->display->display_options['fields']['type']['relationship'] = 'og_related_node';
+  $handler->display->display_options['fields']['type']['label'] = '';
+  $handler->display->display_options['fields']['type']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['type']['element_label_colon'] = FALSE;
   /* Field: OG group: Label */
   $handler->display->display_options['fields']['label']['id'] = 'label';
   $handler->display->display_options['fields']['label']['table'] = 'og';
   $handler->display->display_options['fields']['label']['field'] = 'label';
   $handler->display->display_options['fields']['label']['relationship'] = 'group';
   $handler->display->display_options['fields']['label']['label'] = '';
+  $handler->display->display_options['fields']['label']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['label']['alter']['text'] = '[label] ([type])';
   $handler->display->display_options['fields']['label']['alter']['make_link'] = TRUE;
-  $handler->display->display_options['fields']['label']['alter']['path'] = 'node/[etid]';
+  $handler->display->display_options['fields']['label']['alter']['path'] = 'node/[nid]';
   $handler->display->display_options['fields']['label']['element_label_colon'] = FALSE;
   /* Sort criterion: User: Created date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';

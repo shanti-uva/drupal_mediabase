@@ -114,6 +114,8 @@
 			$htmlErr += '</div></div></article>';
 			$('.main-content .content-section > .tab-content').html($htmlErr); 
 		}
+		// Reattach Behaviors to links in tree for Firefox or else you get JSON when clicking to deselect facet (MANU-85)
+		Drupal.attachBehaviors('.kmaps-tree');
 	};
 	
 	

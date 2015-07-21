@@ -113,7 +113,9 @@
 		   }
 		   
 		   // Update the resolution of thumbnails on collection pages
+		   /*
 		   function fixCollectionImages() {
+		   	console.log('here in commented out region');
 		   		$('img').each(function() { 
 		   			var img = $(this); 
 		   			var src = img.attr('src'); 
@@ -123,6 +125,7 @@
 		   			}
 		   		});
 		   }
+		   */
 		   
 		}
 	};

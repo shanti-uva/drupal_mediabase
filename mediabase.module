@@ -412,7 +412,7 @@ function mediabase_node_load($nodes, $types) {
         $res = db_query($query, array(':etid' => $node->nid) );
         $qres = $res->fetchAll();
         if(is_array($qres) && count($qres) > 0) {
-          $node->thumbnail_url = $qres[0]->kaltura_thumbnail_url . '/height/140';
+          $node->thumbnail_url = $qres[0]->kaltura_thumbnail_url; // had . '/height/140' (2015-07-21)
           $node->duration = array(
             'seconds' => $qres[0]->kaltura_duration,
             'formatted' => mediabase_format_duration($qres[0]->kaltura_duration),

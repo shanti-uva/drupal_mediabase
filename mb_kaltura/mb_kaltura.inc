@@ -1390,8 +1390,8 @@ function mb_upload_keepalive() {
 function mb_kaltura_get_thumbnail_url($entry_id, $width=170, $height=220) { // was $height 105 but defaults to lowest parameter.
    $kalturaHelpers = new KalturaHelpers();
    $thumburl = $kalturaHelpers->getThumbnailUrl(NULL, $entry_id, $width, $height);
-	 $pts = explode('type/', $thumburl);
-	 $thumburl = $pts[0] . 'type/1';
+	 $thumburl = str_replace('type/2','type/1', $thumburl);
+	 $thumburl = str_replace('/bgcolor/000000','', $thumburl);
    return $thumburl;
 }
 

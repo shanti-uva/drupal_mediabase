@@ -365,9 +365,8 @@ function mediabase_preprocess_node(&$variables) {
 		$variables['media_create_date'] = $create_date;
 		// Modify if Full view mode
 		if ($variables['view_mode'] == "full") {
-			// Remove Descriptions Not of Current Language
+			// Hide Descriptions Not of Current Language
 			if(!empty($variables['content']['field_pbcore_description']) && is_array($variables['content']['field_pbcore_description'])) {
-				$toremove = array();
 				foreach($variables['content']['field_pbcore_description']['#items'] as $n => $item) {
 					// Add label and wrapper to each lang description. If not current language, then add hidden class to hide.
 					$fci = field_collection_item_load($item['value']);
@@ -382,8 +381,6 @@ function mediabase_preprocess_node(&$variables) {
 					$variables['content']['field_pbcore_description'][$n]['entity']['field_collection_item'][$fcid]['field_description']['#prefix'] = '<div class="' . $dclass . '">' . $dlabel;
 					$variables['content']['field_pbcore_description'][$n]['entity']['field_collection_item'][$fcid]['field_description']['#suffix'] = '</div>';
 				}
-				
-				//dpm($variables['content']['field_pbcore_description'], 'desc in mod 2');
 			}
 		}
 	}

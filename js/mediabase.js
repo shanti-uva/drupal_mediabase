@@ -79,22 +79,22 @@
 		   function toggleSearchForm(input) {
 		      var transcriptSearch = jQuery('#block-transcripts-transcript-search');
 		      var siteSearch = jQuery('#block-search-form');
-		      var termValue = jQuery(input).parents('form').find('input[type=text]').val()
+		      var termValue = jQuery(input).parents('form').find('input[type=text]').val();
 		      if (input.value == 'transcript' ) {
 		         transcriptSearch.addClass('active');
-		         transcriptSearch.find('input[value=transcript]').attr('checked',true)
-		         transcriptSearch.find('input[type=text]').val( termValue )
+		         transcriptSearch.find('input[value=transcript]').attr('checked',true);
+		         transcriptSearch.find('input[type=text]').val( termValue );
 		         transcriptSearch.find('.search-toggle-box').addClass('visible');
 		         siteSearch.removeClass('active');
-		         siteSearch.find('input[value=site]').attr('checked',true)
+		         siteSearch.find('input[value=site]').attr('checked',true);
 		         siteSearch.find('.search-toggle-box').removeClass('visible');
 		      } else {
 		         siteSearch.addClass('active');
-		         siteSearch.find('input[value=site]').attr('checked',true)
-		         siteSearch.find('input[type=text]').val( termValue )
+		         siteSearch.find('input[value=site]').attr('checked',true);
+		         siteSearch.find('input[type=text]').val( termValue );
 		         siteSearch.find('.search-toggle-box').addClass('visible');
 		         transcriptSearch.removeClass('active');
-		         transcriptSearch.find('input[value=transcript]').attr('checked',true)
+		         transcriptSearch.find('input[value=transcript]').attr('checked',true);
 		         transcriptSearch.find('.search-toggle-box').removeClass('visible');
 		      }
 		   }

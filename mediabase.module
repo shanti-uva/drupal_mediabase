@@ -367,16 +367,24 @@ function mediabase_preprocess_node(&$variables) {
 		if ($variables['view_mode'] == "full") {
 			// Hide Descriptions Not of Current Language
 			if(!empty($variables['content']['field_pbcore_description']) && is_array($variables['content']['field_pbcore_description'])) {
+				$ct = 0;
 				foreach($variables['content']['field_pbcore_description']['#items'] as $n => $item) {
 					// Add label and wrapper to each lang description. If not current language, then add hidden class to hide.
 					$fci = field_collection_item_load($item['value']);
 					$fcid = $item['value'];
+					// Put langcode as attribute of content
 					$dclass = convert_lang_name_to_code($fci->field_language['und'][0]['value']);
 					$dlabel = "";
+					// Make lang name label for when showing all languages
 					$langname = (empty($fci->field_language['und'][0]['value'])) ? t("English") : t($fci->field_language['und'][0]['value']);
 					$dlabel = "<label class=\"hidden pb-desc-label\">" . $langname . ':</label> ';
+					// Initially hide alt languages
 					if(isset($fci->field_language['und'][0]) && $fci->field_language['und'][0]['value'] != $variables['currlang']) {
-						$dclass .= ' hidden';
+						$dclass .= ' hidden altlang';
+					} else {
+						// Hide 2nd and following descriptions in current language
+						if ($ct > 0) { $dclass .= ' hidden'; }
+						$ct++;
 					}
 					$variables['content']['field_pbcore_description'][$n]['entity']['field_collection_item'][$fcid]['field_description']['#prefix'] = '<div class="' . $dclass . '">' . $dlabel;
 					$variables['content']['field_pbcore_description'][$n]['entity']['field_collection_item'][$fcid]['field_description']['#suffix'] = '</div>';

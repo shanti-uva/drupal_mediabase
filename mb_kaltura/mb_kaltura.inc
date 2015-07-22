@@ -1387,7 +1387,7 @@ function mb_upload_keepalive() {
  *   entry_id : kaltura entry id 
  *   width & height : are numeric
  **/
-function mb_kaltura_get_thumbnail_url($entry_id, $width=170, $height=220) { // was $height 105 but defaults to lowest parameter.
+function mb_kaltura_get_thumbnail_url($entry_id, $width=240, $height=220) { // was $height 105 but defaults to lowest parameter.
    $kalturaHelpers = new KalturaHelpers();
    $thumburl = $kalturaHelpers->getThumbnailUrl(NULL, $entry_id, $width, $height);
 	 $thumburl = str_replace('type/2','type/1', $thumburl);

@@ -22,6 +22,17 @@ function mb_bulk_actions_action_info() {
       'triggers' => array('any'),
     ),
     
+    // migrates old kmaps data to new fields
+    'mb_bulk_actions_migrate_kmaps_action' => array(
+      'aggregate' => FALSE,
+      'type' => 'node',
+      'label' => t('Migrate Kmap Fields'), // just doing subjects for now
+      'behavior' => array('changes_property'),
+      'configurable' => TRUE,
+      'vbo_configurable' => FALSE,
+      'triggers' => array('any'),
+    ),
+    
     // Assign a kmaps subject tag to multiple nodes
     'mb_bulk_actions_assign_subject' => array(
       'aggregate' => FALSE,
@@ -141,6 +152,91 @@ function _find_tid_in_field($field_array, $tid) {
 }
 
 /**** End of Filter Subcollection Action ******/
+
+/**** Filter Migrate Kmaps Action ******/
+
+function mb_bulk_actions_migrate_kmaps_action_form($settings, &$form_state) {
+ $form = array(
+		'p' => array(
+			'#markup' => '<p>Check which old kmap fields you want to migrate</p>',
+		),
+		'kmsub' => array(
+	    '#type' => 'checkbox', 
+	    '#title' => t('field_characteristic to field_subject'),
+	    '#default_value' => isset($settings['settings']['kmsub']) ? $settings['settings']['kmsub'] : FALSE,
+	  ),
+		'kmcoll' => array(
+	    '#type' => 'checkbox', 
+	    '#title' => t('field_subcollection to field_subcollection_new'),
+	    '#default_value' => !empty($settings['settings']['kmcoll']) ? $settings['settings']['kmcoll'] : FALSE,
+	  ),
+		'kmloc' => array(
+	    '#type' => 'checkbox', 
+	    '#title' => t('field_pbcore_coverage_spatial to field_location'),
+	    '#default_value' => isset($settings['settings']['kmloc']) ? $settings['settings']['kmloc'] : FALSE,
+	  ),
+	);
+  return $form;
+}
+
+function mb_bulk_actions_migrate_kmaps_action_views_bulk_operations_form($options) {
+  $form = array(
+		'p' => array(
+			'#markup' => '<p>Check which old kmap fields you want to migrate</p>',
+		),
+		'kmsub' => array(
+	    '#type' => 'checkbox', 
+	    '#title' => t('field_characteristic to field_subject'),
+	    '#default_value' => !empty($options['kmsub']) ? $options['kmsub'] : FALSE,
+	  ),
+		'kmcoll' => array(
+	    '#type' => 'checkbox', 
+	    '#title' => t('field_subcollection to field_subcollection_new'),
+	    '#default_value' => !empty($options['kmcoll']) ? $options['kmcoll'] : FALSE,
+	  ),
+		'kmloc' => array(
+	    '#type' => 'checkbox', 
+	    '#title' => t('field_pbcore_coverage_spatial to field_location'),
+	    '#default_value' => !empty($options['kmloc']) ? $options['kmloc'] : FALSE,
+	  ),
+	);
+  return $form;
+}
+
+function mb_bulk_actions_migrate_kmaps_action_submit($form, $form_state) {
+	$fields = array();
+  if($form_state['values']['kmsub'] == 1) {
+  	$fields[] = array(
+  		'old' => 'field_characteristic',	
+  		'new' => 'field_subject',
+  		'domain' => 'subjects',
+		);
+  }
+	
+  if($form_state['values']['kmcoll'] == 1) {
+  	$fields[] = array(
+  		'old' => 'field_subcollection',	
+  		'new' => 'field_subcollection_new',
+  		'domain' => 'subjects',
+		);
+  }
+
+  if($form_state['values']['kmloc'] == 1) {
+  	$fields[] = array(
+  		'old' => 'field_pbcore_coverage_spatial',	
+  		'new' => 'field_location',
+  		'domain' => 'places',
+		);	
+  }
+  return array('fields' => $fields);
+}
+
+function mb_bulk_actions_migrate_kmaps_action(&$node, $context) {
+	module_load_include('inc', 'mb_bulk_actions', 'mb_bulk_actions');
+	foreach ($context['fields'] as $finfo) {
+		mb_bulk_switch_kmap_data($node, $finfo['old'], $finfo['new'], $finfo['domain']);
+	}
+}
 
 /**** Assign Kmaps Subject *******/
 

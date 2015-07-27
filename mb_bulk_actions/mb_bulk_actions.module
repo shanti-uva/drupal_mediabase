@@ -175,6 +175,11 @@ function mb_bulk_actions_migrate_kmaps_action_form($settings, &$form_state) {
 	    '#title' => t('field_pbcore_coverage_spatial to field_location'),
 	    '#default_value' => isset($settings['settings']['kmloc']) ? $settings['settings']['kmloc'] : FALSE,
 	  ),
+		'kmrecloc' => array(
+	    '#type' => 'checkbox', 
+	    '#title' => t('field_recording_location to field_recording_location_new'),
+	    '#default_value' => isset($settings['settings']['kmrecloc']) ? $settings['settings']['kmrecloc'] : FALSE,
+	  ),
 	);
   return $form;
 }
@@ -198,6 +203,11 @@ function mb_bulk_actions_migrate_kmaps_action_views_bulk_operations_form($option
 	    '#type' => 'checkbox', 
 	    '#title' => t('field_pbcore_coverage_spatial to field_location'),
 	    '#default_value' => !empty($options['kmloc']) ? $options['kmloc'] : FALSE,
+	  ),
+		'kmrecloc' => array(
+	    '#type' => 'checkbox', 
+	    '#title' => t('field_recording_location to field_recording_location_new'),
+	    '#default_value' => !empty($options['kmrecloc']) ? $options['kmrecloc'] : FALSE,
 	  ),
 	);
   return $form;
@@ -225,6 +235,14 @@ function mb_bulk_actions_migrate_kmaps_action_submit($form, $form_state) {
   	$fields[] = array(
   		'old' => 'field_pbcore_coverage_spatial',	
   		'new' => 'field_location',
+  		'domain' => 'places',
+		);	
+  }
+	
+  if($form_state['values']['kmrecloc'] == 1) {
+  	$fields[] = array(
+  		'old' => 'field_recording_location',	
+  		'new' => 'field_recording_location_new',
   		'domain' => 'places',
 		);	
   }

@@ -65,6 +65,17 @@ function mb_services_menu() {
     'access arguments' => array('access content'),
   );
   
+  // Redirect to node's thumbail
+  $items['services/node/thumb/%'] = array(
+    'title' => 'A/V Node Thumbnail Pipeline',
+    'description' => 'Redirects to the thubmnail for node',
+    'page callback' => 'mb_services_node_thumb',
+    'page arguments' => array(3),
+    'type' => MENU_CALLBACK,
+    'access callback' => 'user_access',
+    'access arguments' => array('access content'),
+  );
+	
   // Return Embed code for audio or video
   $items['services/embed/%'] = array(
     'title' => 'Resource Embed Code',
@@ -511,6 +522,18 @@ function mb_services_embed($nid) {
     $out['embed'] = mb_kaltura_audio_tag($kid);
   } 
   drupal_json_output($out);
+}
+
+/**
+ * Look up a node's thumbnail and redirect to that image
+ */
+function mb_services_node_thumb($nid) {
+	$node = node_load($nid);
+	if($node) {
+		if (!empty($node->thumbnail_url)) {
+			drupal_goto($node->thumbnail_url, array(), 301);
+		}
+	}
 }
 
 /**

@@ -60,6 +60,8 @@
 	// Called by ajax_command_invoke in mb_solr.module from mb_solr_facets_ajax() function. Needs to be JQuery function
 	$.fn.updateFacetTree = function() {
 		var fsel = Drupal.settings.mediabase.facets;
+		$('.page-title .page-title-text').text("Search"); // Change page title to Search
+		$('ol.breadcrumb li a[href="#"]').click(function() {window.location.reload();}); // Add reload action to last breadcrumb
 		if(fsel == "") {
 			setTimeout(clearAllMBTrees, 500);
 		}

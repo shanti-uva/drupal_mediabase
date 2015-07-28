@@ -187,7 +187,7 @@ function mb_services_do_solr_post($data) {
 		return $result;
 	}
 	drupal_set_message(t('You have not defined a solr-index for posting kmaps information. Please go to the <a href="@link">Mediabase Settings</a> page.',
-												array('@link' => url('admin/config/media/mediabase') . '#edit-kmaps-solr-index')), 'warning');
+												array('@link' => url('admin/config/media/mediabase') . '#edit-kmaps-solr-index')), 'warning', FALSE);
 	return FALSE;
 }
 

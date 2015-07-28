@@ -180,6 +180,11 @@ function mb_bulk_actions_migrate_kmaps_action_form($settings, &$form_state) {
 	    '#title' => t('field_recording_location to field_recording_location_new'),
 	    '#default_value' => isset($settings['settings']['kmrecloc']) ? $settings['settings']['kmrecloc'] : FALSE,
 	  ),
+		'kmscollroot' => array(
+	    '#type' => 'checkbox', 
+	    '#title' => t('field_subcoll_root_kmap_id to field_subcollection_root'),
+	    '#default_value' => isset($settings['settings']['kmrecloc']) ? $settings['settings']['kmrecloc'] : FALSE,
+	  ),
 	);
   return $form;
 }
@@ -208,6 +213,11 @@ function mb_bulk_actions_migrate_kmaps_action_views_bulk_operations_form($option
 	    '#type' => 'checkbox', 
 	    '#title' => t('field_recording_location to field_recording_location_new'),
 	    '#default_value' => !empty($options['kmrecloc']) ? $options['kmrecloc'] : FALSE,
+	  ),
+		'kmscollroot' => array(
+	    '#type' => 'checkbox', 
+	    '#title' => t('field_subcoll_root_kmap_id to field_subcollection_root'),
+	    '#default_value' => !empty($options['kmscollroot']) ? $options['kmscollroot'] : FALSE,
 	  ),
 	);
   return $form;
@@ -244,6 +254,14 @@ function mb_bulk_actions_migrate_kmaps_action_submit($form, $form_state) {
   		'old' => 'field_recording_location',	
   		'new' => 'field_recording_location_new',
   		'domain' => 'places',
+		);	
+  } 
+
+  if($form_state['values']['kmscollroot'] == 1) {
+  	$fields[] = array(
+  		'old' => 'field_subcoll_root_kmap_id',	
+  		'new' => 'field_subcollection_root',
+  		'domain' => 'subjects',
 		);	
   }
   return array('fields' => $fields);

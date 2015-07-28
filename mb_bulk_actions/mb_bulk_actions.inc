@@ -9,20 +9,25 @@ function mb_bulk_switch_kmap_data(&$node, $oldfield, $newfield, $domain) {
 	if ($domain == 'subjects') {
 		module_load_include('inc', 'kmaps_taxonomy', 'includes/kmap');
 		foreach($terms as $n => $term) {
-		   $kmi = Kmap::createKmapByTid($term['tid']);
-		   $tree = $kmi->get_kmap_lineage();
-		   $kmarray = mb_bulk_process_kmap_tree($tree);
-		   $node->{$newfield}[$flang][] = $kmarray;
+			// Check if term has already been transferred
+			if (!kmap_term_transferred($term['tid'], $newfield, $node)) {
+			  $kmi = Kmap::createKmapByTid($term['tid']);
+			  $tree = $kmi->get_kmap_lineage();
+			  $kmarray = mb_bulk_process_kmap_tree($tree);
+			  $node->{$newfield}[$flang][] = $kmarray;
+			}
 		}
 	} else if ($domain == 'places') {
 		
 		module_load_include('inc', 'mb_location', 'mb_location');
 		foreach ($terms as $loc) {
-			$t = taxonomy_term_load($loc['tid']);
-			$pid = $t->place_dictionary_id['und'][0]['value'];
-			$tree = fetch_place_dict_details($pid);
-			$kmarray = mb_bulk_process_place_tree($tree);
-		  $node->{$newfield}[$flang][] = $kmarray;
+			if (!kmap_term_transferred($loc['tid'], $newfield, $node)) {
+				$t = taxonomy_term_load($loc['tid']);
+				$pid = $t->place_dictionary_id['und'][0]['value'];
+				$tree = fetch_place_dict_details($pid);
+				$kmarray = mb_bulk_process_place_tree($tree);
+			  $node->{$newfield}[$flang][] = $kmarray;
+			}
 		}
 	}
 }
@@ -52,7 +57,7 @@ function mb_bulk_process_kmap_tree($tree) {
  * Create the array necessary for shanti kmap place field data
  */
 function mb_bulk_process_place_tree($tree) {
-	$tree = array_reverse($tree);
+	$tree = array_reverse($tree, TRUE); // TRUE == Preserve numeric keys, very important
 	$raw = $path = '';
 	foreach($tree as $kmid => $name) {
 		$raw .= "<{$kmid}> ";
@@ -67,4 +72,24 @@ function mb_bulk_process_place_tree($tree) {
 		'domain' => 'places',
 		'path' => $path,
 	);
+}
+
+/**
+ * Check if term already transferred
+ */
+function kmap_term_transferred($tid, $newfn, $node) {
+	$newfield = field_get_items('node', $node, $newfn);
+	$term = taxonomy_term_load($tid);
+	$kmid = '';
+	if (isset($term->kmap_id)) {
+		$kmid = $term->kmap_id['und'][0]['value'];
+	} else if (isset($term->place_dictionary_id)) {
+		$kmid = $term->place_dictionary_id['und'][0]['value'];
+	}
+	foreach($newfield as $n2 => $item2) {
+	   if ($item2['id'] == $kmid) {
+	      return TRUE;
+	   }
+	}
+	return FALSE;
 }

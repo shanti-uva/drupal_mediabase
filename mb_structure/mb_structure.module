@@ -402,7 +402,7 @@ function mb_structure_form_team_node_form_alter(&$form, &$form_state, $form_id) 
 * Implementation of hook_form_alter for VIDEO_NODE_FORM
 **/
 function mb_structure_form_video_node_form_alter(&$form, &$form_state, $form_id) {
-	//dpm(array('form' => $form, 'form state' => $form_state), "vids f and fs");
+//	dpm(array('form' => $form, 'form state' => $form_state), "vids f and fs");
 	
 	// If pbcore title is empty but there is a node title, then use the latter to fill the former
 	// This happens with videos imported from Kaltura (ndg, 2014-12-12)
@@ -692,6 +692,15 @@ function mb_structure_node_insert($node) {
     }
 	}
 }
+/*
+function mb_structure_node_validate($node, $form, &$form_state) {
+	dpm(array($node, $form, &$form_state), 'info in node validate');
+}
+
+function mb_structure_node_submit($node) {
+	dpm($node, 'node in hook node submit');
+}
+*/
 function mb_structure_node_update($node) {
 	// Separate function to update a node's kaltura data in case it needs to be called from other contexts.
 	if($node->type != 'video') { return; } // TODO: Check if we need to do this for audio also.
@@ -871,6 +880,9 @@ function mb_structure_get_groups_for_user( $add_optgroup = TRUE ) {
       }
       }
    }
+	 foreach ($gids_with_labels as &$type_arr) {
+	 		asort($type_arr);
+	 }
    return $gids_with_labels;
 }
 

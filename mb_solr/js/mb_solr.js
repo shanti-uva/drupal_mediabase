@@ -60,6 +60,7 @@
 	// Called by ajax_command_invoke in mb_solr.module from mb_solr_facets_ajax() function. Needs to be JQuery function
 	$.fn.updateFacetTree = function() {
 		var fsel = Drupal.settings.mediabase.facets;
+		
 		if(fsel == "") {
 			setTimeout(clearAllMBTrees, 500);
 		}
@@ -106,6 +107,14 @@
 			}
 		}
 		
+		// Set Page title and make last breadcrumb releoad 
+		// TODO: Now it just takes first facet. Would be good to do get all facets clicked (but highlighted includes children too)
+		var newtitle = $('.fancytree-selected a').text();
+		if (newtitle == '') { newtitle = 'Search'; }
+		newtitle = newtitle.split('(').shift();
+		$('.page-title .page-title-text').text(newtitle); // Change page title to Search
+		$('ol.breadcrumb li a[href="#"]').addClass('revive-pointer').click(function() {window.location.reload();}); // Add reload action to last breadcrumb
+		
 		Drupal.settings.mediabase.facetcounts = []; // reset facet counts so they don't get merged between calls
 		if($('#tab-overview').length == 0) { 
 			$htmlErr = '<article class="tab-pane main-col active" id="tab-overview"><div class="region region-content">';
@@ -115,7 +124,7 @@
 			$('.main-content .content-section > .tab-content').html($htmlErr); 
 		}
 		// Reattach Behaviors to links in tree for Firefox or else you get JSON when clicking to deselect facet (MANU-85)
-		Drupal.attachBehaviors('.kmaps-tree');
+		setTimeout("Drupal.attachBehaviors('.kmaps-tree');", 1000);
 	};
 	
 	

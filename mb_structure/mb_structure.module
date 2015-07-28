@@ -402,7 +402,7 @@ function mb_structure_form_team_node_form_alter(&$form, &$form_state, $form_id) 
 * Implementation of hook_form_alter for VIDEO_NODE_FORM
 **/
 function mb_structure_form_video_node_form_alter(&$form, &$form_state, $form_id) {
-	dpm(array('form' => $form, 'form state' => $form_state), "vids f and fs");
+//	dpm(array('form' => $form, 'form state' => $form_state), "vids f and fs");
 	
 	// If pbcore title is empty but there is a node title, then use the latter to fill the former
 	// This happens with videos imported from Kaltura (ndg, 2014-12-12)

@@ -170,6 +170,19 @@ function media_listings_views_default_views() {
       'override_label' => 0,
       'label' => '',
     ),
+    'action::mb_bulk_actions_migrate_kmaps_action' => array(
+      'selected' => 1,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
+      'settings' => array(
+        'kmsub' => 1,
+        'kmcoll' => 1,
+        'kmloc' => 1,
+        'kmrecloc' => 1,
+      ),
+    ),
     'action::views_bulk_operations_modify_action' => array(
       'selected' => 0,
       'postpone_processing' => 0,
@@ -245,6 +258,17 @@ function media_listings_views_default_views() {
       'label' => '',
       'settings' => array(
         'kid' => '',
+      ),
+    ),
+    'action::mb_bulk_actions_assign_place' => array(
+      'selected' => 1,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
+      'settings' => array(
+        'kid' => '',
+        'remove' => 0,
       ),
     ),
     'action::node_unpublish_action' => array(
@@ -532,7 +556,7 @@ function media_listings_views_default_views() {
   $handler->display->display_options['filters']['field_tags_tid']['expose']['operator'] = 'field_tags_tid_op';
   $handler->display->display_options['filters']['field_tags_tid']['expose']['identifier'] = 'field_tags_tid';
   $handler->display->display_options['filters']['field_tags_tid']['vocabulary'] = 'tags';
-  /* Filter criterion: Content: Subject (field_characteristic) */
+  /* Filter criterion: Content: Subject Old (field_characteristic) */
   $handler->display->display_options['filters']['field_characteristic_tid']['id'] = 'field_characteristic_tid';
   $handler->display->display_options['filters']['field_characteristic_tid']['table'] = 'field_data_field_characteristic';
   $handler->display->display_options['filters']['field_characteristic_tid']['field'] = 'field_characteristic_tid';
@@ -794,15 +818,15 @@ print \'<h1>No Entries Found</h1> <p>No audio-video entries tagged with \' . $t-
   $handler->display->display_options['relationships']['uid']['id'] = 'uid';
   $handler->display->display_options['relationships']['uid']['table'] = 'node';
   $handler->display->display_options['relationships']['uid']['field'] = 'uid';
-  /* Relationship: Content: Subject (field_characteristic) */
+  /* Relationship: Content: Subject Old (field_characteristic) */
   $handler->display->display_options['relationships']['field_characteristic_tid']['id'] = 'field_characteristic_tid';
   $handler->display->display_options['relationships']['field_characteristic_tid']['table'] = 'field_data_field_characteristic';
   $handler->display->display_options['relationships']['field_characteristic_tid']['field'] = 'field_characteristic_tid';
-  /* Relationship: Content: Subcollection (field_subcollection) */
+  /* Relationship: Content: Subcollection Old (field_subcollection) */
   $handler->display->display_options['relationships']['field_subcollection_tid']['id'] = 'field_subcollection_tid';
   $handler->display->display_options['relationships']['field_subcollection_tid']['table'] = 'field_data_field_subcollection';
   $handler->display->display_options['relationships']['field_subcollection_tid']['field'] = 'field_subcollection_tid';
-  /* Relationship: Content: Location (field_pbcore_coverage_spatial) */
+  /* Relationship: Content: Location Old (field_pbcore_coverage_spatial) */
   $handler->display->display_options['relationships']['field_pbcore_coverage_spatial_tid']['id'] = 'field_pbcore_coverage_spatial_tid';
   $handler->display->display_options['relationships']['field_pbcore_coverage_spatial_tid']['table'] = 'field_data_field_pbcore_coverage_spatial';
   $handler->display->display_options['relationships']['field_pbcore_coverage_spatial_tid']['field'] = 'field_pbcore_coverage_spatial_tid';
@@ -942,7 +966,7 @@ print \'<h1>No Entries Found</h1> <p>No audio-video entries tagged with \' . $t-
   $handler->display->display_options['fields']['comment_count']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['comment_count']['hide_empty'] = TRUE;
   $handler->display->display_options['fields']['comment_count']['empty_zero'] = TRUE;
-  /* Field: Content: Subject */
+  /* Field: Content: Subject Old */
   $handler->display->display_options['fields']['field_characteristic']['id'] = 'field_characteristic';
   $handler->display->display_options['fields']['field_characteristic']['table'] = 'field_data_field_characteristic';
   $handler->display->display_options['fields']['field_characteristic']['field'] = 'field_characteristic';
@@ -1014,7 +1038,7 @@ print \'<h1>No Entries Found</h1> <p>No audio-video entries tagged with \' . $t-
   $handler->display->display_options['relationships']['uid']['id'] = 'uid';
   $handler->display->display_options['relationships']['uid']['table'] = 'node';
   $handler->display->display_options['relationships']['uid']['field'] = 'uid';
-  /* Relationship: Content: Subject (field_characteristic) */
+  /* Relationship: Content: Subject Old (field_characteristic) */
   $handler->display->display_options['relationships']['field_characteristic_tid']['id'] = 'field_characteristic_tid';
   $handler->display->display_options['relationships']['field_characteristic_tid']['table'] = 'field_data_field_characteristic';
   $handler->display->display_options['relationships']['field_characteristic_tid']['field'] = 'field_characteristic_tid';
@@ -1155,7 +1179,7 @@ print \'<h1>No Entries Found</h1> <p>No audio-video entries tagged with \' . $t-
   $handler->display->display_options['fields']['comment_count']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['comment_count']['hide_empty'] = TRUE;
   $handler->display->display_options['fields']['comment_count']['empty_zero'] = TRUE;
-  /* Field: Content: Subject */
+  /* Field: Content: Subject Old */
   $handler->display->display_options['fields']['field_characteristic']['id'] = 'field_characteristic';
   $handler->display->display_options['fields']['field_characteristic']['table'] = 'field_data_field_characteristic';
   $handler->display->display_options['fields']['field_characteristic']['field'] = 'field_characteristic';
@@ -1192,7 +1216,7 @@ print \'<h1>No Entries Found</h1> <p>No audio-video entries tagged with \' . $t-
   $handler->display->display_options['header']['result']['field'] = 'result';
   $handler->display->display_options['header']['result']['content'] = '(Displaying @start - @end of @total)';
   $handler->display->display_options['defaults']['relationships'] = FALSE;
-  /* Relationship: Content: Subcollection (field_subcollection) */
+  /* Relationship: Content: Subcollection Old (field_subcollection) */
   $handler->display->display_options['relationships']['field_subcollection_tid']['id'] = 'field_subcollection_tid';
   $handler->display->display_options['relationships']['field_subcollection_tid']['table'] = 'field_data_field_subcollection';
   $handler->display->display_options['relationships']['field_subcollection_tid']['field'] = 'field_subcollection_tid';
@@ -1230,7 +1254,7 @@ print \'<h1>No Entries Found</h1> <p>No audio-video entries tagged with \' . $t-
   $handler->display->display_options['relationships']['uid']['id'] = 'uid';
   $handler->display->display_options['relationships']['uid']['table'] = 'node';
   $handler->display->display_options['relationships']['uid']['field'] = 'uid';
-  /* Relationship: Content: Location (field_pbcore_coverage_spatial) */
+  /* Relationship: Content: Location Old (field_pbcore_coverage_spatial) */
   $handler->display->display_options['relationships']['field_pbcore_coverage_spatial_tid']['id'] = 'field_pbcore_coverage_spatial_tid';
   $handler->display->display_options['relationships']['field_pbcore_coverage_spatial_tid']['table'] = 'field_data_field_pbcore_coverage_spatial';
   $handler->display->display_options['relationships']['field_pbcore_coverage_spatial_tid']['field'] = 'field_pbcore_coverage_spatial_tid';
@@ -1371,7 +1395,7 @@ print \'<h1>No Entries Found</h1> <p>No audio-video entries tagged with \' . $t-
   $handler->display->display_options['fields']['comment_count']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['comment_count']['hide_empty'] = TRUE;
   $handler->display->display_options['fields']['comment_count']['empty_zero'] = TRUE;
-  /* Field: Content: Subject */
+  /* Field: Content: Subject Old */
   $handler->display->display_options['fields']['field_characteristic']['id'] = 'field_characteristic';
   $handler->display->display_options['fields']['field_characteristic']['table'] = 'field_data_field_characteristic';
   $handler->display->display_options['fields']['field_characteristic']['field'] = 'field_characteristic';
@@ -1435,7 +1459,7 @@ print \'<h1>No Entries Found</h1> <p>No audio-video entries tagged with \' . $t-
   $handler->display->display_options['relationships']['uid']['id'] = 'uid';
   $handler->display->display_options['relationships']['uid']['table'] = 'node';
   $handler->display->display_options['relationships']['uid']['field'] = 'uid';
-  /* Relationship: Content: Location (field_pbcore_coverage_spatial) */
+  /* Relationship: Content: Location Old (field_pbcore_coverage_spatial) */
   $handler->display->display_options['relationships']['field_pbcore_coverage_spatial_tid']['id'] = 'field_pbcore_coverage_spatial_tid';
   $handler->display->display_options['relationships']['field_pbcore_coverage_spatial_tid']['table'] = 'field_data_field_pbcore_coverage_spatial';
   $handler->display->display_options['relationships']['field_pbcore_coverage_spatial_tid']['field'] = 'field_pbcore_coverage_spatial_tid';

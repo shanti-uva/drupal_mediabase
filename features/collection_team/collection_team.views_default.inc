@@ -112,10 +112,6 @@ function collection_team_views_default_views() {
   $handler->display->display_options['fields']['title']['alter']['max_length'] = '80';
   $handler->display->display_options['fields']['title']['alter']['trim'] = TRUE;
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['title']['spaces'] = array(
-    'type' => 'spaces_og',
-    'frontpage' => 0,
-  );
   /* Field: Content: Post date */
   $handler->display->display_options['fields']['created']['id'] = 'created';
   $handler->display->display_options['fields']['created']['table'] = 'node';
@@ -132,7 +128,7 @@ function collection_team_views_default_views() {
   $handler->display->display_options['fields']['realname']['label'] = 'by';
   $handler->display->display_options['fields']['realname']['exclude'] = TRUE;
   $handler->display->display_options['fields']['realname']['element_label_colon'] = FALSE;
-  /* Field: Field: Groups audience */
+  /* Field: Field: Collection */
   $handler->display->display_options['fields']['group_audience']['id'] = 'group_audience';
   $handler->display->display_options['fields']['group_audience']['table'] = 'field_data_group_audience';
   $handler->display->display_options['fields']['group_audience']['field'] = 'group_audience';
@@ -305,10 +301,6 @@ function collection_team_views_default_views() {
   $handler->display->display_options['fields']['title']['alter']['max_length'] = '80';
   $handler->display->display_options['fields']['title']['alter']['trim'] = TRUE;
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['title']['spaces'] = array(
-    'type' => 'spaces_og',
-    'frontpage' => 0,
-  );
   /* Field: Content: Post date */
   $handler->display->display_options['fields']['created']['id'] = 'created';
   $handler->display->display_options['fields']['created']['table'] = 'node';
@@ -327,7 +319,7 @@ function collection_team_views_default_views() {
   $handler->display->display_options['fields']['realname']['label'] = 'by';
   $handler->display->display_options['fields']['realname']['exclude'] = TRUE;
   $handler->display->display_options['fields']['realname']['element_label_colon'] = FALSE;
-  /* Field: Field: Groups audience */
+  /* Field: Field: Collection */
   $handler->display->display_options['fields']['group_audience']['id'] = 'group_audience';
   $handler->display->display_options['fields']['group_audience']['table'] = 'field_data_group_audience';
   $handler->display->display_options['fields']['group_audience']['field'] = 'group_audience';
@@ -819,10 +811,6 @@ function collection_team_views_default_views() {
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['title']['element_default_classes'] = FALSE;
-  $handler->display->display_options['fields']['title']['spaces'] = array(
-    'type' => 'spaces_og',
-    'frontpage' => 0,
-  );
   /* Field: User: Name */
   $handler->display->display_options['fields']['name']['id'] = 'name';
   $handler->display->display_options['fields']['name']['table'] = 'users';
@@ -993,7 +981,7 @@ function collection_team_views_default_views() {
   $handler->display->display_options['pager']['type'] = 'full';
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['row_plugin'] = 'fields';
-  /* Relationship: Taxonomy term: Content using Subcollection */
+  /* Relationship: Taxonomy term: Content using Subcollection Old */
   $handler->display->display_options['relationships']['reverse_field_subcollection_node']['id'] = 'reverse_field_subcollection_node';
   $handler->display->display_options['relationships']['reverse_field_subcollection_node']['table'] = 'taxonomy_term_data';
   $handler->display->display_options['relationships']['reverse_field_subcollection_node']['field'] = 'reverse_field_subcollection_node';

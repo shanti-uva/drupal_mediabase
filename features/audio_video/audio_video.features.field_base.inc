@@ -2101,6 +2101,28 @@ function audio_video_field_default_field_bases() {
     'type' => 'text',
   );
 
+  // Exported field_base: 'field_location'
+  $field_bases['field_location'] = array(
+    'active' => 1,
+    'cardinality' => -1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_location',
+    'foreign keys' => array(),
+    'indexes' => array(
+      'id' => array(
+        0 => 'id',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'shanti_kmaps_fields',
+    'settings' => array(
+      'kmap_domain' => 'places',
+    ),
+    'translatable' => 0,
+    'type' => 'shanti_kmaps_fields_default',
+  );
+
   // Exported field_base: 'field_masters_archived'
   $field_bases['field_masters_archived'] = array(
     'active' => 1,
@@ -2920,6 +2942,28 @@ function audio_video_field_default_field_bases() {
     'type' => 'taxonomy_term_reference',
   );
 
+  // Exported field_base: 'field_recording_location_new'
+  $field_bases['field_recording_location_new'] = array(
+    'active' => 1,
+    'cardinality' => -1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_recording_location_new',
+    'foreign keys' => array(),
+    'indexes' => array(
+      'id' => array(
+        0 => 'id',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'shanti_kmaps_fields',
+    'settings' => array(
+      'kmap_domain' => 'places',
+    ),
+    'translatable' => 0,
+    'type' => 'shanti_kmaps_fields_default',
+  );
+
   // Exported field_base: 'field_relation_identifier'
   $field_bases['field_relation_identifier'] = array(
     'active' => 1,
@@ -3086,6 +3130,50 @@ function audio_video_field_default_field_bases() {
     ),
     'translatable' => 0,
     'type' => 'taxonomy_term_reference',
+  );
+
+  // Exported field_base: 'field_subcollection_new'
+  $field_bases['field_subcollection_new'] = array(
+    'active' => 1,
+    'cardinality' => -1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_subcollection_new',
+    'foreign keys' => array(),
+    'indexes' => array(
+      'id' => array(
+        0 => 'id',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'shanti_kmaps_fields',
+    'settings' => array(
+      'kmap_domain' => 'subjects',
+    ),
+    'translatable' => 0,
+    'type' => 'shanti_kmaps_fields_default',
+  );
+
+  // Exported field_base: 'field_subject'
+  $field_bases['field_subject'] = array(
+    'active' => 1,
+    'cardinality' => -1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_subject',
+    'foreign keys' => array(),
+    'indexes' => array(
+      'id' => array(
+        0 => 'id',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'shanti_kmaps_fields',
+    'settings' => array(
+      'kmap_domain' => 'subjects',
+    ),
+    'translatable' => 0,
+    'type' => 'shanti_kmaps_fields_default',
   );
 
   // Exported field_base: 'field_tags'

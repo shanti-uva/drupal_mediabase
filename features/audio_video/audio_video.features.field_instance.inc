@@ -1615,7 +1615,7 @@ function audio_video_field_default_field_instances() {
     'description' => '',
     'display' => array(
       'default' => array(
-        'label' => 'above',
+        'label' => 'hidden',
         'module' => 'entityreference',
         'settings' => array(
           'link' => 1,
@@ -2629,7 +2629,7 @@ function audio_video_field_default_field_instances() {
         'module' => 'kmap_annotation',
         'settings' => array(),
         'type' => 'kmap_taxonomy_annotated',
-        'weight' => 30,
+        'weight' => 5,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -2640,7 +2640,7 @@ function audio_video_field_default_field_instances() {
     ),
     'entity_type' => 'node',
     'field_name' => 'field_characteristic',
-    'label' => 'Subject',
+    'label' => 'Subject Old',
     'required' => 0,
     'settings' => array(
       'user_register_form' => FALSE,
@@ -2652,7 +2652,6 @@ function audio_video_field_default_field_instances() {
         'allow_annotations' => TRUE,
         'allow_formatting' => TRUE,
         'allow_multiple' => TRUE,
-        'allow_multipleq' => TRUE,
         'kmap_selector_settings' => array(
           'allow_annotations' => 1,
           'allow_formatting' => 1,
@@ -2670,7 +2669,7 @@ function audio_video_field_default_field_instances() {
         'view_path' => 'taxonomy/term/%tid',
       ),
       'type' => 'kmap_taxonomy',
-      'weight' => 12,
+      'weight' => 14,
     ),
   );
 
@@ -2745,7 +2744,7 @@ function audio_video_field_default_field_instances() {
       'module' => 'field_collection',
       'settings' => array(),
       'type' => 'field_collection_hidden',
-      'weight' => 13,
+      'weight' => 15,
     ),
   );
 
@@ -2786,6 +2785,46 @@ function audio_video_field_default_field_instances() {
       ),
       'type' => 'text_textfield',
       'weight' => 12,
+    ),
+  );
+
+  // Exported field_instance: 'node-audio-field_location'
+  $field_instances['node-audio-field_location'] = array(
+    'bundle' => 'audio',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'shanti_kmaps_fields',
+        'settings' => array(
+          'target' => '_blank',
+        ),
+        'type' => 'kmap_default_formatter',
+        'weight' => 27,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_location',
+    'label' => 'Location',
+    'required' => 0,
+    'settings' => array(
+      'search_view' => '',
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'shanti_kmaps_fields',
+      'settings' => array(),
+      'type' => 'kmap_tree_picker ',
+      'weight' => 16,
     ),
   );
 
@@ -2842,7 +2881,7 @@ function audio_video_field_default_field_instances() {
           'view_mode' => 'full',
         ),
         'type' => 'field_collection_fields',
-        'weight' => 32,
+        'weight' => 7,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -2863,7 +2902,7 @@ function audio_video_field_default_field_instances() {
       'module' => 'field_collection',
       'settings' => array(),
       'type' => 'field_collection_embed',
-      'weight' => 15,
+      'weight' => 18,
     ),
   );
 
@@ -2879,7 +2918,7 @@ function audio_video_field_default_field_instances() {
         'module' => 'mb_location',
         'settings' => array(),
         'type' => 'mb_location',
-        'weight' => 31,
+        'weight' => 6,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -2890,7 +2929,7 @@ function audio_video_field_default_field_instances() {
     ),
     'entity_type' => 'node',
     'field_name' => 'field_pbcore_coverage_spatial',
-    'label' => 'Location',
+    'label' => 'Location Old',
     'required' => 0,
     'settings' => array(
       'user_register_form' => FALSE,
@@ -2909,7 +2948,7 @@ function audio_video_field_default_field_instances() {
         'view_path' => 'taxonomy/term/%tid',
       ),
       'type' => 'mb_location',
-      'weight' => 14,
+      'weight' => 17,
     ),
   );
 
@@ -3023,7 +3062,7 @@ function audio_video_field_default_field_instances() {
       'module' => 'field_collection',
       'settings' => array(),
       'type' => 'field_collection_embed',
-      'weight' => 15,
+      'weight' => 28,
     ),
   );
 
@@ -3062,7 +3101,7 @@ function audio_video_field_default_field_instances() {
       'module' => 'field_collection',
       'settings' => array(),
       'type' => 'field_collection_embed',
-      'weight' => 13,
+      'weight' => 26,
     ),
   );
 
@@ -3100,7 +3139,7 @@ function audio_video_field_default_field_instances() {
       'module' => 'field_collection',
       'settings' => array(),
       'type' => 'field_collection_embed',
-      'weight' => 14,
+      'weight' => 27,
     ),
   );
 
@@ -3157,7 +3196,7 @@ function audio_video_field_default_field_instances() {
           'view_mode' => 'full',
         ),
         'type' => 'field_collection_fields',
-        'weight' => 33,
+        'weight' => 8,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -3178,7 +3217,7 @@ function audio_video_field_default_field_instances() {
       'module' => 'field_collection',
       'settings' => array(),
       'type' => 'field_collection_embed',
-      'weight' => 16,
+      'weight' => 19,
     ),
   );
 
@@ -3331,7 +3370,7 @@ function audio_video_field_default_field_instances() {
     ),
     'entity_type' => 'node',
     'field_name' => 'field_recording_location',
-    'label' => 'Recording Location',
+    'label' => 'Recording Location Old',
     'required' => 0,
     'settings' => array(
       'user_register_form' => FALSE,
@@ -3350,7 +3389,46 @@ function audio_video_field_default_field_instances() {
         'view_path' => 'taxonomy/term/%tid',
       ),
       'type' => 'mb_location',
-      'weight' => 12,
+      'weight' => 25,
+    ),
+  );
+
+  // Exported field_instance: 'node-audio-field_recording_location_new'
+  $field_instances['node-audio-field_recording_location_new'] = array(
+    'bundle' => 'audio',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'shanti_kmaps_fields',
+        'settings' => array(
+          'target' => '_blank',
+        ),
+        'type' => 'kmap_default_formatter',
+        'weight' => 28,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_recording_location_new',
+    'label' => 'Recording Location',
+    'required' => FALSE,
+    'settings' => array(
+      'search_view' => NULL,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'module' => 'shanti_kmaps_fields',
+      'settings' => array(),
+      'type' => 'kmap_tree_picker ',
+      'weight' => 24,
     ),
   );
 
@@ -3366,7 +3444,7 @@ function audio_video_field_default_field_instances() {
         'module' => 'kmap_annotation',
         'settings' => array(),
         'type' => 'kmap_taxonomy_annotated',
-        'weight' => 29,
+        'weight' => 4,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -3377,7 +3455,7 @@ function audio_video_field_default_field_instances() {
     ),
     'entity_type' => 'node',
     'field_name' => 'field_subcollection',
-    'label' => 'Subcollection',
+    'label' => 'Subcollection Old',
     'required' => 0,
     'settings' => array(
       'user_register_form' => FALSE,
@@ -3406,7 +3484,87 @@ function audio_video_field_default_field_instances() {
         'view_path' => 'taxonomy/term/%tid',
       ),
       'type' => 'kmap_taxonomy',
+      'weight' => 12,
+    ),
+  );
+
+  // Exported field_instance: 'node-audio-field_subcollection_new'
+  $field_instances['node-audio-field_subcollection_new'] = array(
+    'bundle' => 'audio',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'shanti_kmaps_fields',
+        'settings' => array(
+          'target' => '_blank',
+        ),
+        'type' => 'kmap_default_formatter',
+        'weight' => 25,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_subcollection_new',
+    'label' => 'Subcollection',
+    'required' => 0,
+    'settings' => array(
+      'search_view' => '',
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'shanti_kmaps_fields',
+      'settings' => array(),
+      'type' => 'kmap_tree_picker ',
       'weight' => 11,
+    ),
+  );
+
+  // Exported field_instance: 'node-audio-field_subject'
+  $field_instances['node-audio-field_subject'] = array(
+    'bundle' => 'audio',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'shanti_kmaps_fields',
+        'settings' => array(
+          'target' => '_blank',
+        ),
+        'type' => 'kmap_default_formatter',
+        'weight' => 26,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_subject',
+    'label' => 'Subject',
+    'required' => 0,
+    'settings' => array(
+      'search_view' => '',
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'shanti_kmaps_fields',
+      'settings' => array(),
+      'type' => 'kmap_tree_picker ',
+      'weight' => 13,
     ),
   );
 
@@ -3726,9 +3884,10 @@ function audio_video_field_default_field_instances() {
     'display' => array(
       'default' => array(
         'label' => 'above',
+        'module' => 'og',
         'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 13,
+        'type' => 'og_list_default',
+        'weight' => 3,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -3883,10 +4042,9 @@ function audio_video_field_default_field_instances() {
     'display' => array(
       'default' => array(
         'label' => 'above',
-        'module' => 'kmap_annotation',
         'settings' => array(),
-        'type' => 'kmap_taxonomy_annotated',
-        'weight' => 5,
+        'type' => 'hidden',
+        'weight' => 7,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -3897,7 +4055,7 @@ function audio_video_field_default_field_instances() {
     ),
     'entity_type' => 'node',
     'field_name' => 'field_characteristic',
-    'label' => 'Subject',
+    'label' => 'Subject Old',
     'required' => 0,
     'settings' => array(
       'user_register_form' => FALSE,
@@ -3926,7 +4084,7 @@ function audio_video_field_default_field_instances() {
         'view_path' => 'taxonomy/term/%tid',
       ),
       'type' => 'kmap_taxonomy',
-      'weight' => 12,
+      'weight' => 14,
     ),
   );
 
@@ -4001,7 +4159,7 @@ function audio_video_field_default_field_instances() {
       'module' => 'field_collection',
       'settings' => array(),
       'type' => 'field_collection_hidden',
-      'weight' => 13,
+      'weight' => 15,
     ),
   );
 
@@ -4042,6 +4200,44 @@ function audio_video_field_default_field_instances() {
       ),
       'type' => 'text_textfield',
       'weight' => 44,
+    ),
+  );
+
+  // Exported field_instance: 'node-video-field_location'
+  $field_instances['node-video-field_location'] = array(
+    'bundle' => 'video',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'shanti_kmaps_fields',
+        'settings' => array(),
+        'type' => 'kmap_popover_formatter',
+        'weight' => 8,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_location',
+    'label' => 'Location',
+    'required' => 0,
+    'settings' => array(
+      'search_view' => '',
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'shanti_kmaps_fields',
+      'settings' => array(),
+      'type' => 'kmap_tree_picker ',
+      'weight' => 16,
     ),
   );
 
@@ -4098,7 +4294,7 @@ function audio_video_field_default_field_instances() {
           'view_mode' => 'full',
         ),
         'type' => 'field_collection_fields',
-        'weight' => 7,
+        'weight' => 10,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -4119,7 +4315,7 @@ function audio_video_field_default_field_instances() {
       'module' => 'field_collection',
       'settings' => array(),
       'type' => 'field_collection_embed',
-      'weight' => 16,
+      'weight' => 19,
     ),
   );
 
@@ -4132,10 +4328,9 @@ function audio_video_field_default_field_instances() {
     'display' => array(
       'default' => array(
         'label' => 'above',
-        'module' => 'mb_location',
         'settings' => array(),
-        'type' => 'mb_location',
-        'weight' => 6,
+        'type' => 'hidden',
+        'weight' => 9,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -4146,7 +4341,7 @@ function audio_video_field_default_field_instances() {
     ),
     'entity_type' => 'node',
     'field_name' => 'field_pbcore_coverage_spatial',
-    'label' => 'Location',
+    'label' => 'Location Old',
     'required' => 0,
     'settings' => array(
       'user_register_form' => FALSE,
@@ -4165,7 +4360,7 @@ function audio_video_field_default_field_instances() {
         'view_path' => 'taxonomy/term/%tid',
       ),
       'type' => 'mb_location',
-      'weight' => 14,
+      'weight' => 17,
     ),
   );
 
@@ -4279,7 +4474,7 @@ function audio_video_field_default_field_instances() {
       'module' => 'field_collection',
       'settings' => array(),
       'type' => 'field_collection_embed',
-      'weight' => 44,
+      'weight' => 50,
     ),
   );
 
@@ -4297,7 +4492,7 @@ function audio_video_field_default_field_instances() {
           'view_mode' => 'full',
         ),
         'type' => 'field_collection_fields',
-        'weight' => 9,
+        'weight' => 30,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -4318,7 +4513,7 @@ function audio_video_field_default_field_instances() {
       'module' => 'field_collection',
       'settings' => array(),
       'type' => 'field_collection_embed',
-      'weight' => 41,
+      'weight' => 48,
     ),
   );
 
@@ -4336,7 +4531,7 @@ function audio_video_field_default_field_instances() {
           'view_mode' => 'full',
         ),
         'type' => 'field_collection_fields',
-        'weight' => 11,
+        'weight' => 31,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -4356,7 +4551,7 @@ function audio_video_field_default_field_instances() {
       'module' => 'field_collection',
       'settings' => array(),
       'type' => 'field_collection_embed',
-      'weight' => 43,
+      'weight' => 49,
     ),
   );
 
@@ -4413,7 +4608,7 @@ function audio_video_field_default_field_instances() {
           'view_mode' => 'full',
         ),
         'type' => 'field_collection_fields',
-        'weight' => 9,
+        'weight' => 11,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -4434,7 +4629,7 @@ function audio_video_field_default_field_instances() {
       'module' => 'field_collection',
       'settings' => array(),
       'type' => 'field_collection_embed',
-      'weight' => 15,
+      'weight' => 18,
     ),
   );
 
@@ -4573,10 +4768,9 @@ function audio_video_field_default_field_instances() {
     'display' => array(
       'default' => array(
         'label' => 'inline',
-        'module' => 'mb_location',
         'settings' => array(),
-        'type' => 'mb_location',
-        'weight' => 8,
+        'type' => 'hidden',
+        'weight' => 29,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -4587,7 +4781,7 @@ function audio_video_field_default_field_instances() {
     ),
     'entity_type' => 'node',
     'field_name' => 'field_recording_location',
-    'label' => 'Recording Location',
+    'label' => 'Recording Location Old',
     'required' => 0,
     'settings' => array(
       'user_register_form' => FALSE,
@@ -4606,7 +4800,45 @@ function audio_video_field_default_field_instances() {
         'view_path' => 'taxonomy/term/%tid',
       ),
       'type' => 'mb_location',
-      'weight' => 40,
+      'weight' => 47,
+    ),
+  );
+
+  // Exported field_instance: 'node-video-field_recording_location_new'
+  $field_instances['node-video-field_recording_location_new'] = array(
+    'bundle' => 'video',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'shanti_kmaps_fields',
+        'settings' => array(),
+        'type' => 'kmap_popover_formatter',
+        'weight' => 28,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_recording_location_new',
+    'label' => 'Recording Location',
+    'required' => 0,
+    'settings' => array(
+      'search_view' => '',
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'shanti_kmaps_fields',
+      'settings' => array(),
+      'type' => 'kmap_tree_picker ',
+      'weight' => 46,
     ),
   );
 
@@ -4619,10 +4851,9 @@ function audio_video_field_default_field_instances() {
     'display' => array(
       'default' => array(
         'label' => 'above',
-        'module' => 'kmap_annotation',
         'settings' => array(),
-        'type' => 'kmap_taxonomy_annotated',
-        'weight' => 4,
+        'type' => 'hidden',
+        'weight' => 5,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -4633,7 +4864,7 @@ function audio_video_field_default_field_instances() {
     ),
     'entity_type' => 'node',
     'field_name' => 'field_subcollection',
-    'label' => 'Subcollection',
+    'label' => 'Subcollection Old',
     'required' => 0,
     'settings' => array(
       'user_register_form' => FALSE,
@@ -4662,7 +4893,83 @@ function audio_video_field_default_field_instances() {
         'view_path' => 'taxonomy/term/%tid',
       ),
       'type' => 'kmap_taxonomy',
+      'weight' => 12,
+    ),
+  );
+
+  // Exported field_instance: 'node-video-field_subcollection_new'
+  $field_instances['node-video-field_subcollection_new'] = array(
+    'bundle' => 'video',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'shanti_kmaps_fields',
+        'settings' => array(),
+        'type' => 'kmap_popover_formatter',
+        'weight' => 4,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_subcollection_new',
+    'label' => 'Subcollection',
+    'required' => 0,
+    'settings' => array(
+      'search_view' => '',
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'shanti_kmaps_fields',
+      'settings' => array(),
+      'type' => 'kmap_tree_picker ',
       'weight' => 11,
+    ),
+  );
+
+  // Exported field_instance: 'node-video-field_subject'
+  $field_instances['node-video-field_subject'] = array(
+    'bundle' => 'video',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'shanti_kmaps_fields',
+        'settings' => array(),
+        'type' => 'kmap_popover_formatter',
+        'weight' => 6,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_subject',
+    'label' => 'Subject',
+    'required' => 0,
+    'settings' => array(
+      'search_view' => '',
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'shanti_kmaps_fields',
+      'settings' => array(),
+      'type' => 'kmap_tree_picker ',
+      'weight' => 13,
     ),
   );
 
@@ -5221,6 +5528,7 @@ function audio_video_field_default_field_instances() {
   t('Kmap Parent Id');
   t('Language');
   t('Location');
+  t('Location Old');
   t('Logging files/EDLs archived');
   t('Masters Archived');
   t('Media Needs Re-editing');
@@ -5238,6 +5546,7 @@ function audio_video_field_default_field_instances() {
   t('Publisher Role');
   t('Rating');
   t('Recording Location');
+  t('Recording Location Old');
   t('Redistribution License');
   t('Related Media');
   t('Relationship Type');
@@ -5245,7 +5554,9 @@ function audio_video_field_default_field_instances() {
   t('Sampling Rate');
   t('Start Time');
   t('Subcollection');
+  t('Subcollection Old');
   t('Subject');
+  t('Subject Old');
   t('Tags');
   t('Text Label');
   t('Thumbnail Image');

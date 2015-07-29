@@ -104,6 +104,28 @@ function collection_team_field_default_field_bases() {
     'type' => 'taxonomy_term_reference',
   );
 
+  // Exported field_base: 'field_subcollection_root'
+  $field_bases['field_subcollection_root'] = array(
+    'active' => 1,
+    'cardinality' => -1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_subcollection_root',
+    'foreign keys' => array(),
+    'indexes' => array(
+      'id' => array(
+        0 => 'id',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'shanti_kmaps_fields',
+    'settings' => array(
+      'kmap_domain' => 'subjects',
+    ),
+    'translatable' => 0,
+    'type' => 'shanti_kmaps_fields_default',
+  );
+
   // Exported field_base: 'group_access'
   $field_bases['group_access'] = array(
     'active' => 1,

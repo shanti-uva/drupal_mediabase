@@ -367,6 +367,8 @@ function mb_structure_form_collection_node_form_alter(&$form, &$form_state, $for
    $form['title']['#element_validate'][] = 'mb_structure_validate_title';   
    // Hide the ability to set Collection to not be a group
    $form['group_group']['und']['#type'] = 'hidden';
+   // Hide old subcollection kmap id
+   
 }
 
 /**
@@ -402,7 +404,7 @@ function mb_structure_form_team_node_form_alter(&$form, &$form_state, $form_id) 
 * Implementation of hook_form_alter for VIDEO_NODE_FORM
 **/
 function mb_structure_form_video_node_form_alter(&$form, &$form_state, $form_id) {
-//	dpm(array('form' => $form, 'form state' => $form_state), "vids f and fs");
+	//dpm(array('form' => $form, 'form state' => $form_state), "vids f and fs");
 	
 	// If pbcore title is empty but there is a node title, then use the latter to fill the former
 	// This happens with videos imported from Kaltura (ndg, 2014-12-12)
@@ -447,6 +449,12 @@ function mb_structure_form_video_node_form_alter(&$form, &$form_state, $form_id)
 	   $form['field_video'][$flang]['#suffix'] = '</div>' . $form['field_video'][$flang]['#suffix'];
 	   drupal_add_css('.mb_oldthumb .kaltura_field_thumb img, .mb_oldthumb .kaltura_field_thumb br { display: none; }', array('type' => 'inline'));
    } // End of thumbnail capture embed code
+   
+   // Hide old Kmap fields from editors (keep in form to maintain old data)
+   $form['field_subcollection']['#attributes']['class'][] = 'hidden';
+   $form['field_characteristic']['#attributes']['class'][] = 'hidden';
+   $form['field_pbcore_coverage_spatial']['#attributes']['class'][] = 'hidden';
+   $form['field_recording_location']['#attributes']['class'][] = 'hidden';
    
    // Limit GROUP AUDIENCE options to  collection and teams 
    $new_opts = mb_structure_get_groups_for_user();

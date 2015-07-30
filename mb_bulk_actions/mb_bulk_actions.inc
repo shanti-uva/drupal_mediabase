@@ -22,10 +22,12 @@ function mb_bulk_switch_kmap_data(&$node, $oldfield, $newfield, $domain) {
 		foreach ($terms as $loc) {
 			if (!kmap_term_transferred($loc['tid'], $newfield, $node)) {
 				$t = taxonomy_term_load($loc['tid']);
-				$pid = $t->place_dictionary_id['und'][0]['value'];
-				$tree = fetch_place_dict_details($pid);
-				$kmarray = mb_bulk_process_place_tree($tree);
-			  $node->{$newfield}[$flang][] = $kmarray;
+				if (isset($t->place_dictionary_id['und'][0]['value'])) {
+					$pid = $t->place_dictionary_id['und'][0]['value'];
+					$tree = fetch_place_dict_details($pid);
+					$kmarray = mb_bulk_process_place_tree($tree);
+				  $node->{$newfield}[$flang][] = $kmarray;
+				}
 			}
 		}
 	}

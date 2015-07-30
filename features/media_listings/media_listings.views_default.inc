@@ -784,7 +784,8 @@ function media_listings_views_default_views() {
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
-  $handler->display->display_options['query']['options']['query_comment'] = FALSE;
+  $handler->display->display_options['query']['options']['distinct'] = TRUE;
+  $handler->display->display_options['query']['options']['pure_distinct'] = TRUE;
   $handler->display->display_options['exposed_form']['type'] = 'basic';
   $handler->display->display_options['pager']['type'] = 'pagerer';
   $handler->display->display_options['pager']['options']['items_per_page'] = '30';
@@ -920,21 +921,24 @@ print \'<h1>No Entries Found</h1> <p>No audio-video entries tagged with \' . $t-
   $handler->display->display_options['fields']['created']['date_format'] = 'custom';
   $handler->display->display_options['fields']['created']['custom_date_format'] = 'M jS, Y';
   $handler->display->display_options['fields']['created']['second_date_format'] = 'long';
+  /* Field: Field: Collection */
+  $handler->display->display_options['fields']['group_audience']['id'] = 'group_audience';
+  $handler->display->display_options['fields']['group_audience']['table'] = 'field_data_group_audience';
+  $handler->display->display_options['fields']['group_audience']['field'] = 'group_audience';
+  $handler->display->display_options['fields']['group_audience']['label'] = '';
+  $handler->display->display_options['fields']['group_audience']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['group_audience']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['group_audience']['click_sort_column'] = 'gid';
+  $handler->display->display_options['fields']['group_audience']['group_column'] = 'gid';
+  $handler->display->display_options['fields']['group_audience']['delta_offset'] = '0';
   /* Field: Realname: Real name */
   $handler->display->display_options['fields']['realname']['id'] = 'realname';
   $handler->display->display_options['fields']['realname']['table'] = 'realname';
   $handler->display->display_options['fields']['realname']['field'] = 'realname';
   $handler->display->display_options['fields']['realname']['relationship'] = 'uid';
   $handler->display->display_options['fields']['realname']['label'] = '';
-  $handler->display->display_options['fields']['realname']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['realname']['element_label_colon'] = FALSE;
-  /* Field: Field: Collection */
-  $handler->display->display_options['fields']['group_audience']['id'] = 'group_audience';
-  $handler->display->display_options['fields']['group_audience']['table'] = 'field_data_group_audience';
-  $handler->display->display_options['fields']['group_audience']['field'] = 'group_audience';
-  $handler->display->display_options['fields']['group_audience']['label'] = '';
-  $handler->display->display_options['fields']['group_audience']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['group_audience']['alter']['text'] = '[field_video]
+  $handler->display->display_options['fields']['realname']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['realname']['alter']['text'] = '[field_video]
 <div class="shanti-thumbnail-info">      
 	     <div class="body-wrap">
 	      <div class="shanti-thumbnail-field shanti-field-title">        
@@ -953,30 +957,7 @@ print \'<h1>No Entries Found</h1> <p>No audio-video entries tagged with \' . $t-
     <div class="footer-wrap">  
           </div> <!-- end footer -->  
    </div>';
-  $handler->display->display_options['fields']['group_audience']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['group_audience']['click_sort_column'] = 'gid';
-  $handler->display->display_options['fields']['group_audience']['group_column'] = 'gid';
-  $handler->display->display_options['fields']['group_audience']['delta_offset'] = '0';
-  /* Field: Content: Comment count */
-  $handler->display->display_options['fields']['comment_count']['id'] = 'comment_count';
-  $handler->display->display_options['fields']['comment_count']['table'] = 'node_comment_statistics';
-  $handler->display->display_options['fields']['comment_count']['field'] = 'comment_count';
-  $handler->display->display_options['fields']['comment_count']['label'] = '';
-  $handler->display->display_options['fields']['comment_count']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['comment_count']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['comment_count']['hide_empty'] = TRUE;
-  $handler->display->display_options['fields']['comment_count']['empty_zero'] = TRUE;
-  /* Field: Content: Subject Old */
-  $handler->display->display_options['fields']['field_characteristic']['id'] = 'field_characteristic';
-  $handler->display->display_options['fields']['field_characteristic']['table'] = 'field_data_field_characteristic';
-  $handler->display->display_options['fields']['field_characteristic']['field'] = 'field_characteristic';
-  $handler->display->display_options['fields']['field_characteristic']['label'] = '';
-  $handler->display->display_options['fields']['field_characteristic']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['field_characteristic']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['field_characteristic']['alter']['text'] = '%1';
-  $handler->display->display_options['fields']['field_characteristic']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_characteristic']['type'] = 'taxonomy_term_reference_plain';
-  $handler->display->display_options['fields']['field_characteristic']['delta_offset'] = '0';
+  $handler->display->display_options['fields']['realname']['element_label_colon'] = FALSE;
   /* Sort criterion: Content: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';
@@ -1038,10 +1019,6 @@ print \'<h1>No Entries Found</h1> <p>No audio-video entries tagged with \' . $t-
   $handler->display->display_options['relationships']['uid']['id'] = 'uid';
   $handler->display->display_options['relationships']['uid']['table'] = 'node';
   $handler->display->display_options['relationships']['uid']['field'] = 'uid';
-  /* Relationship: Content: Subject Old (field_characteristic) */
-  $handler->display->display_options['relationships']['field_characteristic_tid']['id'] = 'field_characteristic_tid';
-  $handler->display->display_options['relationships']['field_characteristic_tid']['table'] = 'field_data_field_characteristic';
-  $handler->display->display_options['relationships']['field_characteristic_tid']['field'] = 'field_characteristic_tid';
   $handler->display->display_options['defaults']['fields'] = FALSE;
   /* Field: Content: Path */
   $handler->display->display_options['fields']['path']['id'] = 'path';
@@ -1132,21 +1109,24 @@ print \'<h1>No Entries Found</h1> <p>No audio-video entries tagged with \' . $t-
   $handler->display->display_options['fields']['created']['date_format'] = 'custom';
   $handler->display->display_options['fields']['created']['custom_date_format'] = 'M jS, Y';
   $handler->display->display_options['fields']['created']['second_date_format'] = 'long';
+  /* Field: Field: Collection */
+  $handler->display->display_options['fields']['group_audience']['id'] = 'group_audience';
+  $handler->display->display_options['fields']['group_audience']['table'] = 'field_data_group_audience';
+  $handler->display->display_options['fields']['group_audience']['field'] = 'group_audience';
+  $handler->display->display_options['fields']['group_audience']['label'] = '';
+  $handler->display->display_options['fields']['group_audience']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['group_audience']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['group_audience']['click_sort_column'] = 'gid';
+  $handler->display->display_options['fields']['group_audience']['group_column'] = 'gid';
+  $handler->display->display_options['fields']['group_audience']['delta_offset'] = '0';
   /* Field: Realname: Real name */
   $handler->display->display_options['fields']['realname']['id'] = 'realname';
   $handler->display->display_options['fields']['realname']['table'] = 'realname';
   $handler->display->display_options['fields']['realname']['field'] = 'realname';
   $handler->display->display_options['fields']['realname']['relationship'] = 'uid';
   $handler->display->display_options['fields']['realname']['label'] = '';
-  $handler->display->display_options['fields']['realname']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['realname']['element_label_colon'] = FALSE;
-  /* Field: Field: Collection */
-  $handler->display->display_options['fields']['group_audience']['id'] = 'group_audience';
-  $handler->display->display_options['fields']['group_audience']['table'] = 'field_data_group_audience';
-  $handler->display->display_options['fields']['group_audience']['field'] = 'group_audience';
-  $handler->display->display_options['fields']['group_audience']['label'] = '';
-  $handler->display->display_options['fields']['group_audience']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['group_audience']['alter']['text'] = '[field_video]
+  $handler->display->display_options['fields']['realname']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['realname']['alter']['text'] = '[field_video]
 <div class="shanti-thumbnail-info">      
 	     <div class="body-wrap">
 	      <div class="shanti-thumbnail-field shanti-field-title">        
@@ -1166,42 +1146,18 @@ print \'<h1>No Entries Found</h1> <p>No audio-video entries tagged with \' . $t-
     <div class="footer-wrap">  
           </div> <!-- end footer -->  
    </div>';
-  $handler->display->display_options['fields']['group_audience']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['group_audience']['click_sort_column'] = 'gid';
-  $handler->display->display_options['fields']['group_audience']['group_column'] = 'gid';
-  $handler->display->display_options['fields']['group_audience']['delta_offset'] = '0';
-  /* Field: Content: Comment count */
-  $handler->display->display_options['fields']['comment_count']['id'] = 'comment_count';
-  $handler->display->display_options['fields']['comment_count']['table'] = 'node_comment_statistics';
-  $handler->display->display_options['fields']['comment_count']['field'] = 'comment_count';
-  $handler->display->display_options['fields']['comment_count']['label'] = '';
-  $handler->display->display_options['fields']['comment_count']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['comment_count']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['comment_count']['hide_empty'] = TRUE;
-  $handler->display->display_options['fields']['comment_count']['empty_zero'] = TRUE;
-  /* Field: Content: Subject Old */
-  $handler->display->display_options['fields']['field_characteristic']['id'] = 'field_characteristic';
-  $handler->display->display_options['fields']['field_characteristic']['table'] = 'field_data_field_characteristic';
-  $handler->display->display_options['fields']['field_characteristic']['field'] = 'field_characteristic';
-  $handler->display->display_options['fields']['field_characteristic']['label'] = '';
-  $handler->display->display_options['fields']['field_characteristic']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['field_characteristic']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['field_characteristic']['alter']['text'] = '%1';
-  $handler->display->display_options['fields']['field_characteristic']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_characteristic']['type'] = 'taxonomy_term_reference_link';
-  $handler->display->display_options['fields']['field_characteristic']['delta_offset'] = '0';
+  $handler->display->display_options['fields']['realname']['element_label_colon'] = FALSE;
   $handler->display->display_options['defaults']['arguments'] = FALSE;
-  /* Contextual filter: Field: Kmap Id (kmap_id) */
-  $handler->display->display_options['arguments']['kmap_id_value']['id'] = 'kmap_id_value';
-  $handler->display->display_options['arguments']['kmap_id_value']['table'] = 'field_data_kmap_id';
-  $handler->display->display_options['arguments']['kmap_id_value']['field'] = 'kmap_id_value';
-  $handler->display->display_options['arguments']['kmap_id_value']['relationship'] = 'field_characteristic_tid';
-  $handler->display->display_options['arguments']['kmap_id_value']['default_action'] = 'default';
-  $handler->display->display_options['arguments']['kmap_id_value']['default_argument_type'] = 'raw';
-  $handler->display->display_options['arguments']['kmap_id_value']['default_argument_options']['index'] = '2';
-  $handler->display->display_options['arguments']['kmap_id_value']['summary']['number_of_records'] = '0';
-  $handler->display->display_options['arguments']['kmap_id_value']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['kmap_id_value']['summary_options']['items_per_page'] = '25';
+  /* Contextual filter: Content: Subject (field_subject:id) */
+  $handler->display->display_options['arguments']['field_subject_id']['id'] = 'field_subject_id';
+  $handler->display->display_options['arguments']['field_subject_id']['table'] = 'field_data_field_subject';
+  $handler->display->display_options['arguments']['field_subject_id']['field'] = 'field_subject_id';
+  $handler->display->display_options['arguments']['field_subject_id']['default_action'] = 'default';
+  $handler->display->display_options['arguments']['field_subject_id']['default_argument_type'] = 'raw';
+  $handler->display->display_options['arguments']['field_subject_id']['default_argument_options']['index'] = '2';
+  $handler->display->display_options['arguments']['field_subject_id']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['field_subject_id']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['field_subject_id']['summary_options']['items_per_page'] = '25';
   $handler->display->display_options['path'] = 'list/subjects/%';
 
   /* Display: Subcollection List */
@@ -1216,26 +1172,21 @@ print \'<h1>No Entries Found</h1> <p>No audio-video entries tagged with \' . $t-
   $handler->display->display_options['header']['result']['field'] = 'result';
   $handler->display->display_options['header']['result']['content'] = '(Displaying @start - @end of @total)';
   $handler->display->display_options['defaults']['relationships'] = FALSE;
-  /* Relationship: Content: Subcollection Old (field_subcollection) */
-  $handler->display->display_options['relationships']['field_subcollection_tid']['id'] = 'field_subcollection_tid';
-  $handler->display->display_options['relationships']['field_subcollection_tid']['table'] = 'field_data_field_subcollection';
-  $handler->display->display_options['relationships']['field_subcollection_tid']['field'] = 'field_subcollection_tid';
   /* Relationship: Content: Author */
   $handler->display->display_options['relationships']['uid']['id'] = 'uid';
   $handler->display->display_options['relationships']['uid']['table'] = 'node';
   $handler->display->display_options['relationships']['uid']['field'] = 'uid';
   $handler->display->display_options['defaults']['arguments'] = FALSE;
-  /* Contextual filter: Field: Kmap Id (kmap_id) */
-  $handler->display->display_options['arguments']['kmap_id_value']['id'] = 'kmap_id_value';
-  $handler->display->display_options['arguments']['kmap_id_value']['table'] = 'field_data_kmap_id';
-  $handler->display->display_options['arguments']['kmap_id_value']['field'] = 'kmap_id_value';
-  $handler->display->display_options['arguments']['kmap_id_value']['relationship'] = 'field_subcollection_tid';
-  $handler->display->display_options['arguments']['kmap_id_value']['default_action'] = 'default';
-  $handler->display->display_options['arguments']['kmap_id_value']['default_argument_type'] = 'raw';
-  $handler->display->display_options['arguments']['kmap_id_value']['default_argument_options']['index'] = '2';
-  $handler->display->display_options['arguments']['kmap_id_value']['summary']['number_of_records'] = '0';
-  $handler->display->display_options['arguments']['kmap_id_value']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['kmap_id_value']['summary_options']['items_per_page'] = '25';
+  /* Contextual filter: Content: Subcollection (field_subcollection_new:id) */
+  $handler->display->display_options['arguments']['field_subcollection_new_id']['id'] = 'field_subcollection_new_id';
+  $handler->display->display_options['arguments']['field_subcollection_new_id']['table'] = 'field_data_field_subcollection_new';
+  $handler->display->display_options['arguments']['field_subcollection_new_id']['field'] = 'field_subcollection_new_id';
+  $handler->display->display_options['arguments']['field_subcollection_new_id']['default_action'] = 'default';
+  $handler->display->display_options['arguments']['field_subcollection_new_id']['default_argument_type'] = 'raw';
+  $handler->display->display_options['arguments']['field_subcollection_new_id']['default_argument_options']['index'] = '2';
+  $handler->display->display_options['arguments']['field_subcollection_new_id']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['field_subcollection_new_id']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['field_subcollection_new_id']['summary_options']['items_per_page'] = '25';
   $handler->display->display_options['path'] = 'list/subcollections/%';
 
   /* Display: Location List */
@@ -1254,10 +1205,6 @@ print \'<h1>No Entries Found</h1> <p>No audio-video entries tagged with \' . $t-
   $handler->display->display_options['relationships']['uid']['id'] = 'uid';
   $handler->display->display_options['relationships']['uid']['table'] = 'node';
   $handler->display->display_options['relationships']['uid']['field'] = 'uid';
-  /* Relationship: Content: Location Old (field_pbcore_coverage_spatial) */
-  $handler->display->display_options['relationships']['field_pbcore_coverage_spatial_tid']['id'] = 'field_pbcore_coverage_spatial_tid';
-  $handler->display->display_options['relationships']['field_pbcore_coverage_spatial_tid']['table'] = 'field_data_field_pbcore_coverage_spatial';
-  $handler->display->display_options['relationships']['field_pbcore_coverage_spatial_tid']['field'] = 'field_pbcore_coverage_spatial_tid';
   $handler->display->display_options['defaults']['fields'] = FALSE;
   /* Field: Content: Path */
   $handler->display->display_options['fields']['path']['id'] = 'path';
@@ -1339,14 +1286,6 @@ print \'<h1>No Entries Found</h1> <p>No audio-video entries tagged with \' . $t-
   $handler->display->display_options['fields']['created']['date_format'] = 'custom';
   $handler->display->display_options['fields']['created']['custom_date_format'] = 'M jS, Y';
   $handler->display->display_options['fields']['created']['second_date_format'] = 'long';
-  /* Field: Realname: Real name */
-  $handler->display->display_options['fields']['realname']['id'] = 'realname';
-  $handler->display->display_options['fields']['realname']['table'] = 'realname';
-  $handler->display->display_options['fields']['realname']['field'] = 'realname';
-  $handler->display->display_options['fields']['realname']['relationship'] = 'uid';
-  $handler->display->display_options['fields']['realname']['label'] = '';
-  $handler->display->display_options['fields']['realname']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['realname']['element_label_colon'] = FALSE;
   /* Field: Field: Collection */
   $handler->display->display_options['fields']['group_audience']['id'] = 'group_audience';
   $handler->display->display_options['fields']['group_audience']['table'] = 'field_data_group_audience';
@@ -1357,6 +1296,14 @@ print \'<h1>No Entries Found</h1> <p>No audio-video entries tagged with \' . $t-
   $handler->display->display_options['fields']['group_audience']['click_sort_column'] = 'gid';
   $handler->display->display_options['fields']['group_audience']['group_column'] = 'gid';
   $handler->display->display_options['fields']['group_audience']['delta_offset'] = '0';
+  /* Field: Realname: Real name */
+  $handler->display->display_options['fields']['realname']['id'] = 'realname';
+  $handler->display->display_options['fields']['realname']['table'] = 'realname';
+  $handler->display->display_options['fields']['realname']['field'] = 'realname';
+  $handler->display->display_options['fields']['realname']['relationship'] = 'uid';
+  $handler->display->display_options['fields']['realname']['label'] = '';
+  $handler->display->display_options['fields']['realname']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['realname']['element_label_colon'] = FALSE;
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
@@ -1386,38 +1333,17 @@ print \'<h1>No Entries Found</h1> <p>No audio-video entries tagged with \' . $t-
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
-  /* Field: Content: Comment count */
-  $handler->display->display_options['fields']['comment_count']['id'] = 'comment_count';
-  $handler->display->display_options['fields']['comment_count']['table'] = 'node_comment_statistics';
-  $handler->display->display_options['fields']['comment_count']['field'] = 'comment_count';
-  $handler->display->display_options['fields']['comment_count']['label'] = '';
-  $handler->display->display_options['fields']['comment_count']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['comment_count']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['comment_count']['hide_empty'] = TRUE;
-  $handler->display->display_options['fields']['comment_count']['empty_zero'] = TRUE;
-  /* Field: Content: Subject Old */
-  $handler->display->display_options['fields']['field_characteristic']['id'] = 'field_characteristic';
-  $handler->display->display_options['fields']['field_characteristic']['table'] = 'field_data_field_characteristic';
-  $handler->display->display_options['fields']['field_characteristic']['field'] = 'field_characteristic';
-  $handler->display->display_options['fields']['field_characteristic']['label'] = '';
-  $handler->display->display_options['fields']['field_characteristic']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['field_characteristic']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['field_characteristic']['alter']['text'] = '%1';
-  $handler->display->display_options['fields']['field_characteristic']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_characteristic']['type'] = 'taxonomy_term_reference_plain';
-  $handler->display->display_options['fields']['field_characteristic']['delta_offset'] = '0';
   $handler->display->display_options['defaults']['arguments'] = FALSE;
-  /* Contextual filter: Taxonomy term: Place Dictionary Id (place_dictionary_id) */
-  $handler->display->display_options['arguments']['place_dictionary_id_value']['id'] = 'place_dictionary_id_value';
-  $handler->display->display_options['arguments']['place_dictionary_id_value']['table'] = 'field_data_place_dictionary_id';
-  $handler->display->display_options['arguments']['place_dictionary_id_value']['field'] = 'place_dictionary_id_value';
-  $handler->display->display_options['arguments']['place_dictionary_id_value']['relationship'] = 'field_pbcore_coverage_spatial_tid';
-  $handler->display->display_options['arguments']['place_dictionary_id_value']['default_action'] = 'default';
-  $handler->display->display_options['arguments']['place_dictionary_id_value']['default_argument_type'] = 'raw';
-  $handler->display->display_options['arguments']['place_dictionary_id_value']['default_argument_options']['index'] = '2';
-  $handler->display->display_options['arguments']['place_dictionary_id_value']['summary']['number_of_records'] = '0';
-  $handler->display->display_options['arguments']['place_dictionary_id_value']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['place_dictionary_id_value']['summary_options']['items_per_page'] = '25';
+  /* Contextual filter: Content: Location (field_location:id) */
+  $handler->display->display_options['arguments']['field_location_id']['id'] = 'field_location_id';
+  $handler->display->display_options['arguments']['field_location_id']['table'] = 'field_data_field_location';
+  $handler->display->display_options['arguments']['field_location_id']['field'] = 'field_location_id';
+  $handler->display->display_options['arguments']['field_location_id']['default_action'] = 'default';
+  $handler->display->display_options['arguments']['field_location_id']['default_argument_type'] = 'raw';
+  $handler->display->display_options['arguments']['field_location_id']['default_argument_options']['index'] = '2';
+  $handler->display->display_options['arguments']['field_location_id']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['field_location_id']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['field_location_id']['summary_options']['items_per_page'] = '25';
   $handler->display->display_options['path'] = 'list/places/%';
   $export['media_by_kmap'] = $view;
 

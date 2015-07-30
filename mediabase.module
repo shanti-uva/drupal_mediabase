@@ -349,7 +349,7 @@ function mediabase_preprocess_node(&$variables) {
 		}
 		
 		// Place Link
-		// Commented out for MANU-1835 (field_pbcore_coverage_spatial replaced by new kmap field field_location)
+		// Commented out for MANU-1835 2015-07-30 (field_pbcore_coverage_spatial replaced by new kmap field field_location)
 		/*
 		if(!empty($variables['field_pbcore_coverage_spatial'])) {
 			$place_field =  field_view_value('node', $node, 'field_pbcore_coverage_spatial', $node->field_pbcore_coverage_spatial[LANGUAGE_NONE][0]);

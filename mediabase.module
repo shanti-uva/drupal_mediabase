@@ -349,11 +349,14 @@ function mediabase_preprocess_node(&$variables) {
 		}
 		
 		// Place Link
+		// Commented out for MANU-1835 (field_pbcore_coverage_spatial replaced by new kmap field field_location)
+		/*
 		if(!empty($variables['field_pbcore_coverage_spatial'])) {
 			$place_field =  field_view_value('node', $node, 'field_pbcore_coverage_spatial', $node->field_pbcore_coverage_spatial[LANGUAGE_NONE][0]);
 			$pfew = entity_metadata_wrapper('taxonomy_term', $place_field['#options']['entity']);
 			$variables['place_link'] = l($place_field['#title'], 'list/places/' . $pfew->place_dictionary_id->value());
 		}
+		*/
 		
 		// Use create date when available for display (See mb_solr.module mb_solr_apachesolr_index_document_build() ln 83)
 		$field_inst = $emw->field_pbcore_instantiation->value();

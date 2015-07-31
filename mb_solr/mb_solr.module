@@ -4,6 +4,8 @@
  * Mediabase module that interfaces with solr to provide a collection view
  * as well as facet hierarchies on both collection and non-search pages.
  *
+ * NOTE: functions that post to Kidx global SOLR index are found in mb_services.module
+ * 
  */
  
  /**

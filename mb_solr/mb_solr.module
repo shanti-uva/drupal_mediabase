@@ -450,12 +450,15 @@ function mb_solr_make_teaser($entity, $coll = FALSE) {
   $entry_id = _get_entry_id_from_node($node);
   if($node) {
     $entity['thumb_url'] = mb_kaltura_get_thumbnail_url($entry_id, 360, 270);
-    // Add Place Link to Render array
-    // TODO: Update to new field
-    if(!empty($node->field_pbcore_coverage_spatial)) {
-      $place_field = field_view_value('node', $node, 'field_pbcore_coverage_spatial', $node->field_pbcore_coverage_spatial[LANGUAGE_NONE][0]);
-			$pfew = entity_metadata_wrapper('taxonomy_term', $place_field['#options']['entity']);
-			$variables['place_link'] = l($place_field['#title'], 'list/places/' . $pfew->place_dictionary_id->value());
+    // Add Place Links to Render array
+    // Updated from field_pbcore_coverage_spatial to field_location
+    if(!empty($node->field_location)) {
+      $place_fields = field_get_items('node', $node, 'field_location');
+			$plinks = array();
+			foreach ($place_fields as $pfield) {
+				$plinks[] = l($pfield['header'], 'list/places/' . $pfield['id']);
+			}
+			$variables['place_link'] = implode(', ', $plinks);
     }
   } else {
     $mbpath = drupal_get_path('module', 'mediabase');
@@ -606,7 +609,7 @@ function mb_solr_process_facet_list($fnames) {
 
 /**
  * Perform a search for items tagged with a particular facet tag
- *   Parameters facet_pairs is an array() of pairs: facet name (e.g., im_field_subcollection) => id
+ *   Parameters facet_pairs is an array() of pairs: facet name (e.g., im_field_subcollection_new) => id
  * 	 Repeat facet name in each pair even if identical with previous
  * 	 When called without parameters, should retern all results, but is this useful?
  */
@@ -754,7 +757,7 @@ function mb_solr_get_solrdoc($node, $format = 'xml') {
 	$uid = $service . '-' . $nid;
 	if($node) {
  		$alias = drupal_get_path_alias('node/' . $nid);
-		$kmaps = ''; // array of associated kmaps 
+		$kmaps = array(); // array of associated kmaps 
 		$metadata = array();  // metadata for node 
 		$fields = array('field_subject', 'field_subcollection_new', 'field_location', 'field_recording_location_new');
 		foreach ($fields as $field) {

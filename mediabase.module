@@ -348,16 +348,6 @@ function mediabase_preprocess_node(&$variables) {
 			$variables['team'] = $team;
 		}
 		
-		// Place Link
-		// Commented out for MANU-1835 2015-07-30 (field_pbcore_coverage_spatial replaced by new kmap field field_location)
-		/*
-		if(!empty($variables['field_pbcore_coverage_spatial'])) {
-			$place_field =  field_view_value('node', $node, 'field_pbcore_coverage_spatial', $node->field_pbcore_coverage_spatial[LANGUAGE_NONE][0]);
-			$pfew = entity_metadata_wrapper('taxonomy_term', $place_field['#options']['entity']);
-			$variables['place_link'] = l($place_field['#title'], 'list/places/' . $pfew->place_dictionary_id->value());
-		}
-		*/
-		
 		// Use create date when available for display (See mb_solr.module mb_solr_apachesolr_index_document_build() ln 83)
 		$field_inst = $emw->field_pbcore_instantiation->value();
 		$flang = field_language('node',$node, 'field_pbcore_instantiation');
@@ -607,7 +597,7 @@ function mediabase_process_raw_lineage($raw, $include_self = TRUE) {
 	if ($c > 1 && $items[$ct - 2] == $items[$ct - 1]) {
 		array_pop($items); 
 	}
-	foreach ($item as &$value) {
+	foreach ($items as &$value) {
 		$value = str_replace('<', $value);
 		$value = str_replace('>', $value);
 	}

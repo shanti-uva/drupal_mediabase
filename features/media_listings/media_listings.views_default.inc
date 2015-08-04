@@ -1350,10 +1350,6 @@ print \'<h1>No Entries Found</h1> <p>No audio-video entries tagged with \' . $t-
   $handler->display->display_options['relationships']['uid']['id'] = 'uid';
   $handler->display->display_options['relationships']['uid']['table'] = 'node';
   $handler->display->display_options['relationships']['uid']['field'] = 'uid';
-  /* Relationship: Content: Location Old (field_pbcore_coverage_spatial) */
-  $handler->display->display_options['relationships']['field_pbcore_coverage_spatial_tid']['id'] = 'field_pbcore_coverage_spatial_tid';
-  $handler->display->display_options['relationships']['field_pbcore_coverage_spatial_tid']['table'] = 'field_data_field_pbcore_coverage_spatial';
-  $handler->display->display_options['relationships']['field_pbcore_coverage_spatial_tid']['field'] = 'field_pbcore_coverage_spatial_tid';
   /* Field: Content: Path */
   $handler->display->display_options['fields']['path']['id'] = 'path';
   $handler->display->display_options['fields']['path']['table'] = 'node';
@@ -1450,16 +1446,16 @@ print \'<h1>No Entries Found</h1> <p>No audio-video entries tagged with \' . $t-
   $handler->display->display_options['sorts']['created']['table'] = 'node';
   $handler->display->display_options['sorts']['created']['field'] = 'created';
   $handler->display->display_options['sorts']['created']['order'] = 'DESC';
-  /* Contextual filter: Taxonomy term: Place Dictionary Id (place_dictionary_id) */
-  $handler->display->display_options['arguments']['place_dictionary_id_value']['id'] = 'place_dictionary_id_value';
-  $handler->display->display_options['arguments']['place_dictionary_id_value']['table'] = 'field_data_place_dictionary_id';
-  $handler->display->display_options['arguments']['place_dictionary_id_value']['field'] = 'place_dictionary_id_value';
-  $handler->display->display_options['arguments']['place_dictionary_id_value']['relationship'] = 'field_pbcore_coverage_spatial_tid';
-  $handler->display->display_options['arguments']['place_dictionary_id_value']['default_action'] = 'not found';
-  $handler->display->display_options['arguments']['place_dictionary_id_value']['default_argument_type'] = 'fixed';
-  $handler->display->display_options['arguments']['place_dictionary_id_value']['summary']['number_of_records'] = '0';
-  $handler->display->display_options['arguments']['place_dictionary_id_value']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['place_dictionary_id_value']['summary_options']['items_per_page'] = '25';
+  /* Contextual filter: Content: Location (field_location:id) */
+  $handler->display->display_options['arguments']['field_location_id']['id'] = 'field_location_id';
+  $handler->display->display_options['arguments']['field_location_id']['table'] = 'field_data_field_location';
+  $handler->display->display_options['arguments']['field_location_id']['field'] = 'field_location_id';
+  $handler->display->display_options['arguments']['field_location_id']['default_action'] = 'default';
+  $handler->display->display_options['arguments']['field_location_id']['default_argument_type'] = 'raw';
+  $handler->display->display_options['arguments']['field_location_id']['default_argument_options']['index'] = '2';
+  $handler->display->display_options['arguments']['field_location_id']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['field_location_id']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['field_location_id']['summary_options']['items_per_page'] = '25';
   /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';

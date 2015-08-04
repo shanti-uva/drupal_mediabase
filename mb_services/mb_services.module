@@ -374,8 +374,7 @@ function mb_services_get($type, $kmid) {
       // Only output node info if it's public [user_load(0) == anonymous user]
       if(node_access('view', $node, user_load(0))) {
       	$nodes_filtered[$nid] = $node;
-			} else {
-			}
+			} 
 		}
 	}
 	

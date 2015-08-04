@@ -564,6 +564,9 @@ function mediabase_format_duration($secs = 0) {
 
 /**
  * Function to return all av nodes tagged with a kmap id using new shanti kmap fields
+ * 
+ * TODO: Do join with permissions table to filter out non-public nodes to speed up search
+ *       Then move node loading mb_services_get() out of the filtering and just load nodes for the requested page of results  
  */
 function mediabase_nodes_by_kmap($kmids, $is_place = FALSE) {
 	if (is_numeric($kmids)) { $kmids = array($kmids); }

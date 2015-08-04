@@ -94,7 +94,8 @@ function collection_block_details($node) {
 	$owner = user_load($node->uid);
 	$is_owner = $user->uid == $node->uid;
 	$gid = $group->gid;
-	//$fvi = field_get_items('node', $node, 'group_access');
+	$fvi = field_get_items('node', $node, 'group_access');
+	$status = (isset($fvi[0]['value']) && $fvi[0]['value'] == 1) ? t("Private") : t("Public");
 	
 	
 	// administrator user link
@@ -120,6 +121,7 @@ function collection_block_details($node) {
 	$output = '<div class="collection-stats">';
 	$output .= '<div class="owner"><span class="stat">' . $man_label . '</span> <span class="value">' . $man_name . '</span></div>';
 	$output .= '<div class="item-count">' . $count_str . '</div>';
+	$output .= '<div class="access">' . $status . '</div>';
 	$output .= '</div>';
 	return $output;
 }

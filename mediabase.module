@@ -561,3 +561,24 @@ function mediabase_format_duration($secs = 0) {
   }
   return $durstr;
 }
+
+/**
+ * Function to return all av nodes tagged with a kmap id using new shanti kmap fields
+ */
+function mediabase_nodes_by_kmap($kmids, $is_place = FALSE) {
+	if (is_numeric($kmids)) { $kmids = array($kmids); }
+	$tables = ($is_place) ? array('field_data_field_location', 'field_data_field_recording_location_new') :
+													array('field_data_field_subject', 'field_data_field_subcollection_new');
+	$nids = array();
+	foreach ($tables as $table) {
+		$field_name = str_replace('field_data_', '', $table) . '_id';
+		$query = db_select($table, 'fd');
+		$query->condition('fd.' . $field_name, $kmids, 'IN')->fields('fd', array('entity_id'));
+		$res = $query->execute();
+		$rrows = $res->fetchAll();
+		foreach($rrows as $obj) {
+			$nids[] = $obj->entity_id;
+		}
+	}
+	return $nids;
+}

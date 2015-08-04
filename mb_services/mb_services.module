@@ -44,7 +44,7 @@ function mb_services_menu() {
   
   // Return JSON containing a list of a/v nodes tagged with given Kmap ID 
   // First param is either place or subject; Second is the kmap id
-  // TODO: Possibly change to services/kmaps/%/%
+  
   $items['services/%/%'] = array(
     'title' => 'JSON output of Mediabase Nodes by Kmap ID',
     'description' => 'Return the JSON description for Mediabase nodes that are tagged with a given Kmap ID',
@@ -204,7 +204,7 @@ function mb_services_do_solr_post($data) {
 
 /**
  * Helper function to get all Kmaps associated with a node as an array
- */
+OLD using old field:
 function mb_services_get_node_kmapids($node) {
 	if(is_int($node)) { $node = node_load($node); }
 	$field_data = array(
@@ -231,6 +231,38 @@ function mb_services_get_node_kmapids($node) {
 		foreach($fobjarray as $n => $fobj) {
 			$subfield = $fobj->{$fdata['subfield']};
 			array_push($kids, $fdata['label'] . $subfield[LANGUAGE_NONE][0]['value']);
+		}
+	}
+	return $kids;
+}
+ */
+ /**
+ * Helper function to get all Kmaps associated with a node as an array
+ *  Use to populate the solr doc to send to solr
+ *  Updated: 08/03/15
+ */
+ function mb_services_get_node_kmapids($node) {
+	if(is_int($node)) { $node = node_load($node); }
+	$field_data = array(
+		'places' => array(
+			'field' => 'field_location',
+			'label' => 'places-',
+		),
+		'subjects' => array(
+			'field' => 'field_subject',
+			'label' => 'subjects-',
+		),
+		'subcollection' => array(
+			'field' => 'field_subcollection_new',
+			'label' => 'subjects-',
+		),
+	);
+	$kids = array();
+	foreach($field_data as $label => $finfo) {
+		$nfield = $node->{$finfo['field']};
+		$flang = field_language('node', $node, $finfo['field']);
+		foreach($nfield[$flang] as $n => $fdata) {
+			array_push($kids, $finfo['label'] . $fdata['id']);
 		}
 	}
 	return $kids;
@@ -299,137 +331,81 @@ function mb_services_collection($collid, $pg = 1) {
  * e.g.: http://mediabase.drupal-dev.shanti.virginia.edu/services/subject/302
  * 
  *  was mb_services_subject but adding place so that subject or place is first var
+ * 
+ * TODO: Possibly add $use_descendants parameter which would get all nodes tagged with this kmap or any of its descendants
  */
 function mb_services_get($type, $kmid) {
+	// Normalize and validate type variable for subject or place
+	if ($type == 'subjects') {$type = 'subject';}
+	if ($type == 'places') {$type = 'place';}
+	if (!in_array($type, array('subject', 'place'))) { drupal_not_found(); }
+	
+	// Do initial page calculations and variable initializing
   $pg = (isset($_GET['pg'])) ? $_GET['pg'] * 1 : 1;
-  $rows = (isset($_GET['rows'])) ? $_GET['rows'] * 1 : 10;
-  $tids = array(); // array for term IDs (Subjects and collections include subcategories)
+  $row_count = (isset($_GET['rows'])) ? $_GET['rows'] * 1 : 10;
+  $n = 0;
+  $start = (intval($pg) - 1) * intval($row_count);
+	
+	// Determine output format
+	$pts = explode('.', $kmid);
+	$kmid = $pts[0]; 
+	$return_json = (count($pts) == 2 && $pts[1] == 'xml') ? FALSE : TRUE;
+	
+	// Find nodes tagged with kmapid
+	$nids = array(); // array for node ids tagged with kmap id  
   $json = mb_services_get_kmap_info($kmid, $type . 's');
   $kmnm = ($json)? $json['feature']['header'] : 'not found';
-  if($type == 'subject') {
-  	
-	  // Get array of this id and all its children ids
-	  $kmids = mb_services_get_all_kmap_children($kmid);
-	  if(!$kmids) {
-	    drupal_json_output(array( 'media' => array(), 'total' => 0, ));
-	    return;
-	  } 
-		
-	  // Use this array of Kmap Ids to find the corresponding Term Ids (tid) in the Kmap Taxonomy
-	  $query = db_select("field_data_kmap_id", "km")
-	            ->condition("km.kmap_id_value", $kmids, "IN")
-	            ->condition("km.entity_type", "taxonomy_term")
-	            ->fields("km", array("entity_id"))
-	            ->execute();
-		
-	  $result = $query->fetchAll();
-	  // Create an array of tids
-	  foreach($result as $term) {
-	    array_push($tids, $term->entity_id);
-	  }
-	} else if($type == 'place') {
-		// Search field_data_place_dictionary_id for exact match on kmap id given
-	  $query = db_select("field_data_place_dictionary_id", "pdi")
-	            ->condition("pdi.place_dictionary_id_value", $kmid, "=")
-	            ->condition("pdi.entity_type", "taxonomy_term")
-	            ->fields("pdi", array("entity_id"))
-	            ->execute();
-	  $result = $query->fetchAll();
-	  // Create an array of tids
-	  foreach($result as $term) {
-	    array_push($tids, $term->entity_id);
-	  }
-	}
-  if(count($tids) == 0) {
-    drupal_json_output(array( 'media' => array(), 'total' => 0, 'type' => $type, 'kmid' => $kmid ));
+	$dbug = "";
+	$is_place = ($type == 'place') ? TRUE : FALSE;
+	$nids = mediabase_nodes_by_kmap($kmid, $is_place); // Find all nodes with this kmap id
+	
+	// iIf none, return skeletal array
+  if(count($nids) == 0) {
+    drupal_json_output(array( 'media' => array(), 'total' => 0, 'type' => $type, 'kmid' => $kmid, 'debug' => $dbug ));
     return;
   }
-  // Subjects: Use array of Term Ids to find all Nodes tagged with with any of the tids for subjects
-  $entities = array();
-  // Query the subjects field (characteristic)
-  if($type == 'subject') { 
-	  $query = db_select("field_data_field_characteristic", "fdfc")
-	            ->condition("fdfc.field_characteristic_tid", $tids, "IN")
-	            ->fields("fdfc")
-	            ->execute();
-	  $results = $query->fetchAll();
-	  // Sift results for duplicates and create array keyed on eid
-	  foreach($results as $result) {
-	    if (!key_exists($result->entity_id, $entities)) {
-	      $entities[$result->entity_id] = $result;
-	    }
-	  }
-	  // Query the subcollection fields
-	  $query = db_select("field_data_field_subcollection", "fdfs")
-	            ->condition("fdfs.field_subcollection_tid", $tids, "IN")
-	            ->fields("fdfs")
-	            ->execute();
-	  $results = $query->fetchAll();
-	  // Sift results for duplicates and create array keyed on eid
-	  foreach($results as $result) {
-	    if (!key_exists($result->entity_id, $entities)) {
-	      $entities[$result->entity_id] = $result;
-	    }
-	  }
-	// Places: Use TID found to find all Nodes tagged with it. Keeping single TID in array for now.
-	} else if ($type == 'place') {
-		 $query = db_select("field_data_field_pbcore_coverage_spatial", "fdfp")
-	            ->condition("fdfp.field_pbcore_coverage_spatial_tid", $tids, "IN")
-	            ->fields("fdfp")
-	            ->execute();
-	  $results = $query->fetchAll();
-	  // Sift results for duplicates and create array keyed on eid
-	  foreach($results as $result) {
-	    if (!key_exists($result->entity_id, $entities)) {
-	      $entities[$result->entity_id] = $result;
-	    }
-	  }
-	}
-	// Do page calculations based on Rows and get the desired splice of nodes
-  $n = 0;
-  $start = ($pg - 1) * $rows;
-  $gout = array();
-  $items = array();
+	// Get the splice of results for the desired page
 	
-  // Sift entities by type and permissions
-	$entities_filtered = array();
-	$debug = '';
-	foreach($entities as $eid => $entity) {
-		$ntype = $entity->bundle;
-    if($ntype == 'video' || $ntype == 'audio') {
-      $node = node_load($eid);
+  // Sift nodes by type and permissions
+	$nodes_filtered = array();
+	foreach($nids as $nid) {
+		$node = node_load($nid);
+    if($node && ($node->type == 'video' || $node->type == 'audio')) {
       // Only output node info if it's public [user_load(0) == anonymous user]
-      if($node && node_access('view', $node, user_load(0))) {
-      	$entity->eid = $eid;
-      	$entities_filtered[$eid] = $entity;
+      if(node_access('view', $node, user_load(0))) {
+      	$nodes_filtered[$nid] = $node;
+			} else {
 			}
 		}
 	}
-	$totalct = count($entities_filtered);
-  ksort($entities_filtered);
-	$entities = array_slice($entities_filtered, $start, $rows);
+	
+	// Splice results for the correct page
+	$totalct = count($nodes_filtered);
+  ksort($nodes_filtered);
+	$nodes = array_slice($nodes_filtered, $start, $row_count);
 	
   // For entities that are video or audio nodes output json
   // Load mb_kaltura include for its functions for calling kaltura
   module_load_include('inc', 'mb_kaltura', 'mb_kaltura');
-  foreach($entities as $n => $entity) {
+	
+	// Assemble Output Results
+  $gout = array();
+  $items = array();
+  foreach($nodes as $nid => $node) {
     $item = array();
-		$eid = $entity->eid;
-    $ntype = $entity->bundle; 	
-    $node = node_load($eid);
+    $ntype = $node->type; 	
 		if($node) { 
 	  	$flang = field_language('node', $node, "field_$ntype");
-	    $item['nid'] = $eid;
+	    $item['nid'] = $node->nid;
 	    $item['title'] = $node->title;
 	    $item['type'] = $ntype;
-	    $kid = $node->{"field_$ntype"}[$flang][0]['entryid'];
-	    $item['kaltura_id'] = $kid;
+	    $item['kaltura_id'] = $node->{"field_$ntype"}[$flang][0]['entryid'];
 	    $item['thumbnail'] = $node->thumbnail_url;
-	    $media = _get_media_from_entry_id($kid);
+	    $media = _get_media_from_entry_id($item['kaltura_id']);
 	    $item['video_url'] = $media->dataUrl;
 	    $item['duration'] = $node->duration;
 	    $item['created'] = $node->created;
-	    $item['mb_url'] = url(drupal_get_path_alias('node/' . $eid), array('absolute' => 'true'));
+	    $item['mb_url'] = url(drupal_get_path_alias('node/' . $node->nid), array('absolute' => 'true'));
 	    array_push($items, $item);
 		}
   }
@@ -440,9 +416,49 @@ function mb_services_get($type, $kmid) {
 	$gout["kmname"] = $kmnm;
   $gout["page"] = $pg;
   $gout["start"] = $start;
-  $gout["rows"] = $rows;
+  $gout["rows"] = $row_count;
+	$gout["debug"] = $dbug;
   $gout["media"] = $items;
-  drupal_json_output($gout);
+	
+	// Send the output in the correct format
+	if ($return_json) {
+  	drupal_json_output($gout);
+	} else {
+		mb_services_xml_out($gout); // See below
+	}
+}
+
+/**
+ * Functions that converts a search result array into XML output
+ */
+function mb_services_xml_out($results) {
+	drupal_add_http_header('Content-Type', 'text/xml; utf-8');
+	print '<?xml version="1.0" encoding="utf-8"?>'."\n";
+	print "<results>";
+	print mb_services_convert_to_xml($results);
+	print "</results>";
+}
+
+function mb_services_convert_to_xml($results) {
+	foreach($results as $name => $value) {
+		if (is_object($value)) { $value = (array) $value; }
+		if ($name == 'media') {
+			print "<$name>";
+			foreach ($value as $n => $result) {
+				$nval = $n + 1;
+				print "<node n=\"$nval\">";
+				mb_services_convert_to_xml($result);
+				print "</node>";
+			}
+			print "</$name>";
+		} else if (is_array($value)) {
+			print "<$name>";
+			mb_services_convert_to_xml($value);
+			print "</$name>";
+		} else {
+			print "<$name>" . $value . "</$name>";
+		}
+	}
 }
 
 /**

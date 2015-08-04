@@ -94,6 +94,8 @@ function collection_block_details($node) {
 	$owner = user_load($node->uid);
 	$is_owner = $user->uid == $node->uid;
 	$gid = $group->gid;
+	//$fvi = field_get_items('node', $node, 'group_access');
+	
 	
 	// administrator user link
 	$coll_man = t("Manager: ");

@@ -342,7 +342,7 @@ function mb_services_get($type, $kmid) {
 	
 	// Do initial page calculations and variable initializing
   $pg = (isset($_GET['pg'])) ? $_GET['pg'] * 1 : 1;
-  $row_count = (isset($_GET['rows'])) ? $_GET['rows'] * 1 : 10;
+  $row_count = (isset($_GET['rows'])) ? $_GET['rows'] * 1 : 20;
   $n = 0;
   $start = (intval($pg) - 1) * intval($row_count);
 	

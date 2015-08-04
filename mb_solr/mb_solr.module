@@ -4,6 +4,8 @@
  * Mediabase module that interfaces with solr to provide a collection view
  * as well as facet hierarchies on both collection and non-search pages.
  *
+ * NOTE: functions that post to Kidx global SOLR index are found in mb_services.module
+ * 
  */
  
  /**
@@ -38,15 +40,6 @@ function mb_solr_menu() {
     'description' => 'Return raw HTML of a search of particular type',
     'page callback' => 'mb_solr_ajax_search',
     'page arguments' => array(),
-    'access callback' => TRUE,
-  );
-  
-  // Return all items tagged with a particular kmap id in SOLR Add doc format
-  $items['services/kmaps/%'] = array(
-    'title' => 'Kmap search results',
-    'description' => 'Return json or xml for resources tagged with a kmap id',
-    'page callback' => 'mb_solr_kmap_search',
-    'page arguments' => array(2),
     'access callback' => TRUE,
   );
   
@@ -457,11 +450,15 @@ function mb_solr_make_teaser($entity, $coll = FALSE) {
   $entry_id = _get_entry_id_from_node($node);
   if($node) {
     $entity['thumb_url'] = mb_kaltura_get_thumbnail_url($entry_id, 360, 270);
-    // Add Place Link to Render array
-    if(!empty($node->field_pbcore_coverage_spatial)) {
-      $place_field = field_view_value('node', $node, 'field_pbcore_coverage_spatial', $node->field_pbcore_coverage_spatial[LANGUAGE_NONE][0]);
-			$pfew = entity_metadata_wrapper('taxonomy_term', $place_field['#options']['entity']);
-			$variables['place_link'] = l($place_field['#title'], 'list/places/' . $pfew->place_dictionary_id->value());
+    // Add Place Links to Render array
+    // Updated from field_pbcore_coverage_spatial to field_location
+    if(!empty($node->field_location)) {
+      $place_fields = field_get_items('node', $node, 'field_location');
+			$plinks = array();
+			foreach ($place_fields as $pfield) {
+				$plinks[] = l($pfield['header'], 'list/places/' . $pfield['id']);
+			}
+			$variables['place_link'] = implode(', ', $plinks);
     }
   } else {
     $mbpath = drupal_get_path('module', 'mediabase');
@@ -612,7 +609,7 @@ function mb_solr_process_facet_list($fnames) {
 
 /**
  * Perform a search for items tagged with a particular facet tag
- *   Parameters facet_pairs is an array() of pairs: facet name (e.g., im_field_subcollection) => id
+ *   Parameters facet_pairs is an array() of pairs: facet name (e.g., im_field_subcollection_new) => id
  * 	 Repeat facet name in each pair even if identical with previous
  * 	 When called without parameters, should retern all results, but is this useful?
  */
@@ -741,173 +738,6 @@ function mb_solr_facet_search($facet_name, $fid, $pgname = "homepage", $collid =
   drupal_json_output($output);
 }
 
-/**
- * Called by hook_menu to return JSON or XML of items marked by a kmap id
- */
-function mb_solr_kmap_search($kid = '') {
-  $initkid = $kid;
-  $mode = (strpos($kid, '.json') > -1) ? 'json':'xml';
-  $kid = str_replace('.' . $mode,'', $kid);
-  $kid = strtolower($kid);
-  $is_place = (substr($kid, 0, 1) == 'p') ? TRUE : FALSE;
-  $kid = str_replace('p','', $kid);
-  $jsonout = array();
-  // Search for Nodes that have $kid as KMap ID
-  // Convert $kid into Taxonomy ID
-  $selectfield = 'field_data_kmap_id';
-  $conditionfield ='kmap_id_value';
-  if($is_place) {
-    $selectfield = 'field_data_place_dictionary_id';
-    $conditionfield ='place_dictionary_id_value';
-  }
-  $results = db_select($selectfield, 'kid') 
-                ->fields('kid')
-                ->condition('entity_type','taxonomy_term', '=')
-                ->condition($conditionfield, $kid, '=')
-                ->execute();
-  $fields = $results->fetchAssoc();
-  $dataout = array(
-    'kmap_id' => $kid,
-    'query_type' => ($is_place) ? 'places' : 'subjects',
-    'tid' => '',
-    'count' => 0,
-    /*'debug' => array(
-      'isplace' => $is_place,
-      'kid' => $kid,
-      'selectfield' => $selectfield,
-      'condfield' => $conditionfield,
-    ),*/
-    'items' => array(),
-  );
-
-  // If no fields, then no taxonomy ID for this Kid, meaning nothing in MB is tagged with it
-  if($fields) {
-  // Query Solr Index for all items with that tid
-    $tid = $fields['entity_id'];
-    $dataout['tid'] = $tid;
-    $solr = apachesolr_get_solr();
-    $solrsort = '';
-    $query = "im_field_characteristic:{$tid} OR im_field_subcollection:{$tid}";
-    if($is_place == TRUE) {
-      $query = "im_field_pbcore_coverage_spatial:{$tid}";
-    }
-    $params = array(
-      'q' => $query,
-      'qt' => 'standard',
-      'start' => 0,
-      'rows' => 10000000,
-    );
-    $query = new SolrBaseQuery('apachesolr', $solr, $params, $solrsort, '');
-    list($final_query, $response) = apachesolr_do_query($query);
-    $docs = $response->response->docs;
-    $dataout['count'] = count($docs);
-    foreach($docs as $n => $doc) {
-      $dataout['items'][] = $doc->entity_id;
-    }
-  } else {
-    $dataout['tid'] = -1; // -1 means not found
-  }
-  if($mode == 'xml') {
-    drupal_add_http_header('Content-Type', 'text/xml');
-    $xml = new SimpleXMLElement('<results/>');
-    array_walk_recursive(
-      $dataout, 
-      function($value, $key, $xml) {
-        $n = -1;
-        if(is_int($key)) {
-          $n = $key;
-          $key = 'nid';
-        }
-        $child = $xml->addChild($key, $value);
-        if($n > -1) {
-          $child->addAttribute('n', $n);
-        }
-      },
-      $xml
-    );
-    print $xml->asXML();
-  } else {
-    drupal_json_output($dataout);
-  }
-}
-
-/**
- * Returns a solr add doc for node with $nid. Includes kmapid values for term ids with associated kmap ids
- *
- * OLD  mb_solr_get_solrdoc: returns doc as found in MB's apache solr module replaced by custom doc for new KIDX solr index
- * 
-function mb_solr_get_solrdoc($nid = '') {
-  // Set base url with path
-  global $base_url, $base_path; 
-  $base_loc = $base_url . $base_path;
-  // Determine output type requested
-  $type = 'xml';
-  if($res = preg_match('/(\d+)\.json/', $nid, $m)) {
-    $type = 'json';
-    $nid = $m[1];
-  }
-  $docout = ''; // docout is final xml document
-  if($nid != '') {
-    // Search for node doc using standard solr query 
-    $q = apachesolr_drupal_query('findnode', array( 'qt' => 'standard', 'q' => 'entity_id:' . $nid . ' AND entity_type:node', 'fl'=>'*'));
-    list($query, $response) = apachesolr_do_query($q);
-    if(isset($response->response->numFound)  && $response->response->numFound > 0) {
-      $doc = $response->response->docs[0];
-      $node = node_load($nid);
-      $doc->thumbnail_url = $node->thumbnail_url;
-      // Convert TID associated with each node doc to Kmap subject or place IDs and add to Solr Doc for node
-      if(!empty($doc->tid)) {
-        $tids = $doc->tid;
-        $doc->kmapid = array();
-        $doc->pdid = array();
-        foreach($tids as $n => $tid) {
-          $term = taxonomy_term_load($tid);
-          if(isset($term->kmap_id['und'][0]['value'])) {
-            $doc->kmapid[] = $term->kmap_id['und'][0]['value'];
-          } else if(isset($term->place_dictionary_id['und'][0]['value'])) {
-            $doc->pdid[] = $term->place_dictionary_id['und'][0]['value'];
-          }
-        }
-      }
-      // Replace "default" url with the base location for this site
-      foreach($doc as $key => &$value) {
-        if(is_string($value) && strpos($value, 'http://default/') > -1) {
-           $value = str_replace('http://default/', $base_loc, $value);
-         }
-      }
-      // Return JSON of Doc if asked for
-      if($type == 'json') {  
-        drupal_json_output($doc);
-        return;
-      }
-      // Otherwise create XML markup
-     $docout = '<add>';
-     foreach((array)$doc as $n1 => $v1) {
-       if (is_array($v1)) {
-         foreach($v1 as $n2 => $v2) {
-           $docout .= '<field name="' . $n1 . '">' . $v2 . '</field>';
-         }
-       } else {
-         $docout .= '<field name="' . $n1 . '">' . $v1 . '</field>';
-       }
-     }
-     $docout .= '</add>';
-   }
-  } else {
-    // Return JSON error if JSON requested.
-    if($type == 'json') {  
-      drupal_json_output('{ "error": "No Node ID given."}');
-      return;
-    }
-    // Else make XML Error message
-    $docout = "<error><msg>No Node ID given.</msg></error>";
-  }
-  //}
-  // Convert Solr Doc to XML and add to output string
-  drupal_add_http_header('Content-Type', 'text/xml');
-  print '<?xml version="1.0"?>' . $docout;
-}*/
-
 function mb_solr_get_solrdoc($node, $format = 'xml') {
 	global $base_url;
 	// Allow for a nid to be passed instead of an object
@@ -927,57 +757,34 @@ function mb_solr_get_solrdoc($node, $format = 'xml') {
 	$uid = $service . '-' . $nid;
 	if($node) {
  		$alias = drupal_get_path_alias('node/' . $nid);
-		$kmaps = '';
-		$kmapsjson = array();
-		$metadata = array();
-		if(isset($node->field_characteristic)) {
-			$fc = field_get_items('node', $node, 'field_characteristic');
-			if(!empty($fc)) {
-				foreach($fc as $fitem) {
-					$kmap = Kmap::createKmapByTid($fitem['tid']);
-					$lineage = $kmap->get_kmap_lineage();
-					foreach($lineage as $ancestor) {  // ancester includes self in this instance
-						$basestr = 'subjects-' . $ancestor['kmap_id'];
-						$kmapsjson[] = $basestr;
-					}
-				}
-			}
-		}
-		if(isset($node->field_pbcore_coverage_spatial)) {
-			$fpcs = field_get_items('node', $node, 'field_pbcore_coverage_spatial');
-			if(!empty($fpcs)) {
-				foreach($fpcs as $fpcsitem) {
-					try { 
-						$tm = taxonomy_term_load($fpcsitem['tid']);
-						$tw = entity_metadata_wrapper('taxonomy_term', $tm);
-						$pid = $tw->place_dictionary_id->value();
-						if (empty($metadata['place'])) {
-							$metadata['place'] = array( 'name' => $tm->name, 'pid' => $pid );
+		$kmaps = array(); // array of associated kmaps 
+		$metadata = array();  // metadata for node 
+		$fields = array('field_subject', 'field_subcollection_new', 'field_location', 'field_recording_location_new');
+		foreach ($fields as $field) {
+			if(isset($node->{$field})) {
+				$prefix = (strpos($field, 'location') > -1) ? 'places' : 'subjects';
+				$fits = field_get_items('node', $node, $field);
+				if(!empty($fits)) {
+					foreach($fits as $fitem) {
+						$lineage = mediabase_process_raw_lineage($fitem['raw']);  // ancester includes self in this instance
+						foreach($lineage as $ancestor_id) { 
+							$basestr = $prefix . '-' . $ancestor_id;
+							$kmaps[] = $basestr;
 						}
-						$km = fetch_place_dict_details($pid);
-						foreach ($km as $kmid => $data) {
-							$kmapsjson[] = 'places-' . $kmid;
-						}
-					} catch (Exception $e) {
-						// when there is no pid in term entry (corrupted term)
-						watchdog('mb_solr', 'Problem with finding location data: ' . $e->getMessage());
 					}
 				}
 			}
 		}
 		
 		// Metadata
-		
 		$ew = entity_metadata_wrapper('node', $node);
 		$grp = $ew->group_audience->value();
 		$grp = array_shift($grp);
 		$metadata['collection'] = $grp->label;
 		$metadata['date'] = gmdate('Y-m-d\TH:i:s\Z',  $ew->created->value());
 		$metadata['length'] = $node->duration['formatted'];
-		$kmapsjson = array_values(array_unique($kmapsjson));
-		foreach($kmapsjson as $km) {
-			$kmaps .= "<str>$km</str>";
-		}
+		$kmaps = array_values(array_unique($kmaps));
+		$kmaps = '<str>' . implode('</str><str>', $kmaps) . '</str>';
 		$url_html = $base_url . '/' . $alias;
 		$url_ajax = $base_url . '/services/node/ajax/' . $nid;
 		$url_json = $base_url . '/api/v1/media/node/' . $nid . '.json';
@@ -999,7 +806,7 @@ function mb_solr_get_solrdoc($node, $format = 'xml') {
 			$jsonout['doc']['url_thumb'] = $thumb;
 			$jsonout['doc']['caption'] = $node->title;
 			//$jsonout['doc']['metadata'] = json_encode($metadata);
-			$jsonout['doc']['kmapid'] = $kmapsjson;
+			$jsonout['doc']['kmapid'] = $kmaps;
 			if($is_api_call) {
 				drupal_json_output($jsonout);
 			} else {

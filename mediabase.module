@@ -348,13 +348,6 @@ function mediabase_preprocess_node(&$variables) {
 			$variables['team'] = $team;
 		}
 		
-		// Place Link
-		if(!empty($variables['field_pbcore_coverage_spatial'])) {
-			$place_field =  field_view_value('node', $node, 'field_pbcore_coverage_spatial', $node->field_pbcore_coverage_spatial[LANGUAGE_NONE][0]);
-			$pfew = entity_metadata_wrapper('taxonomy_term', $place_field['#options']['entity']);
-			$variables['place_link'] = l($place_field['#title'], 'list/places/' . $pfew->place_dictionary_id->value());
-		}
-		
 		// Use create date when available for display (See mb_solr.module mb_solr_apachesolr_index_document_build() ln 83)
 		$field_inst = $emw->field_pbcore_instantiation->value();
 		$flang = field_language('node',$node, 'field_pbcore_instantiation');
@@ -557,4 +550,56 @@ function mediabase_format_duration($secs = 0) {
     $durstr .= $secs . t(" sec");
   }
   return $durstr;
+}
+
+/**
+ * Function to return all av nodes tagged with a kmap id using new shanti kmap fields
+ * 
+ * TODO: Do join with permissions table to filter out non-public nodes to speed up search
+ *       Then move node loading mb_services_get() out of the filtering and just load nodes for the requested page of results  
+ */
+function mediabase_nodes_by_kmap($kmids, $is_place = FALSE) {
+	if (is_numeric($kmids)) { $kmids = array($kmids); }
+	$tables = ($is_place) ? array('field_data_field_location', 'field_data_field_recording_location_new') :
+													array('field_data_field_subject', 'field_data_field_subcollection_new');
+	$nids = array();
+	foreach ($tables as $table) {
+		$field_name = str_replace('field_data_', '', $table) . '_id';
+		$query = db_select($table, 'fd');
+		$query->condition('fd.' . $field_name, $kmids, 'IN')->fields('fd', array('entity_id'));
+		$res = $query->execute();
+		$rrows = $res->fetchAll();
+		foreach($rrows as $obj) {
+			$nids[] = $obj->entity_id;
+		}
+	}
+	return $nids;
+}
+
+/***
+ * Function to process the "raw" value from a shanti kmap field into an ancestor lineage array
+ * 
+ * @param $raw
+ * 		The 'raw' value from a shanti kmaps field
+ * 
+ * @param $include_self
+ * 		Defaults to TRUE and includes the current kmap id being queried
+ * 		If FALSE will return only ancestors of current kmap id
+ * 
+ * @return array() 
+ * 		A list of ancestors in descending order (i.e., most inclusive first)
+ */
+function mediabase_process_raw_lineage($raw, $include_self = TRUE) {
+	// example:  <6403> <4576> <2724> <2724>
+	$items = explode('> <', $raw);
+	// remove duplicate last item
+	$ct = count($items);
+	if ($c > 1 && $items[$ct - 2] == $items[$ct - 1]) {
+		array_pop($items); 
+	}
+	foreach ($items as &$value) {
+		$value = str_replace('<', $value);
+		$value = str_replace('>', $value);
+	}
+	return $items;
 }

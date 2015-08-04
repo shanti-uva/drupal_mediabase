@@ -21,6 +21,7 @@ class Kmap {
       $this->kmap_id = $kmap_id;
       $this->vid = variable_get('kmap_taxonomy_vid', NULL);
       if ( null == $this->kmap_id ) {
+      	 //ddebug_backtrace();
          throw new Exception( t('Could not create a Kmap node because no kmap id was specified'));
       }
       else if ( null == $this->vid ) {

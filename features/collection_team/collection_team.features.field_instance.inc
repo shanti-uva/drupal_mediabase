@@ -128,10 +128,9 @@ function collection_team_field_default_field_instances() {
     'display' => array(
       'default' => array(
         'label' => 'above',
-        'module' => 'taxonomy',
         'settings' => array(),
-        'type' => 'taxonomy_term_reference_link',
-        'weight' => 3,
+        'type' => 'hidden',
+        'weight' => 4,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -142,7 +141,7 @@ function collection_team_field_default_field_instances() {
     ),
     'entity_type' => 'node',
     'field_name' => 'field_subcoll_root_kmap_id',
-    'label' => 'Subcollection Root',
+    'label' => 'Subcollection Root Old',
     'required' => 0,
     'settings' => array(
       'user_register_form' => FALSE,
@@ -154,7 +153,6 @@ function collection_team_field_default_field_instances() {
         'allow_annotations' => TRUE,
         'allow_formatting' => TRUE,
         'allow_multiple' => TRUE,
-        'allow_multipleq' => TRUE,
         'kmap_selector_settings' => array(
           'allow_annotations' => 1,
           'allow_formatting' => 1,
@@ -165,14 +163,52 @@ function collection_team_field_default_field_instances() {
           'show_tree_selector' => 1,
           'view_path' => 'subject/%kmap_id/detail',
         ),
-        'root_kmap_id' => 2823,
+        'root_kmap_id' => NULL,
         'show_autocomplete' => TRUE,
         'show_branch_filter' => TRUE,
         'show_tree_selector' => TRUE,
         'view_path' => 'taxonomy/term/%tid',
       ),
       'type' => 'kmap_taxonomy',
-      'weight' => 31,
+      'weight' => 8,
+    ),
+  );
+
+  // Exported field_instance: 'node-collection-field_subcollection_root'
+  $field_instances['node-collection-field_subcollection_root'] = array(
+    'bundle' => 'collection',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'inline',
+        'module' => 'shanti_kmaps_fields',
+        'settings' => array(),
+        'type' => 'kmap_popover_formatter',
+        'weight' => 3,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_subcollection_root',
+    'label' => 'Subcollection',
+    'required' => 0,
+    'settings' => array(
+      'search_view' => '',
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'shanti_kmaps_fields',
+      'settings' => array(),
+      'type' => 'kmap_default_widget',
+      'weight' => 7,
     ),
   );
 
@@ -591,7 +627,8 @@ function collection_team_field_default_field_instances() {
   t('Collection/Team');
   t('Group type');
   t('Images');
-  t('Subcollection Root');
+  t('Subcollection');
+  t('Subcollection Root Old');
   t('Team roles and permissions');
   t('To set the archive, the owner of the team must be a member of the archive.');
   t('Visibility');

@@ -170,9 +170,11 @@ function audio_video_field_group_info() {
     'children' => array(
       0 => 'field_characteristic',
       1 => 'field_pbcore_coverage',
-      2 => 'field_pbcore_coverage_spatial',
-      3 => 'field_pbcore_relation',
-      4 => 'field_subcollection',
+      2 => 'field_pbcore_title',
+      3 => 'group_audience',
+      4 => 'field_pbcore_coverage_spatial',
+      5 => 'field_pbcore_relation',
+      6 => 'field_subcollection',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -206,6 +208,9 @@ function audio_video_field_group_info() {
       4 => 'field_pbcore_relation',
       5 => 'field_kmap_annotation',
       6 => 'field_subcollection',
+      7 => 'field_subcollection_new',
+      8 => 'field_subject',
+      9 => 'field_location',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -235,10 +240,10 @@ function audio_video_field_group_info() {
     'children' => array(
       0 => 'field_pbcore_coverage',
       1 => 'field_pbcore_title',
-      2 => 'field_characteristic',
-      3 => 'field_pbcore_coverage_spatial',
-      4 => 'field_pbcore_relation',
-      5 => 'field_subcollection',
+      2 => 'field_pbcore_relation',
+      3 => 'field_subject',
+      4 => 'field_location',
+      5 => 'field_subcollection_new',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -272,6 +277,9 @@ function audio_video_field_group_info() {
       4 => 'field_pbcore_relation',
       5 => 'field_kmap_annotation',
       6 => 'field_subcollection',
+      7 => 'field_subject',
+      8 => 'field_location',
+      9 => 'field_subcollection_new',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -663,6 +671,7 @@ function audio_video_field_group_info() {
       1 => 'field_pbcore_identifier',
       2 => 'field_pbcore_instantiation',
       3 => 'field_recording_location',
+      4 => 'field_recording_location_new',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -692,7 +701,7 @@ function audio_video_field_group_info() {
     'children' => array(
       0 => 'field_pbcore_identifier',
       1 => 'field_pbcore_instantiation',
-      2 => 'field_recording_location',
+      2 => 'field_recording_location_new',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -724,6 +733,7 @@ function audio_video_field_group_info() {
       1 => 'field_pbcore_identifier',
       2 => 'field_pbcore_instantiation',
       3 => 'field_recording_location',
+      4 => 'field_recording_location_new',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(

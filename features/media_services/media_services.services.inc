@@ -36,6 +36,13 @@ function media_services_default_services_endpoint() {
         ),
       ),
     ),
+    'group-content' => array(
+      'operations' => array(
+        'index' => array(
+          'enabled' => '1',
+        ),
+      ),
+    ),
   );
   $endpoint->debug = 0;
   $export['media_service'] = $endpoint;

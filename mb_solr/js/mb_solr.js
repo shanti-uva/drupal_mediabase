@@ -68,7 +68,7 @@
 		var fcts = fsel.split("::");
 		for(var n in fcts) {
 			pts = fcts[n].split(":");
-			if (pts[0] == "im_field_subcollection") {
+			if (pts[0] == "im_field_subcollection_new") {  // was im_field_subcollection replaced with new field name (ndg)
 				ifsfids.push(parseInt(pts[1]));
 			}
 		}

@@ -94,6 +94,8 @@ function collection_block_details($node) {
 	$owner = user_load($node->uid);
 	$is_owner = $user->uid == $node->uid;
 	$gid = $group->gid;
+	//$fvi = field_get_items('node', $node, 'group_access');
+	
 	
 	// administrator user link
 	$coll_man = t("Manager: ");
@@ -309,53 +311,6 @@ function get_node_from_path(){
 
 /** Form alter functions **/
 
-function mb_structure_form_views_exposed_form_alter(&$form, &$form_state, $form_id) {
-   /*    dpm($form_state, "form_state");
-   
-   if (arg(0) == "node" && $group = og_get_group('node', arg(1) ) ) {
-   $gid = $group->gid;
-   $all_terms = array();
-   
-   // get terms limited by content in group
-   $view = views_get_view('terms_in_group');
-   dd($view, "view");
-   
-   $view->execute_display($display, array($gid));
-   
-   foreach ($view->result as $term) {
-   //dpm($term->tid, "term->tid");
-   $label = $term->taxonomy_term_data_name . " (" . $term->node_taxonomy_index_nid . ")";
-   
-   // add term tid to allowed options in filter
-   $allowed_tids[$term->tid] = $term->tid; 
-   
-   // add parent term tids to allowed options in filter
-   
-   $parents = taxonomy_get_parents_all($term->tid);
-   //dpm($parents, "parents of " . $term->tid .' / '. $label);
-   foreach ($parents as $parent) {
-   $allowed_tids[$parent->tid] = $parent->tid; 
-   }
-   //dpm($allowed_tids, "allowed_tids");
-   }
-   // filter out terms that are not allowed
-   foreach ($form['field_characteristic_tid']['#options'] as $idx => $option) {
-   $option_tid = array_pop(array_keys($option->option));
-   if ( in_array( $option_tid, $allowed_tids) ) {
-   // do nothing
-   // dpm($option_tid, " keeping option_tid");
-   }
-   else {
-   unset($form['field_characteristic_tid']['#options'][$idx]);
-   }               
-   }
-   
-   //dpm($form['field_characteristic_tid']['#options'], "form['field_characteristic_tid']['#options']");
-   
-   }
-   */
-}
-
 /**
 * Implementation of hook_form_alter for COLLECTION_NODE_FORM
 **/
@@ -367,6 +322,8 @@ function mb_structure_form_collection_node_form_alter(&$form, &$form_state, $for
    $form['title']['#element_validate'][] = 'mb_structure_validate_title';   
    // Hide the ability to set Collection to not be a group
    $form['group_group']['und']['#type'] = 'hidden';
+   // Hide old subcollection kmap id
+   
 }
 
 /**
@@ -402,7 +359,7 @@ function mb_structure_form_team_node_form_alter(&$form, &$form_state, $form_id) 
 * Implementation of hook_form_alter for VIDEO_NODE_FORM
 **/
 function mb_structure_form_video_node_form_alter(&$form, &$form_state, $form_id) {
-//	dpm(array('form' => $form, 'form state' => $form_state), "vids f and fs");
+	//dpm(array('form' => $form, 'form state' => $form_state), "vids f and fs");
 	
 	// If pbcore title is empty but there is a node title, then use the latter to fill the former
 	// This happens with videos imported from Kaltura (ndg, 2014-12-12)
@@ -447,6 +404,12 @@ function mb_structure_form_video_node_form_alter(&$form, &$form_state, $form_id)
 	   $form['field_video'][$flang]['#suffix'] = '</div>' . $form['field_video'][$flang]['#suffix'];
 	   drupal_add_css('.mb_oldthumb .kaltura_field_thumb img, .mb_oldthumb .kaltura_field_thumb br { display: none; }', array('type' => 'inline'));
    } // End of thumbnail capture embed code
+   
+   // Hide old Kmap fields from editors (keep in form to maintain old data)
+   $form['field_subcollection']['#attributes']['class'][] = 'hidden';
+   $form['field_characteristic']['#attributes']['class'][] = 'hidden';
+   $form['field_pbcore_coverage_spatial']['#attributes']['class'][] = 'hidden';
+   $form['field_recording_location']['#attributes']['class'][] = 'hidden';
    
    // Limit GROUP AUDIENCE options to  collection and teams 
    $new_opts = mb_structure_get_groups_for_user();

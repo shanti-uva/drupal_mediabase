@@ -585,3 +585,31 @@ function mediabase_nodes_by_kmap($kmids, $is_place = FALSE) {
 	}
 	return $nids;
 }
+
+/***
+ * Function to process the "raw" value from a shanti kmap field into an ancestor lineage array
+ * 
+ * @param $raw
+ * 		The 'raw' value from a shanti kmaps field
+ * 
+ * @param $include_self
+ * 		Defaults to TRUE and includes the current kmap id being queried
+ * 		If FALSE will return only ancestors of current kmap id
+ * 
+ * @return array() 
+ * 		A list of ancestors in descending order (i.e., most inclusive first)
+ */
+function mediabase_process_raw_lineage($raw, $include_self = TRUE) {
+	// example:  <6403> <4576> <2724> <2724>
+	$items = explode('> <', $raw);
+	// remove duplicate last item
+	$ct = count($items);
+	if ($c > 1 && $items[$ct - 2] == $items[$ct - 1]) {
+		array_pop($items); 
+	}
+	foreach ($item as &$value) {
+		$value = str_replace('<', $value);
+		$value = str_replace('>', $value);
+	}
+	return $items;
+}

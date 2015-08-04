@@ -176,10 +176,6 @@ function media_services_views_default_views() {
   $handler->display->display_options['relationships']['uid']['id'] = 'uid';
   $handler->display->display_options['relationships']['uid']['table'] = 'node';
   $handler->display->display_options['relationships']['uid']['field'] = 'uid';
-  /* Relationship: Content: Subject (field_characteristic) */
-  $handler->display->display_options['relationships']['field_characteristic_tid']['id'] = 'field_characteristic_tid';
-  $handler->display->display_options['relationships']['field_characteristic_tid']['table'] = 'field_data_field_characteristic';
-  $handler->display->display_options['relationships']['field_characteristic_tid']['field'] = 'field_characteristic_tid';
   /* Field: Content: Path */
   $handler->display->display_options['fields']['path']['id'] = 'path';
   $handler->display->display_options['fields']['path']['table'] = 'node';
@@ -277,16 +273,6 @@ function media_services_views_default_views() {
   $handler->display->display_options['sorts']['created']['table'] = 'node';
   $handler->display->display_options['sorts']['created']['field'] = 'created';
   $handler->display->display_options['sorts']['created']['order'] = 'DESC';
-  /* Contextual filter: Field: Kmap Id (kmap_id) */
-  $handler->display->display_options['arguments']['kmap_id_value']['id'] = 'kmap_id_value';
-  $handler->display->display_options['arguments']['kmap_id_value']['table'] = 'field_data_kmap_id';
-  $handler->display->display_options['arguments']['kmap_id_value']['field'] = 'kmap_id_value';
-  $handler->display->display_options['arguments']['kmap_id_value']['relationship'] = 'field_characteristic_tid';
-  $handler->display->display_options['arguments']['kmap_id_value']['default_action'] = 'not found';
-  $handler->display->display_options['arguments']['kmap_id_value']['default_argument_type'] = 'fixed';
-  $handler->display->display_options['arguments']['kmap_id_value']['summary']['number_of_records'] = '0';
-  $handler->display->display_options['arguments']['kmap_id_value']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['kmap_id_value']['summary_options']['items_per_page'] = '25';
   /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
@@ -471,10 +457,6 @@ function media_services_views_default_views() {
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
-  $handler->display->display_options['fields']['title']['spaces'] = array(
-    'type' => 'spaces_og',
-    'frontpage' => 0,
-  );
   /* Field: Content: Audio */
   $handler->display->display_options['fields']['field_audio']['id'] = 'field_audio';
   $handler->display->display_options['fields']['field_audio']['table'] = 'field_data_field_audio';
@@ -558,17 +540,27 @@ function media_services_views_default_views() {
   $handler->display->display_options['fields']['field_kmap_annotation']['table'] = 'field_data_field_kmap_annotation';
   $handler->display->display_options['fields']['field_kmap_annotation']['field'] = 'field_kmap_annotation';
   /* Field: Content: Location */
-  $handler->display->display_options['fields']['field_pbcore_coverage_spatial']['id'] = 'field_pbcore_coverage_spatial';
-  $handler->display->display_options['fields']['field_pbcore_coverage_spatial']['table'] = 'field_data_field_pbcore_coverage_spatial';
-  $handler->display->display_options['fields']['field_pbcore_coverage_spatial']['field'] = 'field_pbcore_coverage_spatial';
+  $handler->display->display_options['fields']['field_location']['id'] = 'field_location';
+  $handler->display->display_options['fields']['field_location']['table'] = 'field_data_field_location';
+  $handler->display->display_options['fields']['field_location']['field'] = 'field_location';
+  $handler->display->display_options['fields']['field_location']['click_sort_column'] = 'raw';
+  $handler->display->display_options['fields']['field_location']['settings'] = array(
+    'target' => '_blank',
+  );
+  $handler->display->display_options['fields']['field_location']['delta_offset'] = '0';
   /* Field: Content: Publisher */
   $handler->display->display_options['fields']['field_pbcore_publisher']['id'] = 'field_pbcore_publisher';
   $handler->display->display_options['fields']['field_pbcore_publisher']['table'] = 'field_data_field_pbcore_publisher';
   $handler->display->display_options['fields']['field_pbcore_publisher']['field'] = 'field_pbcore_publisher';
   /* Field: Content: Recording Location */
-  $handler->display->display_options['fields']['field_recording_location']['id'] = 'field_recording_location';
-  $handler->display->display_options['fields']['field_recording_location']['table'] = 'field_data_field_recording_location';
-  $handler->display->display_options['fields']['field_recording_location']['field'] = 'field_recording_location';
+  $handler->display->display_options['fields']['field_recording_location_new']['id'] = 'field_recording_location_new';
+  $handler->display->display_options['fields']['field_recording_location_new']['table'] = 'field_data_field_recording_location_new';
+  $handler->display->display_options['fields']['field_recording_location_new']['field'] = 'field_recording_location_new';
+  $handler->display->display_options['fields']['field_recording_location_new']['click_sort_column'] = 'raw';
+  $handler->display->display_options['fields']['field_recording_location_new']['settings'] = array(
+    'target' => '_blank',
+  );
+  $handler->display->display_options['fields']['field_recording_location_new']['delta_offset'] = '0';
   /* Field: Content: Redistribution License */
   $handler->display->display_options['fields']['field_license']['id'] = 'field_license';
   $handler->display->display_options['fields']['field_license']['table'] = 'field_data_field_license';
@@ -582,13 +574,23 @@ function media_services_views_default_views() {
   $handler->display->display_options['fields']['field_pbcore_rights_summary']['table'] = 'field_data_field_pbcore_rights_summary';
   $handler->display->display_options['fields']['field_pbcore_rights_summary']['field'] = 'field_pbcore_rights_summary';
   /* Field: Content: Subcollection */
-  $handler->display->display_options['fields']['field_subcollection']['id'] = 'field_subcollection';
-  $handler->display->display_options['fields']['field_subcollection']['table'] = 'field_data_field_subcollection';
-  $handler->display->display_options['fields']['field_subcollection']['field'] = 'field_subcollection';
+  $handler->display->display_options['fields']['field_subcollection_new']['id'] = 'field_subcollection_new';
+  $handler->display->display_options['fields']['field_subcollection_new']['table'] = 'field_data_field_subcollection_new';
+  $handler->display->display_options['fields']['field_subcollection_new']['field'] = 'field_subcollection_new';
+  $handler->display->display_options['fields']['field_subcollection_new']['click_sort_column'] = 'raw';
+  $handler->display->display_options['fields']['field_subcollection_new']['settings'] = array(
+    'target' => '_blank',
+  );
+  $handler->display->display_options['fields']['field_subcollection_new']['delta_offset'] = '0';
   /* Field: Content: Subject */
-  $handler->display->display_options['fields']['field_characteristic']['id'] = 'field_characteristic';
-  $handler->display->display_options['fields']['field_characteristic']['table'] = 'field_data_field_characteristic';
-  $handler->display->display_options['fields']['field_characteristic']['field'] = 'field_characteristic';
+  $handler->display->display_options['fields']['field_subject']['id'] = 'field_subject';
+  $handler->display->display_options['fields']['field_subject']['table'] = 'field_data_field_subject';
+  $handler->display->display_options['fields']['field_subject']['field'] = 'field_subject';
+  $handler->display->display_options['fields']['field_subject']['click_sort_column'] = 'raw';
+  $handler->display->display_options['fields']['field_subject']['settings'] = array(
+    'target' => '_blank',
+  );
+  $handler->display->display_options['fields']['field_subject']['delta_offset'] = '0';
   /* Field: Content: Time */
   $handler->display->display_options['fields']['field_pbcore_coverage']['id'] = 'field_pbcore_coverage';
   $handler->display->display_options['fields']['field_pbcore_coverage']['table'] = 'field_data_field_pbcore_coverage';

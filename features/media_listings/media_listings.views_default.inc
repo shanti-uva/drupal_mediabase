@@ -532,7 +532,7 @@ function media_listings_views_default_views() {
   $handler->display->display_options['filters']['status']['table'] = 'node';
   $handler->display->display_options['filters']['status']['field'] = 'status';
   $handler->display->display_options['filters']['status']['value'] = 1;
-  $handler->display->display_options['filters']['status']['group'] = 0;
+  $handler->display->display_options['filters']['status']['group'] = 1;
   $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
   /* Filter criterion: Content: Type */
   $handler->display->display_options['filters']['type']['id'] = 'type';
@@ -542,6 +542,7 @@ function media_listings_views_default_views() {
     'audio' => 'audio',
     'video' => 'video',
   );
+  $handler->display->display_options['filters']['type']['group'] = 1;
   /* Filter criterion: Content: Tags (field_tags) */
   $handler->display->display_options['filters']['field_tags_tid']['id'] = 'field_tags_tid';
   $handler->display->display_options['filters']['field_tags_tid']['table'] = 'field_data_field_tags';
@@ -550,25 +551,12 @@ function media_listings_views_default_views() {
   $handler->display->display_options['filters']['field_tags_tid']['value'] = array(
     0 => '1',
   );
-  $handler->display->display_options['filters']['field_tags_tid']['group'] = '0';
+  $handler->display->display_options['filters']['field_tags_tid']['group'] = 1;
   $handler->display->display_options['filters']['field_tags_tid']['expose']['operator_id'] = 'field_tags_tid_op';
   $handler->display->display_options['filters']['field_tags_tid']['expose']['label'] = 'Tags (field_tags)';
   $handler->display->display_options['filters']['field_tags_tid']['expose']['operator'] = 'field_tags_tid_op';
   $handler->display->display_options['filters']['field_tags_tid']['expose']['identifier'] = 'field_tags_tid';
   $handler->display->display_options['filters']['field_tags_tid']['vocabulary'] = 'tags';
-  /* Filter criterion: Content: Subject Old (field_characteristic) */
-  $handler->display->display_options['filters']['field_characteristic_tid']['id'] = 'field_characteristic_tid';
-  $handler->display->display_options['filters']['field_characteristic_tid']['table'] = 'field_data_field_characteristic';
-  $handler->display->display_options['filters']['field_characteristic_tid']['field'] = 'field_characteristic_tid';
-  $handler->display->display_options['filters']['field_characteristic_tid']['exposed'] = TRUE;
-  $handler->display->display_options['filters']['field_characteristic_tid']['expose']['operator_id'] = 'field_characteristic_tid_op';
-  $handler->display->display_options['filters']['field_characteristic_tid']['expose']['label'] = 'Characteristic';
-  $handler->display->display_options['filters']['field_characteristic_tid']['expose']['operator'] = 'field_characteristic_tid_op';
-  $handler->display->display_options['filters']['field_characteristic_tid']['expose']['identifier'] = 'field_characteristic_tid';
-  $handler->display->display_options['filters']['field_characteristic_tid']['expose']['multiple'] = TRUE;
-  $handler->display->display_options['filters']['field_characteristic_tid']['type'] = 'select';
-  $handler->display->display_options['filters']['field_characteristic_tid']['vocabulary'] = 'kmap_taxonomy';
-  $handler->display->display_options['filters']['field_characteristic_tid']['hierarchy'] = 1;
 
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page_1');
@@ -819,18 +807,6 @@ print \'<h1>No Entries Found</h1> <p>No audio-video entries tagged with \' . $t-
   $handler->display->display_options['relationships']['uid']['id'] = 'uid';
   $handler->display->display_options['relationships']['uid']['table'] = 'node';
   $handler->display->display_options['relationships']['uid']['field'] = 'uid';
-  /* Relationship: Content: Subject Old (field_characteristic) */
-  $handler->display->display_options['relationships']['field_characteristic_tid']['id'] = 'field_characteristic_tid';
-  $handler->display->display_options['relationships']['field_characteristic_tid']['table'] = 'field_data_field_characteristic';
-  $handler->display->display_options['relationships']['field_characteristic_tid']['field'] = 'field_characteristic_tid';
-  /* Relationship: Content: Subcollection Old (field_subcollection) */
-  $handler->display->display_options['relationships']['field_subcollection_tid']['id'] = 'field_subcollection_tid';
-  $handler->display->display_options['relationships']['field_subcollection_tid']['table'] = 'field_data_field_subcollection';
-  $handler->display->display_options['relationships']['field_subcollection_tid']['field'] = 'field_subcollection_tid';
-  /* Relationship: Content: Location Old (field_pbcore_coverage_spatial) */
-  $handler->display->display_options['relationships']['field_pbcore_coverage_spatial_tid']['id'] = 'field_pbcore_coverage_spatial_tid';
-  $handler->display->display_options['relationships']['field_pbcore_coverage_spatial_tid']['table'] = 'field_data_field_pbcore_coverage_spatial';
-  $handler->display->display_options['relationships']['field_pbcore_coverage_spatial_tid']['field'] = 'field_pbcore_coverage_spatial_tid';
   /* Field: Content: Path */
   $handler->display->display_options['fields']['path']['id'] = 'path';
   $handler->display->display_options['fields']['path']['table'] = 'node';
@@ -963,17 +939,6 @@ print \'<h1>No Entries Found</h1> <p>No audio-video entries tagged with \' . $t-
   $handler->display->display_options['sorts']['created']['table'] = 'node';
   $handler->display->display_options['sorts']['created']['field'] = 'created';
   $handler->display->display_options['sorts']['created']['order'] = 'DESC';
-  /* Contextual filter: Field: Kmap Id (kmap_id) */
-  $handler->display->display_options['arguments']['kmap_id_value']['id'] = 'kmap_id_value';
-  $handler->display->display_options['arguments']['kmap_id_value']['table'] = 'field_data_kmap_id';
-  $handler->display->display_options['arguments']['kmap_id_value']['field'] = 'kmap_id_value';
-  $handler->display->display_options['arguments']['kmap_id_value']['relationship'] = 'field_characteristic_tid';
-  $handler->display->display_options['arguments']['kmap_id_value']['default_action'] = 'default';
-  $handler->display->display_options['arguments']['kmap_id_value']['default_argument_type'] = 'raw';
-  $handler->display->display_options['arguments']['kmap_id_value']['default_argument_options']['index'] = '2';
-  $handler->display->display_options['arguments']['kmap_id_value']['summary']['number_of_records'] = '0';
-  $handler->display->display_options['arguments']['kmap_id_value']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['kmap_id_value']['summary_options']['items_per_page'] = '25';
   /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';

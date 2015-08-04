@@ -311,53 +311,6 @@ function get_node_from_path(){
 
 /** Form alter functions **/
 
-function mb_structure_form_views_exposed_form_alter(&$form, &$form_state, $form_id) {
-   /*    dpm($form_state, "form_state");
-   
-   if (arg(0) == "node" && $group = og_get_group('node', arg(1) ) ) {
-   $gid = $group->gid;
-   $all_terms = array();
-   
-   // get terms limited by content in group
-   $view = views_get_view('terms_in_group');
-   dd($view, "view");
-   
-   $view->execute_display($display, array($gid));
-   
-   foreach ($view->result as $term) {
-   //dpm($term->tid, "term->tid");
-   $label = $term->taxonomy_term_data_name . " (" . $term->node_taxonomy_index_nid . ")";
-   
-   // add term tid to allowed options in filter
-   $allowed_tids[$term->tid] = $term->tid; 
-   
-   // add parent term tids to allowed options in filter
-   
-   $parents = taxonomy_get_parents_all($term->tid);
-   //dpm($parents, "parents of " . $term->tid .' / '. $label);
-   foreach ($parents as $parent) {
-   $allowed_tids[$parent->tid] = $parent->tid; 
-   }
-   //dpm($allowed_tids, "allowed_tids");
-   }
-   // filter out terms that are not allowed
-   foreach ($form['field_characteristic_tid']['#options'] as $idx => $option) {
-   $option_tid = array_pop(array_keys($option->option));
-   if ( in_array( $option_tid, $allowed_tids) ) {
-   // do nothing
-   // dpm($option_tid, " keeping option_tid");
-   }
-   else {
-   unset($form['field_characteristic_tid']['#options'][$idx]);
-   }               
-   }
-   
-   //dpm($form['field_characteristic_tid']['#options'], "form['field_characteristic_tid']['#options']");
-   
-   }
-   */
-}
-
 /**
 * Implementation of hook_form_alter for COLLECTION_NODE_FORM
 **/

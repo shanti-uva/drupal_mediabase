@@ -202,40 +202,6 @@ function mb_services_do_solr_post($data) {
 	return FALSE;
 }
 
-/**
- * Helper function to get all Kmaps associated with a node as an array
-OLD using old field:
-function mb_services_get_node_kmapids($node) {
-	if(is_int($node)) { $node = node_load($node); }
-	$field_data = array(
-		'places' => array(
-			'field' => 'field_pbcore_coverage_spatial',
-			'subfield' => 'place_dictionary_id',
-			'label' => 'places-',
-		),
-		'subjects' => array(
-			'field' => 'field_characteristic',
-			'subfield' => 'kmap_id',
-			'label' => 'subjects-',
-		),
-		'subcollection' => array(
-			'field' => 'field_subcollection',
-			'subfield' => 'kmap_id',
-			'label' => 'subjects-',
-		),
-	);
-	$kids = array();
-	$ewrap = entity_metadata_wrapper('node', $node);
-	foreach($field_data as $label => $fdata) {
-		$fobjarray = $ewrap->{$fdata['field']}->value();
-		foreach($fobjarray as $n => $fobj) {
-			$subfield = $fobj->{$fdata['subfield']};
-			array_push($kids, $fdata['label'] . $subfield[LANGUAGE_NONE][0]['value']);
-		}
-	}
-	return $kids;
-}
- */
  /**
  * Helper function to get all Kmaps associated with a node as an array
  *  Use to populate the solr doc to send to solr

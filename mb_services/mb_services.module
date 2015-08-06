@@ -91,24 +91,25 @@ function mb_services_menu() {
 }
 /**
  * Implements hook_node_insert to post data changes to Kmaps Solr Index
+ *  COMMENTING OUT for MANU-1869: Replaced by Shanti Kmaps Fields
  * 
- */
 function mb_services_node_insert($node) {
 	if(in_array($node->type, array('audio', 'video'))) {
 		mb_services_post_to_solr($node);
 	}
 }
-
+ */
+ 
 /**
  * Implements hook_node_update to post data changes to Kmaps Solr Index
+ *  COMMENTING OUT for MANU-1869: Replaced by Shanti Kmaps Fields
  * 
- */
 function mb_services_node_update($node) {
 	if(in_array($node->type, array('audio', 'video'))) {
 		mb_services_post_to_solr($node);
 	}
 }
-
+*/
 /**
  * Implements hook_node_delete to remove records from kmaps index
  *   Can pass either an nid or node object
@@ -117,7 +118,8 @@ function mb_services_node_update($node) {
       		$data = '{"delete": {"query": "service:mediabase*"}}';
   		 		$res = mb_services_do_solr_post($data);
  * 
- **/
+ *  COMMENTING OUT for MANU-1869: Replaced by Shanti Kmaps Fields
+ * 
 function mb_services_node_delete($node, $return_result = FALSE) {
 	global $base_root;
 	$nid = (is_int($node)) ? $node : $node->nid;
@@ -131,10 +133,12 @@ function mb_services_node_delete($node, $return_result = FALSE) {
 		drupal_set_message(t('Unable to parse base_root (@broot) for deletion in solr index.', array('@broot' => $base_root)), 'warning');
 	}
 }
+*/
 
 /**
  * Post Audio and Video Node updates to Solr Index
- */
+ *  COMMENTING OUT for MANU-1869: Replaced by Shanti Kmaps Fields
+ * 
 function mb_services_post_to_solr($node, $show_result = FALSE) {
 	// Make sure node is public
 	$is_public = node_access('view', $node, user_load(0));
@@ -176,9 +180,15 @@ function mb_services_post_to_solr($node, $show_result = FALSE) {
 		if($show_result) { return $result; }
 	}
 } 
+*/
 
 /**
  * mb_services_do_solr_post: posts to solr index
+ * 
+ *   To Delete all records (DO NOT DELETE THIS SNIPPET OR FUNCTION, VERY USEFUL):
+ * 
+      		$data = '{"delete": {"query": "service:mediabase*"}}';
+  		 		$res = mb_services_do_solr_post($data);
  */
 function mb_services_do_solr_post($data) {
 	//dpm($data, 'data posted');

@@ -187,7 +187,7 @@ function mb_services_post_to_solr($node, $show_result = FALSE) {
  * 
  *   To Delete all records (DO NOT DELETE THIS SNIPPET OR FUNCTION, VERY USEFUL):
  * 
-      		$data = '{"delete": {"query": "service:mediabase*"}}';
+      		$data = '{"delete": {"query": "service:audio-video_drupal-dev_shanti_virginia_edu"}}';
   		 		$res = mb_services_do_solr_post($data);
  */
 function mb_services_do_solr_post($data) {

@@ -335,13 +335,13 @@ function mb_services_get($type, $kmid) {
 	$is_place = ($type == 'place') ? TRUE : FALSE;
 	$nids = mediabase_nodes_by_kmap($kmid, $is_place); // Find all nodes with this kmap id
 	
-	// iIf none, return skeletal array
+	// If none, return skeletal array
   if(count($nids) == 0) {
     drupal_json_output(array( 'media' => array(), 'total' => 0, 'type' => $type, 'kmid' => $kmid, 'debug' => $dbug ));
     return;
   }
-	// Get the splice of results for the desired page
 	
+	// Get the splice of results for the desired page
   // Sift nodes by type and permissions
 	$nodes_filtered = array();
 	foreach($nids as $nid) {

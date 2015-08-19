@@ -2626,10 +2626,9 @@ function audio_video_field_default_field_instances() {
     'display' => array(
       'default' => array(
         'label' => 'above',
-        'module' => 'kmap_annotation',
         'settings' => array(),
-        'type' => 'kmap_taxonomy_annotated',
-        'weight' => 5,
+        'type' => 'hidden',
+        'weight' => 7,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -2798,11 +2797,9 @@ function audio_video_field_default_field_instances() {
       'default' => array(
         'label' => 'above',
         'module' => 'shanti_kmaps_fields',
-        'settings' => array(
-          'target' => '_blank',
-        ),
-        'type' => 'kmap_default_formatter',
-        'weight' => 27,
+        'settings' => array(),
+        'type' => 'kmap_popover_formatter',
+        'weight' => 8,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -2881,7 +2878,7 @@ function audio_video_field_default_field_instances() {
           'view_mode' => 'full',
         ),
         'type' => 'field_collection_fields',
-        'weight' => 7,
+        'weight' => 10,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -2915,10 +2912,9 @@ function audio_video_field_default_field_instances() {
     'display' => array(
       'default' => array(
         'label' => 'above',
-        'module' => 'mb_location',
         'settings' => array(),
-        'type' => 'mb_location',
-        'weight' => 6,
+        'type' => 'hidden',
+        'weight' => 9,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -3080,7 +3076,7 @@ function audio_video_field_default_field_instances() {
           'view_mode' => 'full',
         ),
         'type' => 'field_collection_fields',
-        'weight' => 9,
+        'weight' => 30,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -3119,7 +3115,7 @@ function audio_video_field_default_field_instances() {
           'view_mode' => 'full',
         ),
         'type' => 'field_collection_fields',
-        'weight' => 10,
+        'weight' => 31,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -3196,7 +3192,7 @@ function audio_video_field_default_field_instances() {
           'view_mode' => 'full',
         ),
         'type' => 'field_collection_fields',
-        'weight' => 8,
+        'weight' => 11,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -3356,10 +3352,9 @@ function audio_video_field_default_field_instances() {
     'display' => array(
       'default' => array(
         'label' => 'above',
-        'module' => 'mb_location',
         'settings' => array(),
-        'type' => 'mb_location',
-        'weight' => 8,
+        'type' => 'hidden',
+        'weight' => 29,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -3403,10 +3398,8 @@ function audio_video_field_default_field_instances() {
       'default' => array(
         'label' => 'above',
         'module' => 'shanti_kmaps_fields',
-        'settings' => array(
-          'target' => '_blank',
-        ),
-        'type' => 'kmap_default_formatter',
+        'settings' => array(),
+        'type' => 'kmap_popover_formatter',
         'weight' => 28,
       ),
       'teaser' => array(
@@ -3441,10 +3434,9 @@ function audio_video_field_default_field_instances() {
     'display' => array(
       'default' => array(
         'label' => 'above',
-        'module' => 'kmap_annotation',
         'settings' => array(),
-        'type' => 'kmap_taxonomy_annotated',
-        'weight' => 4,
+        'type' => 'hidden',
+        'weight' => 5,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -3498,11 +3490,9 @@ function audio_video_field_default_field_instances() {
       'default' => array(
         'label' => 'above',
         'module' => 'shanti_kmaps_fields',
-        'settings' => array(
-          'target' => '_blank',
-        ),
-        'type' => 'kmap_default_formatter',
-        'weight' => 25,
+        'settings' => array(),
+        'type' => 'kmap_popover_formatter',
+        'weight' => 4,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -3538,11 +3528,9 @@ function audio_video_field_default_field_instances() {
       'default' => array(
         'label' => 'above',
         'module' => 'shanti_kmaps_fields',
-        'settings' => array(
-          'target' => '_blank',
-        ),
-        'type' => 'kmap_default_formatter',
-        'weight' => 26,
+        'settings' => array(),
+        'type' => 'kmap_popover_formatter',
+        'weight' => 6,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -3633,7 +3621,7 @@ function audio_video_field_default_field_instances() {
     'required' => 0,
     'settings' => array(
       'alt_field' => 0,
-      'default_image' => 0,
+      'default_image' => 1064,
       'file_directory' => '',
       'file_extensions' => 'png gif jpg jpeg',
       'max_filesize' => '',

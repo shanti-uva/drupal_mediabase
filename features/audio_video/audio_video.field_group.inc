@@ -168,13 +168,13 @@ function audio_video_field_group_info() {
     'label' => 'Details',
     'weight' => '5',
     'children' => array(
-      0 => 'field_characteristic',
-      1 => 'field_pbcore_coverage',
-      2 => 'field_pbcore_title',
-      3 => 'group_audience',
-      4 => 'field_pbcore_coverage_spatial',
-      5 => 'field_pbcore_relation',
-      6 => 'field_subcollection',
+      0 => 'field_pbcore_coverage',
+      1 => 'field_pbcore_title',
+      2 => 'group_audience',
+      3 => 'field_pbcore_relation',
+      4 => 'field_subcollection_new',
+      5 => 'field_subject',
+      6 => 'field_location',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -640,7 +640,7 @@ function audio_video_field_group_info() {
     'children' => array(
       0 => 'field_pbcore_identifier',
       1 => 'field_pbcore_instantiation',
-      2 => 'field_recording_location',
+      2 => 'field_recording_location_new',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(

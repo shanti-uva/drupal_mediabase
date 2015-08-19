@@ -195,7 +195,7 @@ function audio_video_image_default_styles() {
         'name' => 'image_scale',
         'data' => array(
           'width' => 200,
-      		'upscale' => TRUE,
+          'upscale' => TRUE,
         ),
         'weight' => 1,
       ),

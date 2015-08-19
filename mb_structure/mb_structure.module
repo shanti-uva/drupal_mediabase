@@ -665,16 +665,18 @@ function mb_structure_node_validate($node, $form, &$form_state) {
 	dpm(array($node, $form, &$form_state), 'info in node validate');
 }
 
+
 function mb_structure_node_submit($node) {
-	//dpm($node, 'node in hook node submit');
+	dpm($node, 'node in hook node submit');
 }
 
 */
 
 function mb_structure_node_update($node) {
 	// Separate function to update a node's kaltura data in case it needs to be called from other contexts.
-	if($node->type != 'video' && $node->type != 'audio') { return; } // TODO: Check if we need to do this for audio also.
-	mb_update_node_kaltura_data($node);
+	if($node->type == 'video' || $node->type == 'audio') { // added audio 2015-08-19
+		mb_update_node_kaltura_data($node);
+	}
 }
 
 /**
@@ -722,7 +724,6 @@ function mb_update_node_kaltura_data($node) {
 				foreach ($result[0]->objects as $resultObject) {
 					$thumb_url = mb_kaltura_get_thumbnail_url($resultObject->id);
 					if(empty($thumb_url)) { $thumb_url = $resultObject->thumbnailUrl; }
-					dpm($thumb_url);
 					$ent['kaltura_entryid'] = $resultObject->id;
 					$ent['kaltura_tags'] = $resultObject->tags;
 					$ent['kaltura_admin_tags'] = $resultObject->adminTags;

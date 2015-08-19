@@ -664,14 +664,37 @@ function mb_structure_node_insert($node) {
 function mb_structure_node_validate($node, $form, &$form_state) {
 	dpm(array($node, $form, &$form_state), 'info in node validate');
 }
-
-
-function mb_structure_node_submit($node) {
-	dpm($node, 'node in hook node submit');
-}
-
 */
 
+/**
+ * Implements hook_node_submit
+function mb_structure_node_submit($node) {
+	
+}
+
+ */
+ 
+/**
+ * Implements hook_node_presave
+ * 
+ * For audio nodes check if thumbnail has been upload and if not use the default image for audio files
+ * 
+ */
+function mb_structure_node_presave($node) {
+	if ($node->type == 'audio') {
+		$thumbitem = field_get_items('node', $node, 'field_thumbnail_image');
+		if (!$thumbitem) {
+			$fi = field_info_instance('node', 'field_thumbnail_image', 'audio');
+			$deffile = file_load($fi['settings']['default_image']);
+			$node->field_thumbnail_image['und'][] = (array)$deffile;
+		}
+	}
+}
+
+/**
+ * hook_node_update: Update Kaltura data and thumbnail upon update
+ * 
+ */
 function mb_structure_node_update($node) {
 	// Separate function to update a node's kaltura data in case it needs to be called from other contexts.
 	if($node->type == 'video' || $node->type == 'audio') { // added audio 2015-08-19

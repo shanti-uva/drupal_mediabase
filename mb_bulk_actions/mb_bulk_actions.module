@@ -10,7 +10,7 @@
  */
  
 function mb_bulk_actions_action_info() {
-  return array(
+  $info = array(
   	// Separate out subcollection kmaps from subject field (one time process)
     'mb_bulk_actions_filter_subcollection_action' => array(
       'aggregate' => FALSE,
@@ -76,8 +76,12 @@ function mb_bulk_actions_action_info() {
       'vbo_configurable' => TRUE,
       'triggers' => array('any'),
     ),
-    
   );
+	// Remove migrate kmaps if kmaps fields are not installed
+	if (!module_exists('shanti_kmaps_fields')) {
+		unset($info['mb_bulk_actions_migrate_kmaps_action']);
+	}
+	return $info;
 }
 
 /**** Filter Subcollection Action ******/

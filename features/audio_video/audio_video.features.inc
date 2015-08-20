@@ -192,10 +192,10 @@ function audio_video_image_default_styles() {
         'form callback' => 'image_resize_form',
         'summary theme' => 'image_resize_summary',
         'module' => 'image',
-        'name' => 'image_scale_and_crop',
+        'name' => 'image_scale',
         'data' => array(
-          'width' => 170,
-          'height' => 104,
+          'width' => 200,
+          'upscale' => TRUE,
         ),
         'weight' => 1,
       ),

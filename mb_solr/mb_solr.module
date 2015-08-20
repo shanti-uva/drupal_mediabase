@@ -136,7 +136,7 @@ function mb_solr_apachesolr_index_document_build(ApacheSolrDocument $document, $
 		 		// Using description for content & teaser fields
 				$description = '';
 				$emw = entity_metadata_wrapper('node', $entity);
-				if(!empty($emw->field_pbcore_description)) {
+				if(!empty($emw) && !empty($emw->field_pbcore_description)) {
 					foreach ($emw->field_pbcore_description->getIterator() as $delta => $term_wrapper) {
 						if(!empty($term_wrapper) && !empty($term_wrapper->field_description)) {
 						   $description .= $term_wrapper->field_description->value() . " ";

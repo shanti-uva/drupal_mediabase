@@ -2,6 +2,10 @@
 
 /**
  * Migrate data from old kmap field to new field that uses shanti kmap field module
+ * 
+ * New Kmap data needs to be added to node by adding the field kmap data in the following format:
+ *  array('field_subject' => array('F652' => array('id' => 652, 'header' => 'Ü-Tsang group', 'path' => '{{dd}}{{dd}}', 'domain'=>'subjects')))
+ * Can't use existing Kmaps data because
  */
 function mb_bulk_switch_kmap_data(&$node, $oldfield, $newfield, $domain) {
 	$flang = field_language('node', $node, $newfield);
@@ -12,9 +16,7 @@ function mb_bulk_switch_kmap_data(&$node, $oldfield, $newfield, $domain) {
 			// Check if term has already been transferred
 			if (!kmap_term_transferred($term['tid'], $newfield, $node)) {
 			  $kmi = Kmap::createKmapByTid($term['tid']);
-			  $tree = $kmi->get_kmap_lineage();
-			  $kmarray = mb_bulk_process_kmap_tree($tree);
-			  $node->{$newfield}[$flang][] = $kmarray;
+			  $node->{$newfield}[$flang][] = mb_bulk_process_kmap_data($kmi->get_kmap_id(), $domain);
 			}
 		}
 	} else if ($terms && $domain == 'places') {
@@ -24,9 +26,7 @@ function mb_bulk_switch_kmap_data(&$node, $oldfield, $newfield, $domain) {
 				$t = taxonomy_term_load($loc['tid']);
 				if (isset($t->place_dictionary_id['und'][0]['value'])) {
 					$pid = $t->place_dictionary_id['und'][0]['value'];
-					$tree = fetch_place_dict_details($pid);
-					$kmarray = mb_bulk_process_place_tree($tree);
-				  $node->{$newfield}[$flang][] = $kmarray;
+				  $node->{$newfield}[$flang][] = mb_bulk_process_kmap_data($pid, $domain);
 				}
 			}
 		}
@@ -34,29 +34,36 @@ function mb_bulk_switch_kmap_data(&$node, $oldfield, $newfield, $domain) {
 }
 
 /**
- * Create the array necessary for shanti kmap subject field data
+ * Create the array necessary for shanti kmap subject field data used by both subjects and places
+ * Uses functions from shanti_kmap_fields to look up and update $raw and $path values
  */
-function mb_bulk_process_kmap_tree($tree) {
-	$raw = $path = '';
-	foreach($tree as $km) {
-		$raw .= "<{$km['kmap_id']}> ";
-		$path .= '{{' . $km['name'] . '}}';
-	}
-	$last = array_pop($tree);
-	$raw .= "<{$last['kmap_id']}>";
+function mb_bulk_process_kmap_data($kid, $domain) {
+	// Get Term header
+	$kma = new KMapsAPI(); // from shanti_kmaps_fields
+	$kma->setKMapID($kid);
+	$kmdata = $kma->execute();
+	$pts = explode('|', $kmdata[$kid]);
+	$header = trim($pts[0]);
+	
+	// Get the ancestors and put in RAW
+	$kmapids = _shanti_kmaps_fields_get_related_kmap_terms($domain,$kid);
+	$raw_string = '<'.implode('> <',$kmapids).'>'; // CREATE RAW FUNCTION
+	$raw_string = preg_replace('/(subjects|places)-/','',$raw_string); // Kludge 
+	
+	// return array defining kmap field value
 	return array(
-		'raw' => $raw,
-		'id' => $last['kmap_id'],
-		'header' => $last['name'],
-		'domain' => 'subjects',
-		'path' => $path,
-	);
+    'raw'     => $raw_string,
+    'id'      => $kid,
+    'header'  => $header,
+    'path'    => _shanti_kmaps_fields_get_kmap_path($domain,$kid), 
+    'domain'  => $domain,
+  );
 }
 
 
 /**
  * Create the array necessary for shanti kmap place field data
- */
+ 
 function mb_bulk_process_place_tree($tree) {
 	$tree = array_reverse($tree, TRUE); // TRUE == Preserve numeric keys, very important
 	$raw = $path = '';
@@ -74,6 +81,7 @@ function mb_bulk_process_place_tree($tree) {
 		'path' => $path,
 	);
 }
+*/
 
 /**
  * Check if term already transferred

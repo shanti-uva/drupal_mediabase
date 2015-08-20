@@ -675,23 +675,6 @@ function mb_structure_node_submit($node) {
  */
  
 /**
- * Implements hook_node_presave
- * 
- * For audio nodes check if thumbnail has been upload and if not use the default image for audio files
- * 
- */
-function mb_structure_node_presave($node) {
-	if ($node->type == 'audio') {
-		$thumbitem = field_get_items('node', $node, 'field_thumbnail_image');
-		if (!$thumbitem) {
-			$fi = field_info_instance('node', 'field_thumbnail_image', 'audio');
-			$deffile = file_load($fi['settings']['default_image']);
-			$node->field_thumbnail_image['und'][] = (array)$deffile;
-		}
-	}
-}
-
-/**
  * hook_node_update: Update Kaltura data and thumbnail upon update
  * 
  */

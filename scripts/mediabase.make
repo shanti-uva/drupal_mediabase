@@ -2,7 +2,7 @@
 core = 7.x
 
 api = 2
-projects[drupal][version] = "7.34"
+projects[drupal][version] = "7.39"
 
 ; Modules
 projects[admin_menu][subdir] = "contrib"
@@ -10,7 +10,7 @@ projects[admin_menu][version] = "3.0-rc4"
 
 projects[apachesolr][subdir] = "contrib"
 projects[apachesolr][version] = "1.x-dev"
-projects[apachesolr][download][revision] = "f57c2012e12a2a9d5992813d136813a9442e07c0"
+projects[apachesolr][download][revision] = "0efe4ac8c1e4cf52783f0e1387e709f762ba0cbe"
 
 projects[apachesolr_realtime][subdir] = "contrib"
 projects[apachesolr_realtime][version] = "1.1"

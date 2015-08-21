@@ -200,6 +200,24 @@ projects[kmaps_navigator][download][url] = "https://github.com/shanti-uva/drupal
 projects[kmaps_navigator][download][branch] = "mediabase"
 projects[kmaps_navigator][subdir] = "contrib/shanti"
 
+projects[shanti_kmaps_admin][type] = "module"
+projects[shanti_kmaps_admin][download][type] = "git"
+projects[shanti_kmaps_admin][download][url] = "https://github.com/shanti-uva/drupal_shanti_kmaps_admin.git"
+projects[shanti_kmaps_admin][download][branch] = "release"
+projects[shanti_kmaps_admin][subdir] = "contrib/shanti"
+
+projects[shanti_kmaps_fields][type] = "module"
+projects[shanti_kmaps_fields][download][type] = "git"
+projects[shanti_kmaps_fields][download][url] = "https://github.com/shanti-uva/drupal_shanti_kmaps_fields.git"
+projects[shanti_kmaps_fields][download][branch] = "AV-MANU-19"
+projects[shanti_kmaps_fields][subdir] = "contrib/shanti"
+
+projects[kmaps_facets][type] = "module"
+projects[kmaps_facets][download][type] = "git"
+projects[kmaps_facets][download][url] = "https://github.com/shanti-uva/drupal_shanti_kmaps_facets.git"
+projects[kmaps_facets][download][branch] = "release"
+projects[kmaps_facets][subdir] = "contrib/shanti"
+
 projects[mediabase][type] = "module"
 projects[mediabase][download][type] = "git"
 projects[mediabase][download][url] = "https://github.com/shanti-uva/drupal_mediabase.git"

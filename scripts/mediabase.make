@@ -233,11 +233,13 @@ projects[sarvaka_modules][subdir] = "contrib/shanti"
 projects[transcripts_apachesolr][type] = "module"
 projects[transcripts_apachesolr][download][type] = "git"
 projects[transcripts_apachesolr][download][url] = "https://github.com/pinedrop/transcripts_apachesolr.git"
+;projects[sarvaka_modules][download][branch] = "release"
 projects[transcripts_apachesolr][subdir] = "transcripts"
 
 projects[transcripts_ui][type] = "module"
 projects[transcripts_ui][download][type] = "git"
 projects[transcripts_ui][download][url] = "https://github.com/pinedrop/transcripts_ui.git"
+;projects[sarvaka_modules][download][branch] = "release"
 projects[transcripts_ui][subdir] = "transcripts"
 
 ; Custom Themes

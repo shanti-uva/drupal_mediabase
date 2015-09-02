@@ -234,6 +234,12 @@ function mediabase_solr_index_nodes_finished($success, $results, $operations) {
   drupal_set_message($message);
 }
 
+/*
+function mediabase_page_alter(&$page) {
+	dpm($page, 'in mb page alter');
+}
+*/
+
 function mediabase_form_alter(&$form, &$form_state, $form_id) {
    if (in_array($form_id, array('search_block_form', 'apachesolr_search_custom_page_search_form'))) {
       drupal_add_js(drupal_get_path('module', 'mediabase') .'/js/mediabase.js', array('preprocess' => FALSE));
@@ -385,6 +391,16 @@ function mediabase_preprocess_node(&$variables) {
 			}
 		}
 	}
+}
+
+/**
+ * Implements hook admin paths
+ * 
+ * 	Define custom paths that are either admins or not.
+ */
+function mediabase_admin_paths_alter(&$paths) {
+	$paths['node/*/group'] = FALSE;
+	$paths['group/*/*/admin/*'] = FALSE;
 }
 
 function convert_lang_name_to_code($lname) {

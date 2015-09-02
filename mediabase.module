@@ -392,7 +392,7 @@ function convert_lang_name_to_code($lname) {
 	foreach ($ll as $cd => $lang) {
 		if ($lang->name == $lname) { return $cd; }
 	}
-	if ($lname == "Tibetan") {return "bo"; }
+	if ($lname == "Tibetan") {return "bo"; } // Always account for Tibetan even if not installed (hack)
 	return FALSE;
 }
 

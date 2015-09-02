@@ -389,6 +389,7 @@ function mediabase_preprocess_node(&$variables) {
 
 function convert_lang_name_to_code($lname) {
 	$ll = language_list();
+	if (count($ll) == 1) { $ll['bo'] = 'Tibetan'; } // If Tibetan is not installed, still need to show Tibetan text. (hack)
 	foreach ($ll as $cd => $lang) {
 		if ($lang->name == $lname) { return $cd; }
 	}

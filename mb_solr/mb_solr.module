@@ -445,6 +445,7 @@ function theme_search_results__apachesolr_search(&$vars) {
  */
 
 function mb_solr_make_teaser($entity, $coll = FALSE) {
+	module_load_include('inc', 'mb_kaltura', 'mb_kaltura');
   $entity['place_link'] = array();
   $node = node_load($entity['fields']['entity_id']);
   $entry_id = _get_entry_id_from_node($node);

@@ -434,6 +434,18 @@ function mb_structure_form_video_node_form_alter(&$form, &$form_state, $form_id)
 }
 
 
+function mb_structure_form_alter(&$form, &$form_state, $form_id) {
+	if ($form_id == 'og_ui_user_admin_account') {
+		/* The drop down on page group/node/{NID}/admin/people does not close because of an unknown glitch
+		 * This code closes it upon load and adds a click event to the button to toggle it when clicked
+		 * This simulates almost exactly the dropdown function, except that after a choice one has to close dropdon
+		 *   ndg8f (2015-09-21)
+		 */
+		$jscode = 'jQuery(document).ready(function () { $("#og-ui-user-admin-account .form-type-select div.dropdown-menu.open").hide(); $("#og-ui-user-admin-account .form-type-select button.selectpicker").click(function() { $("#og-ui-user-admin-account .form-type-select div.dropdown-menu.open").toggle();});});';
+		drupal_add_js($jscode, 'inline');
+	}
+}
+
 /**
 * Implementation of hook_form_alter for AUDIO_NODE_FORM
 **/

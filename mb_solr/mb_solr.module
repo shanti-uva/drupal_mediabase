@@ -64,6 +64,12 @@ function mb_solr_menu() {
   return $items;
 }
 
+function mb_solr_transcripts_editor_exclude_tiers($node)
+{
+    //Wylie transliteration is algorithmically derived from Tibetan script, so it should not be edited
+    return array('ts_content_wylie');
+}
+
  /**
   * Implemente hook_menu_alter
   */
@@ -445,6 +451,7 @@ function theme_search_results__apachesolr_search(&$vars) {
  */
 
 function mb_solr_make_teaser($entity, $coll = FALSE) {
+	module_load_include('inc', 'mb_kaltura', 'mb_kaltura');
   $entity['place_link'] = array();
   $node = node_load($entity['fields']['entity_id']);
   $entry_id = _get_entry_id_from_node($node);

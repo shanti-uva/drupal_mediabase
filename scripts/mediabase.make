@@ -2,7 +2,7 @@
 core = 7.x
 
 api = 2
-projects[drupal][version] = "7.x"
+projects[drupal][version] = "7.39"
 
 ; Modules
 projects[admin_menu][subdir] = "contrib"
@@ -10,7 +10,7 @@ projects[admin_menu][version] = "3.0-rc4"
 
 projects[apachesolr][subdir] = "contrib"
 projects[apachesolr][version] = "1.x-dev"
-projects[apachesolr][download][revision] = "f57c2012e12a2a9d5992813d136813a9442e07c0"
+projects[apachesolr][download][revision] = "0efe4ac8c1e4cf52783f0e1387e709f762ba0cbe"
 
 projects[apachesolr_realtime][subdir] = "contrib"
 projects[apachesolr_realtime][version] = "1.1"
@@ -200,6 +200,24 @@ projects[kmaps_navigator][download][url] = "https://github.com/shanti-uva/drupal
 projects[kmaps_navigator][download][branch] = "mediabase"
 projects[kmaps_navigator][subdir] = "contrib/shanti"
 
+projects[shanti_kmaps_admin][type] = "module"
+projects[shanti_kmaps_admin][download][type] = "git"
+projects[shanti_kmaps_admin][download][url] = "https://github.com/shanti-uva/drupal_shanti_kmaps_admin.git"
+projects[shanti_kmaps_admin][download][branch] = "release"
+projects[shanti_kmaps_admin][subdir] = "contrib/shanti"
+
+projects[shanti_kmaps_fields][type] = "module"
+projects[shanti_kmaps_fields][download][type] = "git"
+projects[shanti_kmaps_fields][download][url] = "https://github.com/shanti-uva/drupal_shanti_kmaps_fields.git"
+projects[shanti_kmaps_fields][download][branch] = "AV-MANU-19"
+projects[shanti_kmaps_fields][subdir] = "contrib/shanti"
+
+projects[kmaps_facets][type] = "module"
+projects[kmaps_facets][download][type] = "git"
+projects[kmaps_facets][download][url] = "https://github.com/shanti-uva/drupal_shanti_kmaps_facets.git"
+projects[kmaps_facets][download][branch] = "release"
+projects[kmaps_facets][subdir] = "contrib/shanti"
+
 projects[mediabase][type] = "module"
 projects[mediabase][download][type] = "git"
 projects[mediabase][download][url] = "https://github.com/shanti-uva/drupal_mediabase.git"
@@ -215,11 +233,13 @@ projects[sarvaka_modules][subdir] = "contrib/shanti"
 projects[transcripts_apachesolr][type] = "module"
 projects[transcripts_apachesolr][download][type] = "git"
 projects[transcripts_apachesolr][download][url] = "https://github.com/pinedrop/transcripts_apachesolr.git"
+;projects[sarvaka_modules][download][branch] = "release"
 projects[transcripts_apachesolr][subdir] = "transcripts"
 
 projects[transcripts_ui][type] = "module"
 projects[transcripts_ui][download][type] = "git"
 projects[transcripts_ui][download][url] = "https://github.com/pinedrop/transcripts_ui.git"
+;projects[sarvaka_modules][download][branch] = "release"
 projects[transcripts_ui][subdir] = "transcripts"
 
 ; Custom Themes

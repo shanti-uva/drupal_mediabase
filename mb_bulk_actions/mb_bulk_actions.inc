@@ -39,7 +39,8 @@ function mb_bulk_switch_kmap_data(&$node, $oldfield, $newfield, $domain) {
  */
 function mb_bulk_process_kmap_data($kid, $domain) {
 	// Get Term header
-	$kma = new KMapsAPI(); // from shanti_kmaps_fields
+	$server = "http://{$domain}.kmaps.virginia.edu";
+	$kma = new KMapsAPI($domain, $server); // from shanti_kmaps_fields
 	$kma->setKMapID($kid);
 	$kmdata = $kma->execute();
 	$pts = explode('|', $kmdata[$kid]);

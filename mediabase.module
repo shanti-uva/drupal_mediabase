@@ -234,6 +234,19 @@ function mediabase_solr_index_nodes_finished($success, $results, $operations) {
   drupal_set_message($message);
 }
 
+/**
+ * Implements hook page alter
+ * Adds back to video link to transcript only pages.
+ */
+function mediabase_page_alter(&$page) {
+	if (preg_match('/node\/(\d+)\/transcript/', current_path(), $match)) {
+		$mu = $page['content']['system_main']['main']['#markup'];
+		$lnk = l(t('Back to Video'), 'node/' . $match[1]);
+		$page['content']['system_main']['main']['#markup'] = '<div class="av-transcript-back">' . $lnk . '</div>' . $mu;
+	}
+}
+
+
 function mediabase_form_alter(&$form, &$form_state, $form_id) {
    if (in_array($form_id, array('search_block_form', 'apachesolr_search_custom_page_search_form'))) {
       drupal_add_js(drupal_get_path('module', 'mediabase') .'/js/mediabase.js', array('preprocess' => FALSE));
@@ -366,18 +379,20 @@ function mediabase_preprocess_node(&$variables) {
 					$fci = field_collection_item_load($item['value']);
 					$fcid = $item['value'];
 					// Put langcode as attribute of content
-					$dclass = convert_lang_name_to_code($fci->field_language['und'][0]['value']);
-					$dlabel = "";
-					// Make lang name label for when showing all languages
-					$langname = (empty($fci->field_language['und'][0]['value'])) ? t("English") : t($fci->field_language['und'][0]['value']);
-					$dlabel = "<label class=\"hidden pb-desc-label\">" . $langname . ':</label> ';
-					// Initially hide alt languages
-					if(isset($fci->field_language['und'][0]) && $fci->field_language['und'][0]['value'] != $variables['currlang']) {
-						$dclass .= ' hidden altlang';
-					} else {
-						// Hide 2nd and following descriptions in current language
-						if ($ct > 0) { $dclass .= ' hidden'; }
-						$ct++;
+					$dclass = $dlabel = '';
+					if (!empty($fci->field_language['und'][0]['value'])) {
+						$dclass = convert_lang_name_to_code($fci->field_language['und'][0]['value']);
+						// Make lang name label for when showing all languages
+						$langname = (empty($fci->field_language['und'][0]['value'])) ? t("English") : t($fci->field_language['und'][0]['value']);
+						$dlabel = "<label class=\"hidden pb-desc-label\">" . $langname . ':</label> ';
+						// Initially hide alt languages
+						if(isset($fci->field_language['und'][0]) && $fci->field_language['und'][0]['value'] != $variables['currlang']) {
+							$dclass .= ' hidden altlang';
+						} else {
+							// Hide 2nd and following descriptions in current language
+							if ($ct > 0) { $dclass .= ' hidden'; }
+							$ct++;
+						}
 					}
 					$variables['content']['field_pbcore_description'][$n]['entity']['field_collection_item'][$fcid]['field_description']['#prefix'] = '<div class="' . $dclass . '">' . $dlabel;
 					$variables['content']['field_pbcore_description'][$n]['entity']['field_collection_item'][$fcid]['field_description']['#suffix'] = '</div>';
@@ -387,11 +402,22 @@ function mediabase_preprocess_node(&$variables) {
 	}
 }
 
+/**
+ * Implements hook admin paths
+ * 
+ * 	Define custom paths that are either admins or not.
+ */
+function mediabase_admin_paths_alter(&$paths) {
+	$paths['node/*/group'] = FALSE;
+	$paths['group/*/*/admin/*'] = FALSE;
+}
+
 function convert_lang_name_to_code($lname) {
 	$ll = language_list();
 	foreach ($ll as $cd => $lang) {
 		if ($lang->name == $lname) { return $cd; }
 	}
+	if ($lname == "Tibetan") {return "bo"; } // Always account for Tibetan even if not installed (hack)
 	return FALSE;
 }
 

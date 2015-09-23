@@ -25,7 +25,6 @@ function audio_video_user_default_permissions() {
     'name' => 'create video content',
     'roles' => array(
       'authenticated user' => 'authenticated user',
-      'kaltura support' => 'kaltura support',
       'site admin' => 'site admin',
     ),
     'module' => 'node',
@@ -67,7 +66,6 @@ function audio_video_user_default_permissions() {
     'name' => 'delete own video content',
     'roles' => array(
       'authenticated user' => 'authenticated user',
-      'kaltura support' => 'kaltura support',
       'site admin' => 'site admin',
     ),
     'module' => 'node',
@@ -108,7 +106,6 @@ function audio_video_user_default_permissions() {
     'name' => 'edit own video content',
     'roles' => array(
       'authenticated user' => 'authenticated user',
-      'kaltura support' => 'kaltura support',
       'site admin' => 'site admin',
     ),
     'module' => 'node',

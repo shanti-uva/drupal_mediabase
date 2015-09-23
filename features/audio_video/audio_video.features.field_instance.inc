@@ -3724,65 +3724,6 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-audio-field_transcripts_xsl'
-  $field_instances['node-audio-field_transcripts_xsl'] = array(
-    'bundle' => 'audio',
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'hidden',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 17,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'field_transcripts_xsl',
-    'label' => 'Transformer',
-    'required' => 0,
-    'settings' => array(
-      'description_field' => 1,
-      'file_directory' => 'transcripts_xsl',
-      'file_extensions' => 'xsl',
-      'max_filesize' => '',
-      'user_register_form' => FALSE,
-    ),
-    'transcripts' => array(
-      'is_transcript' => 0,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'file',
-      'settings' => array(
-        'filefield_sources' => array(
-          'filefield_sources' => array(
-            'attach' => 0,
-            'reference' => 'reference',
-            'remote' => 0,
-          ),
-          'source_attach' => array(
-            'absolute' => 0,
-            'attach_mode' => 'copy',
-            'path' => '',
-          ),
-          'source_reference' => array(
-            'autocomplete' => 1,
-          ),
-        ),
-        'progress_indicator' => 'throbber',
-      ),
-      'type' => 'file_generic',
-      'weight' => 22,
-    ),
-  );
-
   // Exported field_instance: 'node-audio-field_workflow'
   $field_instances['node-audio-field_workflow'] = array(
     'bundle' => 'audio',
@@ -5064,65 +5005,6 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-video-field_transcripts_xsl'
-  $field_instances['node-video-field_transcripts_xsl'] = array(
-    'bundle' => 'video',
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 16,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 9,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'field_transcripts_xsl',
-    'label' => 'Transformer',
-    'required' => 0,
-    'settings' => array(
-      'description_field' => 1,
-      'file_directory' => 'transcripts_xsl',
-      'file_extensions' => 'xsl',
-      'max_filesize' => '',
-      'user_register_form' => FALSE,
-    ),
-    'transcripts' => array(
-      'is_transcript' => 0,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'file',
-      'settings' => array(
-        'filefield_sources' => array(
-          'filefield_sources' => array(
-            'attach' => 0,
-            'reference' => 'reference',
-            'remote' => 0,
-          ),
-          'source_attach' => array(
-            'absolute' => 0,
-            'attach_mode' => 'copy',
-            'path' => '',
-          ),
-          'source_reference' => array(
-            'autocomplete' => 1,
-          ),
-        ),
-        'progress_indicator' => 'throbber',
-      ),
-      'type' => 'file_generic',
-      'weight' => 5,
-    ),
-  );
-
   // Exported field_instance: 'node-video-field_video'
   $field_instances['node-video-field_video'] = array(
     'bundle' => 'video',
@@ -5558,7 +5440,6 @@ function audio_video_field_default_field_instances() {
   t('Title Type');
   t('Track Data');
   t('Transcript');
-  t('Transformer');
   t('Translation Input Language 3');
   t('Translation Language 1');
   t('Translation Language 2');

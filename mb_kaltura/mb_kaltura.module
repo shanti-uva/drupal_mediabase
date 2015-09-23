@@ -89,7 +89,6 @@ function mb_kaltura_node_presave($node) {
 	 
 	 if($node->type == 'audio') {
 	 		// For audio files test for thumbnail or assign default
-			dpm($node, 'node in presave');
 			_mb_kaltura_add_audio_thumb($node);
 	 }
    if ( in_array( $node->type , $kaltura_node_types) )  {

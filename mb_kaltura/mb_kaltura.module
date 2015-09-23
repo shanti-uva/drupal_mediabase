@@ -86,15 +86,10 @@ function mb_kaltura_menu_alter(&$items) {
 function mb_kaltura_node_presave($node) {
    module_load_include('inc', 'mb_kaltura', 'mb_kaltura');
    $kaltura_node_types = array('video', 'audio');
+	 
 	 if($node->type == 'audio') {
-	 		// If no thumb items, use default
-		 	$thumbitem = field_get_items('node', $node, 'field_thumbnail_image');
-			if (!$thumbitem) {
-				$fi = field_info_instance('node', 'field_thumbnail_image', 'audio');
-				$deffile = file_load($fi['settings']['default_image']);
-				$lang = field_language('node', $node, 'field_thumbnail_image');
-				$node->field_thumbnail_image[$lang][] = (array)$deffile;
-			}
+	 		// For audio files test for thumbnail or assign default
+			dpm($node, 'node in presave');
 			_mb_kaltura_add_audio_thumb($node);
 	 }
    if ( in_array( $node->type , $kaltura_node_types) )  {
@@ -128,35 +123,35 @@ function mb_kaltura_node_insert($node) {
  */
 function _mb_kaltura_add_audio_thumb($node) {
 	$kclient = KalturaHelpers::getKalturaClient($isAdmin=TRUE);
-	$keid = $node->field_audio[$aflang][0]['entryid'];
 	$lang = field_language('node', $node, 'field_thumbnail_image');
-	
+	$keid = $node->field_audio[$lang][0]['entryid'];
+	watchdog('mb_kaltura',  "node in add audio: {$node->nid}");
 	// If there is no original thumbnail
 	if (empty($node->original->field_thumbnail_image[LANGUAGE_NONE][0]['fid'])) {
 		// But a custom thumbnail was uploaded
 		if (!empty($node->field_thumbnail_image[$lang][0]['fid'])) {
 			$fid = $node->field_thumbnail_image[$lang][0]['fid'];
-			dpm($fid, 'New fid uploaded');
+			watchdog('mb_kaltura',  "New fid uploaded: $fid");
 			$file = file_load($fid);
 			$url = file_create_url($file->uri);
 			$kclient->media->updateThumbnailFromUrl($keid, $url);
 		} else {
 			// No thumbnail uploaded use default image
-			dpm('no fid uploaded using generic image');
+			watchdog('mb_kaltura',  "no fid uploaded using generic image");
 			$url = file_create_url('public://avimages/generic-audio-thumb.png');
 			$kclient->media->updateThumbnailFromUrl($keid, $url);
 		}
 	} else {
 		// There was an original
 		$ofid = $node->original->field_thumbnail_image[$lang][0]['fid'];
-		dpm($ofid, 'original image fid associated with node');
+		watchdog('mb_kaltura',  "original image fid associated with node: $ofid");
 		// Check if new thumb value
 		if(!empty($node->field_thumbnail_image[$lang][0]['fid'])) {
 			$nfid = $node->field_thumbnail_image[$lang][0]['fid'];
 			if($ofid == $nfid) { return; } // if new thumb file matches old get out of here
 			// else update thumbnail with new one.
 			$file = file_load($nfid);
-			dpm($nfid, "new image fid attached to node");
+			watchdog('mb_kaltura',  "new image fid attached to node: $nfid");
 			$url = file_create_url($file->uri);
 			$kclient->media->updateThumbnailFromUrl($keid, $url);
 		}

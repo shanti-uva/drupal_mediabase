@@ -19,7 +19,7 @@ function mb_structure_update_7000(&$sandbox) {
 
 /**
  * Add default audio thumbnail to managed files. 
- * Creates image with the uri: "public://avimages/generic-audio-thumb.png"
+ * Creates image with the uri: "public:\/\/avimages\/generic-audio-thumb.png"
  */
  function mb_structure_update_7001(&$sandbox) {
  	global $base_url; 

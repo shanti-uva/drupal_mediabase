@@ -363,6 +363,10 @@ function mb_structure_form_team_node_form_alter(&$form, &$form_state, $form_id) 
 function mb_structure_form_video_node_form_alter(&$form, &$form_state, $form_id) {
 	//dpm(array('form' => $form, 'form state' => $form_state), "vids f and fs");
 	
+	// Remove Preview actions since unhelpful (MANU-1850)
+	if (isset($form['actions']['preview'])) { unset($form['actions']['preview']); }
+	if (isset($form['actions']['preview_changes'])) { unset($form['actions']['preview_changes']); }
+	
 	// If pbcore title is empty but there is a node title, then use the latter to fill the former
 	// This happens with videos imported from Kaltura (ndg, 2014-12-12)
 	if(empty($form['field_pbcore_title']['und'][0]['field_title']['und'][0]['value']['#default_value']) && !empty($form['#node']->title)) {

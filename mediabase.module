@@ -234,11 +234,18 @@ function mediabase_solr_index_nodes_finished($success, $results, $operations) {
   drupal_set_message($message);
 }
 
-/*
+/**
+ * Implements hook page alter
+ * Adds back to video link to transcript only pages.
+ */
 function mediabase_page_alter(&$page) {
-	dpm($page, 'in mb page alter');
+	if (preg_match('/node\/(\d+)\/transcript/', current_path(), $match)) {
+		$mu = $page['content']['system_main']['main']['#markup'];
+		$lnk = l(t('Back to Video'), 'node/' . $match[1]);
+		$page['content']['system_main']['main']['#markup'] = '<div class="av-transcript-back">' . $lnk . '</div>' . $mu;
+	}
 }
-*/
+
 
 function mediabase_form_alter(&$form, &$form_state, $form_id) {
    if (in_array($form_id, array('search_block_form', 'apachesolr_search_custom_page_search_form'))) {

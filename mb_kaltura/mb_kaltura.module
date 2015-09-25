@@ -86,7 +86,9 @@ function mb_kaltura_menu_alter(&$items) {
 function mb_kaltura_node_presave($node) {
    module_load_include('inc', 'mb_kaltura', 'mb_kaltura');
    $kaltura_node_types = array('video', 'audio');
+	 
 	 if($node->type == 'audio') {
+	 		// For audio files test for thumbnail or assign default
 			_mb_kaltura_add_audio_thumb($node);
 	 }
    if ( in_array( $node->type , $kaltura_node_types) )  {
@@ -119,35 +121,37 @@ function mb_kaltura_node_insert($node) {
  * Imports thumbnail image into Kaltura. Called from hook_node_presave to test if thumbnail has been changed.
  */
 function _mb_kaltura_add_audio_thumb($node) {
-	if(!empty($node->field_thumbnail_image[LANGUAGE_NONE][0]['fid']) || !empty($node->original->field_thumbnail_image[LANGUAGE_NONE][0]['fid'])) {
-		$ofid = $node->original->field_thumbnail_image[LANGUAGE_NONE][0]['fid'];
-		$nfid = $node->field_thumbnail_image[LANGUAGE_NONE][0]['fid'];
-		if($ofid == $nfid) { return; } // if file is the same do not update in kaltura
-	}
-	$kid = $node->field_audio[LANGUAGE_NONE][0]['entryid']; 
-	$ew = entity_metadata_wrapper('node', $node);
-	$thumb = $ew->field_thumbnail_image->value();
-	if(!empty($kid) && !empty($thumb)) {
-		$client = KalturaHelpers::getKalturaClient($isAdmin=TRUE);
-		$thumbHelper = $client->thumbAsset;
-		// Get old thumbnails to remove later
-		$oldThumb = $thumbHelper->getByEntryId($kid);
-		$file = file_load($thumb['fid']);
-		$url = file_create_url($file->uri);
-		$result = $thumbHelper->addFromUrl($kid, $url);
-		$thumbHelper->setAsDefault($result->id);
-		if($oldThumb) {
-			if(is_array($oldThumb)) {
-				foreach($oldThumb as $n => $thumb) {
-					$result = $thumbHelper->delete($thumb->id);
-				}
-			} else if (isset($oldThumb->id)) {
-				$result = $thumbHelper->delete($oldThumb->id);
-			}
+	$kclient = KalturaHelpers::getKalturaClient($isAdmin=TRUE);
+	$lang = field_language('node', $node, 'field_thumbnail_image');
+	$keid = $node->field_audio[$lang][0]['entryid'];
+	// If there is no original thumbnail
+	if (empty($node->original->field_thumbnail_image[LANGUAGE_NONE][0]['fid'])) {
+		// But a custom thumbnail was uploaded
+		if (!empty($node->field_thumbnail_image[$lang][0]['fid'])) {
+			$fid = $node->field_thumbnail_image[$lang][0]['fid'];
+			$file = file_load($fid);
+			$url = file_create_url($file->uri);
+			$kclient->media->updateThumbnailFromUrl($keid, $url);
+		} else {
+			// No thumbnail uploaded use default image
+			$url = file_create_url('public://avimages/generic-audio-thumb.png');
+			$kclient->media->updateThumbnailFromUrl($keid, $url);
 		}
 	} else {
-		if(user_access('administer')) {
-			drupal_set_message('Problem setting Audio thumbnail, either empty kid or thumb', 'status', FALSE);
+		// There was an original
+		$ofid = $node->original->field_thumbnail_image[$lang][0]['fid'];
+		// Check if new thumb value
+		if(!empty($node->field_thumbnail_image[$lang][0]['fid'])) {
+			$nfid = $node->field_thumbnail_image[$lang][0]['fid'];
+			if($ofid == $nfid) { return; } // if new thumb file matches old get out of here
+			// else update thumbnail with new one.
+			$file = file_load($nfid);
+			$url = file_create_url($file->uri);
+			$kclient->media->updateThumbnailFromUrl($keid, $url);
+		} else {
+			// No thumbnail uploaded use default image
+			$url = file_create_url('public://avimages/generic-audio-thumb.png');
+			$kclient->media->updateThumbnailFromUrl($keid, $url);
 		}
 	}
 }

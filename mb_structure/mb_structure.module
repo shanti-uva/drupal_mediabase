@@ -445,7 +445,12 @@ function mb_structure_form_alter(&$form, &$form_state, $form_id) {
 		 * This simulates almost exactly the dropdown function, except that after a choice one has to close dropdon
 		 *   ndg8f (2015-09-21)
 		 */
-		$jscode = 'jQuery(document).ready(function () { $("#og-ui-user-admin-account .form-type-select div.dropdown-menu.open").hide(); $("#og-ui-user-admin-account .form-type-select button.selectpicker").click(function() { $("#og-ui-user-admin-account .form-type-select div.dropdown-menu.open").toggle();});});';
+		$jscode = '(function ($) { $(document).ready(function () { $("#og-ui-user-admin-account .form-type-select div.dropdown-menu.open").hide(); ' .
+				'$("#og-ui-user-admin-account .form-type-select button.selectpicker").click(function() { ' .
+					'$("#og-ui-user-admin-account .form-type-select div.dropdown-menu.open").toggle(); ' .
+				'}); ' . 
+				'$("#og-ui-user-admin-account .form-type-select ul.selectpicker li a").click(function() {$("#og-ui-user-admin-account .form-type-select div.dropdown-menu.open").hide();});' .
+			'}); } (jQuery))';
 		drupal_add_js($jscode, 'inline');
 	}
 }

@@ -19,16 +19,23 @@ function mb_structure_update_7000(&$sandbox) {
 
 /**
  * Add default audio thumbnail to managed files. 
- * Creates image with the uri: "public:\/\/avimages\/generic-audio-thumb.png"
+ * Creates image with the uri: "public:\/\/avimages\/generic-audio-thumb.jpg"
  */
- function mb_structure_update_7001(&$sandbox) {
- 	global $base_url; 
-  $audio_thumb_image = $base_url . '/' . drupal_get_path('module', 'mediabase') . '/images/generic-audio-thumb.png';
-	$path = 'public://avimages';
-	file_prepare_directory($path, FILE_CREATE_DIRECTORY);
-	$path .= '/generic-audio-thumb.png';
-	$file = system_retrieve_file($audio_thumb_image, $path, TRUE, FILE_EXISTS_REPLACE);
+function mb_structure_update_7001(&$sandbox) {
+	global $base_url; 
+	$file = FALSE;
+	try {
+		$audio_thumb_image = $base_url . '/' . drupal_get_path('module', 'mediabase') . '/images/generic-audio-thumb.jpg';
+		$path = 'public://avimages';
+		file_prepare_directory($path, FILE_CREATE_DIRECTORY);
+		$path .= '/generic-audio-thumb.jpg';
+		$file = system_retrieve_file($audio_thumb_image, $path, TRUE, FILE_EXISTS_REPLACE);
+	} catch (Exception $e) {
+		throw new DrupalUpdateException($e->getMessage());
+	}
 	if ($file) {
 		drupal_set_message(t("A generic audio thumbnail image has been created for this site! (@path)", array('@path' => $path)));
+	} else {
+		throw new DrupalUpdateException('Unable to create the file for the audio thumbnail image');
 	}
- }
+}

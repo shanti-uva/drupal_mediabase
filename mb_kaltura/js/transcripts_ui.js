@@ -79,11 +79,12 @@
                                 this.playingThrough = newThrough;
                             },
 
-                            playOne: function ($tcu) {
+                            playOne: function ($tcu, begin, end) {
                                 var vid = this.player;
-
-                                var begin = parseFloat($tcu.attr('data-begin'));
-                                var end = parseFloat($tcu.attr('data-end'));
+		
+				//to support transcript editing where times could be modified
+				if (begin === undefined) begin = parseFloat($tcu.attr('data-begin'));
+                                if (end === undefined) end = parseFloat($tcu.attr('data-end'));
 
                                 var seekStarted = false;
                                 var seekEnded = false;

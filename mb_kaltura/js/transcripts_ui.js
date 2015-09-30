@@ -79,7 +79,7 @@
                                 this.playingThrough = newThrough;
                             },
 
-                            playOne: function ($tcu, begin, end) {
+                            playOne: function ($tcu, noscroll, begin, end) {
                                 var vid = this.player;
 		
 				//to support transcript editing where times could be modified
@@ -115,7 +115,7 @@
                                 if (this.resetSweet) {
                                     this.sweetSpot = $tcu.position().top;
                                 }
-                                this.setOne($tcu);
+                                this.setOne($tcu, noscroll);
                                 this.playingThrough = false;
 
                                 vid.sendNotification('doPlay');

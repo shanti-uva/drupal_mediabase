@@ -122,6 +122,8 @@
                         };
                         $.extend(scroller, kaltura);
                         scroller.setVideo(document.getElementById(playerId));
+
+			Drupal.settings.scrollingTranscript[scroller.trid] = scroller;
                     });
                 });
         }

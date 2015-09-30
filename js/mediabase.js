@@ -1,7 +1,8 @@
 (function ($) {
 	Drupal.behaviors.mediabase={
 		attach: function(context){
-			
+		
+		   fixAudioImages();
 		   replaceBrokenImages(); 
 		   /*if(window.location.pathname.indexOf("/collection/") > -1) {
 		   	fixCollectionImages();
@@ -14,6 +15,17 @@
 		   siteSearch.addClass('active');
 		   addToggleToSearchForm( transcriptSearch);
 		   addToggleToSearchForm( siteSearch);
+		   
+			function fixAudioImages() {
+				$('.shanti-thumbnail img').each(function() { 
+					$this = jQuery(this); 
+					var src = $this.attr('src'); 
+					if (src.indexOf('/width/') > -1) { 
+						var pts = src.split("/width/"); 
+						$this.attr('src', pts[0]+"/version/0"); 
+					} 
+				});
+			}
 		   
 		   function fixVBOCheckBoxes() {
 		   		// vbo click anywhere in the row to enable messes up the ICheck function so disabling on view-my-content forms

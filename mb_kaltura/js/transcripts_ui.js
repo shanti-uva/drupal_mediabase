@@ -9,8 +9,8 @@
                     var scroller = ScrollingTranscript.getUI($(this));
                     scroller.setContainer($(this).parents('.transcript-container'));
                     kWidget.addReadyCallback(function (playerId) {
-                        //if using HTML 5 video API
-                        //var $iframe = $('.kaltura-embed iframe').first().contents();
+                        //assuming HTML5 video API
+			//var $iframe = $('.kaltura-embed iframe').first().contents();
                         //scroller.setVideo($('video,audio', $iframe).attr('preload', 'metadata')[0]);
 
                         //if using Kaltura API abstraction
@@ -119,7 +119,13 @@
                                 this.playingThrough = false;
 
                                 vid.sendNotification('doPlay');
-                            }
+                            },
+
+			    setCurrentTime: function(seconds) {
+                        	var $iframe = $('.kaltura-embed iframe').first().contents();
+                        	var vid = $('video,audio', $iframe)[0];
+				vid.currentTime = seconds;
+			    }
                         };
                         $.extend(scroller, kaltura);
                         scroller.setVideo(document.getElementById(playerId));

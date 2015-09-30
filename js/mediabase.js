@@ -17,7 +17,7 @@
 		   addToggleToSearchForm( siteSearch);
 		   
 			function fixAudioImages() {
-				$('.shanti-thumbnail img').each(function() { 
+				$('.shanti-thumbnail.audio img').each(function() { 
 					$this = jQuery(this); 
 					var src = $this.attr('src'); 
 					if (src.indexOf('/width/') > -1) { 

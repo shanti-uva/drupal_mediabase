@@ -92,9 +92,6 @@ $aegir_cmd cp /tmp/spyc.php $platform_root/sites/all/modules/contrib/services/se
 # COPY crossdomain.xml TO PLATFORM ROOT
 $aegir_cmd cp $platform_root/sites/all/modules/contrib/kaltura/crossdomain.xml $platform_root/
 
-# COPY ALL XSL (was just transcripts.xsl) TO SAXON DIR
-# $aegir_cmd cp $platform_root/sites/all/modules/transcripts/transcripts_apachesolr/transcripts_xslt/xsl/*.xsl $platform_root/sites/all/libraries/saxon/
-
 #EXIT HERE IF EXPERIENCING ANY PROBLEMS AND LOOK FOR THE PLATFORM IN /var/aegir/platforms
 echo "EXITING"
 exit

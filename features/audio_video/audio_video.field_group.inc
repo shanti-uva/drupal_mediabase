@@ -910,7 +910,6 @@ function audio_video_field_group_info() {
     'weight' => '2',
     'children' => array(
       0 => 'field_transcript',
-      1 => 'field_transcripts_xsl',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -939,7 +938,6 @@ function audio_video_field_group_info() {
     'weight' => '4',
     'children' => array(
       0 => 'field_transcript',
-      1 => 'field_transcripts_xsl',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(

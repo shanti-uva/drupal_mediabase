@@ -465,10 +465,6 @@ function media_services_views_default_views() {
   $handler->display->display_options['fields']['field_transcript']['id'] = 'field_transcript';
   $handler->display->display_options['fields']['field_transcript']['table'] = 'field_data_field_transcript';
   $handler->display->display_options['fields']['field_transcript']['field'] = 'field_transcript';
-  /* Field: Content: Transformer */
-  $handler->display->display_options['fields']['field_transcripts_xsl']['id'] = 'field_transcripts_xsl';
-  $handler->display->display_options['fields']['field_transcripts_xsl']['table'] = 'field_data_field_transcripts_xsl';
-  $handler->display->display_options['fields']['field_transcripts_xsl']['field'] = 'field_transcripts_xsl';
   /* Field: Content: Description */
   $handler->display->display_options['fields']['field_pbcore_description']['id'] = 'field_pbcore_description';
   $handler->display->display_options['fields']['field_pbcore_description']['table'] = 'field_data_field_pbcore_description';

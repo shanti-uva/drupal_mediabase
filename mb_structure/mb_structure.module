@@ -325,6 +325,7 @@ function mb_structure_form_collection_node_form_alter(&$form, &$form_state, $for
    // Hide the ability to set Collection to not be a group
    $form['group_group']['und']['#type'] = 'hidden';
    // Hide old subcollection kmap id
+   $form['field_subcoll_root_kmap_id']['#attributes']['class'][]='hidden';
    
 }
 
@@ -485,7 +486,7 @@ function mb_structure_lets_get_started_form() {
       '#type' => 'submit',
       '#icon' => 'texts',
       '#attributes' => array('class' => array('btn-block')),
-      '#value' => t('Create a New Collection'),
+      '#value' => t('Add New Collection'),
        '#submit' => array('mb_structure_new_collection'),
       );
    return $form;

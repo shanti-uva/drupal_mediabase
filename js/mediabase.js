@@ -1,7 +1,8 @@
 (function ($) {
 	Drupal.behaviors.mediabase={
 		attach: function(context){
-			
+		
+		   fixAudioImages();
 		   replaceBrokenImages(); 
 		   /*if(window.location.pathname.indexOf("/collection/") > -1) {
 		   	fixCollectionImages();
@@ -15,10 +16,21 @@
 		   addToggleToSearchForm( transcriptSearch);
 		   addToggleToSearchForm( siteSearch);
 		   
+			function fixAudioImages() {
+				$('.shanti-thumbnail.audio img').each(function() { 
+					$this = jQuery(this); 
+					var src = $this.attr('src'); 
+					if (src.indexOf('/width/') > -1) { 
+						var pts = src.split("/width/"); 
+						$this.attr('src', pts[0]+"/version/0"); 
+					} 
+				});
+			}
+		   
 		   function fixVBOCheckBoxes() {
 		   		// vbo click anywhere in the row to enable messes up the ICheck function so disabling on view-my-content forms
 		   		$('.view-my-content .views-table tbody tr').unbind('click');
-		   }
+			   }
 		   
 		   function addToggleToSearchForm( searchForm ) {
 		   	return; // This should be done in Drupal with the Form API and possibly a submit function. Disabling for now.

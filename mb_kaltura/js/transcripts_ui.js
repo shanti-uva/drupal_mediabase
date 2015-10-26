@@ -9,8 +9,8 @@
                     var scroller = ScrollingTranscript.getUI($(this));
                     scroller.setContainer($(this).parents('.transcript-container'));
                     kWidget.addReadyCallback(function (playerId) {
-                        //if using HTML 5 video API
-                        //var $iframe = $('.kaltura-embed iframe').first().contents();
+                        //assuming HTML5 video API
+			//var $iframe = $('.kaltura-embed iframe').first().contents();
                         //scroller.setVideo($('video,audio', $iframe).attr('preload', 'metadata')[0]);
 
                         //if using Kaltura API abstraction
@@ -79,11 +79,12 @@
                                 this.playingThrough = newThrough;
                             },
 
-                            playOne: function ($tcu) {
+                            playOne: function ($tcu, noscroll, begin, end) {
                                 var vid = this.player;
-
-                                var begin = parseFloat($tcu.attr('data-begin'));
-                                var end = parseFloat($tcu.attr('data-end'));
+		
+				//to support transcript editing where times could be modified
+				if (begin === undefined) begin = parseFloat($tcu.attr('data-begin'));
+                                if (end === undefined) end = parseFloat($tcu.attr('data-end'));
 
                                 var seekStarted = false;
                                 var seekEnded = false;
@@ -114,14 +115,22 @@
                                 if (this.resetSweet) {
                                     this.sweetSpot = $tcu.position().top;
                                 }
-                                this.setOne($tcu);
+                                this.setOne($tcu, noscroll);
                                 this.playingThrough = false;
 
                                 vid.sendNotification('doPlay');
-                            }
+                            },
+
+			    setCurrentTime: function(seconds) {
+                        	var $iframe = $('.kaltura-embed iframe').first().contents();
+                        	var vid = $('video,audio', $iframe)[0];
+				vid.currentTime = seconds;
+			    }
                         };
                         $.extend(scroller, kaltura);
                         scroller.setVideo(document.getElementById(playerId));
+
+			Drupal.settings.scrollingTranscript[scroller.trid] = scroller;
                     });
                 });
         }

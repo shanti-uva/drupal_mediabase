@@ -92,7 +92,7 @@ function mb_kaltura_node_presave($node) {
 			_mb_kaltura_add_audio_thumb($node);
 	 }
    if ( in_array( $node->type , $kaltura_node_types) )  {
-      _write_to_node_kaltura($node);
+      // _write_to_node_kaltura($node); // No longer needed after upgrade to Kaltura Module version 3.1 (ndg, 2015-10-27)
       //autopopulate_pbcore_identifier($node);
       //autopopulate_pbcore_title($node);
       //autopopulate_pbcore_instantiation($node);

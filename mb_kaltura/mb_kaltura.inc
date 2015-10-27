@@ -1312,10 +1312,12 @@ function xml_pbcore($nid) {
 * when saving a new media item, sometimes the node_kaltura 
 * table row details (like thumbnail_url) don't get written.
 * Kaltura should be doing this but it isn't so we do it ourselves.
-* @todo post this as an issue on d.o
+* 
+*  No longer needed after upgrade to Kaltura Module version 3.1. It appears they fixed it. (ndg, 2015-10-27)
+ * Took out call in mb_kaltura.module mb_kaltura_node_presave() function
 **/
 function _write_to_node_kaltura($node) {
-	 $flang = field_language('node', $node, "field_$node->type");
+   $flang = field_language('node', $node, "field_$node->type");
    if(isset($node->{"field_$node->type"}[$flang])) {
      $entry_id = $node->{"field_$node->type"}[$flang][0]['entryid'];
      if ( empty($entry_id)) {
@@ -1327,7 +1329,8 @@ function _write_to_node_kaltura($node) {
      $kaltura_client = $kalturaHelpers->getKalturaClient($isAdmin = true); 
      $session_user = $kalturaHelpers->getSessionUser();
      $entry_details = _get_media_from_entry_id($entry_id);
-		 if(!empty($entry_details)) {
+	 if(!empty($entry_details)) {
+	 	
 	     // check if a row already exists for this entry id
 	     module_load_include('inc','kaltura','includes/kaltura.admin');
 	     $entry = kaltura_kmc_obj_to_drupal_array($entry_details);

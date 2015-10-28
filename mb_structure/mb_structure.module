@@ -662,39 +662,27 @@ function mb_structure_node_load($nodes, $types) {
 
 function mb_structure_node_insert($node) {
 	// Separate function to update a node's kaltura data in case it needs to be called from other contexts.
-	// mb_update_node_kaltura_data($node); // Doesn't work for new node because Kaltura Client doesn't return full info
-	if($node->type != 'video') { return; }
-	$lang = array_shift(array_keys($node->field_video));
-	$lang = (empty($lang)) ? LANGUAGE_NONE : $lang;
-	$kid = (isset($node->field_video[$lang][0]['entryid'])) ? $node->field_video[$lang][0]['entryid'] : NULL;
-	if(!empty($kid)) {
-		try { 
-			$ent['kaltura_entryid'] = $kid;
-			$ent['kstatus'] = 2;
-			$ent['kaltura_thumbnail_url'] = mb_kaltura_get_thumbnail_url($kid);
-			$ent['kaltura_source'] = 1;
-			$ent['kaltura_title'] = $node->title;
-			$wres = drupal_write_record('node_kaltura', $ent, 'kaltura_entryid');
-		} catch (Exception $ex) {
-    	//dpm('Problem');
-    	//dpm($ex);
-    }
+	// mb_update_node_kaltura_data($node); // NOTE: Doesn't work for new node because Kaltura Client doesn't return full info
+	$ntype = $node->type;
+	if($ntype == 'video' || $ntype == 'audio') {
+		$fn = "field_$ntype"; 
+		$lang = array_shift(array_keys($node->{$fn}));
+		$lang = (empty($lang)) ? LANGUAGE_NONE : $lang;
+		$kid = (isset($node->{$fn}[$lang][0]['entryid'])) ? $node->{$fn}[$lang][0]['entryid'] : NULL;
+		if(!empty($kid)) {
+			try { 
+				$ent['kaltura_entryid'] = $kid;
+				$ent['kstatus'] = 2;
+				$ent['kaltura_thumbnail_url'] = mb_kaltura_get_thumbnail_url($kid);
+				$ent['kaltura_source'] = 1;
+				$ent['kaltura_title'] = $node->title;
+				$wres = drupal_write_record('node_kaltura', $ent, 'kaltura_entryid');
+			} catch (Exception $ex) {
+		    		watchdog('mb_structure', 'Could not get write the node_kaltura record for new node (' . $node->nid . ') with kid: ' . $kid);
+		    }
+		}
 	}
 }
-
-/*
-function mb_structure_node_validate($node, $form, &$form_state) {
-	dpm(array($node, $form, &$form_state), 'info in node validate');
-}
-*/
-
-/**
- * Implements hook_node_submit
-function mb_structure_node_submit($node) {
-	
-}
-
- */
  
 /**
  * hook_node_update: Update Kaltura data and thumbnail upon update
@@ -747,7 +735,7 @@ function mb_update_node_kaltura_data($node) {
 	$kid = (isset($node->{$fieldnm}[$lang][0]['entryid'])) ? $node->{$fieldnm}[$lang][0]['entryid'] : NULL;
 	if(!empty($kid)) {
 		try {
-			$result = kaltura_get_entries(array($kid), TRUE);
+			$result = kaltura_entry_load($kid);
 			if ($result[0] !== FALSE) {
 				foreach ($result[0]->objects as $resultObject) {
 					$thumb_url = mb_kaltura_get_thumbnail_url($resultObject->id);
@@ -775,9 +763,10 @@ function mb_update_node_kaltura_data($node) {
 				}
 			}
 		} catch (Exception $ex) {
-	    	//dpm('Problem');
-	    	//dpm($ex);
-	  }
+			watchdog('mb_structure', "Problem updating node Kaltura information: " . $ex->getMessage());
+	    }
+	} else {
+		watchdog('mb_structure', "Unable to get node's ({$node->nid}) kaltura entry ID");
 	}
 }
 

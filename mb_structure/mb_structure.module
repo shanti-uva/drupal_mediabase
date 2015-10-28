@@ -735,32 +735,30 @@ function mb_update_node_kaltura_data($node) {
 	$kid = (isset($node->{$fieldnm}[$lang][0]['entryid'])) ? $node->{$fieldnm}[$lang][0]['entryid'] : NULL;
 	if(!empty($kid)) {
 		try {
-			$result = kaltura_entry_load($kid);
-			if ($result[0] !== FALSE) {
-				foreach ($result[0]->objects as $resultObject) {
-					$thumb_url = mb_kaltura_get_thumbnail_url($resultObject->id);
-					if(empty($thumb_url)) { $thumb_url = $resultObject->thumbnailUrl; }
-					$ent['kaltura_entryid'] = $resultObject->id;
-					$ent['kaltura_tags'] = $resultObject->tags;
-					$ent['kaltura_admin_tags'] = $resultObject->adminTags;
-					$ent['kstatus'] = $resultObject->status;
-					$ent['kaltura_media_type'] = $resultObject->mediaType;
-					$ent['kaltura_duration']= $resultObject->duration;
-					$ent['kaltura_thumbnail_url'] = $thumb_url;
-					$ent['kaltura_partner_data'] = $resultObject->partnerData;
-					$ent['kaltura_source'] = $resultObject->sourceType;
-					$ent['kaltura_width'] = $resultObject->width;
-					$ent['kaltura_height'] = $resultObject->height;
-					$ent['kaltura_download_url'] = $resultObject->downloadUrl;
-					$ent['kaltura_views'] = $resultObject->views;
-					$ent['kaltura_plays'] = $resultObject->plays;
-					$ent['kaltura_votes'] = $resultObject->votes;
-					$ent['kaltura_rank'] = $resultObject->rank;
-					$ent['kaltura_total_rank'] = $resultObject->totalRank;
-					$ent['kaltura_title'] = $resultObject->name;
-					$ent['kaltura_description'] = $resultObject->description;
-					$wres = drupal_write_record('node_kaltura', $ent, 'kaltura_entryid');
-				}
+			$resultObject = kaltura_entry_load($kid);
+			if ($resultObject) {
+				$thumb_url = mb_kaltura_get_thumbnail_url($resultObject->id);
+				if(empty($thumb_url)) { $thumb_url = $resultObject->thumbnailUrl; }
+				$ent['kaltura_entryid'] = $resultObject->id;
+				$ent['kaltura_tags'] = $resultObject->tags;
+				$ent['kaltura_admin_tags'] = $resultObject->adminTags;
+				$ent['kstatus'] = $resultObject->status;
+				$ent['kaltura_media_type'] = $resultObject->mediaType;
+				$ent['kaltura_duration']= $resultObject->duration;
+				$ent['kaltura_thumbnail_url'] = $thumb_url;
+				$ent['kaltura_partner_data'] = $resultObject->partnerData;
+				$ent['kaltura_source'] = $resultObject->sourceType;
+				$ent['kaltura_width'] = $resultObject->width;
+				$ent['kaltura_height'] = $resultObject->height;
+				$ent['kaltura_download_url'] = $resultObject->downloadUrl;
+				$ent['kaltura_views'] = $resultObject->views;
+				$ent['kaltura_plays'] = $resultObject->plays;
+				$ent['kaltura_votes'] = $resultObject->votes;
+				$ent['kaltura_rank'] = $resultObject->rank;
+				$ent['kaltura_total_rank'] = $resultObject->totalRank;
+				$ent['kaltura_title'] = $resultObject->name;
+				$ent['kaltura_description'] = $resultObject->description;
+				$wres = drupal_write_record('node_kaltura', $ent, 'kaltura_entryid');
 			}
 		} catch (Exception $ex) {
 			watchdog('mb_structure', "Problem updating node Kaltura information: " . $ex->getMessage());

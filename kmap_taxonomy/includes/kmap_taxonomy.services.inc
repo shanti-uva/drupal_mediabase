@@ -81,14 +81,18 @@ function kmaps_all($kmap_id = NULL) {
    
    // Sort Children list by Header
    $json = json_decode($response->data);
-   $features = $json->features;
-   usort($features, "cmpChildNames");
-   $json->features = $features;
-   $data = json_encode($json);
-   
-   drupal_add_http_header('content-type', 'application/javascript');
-   $callback = $_GET['callback'];
-   print "$callback($data)";
+   if (isset($json->features)) { 
+	   $features = $json->features;
+	   usort($features, "cmpChildNames");
+	   $json->features = $features;
+	   $data = json_encode($json);
+	   
+	   drupal_add_http_header('content-type', 'application/javascript');
+	   $callback = $_GET['callback'];
+	   print "$callback($data)";
+   } else {
+   	  print '';
+   }
 }
 
 function kmaps_categories($kmap_id = NULL) {

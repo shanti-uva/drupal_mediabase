@@ -84,6 +84,8 @@ function mb_kaltura_menu_alter(&$items) {
 
 
 function mb_kaltura_node_presave($node) {
+	
+	watchdog('mb_kaltura', 'node_presave in');
    module_load_include('inc', 'mb_kaltura', 'mb_kaltura');
    $kaltura_node_types = array('video', 'audio');
 	 
@@ -97,31 +99,15 @@ function mb_kaltura_node_presave($node) {
       //autopopulate_pbcore_title($node);
       //autopopulate_pbcore_instantiation($node);
    }
-}
-
-function mb_kaltura_node_delete($node) {
-   /* $kaltura_node_type_names = array('video', 'audio', 'image', 'video2');
-   $entry_id = $node->{"field_kaltura_$node->type"}[0]['value'];
-   $result=db_query("DELETE FROM {node_kaltura} WHERE kaltura_entryId = '%s'", $entry_id);
-   foreach ($node->field_instantiation_noderef as $noderef){
-      if ( is_numeric($noderef['nid'] ) ) {
-         node_delete($noderef['nid']);
-      }
-   } */
-}
-
-function mb_kaltura_node_update($node) {
-	
-}
-
-function mb_kaltura_node_insert($node) {
+	watchdog('mb_kaltura', 'node_presave out');
 }
 
 /**
  * Imports thumbnail image into Kaltura. Called from hook_node_presave to test if thumbnail has been changed.
  */
 function _mb_kaltura_add_audio_thumb($node) {
-	$kclient = KalturaHelpers::getKalturaClient($isAdmin=TRUE);
+	$kaltura_helpers = new KalturaHelpers();
+	$kclient = $kaltura_helpers->getKalturaClient($isAdmin=TRUE);
 	$lang = field_language('node', $node, 'field_thumbnail_image');
 	$keid = $node->field_audio[$lang][0]['entryid'];
 	// If there is no original thumbnail

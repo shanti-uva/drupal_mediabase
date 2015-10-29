@@ -352,7 +352,8 @@ function _kaltura_to_pbcore_framesize($width, $height) {
 }
 
 function _fetch_remote_pbcore( $entry_id ) {
-   $client=KalturaHelpers::getKalturaClient($isAdmin=true);
+   $kaltura_helpers = new KalturaHelpers();
+   $client = $kaltura_helpers->getKalturaClient($isAdmin=true);
    $filter = new KalturaMetadataFilter();
    $filter->objectIdEqual = $entry_id;
    try {
@@ -587,7 +588,8 @@ UTILITIES
 **/
 function _save_kaltura_metadata($node) {
    
-   $client=KalturaHelpers::getKalturaClient($isAdmin=true);
+   $kaltura_helpers = new KalturaHelpers();
+   $client=$kaltura_helpers->getKalturaClient($isAdmin=true);
    $xmlData = _render_kaltura_xml($node);
    //dd($xmlData);
 
@@ -723,7 +725,8 @@ function autopopulate_pbcore_title(&$node) {
 **/
 function _populate_pbcore_instantiation(&$node) {
    // Get Kaltura Entry Id
-   $client=KalturaHelpers::getKalturaClient($isAdmin=true);
+   $kaltura_helpers = new KalturaHelpers();
+   $client=$kaltura_helpers->getKalturaClient($isAdmin=true);
    $objectId= _get_entry_id_from_node($node);
    // Get Flavors
    try {

@@ -84,8 +84,6 @@ function mb_kaltura_menu_alter(&$items) {
 
 
 function mb_kaltura_node_presave($node) {
-	
-	watchdog('mb_kaltura', 'node_presave in');
    module_load_include('inc', 'mb_kaltura', 'mb_kaltura');
    $kaltura_node_types = array('video', 'audio');
 	 
@@ -99,7 +97,6 @@ function mb_kaltura_node_presave($node) {
       //autopopulate_pbcore_title($node);
       //autopopulate_pbcore_instantiation($node);
    }
-	watchdog('mb_kaltura', 'node_presave out');
 }
 
 /**

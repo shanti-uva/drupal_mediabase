@@ -663,7 +663,6 @@ function mb_structure_node_load($nodes, $types) {
 function mb_structure_node_insert($node) {
 	// Separate function to update a node's kaltura data in case it needs to be called from other contexts.
 	// mb_update_node_kaltura_data($node); // NOTE: Doesn't work for new node because Kaltura Client doesn't return full info
-	watchdog('mb_structure', 'node_insert in');
 	$ntype = $node->type;
 	if($ntype == 'video' || $ntype == 'audio') {
 		$fn = "field_$ntype"; 
@@ -683,7 +682,6 @@ function mb_structure_node_insert($node) {
 		    }
 		}
 	}
-	watchdog('mb_structure', 'node_insert out');
 }
  
 /**

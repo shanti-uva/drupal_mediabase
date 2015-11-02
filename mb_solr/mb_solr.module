@@ -485,19 +485,19 @@ function mb_solr_make_teaser($entity, $coll = FALSE) {
  */
 
 function mb_solr_node_view($node, $view_mode, $langcode) {
-  if($node->type == 'collection') {
-    $alias = str_replace('collection/', '', drupal_get_path_alias(current_path()));
+	if($node->type == 'collection') {
+		$alias = str_replace('collection/', '', drupal_get_path_alias(current_path()));
 		if(strpos($_SERVER['HTTP_REFERER'], 'node/add/collection') > -1) { return; } // prevent solr error
-    module_load_include('inc','apachesolr','apachesolr_search.pages');
-    $search_page = apachesolr_search_custom_page('collection_home','', $alias);
+		module_load_include('inc','apachesolr','apachesolr_search.pages');
+		$search_page = apachesolr_search_custom_page('collection_home','', $alias);
 		$node->content['collcontent'] = array( 
-      '#markup' => theme('mb_solr_results', array('results' => $search_page['search_results'], 'node' => $node)),
-      '#weight' => 45,  // set high weight so it appears after the body's description
-    );
-  } elseif($view_mode == 'full') {
-    module_load_include('inc','apachesolr','apachesolr_search.pages');
-    $cpage = apachesolr_search_custom_page('core_search');
-  }
+			'#markup' => theme('mb_solr_results', array('results' => $search_page['search_results'], 'node' => $node)),
+			'#weight' => 45,  // set high weight so it appears after the body's description
+		);
+	} elseif($view_mode == 'full') {
+	    module_load_include('inc','apachesolr','apachesolr_search.pages');
+	    $cpage = apachesolr_search_custom_page('core_search');
+	}
 }
 
 function theme_mb_solr_results($vars) {

@@ -14,6 +14,8 @@ function mediabase_init() {
           'facets' => array(),
           'carouselBlockSpeed' => variable_get('carousel_block_speed', '8'),
         )), 'setting' ); 
+	
+	libraries_load("KalturaClient");
 }
 
 function mediabase_permission() {

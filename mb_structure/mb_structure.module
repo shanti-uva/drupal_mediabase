@@ -623,30 +623,40 @@ function mb_structure_preprocess_html(&$vars) {
  * Add variable has_transcript
  */
 function mb_structure_preprocess_node(&$vars) {
+	//dpm($vars, 'vars in node pp 2');
 	// Only do following code if full view mode due to time consuming factor on galleries of multiple nodes
-	if($vars['view_mode'] != 'full') { return; }
-  // Temporarily accounting for both old and new version of transcripts suite
-  // in the end transcripts_node is the new version
-  if(module_exists('transcripts_node')) {
-		$vars['has_transcript'] = FALSE;
-		if (transcripts_node_has_transcript($vars['node'])) {
-			$options = array(
-				'term' => isset($_GET['term']) ? '"'.$_GET['term'].'"' : '',
-		                'justhits' => isset($_GET['justhits']) ? true : false,
-	        	);
-			$trid = transcripts_apachesolr_already_indexed_trid('transcripts_node', 'node', $vars['node']->nid);
-			if ($trid) {
-				$ui = transcripts_ui_ui('transcripts_apachesolr', $trid, $options);
-	      if ($ui->tcuCount > 0) {
-					$vars['trid'] = $trid;
-					$vars['has_transcript'] = TRUE;
-					$vars = array_merge($vars, transcripts_ui_render($ui));
-		   	}
-			}
+	if($vars['view_mode'] == 'full') {
+		if ($vars['type'] == 'video') {
+			// Add a mediabase setting for vratio with the ration of the movie
+			$kid = $vars['field_video'][0]['entryid'];
+			$vmeta = kaltura_entry_load($kid);
+			//dpm($vmeta, 'video metadata');
+			$ratio = ($vmeta->kaltura_width == '320') ? "4:3" : "16:9";
+			drupal_add_js(array('mediabase' => array('vratio' => $ratio)), 'setting');
 		}
-  } elseif (function_exists('transcripts_node_has_transcript')) {
-  	$vars['has_transcript'] =  transcripts_node_has_transcript($vars['node']);
-  }
+		if(module_exists('transcripts_node')) {
+		// Temporarily accounting for both old and new version of transcripts suite
+		// in the end transcripts_node is the new version
+			$vars['has_transcript'] = FALSE;
+			if (transcripts_node_has_transcript($vars['node'])) {
+				$options = array(
+					'term' => isset($_GET['term']) ? '"'.$_GET['term'].'"' : '',
+					'justhits' => isset($_GET['justhits']) ? true : false,
+				);
+				$trid = transcripts_apachesolr_already_indexed_trid('transcripts_node', 'node', $vars['node']->nid);
+				if ($trid) {
+					$ui = transcripts_ui_ui('transcripts_apachesolr', $trid, $options);
+			  		if ($ui->tcuCount > 0) {
+						$vars['trid'] = $trid;
+						$vars['has_transcript'] = TRUE;
+						$vars = array_merge($vars, transcripts_ui_render($ui));
+					 }
+				}
+			}
+		  } elseif (function_exists('transcripts_node_has_transcript')) {
+				$vars['has_transcript'] =  transcripts_node_has_transcript($vars['node']);
+		  }
+	 }
 }
 
 function mb_structure_node_load($nodes, $types) {

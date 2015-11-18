@@ -241,9 +241,9 @@ function audio_video_field_group_info() {
       0 => 'field_pbcore_coverage',
       1 => 'field_pbcore_title',
       2 => 'field_pbcore_relation',
-      3 => 'field_subject',
-      4 => 'field_location',
-      5 => 'field_subcollection_new',
+      3 => 'field_location',
+      4 => 'field_subcollection_new',
+      5 => 'field_subject',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(

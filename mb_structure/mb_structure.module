@@ -631,7 +631,8 @@ function mb_structure_preprocess_node(&$vars) {
 			$kid = $vars['field_video'][0]['entryid'];
 			$vmeta = kaltura_entry_load($kid);
 			//dpm($vmeta, 'video metadata');
-			$ratio = ($vmeta->kaltura_width == '320') ? "4:3" : "16:9";
+			$widths43 = array('320', '512'); // Array of widths for the 4:3 ratio
+			$ratio = (in_array($vmeta->kaltura_width, $widths43)) ? "4:3" : "16:9";
 			drupal_add_js(array('mediabase' => array('vratio' => $ratio)), 'setting');
 		}
 		if(module_exists('transcripts_node')) {

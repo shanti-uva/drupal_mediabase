@@ -631,9 +631,10 @@ function mb_structure_preprocess_node(&$vars) {
 			$kid = $vars['field_video'][0]['entryid'];
 			$vmeta = kaltura_entry_load($kid);
 			//dpm($vmeta, 'video metadata');
-			$widths43 = array('320', '512'); // Array of widths for the 4:3 ratio
-			$ratio = (in_array($vmeta->kaltura_width, $widths43)) ? "4:3" : "16:9";
-			drupal_add_js(array('mediabase' => array('vratio' => $ratio)), 'setting');
+			$vwidth = $vmeta->kaltura_width;
+			$vheight = $vmeta->kaltura_height;
+			$ratio = ($vwidth / $vheight == 4/3) ? "4:3" : "16:9";
+			drupal_add_js(array('mediabase' => array('vratio' => $ratio, 'vwidth' => $vwidth, 'vheight' => $vheight)), 'setting');
 		}
 		if(module_exists('transcripts_node')) {
 		// Temporarily accounting for both old and new version of transcripts suite

@@ -587,7 +587,7 @@ function collection_team_views_default_views() {
   $handler->display->display_options['header']['area']['id'] = 'area';
   $handler->display->display_options['header']['area']['table'] = 'views';
   $handler->display->display_options['header']['area']['field'] = 'area';
-  $handler->display->display_options['header']['area']['content'] = '<span class="list-view-link"><a href="/collections" title="View as Gallery">View as Gallery</a></span>';
+  $handler->display->display_options['header']['area']['content'] = '<span class="list-view-link"><a href="/collections" title="View as Gallery">Gallery View</a></span>';
   $handler->display->display_options['header']['area']['format'] = 'filtered_html';
   $handler->display->display_options['defaults']['sorts'] = FALSE;
   /* Sort criterion: Content: Title */
@@ -651,8 +651,8 @@ function collection_team_views_default_views() {
   $handler->display->display_options['menu']['title'] = 'Collections';
   $handler->display->display_options['menu']['name'] = 'main-menu';
 
-  /* Display: Block */
-  $handler = $view->new_display('block', 'Block', 'block');
+  /* Display: Recent Collections Block */
+  $handler = $view->new_display('block', 'Recent Collections Block', 'block');
   $handler->display->display_options['defaults']['title'] = FALSE;
   $handler->display->display_options['title'] = 'Recent Collections';
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
@@ -665,6 +665,7 @@ function collection_team_views_default_views() {
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
   $handler->display->display_options['row_plugin'] = 'fields';
   $handler->display->display_options['defaults']['row_options'] = FALSE;
+  $handler->display->display_options['block_description'] = 'Recent Collections';
 
   /* Display: Collections Admin List */
   $handler = $view->new_display('page', 'Collections Admin List', 'page_1');
@@ -811,7 +812,7 @@ function collection_team_views_default_views() {
   $handler->display->display_options['header']['area']['id'] = 'area';
   $handler->display->display_options['header']['area']['table'] = 'views';
   $handler->display->display_options['header']['area']['field'] = 'area';
-  $handler->display->display_options['header']['area']['content'] = '<span class="list-view-link"><a href="/collections/list" title="View as List">View as List</a></span>';
+  $handler->display->display_options['header']['area']['content'] = '<span class="list-view-link"><a href="/collections/list" title="View as List">List View</a></span>';
   $handler->display->display_options['header']['area']['format'] = 'full_html';
   $handler->display->display_options['defaults']['relationships'] = FALSE;
   /* Relationship: author */

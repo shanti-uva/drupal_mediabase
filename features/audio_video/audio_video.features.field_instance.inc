@@ -2813,6 +2813,8 @@ function audio_video_field_default_field_instances() {
     'label' => 'Location',
     'required' => 0,
     'settings' => array(
+      'kmap_term_limit' => 100,
+      'search_root_kmapid' => NULL,
       'search_view' => '',
       'user_register_form' => FALSE,
     ),
@@ -3414,6 +3416,8 @@ function audio_video_field_default_field_instances() {
     'label' => 'Recording Location',
     'required' => FALSE,
     'settings' => array(
+      'kmap_term_limit' => 100,
+      'search_root_kmapid' => NULL,
       'search_view' => NULL,
       'user_register_form' => FALSE,
     ),
@@ -3506,6 +3510,8 @@ function audio_video_field_default_field_instances() {
     'label' => 'Subcollection',
     'required' => 0,
     'settings' => array(
+      'kmap_term_limit' => 100,
+      'search_root_kmapid' => NULL,
       'search_view' => '',
       'user_register_form' => FALSE,
     ),
@@ -3544,6 +3550,8 @@ function audio_video_field_default_field_instances() {
     'label' => 'Subject',
     'required' => 0,
     'settings' => array(
+      'kmap_term_limit' => 100,
+      'search_root_kmapid' => NULL,
       'search_view' => '',
       'user_register_form' => FALSE,
     ),
@@ -4158,6 +4166,8 @@ function audio_video_field_default_field_instances() {
     'label' => 'Location',
     'required' => 0,
     'settings' => array(
+      'kmap_term_limit' => 100,
+      'search_root_kmapid' => NULL,
       'search_view' => '',
       'user_register_form' => FALSE,
     ),
@@ -4759,6 +4769,8 @@ function audio_video_field_default_field_instances() {
     'label' => 'Recording Location',
     'required' => 0,
     'settings' => array(
+      'kmap_term_limit' => 100,
+      'search_root_kmapid' => NULL,
       'search_view' => '',
       'user_register_form' => FALSE,
     ),
@@ -4852,6 +4864,8 @@ function audio_video_field_default_field_instances() {
     'label' => 'Subcollection',
     'required' => 0,
     'settings' => array(
+      'kmap_term_limit' => 100,
+      'search_root_kmapid' => NULL,
       'search_view' => '',
       'user_register_form' => FALSE,
     ),
@@ -4890,6 +4904,8 @@ function audio_video_field_default_field_instances() {
     'label' => 'Subject',
     'required' => 0,
     'settings' => array(
+      'kmap_term_limit' => 100,
+      'search_root_kmapid' => NULL,
       'search_view' => '',
       'user_register_form' => FALSE,
     ),
@@ -5016,10 +5032,10 @@ function audio_video_field_default_field_instances() {
         'module' => 'field_kaltura',
         'settings' => array(
           'custom_player' => '',
-          'delivery' => 'HTTP',
-          'entry_widget' => 24762821,
-        //  'player_height' => 429,
-        //  'player_width' => 756,
+          'delivery' => 'RTMP',
+          'entry_widget' => 31832371,
+          'player_height' => 425,
+          'player_width' => 756,
           'rotate' => 0,
           'stretch' => NULL,
           'thumbsize_height' => 45,

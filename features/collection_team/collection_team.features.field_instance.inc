@@ -200,14 +200,16 @@ function collection_team_field_default_field_instances() {
     'label' => 'Subcollection',
     'required' => 0,
     'settings' => array(
+      'kmap_term_limit' => 100,
+      'search_root_kmapid' => NULL,
       'search_view' => '',
       'user_register_form' => FALSE,
     ),
     'widget' => array(
       'active' => 0,
-      'module' => 'shanti_kmaps_fields',
+      'module' => NULL,
       'settings' => array(),
-      'type' => 'kmap_default_widget',
+      'type' => 'kmap_tree_picker',
       'weight' => 7,
     ),
   );

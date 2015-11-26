@@ -16,6 +16,7 @@
                         //if using Kaltura API abstraction
                         var kaltura = {
                             playingThrough: true,
+                            playerPlaying: false,
 
                             setVideo: function (vid) {
                                 var init = false;
@@ -48,14 +49,11 @@
                                     init = true;
                                 }
 
-                                var playerPlaying = false;
-                                var $playpause = $('[data-transcripts-role=transcript-controls][data-transcripts-id=' + this.trid + '] .playpause');
                                 var that = this;
 
                                 vid.kBind('playerPlayed', function () {
-                                    playerPlaying = true;
-                                    $('.fa', $playpause).removeClass('fa-play').addClass('fa-pause');
-
+                                    that.playerPlaying = true;
+                                    that.togglePlay('play');
                                     if (that.playingThrough) {
                                         vid.kBind('playerUpdatePlayhead.playThrough', function (now, id) {
                                             that.checkScroll(now);
@@ -63,15 +61,16 @@
                                     }
                                 });
                                 vid.kBind('playerPaused', function () {
-                                    playerPlaying = false;
-                                    $('.fa', $playpause).removeClass('fa-pause').addClass('fa-play');
+                                    that.playerPlaying = false;
+                                    that.togglePlay('pause');
                                     that.unbindPlayListener(true);
-                                });
-                                $playpause.click(function () {
-                                    vid.sendNotification(playerPlaying ? 'doPause' : 'doPlay');
                                 });
 
                                 this.player = vid;
+                            },
+
+                            playPause: function() {
+                                this.player.sendNotification(this.playerPlaying ? 'doPause' : 'doPlay');
                             },
 
                             unbindPlayListener: function(newThrough) {

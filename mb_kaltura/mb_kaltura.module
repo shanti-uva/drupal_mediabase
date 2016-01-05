@@ -143,23 +143,27 @@ function mb_kaltura_form_alter(&$form, &$form_state, $form_id){
    drupal_add_js(drupal_get_path('module', 'mb_kaltura') . '/js/keepalive.js');
    
    switch ($form_id) {
-   case 'node_delete_confirm':
-      $node = node_load($form['nid']['#value']);
-      if ( in_array($node->type, array( 'video', 'audio'))) {
-         $newform = array();
-         $newform['delete_from_kaltura'] = array( 
-            '#type'=>'checkbox',
-            '#title' => t('Delete Kaltura version also.'),
-            );
-         // add the option before the buttons
-         $pos = array_search('nid', array_keys($form));
-         $form = array_merge(array_slice($form, 0, $pos), $newform, array_slice($form, $pos));
-         array_unshift($form['#submit'], 'check_delete_from_kaltura');
-      }
-      break;
+       case 'node_delete_confirm':
+          $node = node_load($form['nid']['#value']);
+          if ( in_array($node->type, array( 'video', 'audio'))) {
+             $newform = array();
+             $newform['delete_from_kaltura'] = array( 
+                '#type'=>'checkbox',
+                '#title' => t('Delete Kaltura version also.'),
+                );
+             // add the option before the buttons
+             $pos = array_search('nid', array_keys($form));
+             $form = array_merge(array_slice($form, 0, $pos), $newform, array_slice($form, $pos));
+             array_unshift($form['#submit'], 'check_delete_from_kaltura');
+          }
+          break;
+      
       case 'video_node_form':
+          $form['field_video']['und'][0]['settings']['#type'] = 'hidden'; // Hide the custom settings for each display format
+          //dpm($form, 'video form');
+          break;
+      
       case 'audio_node_form':
-         
          $field_name = "field_" . $form['type']['#value'];
          if (isset($form[$field_name][LANGUAGE_NONE])) {
             unset( $form[$field_name][LANGUAGE_NONE][0]['meta_edit']); // Remove the Edit Metadata link completely
@@ -171,7 +175,7 @@ function mb_kaltura_form_alter(&$form, &$form_state, $form_id){
             }                                                       
          }
          break;
-      } 
+    } 
 }
 
 /**

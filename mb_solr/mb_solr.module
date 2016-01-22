@@ -156,7 +156,18 @@ function mb_solr_apachesolr_index_document_build(ApacheSolrDocument $document, $
 
                          // Add flag for whether there is an attached transcript
                          if (module_exists('transcripts_apachesolr')) {
-                                $document->setField('bs_has_transcript', transcripts_apachesolr_already_indexed('transcripts_node', 'node', $entity->nid) !== FALSE);
+				$tiers = transcripts_apachesolr_already_indexed_tiers('transcripts_node', 'node', $entity->nid);
+				if ($tiers === FALSE) {
+	                                $document->setField('bs_has_transcript', false);
+				}
+				else {
+					$document->setField('bs_has_transcript', true);
+					if (!is_null($tiers)) {
+						foreach (explode(' ', $tiers) as $tier) {
+							$document->setMultiValue('sm_has_tier', $tier);
+						}
+                                        }
+				}
                          }
 		 } catch (Exception $e) {
 		 		$eid = (isset($entity->entity_id)) ? $entity->entity_id : FALSE;

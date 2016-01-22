@@ -153,6 +153,11 @@ function mb_solr_apachesolr_index_document_build(ApacheSolrDocument $document, $
 						$document->setField('teaser', $description);
 					}
 				}
+
+                         // Add flag for whether there is an attached transcript
+                         if (module_exists('transcripts_apachesolr')) {
+                                $document->setField('bs_has_transcript', transcripts_apachesolr_already_indexed('transcripts_node', 'node', $entity->nid) !== FALSE);
+                         }
 		 } catch (Exception $e) {
 		 		$eid = (isset($entity->entity_id)) ? $entity->entity_id : FALSE;
 				$eid = (!$eid && !empty($entity->nid)) ? $entity->nid : FALSE;

@@ -440,6 +440,20 @@ function mb_structure_form_video_node_form_alter(&$form, &$form_state, $form_id)
 
 
 function mb_structure_form_alter(&$form, &$form_state, $form_id) {
+    if ($form_id == 'video_node_form') {
+        // In video edit form, make kmap fields not collapsible since #collapsed=FALSE is not working.
+        $form['field_subcollection_new']['und']['#collapsible'] = FALSE;
+        $form['field_subject']['und']['#collapsible'] = FALSE;
+        $form['field_location']['und']['#collapsible'] = FALSE;
+        $form['field_recording_location_new']['und']['#collapsible'] = FALSE;
+        
+        // Set Title field to just "Search"
+        $form['field_subcollection_new']['und']['field_subcollection_new_search_term']['#title'] = t("Search");
+        $form['field_subject']['und']['field_subject_search_term']['#title'] = t("Search");
+        $form['field_location']['und']['field_location_search_term']['#title'] = t("Search");
+        $form['field_recording_location_new']['und']['field_recording_location_new_search_term']['#title'] = t("Search");
+        //dpm(array('form'=>$form, 'form_state'=>$form_state), $form_id);
+    }
 	if ($form_id == 'og_ui_user_admin_account') {
 		/* The drop down on page group/node/{NID}/admin/people does not close because of an unknown glitch
 		 * This code closes it upon load and adds a click event to the button to toggle it when clicked

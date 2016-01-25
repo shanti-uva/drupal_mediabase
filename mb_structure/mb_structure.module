@@ -448,11 +448,11 @@ function mb_structure_form_alter(&$form, &$form_state, $form_id) {
         $form['field_recording_location_new']['und']['#collapsible'] = FALSE;
         
         // Set Title field to just "Search"
-        $form['field_subcollection_new']['und']['field_subcollection_new_search_term']['#title'] = t("Search");
-        $form['field_subject']['und']['field_subject_search_term']['#title'] = t("Search");
-        $form['field_location']['und']['field_location_search_term']['#title'] = t("Search");
-        $form['field_recording_location_new']['und']['field_recording_location_new_search_term']['#title'] = t("Search");
-        //dpm(array('form'=>$form, 'form_state'=>$form_state), $form_id);
+        $form['field_subcollection_new']['und']['field_subcollection_new_search_term']['#title'] = t("Search for Subcollection");
+        $form['field_subject']['und']['field_subject_search_term']['#title'] = t("Search for Subject");
+        $form['field_location']['und']['field_location_search_term']['#title'] = t("Search for Location");
+        $form['field_recording_location_new']['und']['field_recording_location_new_search_term']['#title'] = t("Search for Recording Location");
+        dpm(array('form'=>$form, 'form_state'=>$form_state), $form_id);
     }
 	if ($form_id == 'og_ui_user_admin_account') {
 		/* The drop down on page group/node/{NID}/admin/people does not close because of an unknown glitch
@@ -647,7 +647,8 @@ function mb_structure_preprocess_node(&$vars) {
 			//dpm($vmeta, 'video metadata');
 			$vwidth = $vmeta->kaltura_width;
 			$vheight = $vmeta->kaltura_height;
-			$ratio = ($vwidth / $vheight < 1.4) ? "4:3" : "16:9"; // 4:3 == 1.33 but lucky dream's ratio is 1.36 so using < 1.4
+			$ratio = ($vheight == 0 || $vwidth / $vheight < 1.4) ? "4:3" : "16:9"; // 4:3 == 1.33 but lucky dream's ratio is 1.36 so using < 1.4
+			// Defaults to 4:3 if no height
 			drupal_add_js(array('mediabase' => array('vratio' => $ratio, 'vwidth' => $vwidth, 'vheight' => $vheight)), 'setting');
 		}
 		if(module_exists('transcripts_node')) {

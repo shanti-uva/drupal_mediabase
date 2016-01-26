@@ -349,17 +349,19 @@ function mb_solr_apachesolr_process_results(&$results, DrupalSolrQueryInterface 
         }
         // Add transcript tiers
         $item['has_transcript'] = $item['fields']['bs_has_transcript'];
-        $languages = array();
-        foreach ($item['fields']['sm_has_tier'] as $tier_name) {
-           $languages[] = $transcript_tiers[$tier_name];
+	if (isset($item['fields']['sm_has_tier'])) {
+           $langs = array();
+           foreach ($item['fields']['sm_has_tier'] as $tier_name) {
+              $langs[] = $transcript_tiers[$tier_name];
+           }
+           $item['transcript_tiers'] = implode(', ', $langs);
         }
-        $item['languages'] = implode(', ', $languages);
 
         // Implode thumbnail classes
         $classes = array();
         $classes[] = $item['bundle'];
         if ($item['has_transcript']) $classes[] = 'has-transcript';
-        $item['thumbnail-classes'] = implode(' ', $classes);
+        $item['thumbnail_classes'] = implode(' ', $classes);
       }
    }
 }

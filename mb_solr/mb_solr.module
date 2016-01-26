@@ -221,8 +221,10 @@ function mb_solr_apachesolr_query_alter($query) {
    	 // Add field im_media_create_date to fl param
      $query->setSolrsort('ds_created', 'desc'); // sort by date created so there can be pagination
      $fl = $query->getParam('fl');
-		 $fl[] = 'im_media_create_date';
-		 $query->replaceParam('fl', $fl);
+     $fl[] = 'im_media_create_date';
+     $fl[] = 'bs_has_transcript';
+     $fl[] = 'sm_has_tier';
+     $query->replaceParam('fl', $fl);
 		 
      // Random Sort filter
      /*
@@ -234,6 +236,11 @@ function mb_solr_apachesolr_query_alter($query) {
       */
    }
    if (preg_match("/^collection\//",$path) && !preg_match("/admin\/config/", $path))  {
+     $fl = $query->getParam('fl');
+     $fl[] = 'bs_has_transcript';
+     $fl[] = 'sm_has_tier';
+     $query->replaceParam('fl', $fl);
+
     // Collection id (gid) filter
      $gid_filters = $query->getFilters('im_collection_gid');
      foreach ($gid_filters as $idx => $gid_filter) {
@@ -271,9 +278,15 @@ function mb_solr_apachesolr_query_alter($query) {
       */ 
     
    }
+   else if (preg_match("/^search\/descriptions/", $path)) {
+     $fl = $query->getParam('fl');
+     $fl[] = 'bs_has_transcript';
+     $fl[] = 'sm_has_tier';
+     $query->replaceParam('fl', $fl);
+   }
 }
 
-/**
+/*
 *   mb_solr_apachesolr_process_results():
 * 
 *     Implementation of hook_apachesolr_process_results
@@ -301,6 +314,7 @@ function mb_solr_apachesolr_process_results(&$results, DrupalSolrQueryInterface 
 			}
 		}
    } else if (!preg_match("/admin\/config/", $path))  {
+     $transcript_tiers = transcripts_ui_tiers();
      foreach ( $results as $idx => &$item ) {
         $bundle = $item['bundle'];
         $media_field_table = "field_data_field_$bundle";
@@ -333,6 +347,19 @@ function mb_solr_apachesolr_process_results(&$results, DrupalSolrQueryInterface 
             );
           }
         }
+        // Add transcript tiers
+        $item['has_transcript'] = $item['fields']['bs_has_transcript'];
+        $languages = array();
+        foreach ($item['fields']['sm_has_tier'] as $tier_name) {
+           $languages[] = $transcript_tiers[$tier_name];
+        }
+        $item['languages'] = implode(', ', $languages);
+
+        // Implode thumbnail classes
+        $classes = array();
+        $classes[] = $item['bundle'];
+        if ($item['has_transcript']) $classes[] = 'has-transcript';
+        $item['thumbnail-classes'] = implode(' ', $classes);
       }
    }
 }

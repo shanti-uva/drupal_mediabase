@@ -19,7 +19,7 @@
  
  //dpm($result, 'result in template');
 ?>
-<li class="shanti-thumbnail <?php print $result['bundle']; ?>"> 
+<li class="shanti-thumbnail <?php print $result['thumbnail-classes']; ?>"> 
     <div class="shanti-thumbnail-image shanti-field-<?php print $result['bundle']; ?>"> 
       <a href="<?php print $result['link']; ?>" class="shanti-thumbnail-link">
          <span class="overlay">
@@ -52,6 +52,12 @@
       <?php if(isset($result['duration'])): ?>
         <div class="shanti-thumbnail-field shanti-field-duration">        
          <span class="field-content"> <?php print $result['duration']['formatted'] ?></span>
+        </div>
+      <?php endif; ?>
+
+      <?php if($result['has_transcript']): ?>
+        <div class="shanti-thumbnail-field shanti-field-languages">
+         <span class="field-content"> <?php print $result['languages'] ?></span>
         </div>
       <?php endif; ?>
             

@@ -314,7 +314,8 @@ function mb_solr_apachesolr_process_results(&$results, DrupalSolrQueryInterface 
 			}
 		}
    } else if (!preg_match("/admin\/config/", $path))  {
-     $transcript_tiers = transcripts_ui_tiers();
+     //$transcript_tiers = transcripts_ui_tiers();
+     $exclude_tiers = array('ts_content_wylie');
      foreach ( $results as $idx => &$item ) {
         $bundle = $item['bundle'];
         $media_field_table = "field_data_field_$bundle";
@@ -352,7 +353,9 @@ function mb_solr_apachesolr_process_results(&$results, DrupalSolrQueryInterface 
 	if (isset($item['fields']['sm_has_tier'])) {
            $langs = array();
            foreach ($item['fields']['sm_has_tier'] as $tier_name) {
-              $langs[] = $transcript_tiers[$tier_name];
+              if (!in_array($tier_name, $exclude_tiers)) {
+                 $langs[] = substr($tier_name, strrpos($tier_name, '_')+1);
+              }
            }
            $item['transcript_tiers'] = implode(', ', $langs);
         }

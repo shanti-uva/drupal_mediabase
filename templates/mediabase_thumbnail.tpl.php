@@ -60,18 +60,18 @@
          <span class="field-content"> <?php print $result['transcript_tiers'] ?></span>
         </div>
       <?php endif; ?>
-            
-      <?php if($coll): ?>
-        <div class="shanti-field shanti-field-group-audience">    
-            <!--<span class="shanti-label shanti-label-group-audience">in </span>    -->
-            <div class="shanti-field-content"><a href="<?php print $coll->url; ?>" 
-              class="shanti-thumbnail-link"><?php print $coll->title; ?></a>
-            </div>  
-        </div>  
-      <?php endif; ?>
     </div> <!-- end body-wrap -->
     
     <div class="footer-wrap">  
+      <?php if($coll): ?>
+        <div class="shanti-field shanti-field-group-audience">
+            <!--<span class="shanti-label shanti-label-group-audience">in </span>    -->
+            <div class="shanti-field-content"><a href="<?php print $coll->url; ?>"
+              class="shanti-thumbnail-link"><?php print $coll->title; ?></a>
+            </div>
+        </div>
+      <?php endif; ?>
+
       <?php if(isset($result['place_link']) && count($result['place_link']) > 0): ?>
         <div class="shanti-thumbnail-field shanti-field-place">        
          <span class="field-content"><i class="shanticon shanticon-places"></i> 

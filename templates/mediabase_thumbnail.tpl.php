@@ -51,13 +51,13 @@
       
       <?php if(isset($result['duration'])): ?>
         <div class="shanti-thumbnail-field shanti-field-duration">        
-         <span class="field-content"> <?php print $result['duration']['formatted'] ?></span>
+         <span class="field-content"><?php print $result['duration']['formatted'] ?></span>
         </div>
       <?php endif; ?>
 
       <?php if($result['has_transcript']): ?>
         <div class="shanti-thumbnail-field shanti-field-languages">
-         <span class="field-content"> <?php print $result['transcript_tiers'] ?></span>
+         <span class="field-content"><?php print $result['transcript_tiers'] ?></span>
         </div>
       <?php endif; ?>
     </div> <!-- end body-wrap -->

@@ -3695,7 +3695,7 @@ function audio_video_field_default_field_instances() {
     'settings' => array(
       'description_field' => 0,
       'file_directory' => 'transcripts',
-      'file_extensions' => 'xml txt',
+      'file_extensions' => 'xml txt srt',
       'max_filesize' => '',
       'user_register_form' => FALSE,
     ),
@@ -4984,7 +4984,7 @@ function audio_video_field_default_field_instances() {
     'settings' => array(
       'description_field' => 0,
       'file_directory' => 'transcripts',
-      'file_extensions' => 'xml txt',
+      'file_extensions' => 'xml txt srt',
       'max_filesize' => '',
       'user_register_form' => FALSE,
     ),

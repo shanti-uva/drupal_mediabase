@@ -622,16 +622,16 @@ function audio_video_field_default_field_instances() {
     'description' => '',
     'display' => array(
       'default' => array(
-        'label' => 'inline',
+        'label' => 'hidden',
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 0,
+        'weight' => 1,
       ),
     ),
     'entity_type' => 'field_collection_item',
     'field_name' => 'field_identifier',
-    'label' => 'Identifier',
+    'label' => 'ID',
     'required' => 0,
     'settings' => array(
       'text_processing' => 0,
@@ -644,7 +644,7 @@ function audio_video_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 2,
+      'weight' => 1,
     ),
   );
 
@@ -656,16 +656,16 @@ function audio_video_field_default_field_instances() {
     'description' => '',
     'display' => array(
       'default' => array(
-        'label' => 'inline',
+        'label' => 'hidden',
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 1,
+        'weight' => 0,
       ),
     ),
     'entity_type' => 'field_collection_item',
     'field_name' => 'field_identifier_source',
-    'label' => 'Identifier Source',
+    'label' => 'ID Source',
     'required' => 0,
     'settings' => array(
       'text_processing' => 0,
@@ -678,7 +678,7 @@ function audio_video_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 4,
+      'weight' => 0,
     ),
   );
 
@@ -3695,7 +3695,7 @@ function audio_video_field_default_field_instances() {
     'settings' => array(
       'description_field' => 0,
       'file_directory' => 'transcripts',
-      'file_extensions' => 'xml txt',
+      'file_extensions' => 'xml txt srt',
       'max_filesize' => '',
       'user_register_form' => FALSE,
     ),
@@ -4175,7 +4175,7 @@ function audio_video_field_default_field_instances() {
       'active' => 0,
       'module' => 'shanti_kmaps_fields',
       'settings' => array(),
-      'type' => 'kmap_tree_picker ',
+      'type' => 'kmap_typeahead_picker',
       'weight' => 16,
     ),
   );
@@ -4442,7 +4442,7 @@ function audio_video_field_default_field_instances() {
     ),
     'entity_type' => 'node',
     'field_name' => 'field_pbcore_identifier',
-    'label' => 'Identifier',
+    'label' => 'Identifiers',
     'required' => 0,
     'settings' => array(
       'user_register_form' => FALSE,
@@ -4751,7 +4751,7 @@ function audio_video_field_default_field_instances() {
     'description' => '',
     'display' => array(
       'default' => array(
-        'label' => 'above',
+        'label' => 'inline',
         'module' => 'shanti_kmaps_fields',
         'settings' => array(),
         'type' => 'kmap_popover_formatter',
@@ -4873,7 +4873,7 @@ function audio_video_field_default_field_instances() {
       'active' => 0,
       'module' => 'shanti_kmaps_fields',
       'settings' => array(),
-      'type' => 'kmap_tree_picker ',
+      'type' => 'kmap_typeahead_picker',
       'weight' => 11,
     ),
   );
@@ -4913,7 +4913,7 @@ function audio_video_field_default_field_instances() {
       'active' => 0,
       'module' => 'shanti_kmaps_fields',
       'settings' => array(),
-      'type' => 'kmap_tree_picker ',
+      'type' => 'kmap_typeahead_picker',
       'weight' => 13,
     ),
   );
@@ -4984,7 +4984,7 @@ function audio_video_field_default_field_instances() {
     'settings' => array(
       'description_field' => 0,
       'file_directory' => 'transcripts',
-      'file_extensions' => 'xml txt',
+      'file_extensions' => 'xml txt srt',
       'max_filesize' => '',
       'user_register_form' => FALSE,
     ),
@@ -5407,8 +5407,10 @@ function audio_video_field_default_field_instances() {
   t('Frame Rate');
   t('Frame Size');
   t('Generations');
+  t('ID');
+  t('ID Source');
   t('Identifier');
-  t('Identifier Source');
+  t('Identifiers');
   t('Kmap Annotation');
   t('Kmap Id');
   t('Kmap Parent Id');

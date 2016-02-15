@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 // [key] => array( '2_letter_code' => [2-letter-code], [name])
 // Taken from http://www.loc.gov/standards/iso639-2/ISO-639-2_utf-8.txt

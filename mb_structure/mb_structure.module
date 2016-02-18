@@ -690,6 +690,22 @@ function mb_structure_node_load($nodes, $types) {
 	}
 }
 
+/**
+ * Implementing hook_node_presave:
+ *      Checks if pbcore title field is set, if not (ie when there's an import), then uses the title to create a new field collection item for field_pbcore_title
+ *      Added ndg8f (2016-02-18)
+ *      TODO: See if we can customize and add to import from Kaltura.
+ */
+function mb_structure_node_presave($node) {
+    if (empty($node->field_pbcore_title)) {
+        $fc_item = entity_create('field_collection_item', array('field_name' => 'field_pbcore_title'));
+        $fc_item->setHostEntity('node', $node);
+        $fc_wrapper = entity_metadata_wrapper('field_collection_item', $fc_item);
+        $fc_wrapper->field_title->set($node->title);
+        $fc_wrapper->save();
+    } 
+}
+
 function mb_structure_node_insert($node) {
 	// Separate function to update a node's kaltura data in case it needs to be called from other contexts.
 	// mb_update_node_kaltura_data($node); // NOTE: Doesn't work for new node because Kaltura Client doesn't return full info

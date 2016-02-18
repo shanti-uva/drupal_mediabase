@@ -361,12 +361,43 @@ function theme_kaltura_player_html5_audio($vars) {
  *   entry_id : kaltura entry id 
  *   width & height : are numeric
  **/
-function mb_kaltura_get_thumbnail_url($entry_id, $width=240, $height=220) { // was $height 105 but defaults to lowest parameter.
+function mb_kaltura_get_thumbnail_url($entry_id, $width=190, $height=220) { // was $height 105 but defaults to lowest parameter.
 	$kalturaHelpers = new KalturaHelpers();
+    // create generic thumb url
+    $mbpath = drupal_get_path('module', 'mediabase');
+    $genericthumb = url($mbpath, array('absolute' => true)) . '/images/generic-video-thumb.jpg';
+    // if no entry_id is given, it's a node record without an attached kaltura a/v so return generic thumb
+    if ($entry_id == '' || strlen($entry_id) == 0) {
+        return $genericthumb;
+    }
+    // Otherwise get Katlura thumb and adjust type in URL
 	$thumburl = $kalturaHelpers->getThumbnailUrl(NULL, $entry_id, $width, $height);
 	$thumburl = str_replace('type/2','type/1', $thumburl);
 	$thumburl = str_replace('/bgcolor/000000','', $thumburl);
-	return $thumburl;
+	
+    // Make sure kaltura_thumb directory is in file structure or use default (Public)
+    $directory = file_build_uri('kaltura_thumbs');
+    if (!file_prepare_directory($directory, FILE_CREATE_DIRECTORY)) { $directory = "public://"; }
+    
+    // Create thumb filename based on entry_id
+    $destination = $directory . "/{$entry_id}-thumb.png";
+    
+    // If thumbnail already there, return it's url
+    if (file_exists($destination)) {
+        return file_create_url($destination);
+    } else {
+        // Otherwise, get the kaltura thumbnail and save locally if doesn't already exist
+        $file = system_retrieve_file($thumburl, $destination, TRUE);
+        if ($file !== false) {
+            // Return the local url for the thumb image
+            $thumburl = file_create_url($file->uri);
+        } else {
+            // Or else there was a problem.
+            watchdog("mb_kaltura", "Could not save thumb image file for entry id: " . $entry_id);
+           $thumburl = $genericthumb;
+        }
+	   return $thumburl;
+    }
 }
 
 

@@ -169,7 +169,7 @@ function mb_solr_apachesolr_index_document_build(ApacheSolrDocument $document, $
                                         }
 				}
                          }
-			 watchdog('mb_solr', 'Built audio-video document with nid = @nid', array('@nid' => $entity->nid));
+			 //watchdog('mb_solr', 'Built audio-video document with nid = @nid', array('@nid' => $entity->nid));
 		 } catch (Exception $e) {
 		 		$eid = (isset($entity->entity_id)) ? $entity->entity_id : FALSE;
 				$eid = (!$eid && !empty($entity->nid)) ? $entity->nid : FALSE;

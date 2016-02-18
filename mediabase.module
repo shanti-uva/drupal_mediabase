@@ -31,30 +31,30 @@ function mediabase_menu() {
    $items = array();
    
    $items['admin/config/media/mediabase'] = array(
-   'title' => 'Mediabase Settings',
-   'description' => 'Settings for Mediabase',
-   'page callback' => 'drupal_get_form',
-   'page arguments' => array('mediabase_settings_form'),
-   'access arguments' => array('administer mediabase'),
-   'type' => MENU_NORMAL_ITEM,
+       'title' => 'Mediabase Settings',
+       'description' => 'Settings for Mediabase',
+       'page callback' => 'drupal_get_form',
+       'page arguments' => array('mediabase_settings_form'),
+       'access arguments' => array('administer mediabase'),
+       'type' => MENU_NORMAL_ITEM,
    );
    
    $items['browse/media'] = array(
-   'title' => 'Browse Mediabase Content',
-   'description' => 'Settings for Mediabase',
-   'file' => 'includes/mediabase.browse.inc',
-   'page callback' => 'browse_media',
-   'type' => MENU_NORMAL_ITEM,
+       'title' => 'Browse Mediabase Content',
+       'description' => 'Settings for Mediabase',
+       'file' => 'includes/mediabase.browse.inc',
+       'page callback' => 'browse_media',
+       'type' => MENU_NORMAL_ITEM,
    );
    
    $items['persistent/%'] = array(
-    'title' => '',
-    'description' => 'Redirects a NID to its titled url',
-    'page callback' => 'mediabase_persistent_nid',
-    'page arguments' => array(1),
-    'access callback' => 'node_access',
-    'access arguments' => array('view', 1),
-    'type' => MENU_NORMAL_ITEM,
+        'title' => '',
+        'description' => 'Redirects a NID to its titled url',
+        'page callback' => 'mediabase_persistent_nid',
+        'page arguments' => array(1),
+        'access callback' => 'node_access',
+        'access arguments' => array('view', 1),
+        'type' => MENU_NORMAL_ITEM,
    );
    
    return $items;
@@ -195,33 +195,33 @@ function mediabase_do_batch_solr_index() {
 
 function mediabase_solr_index_nodes($max, &$context) {
 	if (empty($context['sandbox'])) {
-    $context['sandbox']['progress'] = 0;
-    $context['sandbox']['current_node'] = 0;
-    $context['sandbox']['max'] = $max;
-  }
-	$limit = 5;
-  $result = db_select('node')
-    ->fields('node', array('nid'))
-    ->condition('nid', $context['sandbox']['current_node'], '>')
-		->condition('type', array('audio','video'), 'IN')
-    ->orderBy('nid')
-    ->range(0, $limit)
-    ->execute();
-  foreach ($result as $row) {
-    $context['sandbox']['progress']++; 
-    $node = node_load($row->nid, NULL, TRUE);
-		$res = mb_services_post_to_solr($node);
-		$resval = $node->nid . ' : ' . check_plain($node->title);
-		if(isset($res->code)) { $resval .= " ({$res->code})"; }
-		$resmsg = t("Sending A/V Nodes to master index... (@progress of @max)", 
-								array('@progress' => $context['sandbox']['progress'], '@max' => $max));
-		$context['results'][] = $resval;
-		$context['sandbox']['current_node'] = $node->nid;
-		$context['message'] = $resmsg;
-  }
-  if ($context['sandbox']['progress'] < $context['sandbox']['max']) {
-    $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
-  }
+        $context['sandbox']['progress'] = 0;
+        $context['sandbox']['current_node'] = 0;
+        $context['sandbox']['max'] = $max;
+    }
+    $limit = 5;
+    $result = db_select('node')
+        ->fields('node', array('nid'))
+        ->condition('nid', $context['sandbox']['current_node'], '>')
+    		->condition('type', array('audio','video'), 'IN')
+        ->orderBy('nid')
+        ->range(0, $limit)
+        ->execute();
+    foreach ($result as $row) {
+        $context['sandbox']['progress']++; 
+        $node = node_load($row->nid, NULL, TRUE);
+    		$res = mb_services_post_to_solr($node);
+    		$resval = $node->nid . ' : ' . check_plain($node->title);
+    		if(isset($res->code)) { $resval .= " ({$res->code})"; }
+    		$resmsg = t("Sending A/V Nodes to master index... (@progress of @max)", 
+    								array('@progress' => $context['sandbox']['progress'], '@max' => $max));
+    		$context['results'][] = $resval;
+    		$context['sandbox']['current_node'] = $node->nid;
+    		$context['message'] = $resmsg;
+    }
+    if ($context['sandbox']['progress'] < $context['sandbox']['max']) {
+        $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
+    }
 }
 
 function mediabase_solr_index_nodes_finished($success, $results, $operations) {
@@ -309,28 +309,27 @@ function mediabase_theme() {
  *    Registers template folder for: node--audio, node--collection, node--video
 **/
 function mediabase_theme_registry_alter(&$theme_registry) {
-  $theme_registry_copy = $theme_registry;
-  $module_path = drupal_get_path('module', 'mediabase');
-  _theme_process_registry($theme_registry_copy, 'phptemplate', 'theme_engine', 'shanti_sarvaka', $module_path);
-  $theme_registry += array_diff_key($theme_registry_copy, $theme_registry);
-  // A list of templates the module will provide templates for
-  $hooks = array('node--audio', 'node--collection', 'node--video');
-  foreach ($hooks as $hook) {
-    // Add the key 'theme paths' if it doesn't exist in this theme's registry
-    if (!isset($theme_registry[$hook]['theme paths'])) {
-      $theme_registry[$hook]['theme paths'] = array();
+    $theme_registry_copy = $theme_registry;
+    $module_path = drupal_get_path('module', 'mediabase');
+    _theme_process_registry($theme_registry_copy, 'phptemplate', 'theme_engine', 'shanti_sarvaka', $module_path);
+    $theme_registry += array_diff_key($theme_registry_copy, $theme_registry);
+    // A list of templates the module will provide templates for
+    $hooks = array('node--audio', 'node--collection', 'node--video');
+    foreach ($hooks as $hook) {
+        // Add the key 'theme paths' if it doesn't exist in this theme's registry
+        if (!isset($theme_registry[$hook]['theme paths'])) {
+          $theme_registry[$hook]['theme paths'] = array();
+        }
+        // Shift this module's directory to the top of the theme path list
+        if (is_array($theme_registry[$hook]['theme paths'])) {
+            $first_element = array_shift($theme_registry[$hook]['theme paths']);
+            if ($first_element) {
+                array_unshift($theme_registry[$hook]['theme paths'], $first_element, $module_path);
+            } else {
+                array_unshift($theme_registry[$hook]['theme paths'], $module_path);
+            }
+        }
     }
-    // Shift this module's directory to the top of the theme path list
-    if (is_array($theme_registry[$hook]['theme paths'])) {
-      $first_element = array_shift($theme_registry[$hook]['theme paths']);
-      if ($first_element) {
-        array_unshift($theme_registry[$hook]['theme paths'], $first_element, $module_path);
-      }
-      else {
-        array_unshift($theme_registry[$hook]['theme paths'], $module_path);
-      }
-    }
-  }
 }
 
 /**
@@ -463,30 +462,6 @@ function mediabase_node_load($nodes, $types) {
 					//watchdog('mediabase', 'No Kaltura thumbnail found for node %nid. Item possibly deleted from Kaltura!', array('%nid' => $node->nid), WATCHDOG_WARNING);
 				}
 				if(empty($node->duration)) { $node->duration = array('seconds' =>'', 'formatted' => '');  }
-				
-        /*  OLD CODE : Keep for now 2014-08-05
-				 * 
-				 * $eid = _get_entry_id_from_node($node);
-        if($eid) { 
-          $media = _get_media_from_entry_id($eid);
-          // Add thumnail URL
-          $thumburl = mb_kaltura_get_thumbnail_url($eid);
-          $node->thumbnail_url = $thumburl;
-          $node->video_url = $media->dataUrl;
-          // Add duration
-          // Duration array consists of seconds (int) and formatted (str)
-          $node->duration = array(
-            'seconds' => $media->duration,
-            'formatted' => mediabase_format_duration($media->duration),
-          );
-        } else {
-          //dpm(array($types, $node), 'no eid in kaltura');
-          $node->thumbnail_url = '';
-          $node->duration = array('seconds' =>'', 'formatted' => '');
-          watchdog('mediabase', 'No kaltura video found for node %nid', array('%nid' => $node->nid), WATCHDOG_WARNING);
-        }
-        */
-        
       }
     }
   // If collection or team, add an array of all children media node ids

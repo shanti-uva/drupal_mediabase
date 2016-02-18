@@ -721,7 +721,7 @@ function mb_structure_node_insert($node) {
 function mb_structure_node_update($node) {
 	// Separate function to update a node's kaltura data in case it needs to be called from other contexts.
 	if($node->type == 'video' || $node->type == 'audio') { // added audio 2015-08-19
-		mb_update_node_kaltura_data($node);
+		mb_structure_update_node_kaltura_data($node);
 	}
 }
 
@@ -750,7 +750,7 @@ function mb_structure_form_node_delete_confirm_alter(&$form, &$form_state, $form
 }
    
 
-function mb_update_node_kaltura_data($node) {
+function mb_structure_update_node_kaltura_data($node) {
 	/* 
 	 * Use this function to refresh thumbnail and other Kaltura data for the media object, 
 	 * If it has a kaltura id, $kid = $node->field_video['und'][0]['entryid'];
@@ -767,7 +767,7 @@ function mb_update_node_kaltura_data($node) {
 		try {
 			$resultObject = kaltura_entry_load($kid);
 			if ($resultObject) {
-				$thumb_url = mb_kaltura_get_thumbnail_url($resultObject->kaltura_entryid);
+				$thumb_url = mb_kaltura_get_thumbnail_url($resultObject->kaltura_entryid, 190, 220, TRUE);
 				if(empty($thumb_url)) { $thumb_url = $resultObject->kaltura_thumbnailUrl; }
 				$ent['kaltura_entryid'] = $resultObject->kaltura_entryid;
 				$ent['kaltura_tags'] = $resultObject->kaltura_tags;

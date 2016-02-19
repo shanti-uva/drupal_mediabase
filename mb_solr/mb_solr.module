@@ -145,7 +145,11 @@ function mb_solr_apachesolr_index_document_build(ApacheSolrDocument $document, $
 				if(!empty($emw) && !empty($emw->field_pbcore_description)) {
 					foreach ($emw->field_pbcore_description->getIterator() as $delta => $term_wrapper) {
 						if(!empty($term_wrapper) && !empty($term_wrapper->field_description)) {
-						   $description .= $term_wrapper->field_description->value() . " ";
+						    // Added to ensure description is string after enabling text-formats/wysiwyg (ndg, 2016-02-19)
+						   $desc = $term_wrapper->field_description->value();
+                           if (is_array($desc) && !empty($desc['safe_value'])) { $desc = $desc['safe_value']; }
+						   if (!is_string($desc)) { $desc = ''; }
+						   $description .= $desc . " ";
 						}
 					}
 					if(!empty($description)) {
@@ -169,7 +173,7 @@ function mb_solr_apachesolr_index_document_build(ApacheSolrDocument $document, $
                                         }
 				}
                          }
-			 watchdog('mb_solr', 'Built audio-video document with nid = @nid', array('@nid' => $entity->nid));
+			 //watchdog('mb_solr', 'Built audio-video document with nid = @nid', array('@nid' => $entity->nid));
 		 } catch (Exception $e) {
 		 		$eid = (isset($entity->entity_id)) ? $entity->entity_id : FALSE;
 				$eid = (!$eid && !empty($entity->nid)) ? $entity->nid : FALSE;
@@ -551,6 +555,14 @@ function mb_solr_node_view($node, $view_mode, $langcode) {
 
 function theme_mb_solr_results($vars) {
 	$results = $vars['results'];
+    // Add generic thumbnail when one is not there
+    if (!empty($results['#results']) && is_array($results['#results'])) {
+        foreach ($results['#results'] as $n => &$res) {
+            if (empty($res['thumb_url'])) {
+                $res['thumb_url'] = url(drupal_get_path('module', 'mediabase') . '/images/generic-' . $res['bundle'] . '-thumb.jpg', array('absolute' => TRUE));
+            }
+        }
+    }
 	$node = $vars['node'];
 	$html = '<div class="mb-solr-results block-inner clearfix">'. drupal_render($results) . '</div>';
 	return $html;

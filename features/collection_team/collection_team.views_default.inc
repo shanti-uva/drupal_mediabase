@@ -66,7 +66,11 @@ function collection_team_views_default_views() {
   $handler->display->display_options['fields']['field_audio']['table'] = 'field_data_field_audio';
   $handler->display->display_options['fields']['field_audio']['field'] = 'field_audio';
   $handler->display->display_options['fields']['field_audio']['label'] = '';
+  $handler->display->display_options['fields']['field_audio']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['field_audio']['alter']['text'] = '<a href="[path]"><span class="play-icon-overlay"></span>
+[field_audio]</a>';
   $handler->display->display_options['fields']['field_audio']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_audio']['hide_empty'] = TRUE;
   $handler->display->display_options['fields']['field_audio']['click_sort_column'] = 'entryid';
   $handler->display->display_options['fields']['field_audio']['type'] = 'field_kaltura_thumbnail_only';
   $handler->display->display_options['fields']['field_audio']['settings'] = array(
@@ -91,6 +95,8 @@ function collection_team_views_default_views() {
   $handler->display->display_options['fields']['field_video']['alter']['path'] = '[path]';
   $handler->display->display_options['fields']['field_video']['alter']['absolute'] = TRUE;
   $handler->display->display_options['fields']['field_video']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_video']['empty'] = '<a href="[link]"><div class="kaltura"><div class="kaltura-thumb"><img src="/sites/all/modules/mediabase/images/generic-video-thumb.jpg" width="140" /></div></div></a>';
+  $handler->display->display_options['fields']['field_video']['hide_alter_empty'] = FALSE;
   $handler->display->display_options['fields']['field_video']['click_sort_column'] = 'entryid';
   $handler->display->display_options['fields']['field_video']['type'] = 'field_kaltura_thumbnail_only';
   $handler->display->display_options['fields']['field_video']['settings'] = array(
@@ -251,7 +257,11 @@ function collection_team_views_default_views() {
   $handler->display->display_options['fields']['field_audio']['table'] = 'field_data_field_audio';
   $handler->display->display_options['fields']['field_audio']['field'] = 'field_audio';
   $handler->display->display_options['fields']['field_audio']['label'] = '';
+  $handler->display->display_options['fields']['field_audio']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['field_audio']['alter']['text'] = '<a href="[path]"><span class="play-icon-overlay"></span>
+[field_audio]</a>';
   $handler->display->display_options['fields']['field_audio']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_audio']['hide_empty'] = TRUE;
   $handler->display->display_options['fields']['field_audio']['click_sort_column'] = 'entryid';
   $handler->display->display_options['fields']['field_audio']['type'] = 'field_kaltura_thumbnail_only';
   $handler->display->display_options['fields']['field_audio']['settings'] = array(
@@ -279,6 +289,8 @@ function collection_team_views_default_views() {
   $handler->display->display_options['fields']['field_video']['element_class'] = 'shanti-thumbnail-image shanti-field-video';
   $handler->display->display_options['fields']['field_video']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_video']['element_default_classes'] = FALSE;
+  $handler->display->display_options['fields']['field_video']['empty'] = '<a href="[link]"><div class="kaltura"><div class="kaltura-thumb"><img src="/sites/all/modules/mediabase/images/generic-video-thumb.jpg" width="140" /></div></div></a>';
+  $handler->display->display_options['fields']['field_video']['hide_alter_empty'] = FALSE;
   $handler->display->display_options['fields']['field_video']['click_sort_column'] = 'entryid';
   $handler->display->display_options['fields']['field_video']['type'] = 'field_kaltura_thumbnail_only';
   $handler->display->display_options['fields']['field_video']['settings'] = array(
@@ -288,7 +300,7 @@ function collection_team_views_default_views() {
     'entry_widget' => '48501',
     'player_width' => '400',
     'player_height' => '330',
-    'display_metadata' => 0,
+    'dispaly_metadata' => 0,
     'delivery' => 'HTTP',
     'custom_player' => '',
   );

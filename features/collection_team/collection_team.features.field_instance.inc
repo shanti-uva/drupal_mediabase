@@ -207,7 +207,7 @@ function collection_team_field_default_field_instances() {
     ),
     'widget' => array(
       'active' => 0,
-      'module' => NULL,
+      'module' => 'shanti_kmaps_fields',
       'settings' => array(),
       'type' => 'kmap_tree_picker',
       'weight' => 7,

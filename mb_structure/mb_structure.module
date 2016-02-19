@@ -690,6 +690,25 @@ function mb_structure_node_load($nodes, $types) {
 	}
 }
 
+/**
+ * Implementing hook_node_presave:
+ *      Checks if pbcore title field is set, if not (ie when there's an import), then uses the title to create a new field collection item for field_pbcore_title
+ *      Added ndg8f (2016-02-18)
+ *      TODO: See if we can customize and add to import from Kaltura.
+ */
+function mb_structure_node_presave($node) {
+   /* if (empty($node->field_video)) {
+        dpm($node, 'node with no video');
+    }*/
+    if (empty($node->field_pbcore_title)) {
+        $fc_item = entity_create('field_collection_item', array('field_name' => 'field_pbcore_title'));
+        $fc_item->setHostEntity('node', $node);
+        $fc_wrapper = entity_metadata_wrapper('field_collection_item', $fc_item);
+        $fc_wrapper->field_title->set($node->title);
+        $fc_wrapper->save();
+    } 
+}
+
 function mb_structure_node_insert($node) {
 	// Separate function to update a node's kaltura data in case it needs to be called from other contexts.
 	// mb_update_node_kaltura_data($node); // NOTE: Doesn't work for new node because Kaltura Client doesn't return full info
@@ -721,7 +740,7 @@ function mb_structure_node_insert($node) {
 function mb_structure_node_update($node) {
 	// Separate function to update a node's kaltura data in case it needs to be called from other contexts.
 	if($node->type == 'video' || $node->type == 'audio') { // added audio 2015-08-19
-		mb_update_node_kaltura_data($node);
+		mb_structure_update_node_kaltura_data($node);
 	}
 }
 
@@ -750,7 +769,7 @@ function mb_structure_form_node_delete_confirm_alter(&$form, &$form_state, $form
 }
    
 
-function mb_update_node_kaltura_data($node) {
+function mb_structure_update_node_kaltura_data($node) {
 	/* 
 	 * Use this function to refresh thumbnail and other Kaltura data for the media object, 
 	 * If it has a kaltura id, $kid = $node->field_video['und'][0]['entryid'];
@@ -767,7 +786,7 @@ function mb_update_node_kaltura_data($node) {
 		try {
 			$resultObject = kaltura_entry_load($kid);
 			if ($resultObject) {
-				$thumb_url = mb_kaltura_get_thumbnail_url($resultObject->kaltura_entryid);
+				$thumb_url = mb_kaltura_get_thumbnail_url($resultObject->kaltura_entryid, 190, 220, TRUE);
 				if(empty($thumb_url)) { $thumb_url = $resultObject->kaltura_thumbnailUrl; }
 				$ent['kaltura_entryid'] = $resultObject->kaltura_entryid;
 				$ent['kaltura_tags'] = $resultObject->kaltura_tags;

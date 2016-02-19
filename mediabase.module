@@ -458,8 +458,7 @@ function mediabase_node_load($nodes, $types) {
         }
 
 				if(empty($node->thumbnail_url)) {
-					$node->thumbnail_url = ''; 
-					//watchdog('mediabase', 'No Kaltura thumbnail found for node %nid. Item possibly deleted from Kaltura!', array('%nid' => $node->nid), WATCHDOG_WARNING);
+					$node->thumbnail_url = url($path,array('absolute' => TRUE)) . '/images/generic-' . $node->type . '-thumb.jpg'; 
 				}
 				if(empty($node->duration)) { $node->duration = array('seconds' =>'', 'formatted' => '');  }
       }

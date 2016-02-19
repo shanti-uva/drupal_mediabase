@@ -72,8 +72,20 @@ function mb_metadata_validate_title($element, &$form_state) {
    $fl = field_language('node', $form_state['node'], 'field_pbcore_title');
    $pbcore_title = $form_state['values']['field_pbcore_title'][$fl][0];
    if (empty($pbcore_title)) { $pbcore_title = $form_state['values']['field_pbcore_title']['und'][0]; }
-   $title = $pbcore_title['field_title']['und'][0]['value'];
-   $form_state['values']['title'] = $title;
+   if (isset($pbcore_title['field_title']['und'][0]['value'])) {
+       $title = $pbcore_title['field_title']['und'][0]['value'];
+       if (!empty($title)) {
+            $form_state['values']['title'] = $title;
+        }
+    } else if (is_array($pbcore_title['field_title']) && count($pbcore_title['field_title']) > 0) {
+        $langs = array_keys($pbcore_title['field_title']);
+        $title = $pbcore_title['field_title'][$langs[0]][0]['value'];
+        if (!empty($title)) {
+            $form_state['values']['title'] = $title;
+        }
+    } else {
+        watchdog('mb_metadata', serialize($pbcore_title));
+    }
 }
 
 /**

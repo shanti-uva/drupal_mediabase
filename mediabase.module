@@ -457,10 +457,10 @@ function mediabase_node_load($nodes, $types) {
           );
         }
 
-				if(empty($node->thumbnail_url)) {
-					$node->thumbnail_url = url($path,array('absolute' => TRUE)) . '/images/generic-' . $node->type . '-thumb.jpg'; 
-				}
-				if(empty($node->duration)) { $node->duration = array('seconds' =>'', 'formatted' => '');  }
+		if(empty($node->thumbnail_url)) {
+			$node->thumbnail_url = url($path,array('absolute' => TRUE)) . '/images/generic-' . $node->type . '-thumb.jpg'; 
+		}
+		if(empty($node->duration)) { $node->duration = array('seconds' =>'', 'formatted' => '');  }
       }
     }
   // If collection or team, add an array of all children media node ids

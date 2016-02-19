@@ -71,9 +71,8 @@ function mb_metadata_node_update_index($node) {
 function mb_metadata_validate_title($element, &$form_state) {
    $fl = field_language('node', $form_state['node'], 'field_pbcore_title');
    $pbcore_title = $form_state['values']['field_pbcore_title'][$fl][0];
-   $tlang = array_keys($pbcore_title['field_title']); // use the first input title of any $lang val
-   $tlang = (empty($tlang)) ? 'und' : $tlang[0];
-   $title = $pbcore_title['field_title'][$tlang][0]['value'];
+   if (empty($pbcore_title)) { $pbcore_title = $form_state['values']['field_pbcore_title']['und'][0]; }
+   $title = $pbcore_title['field_title']['und'][0]['value'];
    $form_state['values']['title'] = $title;
 }
 

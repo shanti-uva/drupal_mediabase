@@ -556,9 +556,11 @@ function mb_solr_node_view($node, $view_mode, $langcode) {
 function theme_mb_solr_results($vars) {
 	$results = $vars['results'];
     // Add generic thumbnail when one is not there
-    foreach ($results['#results'] as $n => &$res) {
-        if (empty($res['thumb_url'])) {
-            $res['thumb_url'] = url(drupal_get_path('module', 'mediabase') . '/images/generic-' . $res['bundle'] . '-thumb.jpg', array('absolute' => TRUE));
+    if (!empty($results['#results']) && is_array($results['#results'])) {
+        foreach ($results['#results'] as $n => &$res) {
+            if (empty($res['thumb_url'])) {
+                $res['thumb_url'] = url(drupal_get_path('module', 'mediabase') . '/images/generic-' . $res['bundle'] . '-thumb.jpg', array('absolute' => TRUE));
+            }
         }
     }
 	$node = $vars['node'];

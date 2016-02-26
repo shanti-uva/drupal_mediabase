@@ -668,11 +668,8 @@ function mb_structure_preprocess_node(&$vars) {
 					// override default tier list if transcript-specific tier list is available
 					$val = transcripts_apachesolr_already_indexed_tiers('transcripts_node', 'node', $vars['node']->nid);
 					if (!empty($val)) {
-						$tiers = explode(' ', $val);
-						$options['tiers'] = array_filter(transcripts_ui_tiers(),
-							function ($key) use ($tiers) {
-								return in_array($key, $tiers);
-							}, ARRAY_FILTER_USE_KEY);
+						$tiers = array_fill_keys(explode(' ', $val), null);
+						$options['tiers'] = array_intersect_key(transcripts_ui_tiers(), $tiers);
 					}
 					$ui = transcripts_ui_ui('transcripts_apachesolr', $trid, $options);
 			  		if ($ui->tcuCount > 0) {

@@ -640,9 +640,10 @@ function mb_structure_preprocess_html(&$vars) {
  * Add variable has_transcript
  */
 function mb_structure_preprocess_node(&$vars) {
-	//dpm($vars, 'vars in node pp 2');
 	// Only do following code if full view mode due to time consuming factor on galleries of multiple nodes
 	if($vars['view_mode'] == 'full') {
+	    
+        //dpm($vars, 'vars in node pp 2');
 		if ($vars['type'] == 'video') {
 			// Add a mediabase setting for vratio with the ration of the movie
 			$kid = $vars['field_video'][0]['entryid'];

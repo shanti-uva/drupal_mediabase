@@ -819,6 +819,7 @@ IMPORT
 */
 
 function mb_kaltura_import_form($form_id, $form_state) {
+   // dpm ($form_state, $form_id);
    /*    IMPORT FORM FILTERS (not working)
    if ( !empty($form_state['input'])) {
    $limit = $form_state['input']['pager_limit'];
@@ -890,8 +891,53 @@ function mb_kaltura_import_form($form_id, $form_state) {
          '#options' => array(0 => "Select All"),  
          '#attributes' => array('style' => 'display : none'),  
          );
-      
-      $entry_ids=array();
+      $form['entry_table'] = array(
+          '#prefix' => '<div id="kaltura-import-entry-table">',
+          '#suffix' => '</div>',
+          '#tree' => TRUE,
+          '#theme' => 'mb_kaltura_entry_table'
+      );
+      foreach( $remote_entries as $entry ) {
+          $type='';
+          if ( $entry->mediaType == KalturaMediaType::VIDEO) {
+                $type='Video';
+          } else if ( $entry->mediaType == KalturaMediaType::AUDIO) {
+                $type='Audio';
+          } else if ( $entry->mediaType == KalturaMediaType::IMAGE) {
+                $type='Image';
+          }
+          $form['entry_table'][] = array(
+                'c_check' => array(
+                        '#type' => 'checkbox',
+                        '#return_value' => $entry->id,
+                        '#title' => '',
+                ),
+                'c_thumb' => array(
+                        '#type' => 'markup',
+                        '#markup' => "<img src='" . $entry->thumbnailUrl . "'/>",
+                ),
+                'c_eid' => array(
+                        '#type' => 'markup',
+                        '#markup' => $entry->id,
+                ),
+                'c_title' => array(
+                        '#type' => 'textfield',
+                        '#maxlength' => 255, 
+                        '#default_value' => $entry->name,
+                        '#value' => $entry->name,
+                ),
+                'c_type' => array(
+                        '#type' => 'markup',
+                        '#markup' => $type,
+                ),
+                'c_created' => array(
+                        '#type' => 'markup',
+                        '#markup' =>  date('M jS, Y g:i a', $entry->createdAt),
+                ),
+          );
+      }
+
+      /* old code
       foreach( $remote_entries as $entry ) {
          if (isset($_GET['filter']) && strpos($entry->partnerData,$_GET['filter']) === FALSE) {
             continue;
@@ -937,7 +983,8 @@ function mb_kaltura_import_form($form_id, $form_state) {
          '#options' => $entry_ids,
          '#prefix' => '<div id="checkboxes-div">',
          '#suffix' => '</div>',
-         );
+         );*/
+         
       $form['import_selected'] = array (
          '#type' => 'submit',
          '#value' => t('Import Selected')
@@ -945,7 +992,7 @@ function mb_kaltura_import_form($form_id, $form_state) {
       
       //add a submit handler
       $form['#submit'][]='_import_entries_page';
-      
+      /*
       $form['header'] = array(
          '#type' => 'value', 
          '#value' => array( 
@@ -957,7 +1004,7 @@ function mb_kaltura_import_form($form_id, $form_state) {
             array('data' => t('Created'),'field' => 'createdAt', 'sort' => 'desc'),
             array('data' => t('Updated'), 'field' => 'updatedAt'),
             )
-         );
+         );*/
    } else {
       $form['#prefix'] = t("There are no items to import on the Kaltura server.");
    }
@@ -968,8 +1015,9 @@ function mb_kaltura_import_form($form_id, $form_state) {
 return $form['entry_ids'];
 } */
 
+/*
 function theme_mb_kaltura_import_form(&$form) {
-   $form = array_pop($form); // Why is this necessary in D7??
+   //$form = array_pop($form); // Why is this necessary in D7??
    $output = '';
    $output .= drupal_render($form['filters']);
    $output .= drupal_render($form['admin_data']);
@@ -995,12 +1043,15 @@ function theme_mb_kaltura_import_form(&$form) {
    $output .= drupal_render_children($form); // Process any other fields and display them
    return $output;
 }
+*/
 
 /**
 * This submit handler overrides the callback for 
 * /admin/settings/kaltura/entries/import set in kaltura module
 */
 function _import_entries_page($form, &$form_state) {
+    dpm($form_state, 'entries page');
+    return "<div>In entried function</div>";
    if ($form_state['clicked_button']['#parents'][0] == 'filter') {
       drupal_goto(array_pop(drupal_get_destination()));
       return;
@@ -1012,12 +1063,20 @@ function _import_entries_page($form, &$form_state) {
    $pattern = '/(.*\[uid:)(\d+)(.)/';
    $author_uid =  preg_replace($pattern, $replacement, $form_state['values']['author']);
    $operations = array();
+   
    foreach ( $form_state['values']['entry_ids'] as $key ) {
       if ( $key) {
          $title = $form_state['values']['title_' . $key];
          $operations[] = array('create_node_mediabase', array($key, $title, $collection_nid, $author_uid));
       }
    }
+   /* old code
+   foreach ( $form_state['values']['entry_ids'] as $key ) {
+      if ( $key) {
+         $title = $form_state['values']['title_' . $key];
+         $operations[] = array('create_node_mediabase', array($key, $title, $collection_nid, $author_uid));
+      }
+   }*/
    $batch = array(
       'operations' => $operations,
       'file' => drupal_get_path('module', 'mb_kaltura') . '/mb_kaltura.inc',
@@ -1186,8 +1245,8 @@ function get_local_entries() {
 /**
 * Get remote entries for use on the page: Import Kaltura Items
 **/
-function get_importable_entries($order = NULL, $sort = NULL, $limit = 500) {
-   $limit = $limit <= 500 ? $limit : 500;
+function get_importable_entries($order = NULL, $sort = NULL, $limit = 100) {
+   //$limit = $limit <= 100 ? $limit : 100;
    $sort_order_map = array(
       'Title' => array(
          'asc' => KalturaMediaEntryOrderBy::NAME_ASC,
@@ -1223,6 +1282,7 @@ function get_importable_entries($order = NULL, $sort = NULL, $limit = 500) {
    $pager_filter = new KalturaFilterPager();
    $pager_filter->pageSize =  $limit;
    try {
+       /* This erroneously returns list of all entries around 1100 and takes too long. Taking out, ndg8f
       $count = $kaltura_client->media->count($filter);
       $pages = ceil($count/$limit);
       $objects = array();
@@ -1230,7 +1290,9 @@ function get_importable_entries($order = NULL, $sort = NULL, $limit = 500) {
          $pager_filter->pageIndex =  $i;
          $result = $kaltura_client->media->listAction($filter, $pager_filter);
          $objects = array_merge($objects,$result->objects);
-      }
+      } */
+      $results = $kaltura_client->media->listAction($filter, $pager_filter);
+      $objects = $results->objects;
    }
    catch ( Exception $e ) {
       $msg = t("Had trouble listing remote entries from Kaltura.");

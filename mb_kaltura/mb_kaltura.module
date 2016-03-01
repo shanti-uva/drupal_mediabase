@@ -229,10 +229,14 @@ function mb_kaltura_theme() {
       'kaltura_player_html5_audio' => array(
          'variables' => array(),
          ),
+      'mb_kaltura_entry_table' => array(
+         'render element' => 'element',
+      ),
+         /*
       'mb_kaltura_import_form' => array(
          'function' => 'theme_mb_kaltura_import_form',
          'file' => 'mb_kaltura.inc',
-         ),
+         ),*/
       );
 }
 
@@ -277,7 +281,6 @@ function mb_kaltura_video_tag($entry_id) {
    }
    return theme('kaltura_player_html5_video', array('html5_sources' => $html5_sources));
 }
-
 
 function mb_kaltura_audio_tag($entry_id) {
    if ( empty($entry_id) ) {
@@ -328,6 +331,23 @@ function mb_kaltura_field_formatter_view($entity_type, $entity, $field, $instanc
       break;
    }
    return $element;
+}
+
+function theme_mb_kaltura_entry_table($vars) {
+    $element = $vars['element'];
+    $header = array( t('Select'), t('Thumbnail'), t('Entry Id'), t('Title'), t('Type'), t('Date Created'));
+    $rows = array();
+    foreach (element_children($element) as $key) {
+        $rows[] = array(
+            array('data' => render($element[$key]['c_check'])),
+            array('data' => render($element[$key]['c_thumb'])),
+            array('data' => render($element[$key]['c_eid'])),
+            array('data' => render($element[$key]['c_title'])),
+            array('data' => render($element[$key]['c_type'])),
+            array('data' => render($element[$key]['c_created'])),
+        );
+    }
+    return theme('table', array('header' => $header, 'rows' => $rows));
 }
 
 function theme_kaltura_player_html5_video($vars) {

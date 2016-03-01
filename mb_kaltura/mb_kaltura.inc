@@ -819,7 +819,7 @@ IMPORT
 */
 
 function mb_kaltura_import_form($form_id, $form_state) {
-   // dpm ($form_state, $form_id);
+   $params = drupal_get_query_parameters();
    /*    IMPORT FORM FILTERS (not working)
    if ( !empty($form_state['input'])) {
    $limit = $form_state['input']['pager_limit'];
@@ -831,8 +831,9 @@ function mb_kaltura_import_form($form_id, $form_state) {
    else {
    $remote_entries = get_remote_entries();
    } */
-   
-   $remote_entries = get_importable_entries();
+   $pg = (!empty($params['pg'])) ? $params['pg'] : 1;
+   $rn = (!empty($params['rn'])) ? $params['rn'] : 100;
+   $remote_entries = get_importable_entries($pg, $rn);
    
    $form=array();
    if ( count( $remote_entries ) ) {
@@ -891,6 +892,12 @@ function mb_kaltura_import_form($form_id, $form_state) {
          '#options' => array(0 => "Select All"),  
          '#attributes' => array('style' => 'display : none'),  
          );
+      $form['filters']['pager_limit'] = array(
+      '#type' => 'select',
+      '#title' => 'Results',
+      '#options' => array('10' => 10,'25' => 25,'50' => 50,'100' => 100,'250' => 250,'500' => 500),
+      '#default_value' => $limit,
+      );  
       $form['entry_table'] = array(
           '#prefix' => '<div id="kaltura-import-entry-table">',
           '#suffix' => '</div>',
@@ -1050,8 +1057,6 @@ function theme_mb_kaltura_import_form(&$form) {
 * /admin/settings/kaltura/entries/import set in kaltura module
 */
 function _import_entries_page($form, &$form_state) {
-    dpm($form_state, 'entries page');
-    return "<div>In entried function</div>";
    if ($form_state['clicked_button']['#parents'][0] == 'filter') {
       drupal_goto(array_pop(drupal_get_destination()));
       return;
@@ -1063,13 +1068,16 @@ function _import_entries_page($form, &$form_state) {
    $pattern = '/(.*\[uid:)(\d+)(.)/';
    $author_uid =  preg_replace($pattern, $replacement, $form_state['values']['author']);
    $operations = array();
-   
-   foreach ( $form_state['values']['entry_ids'] as $key ) {
-      if ( $key) {
-         $title = $form_state['values']['title_' . $key];
-         $operations[] = array('create_node_mediabase', array($key, $title, $collection_nid, $author_uid));
+   // Must use ['input'] because this has changes made to title text field
+   $entries = $form_state['input']['entry_table'];
+   //return;
+   foreach ( $entries as $key =>$entry ) {
+      if ( $entry['c_check']) {
+         $title = $entry['c_title'];
+         $operations[] = array('create_node_mediabase', array($entry['c_check'], $title, $collection_nid, $author_uid));
       }
    }
+   
    /* old code
    foreach ( $form_state['values']['entry_ids'] as $key ) {
       if ( $key) {
@@ -1245,8 +1253,7 @@ function get_local_entries() {
 /**
 * Get remote entries for use on the page: Import Kaltura Items
 **/
-function get_importable_entries($order = NULL, $sort = NULL, $limit = 100) {
-   //$limit = $limit <= 100 ? $limit : 100;
+function get_importable_entries($pg = 1, $limit = 100, $order = NULL, $sort = NULL) {
    $sort_order_map = array(
       'Title' => array(
          'asc' => KalturaMediaEntryOrderBy::NAME_ASC,

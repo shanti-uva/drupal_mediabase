@@ -98,6 +98,48 @@ Drupal.behaviors.mb_kaltura = {
               $('#kaltura-uploader-form .form-actions').show();
           }
       }
+      
+      // Kaltura import select: When select is changed reload page with new rn param and pg param which defaults to page 1
+      $('#mb-kaltura-import-form #kaltura-limit-select').change(function(e) {
+          e.preventDefault();
+          var ss = window.location.search;
+          rn = $(this).val();
+          ss = '?rn=' + rn;
+          window.location.search = ss;
+      });
+      
+      // When the kaltura import form page number is changed
+      $('#mb-kaltura-import-form .pagediv input.pagenum').change(function(e) {
+          e.preventDefault();
+          var pn = $(this).val(),
+                ss = window.location.search,
+                rn= false;
+          var pts = ss.replace('?', '').split('&');
+          for (var n in pts) {
+              var ppts = pts[n].split('=');
+              if (ppts[0] == 'rn') { rn = ppts[1];}
+          }
+          ss = '?pg=' + pn;
+          if (rn) { ss += '&rn=' + rn; }
+          window.location.search = ss;
+      });
+      // When kaltura id search box is changed, initiate search for kid
+      $('.form-item-id-search #edit-id-search').change(function(e) {
+          e.preventDefault();
+          var kid = $(this).val(),
+                ss = window.location.search;
+          ss = ss.split('&kid');
+          window.location.search = ss[0] + '&kid=' + kid;
+      });
+      
+      $('#mb-kaltura-import-form input[type=text]').keypress(function(event){
+        var enterOkClass =  jQuery(this).attr('class');
+        if (event.which == 13 && enterOkClass != 'enterSubmit') {
+            event.preventDefault();
+            $(this).change();
+            return false;   
+        }
+    });
    }
 };
 

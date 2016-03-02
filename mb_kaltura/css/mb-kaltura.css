@@ -1,0 +1,26 @@
+#mb-kaltura-import-form .form-item-pager-limit ,
+#mb-kaltura-import-form .form-item-id-search,
+#mb-kaltura-import-form .mb-kaltura-entry-pager, 
+#mb-kaltura-import-form .mb-kaltura-entry-pager div {
+    display: inline-block;
+}
+
+#mb-kaltura-import-form .form-item-id-search {
+    position: relative;
+    margin: 0px 12px;
+    top: 20px;
+}
+
+#mb-kaltura-import-form .mb-kaltura-entry-pager {
+    margin-left: 16px;
+}
+
+#mb-kaltura-import-form .mb-kaltura-entry-pager div {
+    padding: 5px;
+}
+
+div#kaltura-import-entry-table {
+    top: 8px;
+    position: relative;
+    padding-bottom: 12px;
+}

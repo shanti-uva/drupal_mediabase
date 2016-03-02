@@ -232,6 +232,9 @@ function mb_kaltura_theme() {
       'mb_kaltura_entry_table' => array(
          'render element' => 'element',
       ),
+      'mb_kaltura_entry_table_pager' => array(
+         'render element' => 'element',
+      ),
          /*
       'mb_kaltura_import_form' => array(
          'function' => 'theme_mb_kaltura_import_form',
@@ -334,11 +337,17 @@ function mb_kaltura_field_formatter_view($entity_type, $entity, $field, $instanc
 }
 
 function theme_mb_kaltura_entry_table($vars) {
+//    dpm($vars, 'vars in thme');
     $element = $vars['element'];
-    $header = array( t('Select'), t('Thumbnail'), t('Entry Id'), t('Title'), t('Type'), t('Date Created'));
+    $header = array(  t('Thumbnail'), t('Entry Id'), t('Title'), t('Type'), t('Date Created'));
+    array_unshift($header, array('class' => array('select-all'))); // Add select all checkbox and enabling javascript
+    array_unshift($header, '#');
+    drupal_add_js('misc/tableselect.js');
     $rows = array();
+    $n = $element['#start_number'];
     foreach (element_children($element) as $key) {
         $rows[] = array(
+            array('data' => "{$n}."),
             array('data' => render($element[$key]['c_check'])),
             array('data' => render($element[$key]['c_thumb'])),
             array('data' => render($element[$key]['c_eid'])),
@@ -346,8 +355,33 @@ function theme_mb_kaltura_entry_table($vars) {
             array('data' => render($element[$key]['c_type'])),
             array('data' => render($element[$key]['c_created'])),
         );
+        $n++;
     }
-    return theme('table', array('header' => $header, 'rows' => $rows));
+    $page = theme('table', array('header' => $header, 'rows' => $rows));
+    return $page;
+}
+
+function theme_mb_kaltura_entry_table_pager($vars) {
+    //dpm($vars, 'vars in pager thme');
+    $element = $vars['element'];
+    $pn = $element['#current_page'];
+    $np = $pn + 1;
+    $pp = $pn - 1;
+    $total = $element['#total_items'];
+    $rws = $element['#items_per_page'];
+    $pgtotal = floor($total / $rws);
+    $path = current_path();
+    $firsturl = url($path , array('query' => array('rn' => $rws, 'pg' =>1)));
+    $prevurl =  url($path , array('query' => array('rn' => $rws, 'pg' =>$pp)));
+    $nexturl = url($path , array('query' => array('rn' => $rws, 'pg' =>$np)));
+    $lasturl = url($path , array('query' => array('rn' => $rws, 'pg' =>$pgtotal)));
+    $output = '<div class="mb-kaltura-entry-pager">';
+    $output .= '<div class="firstdiv"><a href="' . $firsturl . '" title="first page">|<</a> </div>';
+    $output .= '<div class="prevdiv"><a href="' . $prevurl . '" title="previous page"><</a> </div>';
+    $output .= '<div class="pagediv">Page <input type="text" class="pagenum form-text" size="5" value="' . $pn . '" /> of ' . $pgtotal . '</div>';
+    $output .= '<div class="nextdiv"><a href="' . $nexturl . '" title="next page">></a></div>';
+    $output .= '<div class="lastdiv"><a href="' . $lasturl . '" title="last page">>|</a></div></div>';
+    return $output;
 }
 
 function theme_kaltura_player_html5_video($vars) {

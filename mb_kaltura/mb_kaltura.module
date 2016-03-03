@@ -76,7 +76,7 @@ function mb_kaltura_menu_alter(&$items) {
    $items['admin/config/media/kaltura/import']['access arguments'] =  array('administer mediabase');
    $items['admin/config/media/kaltura/import']['file'] =  'mb_kaltura.inc';
    $items['admin/config/media/kaltura/import']['module'] =  'mb_kaltura';
-
+    
    // This is a copy of  admin/settings/kaltura/entries/import  to go in the content menu
    $items['admin/content/mediabase/import'] = $items['admin/config/media/kaltura/import'];
    $items['admin/content/mediabase/import']['type'] =   MENU_LOCAL_TASK;

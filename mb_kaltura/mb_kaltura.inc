@@ -1102,7 +1102,7 @@ function create_node_mediabase($entry_id, $title = NULL, $collection_nid = NULL,
    
    // use kaltura module api to add entry to node_kaltura
    module_load_include('inc','kaltura','includes/kaltura.admin');
-   kaltura_import_entry($entry); 
+   kaltura_import_entries(array($entry_id)); 
    
    //create media node
    $type='MISSING_TYPE';
@@ -1134,6 +1134,7 @@ function create_node_mediabase($entry_id, $title = NULL, $collection_nid = NULL,
    $node['mb_kaltura_import'] = true; //Set this flag to prevent title getting overwritten in mediabase.module
    
    $node = (object)$node;
+
    add_tags($node, $entry);
    node_save( $node);
    
@@ -1291,6 +1292,7 @@ function get_importable_entries($pg = 1, $limit = 100, $order = NULL, $sort = NU
       
        if (empty($kid)) {
           // TODO: Pager numbers do not always add up because existing entries are filtered out AFTER this call. This needs to be fixed
+          // Check kaltura.admin.inc for how it finds unimported entities
           $results = $kaltura_client->media->listAction($filter, $pager_filter);
           $objects = $results->objects;
        } else {

@@ -640,9 +640,10 @@ function mb_structure_preprocess_html(&$vars) {
  * Add variable has_transcript
  */
 function mb_structure_preprocess_node(&$vars) {
-	//dpm($vars, 'vars in node pp 2');
 	// Only do following code if full view mode due to time consuming factor on galleries of multiple nodes
 	if($vars['view_mode'] == 'full') {
+	    
+        //dpm($vars, 'vars in node pp 2');
 		if ($vars['type'] == 'video') {
 			// Add a mediabase setting for vratio with the ration of the movie
 			$kid = $vars['field_video'][0]['entryid'];
@@ -665,6 +666,12 @@ function mb_structure_preprocess_node(&$vars) {
 				);
 				$trid = transcripts_apachesolr_already_indexed_trid('transcripts_node', 'node', $vars['node']->nid);
 				if ($trid) {
+					// override default tier list if transcript-specific tier list is available
+					$val = transcripts_apachesolr_already_indexed_tiers('transcripts_node', 'node', $vars['node']->nid);
+					if (!empty($val)) {
+						$tiers = array_fill_keys(explode(' ', $val), null);
+						$options['tiers'] = array_intersect_key(transcripts_ui_tiers(), $tiers);
+					}
 					$ui = transcripts_ui_ui('transcripts_apachesolr', $trid, $options);
 			  		if ($ui->tcuCount > 0) {
 						$vars['trid'] = $trid;

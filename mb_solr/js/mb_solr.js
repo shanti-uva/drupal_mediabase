@@ -8,33 +8,36 @@
 		}
 	}
 	
-	//  ndg8f 2013-11-14
+	//  ndg8f 2013-11-14: Updated (2016-02-19) to load only when tab is first clicked to speed up page load.
 	Drupal.behaviors.mbSolr={ 
 		attach: function(context) {
 			//console.log('mb solr js context:', $(context).attr('id'));
 			if(context == document) { 
-
-				// Ajax Service Call for More Like This Related videos
-				var data = $('div#related').data();
-				if(data != null && typeof(data.nid) != 'undefined') { 
-					var nid = data.nid;
-					var ct = (typeof(data.count) != "undefined") ? '/' + data.count : '';
-					var url = Drupal.settings.basePath + 'services/mlt/' + nid + ct;
-					$('#related.mlt').load(url, function() { 
-						$("#related.mlt .dev-query").remove();
-						$("#related.mlt .shanti-gallery").addClass('clearfix');
-						Drupal.attachBehaviors('#related.mlt');
-					});
-				}
-				// Set height of facet block to match height of flyout
-				setTimeout(function() {
-					$('.block-facetapi').each(function() { 
-							var hgt = $(this).parent().height(); 
-							$(this).height(hgt); 
-							$(this).children('.content').height(hgt); 
-					});
-				}, 1000);
-				
+                // Load more related when tab is clicked
+               $('#related-tab').on('show.bs.tab', function() {
+                    // Ajax Service Call for More Like This Related videos
+                    var data = $('div#related').data();
+                    if(data != null && typeof(data.nid) != 'undefined') { 
+                        if ($('#related-av-nodes .loading-img').length > 0) {
+                            var nid = data.nid;
+                            var ct = (typeof(data.count) != "undefined") ? '/' + data.count : '';
+                            var url = Drupal.settings.basePath + 'services/mlt/' + nid + ct;
+                            $('#related-av-nodes').load(url, function() { 
+                                $("#related.mlt .dev-query").remove();
+                                $("#related.mlt .shanti-gallery").addClass('clearfix');
+                                Drupal.attachBehaviors('#related.mlt');
+                            });
+                        }
+                    }
+                    // Set height of facet block to match height of flyout
+                    setTimeout(function() {
+                        $('.block-facetapi').each(function() { 
+                                var hgt = $(this).parent().height(); 
+                                $(this).height(hgt); 
+                                $(this).children('.content').height(hgt); 
+                        });
+                    }, 1000);
+                });
 		 } else if($(context).attr('id') == 'views-exposed-form-browse-media-home-block') {
 		 		// Home block views ajax sort/filter request
 		 		if ($('#no-views-filter-results').length > 0) {

@@ -877,14 +877,15 @@ function collection_team_views_default_views() {
   $handler->display->display_options['fields']['field_images']['field'] = 'field_images';
   $handler->display->display_options['fields']['field_images']['label'] = '';
   $handler->display->display_options['fields']['field_images']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_images']['alter']['path'] = '[path]';
   $handler->display->display_options['fields']['field_images']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_images']['element_default_classes'] = FALSE;
-  $handler->display->display_options['fields']['field_images']['empty'] = ' <a href="[path]"><img src="/sites/all/modules/mediabase/images/collections-generic.png" width="170" /></a>';
+  $handler->display->display_options['fields']['field_images']['empty'] = '<img class="img-responsive" typeof="foaf:Image" src="/sites/all/modules/mediabase/images/collections-generic.png" width="200" height="150" alt="">';
   $handler->display->display_options['fields']['field_images']['hide_alter_empty'] = FALSE;
   $handler->display->display_options['fields']['field_images']['click_sort_column'] = 'fid';
   $handler->display->display_options['fields']['field_images']['settings'] = array(
     'image_style' => 'gallery_thumb',
-    'image_link' => 'content',
+    'image_link' => '',
   );
   $handler->display->display_options['fields']['field_images']['group_column'] = 'title';
   $handler->display->display_options['fields']['field_images']['delta_limit'] = '1';
@@ -910,10 +911,9 @@ function collection_team_views_default_views() {
   $handler->display->display_options['fields']['created']['alter']['alter_text'] = TRUE;
   $handler->display->display_options['fields']['created']['alter']['text'] = '<div class="shanti-thumbnail-image shanti-field-collection">
    <a href="[path]" class="shanti-thumbnail-link">
-      <span class="overlay"><span class="icon"></span></span>
+     <span class="overlay"><span class="icon"></span></span>
       [field_images]
-      <span class="icon shanticon-grid"></span>
-   </a>
+      <span class="icon shanticon-grid"></span></a>
 </div>
 <div class="shanti-thumbnail-info">      
   <div class="body-wrap">

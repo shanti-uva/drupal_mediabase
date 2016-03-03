@@ -121,9 +121,7 @@
                             },
 
 			    setCurrentTime: function(seconds) {
-                        	var $iframe = $('.kaltura-embed iframe').first().contents();
-                        	var vid = $('video,audio', $iframe)[0];
-				vid.currentTime = seconds;
+				this.player.sendNotification('doSeek', seconds);
 			    }
                         };
                         $.extend(scroller, kaltura);

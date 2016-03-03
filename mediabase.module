@@ -385,7 +385,7 @@ function mediabase_preprocess_node(&$variables) {
 						$dclass = convert_lang_name_to_code($fci->field_language['und'][0]['value']);
 						// Make lang name label for when showing all languages
 						$langname = (empty($fci->field_language['und'][0]['value'])) ? t("English") : t($fci->field_language['und'][0]['value']);
-						$dlabel = "<label class=\"hidden pb-desc-label\">" . $langname . ':</label> ';
+						$dlabel = "<label class=\"hidden pb-desc-label langname\">" . $langname . ':</label> ';
 						// Initially hide alt languages
 						if(isset($fci->field_language['und'][0]) && $fci->field_language['und'][0]['value'] != $variables['currlang']) {
 							$dclass .= ' hidden altlang';
@@ -493,7 +493,7 @@ function mediabase_node_load($nodes, $types) {
 function mediabase_node_view($node, $view_mode, $langcode) {
 	// If it is full view mode of audio or video
 	if(in_array($node->type, array('audio', 'video')) && $view_mode == 'full') {
-		//dpm($node, 'node');
+		//dpm($node, 'node in node view');
 		$emw = entity_metadata_wrapper('node', $node); // Get this nodes entity metadata wrapper
 		// If the current display language is not English
 		if($langcode != 'en') {

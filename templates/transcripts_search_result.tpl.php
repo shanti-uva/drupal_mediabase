@@ -73,8 +73,8 @@
          <span class="overlay">
             <span class="icon"></span>
          </span>
-         <img title="<?php print htmlentities($parent['title']); ?>"
-             alt="<?php print htmlentities($parent['title']); ?>"
+         <img title="<?php print htmlspecialchars($parent['title']); ?>"
+             alt="<?php print htmlspecialchars($parent['title']); ?>"
              src="<?php if(isset($parent['thumb_url'])) { print $parent['thumb_url']; } ?>"
              typeof="foaf:Image" class="k-no-rotate">
          <i class="icon shanticon-<?php if($parent['bundle'] == 'video') { print 'video'; } else { print 'audio'; } ?>"></i>

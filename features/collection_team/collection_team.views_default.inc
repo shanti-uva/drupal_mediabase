@@ -31,12 +31,13 @@ function collection_team_views_default_views() {
   $handler->display->display_options['query']['options']['query_comment'] = FALSE;
   $handler->display->display_options['exposed_form']['type'] = 'basic';
   $handler->display->display_options['pager']['type'] = 'full';
-  $handler->display->display_options['pager']['options']['items_per_page'] = '60';
+  $handler->display->display_options['pager']['options']['items_per_page'] = '25';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['pager']['options']['id'] = '0';
+  $handler->display->display_options['pager']['options']['quantity'] = '9';
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['style_options']['row_class'] = 'grid-9 mb-thumbnail-grid-row';
-  $handler->display->display_options['row_plugin'] = 'fields';
+  $handler->display->display_options['row_plugin'] = 'node';
   /* No results behavior: Global: Text area */
   $handler->display->display_options['empty']['area']['id'] = 'area';
   $handler->display->display_options['empty']['area']['table'] = 'views';
@@ -191,7 +192,7 @@ function collection_team_views_default_views() {
   $handler->display->display_options['filters']['type']['group'] = 1;
 
   /* Display: Collection Media Listing */
-  $handler = $view->new_display('block', 'Collection Media Listing', 'block_2');
+  $handler = $view->new_display('block', 'Collection Media Listing', 'collection_media_block');
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['filter_groups']['groups'] = array(
     1 => 'AND',
@@ -228,21 +229,19 @@ function collection_team_views_default_views() {
   $handler->display->display_options['filters']['field_video_entryid']['group'] = 2;
 
   /* Display: Team Media Listing */
-  $handler = $view->new_display('block', 'Team Media Listing', 'block_4');
+  $handler = $view->new_display('block', 'Team Media Listing', 'team_media_block');
   $handler->display->display_options['defaults']['title'] = FALSE;
   $handler->display->display_options['title'] = 'Team Media';
   $handler->display->display_options['defaults']['css_class'] = FALSE;
   $handler->display->display_options['css_class'] = 'team-media';
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
-  $handler->display->display_options['style_plugin'] = 'list';
-  $handler->display->display_options['style_options']['row_class'] = 'shanti-thumbnail ';
+  $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['style_options']['default_row_class'] = FALSE;
   $handler->display->display_options['style_options']['row_class_special'] = FALSE;
-  $handler->display->display_options['style_options']['class'] = 'shanti-gallery';
-  $handler->display->display_options['style_options']['wrapper_class'] = 'results';
   $handler->display->display_options['defaults']['style_options'] = FALSE;
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
-  $handler->display->display_options['row_plugin'] = 'fields';
+  $handler->display->display_options['row_plugin'] = 'node';
+  $handler->display->display_options['row_options']['links'] = FALSE;
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['defaults']['fields'] = FALSE;
   /* Field: Content: Path */
@@ -883,9 +882,10 @@ function collection_team_views_default_views() {
   $handler->display->display_options['fields']['field_images']['empty'] = '<img class="img-responsive" typeof="foaf:Image" src="/sites/all/modules/mediabase/images/collections-generic.png" width="200" height="150" alt="">';
   $handler->display->display_options['fields']['field_images']['hide_alter_empty'] = FALSE;
   $handler->display->display_options['fields']['field_images']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['field_images']['type'] = 'services';
   $handler->display->display_options['fields']['field_images']['settings'] = array(
-    'image_style' => 'gallery_thumb',
-    'image_link' => '',
+    'skip_safe' => 0,
+    'skip_empty_values' => 0,
   );
   $handler->display->display_options['fields']['field_images']['group_column'] = 'title';
   $handler->display->display_options['fields']['field_images']['delta_limit'] = '1';
@@ -911,7 +911,7 @@ function collection_team_views_default_views() {
   $handler->display->display_options['fields']['created']['alter']['alter_text'] = TRUE;
   $handler->display->display_options['fields']['created']['alter']['text'] = '<div class="shanti-thumbnail-image shanti-field-collection">
    <a href="[path]" class="shanti-thumbnail-link">
-     <span class="overlay"><span class="icon"></span></span>
+     <span class="overlay"><span class="icon"></span></span><!--use html entities-->
       [field_images]
       <span class="icon shanticon-grid"></span></a>
 </div>

@@ -440,15 +440,21 @@ function mb_kaltura_get_thumbnail_url($entry_id, $width=190, $height=220, $resav
     if (file_exists($destination) && $resave === FALSE) {
         return file_create_url($destination);
     } else {
-        // Otherwise, get the kaltura thumbnail and save locally if doesn't already exist
-        $file = system_retrieve_file($thumburl, $destination, TRUE);
-        if ($file !== false) {
-            // Return the local url for the thumb image
-            $thumburl = file_create_url($file->uri);
+        $headers = get_headers($thumburl); // Make sure Kaltura thumb is there to avoid warning
+        if (strpos($headers[0], '200')) {
+            // Otherwise, get the kaltura thumbnail and save locally if doesn't already exist
+            $file = system_retrieve_file($thumburl, $destination, TRUE);
+            if ($file !== false) {
+                // Return the local url for the thumb image
+                $thumburl = file_create_url($file->uri);
+            } else {
+                // Or else there was a problem.
+                watchdog("mb_kaltura", "Could not save thumb image file for entry id: " . $entry_id);
+               $thumburl = $genericthumb;
+            }
         } else {
-            // Or else there was a problem.
-            watchdog("mb_kaltura", "Could not save thumb image file for entry id: " . $entry_id);
-           $thumburl = $genericthumb;
+            // Can't get Kaltura thumb
+            $thumburl = $genericthumb;
         }
 	   return $thumburl;
     }

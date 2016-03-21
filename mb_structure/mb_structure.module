@@ -452,10 +452,11 @@ function mb_structure_form_alter(&$form, &$form_state, $form_id) {
         $form['field_recording_location_new']['und']['#collapsible'] = FALSE;
         
         // Set Title field to just "Search"
-        $form['field_subcollection_new']['und']['field_subcollection_new_search_term']['#title'] = t("Search for Subcollection");
-        $form['field_subject']['und']['field_subject_search_term']['#title'] = t("Search for Subject");
-        $form['field_location']['und']['field_location_search_term']['#title'] = t("Search for Location");
-        $form['field_recording_location_new']['und']['field_recording_location_new_search_term']['#title'] = t("Search for Recording Location");
+	// commenting out below as it doesn't interact well with autocomplete widgets
+        //$form['field_subcollection_new']['und']['field_subcollection_new_search_term']['#title'] = t("Search for Subcollection");
+        //$form['field_subject']['und']['field_subject_search_term']['#title'] = t("Search for Subject");
+        //$form['field_location']['und']['field_location_search_term']['#title'] = t("Search for Location");
+        //$form['field_recording_location_new']['und']['field_recording_location_new_search_term']['#title'] = t("Search for Recording Location");
     }
 	if ($form_id == 'og_ui_user_admin_account') {
 		/* The drop down on page group/node/{NID}/admin/people does not close because of an unknown glitch

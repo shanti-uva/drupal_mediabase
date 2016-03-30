@@ -446,10 +446,11 @@ function mb_structure_form_alter(&$form, &$form_state, $form_id) {
     }*/
     if ($form_id == 'video_node_form') {
         // In video edit form, make kmap fields not collapsible since #collapsed=FALSE is not working.
-        $form['field_subcollection_new']['und']['#collapsible'] = FALSE;
+        // Ed doesn't like this so removing. 2016-03-29
+       /* $form['field_subcollection_new']['und']['#collapsible'] = FALSE;
         $form['field_subject']['und']['#collapsible'] = FALSE;
         $form['field_location']['und']['#collapsible'] = FALSE;
-        $form['field_recording_location_new']['und']['#collapsible'] = FALSE;
+        $form['field_recording_location_new']['und']['#collapsible'] = FALSE;*/
         
         // Set Title field to just "Search"
 	// commenting out below as it doesn't interact well with autocomplete widgets
@@ -479,8 +480,6 @@ function mb_structure_form_alter(&$form, &$form_state, $form_id) {
 **/
 function mb_structure_form_audio_node_form_alter(&$form, &$form_state, $form_id) {
    mb_structure_form_video_node_form_alter($form, $form_state, $form_id);
-	 //dpm($form, 'form in audio node');
-	 //dpm($form_state, 'form state in audio node');
 }
 
 function mb_structure_validate_title($element, &$form_state) {

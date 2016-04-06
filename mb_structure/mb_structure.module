@@ -875,8 +875,9 @@ function mb_structure_get_audio_thumb($node) {
     $thumb_url = file_create_url($uri);
     if (!empty($node->field_thumbnail_image)) {
         if ($fi = field_get_items('node', $node, 'field_thumbnail_image')) {
-            $uri = $fi[0]['uri'];
-            $thumb_url = file_create_url($uri);
+            $fid = $fi[0]['fid'];
+            $file = file_load($fid);
+            $thumb_url = file_create_url($file->uri);
         }
     }
     return $thumb_url;

@@ -794,6 +794,7 @@ function mb_structure_update_node_kaltura_data($node) {
 			$resultObject = kaltura_entry_load($kid);
 			if ($resultObject) {
 				$thumb_url = mb_kaltura_get_thumbnail_url($resultObject->kaltura_entryid, 190, 220, TRUE);
+                if ($node->type == "audio") { $thumb_url = mb_structure_get_audio_thumb($node); }
 				if(empty($thumb_url)) { $thumb_url = $resultObject->kaltura_thumbnailUrl; }
 				$ent['kaltura_entryid'] = $resultObject->kaltura_entryid;
 				$ent['kaltura_tags'] = $resultObject->kaltura_tags;
@@ -863,6 +864,22 @@ function get_team_node($node) {
 			}
    }
    return $team_node;
+}
+
+/**
+ * Returns the url of the audio thumbnail without using Kaltura interface since audio thumb data is stored in drupal
+ * Still need to store thumb in Kaltura for overlay on player. This (I think) is done by call to mb_kaltura_get_thumbnail_url above.
+ */
+function mb_structure_get_audio_thumb($node) {
+    $uri = 'public://avimages/generic-audio-thumb.jpg';
+    $thumb_url = file_create_url($uri);
+    if (!empty($node->field_thumbnail_image)) {
+        if ($fi = field_get_items('node', $node, 'field_thumbnail_image')) {
+            $uri = $fi[0]['uri'];
+            $thumb_url = file_create_url($uri);
+        }
+    }
+    return $thumb_url;
 }
 
 function mb_structure_is_team_super_user($node) {

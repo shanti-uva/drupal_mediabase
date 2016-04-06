@@ -405,7 +405,7 @@ function audio_video_field_default_field_instances() {
     'label' => 'Description',
     'required' => 0,
     'settings' => array(
-      'text_processing' => 0,
+      'text_processing' => 1,
       'user_register_form' => FALSE,
     ),
     'widget' => array(
@@ -1317,7 +1317,7 @@ function audio_video_field_default_field_instances() {
     'label' => 'Annotation',
     'required' => 0,
     'settings' => array(
-      'text_processing' => 0,
+      'text_processing' => 1,
       'user_register_form' => FALSE,
     ),
     'widget' => array(
@@ -2822,7 +2822,7 @@ function audio_video_field_default_field_instances() {
       'active' => 0,
       'module' => 'shanti_kmaps_fields',
       'settings' => array(),
-      'type' => 'kmap_tree_picker ',
+      'type' => 'kmap_tree_picker',
       'weight' => 16,
     ),
   );
@@ -2871,7 +2871,7 @@ function audio_video_field_default_field_instances() {
     'bundle' => 'audio',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => '',
+    'description' => 'Time period(s) covered by this audio resource',
     'display' => array(
       'default' => array(
         'label' => 'hidden',
@@ -2891,7 +2891,7 @@ function audio_video_field_default_field_instances() {
     ),
     'entity_type' => 'node',
     'field_name' => 'field_pbcore_coverage',
-    'label' => 'Time',
+    'label' => 'Time Period',
     'required' => 0,
     'settings' => array(
       'user_register_form' => FALSE,
@@ -3024,7 +3024,7 @@ function audio_video_field_default_field_instances() {
       'module' => 'field_collection',
       'settings' => array(),
       'type' => 'field_collection_embed',
-      'weight' => 4,
+      'weight' => 2,
     ),
   );
 
@@ -3215,7 +3215,7 @@ function audio_video_field_default_field_instances() {
       'module' => 'field_collection',
       'settings' => array(),
       'type' => 'field_collection_embed',
-      'weight' => 19,
+      'weight' => 20,
     ),
   );
 
@@ -3294,7 +3294,7 @@ function audio_video_field_default_field_instances() {
       'module' => 'field_collection',
       'settings' => array(),
       'type' => 'field_collection_embed',
-      'weight' => 3,
+      'weight' => 1,
     ),
   );
 
@@ -3341,7 +3341,7 @@ function audio_video_field_default_field_instances() {
       'module' => 'fivestar',
       'settings' => array(),
       'type' => 'exposed',
-      'weight' => 12,
+      'weight' => 11,
     ),
   );
 
@@ -3424,7 +3424,7 @@ function audio_video_field_default_field_instances() {
     'widget' => array(
       'module' => 'shanti_kmaps_fields',
       'settings' => array(),
-      'type' => 'kmap_tree_picker ',
+      'type' => 'kmap_tree_picker',
       'weight' => 24,
     ),
   );
@@ -3519,7 +3519,7 @@ function audio_video_field_default_field_instances() {
       'active' => 0,
       'module' => 'shanti_kmaps_fields',
       'settings' => array(),
-      'type' => 'kmap_tree_picker ',
+      'type' => 'kmap_tree_picker',
       'weight' => 11,
     ),
   );
@@ -3559,7 +3559,7 @@ function audio_video_field_default_field_instances() {
       'active' => 0,
       'module' => 'shanti_kmaps_fields',
       'settings' => array(),
-      'type' => 'kmap_tree_picker ',
+      'type' => 'kmap_tree_picker',
       'weight' => 13,
     ),
   );
@@ -3600,7 +3600,7 @@ function audio_video_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'taxonomy_autocomplete',
-      'weight' => 5,
+      'weight' => 19,
     ),
   );
 
@@ -4224,7 +4224,7 @@ function audio_video_field_default_field_instances() {
     'bundle' => 'video',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => '',
+    'description' => 'The time period(s) covered by this video resource',
     'display' => array(
       'default' => array(
         'label' => 'hidden',
@@ -4244,7 +4244,7 @@ function audio_video_field_default_field_instances() {
     ),
     'entity_type' => 'node',
     'field_name' => 'field_pbcore_coverage',
-    'label' => 'Time',
+    'label' => 'Time Period',
     'required' => 0,
     'settings' => array(
       'user_register_form' => FALSE,
@@ -4254,7 +4254,7 @@ function audio_video_field_default_field_instances() {
       'module' => 'field_collection',
       'settings' => array(),
       'type' => 'field_collection_embed',
-      'weight' => 19,
+      'weight' => 18,
     ),
   );
 
@@ -4377,7 +4377,7 @@ function audio_video_field_default_field_instances() {
       'module' => 'field_collection',
       'settings' => array(),
       'type' => 'field_collection_embed',
-      'weight' => 3,
+      'weight' => 2,
     ),
   );
 
@@ -4568,7 +4568,7 @@ function audio_video_field_default_field_instances() {
       'module' => 'field_collection',
       'settings' => array(),
       'type' => 'field_collection_embed',
-      'weight' => 18,
+      'weight' => 3,
     ),
   );
 
@@ -4647,7 +4647,7 @@ function audio_video_field_default_field_instances() {
       'module' => 'field_collection',
       'settings' => array(),
       'type' => 'field_collection_embed',
-      'weight' => 2,
+      'weight' => 1,
     ),
   );
 
@@ -4694,7 +4694,7 @@ function audio_video_field_default_field_instances() {
       'module' => 'fivestar',
       'settings' => array(),
       'type' => 'exposed',
-      'weight' => 13,
+      'weight' => 11,
     ),
   );
 
@@ -4778,7 +4778,7 @@ function audio_video_field_default_field_instances() {
       'active' => 0,
       'module' => 'shanti_kmaps_fields',
       'settings' => array(),
-      'type' => 'kmap_tree_picker ',
+      'type' => 'kmap_tree_picker',
       'weight' => 46,
     ),
   );
@@ -4954,7 +4954,7 @@ function audio_video_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'taxonomy_autocomplete',
-      'weight' => 4,
+      'weight' => 19,
     ),
   );
 
@@ -5447,9 +5447,12 @@ function audio_video_field_default_field_instances() {
   t('Subject Old');
   t('Tags');
   t('Text Label');
+  t('The time period(s) covered by this video resource');
   t('Thumbnail Image');
   t('Tid');
   t('Time');
+  t('Time Period');
+  t('Time period(s) covered by this audio resource');
   t('Timecode too infrequent');
   t('Timecoding problem 1');
   t('Timecoding problem 2');

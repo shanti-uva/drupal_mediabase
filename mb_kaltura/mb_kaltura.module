@@ -126,7 +126,6 @@ function _mb_kaltura_add_audio_thumb($node) {
 		// Check if new thumb value
 		if(!empty($node->field_thumbnail_image[$lang][0]['fid'])) {
 			$nfid = $node->field_thumbnail_image[$lang][0]['fid'];
-			if($ofid == $nfid) { return; } // if new thumb file matches old get out of here
 			// else update thumbnail with new one.
 			$file = file_load($nfid);
 			$url = file_create_url($file->uri);

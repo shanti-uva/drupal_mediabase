@@ -795,7 +795,6 @@ function mb_structure_update_node_kaltura_data($node) {
 			$resultObject = kaltura_entry_load($kid);
 			if ($resultObject) {
 				$thumb_url = ($node->type == "audio") ? mb_structure_get_audio_thumb($node) : mb_kaltura_get_thumbnail_url($resultObject->kaltura_entryid, 190, 220, TRUE);
-                watchdog('mb_structure', "Thumb url is: $thumb_url");
 				if(empty($thumb_url)) { $thumb_url = $resultObject->kaltura_thumbnailUrl; }
 				$ent['kaltura_entryid'] = $resultObject->kaltura_entryid;
 				$ent['kaltura_tags'] = $resultObject->kaltura_tags;
@@ -816,7 +815,6 @@ function mb_structure_update_node_kaltura_data($node) {
 				$ent['kaltura_total_rank'] = $resultObject->kaltura_total_rank;
 				$ent['kaltura_title'] = $resultObject->kaltura_title;
 				$ent['kaltura_description'] = $resultObject->kaltura_description;
-                watchdog('mb_structure', "In entity: {$ent['kaltura_thumbnail_url']}");
 				$wres = drupal_write_record('node_kaltura', $ent, 'kaltura_entryid');
 			}
 		} catch (Exception $ex) {

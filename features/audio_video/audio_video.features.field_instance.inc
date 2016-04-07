@@ -1675,6 +1675,74 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'field_collection_item-field_pbcore_sponsor-field_sponser_role'
+  $field_instances['field_collection_item-field_pbcore_sponsor-field_sponser_role'] = array(
+    'bundle' => 'field_pbcore_sponsor',
+    'default_value' => array(
+      0 => array(
+        'value' => 'other',
+      ),
+    ),
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'hidden',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 1,
+      ),
+    ),
+    'entity_type' => 'field_collection_item',
+    'field_name' => 'field_sponser_role',
+    'label' => 'Sponser Role',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_select',
+      'weight' => 2,
+    ),
+  );
+
+  // Exported field_instance: 'field_collection_item-field_pbcore_sponsor-field_sponsor_name'
+  $field_instances['field_collection_item-field_pbcore_sponsor-field_sponsor_name'] = array(
+    'bundle' => 'field_pbcore_sponsor',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'inline',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'field_collection_item',
+    'field_name' => 'field_sponsor_name',
+    'label' => 'Sponsor',
+    'required' => 0,
+    'settings' => array(
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'size' => 60,
+      ),
+      'type' => 'text_textfield',
+      'weight' => 1,
+    ),
+  );
+
   // Exported field_instance: 'field_collection_item-field_pbcore_title-field_language'
   $field_instances['field_collection_item-field_pbcore_title-field_language'] = array(
     'bundle' => 'field_pbcore_title',
@@ -5526,6 +5594,7 @@ function audio_video_field_default_field_instances() {
   t('Relationship Type');
   t('Rights Summary');
   t('Sampling Rate');
+  t('Sponser Role');
   t('Sponsor');
   t('Start Time');
   t('Subcollection');

@@ -726,6 +726,7 @@ function mb_structure_node_insert($node) {
 		$lang = (empty($lang)) ? LANGUAGE_NONE : $lang;
 		$kid = (isset($node->{$fn}[$lang][0]['entryid'])) ? $node->{$fn}[$lang][0]['entryid'] : NULL;
 		if(!empty($kid)) {
+		    dpm('in insert');
 			try { 
 				$ent['kaltura_entryid'] = $kid;
 				$ent['kstatus'] = 2;
@@ -793,8 +794,8 @@ function mb_structure_update_node_kaltura_data($node) {
 		try {
 			$resultObject = kaltura_entry_load($kid);
 			if ($resultObject) {
-				$thumb_url = mb_kaltura_get_thumbnail_url($resultObject->kaltura_entryid, 190, 220, TRUE);
-                if ($node->type == "audio") { $thumb_url = mb_structure_get_audio_thumb($node); }
+				$thumb_url = ($node->type == "audio") ? mb_structure_get_audio_thumb($node) : mb_kaltura_get_thumbnail_url($resultObject->kaltura_entryid, 190, 220, TRUE);
+                watchdog('mb_structure', "Thumb url is: $thumb_url");
 				if(empty($thumb_url)) { $thumb_url = $resultObject->kaltura_thumbnailUrl; }
 				$ent['kaltura_entryid'] = $resultObject->kaltura_entryid;
 				$ent['kaltura_tags'] = $resultObject->kaltura_tags;

@@ -816,6 +816,7 @@ function mb_structure_update_node_kaltura_data($node) {
 				$ent['kaltura_total_rank'] = $resultObject->kaltura_total_rank;
 				$ent['kaltura_title'] = $resultObject->kaltura_title;
 				$ent['kaltura_description'] = $resultObject->kaltura_description;
+                watchdog('mb_structure', "In entity: {$ent['kaltura_thumbnail_url']}");
 				$wres = drupal_write_record('node_kaltura', $ent, 'kaltura_entryid');
 			}
 		} catch (Exception $ex) {

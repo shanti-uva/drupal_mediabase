@@ -2579,7 +2579,7 @@ function audio_video_field_default_field_instances() {
           'multiple_to' => '',
         ),
         'type' => 'date_default',
-        'weight' => 24,
+        'weight' => 15,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -3255,6 +3255,47 @@ function audio_video_field_default_field_instances() {
         'rows' => 5,
       ),
       'type' => 'text_textarea',
+      'weight' => 17,
+    ),
+  );
+
+  // Exported field_instance: 'node-audio-field_pbcore_sponsor'
+  $field_instances['node-audio-field_pbcore_sponsor'] = array(
+    'bundle' => 'audio',
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'field_collection',
+        'settings' => array(
+          'add' => 'Add',
+          'delete' => 'Delete',
+          'description' => TRUE,
+          'edit' => 'Edit',
+          'view_mode' => 'full',
+        ),
+        'type' => 'field_collection_view',
+        'weight' => 14,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_pbcore_sponsor',
+    'label' => 'Sponsor',
+    'required' => FALSE,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'module' => 'field_collection',
+      'settings' => array(),
+      'type' => 'field_collection_embed',
       'weight' => 16,
     ),
   );
@@ -3876,9 +3917,10 @@ function audio_video_field_default_field_instances() {
     'description' => '',
     'display' => array(
       'default' => array(
-        'label' => 'above',
+        'label' => 'inline',
+        'module' => 'list',
         'settings' => array(),
-        'type' => 'hidden',
+        'type' => 'list_default',
         'weight' => 14,
       ),
       'teaser' => array(
@@ -4608,6 +4650,49 @@ function audio_video_field_default_field_instances() {
         'rows' => 5,
       ),
       'type' => 'text_textarea',
+      'weight' => 46,
+    ),
+  );
+
+  // Exported field_instance: 'node-video-field_pbcore_sponsor'
+  $field_instances['node-video-field_pbcore_sponsor'] = array(
+    'bundle' => 'video',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => 'A person or organization who sponsored this AV item',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'field_collection',
+        'settings' => array(
+          'add' => 'Add',
+          'delete' => 'Delete',
+          'description' => TRUE,
+          'edit' => 'Edit',
+          'view_mode' => 'full',
+        ),
+        'type' => 'field_collection_view',
+        'weight' => 14,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_pbcore_sponsor',
+    'label' => 'Sponsor',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'field_collection',
+      'settings' => array(),
+      'type' => 'field_collection_embed',
       'weight' => 45,
     ),
   );
@@ -5368,6 +5453,7 @@ function audio_video_field_default_field_instances() {
 
   // Translatables
   // Included for use with string extractors like potx.
+  t('A person or organization who sponsored this AV item');
   t('Add an image to show in thumbnails for this audio file');
   t('Alternate Modes');
   t('Annotation');
@@ -5440,6 +5526,7 @@ function audio_video_field_default_field_instances() {
   t('Relationship Type');
   t('Rights Summary');
   t('Sampling Rate');
+  t('Sponsor');
   t('Start Time');
   t('Subcollection');
   t('Subcollection Old');

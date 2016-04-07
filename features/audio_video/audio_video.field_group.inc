@@ -24,6 +24,7 @@ function audio_video_field_group_info() {
     'weight' => '8',
     'children' => array(
       0 => 'field_available_from',
+      1 => 'group_content_access',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -172,9 +173,9 @@ function audio_video_field_group_info() {
       1 => 'field_pbcore_title',
       2 => 'group_audience',
       3 => 'field_pbcore_relation',
-      4 => 'field_subcollection_new',
-      5 => 'field_subject',
-      6 => 'field_location',
+      4 => 'field_location',
+      5 => 'field_subcollection_new',
+      6 => 'field_subject',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -404,6 +405,7 @@ function audio_video_field_group_info() {
       0 => 'field_pbcore_contributor',
       1 => 'field_pbcore_creator',
       2 => 'field_pbcore_publisher',
+      3 => 'field_pbcore_sponsor',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -434,6 +436,7 @@ function audio_video_field_group_info() {
       1 => 'field_pbcore_creator',
       2 => 'field_pbcore_publisher',
       3 => 'field_pbcore_rights_summary',
+      4 => 'field_pbcore_sponsor',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -464,6 +467,7 @@ function audio_video_field_group_info() {
       0 => 'field_pbcore_contributor',
       1 => 'field_pbcore_creator',
       2 => 'field_pbcore_publisher',
+      3 => 'field_pbcore_sponsor',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -494,6 +498,7 @@ function audio_video_field_group_info() {
       1 => 'field_pbcore_creator',
       2 => 'field_pbcore_publisher',
       3 => 'field_pbcore_rights_summary',
+      4 => 'field_pbcore_sponsor',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(

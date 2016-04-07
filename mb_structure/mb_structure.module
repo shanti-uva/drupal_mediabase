@@ -726,7 +726,6 @@ function mb_structure_node_insert($node) {
 		$lang = (empty($lang)) ? LANGUAGE_NONE : $lang;
 		$kid = (isset($node->{$fn}[$lang][0]['entryid'])) ? $node->{$fn}[$lang][0]['entryid'] : NULL;
 		if(!empty($kid)) {
-		    dpm('in insert');
 			try { 
 				$ent['kaltura_entryid'] = $kid;
 				$ent['kstatus'] = 2;

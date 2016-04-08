@@ -138,7 +138,8 @@ function mb_services_node_delete($node, $return_result = FALSE) {
 /**
  * Post Audio and Video Node updates to Solr Index
  *  COMMENTING OUT for MANU-1869: Replaced by Shanti Kmaps Fields
- * 
+ *  Commenting back in because still needed for batch upding from the mediabase settings page
+ * */
 function mb_services_post_to_solr($node, $show_result = FALSE) {
 	// Make sure node is public
 	$is_public = node_access('view', $node, user_load(0));
@@ -180,7 +181,7 @@ function mb_services_post_to_solr($node, $show_result = FALSE) {
 		if($show_result) { return $result; }
 	}
 } 
-*/
+
 
 /**
  * mb_services_do_solr_post: posts to solr index

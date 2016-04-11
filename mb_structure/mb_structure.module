@@ -87,13 +87,40 @@ function mb_structure_block_view($delta) {
    }
 }
 
+/**
+ * Return the count of number of items in a collection
+ */
+function get_items_in_collection($coll=FALSE) {
+    $nid = FALSE;
+    if (is_object($coll) && isset($coll->nid)) {
+        $nid = $coll->nid;
+    } else if (is_numeric($coll)) {
+        $nid = $coll;
+    }
+    if ($nid) {
+        // get the collection group object from the node nid
+        $group = og_get_group('node', $nid);
+        $gid = $group->gid;
+        //count media objects in collection/team
+        $query = new EntityFieldQuery();
+        $result = $query
+          ->entityCondition('entity_type', 'node')
+          ->propertyCondition('type', array('audio','video'), 'IN')
+          ->fieldCondition('group_audience', 'state', array(1), 'IN', 0)
+          ->fieldCondition('group_audience', 'gid', $gid, '=', 0)
+          ->execute();
+        $count = isset($result['node']) ? sizeof($result['node']) : 0;
+        return $count;
+    }
+    return 0;
+}
+
 function collection_block_details($node) {
-  global $user;
-	// get the collection group object from the nid
-	$group = og_get_group('node', $node->nid);
+    global $user;
+	//$group = og_get_group('node', $node->nid);
 	$owner = user_load($node->uid);
 	$is_owner = $user->uid == $node->uid;
-	$gid = $group->gid;
+	//$gid = $group->gid;
 	$fvi = field_get_items('node', $node, 'group_access');
 	$status = (isset($fvi[0]['value']) && $fvi[0]['value'] == 1) ? t("Private") : t("Public");
 	
@@ -107,15 +134,7 @@ function collection_block_details($node) {
 	   $man_name = realname_load($owner);
 	} 
 		
-	//count media objects in collection/team
-	$query = new EntityFieldQuery();
-	$result = $query
-	  ->entityCondition('entity_type', 'node')
-	  ->propertyCondition('type', array('audio','video'), 'IN')
-	  ->fieldCondition('group_audience', 'state', array(1), 'IN', 0)
-	  ->fieldCondition('group_audience', 'gid', $gid, '=', 0)
-	  ->execute();
-	$count = isset($result['node']) ? sizeof($result['node']) : 0;
+	$count = get_items_in_collection($node->nid);
 	$count_str = t("@count media item(s)", array('@count' => $count));
 	
 	$output = '<div class="collection-stats">';
@@ -559,7 +578,6 @@ function collection_media_listing() {
 * implementation of hook_views_query_alter
 **/
 function mb_structure_views_query_alter(	&$view, &$query ) {
-   
    if ($node = get_node_from_path())  {
       $group = og_get_group('node', $node->nid);
       // "if" added to prevent Notice: Trying to get property of non-object in mb_structure_views_query_alter() (line 367 of mb_structure.module).  
@@ -622,6 +640,23 @@ function mb_structure_node_view($node, $view_mode, $langcode) {
    }
 }
 */
+
+/**
+ * Hook views_pre_render used to
+ *      add item count to collection rows
+ */
+function mb_structure_views_pre_render(&$view) {
+    if ($view->name == "collections") {
+        foreach ($view->result as $n => &$result) {
+            $nid = $result->nid;
+            $ct = get_items_in_collection($nid); // function above
+            $result->item_count = $ct;
+            $lbl = 'item';
+            if ($ct == 0 || $ct > 1) { $lbl .= "s"; }
+            $result->item_count_label = t($lbl);
+        }
+    }
+}
 
 /**
  * Add variable has_transcript

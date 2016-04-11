@@ -239,6 +239,7 @@ function mb_solr_apachesolr_query_alter($query) {
      $query->setSolrsort($sort_name, $order); 
       */
    }
+
    if (preg_match("/^collection\//",$path) && !preg_match("/admin\/config/", $path))  {
      $fl = $query->getParam('fl');
      $fl[] = 'bs_has_transcript';
@@ -538,7 +539,7 @@ function mb_solr_make_teaser($entity, $coll = FALSE) {
  */
 
 function mb_solr_node_view($node, $view_mode, $langcode) {
-	if($node->type == 'collection') {
+	if($node->type == 'collection' && $view_mode == 'full') {
 		$alias = str_replace('collection/', '', drupal_get_path_alias(current_path()));
 		if(strpos($_SERVER['HTTP_REFERER'], 'node/add/collection') > -1) { return; } // prevent solr error
 		module_load_include('inc','apachesolr','apachesolr_search.pages');

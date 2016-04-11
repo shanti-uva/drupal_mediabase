@@ -5094,7 +5094,7 @@ function audio_video_field_default_field_instances() {
     ),
     'entity_type' => 'node',
     'field_name' => 'field_tags',
-    'label' => 'Tags',
+    'label' => 'Tags Old',
     'required' => 0,
     'settings' => array(
       'user_register_form' => FALSE,
@@ -5602,6 +5602,7 @@ function audio_video_field_default_field_instances() {
   t('Subject');
   t('Subject Old');
   t('Tags');
+  t('Tags Old');
   t('Text Label');
   t('The time period(s) covered by this video resource');
   t('Thumbnail Image');

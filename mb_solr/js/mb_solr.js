@@ -120,7 +120,7 @@
 		
 		Drupal.settings.mediabase.facetcounts = []; // reset facet counts so they don't get merged between calls
 		if($('#tab-overview').length == 0) { 
-			$htmlErr = '<article class="tab-pane main-col active" id="tab-overview"><div class="region region-content">';
+			$htmlErr = '<article class="tab-pane main-colrow active" id="tab-overview"><div class="region region-content">';
 			$htmlErr += '<div class="content"><h4>Search Error</h4><p>There was a problem retrieving these results. ';
 			$htmlErr += 'Please try again later.</p>';
 			$htmlErr += '</div></div></article>';

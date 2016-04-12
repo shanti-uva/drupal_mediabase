@@ -101,10 +101,10 @@ function audio_video_update_7001() {
 			//create the node
 			$admincoll = node_submit($admincoll);
 			node_save($admincoll);
-			$admingroup = og_get_group('node', $admincoll->nid);
+			$admingroup = node_load($admincoll->nid); //og_get_group('node', $admincoll->nid);
 		} else {
 			$adcollid = $result[0]->gid;
-			$admingroup = og_get_group('node', $adcollid);
+			$admingroup = node_load($adcollid); // og_get_group('node', $adcollid);
 		}
 		
 		// Add unassociated nodes to admin group

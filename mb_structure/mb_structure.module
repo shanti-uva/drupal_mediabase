@@ -99,8 +99,8 @@ function get_items_in_collection($coll=FALSE) {
     }
     if ($nid) {
         // get the collection group object from the node nid
-        $group = og_get_group('node', $nid);
-        $gid = $group->gid;
+        // $group = og_get_group('node', $nid);
+        $gid = $nid; //$group->gid;
         //count media objects in collection/team
         $query = new EntityFieldQuery();
         $result = $query
@@ -155,10 +155,10 @@ function collection_block_details_old() {
       $output = "<ul>";
       
       // get the collection group object from the nid
-      $group = og_get_group('node', $node->nid);
+      $group = $node; // og_get_group('node', $node->nid);
       $owner = user_load($node->uid);
       $is_owner = $user->uid == $node->uid;
-      $gid = $group->gid;
+      $gid = $group->nid; // $group->gid;
       
       // create video
       if(og_is_member($gid, 'user') || og_user_access($gid, 'administer group') ){
@@ -253,18 +253,19 @@ function mb_structure_block_save($delta = '', $edit = array()) {
 /**
  * Returns currents users access to group. False = none; 1 = user (add content), 2 = add members, 3 = administrator
  */
-function mb_structure_get_group_access_level($node) {
+function mb_structure_get_group_access_level($group) {
 	global $user;
 	
 	$can_manage = FALSE;
-	$group = og_get_group('node', $node->nid);
-	$owner = user_load($node->uid);
-	$is_owner = $user->uid == $node->uid;
-	$gid = $group->gid;
+	//$group = og_get_group('node', $node->nid);
+	$owner = user_load($group->uid);
+	$is_owner = $user->uid == $group->uid;
+	//$gid = $group->gid;
+	$gid = $group->nid;
 	if(og_is_member($gid, 'user')) {
 		$can_manage = 1;
 	}
-	if(og_user_access_by_entity('add user', 'node', $node->nid)) {
+	if(og_user_access_by_entity('add user', 'node', $gid)) {
 		$can_manage = 2;
 	}
 	if(og_user_access($gid, 'administer group')) {
@@ -367,8 +368,8 @@ function mb_structure_form_team_node_form_alter(&$form, &$form_state, $form_id) 
    foreach ($orig_opts as $key => $opt_group) {
       if (! is_array($opt_group)) { continue; }
       foreach ($opt_group as $gid => $option) {
-         $group = og_get_group('group',$gid);
-         $node = node_load($group->etid);
+         //$group = og_get_group('group',$gid);
+         $node = node_load($gid);
          if ( in_array($node->type, array('collection'))  && ( og_is_member($gid, 'user') || og_user_access($gid, 'administer group') ) ) {
             $new_opts[$coll_key][$gid] = $orig_opts[$key][$gid];
          }
@@ -580,11 +581,12 @@ function collection_media_listing() {
 **/
 function mb_structure_views_query_alter(	&$view, &$query ) {
    if ($node = get_node_from_path())  {
-      $group = og_get_group('node', $node->nid);
+      /*$group = og_get_group('node', $node->nid);
       // "if" added to prevent Notice: Trying to get property of non-object in mb_structure_views_query_alter() (line 367 of mb_structure.module).  
       if (isset($group->gid)) {
         $gid = $group->gid;
-      }
+      }*/
+      $gid = $node->nid;
       
    }
    else if (isset($view->args[0])) {    // If we're in views ui, we can't get node from path, so get it from views args
@@ -614,8 +616,9 @@ function mb_structure_views_query_alter(	&$view, &$query ) {
    $gids = array($gid);
    if ( isset($result['node']) ) {
       foreach ($result['node'] as $team_nid => $team_node) {
-         $group = og_get_group('node', $team_nid);
-         $gids[] = $group->gid;
+         //$group = og_get_group('node', $team_nid);
+         //$gids[] = $group->gid;
+         $gids[] = $team_nid;
       }
    }
    // Add gids to where condition
@@ -959,20 +962,21 @@ function mb_structure_get_groups_for_user( $add_optgroup = TRUE ) {
    $team_key = t('Teams');
    $all_groups = og_get_all_group();
    foreach ($all_groups as $gid) {
-      $group = og_get_group('group',$gid);
-      $node = node_load($group->etid);
-      if ( ! in_array($node->type, array('collection', 'team'))) {
+      /*$group = og_get_group('group',$gid);
+      $node = node_load($group->etid);*/
+      $group = node_load($gid);
+      if ( ! in_array($group->type, array('collection', 'team'))) {
          continue;
       }
-      if ( ($node->type == 'team' && mb_structure_is_team_super_user($node))
+      if ( ($group->type == 'team' && mb_structure_is_team_super_user($group))
          ||  (og_is_member($gid, 'user') || og_user_access($gid, 'administer group')) 
       ) {
-      $new_key = $node->type == 'collection' ? $coll_key : $team_key;
+      $new_key = $group->type == 'collection' ? $coll_key : $team_key;
       if ($add_optgroup) {
-         $gids_with_labels[$new_key][$gid] = $group->label;
+         $gids_with_labels[$new_key][$gid] = (isset($group->label)) ? $group->label : $group->title;
       }
       else {
-         $gids_with_labels[$gid] = $group->label;
+         $gids_with_labels[$gid] = (isset($group->label)) ? $group->label : $group->title;
       }
       }
    }
@@ -987,11 +991,12 @@ function mb_structure_already_started_validate(&$form_state, $form) {
    //dpm(array($form_state, $form), 'form state in started validate');
 	 $fobj = (empty($form_state['input'])) ? $form : $form_state; // Travis had form_state but it doesn't have input, form does. Doing this in case there is a situation where form_state does have input
    $gid = $fobj['input']['collection_id'];
-   $group = og_get_group('group',$gid);
-   $nid = $group->etid;
+   $group = node_load($gid);
+   /*$group = og_get_group('group',$gid);
+   $nid = $group->etid;*/
    $path_format = 'node/add/%s';
    $path = $fobj['clicked_button']['#id'] == 'edit-submit-video' ? sprintf($path_format, 'video') : sprintf($path_format, 'audio');
-   drupal_goto($path, array('query' => array('gids_node[]' => $nid)));
+   drupal_goto($path, array('query' => array('gids_node[]' => $gid)));
 }
 
 function mb_structure_menu_breadcrumb_alter(&$active_trail, $item) {
@@ -1021,10 +1026,11 @@ function mb_structure_menu_breadcrumb_alter(&$active_trail, $item) {
 }
 
 function mb_structure_breadcrumb_items_collection_team($node) {
-   $coll_group = og_get_group('group', $node->group_audience[LANGUAGE_NONE][0]['gid']);
+    $gid = $node->group_audience[LANGUAGE_NONE][0]['gid'];
+   $coll_group = node_load($gid);
    $coll_crumb = array( 
-      'title' => $coll_group->label,
-      'href' => 'node/' . $coll_group->etid,
+      'title' => $coll_group->title,
+      'href' => 'node/' . $gid,
       'link_path' => '',
       'localized_options' => array(),
       'type' => 0,
@@ -1033,9 +1039,10 @@ function mb_structure_breadcrumb_items_collection_team($node) {
 }
 
 function mb_structure_breadcrumb_items_audio_video($node) {
-   $coll_team_group = og_get_group('group', $node->group_audience[LANGUAGE_NONE][0]['gid']);
-   if($coll_team_group) {
-     $coll_team_node = node_load($coll_team_group->etid); 
+   //$coll_team_group = og_get_group('group', $node->group_audience[LANGUAGE_NONE][0]['gid']);
+   //if($coll_team_group) {
+   if (!empty($node->group_audience[LANGUAGE_NONE][0]['gid']) && $coll_team_node = node_load($node->group_audience[LANGUAGE_NONE][0]['gid'])) {
+     //$coll_team_node = node_load($coll_team_group->etid); 
      if ($coll_team_node->type == 'team'  ) {
         $coll_crumb = mb_structure_breadcrumb_items_collection_team($coll_team_node);
         $team_crumb = array(
@@ -1046,7 +1053,7 @@ function mb_structure_breadcrumb_items_audio_video($node) {
            'type' => 0,
            );
         if (  mb_structure_is_team_super_user($coll_team_node)
-           ||  (og_is_member($coll_team_group->gid, 'user') || og_user_access($coll_team_group->gid, 'administer group'))
+           ||  (og_is_member($coll_team_node->nid, 'user') || og_user_access($coll_team_node->nid, 'administer group'))
         ) {
         return array($coll_crumb, $team_crumb);
         }
@@ -1144,7 +1151,8 @@ function mb_structure_collections_carousel_block() {
  */
 function mb_structure_get_groups_nodes($nid) {
   $nids = array();
-  if($g = og_get_group('node', $nid)) {
+  //if($g = og_get_group('node', $nid)) {
+  if ($g = node_load($nid)) {
     $query = new EntityFieldQuery();
     $query
       ->entityCondition("entity_type", "og_membership", "=")
@@ -1184,3 +1192,4 @@ function mb_structure_collections_list_form() {
   return $form;
 }
 */
+

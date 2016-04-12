@@ -76,18 +76,18 @@ function mb_bulk_actions_change_collection_submit($form, $form_state) {
 function mb_bulk_actions_change_collection(&$node, $context) {
 	$gid = $context['cid'];
 	$isnid = $context['isnid'];
-	try { 
+	try {
+	    /** unnecessary in og 2.x gid IS nid  
 		if($isnid) {
 			$gobj = og_get_group('node', $gid);
 			$gid = $gobj->gid;
-		}
+		}*/
 		$flang = field_language('node', $node, 'group_audience');
 		$gpstosave = array();
 		foreach($node->group_audience[$flang] as $n => $farray) {
-		  $g = og_get_group('group', $farray['gid']);
-			if(isset($g->etid)) {
-			  $gnode = node_load($g->etid);
-			  if($gnode->type != 'collection') { $gpstosave[] = $farray; }
+		  $gnode = node_load($farray['gid']); // og_get_group('group', $farray['gid']);
+			if($gnode) {
+			    if($gnode->type != 'collection') { $gpstosave[] = $farray; }
 			} else {
 				watchdog('mb bulk actions change coll', "GID " . $farray['gid'] . ": etid not set!");
 			}

@@ -605,7 +605,7 @@ function mb_solr_facets_ajax($facets) {
   $facet_pairs = explode('::', $facets);
 	list($results_html, $fnames) = mb_solr_do_facet_search($facet_pairs); // Do The Search
 	// Mark it up
-	$solrhtml = '<article class="tab-pane main-col row active" id="tab-overview"><div class="region region-content"><div class="content">';
+	$solrhtml = '<article class="tab-pane main-col active" id="tab-overview"><div class="region region-content"><div class="content">';
 	if(empty($results_html)) {
 		$solrhtml .= t('<p>Sorry, this search returned no results.</p>');
 	} else {

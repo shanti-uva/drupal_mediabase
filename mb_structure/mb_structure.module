@@ -873,14 +873,12 @@ function get_collection_ancestor_node($node) {
    $collection_node = null;
    if ( $gids = og_get_entity_groups('node', $node) ) { 
       $gid = array_pop( $gids );
-      $parent_group = og_load($gid);
-      if ($parent_group->entity_type == 'node') {
-         $group_node = node_load($parent_group->etid);
-         if ( $group_node->type == 'collection' ) {
-            $collection_node=$group_node;
-         } else if ( $group_node->type == 'team' ){  //  recurse to get to the collection of a team node
-            return get_collection_ancestor_node($group_node); 
-         }
+      $group_node = node_load($gid);
+
+      if ( $group_node->type == 'collection' ) {
+          $collection_node=$group_node;
+      } else if ( $group_node->type == 'team' ){  //  recurse to get to the collection of a team node
+          return get_collection_ancestor_node($group_node); 
       }
    }
    return $collection_node;
@@ -894,14 +892,12 @@ function get_team_node($node) {
    $team_node = FALSE;
    if ( $gids = og_get_entity_groups('node', $node) ) {
       while($gid = array_pop( $gids )) {
-	      $parent_group = og_load($gid);
-	      if ($parent_group->entity_type == 'node') {
-	         $group_node = node_load($parent_group->etid);
-	         if ( $group_node->type == 'team' ) {
-	            $team_node = $group_node;
-	         }
-	      }
-			}
+	      $group_node = node_load($gid);
+
+          if ( $group_node->type == 'team' ) {
+             $team_node = $group_node;
+          }
+	   }
    }
    return $team_node;
 }
@@ -951,11 +947,9 @@ function mb_structure_get_team_gids($collection_gid) {
 }
 
 function mb_structure_get_collection_gid($team_gid) {
-   $group = og_load($team_gid);
-   $node = node_load($parent_group->etid);
-   $collection_node = get_collection_ancestor_node($node);
-   $collection_group = og_get_group('node', $collection_node->nid);
-   return $collection_group->gid;
+   $team_node = node_load($team_gid);
+   $collection_node = get_collection_ancestor_node($team_node);
+   return $collection_group->nid;
 }
 
 function mb_structure_get_groups_for_user( $add_optgroup = TRUE ) {

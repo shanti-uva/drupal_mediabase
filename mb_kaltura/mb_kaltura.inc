@@ -1128,9 +1128,10 @@ function create_node_mediabase($entry_id, $title = NULL, $collection_nid = NULL,
       'mediatype' => $entry->mediaType
       );
    
-   $group = og_get_group('node', $collection_nid);
-   $gid = $group->gid;
-   $node['group_audience']['und'][0]['gid'] = $gid;
+   /* Og migration: MANU-2150
+    * $group = og_get_group('node', $collection_nid);
+   $gid = $group->gid;*/
+   $node['group_audience']['und'][0]['gid'] = $collection_nid;
    $node['mb_kaltura_import'] = true; //Set this flag to prevent title getting overwritten in mediabase.module
    
    $node = (object)$node;

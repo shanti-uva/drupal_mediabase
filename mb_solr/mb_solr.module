@@ -111,11 +111,11 @@ function mb_solr_apachesolr_index_document_build(ApacheSolrDocument $document, $
   $parent_group_gid = !empty($entity->group_audience['und']) ? $entity->group_audience['und'][0]['gid'] : null;
   if (!empty($parent_group_gid)) {
       $gids=array($parent_group_gid);
-      $parent_group = og_get_group('group',$parent_group_gid);
+      $parent_group = node_load($parent_group_gid); // og_get_group('group',$parent_group_gid);
       $group_node = node_load($parent_group->etid);
       if ($group_node->type == 'team') { 
          $coll_ancestor_node = get_collection_ancestor_node($group_node);
-         $ancestor_group = og_get_group('node',$coll_ancestor_node->nid);
+         $ancestor_group = node_load($coll_ancestor_node->nid) ; //og_get_group('node',$coll_ancestor_node->nid);
          $gids[] = $ancestor_group->gid;
       }
       foreach ($gids as $gid) {
@@ -265,9 +265,9 @@ function mb_solr_apachesolr_query_alter($query) {
           }*/
           $parts = explode('/', $node_path);
           $nid = array_pop( $parts );
-          $group = og_get_group('node', $nid);
+         //$group = og_get_group('node', $nid);
           $query = $query->removeFilter('im_collection_gid', $value);
-          $query->addFilter('im_collection_gid', $group->gid);
+          $query->addFilter('im_collection_gid', $nid); // $group->gid);
      }
      
      $gid_filters = $query->getFilters('im_collection_gid');
@@ -382,6 +382,7 @@ function _get_collection_name($nid, $coll = FALSE) {
 		$coll->url = '';
 		$coll->nid = '';
 	}
+    watchdog('mb_solr', "_get_collection_name function in mb_solr line 385ff needs to be updated to OG 2.5 compliant code");
 	$query = db_select('og_membership', 'ogm')->condition('etid', $nid)->fields('ogm', array('gid'))->execute();
 	$result = $query->fetchAll();
 	if(!empty($result[0]->gid)) {

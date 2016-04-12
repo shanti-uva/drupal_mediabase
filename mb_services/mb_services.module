@@ -253,6 +253,9 @@ function mb_services_collection($collid, $pg = 1) {
   $path = drupal_lookup_path("source", "collection/$collid" );
   $parts = explode('/', $path);
   $nid=$parts[1];
+  drupal_set_message('Update mb_services_collection function in mb_services.module if necessary');
+  return '{"MESSAGE": "Update mb_services_collection function in mb_services.module"}';
+  // Previous code
   $group = og_get_group('node', $nid);
   $gout = array(
     'gid' => $group->gid,

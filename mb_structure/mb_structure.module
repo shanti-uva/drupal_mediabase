@@ -432,10 +432,10 @@ function mb_structure_form_video_node_form_alter(&$form, &$form_state, $form_id)
    } // End of thumbnail capture embed code
    
    // Hide old Kmap fields from editors (keep in form to maintain old data)
-   $form['field_subcollection']['#attributes']['class'][] = 'hidden';
+   /*$form['field_subcollection']['#attributes']['class'][] = 'hidden';
    $form['field_characteristic']['#attributes']['class'][] = 'hidden';
    $form['field_pbcore_coverage_spatial']['#attributes']['class'][] = 'hidden';
-   $form['field_recording_location']['#attributes']['class'][] = 'hidden';
+   $form['field_recording_location']['#attributes']['class'][] = 'hidden';*/
    $form['field_tags']['#attributes']['class'][] = 'hidden';  // See MANU-774
    
    // Limit GROUP AUDIENCE options to  collection and teams 

@@ -450,12 +450,14 @@ function mb_structure_form_video_node_form_alter(&$form, &$form_state, $form_id)
 	 } else if (isset($_GET['gids_node'])) {
 	 	node_load($_GET['gids_node'][0]);
 	 }
+     /* TODO: Review and replace or delete
    if ( $collection_node && isset($collection_node->field_subcoll_root_kmap_id[LANGUAGE_NONE]) ) {
       $tid = $collection_node->field_subcoll_root_kmap_id[LANGUAGE_NONE][0]['tid'];
       $term = taxonomy_term_load($tid);
       $kmap_id = $term->kmap_id[LANGUAGE_NONE][0]['value'];
       drupal_add_js(array('mb_structure' => array( 'subcollection_root_kmap_id' => $kmap_id) ), 'setting');
-   }
+    
+   }  **/
 }
 
 

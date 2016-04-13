@@ -957,6 +957,9 @@ function mb_structure_get_groups_for_user( $add_optgroup = TRUE ) {
    $coll_key = t('Collections');
    $team_key = t('Teams');
    $all_groups = og_get_all_group();
+   drupal_set_message('Need to update mb_structure_get_groups_for_user');
+   watchdog('mb_structure', "Need to update get groups for user function, line 953");
+   return $gids_with_labels;
    foreach ($all_groups as $gid) {
       /*$group = og_get_group('group',$gid);
       $node = node_load($group->etid);*/

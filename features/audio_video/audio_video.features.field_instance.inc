@@ -2685,61 +2685,6 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-audio-field_characteristic'
-  $field_instances['node-audio-field_characteristic'] = array(
-    'bundle' => 'audio',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 7,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'field_characteristic',
-    'label' => 'Subject Old',
-    'required' => 0,
-    'settings' => array(
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'kmap_taxonomy',
-      'settings' => array(
-        'allow_annotations' => TRUE,
-        'allow_formatting' => TRUE,
-        'allow_multiple' => TRUE,
-        'kmap_selector_settings' => array(
-          'allow_annotations' => 1,
-          'allow_formatting' => 1,
-          'allow_multiple' => 1,
-          'root_kmap_id' => '',
-          'show_autocomplete' => 1,
-          'show_branch_filter' => 1,
-          'show_tree_selector' => 1,
-          'view_path' => 'subject/%kmap_id/detail',
-        ),
-        'root_kmap_id' => NULL,
-        'show_autocomplete' => TRUE,
-        'show_branch_filter' => TRUE,
-        'show_tree_selector' => TRUE,
-        'view_path' => 'taxonomy/term/%tid',
-      ),
-      'type' => 'kmap_taxonomy',
-      'weight' => 14,
-    ),
-  );
-
   // Exported field_instance: 'node-audio-field_copyright_owner'
   $field_instances['node-audio-field_copyright_owner'] = array(
     'bundle' => 'audio',
@@ -2970,51 +2915,6 @@ function audio_video_field_default_field_instances() {
       'settings' => array(),
       'type' => 'field_collection_embed',
       'weight' => 18,
-    ),
-  );
-
-  // Exported field_instance: 'node-audio-field_pbcore_coverage_spatial'
-  $field_instances['node-audio-field_pbcore_coverage_spatial'] = array(
-    'bundle' => 'audio',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 9,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'field_pbcore_coverage_spatial',
-    'label' => 'Location Old',
-    'required' => 0,
-    'settings' => array(
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'mb_location',
-      'settings' => array(
-        'location_selector_settings' => array(
-          'show_geonames' => 0,
-          'show_map' => 0,
-          'show_place_dictionary' => 1,
-          'view_path' => 'location/%place_id/detail',
-        ),
-        'show_place_dictionary' => TRUE,
-        'view_path' => 'taxonomy/term/%tid',
-      ),
-      'type' => 'mb_location',
-      'weight' => 17,
     ),
   );
 
@@ -3454,51 +3354,6 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-audio-field_recording_location'
-  $field_instances['node-audio-field_recording_location'] = array(
-    'bundle' => 'audio',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 29,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'field_recording_location',
-    'label' => 'Recording Location Old',
-    'required' => 0,
-    'settings' => array(
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'mb_location',
-      'settings' => array(
-        'location_selector_settings' => array(
-          'show_geonames' => 0,
-          'show_map' => 0,
-          'show_place_dictionary' => 1,
-          'view_path' => 'location/%place_id/detail',
-        ),
-        'show_place_dictionary' => TRUE,
-        'view_path' => 'taxonomy/term/%tid',
-      ),
-      'type' => 'mb_location',
-      'weight' => 25,
-    ),
-  );
-
   // Exported field_instance: 'node-audio-field_recording_location_new'
   $field_instances['node-audio-field_recording_location_new'] = array(
     'bundle' => 'audio',
@@ -3535,61 +3390,6 @@ function audio_video_field_default_field_instances() {
       'settings' => array(),
       'type' => 'kmap_tree_picker',
       'weight' => 24,
-    ),
-  );
-
-  // Exported field_instance: 'node-audio-field_subcollection'
-  $field_instances['node-audio-field_subcollection'] = array(
-    'bundle' => 'audio',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 5,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'field_subcollection',
-    'label' => 'Subcollection Old',
-    'required' => 0,
-    'settings' => array(
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'kmap_taxonomy',
-      'settings' => array(
-        'allow_annotations' => TRUE,
-        'allow_formatting' => TRUE,
-        'allow_multiple' => TRUE,
-        'kmap_selector_settings' => array(
-          'allow_annotations' => 1,
-          'allow_formatting' => 1,
-          'allow_multiple' => 1,
-          'root_kmap_id' => 2823,
-          'show_autocomplete' => 1,
-          'show_branch_filter' => 1,
-          'show_tree_selector' => 1,
-          'view_path' => 'subject/%kmap_id/detail',
-        ),
-        'root_kmap_id' => NULL,
-        'show_autocomplete' => TRUE,
-        'show_branch_filter' => TRUE,
-        'show_tree_selector' => TRUE,
-        'view_path' => 'taxonomy/term/%tid',
-      ),
-      'type' => 'kmap_taxonomy',
-      'weight' => 12,
     ),
   );
 
@@ -4080,61 +3880,6 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-video-field_characteristic'
-  $field_instances['node-video-field_characteristic'] = array(
-    'bundle' => 'video',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 7,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 6,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'field_characteristic',
-    'label' => 'Subject Old',
-    'required' => 0,
-    'settings' => array(
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'kmap_taxonomy',
-      'settings' => array(
-        'allow_annotations' => TRUE,
-        'allow_formatting' => TRUE,
-        'allow_multiple' => TRUE,
-        'kmap_selector_settings' => array(
-          'allow_annotations' => 1,
-          'allow_formatting' => 1,
-          'allow_multiple' => 1,
-          'root_kmap_id' => '',
-          'show_autocomplete' => 1,
-          'show_branch_filter' => 1,
-          'show_tree_selector' => 1,
-          'view_path' => 'subject/%kmap_id/detail',
-        ),
-        'root_kmap_id' => NULL,
-        'show_autocomplete' => TRUE,
-        'show_branch_filter' => TRUE,
-        'show_tree_selector' => TRUE,
-        'view_path' => 'taxonomy/term/%tid',
-      ),
-      'type' => 'kmap_taxonomy',
-      'weight' => 14,
-    ),
-  );
-
   // Exported field_instance: 'node-video-field_copyright_owner'
   $field_instances['node-video-field_copyright_owner'] = array(
     'bundle' => 'video',
@@ -4365,51 +4110,6 @@ function audio_video_field_default_field_instances() {
       'settings' => array(),
       'type' => 'field_collection_embed',
       'weight' => 18,
-    ),
-  );
-
-  // Exported field_instance: 'node-video-field_pbcore_coverage_spatial'
-  $field_instances['node-video-field_pbcore_coverage_spatial'] = array(
-    'bundle' => 'video',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 9,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 1,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'field_pbcore_coverage_spatial',
-    'label' => 'Location Old',
-    'required' => 0,
-    'settings' => array(
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'mb_location',
-      'settings' => array(
-        'location_selector_settings' => array(
-          'show_geonames' => 0,
-          'show_map' => 0,
-          'show_place_dictionary' => 1,
-          'view_path' => 'location/%place_id/detail',
-        ),
-        'show_place_dictionary' => TRUE,
-        'view_path' => 'taxonomy/term/%tid',
-      ),
-      'type' => 'mb_location',
-      'weight' => 17,
     ),
   );
 
@@ -4851,51 +4551,6 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-video-field_recording_location'
-  $field_instances['node-video-field_recording_location'] = array(
-    'bundle' => 'video',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'inline',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 29,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 2,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'field_recording_location',
-    'label' => 'Recording Location Old',
-    'required' => 0,
-    'settings' => array(
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'mb_location',
-      'settings' => array(
-        'location_selector_settings' => array(
-          'show_geonames' => 0,
-          'show_map' => 0,
-          'show_place_dictionary' => 1,
-          'view_path' => 'location/%place_id/detail',
-        ),
-        'show_place_dictionary' => TRUE,
-        'view_path' => 'taxonomy/term/%tid',
-      ),
-      'type' => 'mb_location',
-      'weight' => 47,
-    ),
-  );
-
   // Exported field_instance: 'node-video-field_recording_location_new'
   $field_instances['node-video-field_recording_location_new'] = array(
     'bundle' => 'video',
@@ -4933,61 +4588,6 @@ function audio_video_field_default_field_instances() {
       'settings' => array(),
       'type' => 'kmap_tree_picker',
       'weight' => 46,
-    ),
-  );
-
-  // Exported field_instance: 'node-video-field_subcollection'
-  $field_instances['node-video-field_subcollection'] = array(
-    'bundle' => 'video',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 5,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 12,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'field_subcollection',
-    'label' => 'Subcollection Old',
-    'required' => 0,
-    'settings' => array(
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'kmap_taxonomy',
-      'settings' => array(
-        'allow_annotations' => TRUE,
-        'allow_formatting' => TRUE,
-        'allow_multiple' => TRUE,
-        'kmap_selector_settings' => array(
-          'allow_annotations' => 1,
-          'allow_formatting' => 1,
-          'allow_multiple' => 1,
-          'root_kmap_id' => 2823,
-          'show_autocomplete' => 1,
-          'show_branch_filter' => 1,
-          'show_tree_selector' => 1,
-          'view_path' => 'subject/%kmap_id/detail',
-        ),
-        'root_kmap_id' => NULL,
-        'show_autocomplete' => TRUE,
-        'show_branch_filter' => TRUE,
-        'show_tree_selector' => TRUE,
-        'view_path' => 'taxonomy/term/%tid',
-      ),
-      'type' => 'kmap_taxonomy',
-      'weight' => 12,
     ),
   );
 
@@ -5570,7 +5170,6 @@ function audio_video_field_default_field_instances() {
   t('Kmap Parent Id');
   t('Language');
   t('Location');
-  t('Location Old');
   t('Logging files/EDLs archived');
   t('Masters Archived');
   t('Media Needs Re-editing');
@@ -5588,7 +5187,6 @@ function audio_video_field_default_field_instances() {
   t('Publisher Role');
   t('Rating');
   t('Recording Location');
-  t('Recording Location Old');
   t('Redistribution License');
   t('Related Media');
   t('Relationship Type');
@@ -5598,9 +5196,7 @@ function audio_video_field_default_field_instances() {
   t('Sponsor');
   t('Start Time');
   t('Subcollection');
-  t('Subcollection Old');
   t('Subject');
-  t('Subject Old');
   t('Tags');
   t('Tags Old');
   t('Text Label');

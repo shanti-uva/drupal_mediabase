@@ -1101,7 +1101,7 @@ return ($row1->php_1 > $row2->php_1) ? 1 : -1;';
   $handler->display->display_options['pager']['type'] = 'full';
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['row_plugin'] = 'fields';
-  /* Relationship: Taxonomy term: Content using Subcollection Old */
+  /* Relationship: Broken/missing handler */
   $handler->display->display_options['relationships']['reverse_field_subcollection_node']['id'] = 'reverse_field_subcollection_node';
   $handler->display->display_options['relationships']['reverse_field_subcollection_node']['table'] = 'taxonomy_term_data';
   $handler->display->display_options['relationships']['reverse_field_subcollection_node']['field'] = 'reverse_field_subcollection_node';

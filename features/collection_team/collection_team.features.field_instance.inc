@@ -119,61 +119,6 @@ function collection_team_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-collection-field_subcoll_root_kmap_id'
-  $field_instances['node-collection-field_subcoll_root_kmap_id'] = array(
-    'bundle' => 'collection',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 4,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'field_subcoll_root_kmap_id',
-    'label' => 'Subcollection Root Old',
-    'required' => 0,
-    'settings' => array(
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'kmap_taxonomy',
-      'settings' => array(
-        'allow_annotations' => TRUE,
-        'allow_formatting' => TRUE,
-        'allow_multiple' => TRUE,
-        'kmap_selector_settings' => array(
-          'allow_annotations' => 1,
-          'allow_formatting' => 1,
-          'allow_multiple' => 1,
-          'root_kmap_id' => '',
-          'show_autocomplete' => 1,
-          'show_branch_filter' => 1,
-          'show_tree_selector' => 1,
-          'view_path' => 'subject/%kmap_id/detail',
-        ),
-        'root_kmap_id' => NULL,
-        'show_autocomplete' => TRUE,
-        'show_branch_filter' => TRUE,
-        'show_tree_selector' => TRUE,
-        'view_path' => 'taxonomy/term/%tid',
-      ),
-      'type' => 'kmap_taxonomy',
-      'weight' => 8,
-    ),
-  );
-
   // Exported field_instance: 'node-collection-field_subcollection_root'
   $field_instances['node-collection-field_subcollection_root'] = array(
     'bundle' => 'collection',
@@ -630,7 +575,6 @@ function collection_team_field_default_field_instances() {
   t('Group type');
   t('Images');
   t('Subcollection');
-  t('Subcollection Root Old');
   t('Team roles and permissions');
   t('To set the archive, the owner of the team must be a member of the archive.');
   t('Visibility');

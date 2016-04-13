@@ -812,8 +812,8 @@ function mb_solr_get_solrdoc($node, $format = 'xml') {
 	// Allow for a nid to be passed instead of an object
 	$nid = (is_int($node)) ? $node : $node->nid;
 	$node = (is_int($node)) ? node_load($nid) : $node;
-	module_load_include('inc', 'kmap_taxonomy', 'includes/kmap');
-	module_load_include('inc', 'mb_location', 'mb_location');
+	//module_load_include('inc', 'kmap_taxonomy', 'includes/kmap');
+	//module_load_include('inc', 'mb_location', 'mb_location');
 	$is_api_call = FALSE;
 	if(strpos($nid,'.') > -1) { // if the url has "." in it, it's an api call. Otherwise it's a function call
 		$is_api_call = TRUE;

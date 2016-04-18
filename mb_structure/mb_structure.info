@@ -6,7 +6,7 @@ description = "This module provides functionality related to the Collection / Me
                3) manage the tandem noderef/taxo-term set up."
 core = 7.x
 package = SHANTI Mediabase
-dependencies[] = og
+; dependencies[] = og
 version = "7.x-1.0-alpha1"
 
 

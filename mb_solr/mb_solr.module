@@ -108,6 +108,7 @@ function mb_solr_apachesolr_index_document_build(ApacheSolrDocument $document, $
   if (! isset($entity->type) || ! in_array($entity->type, array('video','audio'))) {
       return;
   }
+  /*
   $parent_group_gid = !empty($entity->group_audience['und']) ? $entity->group_audience['und'][0]['gid'] : null;
   if (!empty($parent_group_gid)) {
       $gids=array($parent_group_gid);
@@ -122,7 +123,7 @@ function mb_solr_apachesolr_index_document_build(ApacheSolrDocument $document, $
          $document->addField('im_collection_gid', $gid);
       }
    }
-	
+	*/
 	 // Adjustments for Audio/Video Nodes
 	 if($entity_type == "node" && in_array($entity->type, array('audio', 'video'))) {
 		 try {
@@ -849,9 +850,11 @@ function mb_solr_get_solrdoc($node, $format = 'xml') {
 		
 		// Metadata
 		$ew = entity_metadata_wrapper('node', $node);
+        /*
 		$grp = $ew->group_audience->value();
 		$grp = array_shift($grp);
 		$metadata['collection'] = $grp->label;
+         * */
 		$metadata['date'] = gmdate('Y-m-d\TH:i:s\Z',  $ew->created->value());
 		$metadata['length'] = $node->duration['formatted'];
 		$kmaps = array_values(array_unique($kmaps));

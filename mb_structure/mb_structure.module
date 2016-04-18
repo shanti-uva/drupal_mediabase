@@ -97,6 +97,7 @@ function get_items_in_collection($coll=FALSE) {
     } else if (is_numeric($coll)) {
         $nid = $coll;
     }
+    /*
     if ($nid) {
         // get the collection group object from the node nid
         // $group = og_get_group('node', $nid);
@@ -112,6 +113,7 @@ function get_items_in_collection($coll=FALSE) {
         $count = isset($result['node']) ? sizeof($result['node']) : 0;
         return $count;
     }
+     * */
     return 0;
 }
 
@@ -197,7 +199,7 @@ function collection_block_details_old() {
          $name = realname_load($owner);
       } 
       $output .= "<li>" . $man_label . l($name, "user/$owner->uid") . "</li>";
-      
+      /*
       //count media objects in collection/team
       $query = new EntityFieldQuery();
       $result = $query
@@ -209,6 +211,7 @@ function collection_block_details_old() {
       
       $count = isset($result['node']) ? sizeof($result['node']) : 0;
       $text = t("@count media item(s)", array('@count' => $count));
+       * */
       $output .= "<li>$text</li>";
    } 
    $output .= "</ul>";
@@ -262,6 +265,7 @@ function mb_structure_get_group_access_level($group) {
 	$is_owner = $user->uid == $group->uid;
 	//$gid = $group->gid;
 	$gid = $group->nid;
+    return 3;
 	if(og_is_member($gid, 'user')) {
 		$can_manage = 1;
 	}
@@ -360,6 +364,7 @@ function mb_structure_form_team_node_form_alter(&$form, &$form_state, $form_id) 
    $form['group_group']['und']['#type'] = 'hidden';
    
    // Limit COLLECTION PARENT options to  collection and teams 
+   /*
    $field_language = field_language('node', $form['#node'], 'group_audience');
    $opts = &$form['group_audience'][$field_language]['#options'];
    $orig_opts =  !empty($opts) ? $opts : array();
@@ -377,6 +382,7 @@ function mb_structure_form_team_node_form_alter(&$form, &$form_state, $form_id) 
       }
       $opts = $new_opts;
    }
+    */
 }
 
 /**
@@ -442,6 +448,7 @@ function mb_structure_form_video_node_form_alter(&$form, &$form_state, $form_id)
    
    // Limit GROUP AUDIENCE options to  collection and teams 
    $new_opts = mb_structure_get_groups_for_user();
+   /*
    $form['group_audience'][LANGUAGE_NONE]['#options'] = $new_opts;
    
    // Set the ROOT KMAP BRANCH for SUB-COLLECTIONS
@@ -452,6 +459,7 @@ function mb_structure_form_video_node_form_alter(&$form, &$form_state, $form_id)
 	 } else if (isset($_GET['gids_node'])) {
 	 	$collection_node = node_load($_GET['gids_node'][0]);
 	 }
+    * */
      /* TODO: Review and replace or delete
    if ( $collection_node && isset($collection_node->field_subcoll_root_kmap_id[LANGUAGE_NONE]) ) {
       $tid = $collection_node->field_subcoll_root_kmap_id[LANGUAGE_NONE][0]['tid'];
@@ -605,8 +613,8 @@ function mb_structure_views_query_alter(	&$view, &$query ) {
    if ( 'collection_media' != $view->name || (!$node  && !in_array($node->type, array('team','collection')))) {
       return;
    }
-   
    /* Add extra gids to the where clause to include media in child teams of a collection */
+   /*
    // Get nodes of the teams for the collection
    $efq = new EntityFieldQuery();
    $result = $efq
@@ -627,7 +635,7 @@ function mb_structure_views_query_alter(	&$view, &$query ) {
    // Add gids to where condition
    $view->args[0] = implode(", ",$gids);
    $query->where[0]['conditions'][0]['value'][':og_membership_group'] = $gids;
-   
+   */
    
 }
 
@@ -872,6 +880,7 @@ function get_collection_ancestor_node($node) {
      if(!$node) { return null; }
    }
    $collection_node = null;
+   return $collection_node;
    if ( $gids = og_get_entity_groups('node', $node) ) { 
       $gid = array_pop( $gids );
       if ($group_node = node_load($gid)) {
@@ -891,6 +900,7 @@ function get_team_node($node) {
      if(!$node) { return null; }
    }
    $team_node = FALSE;
+   return $team_node;
    if ( $gids = og_get_entity_groups('node', $node) ) {
       while($gid = array_pop( $gids )) {
 	      if ($group_node = node_load($gid)) {
@@ -928,6 +938,7 @@ function mb_structure_is_team_super_user($node) {
 
 function mb_structure_get_team_gids($collection_gid) {
    $gids = array();
+   return $gids;
    $query = new EntityFieldQuery();
    $result = $query
 	   ->entityCondition('entity_type', 'node')
@@ -961,6 +972,7 @@ function mb_structure_get_groups_for_user( $add_optgroup = TRUE ) {
    $gids_with_labels = array();
    $coll_key = t('Collections');
    $team_key = t('Teams');
+   return $gids_with_labels;
    $all_groups = og_get_all_group();
    drupal_set_message('Need to update mb_structure_get_groups_for_user');
    watchdog('mb_structure', "Need to update get groups for user function, line 953");
@@ -1029,6 +1041,7 @@ function mb_structure_menu_breadcrumb_alter(&$active_trail, $item) {
 }
 
 function mb_structure_breadcrumb_items_collection_team($node) {
+    return array();
     $gid = $node->group_audience[LANGUAGE_NONE][0]['gid'];
     $coll_crumb = array();
     if ($coll_group = node_load($gid)) {

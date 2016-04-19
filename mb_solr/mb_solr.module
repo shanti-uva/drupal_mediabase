@@ -565,7 +565,7 @@ function theme_mb_solr_results($vars) {
         }
     }
 	$node = $vars['node'];
-	$html = '<div class="mb-solr-results block-inner clearfix">'. drupal_render($results) . '</div>';
+	$html = '<div class="mb-solr-results block-inner">'. drupal_render($results) . '</div>';
 	return $html;
 }
 

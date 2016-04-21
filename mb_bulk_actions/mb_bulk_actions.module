@@ -12,6 +12,17 @@
 function mb_bulk_actions_action_info() {
   $info = array(
     
+    // Update Old Collection Nodes
+    'mb_bulk_actions_update_old_collections' =>  array(
+          'aggregate' => FALSE,
+          'type' => 'node',
+          'label' => t('Update old collection nodes'),
+          'behavior' => array('changes_property'),
+          'configurable' => TRUE,
+          'vbo_configurable' => TRUE,
+          'triggers' => array('any'),
+        ),
+    
 	// Change Collection for Multiple nodes
 	'mb_bulk_actions_change_collection' =>  array(
           'aggregate' => FALSE,
@@ -25,6 +36,42 @@ function mb_bulk_actions_action_info() {
       );
 
 	return $info;
+}
+
+/**** Update Old Collection Nodes ****/
+
+function mb_bulk_actions_update_old_collections(&$node, $context) {
+    /*
+     * Action to update old collection nodes to match new Shanti Collection content type
+     */
+     if ($node->type == 'collection') {
+         // Update the collection image
+         if (!empty($node->field_images)) {
+             // move image info from old field to new
+             $imginfo = array();
+             $imginfo = array_merge($imginfo,$node->field_images);
+             $node->field_general_featured_image = $imginfo;
+             // Update the image file if it doesn't have type=image (because media has been installed)
+             // TODO: Should this be done with all images?
+             $fid = $node->field_general_featured_image['und'][0]['fid'];
+             $file = file_load($fid);
+             if ($file && (empty($file->type) || $file->type == "undefined")) {
+                 $file->type = 'image';
+                 file_save($file);
+             }
+         }
+         // Add default value for new field user inheritance
+         if (empty($node->og_user_inheritance)) {
+             $node->og_user_inheritance = array('und'=>array(array('value'=>1)));
+         }
+         
+         // Add default value for new field user permission inheritance
+         if (empty($node->og_user_permission_inheritance)) {
+             $node->og_user_permission_inheritance = array('und'=>array(array('value'=>0)));
+         }
+         // save the node
+         node_save($node);
+     }
 }
 
 /**** Change Collection for Multiple Nodes ****/

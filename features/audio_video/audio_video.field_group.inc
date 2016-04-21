@@ -8,7 +8,7 @@
  * Implements hook_field_group_info().
  */
 function audio_video_field_group_info() {
-  $export = array();
+  $field_groups = array();
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -36,7 +36,7 @@ function audio_video_field_group_info() {
       'formatter' => 'collapsed',
     ),
   );
-  $export['group_availability_access|node|audio|default'] = $field_group;
+  $field_groups['group_availability_access|node|audio|default'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -65,7 +65,7 @@ function audio_video_field_group_info() {
       'formatter' => 'collapsed',
     ),
   );
-  $export['group_availability_access|node|audio|form'] = $field_group;
+  $field_groups['group_availability_access|node|audio|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -93,7 +93,7 @@ function audio_video_field_group_info() {
       'formatter' => 'collapsed',
     ),
   );
-  $export['group_availability_access|node|video|default'] = $field_group;
+  $field_groups['group_availability_access|node|video|default'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -122,7 +122,7 @@ function audio_video_field_group_info() {
       'formatter' => 'collapsed',
     ),
   );
-  $export['group_availability_access|node|video|form'] = $field_group;
+  $field_groups['group_availability_access|node|video|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -154,7 +154,7 @@ function audio_video_field_group_info() {
       'formatter' => 'collapsed',
     ),
   );
-  $export['group_catalog_record_workflow|field_collection_item|field_workflow|form'] = $field_group;
+  $field_groups['group_catalog_record_workflow|field_collection_item|field_workflow|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -187,7 +187,7 @@ function audio_video_field_group_info() {
       ),
     ),
   );
-  $export['group_details|node|audio|default'] = $field_group;
+  $field_groups['group_details|node|audio|default'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -222,7 +222,7 @@ function audio_video_field_group_info() {
       'formatter' => 'collapsed',
     ),
   );
-  $export['group_details|node|audio|form'] = $field_group;
+  $field_groups['group_details|node|audio|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -254,7 +254,7 @@ function audio_video_field_group_info() {
       ),
     ),
   );
-  $export['group_details|node|video|default'] = $field_group;
+  $field_groups['group_details|node|video|default'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -288,7 +288,7 @@ function audio_video_field_group_info() {
       'formatter' => 'collapsed',
     ),
   );
-  $export['group_details|node|video|form'] = $field_group;
+  $field_groups['group_details|node|video|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -323,7 +323,7 @@ function audio_video_field_group_info() {
       ),
     ),
   );
-  $export['group_media_workflow|field_collection_item|field_workflow|form'] = $field_group;
+  $field_groups['group_media_workflow|field_collection_item|field_workflow|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -352,7 +352,7 @@ function audio_video_field_group_info() {
       ),
     ),
   );
-  $export['group_media|node|audio|form'] = $field_group;
+  $field_groups['group_media|node|audio|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -381,7 +381,7 @@ function audio_video_field_group_info() {
       'formatter' => 'collapsible',
     ),
   );
-  $export['group_media|node|video|form'] = $field_group;
+  $field_groups['group_media|node|video|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -411,7 +411,7 @@ function audio_video_field_group_info() {
       'formatter' => 'collapsible',
     ),
   );
-  $export['group_people|node|audio|default'] = $field_group;
+  $field_groups['group_people|node|audio|default'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -443,7 +443,7 @@ function audio_video_field_group_info() {
       'formatter' => 'collapsed',
     ),
   );
-  $export['group_people|node|audio|form'] = $field_group;
+  $field_groups['group_people|node|audio|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -473,7 +473,7 @@ function audio_video_field_group_info() {
       'formatter' => 'collapsible',
     ),
   );
-  $export['group_people|node|video|default'] = $field_group;
+  $field_groups['group_people|node|video|default'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -505,7 +505,7 @@ function audio_video_field_group_info() {
       'formatter' => 'collapsed',
     ),
   );
-  $export['group_people|node|video|form'] = $field_group;
+  $field_groups['group_people|node|video|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -535,7 +535,7 @@ function audio_video_field_group_info() {
       'formatter' => 'collapsed',
     ),
   );
-  $export['group_rights|node|audio|default'] = $field_group;
+  $field_groups['group_rights|node|audio|default'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -565,7 +565,7 @@ function audio_video_field_group_info() {
       'formatter' => 'collapsed',
     ),
   );
-  $export['group_rights|node|audio|form'] = $field_group;
+  $field_groups['group_rights|node|audio|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -595,7 +595,7 @@ function audio_video_field_group_info() {
       'formatter' => 'collapsed',
     ),
   );
-  $export['group_rights|node|video|default'] = $field_group;
+  $field_groups['group_rights|node|video|default'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -625,7 +625,7 @@ function audio_video_field_group_info() {
       'formatter' => 'collapsed',
     ),
   );
-  $export['group_rights|node|video|form'] = $field_group;
+  $field_groups['group_rights|node|video|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -654,7 +654,7 @@ function audio_video_field_group_info() {
       'formatter' => 'collapsed',
     ),
   );
-  $export['group_technical|node|audio|default'] = $field_group;
+  $field_groups['group_technical|node|audio|default'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -686,7 +686,7 @@ function audio_video_field_group_info() {
       'formatter' => 'collapsed',
     ),
   );
-  $export['group_technical|node|audio|form'] = $field_group;
+  $field_groups['group_technical|node|audio|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -716,7 +716,7 @@ function audio_video_field_group_info() {
       'formatter' => 'collapsed',
     ),
   );
-  $export['group_technical|node|video|default'] = $field_group;
+  $field_groups['group_technical|node|video|default'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -748,7 +748,7 @@ function audio_video_field_group_info() {
       'formatter' => 'collapsed',
     ),
   );
-  $export['group_technical|node|video|form'] = $field_group;
+  $field_groups['group_technical|node|video|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -773,7 +773,7 @@ function audio_video_field_group_info() {
       ),
     ),
   );
-  $export['group_title_desc|node|audio|default'] = $field_group;
+  $field_groups['group_title_desc|node|audio|default'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -803,7 +803,7 @@ function audio_video_field_group_info() {
       'formatter' => 'collapsed',
     ),
   );
-  $export['group_title_desc|node|audio|form'] = $field_group;
+  $field_groups['group_title_desc|node|audio|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -832,7 +832,7 @@ function audio_video_field_group_info() {
       ),
     ),
   );
-  $export['group_title_desc|node|video|default'] = $field_group;
+  $field_groups['group_title_desc|node|video|default'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -862,7 +862,7 @@ function audio_video_field_group_info() {
       'formatter' => 'collapsed',
     ),
   );
-  $export['group_title_desc|node|video|form'] = $field_group;
+  $field_groups['group_title_desc|node|video|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -896,7 +896,7 @@ function audio_video_field_group_info() {
       'formatter' => 'collapsed',
     ),
   );
-  $export['group_transcript_workflow|field_collection_item|field_workflow|form'] = $field_group;
+  $field_groups['group_transcript_workflow|field_collection_item|field_workflow|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -924,7 +924,7 @@ function audio_video_field_group_info() {
       'formatter' => 'collapsed',
     ),
   );
-  $export['group_transcript|node|audio|form'] = $field_group;
+  $field_groups['group_transcript|node|audio|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -952,7 +952,7 @@ function audio_video_field_group_info() {
       'formatter' => 'collapsed',
     ),
   );
-  $export['group_transcript|node|video|form'] = $field_group;
+  $field_groups['group_transcript|node|video|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -1010,7 +1010,7 @@ function audio_video_field_group_info() {
       'formatter' => 'collapsed',
     ),
   );
-  $export['group_workflow|field_collection_item|field_workflow|default'] = $field_group;
+  $field_groups['group_workflow|field_collection_item|field_workflow|default'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -1037,7 +1037,7 @@ function audio_video_field_group_info() {
       ),
     ),
   );
-  $export['group_workflow|node|audio|form'] = $field_group;
+  $field_groups['group_workflow|node|audio|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -1064,7 +1064,24 @@ function audio_video_field_group_info() {
       ),
     ),
   );
-  $export['group_workflow|node|video|form'] = $field_group;
+  $field_groups['group_workflow|node|video|form'] = $field_group;
 
-  return $export;
+  // Translatables
+  // Included for use with string extractors like potx.
+  t('Availability & Access');
+  t('Catalog Record Workflow');
+  t('Classification');
+  t('Details');
+  t('Media');
+  t('Media Workflow');
+  t('People');
+  t('People & Copyrights');
+  t('Rights & Licensing');
+  t('Technical Metadata');
+  t('Title & Description');
+  t('Transcript');
+  t('Transcript Workflow');
+  t('Workflow');
+
+  return $field_groups;
 }

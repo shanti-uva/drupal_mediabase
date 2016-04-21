@@ -288,5 +288,19 @@ function audio_video_strongarm() {
   $strongarm->value = 0;
   $export['node_submitted_video'] = $strongarm;
 
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'pathauto_node_audio_pattern';
+  $strongarm->value = 'audio/[node:title]';
+  $export['pathauto_node_audio_pattern'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'pathauto_node_video_pattern';
+  $strongarm->value = 'video/[node:title]';
+  $export['pathauto_node_video_pattern'] = $strongarm;
+
   return $export;
 }

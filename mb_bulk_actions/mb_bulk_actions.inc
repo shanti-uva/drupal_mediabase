@@ -1,6 +1,26 @@
 <?php 
 
 /**
+ * Update an image from the old collection or team to the new collection or subcollection style.
+ */
+function mb_bulk_update_image(&$node) {
+     if (!empty($node->field_images)) {
+         // move image info from old field to new
+         $imginfo = array();
+         $imginfo = array_merge($imginfo,$node->field_images);
+         $node->field_general_featured_image = $imginfo;
+         // Update the image file if it doesn't have type=image (because media has been installed)
+         // TODO: Should this be done with all images?
+         $fid = $node->field_general_featured_image['und'][0]['fid'];
+         $file = file_load($fid);
+         if ($file && (empty($file->type) || $file->type == "undefined")) {
+             $file->type = 'image';
+             file_save($file);
+         }
+     }
+}
+
+/**
  * Migrate data from old kmap field to new field that uses shanti kmap field module
  * 
  * New Kmap data needs to be added to node by adding the field kmap data in the following format:

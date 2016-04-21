@@ -18,8 +18,8 @@ function mb_bulk_actions_action_info() {
           'type' => 'node',
           'label' => t('Update old collection nodes'),
           'behavior' => array('changes_property'),
-          'configurable' => TRUE,
-          'vbo_configurable' => TRUE,
+          'configurable' => FALSE,
+          'vbo_configurable' => FALSE,
           'triggers' => array('any'),
         ),
     
@@ -41,25 +41,15 @@ function mb_bulk_actions_action_info() {
 /**** Update Old Collection Nodes ****/
 
 function mb_bulk_actions_update_old_collections(&$node, $context) {
+    module_load_include('inc', 'mb_bulk_actions', 'mb_bulk_actions');
+    
     /*
      * Action to update old collection nodes to match new Shanti Collection content type
      */
-     if ($node->type == 'collection') {
+    if ($node->type == 'collection') {
          // Update the collection image
-         if (!empty($node->field_images)) {
-             // move image info from old field to new
-             $imginfo = array();
-             $imginfo = array_merge($imginfo,$node->field_images);
-             $node->field_general_featured_image = $imginfo;
-             // Update the image file if it doesn't have type=image (because media has been installed)
-             // TODO: Should this be done with all images?
-             $fid = $node->field_general_featured_image['und'][0]['fid'];
-             $file = file_load($fid);
-             if ($file && (empty($file->type) || $file->type == "undefined")) {
-                 $file->type = 'image';
-                 file_save($file);
-             }
-         }
+         mb_bulk_update_image($node);  // in mb_bulk_actions.inc
+         
          // Add default value for new field user inheritance
          if (empty($node->og_user_inheritance)) {
              $node->og_user_inheritance = array('und'=>array(array('value'=>1)));
@@ -69,9 +59,41 @@ function mb_bulk_actions_update_old_collections(&$node, $context) {
          if (empty($node->og_user_permission_inheritance)) {
              $node->og_user_permission_inheritance = array('und'=>array(array('value'=>0)));
          }
+
          // save the node
          node_save($node);
-     }
+         
+    }
+         
+    // Update Teams
+    if ($node->type == 'team') {
+        // Change type to subcollection
+        $node->type = "subcollection";
+
+        // Update image
+        mb_bulk_update_image($node);
+       
+        // Save the node
+        node_save($node);
+        
+        // Move value of parent ref to new field
+         $res = db_update('og_membership')
+                    ->fields(array(
+                            'field_name' => 'field_og_parent_collection_ref'
+                         ))
+                    ->condition('etid', $node->nid, '=')
+                    ->execute();
+         
+        if ($res <> 1) { 
+             drupal_set_message($res . ' records changed in db for ' . $node->title . ' ('. $node->nid . ')');
+        }
+    }
+    
+    // update path alias with pathauto
+    if (module_exists('pathauto')) {
+        pathauto_node_update_alias($node, 'update');
+    }
+    
 }
 
 /**** Change Collection for Multiple Nodes ****/

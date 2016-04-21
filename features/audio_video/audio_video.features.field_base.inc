@@ -3503,9 +3503,19 @@ function audio_video_field_default_field_bases() {
           'og_behavior' => array(
             'status' => TRUE,
           ),
+          'views-select-list' => array(
+            'status' => 0,
+          ),
         ),
         'membership_type' => 'og_membership_type_default',
-        'target_bundles' => array(),
+        'sort' => array(
+          'type' => 'none',
+        ),
+        'target_bundles' => array(
+          'collection' => 'collection',
+          'subcollection' => 'subcollection',
+          'team' => 'team',
+        ),
       ),
       'handler_submit' => 'Change handler',
       'target_type' => 'node',

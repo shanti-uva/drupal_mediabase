@@ -57,11 +57,11 @@ function audio_video_flag_default_flags() {
     'access_author' => '',
     'show_contextual_link' => FALSE,
     'i18n' => 0,
-    'api_version' => 3,
     'module' => 'audio_video',
     'locked' => array(
       0 => 'name',
     ),
+    'api_version' => 3,
   );
   // Exported flag: "Favorites".
   $flags['favorites'] = array(
@@ -89,11 +89,11 @@ function audio_video_flag_default_flags() {
     'access_author' => '',
     'show_contextual_link' => FALSE,
     'i18n' => 0,
-    'api_version' => 3,
     'module' => 'audio_video',
     'locked' => array(
       0 => 'name',
     ),
+    'api_version' => 3,
   );
   // Exported flag: "Loanable".
   $flags['loanable'] = array(
@@ -121,11 +121,11 @@ function audio_video_flag_default_flags() {
     'access_author' => 'own',
     'show_contextual_link' => FALSE,
     'i18n' => 0,
-    'api_version' => 3,
     'module' => 'audio_video',
     'locked' => array(
       0 => 'name',
     ),
+    'api_version' => 3,
   );
   return $flags;
 

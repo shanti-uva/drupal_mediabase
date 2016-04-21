@@ -135,6 +135,9 @@ function audio_video_strongarm() {
       'diff_standard' => array(
         'custom_settings' => FALSE,
       ),
+      'revision' => array(
+        'custom_settings' => FALSE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(
@@ -178,6 +181,9 @@ function audio_video_strongarm() {
         'custom_settings' => FALSE,
       ),
       'diff_standard' => array(
+        'custom_settings' => FALSE,
+      ),
+      'revision' => array(
         'custom_settings' => FALSE,
       ),
     ),

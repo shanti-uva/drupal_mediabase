@@ -4,16 +4,89 @@
 * This module provides a UI and some backend utilities for the collection->team group structures
 **/
 
+/**
+ * Function to return a nodes group
+ */
+ 
+function mb_structure_get_group($node, $type='object') {
+    $groups = og_get_entity_groups('node', $node);
+    $gid = array_shift($groups['node']);
+    if ($type == 'id' || $type == 'gid') {
+        return $gid;
+    } else {
+        return node_load($gid);
+    }
+}
+
+/**
+ * Return list of subcollections in collection
+ *      Returns an array of nids
+ */
+ 
+ function get_subcollections_in_collection($coll=FALSE) {
+    $nids = array();
+    if (is_numeric($coll)) {  $coll = node_load($coll);   } // convert nid to node
+    // Only collections have subcollections
+    if ($coll->type == "collection") {
+        /**
+         * Sample Query:
+         *       select etid from og_membership where entity_type='node' and field_name='field_og_parent_collection_ref' and gid=3;
+         **/
+        $result = db_select('og_membership', 'ogm')
+                            ->fields('ogm', array('etid'))
+                            ->condition('entity_type', 'node')
+                            ->condition('field_name', 'field_og_parent_collection_ref')
+                            ->condition('gid', $coll->nid)
+                            ->execute();
+        $nids = $result->fetchCol();
+        drupal_set_message(count($nids) . ' subcols found');
+    }
+    return $nids;
+ }
+ 
+/**
+ * Return the count of number of items in a collection
+ */
+function get_items_in_collection($coll=FALSE, $return="count") {
+    $nids = array();
+    if (is_numeric($coll)) {  $coll = node_load($coll); } // Load collection node if id given
+    if ($coll) {
+        // Get all collection and subcollection nids invovled
+        $nids[] = $coll->nid;
+        $nids = array_merge($nids, get_subcollections_in_collection($coll));
+        /**
+         * Sample Query:
+         *      select count(etid) from og_membership where entity_type='node' and field_name='field_og_collection_ref' and gid in (3,1721,1725,1769,2228,2258,3498,3939,4836,4835,1760,1748,1841);
+         * 
+         * NOTE: TODO: the results of this query returns a larger number of results than the view shows for THL. WHY is this?
+         */
+        $result = db_select('og_membership', 'ogm')
+                            ->fields('ogm', array('etid'))
+                            ->condition('entity_type', 'node')
+                            ->condition('field_name', 'field_og_collection_ref')
+                            ->condition('gid', $nids, 'IN')
+                            ->execute();
+        $nids = $result->fetchCol();
+        if ($return == "nids") {   return $nids;  }
+    }
+    return count($nids);
+}
+
+
+/**
+ * Implements hook_block_info
+ */
+
 function mb_structure_block_info() {
    $blocks=array();
    $blocks['collection_detail'] = array(
       'info' => 'Collection Detail',
       'cache' => DRUPAL_NO_CACHE,
    );
-	 $blocks['collection_manage'] = array(
-	 		'info' => 'Collection Links (Manage)',
+     $blocks['collection_manage'] = array(
+            'info' => 'Collection Links (Manage)',
       'cache' => DRUPAL_NO_CACHE,
-	 );
+     );
    $blocks['collection_media_listing'] = array(
       'info' => 'Collection Media Listing',
    );
@@ -38,26 +111,26 @@ function mb_structure_block_info() {
 function mb_structure_block_view($delta) {
    switch($delta) { 
      case 'collection_detail':
-			 $block = array();
-			 $node = get_node_from_path();
+             $block = array();
+             $node = get_node_from_path();
        if ( $node && in_array($node->type, array( "collection", "team")) ) {
           $block_subj = ("collection" == $node->type) ? t("Collection") : t("Team");
-	        $block['subject'] = $block_subj;
-	        $block['content'] = collection_block_details($node);
+            $block['subject'] = $block_subj;
+            $block['content'] = collection_block_details($node);
        }       
        return $block;
-				
-		 case 'collection_manage':
-			 $block = array();
-			 $node = get_node_from_path();
-  		 if ( $node && in_array($node->type, array( "collection", "team") ) )    {
-				  if ( $perms = mb_structure_get_group_access_level($node) ) {
-		        $block['subject'] = t("Manage");
-		        $block['content'] = manage_collection_block($node, $perms);
-					}
-			  }
-				return $block;
-				
+                
+         case 'collection_manage':
+             $block = array();
+             $node = get_node_from_path();
+         if ( $node && in_array($node->type, array( "collection", "team") ) )    {
+                  if ( $perms = mb_structure_get_group_access_level($node) ) {
+                $block['subject'] = t("Manage");
+                $block['content'] = manage_collection_block($node, $perms);
+                    }
+              }
+                return $block;
+                
      case 'collection_media_listing':
         $block['subject'] = t('Media');
         $block['content'] = collection_media_listing();
@@ -87,49 +160,11 @@ function mb_structure_block_view($delta) {
    }
 }
 
-/**
- * Return the count of number of items in a collection
- */
-function get_items_in_collection($coll=FALSE) {
-    $nid = FALSE;
-    if (is_object($coll) && isset($coll->nid)) {
-        $nid = $coll->nid;
-    } else if (is_numeric($coll)) {
-        $nid = $coll;
-    }
-    /*
-    if ($nid) {
-        // get the collection group object from the node nid
-        // $group = og_get_group('node', $nid);
-        $gid = $nid; //$group->gid;
-        //count media objects in collection/team
-        $query = new EntityFieldQuery();
-        $result = $query
-          ->entityCondition('entity_type', 'node')
-          ->propertyCondition('type', array('audio','video'), 'IN')
-          ->fieldCondition('group_audience', 'state', array(1), 'IN', 0)
-          ->fieldCondition('group_audience', 'gid', $gid, '=', 0)
-          ->execute();
-        $count = isset($result['node']) ? sizeof($result['node']) : 0;
-        return $count;
-    }
-     * */
-    return 0;
-}
-
 function collection_block_details($node) {
     global $user;
-	//$group = og_get_group('node', $node->nid);
 	$owner = user_load($node->uid);
 	$is_owner = $user->uid == $node->uid;
-	//$gid = $group->gid;
-	/*
-	$fvi = field_get_items('node', $node, 'group_access');
-	$status = (isset($fvi[0]['value']) && $fvi[0]['value'] == 1) ? t("Private") : t("Public");
-     */ 
-     $status = 'need to fix status mb_structure l129'; 
-	
-	
+
 	// administrator user link
 	$coll_man = t("Manager: ");
 	$team_man = t("Team Manager: ");
@@ -139,7 +174,7 @@ function collection_block_details($node) {
 	   $man_name = realname_load($owner);
 	} 
 		
-	$count = get_items_in_collection($node->nid);
+	$count = get_items_in_collection($node);
 	$count_str = t("@count media item(s)", array('@count' => $count));
 	
 	$output = '<div class="collection-stats">';
@@ -1019,85 +1054,77 @@ function mb_structure_already_started_validate(&$form_state, $form) {
    drupal_goto($path, array('query' => array('gids_node[]' => $gid)));
 }
 
+/**
+ * Implements hook_breadcrumb_alter
+ */
 function mb_structure_menu_breadcrumb_alter(&$active_trail, $item) {
    $new_items=array();
-   if ($item['path'] == 'node/%' &&  $node = $item['page_arguments'][0] ) {
-      if ( ! in_array($node->type, array('collection', 'team', 'audio', 'video') ) ) {
-         return;
-      }
-      $new_items[] = array( 
-         'title' => t('Collections'),
-         'href' => 'collections',
-         'link_path' => '',
-         'localized_options' => array(),
-         'type' => 0,
-         );
-      
-      switch ( $node->type ) {
-      case 'team': 
-         $new_items[] = mb_structure_breadcrumb_items_collection_team($node);
-         break;
-      case 'audio':
-      case 'video':
-         $new_items=array_merge($new_items, mb_structure_breadcrumb_items_audio_video($node));
+   $node = menu_get_object();
+   if ($node && !empty($node->type) && in_array($node->type, array('audio', 'video', 'collection', 'subcollection'))) {
+       switch ( $node->type ) {
+           case 'collection':
+           case 'subcollection': 
+              $new_items = mb_structure_breadcrumb_items_collection($node);
+               array_pop($new_items);
+              break;
+          case 'audio':
+           case 'video':
+              $new_items=  mb_structure_breadcrumb_items_audio_video($node);
       }
    }
-   array_splice( $active_trail, 1, 0, $new_items ); // splice in at position 1
+   array_splice( $active_trail, 1, 0, $new_items ); // splice in at position 1 (Keeps the node title on?)
 }
 
-function mb_structure_breadcrumb_items_collection_team($node) {
-    return array();
-    $gid = $node->group_audience[LANGUAGE_NONE][0]['gid'];
-    $coll_crumb = array();
-    if ($coll_group = node_load($gid)) {
-       $coll_crumb = array( 
-          'title' => $coll_group->title,
-          'href' => 'node/' . $gid,
+/**
+ * Created an array of breadcrumbs for a collection or subcollection
+ */
+function mb_structure_breadcrumb_items_collection($coll) {
+    if (is_numeric($coll)) { $coll = node_load($coll); } // convert nid to node
+    // Set up crumbs array with collections as the first item
+    $crumbs = array(array(
+            'title' => t('Collections'),
+            'href' => 'collections',
+            'link_path' => '',
+             'localized_options' => array(),
+          ' type' => 0,
+    )); 
+    // Is this a subcollection
+    $subcoll = FALSE;
+    if ($coll->type == "subcollection") {
+        $subcoll = $coll;
+        $coll = mb_structure_get_group($subcoll);
+    }
+    // Make the collection crumb
+    $crumbs[] = array( 
+          'title' => $coll->title,
+          'href' => 'node/' . $coll->nid,
           'link_path' => '',
           'localized_options' => array(),
           'type' => 0,
-          );
-    }
-   return $coll_crumb;
+    );
+    // Make the subcollection crumb
+   if ($subcoll) {
+       $crumbs[] = array( 
+          'title' => $subcoll->title,
+          'href' => 'node/' . $subcoll->nid,
+          'link_path' => '',
+          'localized_options' => array(),
+          'type' => 0,
+        );
+   }
+   return $crumbs;
 }
 
+/**
+ * Creates an array of breadcrumbs for an av item
+ */
 function mb_structure_breadcrumb_items_audio_video($node) {
-   //$coll_team_group = og_get_group('group', $node->group_audience[LANGUAGE_NONE][0]['gid']);
-   //if($coll_team_group) {
-   if (!empty($node->group_audience[LANGUAGE_NONE][0]['gid']) && $coll_team_node = node_load($node->group_audience[LANGUAGE_NONE][0]['gid'])) {
-     //$coll_team_node = node_load($coll_team_group->etid); 
-     if ($coll_team_node->type == 'team'  ) {
-        $coll_crumb = mb_structure_breadcrumb_items_collection_team($coll_team_node);
-        $team_crumb = array(
-           'title' => $coll_team_node->title,
-           'href' => 'node/' . $coll_team_node->nid,
-           'link_path' => '',
-           'localized_options' => array(),
-           'type' => 0,
-           );
-        if (  mb_structure_is_team_super_user($coll_team_node)
-           ||  (og_is_member($coll_team_node->nid, 'user') || og_user_access($coll_team_node->nid, 'administer group'))
-        ) {
-        return array($coll_crumb, $team_crumb);
-        }
-        else {
-           return array($coll_crumb);         
-        }
-     }
-     else {
-        $coll_crumb = array(
-           'title' => $coll_team_node->title,
-           'href' => 'node/' . $coll_team_node->nid,
-           'link_path' => '',
-           'localized_options' => array(),
-           'type' => 0,
-           );
-        return array($coll_crumb);
-     }
-   } else {
-     drupal_set_message(t("Node @nid is not part of a collection or team", array('@nid' => $node->nid)), 'warning', FALSE);
-     return array();
+    $coll_crumb = array();
+   if (!empty($node->og_group_ref)) {
+       $group = mb_structure_get_group($node);
+       $coll_crumb = mb_structure_breadcrumb_items_collection($group);
    }
+   return $coll_crumb;
 }
 
 /**

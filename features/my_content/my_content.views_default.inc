@@ -433,12 +433,6 @@ function my_content_views_default_views() {
     7 => 0,
   );
   $handler->display->display_options['path'] = 'my-content/collections';
-  $handler->display->display_options['menu']['type'] = 'tab';
-  $handler->display->display_options['menu']['title'] = 'My Collections';
-  $handler->display->display_options['menu']['weight'] = '2';
-  $handler->display->display_options['menu']['name'] = 'user-menu';
-  $handler->display->display_options['menu']['context'] = 0;
-  $handler->display->display_options['menu']['context_only_inline'] = 0;
   $export['my_collections'] = $view;
 
   $view = new view();
@@ -829,12 +823,6 @@ function my_content_views_default_views() {
   $handler->display->display_options['title'] = 'My Content';
   $handler->display->display_options['display_description'] = 'Parent item for "My ..."';
   $handler->display->display_options['path'] = 'my-content';
-  $handler->display->display_options['menu']['type'] = 'normal';
-  $handler->display->display_options['menu']['title'] = 'My Content';
-  $handler->display->display_options['menu']['weight'] = '0';
-  $handler->display->display_options['menu']['name'] = 'user-menu';
-  $handler->display->display_options['menu']['context'] = 0;
-  $handler->display->display_options['menu']['context_only_inline'] = 0;
 
   /* Display: My Content: Media */
   $handler = $view->new_display('page', 'My Content: Media', 'page_2');
@@ -844,13 +832,6 @@ function my_content_views_default_views() {
   $handler->display->display_options['css_class'] = 'my-media-view';
   $handler->display->display_options['display_description'] = 'Parent item for My ...';
   $handler->display->display_options['path'] = 'my-content/media';
-  $handler->display->display_options['menu']['type'] = 'default tab';
-  $handler->display->display_options['menu']['title'] = 'My Media';
-  $handler->display->display_options['menu']['weight'] = '0';
-  $handler->display->display_options['menu']['name'] = 'main-menu';
-  $handler->display->display_options['menu']['context'] = 0;
-  $handler->display->display_options['menu']['context_only_inline'] = 0;
-  $handler->display->display_options['tab_options']['weight'] = '0';
   $export['my_content'] = $view;
 
   $view = new view();
@@ -957,12 +938,6 @@ function my_content_views_default_views() {
   $handler = $view->new_display('page', 'My Content: Memberships', 'page');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['path'] = 'my-content/memberships';
-  $handler->display->display_options['menu']['type'] = 'tab';
-  $handler->display->display_options['menu']['title'] = 'My Memberships';
-  $handler->display->display_options['menu']['weight'] = '4';
-  $handler->display->display_options['menu']['name'] = 'user-menu';
-  $handler->display->display_options['menu']['context'] = 0;
-  $handler->display->display_options['menu']['context_only_inline'] = 0;
   $export['my_memberships'] = $view;
 
   $view = new view();
@@ -1412,12 +1387,6 @@ function my_content_views_default_views() {
   /* Display: My Content: Workflow */
   $handler = $view->new_display('page', 'My Content: Workflow', 'page_2');
   $handler->display->display_options['path'] = 'my-content/workflow';
-  $handler->display->display_options['menu']['type'] = 'tab';
-  $handler->display->display_options['menu']['title'] = 'My Workflow';
-  $handler->display->display_options['menu']['weight'] = '6';
-  $handler->display->display_options['menu']['name'] = 'user-menu';
-  $handler->display->display_options['menu']['context'] = 0;
-  $handler->display->display_options['menu']['context_only_inline'] = 0;
   $handler->display->display_options['tab_options']['title'] = 'My Workflow';
   $handler->display->display_options['tab_options']['weight'] = '0';
   $export['my_workflow'] = $view;

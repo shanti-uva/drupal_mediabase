@@ -39,7 +39,7 @@ function mb_structure_get_group($node, $type='object') {
                             ->condition('gid', $coll->nid)
                             ->execute();
         $nids = $result->fetchCol();
-        drupal_set_message(count($nids) . ' subcols found');
+        //drupal_set_message(count($nids) . ' subcols found');
     }
     return $nids;
  }

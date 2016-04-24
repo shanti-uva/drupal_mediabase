@@ -39,3 +39,40 @@ function mb_structure_update_7001(&$sandbox) {
 		throw new DrupalUpdateException('Unable to create the file for the audio thumbnail image');
 	}
 }
+
+/**
+ * Add new gallery thumbnail image style and readd carousel Image after migration
+ */
+ function mb_structure_update_7002(&$sandbox) {
+     $style = image_style_save(array('name' => 'carousel_image', 'label' => 'Carousel Image'));
+      $effect = array(
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => 400,
+          'height' => 300,
+          'upscale' => TRUE,
+        ),
+        'isid' => $style['isid'],
+      );
+      image_effect_save($effect);  
+      $style = image_style_save(array('name' => 'av_gallery_thumb', 'label' => 'AV Gallery Thumbnail (189 x 90)'));
+      $effect = array(
+        'name' => 'image_scale',
+        'data' => array(
+          'width' => 189,
+          'upscale' => TRUE,
+        ),
+        'isid' => $style['isid'],
+      );
+      image_effect_save($effect); 
+      $effect = array(
+        'name' => 'image_crop',
+        'data' => array(
+          'height' => 90,
+          'width' => 189,
+          'anchor' => 'left-center',
+        ),
+        'isid' => $style['isid'],
+      );
+      image_effect_save($effect);  
+}

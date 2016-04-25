@@ -350,9 +350,10 @@ function mediabase_preprocess_node(&$variables) {
 		$variables['coll'] = $coll;
 		
 		// Team
+		/*
 		if($team = get_team_node($node)) {
 			$variables['team'] = $team;
-		}
+		}*/
 		
 		// Use create date when available for display (See mb_solr.module mb_solr_apachesolr_index_document_build() ln 83)
 		$field_inst = $emw->field_pbcore_instantiation->value();

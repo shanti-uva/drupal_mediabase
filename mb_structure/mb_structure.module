@@ -1008,37 +1008,38 @@ function mb_structure_get_collection_gid($team_gid) {
    }
 }
 
+/**
+ * Returns an array of Collection/Subcollection titles that the current user belongs to, keyed on group id (nid of group node)
+ * This only returns collections that the user is a member of and will not return all groups for admins, as previous version did.
+ * 
+ * param $add_optgroup, whether to split the array into two parts: collection and subcollection or not.
+ */
 function mb_structure_get_groups_for_user( $add_optgroup = TRUE ) {
-   $gids_with_labels = array();
-   $coll_key = t('Collections');
-   $team_key = t('Teams');
-   return $gids_with_labels;
-   $all_groups = og_get_all_group();
-   drupal_set_message('Need to update mb_structure_get_groups_for_user');
-   watchdog('mb_structure', "Need to update get groups for user function, line 953");
-   return $gids_with_labels;
-   foreach ($all_groups as $gid) {
-      /*$group = og_get_group('group',$gid);
-      $node = node_load($group->etid);*/
-      $group = node_load($gid);
-      if (!$group || !in_array($group->type, array('collection', 'team'))) {
-         continue;
-      }
-      if ( ($group->type == 'team' && mb_structure_is_team_super_user($group))
-         ||  (og_is_member($gid, 'user') || og_user_access($gid, 'administer group')) ) {
-              $new_key = $group->type == 'collection' ? $coll_key : $team_key;
-              if ($add_optgroup) {
-                     $gids_with_labels[$new_key][$gid] = (isset($group->label)) ? $group->label : $group->title;
-              }
-              else {
-                 $gids_with_labels[$gid] = (isset($group->label)) ? $group->label : $group->title;
-              }
-      }
-   }
-	 foreach ($gids_with_labels as &$type_arr) {
-	 		asort($type_arr);
-	 }
-   return $gids_with_labels;
+    global $user;
+    $gids_with_labels = array();
+    $coll_key = t('Collections');
+    $subcoll_key = t('Subcollections');
+    $gps = og_get_groups_by_user($user, 'node');
+    $colls = array();
+    $subcolls = array();
+    foreach ($gps as $gid) {
+        $gp = node_load($gid);
+        if($gp->type == "collection") {
+            $colls[$gid] = $gp->title;
+        } else if ($gp->type == "subcollection") {
+            $subcolls[$gid] = $gp->title;
+        }
+    }
+    if ($add_optgroup) {
+        asort($colls);
+        asort($subcolls);
+        $gids_with_labels[$coll_key] = $colls;
+        $gids_with_labels[$subcoll_key] = $subcolls;
+    } else {
+        $gids_with_labels = $colls + $subcolls;
+        asort($gids_with_labels);
+    }
+    return $gids_with_labels;
 }
 
 function mb_structure_already_started_validate(&$form_state, $form) {

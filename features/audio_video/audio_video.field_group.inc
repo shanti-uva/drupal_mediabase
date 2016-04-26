@@ -176,7 +176,7 @@ function audio_video_field_group_info() {
       3 => 'field_location',
       4 => 'field_subcollection_new',
       5 => 'field_subject',
-      6 => 'og_group_ref',
+      6 => 'field_og_collection_ref',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -210,7 +210,7 @@ function audio_video_field_group_info() {
       4 => 'field_subcollection_new',
       5 => 'field_subject',
       6 => 'og_group_ref',
-      7 => 'group_group',
+      7 => 'field_og_collection_ref',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -245,8 +245,7 @@ function audio_video_field_group_info() {
       3 => 'field_location',
       4 => 'field_subcollection_new',
       5 => 'field_subject',
-      6 => 'og_group_ref',
-      7 => 'field_og_collection_ref',
+      6 => 'field_og_collection_ref',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(

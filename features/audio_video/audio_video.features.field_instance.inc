@@ -2835,7 +2835,7 @@ function audio_video_field_default_field_instances() {
       'module' => 'field_collection',
       'settings' => array(),
       'type' => 'field_collection_hidden',
-      'weight' => 4,
+      'weight' => 34,
     ),
   );
 
@@ -2917,7 +2917,60 @@ function audio_video_field_default_field_instances() {
       'module' => 'shanti_kmaps_fields',
       'settings' => array(),
       'type' => 'kmap_tree_picker',
-      'weight' => 5,
+      'weight' => 35,
+    ),
+  );
+
+  // Exported field_instance: 'node-audio-field_og_collection_ref'.
+  $field_instances['node-audio-field_og_collection_ref'] = array(
+    'bundle' => 'audio',
+    'default_value' => NULL,
+    'default_value_function' => 'entityreference_prepopulate_field_default_value',
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'inline',
+        'module' => 'entityreference',
+        'settings' => array(
+          'link' => 1,
+        ),
+        'type' => 'entityreference_label',
+        'weight' => 3,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_og_collection_ref',
+    'label' => 'Collection',
+    'required' => 0,
+    'settings' => array(
+      'behaviors' => array(
+        'prepopulate' => array(
+          'action' => 'none',
+          'action_on_edit' => 0,
+          'fallback' => 'none',
+          'providers' => array(
+            'og_context' => 0,
+            'url' => 1,
+          ),
+          'skip_perm' => 0,
+          'status' => 1,
+        ),
+      ),
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_select',
+      'weight' => 30,
     ),
   );
 
@@ -2995,7 +3048,7 @@ function audio_video_field_default_field_instances() {
       'module' => 'field_collection',
       'settings' => array(),
       'type' => 'field_collection_embed',
-      'weight' => 6,
+      'weight' => 36,
     ),
   );
 
@@ -3510,7 +3563,7 @@ function audio_video_field_default_field_instances() {
       'module' => 'shanti_kmaps_fields',
       'settings' => array(),
       'type' => 'kmap_tree_picker',
-      'weight' => 2,
+      'weight' => 32,
     ),
   );
 
@@ -3552,7 +3605,7 @@ function audio_video_field_default_field_instances() {
       'module' => 'shanti_kmaps_fields',
       'settings' => array(),
       'type' => 'kmap_tree_picker',
-      'weight' => 3,
+      'weight' => 33,
     ),
   );
 
@@ -3592,7 +3645,7 @@ function audio_video_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'taxonomy_autocomplete',
-      'weight' => 7,
+      'weight' => 37,
     ),
   );
 
@@ -3855,71 +3908,6 @@ function audio_video_field_default_field_instances() {
     'widget_type' => 'options_select',
   );
 
-  // Exported field_instance: 'node-audio-og_group_ref'.
-  $field_instances['node-audio-og_group_ref'] = array(
-    'bundle' => 'audio',
-    'default_value' => NULL,
-    'default_value_function' => '',
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'inline',
-        'module' => 'og_ui',
-        'settings' => array(),
-        'type' => 'og_list_default',
-        'weight' => 3,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'og_group_ref',
-    'label' => 'Collection',
-    'required' => 0,
-    'settings' => array(
-      'behaviors' => array(
-        'og_widget' => array(
-          'access_override' => 0,
-          'admin' => array(
-            'widget_type' => 'entityreference_autocomplete',
-          ),
-          'default' => array(
-            'widget_type' => 'options_select',
-          ),
-          'status' => TRUE,
-        ),
-        'prepopulate' => array(
-          'status' => 0,
-        ),
-      ),
-      'user_register_form' => FALSE,
-    ),
-    'view modes' => array(
-      'full' => array(
-        'custom settings' => FALSE,
-        'label' => 'Full',
-        'type' => 'og_list_default',
-      ),
-      'teaser' => array(
-        'custom settings' => FALSE,
-        'label' => 'Teaser',
-        'type' => 'og_list_default',
-      ),
-    ),
-    'widget' => array(
-      'active' => 0,
-      'module' => 'options',
-      'settings' => array(),
-      'type' => 'options_select',
-      'weight' => 1,
-    ),
-  );
-
   // Exported field_instance: 'node-video-field_available_from'.
   $field_instances['node-video-field_available_from'] = array(
     'bundle' => 'video',
@@ -4143,9 +4131,11 @@ function audio_video_field_default_field_instances() {
     'display' => array(
       'default' => array(
         'label' => 'inline',
-        'module' => 'og_ui',
-        'settings' => array(),
-        'type' => 'og_list_default',
+        'module' => 'entityreference',
+        'settings' => array(
+          'link' => 1,
+        ),
+        'type' => 'entityreference_label',
         'weight' => 4,
       ),
       'teaser' => array(
@@ -4157,7 +4147,7 @@ function audio_video_field_default_field_instances() {
     ),
     'entity_type' => 'node',
     'field_name' => 'field_og_collection_ref',
-    'label' => 'Collection (New)',
+    'label' => 'Collection',
     'required' => 0,
     'settings' => array(
       'behaviors' => array(
@@ -5113,71 +5103,6 @@ function audio_video_field_default_field_instances() {
     'widget_type' => 'options_select',
   );
 
-  // Exported field_instance: 'node-video-og_group_ref'.
-  $field_instances['node-video-og_group_ref'] = array(
-    'bundle' => 'video',
-    'default_value' => NULL,
-    'default_value_function' => '',
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'inline',
-        'module' => 'og_ui',
-        'settings' => array(),
-        'type' => 'og_list_default',
-        'weight' => 5,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'og_group_ref',
-    'label' => 'Collection',
-    'required' => 0,
-    'settings' => array(
-      'behaviors' => array(
-        'og_widget' => array(
-          'access_override' => 0,
-          'admin' => array(
-            'widget_type' => 'options_select',
-          ),
-          'default' => array(
-            'widget_type' => 'options_select',
-          ),
-          'status' => TRUE,
-        ),
-        'prepopulate' => array(
-          'status' => 0,
-        ),
-      ),
-      'user_register_form' => FALSE,
-    ),
-    'view modes' => array(
-      'full' => array(
-        'custom settings' => FALSE,
-        'label' => 'Full',
-        'type' => 'og_list_default',
-      ),
-      'teaser' => array(
-        'custom settings' => FALSE,
-        'label' => 'Teaser',
-        'type' => 'og_list_default',
-      ),
-    ),
-    'widget' => array(
-      'active' => 0,
-      'module' => 'options',
-      'settings' => array(),
-      'type' => 'options_select',
-      'weight' => 53,
-    ),
-  );
-
   // Translatables
   // Included for use with string extractors like potx.
   t('A person or organization who sponsored this AV item');
@@ -5194,7 +5119,6 @@ function audio_video_field_default_field_instances() {
   t('Channel Config');
   t('Click on button to add a media item or click on X to remove the media item');
   t('Collection');
-  t('Collection (New)');
   t('Colors');
   t('Contributor');
   t('Contributor Role');

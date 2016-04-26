@@ -1153,8 +1153,8 @@ function mb_structure_collections_carousel_block() {
       // Get image
       $imgurl = $genimage;
       // use carousel image if it exists
-      if(isset($node->field_images['und'][0]['uri'])) {
-        $imgurl = image_style_url('carousel_image', $node->field_images['und'][0]['uri']);
+      if(isset($node->field_general_featured_image['und'][0]['uri'])) {
+        $imgurl = image_style_url('carousel_image', $node->field_general_featured_image['und'][0]['uri']);
       }
       
       // Get Summary
@@ -1186,7 +1186,7 @@ function mb_structure_collections_carousel_block() {
       '#theme' => 'carousel',
       '#children' => '',
       'title' => t('Featured Collections'),
-      'link' => l(t('View All Collections'), 'collections'),
+      'link' => l(t('View All Collections'), 'all-collections'),
       'speed' => variable_get('carousel_block_speed', 8),
       'slides' => $slides,
     ),

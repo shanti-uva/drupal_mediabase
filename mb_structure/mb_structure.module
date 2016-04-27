@@ -1056,8 +1056,10 @@ function mb_structure_already_started_validate(&$form_state, $form) {
  * Implements hook_breadcrumb_alter
  */
 function mb_structure_menu_breadcrumb_alter(&$active_trail, $item) {
+    //dpm($active_trail, 'active trail');
    $new_items=array();
    $node = menu_get_object();
+   $repnum = 0;
    if ($node && !empty($node->type) && in_array($node->type, array('audio', 'video', 'collection', 'subcollection'))) {
        switch ( $node->type ) {
            case 'collection':
@@ -1069,8 +1071,17 @@ function mb_structure_menu_breadcrumb_alter(&$active_trail, $item) {
            case 'video':
               $new_items=  mb_structure_breadcrumb_items_audio_video($node);
       }
+   } else if (current_path() == 'mycontent/collections') {
+       $new_items = array(array(
+                'title' => t('Collections'),
+                'href' => 'collections/all',
+                'link_path' => '',
+                 'localized_options' => array(),
+              ' type' => 0,
+        )); 
+        $repnum = 1;
    }
-   array_splice( $active_trail, 1, 0, $new_items ); // splice in at position 1 (Keeps the node title on?)
+   array_splice( $active_trail, 1, $repnum, $new_items ); // splice in at position 1 (Keeps the node title on?)
 }
 
 /**
@@ -1081,7 +1092,7 @@ function mb_structure_breadcrumb_items_collection($coll) {
     // Set up crumbs array with collections as the first item
     $crumbs = array(array(
             'title' => t('Collections'),
-            'href' => 'collections',
+            'href' => 'collections/all',
             'link_path' => '',
              'localized_options' => array(),
           ' type' => 0,
@@ -1186,7 +1197,7 @@ function mb_structure_collections_carousel_block() {
       '#theme' => 'carousel',
       '#children' => '',
       'title' => t('Featured Collections'),
-      'link' => l(t('View All Collections'), 'all-collections'),
+      'link' => l(t('View All Collections'), 'collections/all'),
       'speed' => variable_get('carousel_block_speed', 8),
       'slides' => $slides,
     ),

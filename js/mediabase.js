@@ -4,10 +4,11 @@
 		
 		   fixAudioImages();
 		   replaceBrokenImages(); 
-		   /*if(window.location.pathname.indexOf("/collection/") > -1) {
-		   	fixCollectionImages();
-			 }*/
 		   fixVBOCheckBoxes();
+		   if ($('body').hasClass('page-mycontent-workflow')) { 
+		       initWorkflowViewSelect();
+		       cleanupWorkflowSelects(); 
+		   }
 		   
 			// Code to add transcript and description radiobuttons to search form
 		   var transcriptSearch = jQuery('#block-transcripts-transcript-search');
@@ -124,20 +125,67 @@
 		     });
 		   }
 		   
-		   // Update the resolution of thumbnails on collection pages
-		   /*
-		   function fixCollectionImages() {
-		   	console.log('here in commented out region');
-		   		$('img').each(function() { 
-		   			var img = $(this); 
-		   			var src = img.attr('src'); 
-		   			if(src.indexOf('kaltura.com') > -1) { 
-		   					src = src + '/height/140'; 
-		   					img.attr('src', src);
-		   			}
-		   		});
+		   function initWorkflowViewSelect() {
+		       
+                // Add handler for view select change
+                $('#my-workflow-type').change(function() {
+                    var val = $(this).val();
+                    console.log("Need to implement this in mediabase.js line 133");
+                });
 		   }
-		   */
+		   
+		   // Arrange the 19 selects on the workflow page into organized divs for formatting
+            function cleanupWorkflowSelects() {
+                // Remove all the select widgets into groups
+                var grp3 = $('#views-exposed-form-my-workflow-page-2 .views-exposed-widget').detach();
+                var grp1 = grp3.splice(0,9);
+                var grp2 = grp3.splice(0,5);
+                // Set up Accordion code
+                var formrow = $('#views-exposed-form-my-workflow-page-2 .views-exposed-widgets.clear-block.row');
+                var accordionGrp = $('<div class="panel-group" id="workflow-accordion" role="tablist" aria-multiselectable="true"></div>');
+                formrow.append(accordionGrp);
+                // Add bootstrap accordion to each row with their group of selects
+                // Row 1: Media Workflow
+              var row1 = $( '<div class="panel panel-default">' +
+                        '<div class="panel-heading" role="tab" id="headingOne">' +
+                          '<h6>' +
+                            '<a class="accordion-toggle" data-toggle="collapse" data-parent="#workflow-accordion" href="#grp1" aria-expanded="true" aria-controls="grp1">' +
+                              '<span class="glyphicon glyphicon-minus"></span>Media Workfow' +
+                            '</a>' +
+                          '</h6>' +
+                        '</div>' +
+                        '<div id="grp1" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">' +
+                          '<div class="panel-body"></div></div></div>');
+                          
+                row1.find(".panel-body").eq(0).append(grp1);
+                accordionGrp.append(row1);
+                // Row 2: Catalog Record Workflow
+                var row2 = $('<div class="panel panel-default">' +
+                        '<div class="panel-heading" role="tab" id="headingTwo">' +
+                          '<h6>' +
+                            '<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#workflow-accordion" href="#grp2" aria-expanded="false" aria-controls="grp2">' +
+                              '<span class="glyphicon glyphicon-plus"></span>Catalog Record Workfow' +
+                            '</a>' +
+                          '</h6>' +
+                        '</div>' +
+                        '<div id="grp2" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">' +
+                          '<div class="panel-body"></div></div></div>');
+                row2.find(".panel-body").eq(0).append(grp2);
+                accordionGrp.append(row2);
+                // Row 3: Transcript Workflow
+                var row3 = $('<div class="panel panel-default">' +
+                        '<div class="panel-heading" role="tab" id="headingThree">' +
+                          '<h6>' +
+                            '<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#workflow-accordion" href="#grp3" aria-expanded="false" aria-controls="grp3">' +
+                              '<span class="glyphicon glyphicon-plus"></span>Transcript Workfow' +
+                            '</a>' +
+                          '</h6>' +
+                        '</div>' +
+                        '<div id="grp3" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">' +
+                          '<div class="panel-body"></div></div></div>');
+                row3.find(".panel-body").eq(0).append(grp3);
+                accordionGrp.append(row3);
+            }
 		   
 		}
 	};

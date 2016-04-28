@@ -6,8 +6,7 @@
 		   replaceBrokenImages(); 
 		   fixVBOCheckBoxes();
 		   if ($('body').hasClass('page-mycontent-workflow')) { 
-		       initWorkflowViewSelect();
-		       cleanupWorkflowSelects(); 
+		       cleanupWorkflowSelects(context);  
 		   }
 		   
 			// Code to add transcript and description radiobuttons to search form
@@ -125,23 +124,20 @@
 		     });
 		   }
 		   
-		   function initWorkflowViewSelect() {
-		       
-                // Add handler for view select change
-                $('#my-workflow-type').change(function() {
-                    var val = $(this).val();
-                    console.log("Need to implement this in mediabase.js line 133");
-                });
-		   }
-		   
 		   // Arrange the 19 selects on the workflow page into organized divs for formatting
             function cleanupWorkflowSelects() {
-                console.log('here');
                 // Remove all the select widgets into groups
                 var grp3 = $('#views-exposed-form-my-workflow-workflow-all .views-exposed-widget').detach();
                 var genfilters = grp3.splice(-3, 3);
                 var grp1 = grp3.splice(0,9);
                 var grp2 = grp3.splice(0,5);
+                if ($('#grp1').length > 0) {
+                    $('#grp1').find(".panel-body").eq(0).append(grp1);
+                    $('#grp2').find(".panel-body").eq(0).append(grp2);
+                    $('#grp3').find(".panel-body").eq(0).append(grp3);
+                    $('#grp3').parent().after(genfilters);
+                    return;
+                }
                 // Set up Accordion code
                 var formrow = $('#views-exposed-form-my-workflow-workflow-all .views-exposed-widgets.clear-block.row');
                 var accordionGrp = $('<div class="panel-group" id="workflow-accordion" role="tablist" aria-multiselectable="true"></div>');

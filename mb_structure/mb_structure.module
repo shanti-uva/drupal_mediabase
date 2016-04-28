@@ -700,6 +700,7 @@ function mb_structure_node_view($node, $view_mode, $langcode) {
  *      add item count to collection rows
  */
 function mb_structure_views_pre_render(&$view) {
+    //dpm($view, 'view');
     if ($view->name == "collections") {
         foreach ($view->result as $n => &$result) {
             $nid = $result->nid;
@@ -708,6 +709,14 @@ function mb_structure_views_pre_render(&$view) {
             $lbl = 'item';
             if ($ct == 0 || $ct > 1) { $lbl .= "s"; }
             $result->item_count_label = t($lbl);
+        }
+    } else if ($view->name == "my_workflow") {
+        // Thumbnail calculated by Kaltura module is wrong. Remove sizing attributes from url
+        foreach ($view->result as $n => &$result) {
+            $url = $result->field_field_video[0]['rendered']['#thub'];
+            $pts = explode('.png', $url);
+            $url = $pts[0] . '.png';
+            $result->field_field_video[0]['rendered']['#thub'] = $url;
         }
     }
 }

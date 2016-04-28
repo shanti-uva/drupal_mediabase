@@ -136,12 +136,14 @@
 		   
 		   // Arrange the 19 selects on the workflow page into organized divs for formatting
             function cleanupWorkflowSelects() {
+                console.log('here');
                 // Remove all the select widgets into groups
-                var grp3 = $('#views-exposed-form-my-workflow-page-2 .views-exposed-widget').detach();
+                var grp3 = $('#views-exposed-form-my-workflow-workflow-all .views-exposed-widget').detach();
+                var genfilters = grp3.splice(-3, 3);
                 var grp1 = grp3.splice(0,9);
                 var grp2 = grp3.splice(0,5);
                 // Set up Accordion code
-                var formrow = $('#views-exposed-form-my-workflow-page-2 .views-exposed-widgets.clear-block.row');
+                var formrow = $('#views-exposed-form-my-workflow-workflow-all .views-exposed-widgets.clear-block.row');
                 var accordionGrp = $('<div class="panel-group" id="workflow-accordion" role="tablist" aria-multiselectable="true"></div>');
                 formrow.append(accordionGrp);
                 // Add bootstrap accordion to each row with their group of selects
@@ -185,6 +187,7 @@
                           '<div class="panel-body"></div></div></div>');
                 row3.find(".panel-body").eq(0).append(grp3);
                 accordionGrp.append(row3);
+                accordionGrp.after(genfilters);
             }
 		   
 		}

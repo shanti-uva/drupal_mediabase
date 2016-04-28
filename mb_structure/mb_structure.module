@@ -485,20 +485,10 @@ function mb_structure_form_video_node_form_alter(&$form, &$form_state, $form_id)
    $form['field_recording_location']['#attributes']['class'][] = 'hidden';*/
    $form['field_tags']['#attributes']['class'][] = 'hidden';  // See MANU-774
    
-   // Limit GROUP AUDIENCE options to  collection and teams 
-   $new_opts = mb_structure_get_groups_for_user();
-   /*
-   $form['group_audience'][LANGUAGE_NONE]['#options'] = $new_opts;
-   
-   // Set the ROOT KMAP BRANCH for SUB-COLLECTIONS
-   // if set in the gids_node param get that otherwise if existing node load through get_collection_ancestor_node
-   $collection_node = FALSE;
-	 if(isset($form['#node']->nid)) {
-	 	$collection_node = get_collection_ancestor_node($form['#node']);
-	 } else if (isset($_GET['gids_node'])) {
-	 	$collection_node = node_load($_GET['gids_node'][0]);
-	 }
-    * */
+   // Sort Collection / Subcollection List
+    asort($form['field_og_collection_ref']['und']['#options']['Collection']);
+    asort($form['field_og_collection_ref']['und']['#options']['Subcollection']);
+    
      /* TODO: Review and replace or delete
    if ( $collection_node && isset($collection_node->field_subcoll_root_kmap_id[LANGUAGE_NONE]) ) {
       $tid = $collection_node->field_subcoll_root_kmap_id[LANGUAGE_NONE][0]['tid'];

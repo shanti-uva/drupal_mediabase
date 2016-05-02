@@ -256,18 +256,18 @@ function mb_services_collection($collid, $pg = 1) {
   drupal_set_message('Update mb_services_collection function in mb_services.module if necessary');
   return '{"MESSAGE": "Update mb_services_collection function in mb_services.module"}';
   // Previous code
-  $group = og_get_group('node', $nid);
+  $group = node_load($nid);
   $gout = array(
-    'gid' => $group->gid,
-    'etid' => $group->etid,
-    'title' => $group->label,
+    'gid' => $nid,
+   /* 'etid' => $group->etid,*/
+    'title' => $group->title,
     'page' => $pg,
     'items' => array()
   );
   $items = array();
   
   $query = db_select("og_membership", "ogm")
-            ->condition("ogm.gid", $group->gid, "=")
+            ->condition("ogm.gid", $nid, "=")
             ->condition('entity_type', 'node', '=')
             ->fields("ogm", array("entity_type", "etid"))
             ->execute();

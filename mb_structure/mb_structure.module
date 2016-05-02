@@ -113,8 +113,8 @@ function mb_structure_block_view($delta) {
      case 'collection_detail':
              $block = array();
              $node = get_node_from_path();
-       if ( $node && in_array($node->type, array( "collection", "team")) ) {
-          $block_subj = ("collection" == $node->type) ? t("Collection") : t("Team");
+       if ( $node && in_array($node->type, array( "collection", "subcollection")) ) {
+          $block_subj = ("collection" == $node->type) ? t("Collection") : t("Subcollection");
             $block['subject'] = $block_subj;
             $block['content'] = collection_block_details($node);
        }       
@@ -123,7 +123,7 @@ function mb_structure_block_view($delta) {
          case 'collection_manage':
              $block = array();
              $node = get_node_from_path();
-         if ( $node && in_array($node->type, array( "collection", "team") ) )    {
+         if ( $node && in_array($node->type, array( "collection", "subcollection") ) )    {
                   if ( $perms = mb_structure_get_group_access_level($node) ) {
                 $block['subject'] = t("Manage");
                 $block['content'] = manage_collection_block($node, $perms);
@@ -167,8 +167,8 @@ function collection_block_details($node) {
 
 	// administrator user link
 	$coll_man = t("Manager: ");
-	$team_man = t("Team Manager: ");
-	$man_label = ("collection" == $node->type) ? $coll_man : $team_man;
+	$subcoll_man = t("Subcollection Manager: ");
+	$man_label = ("collection" == $node->type) ? $coll_man : $subcoll_man;
 	$man_name = $owner->name;
 	if ( module_exists('realname')) {
 	   $man_name = realname_load($owner);
@@ -185,7 +185,7 @@ function collection_block_details($node) {
 	return $output;
 }
 
-/** old collection block for reference (12-5-2014) */
+/** old collection block for reference (12-5-2014)
 function collection_block_details_old() {
    global $user;
    if ( ! $node = get_node_from_path() ) {
@@ -249,13 +249,14 @@ function collection_block_details_old() {
       
       $count = isset($result['node']) ? sizeof($result['node']) : 0;
       $text = t("@count media item(s)", array('@count' => $count));
-       * */
+       * *//*
       $output .= "<li>$text</li>";
    } 
    $output .= "</ul>";
    return $output;
 }
-
+ */
+ 
 /*
  * Configure carousel block to determine which projects to highlight
  */
@@ -298,20 +299,18 @@ function mb_structure_get_group_access_level($group) {
 	global $user;
 	
 	$can_manage = FALSE;
-    return 3;
 	//$group = og_get_group('node', $node->nid);
 	$owner = user_load($group->uid);
 	$is_owner = $user->uid == $group->uid;
 	//$gid = $group->gid;
 	$gid = $group->nid;
-    return 3;
-	if(og_is_member($gid, 'user')) {
+	if(og_is_member('node', $gid, 'user')) {
 		$can_manage = 1;
 	}
-	if(og_user_access_by_entity('add user', 'node', $gid)) {
+	if(og_user_access_entity('add user', 'node', $gid)) {
 		$can_manage = 2;
 	}
-	if(og_user_access($gid, 'administer group')) {
+	if(og_user_access('node', $gid, 'administer group')) {
 		$can_manage = 3;
 	}
 	return $can_manage;
@@ -345,8 +344,8 @@ function manage_collection_block($node, $perms) {
     
    // add a new team
    if( "collection" == $node->type && $perms == 3 ){
-      $create_team_link = l("Add a new Team", "node/add/team", array('query' => array('gids_node[]' => $node->nid))); 
-      $output .= "<div class=\"link\">$create_team_link</div>";
+      $create_subcoll_link = l("Add a new Subcollection", "node/add/subcollection", array('query' => array('gids_node[]' => $node->nid))); 
+      $output .= "<div class=\"link\">$create_subcoll_link</div>";
    }
 	 $output .= '</div>';
 	 return $output;  
@@ -393,16 +392,17 @@ function mb_structure_form_collection_node_form_alter(&$form, &$form_state, $for
 }
 
 /**
-* Implementation of hook_form_alter for TEAM_NODE_FORM
+* Implementation of hook_form_alter for subcollection_NODE_FORM
 **/
-function mb_structure_form_team_node_form_alter(&$form, &$form_state, $form_id) {
+function mb_structure_form_subcollection_node_form_alter(&$form, &$form_state, $form_id) {
    
    // Make sure there are no dupe titles
    $form['title']['#element_validate'][] = 'mb_structure_validate_title';   
-   // Hide the ability to set team to not be a group
+   // Hide the ability to set subcollection to not be a group
    $form['group_group']['und']['#type'] = 'hidden';
    
-   // Limit COLLECTION PARENT options to  collection and teams 
+   // Limit COLLECTION PARENT options to  collection and subcollection 
+   // TODO: Do we need this reinstated? (2016-05-02)
    /*
    $field_language = field_language('node', $form['#node'], 'group_audience');
    $opts = &$form['group_audience'][$field_language]['#options'];
@@ -638,34 +638,6 @@ function mb_structure_views_query_alter(	&$view, &$query ) {
    else {
      return;
    }
-   
-   if ( 'collection_media' != $view->name || (!$node  && !in_array($node->type, array('team','collection')))) {
-      return;
-   }
-   /* Add extra gids to the where clause to include media in child teams of a collection */
-   /*
-   // Get nodes of the teams for the collection
-   $efq = new EntityFieldQuery();
-   $result = $efq
-   ->entityCondition('entity_type', 'node')
-   ->propertyCondition('type', 'team', '=')
-   ->fieldCondition('group_audience', 'gid', $gid, '=', 0)
-   ->execute();
-   
-   // Get gids from team nodes
-   $gids = array($gid);
-   if ( isset($result['node']) ) {
-      foreach ($result['node'] as $team_nid => $team_node) {
-         //$group = og_get_group('node', $team_nid);
-         //$gids[] = $group->gid;
-         $gids[] = $team_nid;
-      }
-   }
-   // Add gids to where condition
-   $view->args[0] = implode(", ",$gids);
-   $query->where[0]['conditions'][0]['value'][':og_membership_group'] = $gids;
-   */
-   
 }
 
 /** Not sure this is necessary: removing for speed improvement
@@ -847,7 +819,7 @@ function mb_structure_node_update($node) {
  */
 function mb_structure_form_node_delete_confirm_alter(&$form, &$form_state, $form_id){
   $node = $form['#node'];
-  if($node->type == "collection" || $node->type == "team") {
+  if($node->type == "collection" || $node->type == "subcollection") {
     $content_nodes = mb_structure_get_groups_nodes($node->nid);
     $n = count($content_nodes);
     $items = '';
@@ -923,7 +895,7 @@ function get_collection_ancestor_node($node) {
       if ($gnode = node_load(array_shift($gids['node']))) {
           if ( $gnode->type == 'collection' ) {
               $collection_node=$gnode;
-          } else if ( $gnode->type == 'subcollection' ){  //  recurse to get to the collection of a team node
+          } else if ( $gnode->type == 'subcollection' ){  //  recurse to get to the collection of a subcollection node
               $collection_node = get_collection_ancestor_node($gnode); 
           }
       }
@@ -931,23 +903,22 @@ function get_collection_ancestor_node($node) {
    return $collection_node;
 }
 
-function get_team_node($node) {
+function get_subcollection_node($node) {
    if(is_integer($node)) {
      $node = node_load($node);
      if(!$node) { return null; }
    }
-   $team_node = FALSE;
-   return $team_node;
+   $subcoll_node = FALSE;
    if ( $gids = og_get_entity_groups('node', $node) ) {
       while($gid = array_pop( $gids )) {
 	      if ($group_node = node_load($gid)) {
-              if ( $group_node->type == 'team' ) {
-                 $team_node = $group_node;
+              if ( $group_node->type == 'subcollection' ) {
+                 $subcoll_node = $group_node;
               }
           }
 	   }
    }
-   return $team_node;
+   return $subcoll_node;
 }
 
 /**
@@ -996,9 +967,9 @@ function mb_structure_get_team_gids($collection_gid) {
 	 return $teams;
 }
 
-function mb_structure_get_collection_gid($team_gid) {
-   if ($team_node = node_load($team_gid)) {
-       $collection_node = get_collection_ancestor_node($team_node);
+function mb_structure_get_collection_gid($subcollection_gid) {
+   if ($subcollection_node = node_load($subcollection_gid)) {
+       $collection_node = get_collection_ancestor_node($subcollection_node);
        return $collection_group->nid;
    } else {
        return FALSE;

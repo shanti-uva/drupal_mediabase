@@ -457,27 +457,26 @@ function mediabase_node_load($nodes, $types) {
       }
     }
   // If collection or team, add an array of all children media node ids
-  } else if(in_array('collection', $types) || in_array('team', $types)) {
-		if(current_path() != 'node/add/collection' && current_path() != 'node/add/team') {
+  } else if(in_array('collection', $types) || in_array('subcollection', $types)) {
+		if(current_path() != 'node/add/collection' && current_path() != 'node/add/subcollection') {
 	    foreach($nodes as $node) {
-	  		//$g = og_get_group('node', $node->nid);
-	      if(in_array($node->type, array('collection', 'team'))) {
-	        $query = new EntityFieldQuery();
-			    $result = $query
-			      ->entityCondition('entity_type', 'og_membership')
-			      // Type can be "node" or "user"
-			      ->propertyCondition('entity_type', 'node', '=')
-			      // This is the group ID
-			      ->propertyCondition('gid', $node->nid, '=')
-			      // Get only the active members
-			      ->propertyCondition('state', OG_STATE_ACTIVE, '=')
-			      ->count()
-			      ->execute();
-	        $node->child_count = $result;
-	      }
-	    }
+        	      if(in_array($node->type, array('collection', 'subcollection'))) {
+        	        $query = new EntityFieldQuery();
+        			    $result = $query
+        			      ->entityCondition('entity_type', 'og_membership')
+        			      // Type can be "node" or "user"
+        			      ->propertyCondition('entity_type', 'node', '=')
+        			      // This is the group ID
+        			      ->propertyCondition('gid', $node->nid, '=')
+        			      // Get only the active members
+        			      ->propertyCondition('state', OG_STATE_ACTIVE, '=')
+        			      ->count()
+        			      ->execute();
+        	        $node->child_count = $result;
+        	      }
+        	    }
 		}
-  }
+    }
 } 
 
 /**

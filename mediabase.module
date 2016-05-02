@@ -349,11 +349,10 @@ function mediabase_preprocess_node(&$variables) {
 	  if($coll) { $coll->url = $base_path . drupal_get_path_alias('node/' . $coll->nid); }
 		$variables['coll'] = $coll;
 		
-		// Team
-		/*
-		if($team = get_team_node($node)) {
-			$variables['team'] = $team;
-		}*/
+		// Subcollection
+		if($subcoll = get_subcollection_node($node)) {
+			$variables['subcollection'] = $subcoll;
+		}
 		
 		// Use create date when available for display (See mb_solr.module mb_solr_apachesolr_index_document_build() ln 83)
 		$field_inst = $emw->field_pbcore_instantiation->value();

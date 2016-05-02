@@ -938,12 +938,15 @@ function mb_structure_get_audio_thumb($node) {
     return $thumb_url;
 }
 
+/** not called anywhere (2016-05-02)
 function mb_structure_is_team_super_user($node) {
    if( $node->type == 'team' && isset($node->group_audience[LANGUAGE_NONE]) && $collection_gids = $node->group_audience[LANGUAGE_NONE]) {
       return og_user_access($collection_gids[0]['gid'], 'administer group');
    }
 }
-
+*/
+/** not called anywhere (2016-05-02)
+ * 
 function mb_structure_get_team_gids($collection_gid) {
    $gids = array();
    return $gids;
@@ -966,7 +969,7 @@ function mb_structure_get_team_gids($collection_gid) {
 	 }
 	 return $teams;
 }
-
+*/
 function mb_structure_get_collection_gid($subcollection_gid) {
    if ($subcollection_node = node_load($subcollection_gid)) {
        $collection_node = get_collection_ancestor_node($subcollection_node);
@@ -1181,12 +1184,11 @@ function mb_structure_collections_carousel_block() {
  */
 function mb_structure_get_groups_nodes($nid) {
   $nids = array();
-  //if($g = og_get_group('node', $nid)) {
   if ($g = node_load($nid)) {
     $query = new EntityFieldQuery();
     $query
       ->entityCondition("entity_type", "og_membership", "=")
-      ->propertyCondition("gid", $g->gid, "=");
+      ->propertyCondition("gid", $nid, "=");
     $result = $query->execute();
     if(!isset($result["og_membership"]) || !is_array($result["og_membership"])) {return array(); }
     foreach($result["og_membership"] as $record) {

@@ -87,13 +87,40 @@ function mb_structure_block_view($delta) {
    }
 }
 
+/**
+ * Return the count of number of items in a collection
+ */
+function get_items_in_collection($coll=FALSE) {
+    $nid = FALSE;
+    if (is_object($coll) && isset($coll->nid)) {
+        $nid = $coll->nid;
+    } else if (is_numeric($coll)) {
+        $nid = $coll;
+    }
+    if ($nid) {
+        // get the collection group object from the node nid
+        $group = og_get_group('node', $nid);
+        $gid = $group->gid;
+        //count media objects in collection/team
+        $query = new EntityFieldQuery();
+        $result = $query
+          ->entityCondition('entity_type', 'node')
+          ->propertyCondition('type', array('audio','video'), 'IN')
+          ->fieldCondition('group_audience', 'state', array(1), 'IN', 0)
+          ->fieldCondition('group_audience', 'gid', $gid, '=', 0)
+          ->execute();
+        $count = isset($result['node']) ? sizeof($result['node']) : 0;
+        return $count;
+    }
+    return 0;
+}
+
 function collection_block_details($node) {
-  global $user;
-	// get the collection group object from the nid
-	$group = og_get_group('node', $node->nid);
+    global $user;
+	//$group = og_get_group('node', $node->nid);
 	$owner = user_load($node->uid);
 	$is_owner = $user->uid == $node->uid;
-	$gid = $group->gid;
+	//$gid = $group->gid;
 	$fvi = field_get_items('node', $node, 'group_access');
 	$status = (isset($fvi[0]['value']) && $fvi[0]['value'] == 1) ? t("Private") : t("Public");
 	
@@ -107,15 +134,7 @@ function collection_block_details($node) {
 	   $man_name = realname_load($owner);
 	} 
 		
-	//count media objects in collection/team
-	$query = new EntityFieldQuery();
-	$result = $query
-	  ->entityCondition('entity_type', 'node')
-	  ->propertyCondition('type', array('audio','video'), 'IN')
-	  ->fieldCondition('group_audience', 'state', array(1), 'IN', 0)
-	  ->fieldCondition('group_audience', 'gid', $gid, '=', 0)
-	  ->execute();
-	$count = isset($result['node']) ? sizeof($result['node']) : 0;
+	$count = get_items_in_collection($node->nid);
 	$count_str = t("@count media item(s)", array('@count' => $count));
 	
 	$output = '<div class="collection-stats">';
@@ -413,10 +432,11 @@ function mb_structure_form_video_node_form_alter(&$form, &$form_state, $form_id)
    } // End of thumbnail capture embed code
    
    // Hide old Kmap fields from editors (keep in form to maintain old data)
-   $form['field_subcollection']['#attributes']['class'][] = 'hidden';
+   /*$form['field_subcollection']['#attributes']['class'][] = 'hidden';
    $form['field_characteristic']['#attributes']['class'][] = 'hidden';
    $form['field_pbcore_coverage_spatial']['#attributes']['class'][] = 'hidden';
-   $form['field_recording_location']['#attributes']['class'][] = 'hidden';
+   $form['field_recording_location']['#attributes']['class'][] = 'hidden';*/
+   $form['field_tags']['#attributes']['class'][] = 'hidden';  // See MANU-774
    
    // Limit GROUP AUDIENCE options to  collection and teams 
    $new_opts = mb_structure_get_groups_for_user();
@@ -446,16 +466,18 @@ function mb_structure_form_alter(&$form, &$form_state, $form_id) {
     }*/
     if ($form_id == 'video_node_form') {
         // In video edit form, make kmap fields not collapsible since #collapsed=FALSE is not working.
-        $form['field_subcollection_new']['und']['#collapsible'] = FALSE;
+        // Ed doesn't like this so removing. 2016-03-29
+       /* $form['field_subcollection_new']['und']['#collapsible'] = FALSE;
         $form['field_subject']['und']['#collapsible'] = FALSE;
         $form['field_location']['und']['#collapsible'] = FALSE;
-        $form['field_recording_location_new']['und']['#collapsible'] = FALSE;
+        $form['field_recording_location_new']['und']['#collapsible'] = FALSE;*/
         
         // Set Title field to just "Search"
-        $form['field_subcollection_new']['und']['field_subcollection_new_search_term']['#title'] = t("Search for Subcollection");
-        $form['field_subject']['und']['field_subject_search_term']['#title'] = t("Search for Subject");
-        $form['field_location']['und']['field_location_search_term']['#title'] = t("Search for Location");
-        $form['field_recording_location_new']['und']['field_recording_location_new_search_term']['#title'] = t("Search for Recording Location");
+	// commenting out below as it doesn't interact well with autocomplete widgets
+        //$form['field_subcollection_new']['und']['field_subcollection_new_search_term']['#title'] = t("Search for Subcollection");
+        //$form['field_subject']['und']['field_subject_search_term']['#title'] = t("Search for Subject");
+        //$form['field_location']['und']['field_location_search_term']['#title'] = t("Search for Location");
+        //$form['field_recording_location_new']['und']['field_recording_location_new_search_term']['#title'] = t("Search for Recording Location");
     }
 	if ($form_id == 'og_ui_user_admin_account') {
 		/* The drop down on page group/node/{NID}/admin/people does not close because of an unknown glitch
@@ -478,8 +500,6 @@ function mb_structure_form_alter(&$form, &$form_state, $form_id) {
 **/
 function mb_structure_form_audio_node_form_alter(&$form, &$form_state, $form_id) {
    mb_structure_form_video_node_form_alter($form, $form_state, $form_id);
-	 //dpm($form, 'form in audio node');
-	 //dpm($form_state, 'form state in audio node');
 }
 
 function mb_structure_validate_title($element, &$form_state) {
@@ -559,7 +579,6 @@ function collection_media_listing() {
 * implementation of hook_views_query_alter
 **/
 function mb_structure_views_query_alter(	&$view, &$query ) {
-   
    if ($node = get_node_from_path())  {
       $group = og_get_group('node', $node->nid);
       // "if" added to prevent Notice: Trying to get property of non-object in mb_structure_views_query_alter() (line 367 of mb_structure.module).  
@@ -622,6 +641,23 @@ function mb_structure_node_view($node, $view_mode, $langcode) {
    }
 }
 */
+
+/**
+ * Hook views_pre_render used to
+ *      add item count to collection rows
+ */
+function mb_structure_views_pre_render(&$view) {
+    if ($view->name == "collections") {
+        foreach ($view->result as $n => &$result) {
+            $nid = $result->nid;
+            $ct = get_items_in_collection($nid); // function above
+            $result->item_count = $ct;
+            $lbl = 'item';
+            if ($ct == 0 || $ct > 1) { $lbl .= "s"; }
+            $result->item_count_label = t($lbl);
+        }
+    }
+}
 
 /**
  * Add variable has_transcript
@@ -793,7 +829,7 @@ function mb_structure_update_node_kaltura_data($node) {
 		try {
 			$resultObject = kaltura_entry_load($kid);
 			if ($resultObject) {
-				$thumb_url = mb_kaltura_get_thumbnail_url($resultObject->kaltura_entryid, 190, 220, TRUE);
+				$thumb_url = ($node->type == "audio") ? mb_structure_get_audio_thumb($node) : mb_kaltura_get_thumbnail_url($resultObject->kaltura_entryid, 190, 220, TRUE);
 				if(empty($thumb_url)) { $thumb_url = $resultObject->kaltura_thumbnailUrl; }
 				$ent['kaltura_entryid'] = $resultObject->kaltura_entryid;
 				$ent['kaltura_tags'] = $resultObject->kaltura_tags;
@@ -863,6 +899,23 @@ function get_team_node($node) {
 			}
    }
    return $team_node;
+}
+
+/**
+ * Returns the url of the audio thumbnail without using Kaltura interface since audio thumb data is stored in drupal
+ * Still need to store thumb in Kaltura for overlay on player. This (I think) is done by call to mb_kaltura_get_thumbnail_url above.
+ */
+function mb_structure_get_audio_thumb($node) {
+    $uri = 'public://avimages/generic-audio-thumb.jpg';
+    $thumb_url = file_create_url($uri);
+    if (!empty($node->field_thumbnail_image)) {
+        if ($fi = field_get_items('node', $node, 'field_thumbnail_image')) {
+            $fid = $fi[0]['fid'];
+            $file = file_load($fid);
+            $thumb_url = file_create_url($file->uri);
+        }
+    }
+    return $thumb_url;
 }
 
 function mb_structure_is_team_super_user($node) {

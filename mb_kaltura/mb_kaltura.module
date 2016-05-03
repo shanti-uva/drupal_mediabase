@@ -107,35 +107,16 @@ function _mb_kaltura_add_audio_thumb($node) {
 	$kclient = $kaltura_helpers->getKalturaClient($isAdmin=TRUE);
 	$lang = field_language('node', $node, 'field_thumbnail_image');
 	$keid = $node->field_audio[$lang][0]['entryid'];
-	// If there is no original thumbnail
-	if (empty($node->original->field_thumbnail_image[LANGUAGE_NONE][0]['fid'])) {
-		// But a custom thumbnail was uploaded
-		if (!empty($node->field_thumbnail_image[$lang][0]['fid'])) {
-			$fid = $node->field_thumbnail_image[$lang][0]['fid'];
-			$file = file_load($fid);
-			$url = file_create_url($file->uri);
-			$kclient->media->updateThumbnailFromUrl($keid, $url);
-		} else {
-			// No thumbnail uploaded use default image
-			$url = file_create_url('public://avimages/generic-audio-thumb.jpg');
-			$kclient->media->updateThumbnailFromUrl($keid, $url);
-		}
+	// Check if thumbfield value
+	if(!empty($node->field_thumbnail_image[$lang][0]['fid'])) {
+		$nfid = $node->field_thumbnail_image[$lang][0]['fid'];
+		$file = file_load($nfid);
+		$url = file_create_url($file->uri);
+		$kclient->media->updateThumbnailFromUrl($keid, $url); // Send URL to Kaltura
 	} else {
-		// There was an original
-		$ofid = $node->original->field_thumbnail_image[$lang][0]['fid'];
-		// Check if new thumb value
-		if(!empty($node->field_thumbnail_image[$lang][0]['fid'])) {
-			$nfid = $node->field_thumbnail_image[$lang][0]['fid'];
-			if($ofid == $nfid) { return; } // if new thumb file matches old get out of here
-			// else update thumbnail with new one.
-			$file = file_load($nfid);
-			$url = file_create_url($file->uri);
-			$kclient->media->updateThumbnailFromUrl($keid, $url);
-		} else {
-			// No thumbnail uploaded use default image
-			$url = file_create_url('public://avimages/generic-audio-thumb.jpg');
-			$kclient->media->updateThumbnailFromUrl($keid, $url);
-		}
+		// No thumbnail uploaded use default image
+		$url = file_create_url('public://avimages/generic-audio-thumb.jpg');
+		$kclient->media->updateThumbnailFromUrl($keid, $url);  // Send URL to Kaltura
 	}
 }
 
@@ -415,7 +396,7 @@ function theme_kaltura_player_html5_audio($vars) {
  *   entry_id : kaltura entry id 
  *   width & height : are numeric
  **/
-function mb_kaltura_get_thumbnail_url($entry_id, $width=190, $height=220, $resave=FALSE) { // was $height 105 but defaults to lowest parameter.
+function mb_kaltura_get_thumbnail_url($entry_id, $width=190, $height=220, $resave=FALSE, $ctype="video") { // was $height 105 but defaults to lowest parameter.
 	$kalturaHelpers = new KalturaHelpers();
     // create generic thumb url
     $mbpath = drupal_get_path('module', 'mediabase');

@@ -132,10 +132,11 @@ function mediabase_settings_form($form_id, $form_state) {
         '#size' => 60, 
         '#maxlength' => 255, 
         '#required' => FALSE,
+        /*
         '#prefix' => '<div style="float:left; padding-right: 12px;">',
-        '#suffix' => '</div>',
+        '#suffix' => '</div>',*/
      );
-		 
+		 /** Now done by saving all nodes in admin/content2 Quicker that way. (2016-04-08)
 		 if(variable_get('kmaps_solr_index', FALSE)) { 
 			  $form['index_nodes'] = array(
 			    '#type' => 'button',
@@ -148,7 +149,7 @@ function mediabase_settings_form($form_id, $form_state) {
 		 } else {
 		 	$form['br'] = array( '#markup' => '<br style="clear:both;" />');
 		 }
-		 
+		 */
 		 $form['#validate'][] = 'mediabase_settings_form_validate';
 		 $form['#submit'][] = 'mediabase_settings_form_submit';
    }
@@ -172,12 +173,9 @@ function mediabase_settings_form_validate($form, &$form_state) {
 function mediabase_settings_form_submit($form, &$form_state) {
   // partner data prefixes are a way of managing imports from kaltura
   variable_set('mediabase_partner_data_prefixes', $form_state['values']['partner_data']);
-	if($form_state['triggering_element']['#id'] == 'edit-index-nodes') {
-		mediabase_do_batch_solr_index();
-	}
   //drupal_set_message(t('The settings have been saved')); // Drupal has built in message for this
 }
-
+/*
 function mediabase_do_batch_solr_index() {
 	$query = "select count(nid) from node where type in ('audio', 'video');";
 	$result = db_query($query)->fetchCol();
@@ -235,7 +233,7 @@ function mediabase_solr_index_nodes_finished($success, $results, $operations) {
   }
   drupal_set_message($message);
 }
-
+*/
 /**
  * Implements hook page alter
  * Adds back to video link to transcript only pages.

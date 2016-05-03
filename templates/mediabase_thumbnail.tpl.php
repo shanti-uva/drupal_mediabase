@@ -55,6 +55,14 @@
         </div>
       <?php endif; ?>
 
+      <?php if (isset($result['user'])): ?>
+          <div class="shanti-thumbnail-field shanti-field-creator">
+              <span class="shanti-field-content">
+                  <?php print $result['user']; ?>
+              </span>
+          </div>
+      <?php endif; ?>
+          
       <?php if(!empty($result['has_transcript'])): ?>
         <div class="shanti-thumbnail-field shanti-field-languages">
          <span class="field-content"><?php print $result['transcript_tiers'] ?></span>

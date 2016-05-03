@@ -95,7 +95,7 @@ function mb_solr_transcripts_redirect($trid, $tcuid = '') {
 
 /**
  * Implements of hook_apachesolr_index_document_build
- * Adds collection parent gids of a team
+ * Adds collection parent gids of a subcollection
  *
  * @param ApacheSolrDocument $document
  * @param object $entity
@@ -105,16 +105,13 @@ function mb_solr_transcripts_redirect($trid, $tcuid = '') {
  */
 function mb_solr_apachesolr_index_document_build(ApacheSolrDocument $document, $entity, $entity_type, $env_id) {
 	// only modify solr docs for nodes of subtype audio or video
-  if (! isset($entity->type) || ! in_array($entity->type, array('video','audio'))) {
-      return;
-  }
-  /*
-  $parent_group_gid = !empty($entity->group_audience['und']) ? $entity->group_audience['und'][0]['gid'] : null;
+  if (! isset($entity->type) || ! in_array($entity->type, array('video','audio'))) { return; }
+  $parent_group_gid = !empty($entity->og_collection_ref['und']) ? $entity->og_collection_ref['und'][0]['target_id'] : null;
   if (!empty($parent_group_gid)) {
       $gids=array($parent_group_gid);
       $parent_group = node_load($parent_group_gid); // og_get_group('group',$parent_group_gid);
       $group_node = node_load($parent_group->etid);
-      if ($group_node->type == 'team') { 
+      if ($group_node->type == 'subcollection') { 
          $coll_ancestor_node = get_collection_ancestor_node($group_node);
          $ancestor_group = node_load($coll_ancestor_node->nid) ; //og_get_group('node',$coll_ancestor_node->nid);
          $gids[] = $ancestor_group->gid;
@@ -123,7 +120,6 @@ function mb_solr_apachesolr_index_document_build(ApacheSolrDocument $document, $
          $document->addField('im_collection_gid', $gid);
       }
    }
-	*/
 	 // Adjustments for Audio/Video Nodes
 	 if($entity_type == "node" && in_array($entity->type, array('audio', 'video'))) {
 		 try {
@@ -850,11 +846,8 @@ function mb_solr_get_solrdoc($node, $format = 'xml') {
 		
 		// Metadata
 		$ew = entity_metadata_wrapper('node', $node);
-        /*
-		$grp = $ew->group_audience->value();
-		$grp = array_shift($grp);
-		$metadata['collection'] = $grp->label;
-         * */
+		$grp = $ew->field_og_collection_ref->value();
+		$metadata['collection'] = $grp->title;
 		$metadata['date'] = gmdate('Y-m-d\TH:i:s\Z',  $ew->created->value());
 		$metadata['length'] = $node->duration['formatted'];
 		$kmaps = array_values(array_unique($kmaps));

@@ -10,7 +10,8 @@
 function audio_video_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'field_collection_item-field_kmap_annotation-field_annot_format'
+  // Exported field_instance:
+  // 'field_collection_item-field_kmap_annotation-field_annot_format'.
   $field_instances['field_collection_item-field_kmap_annotation-field_annot_format'] = array(
     'bundle' => 'field_kmap_annotation',
     'default_value' => NULL,
@@ -41,7 +42,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_kmap_annotation-field_annot_note'
+  // Exported field_instance:
+  // 'field_collection_item-field_kmap_annotation-field_annot_note'.
   $field_instances['field_collection_item-field_kmap_annotation-field_annot_note'] = array(
     'bundle' => 'field_kmap_annotation',
     'default_value' => NULL,
@@ -75,7 +77,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_kmap_annotation-field_annot_numeric_label'
+  // Exported field_instance:
+  // 'field_collection_item-field_kmap_annotation-field_annot_numeric_label'.
   $field_instances['field_collection_item-field_kmap_annotation-field_annot_numeric_label'] = array(
     'bundle' => 'field_kmap_annotation',
     'default_value' => NULL,
@@ -109,7 +112,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_kmap_annotation-field_annot_text_label'
+  // Exported field_instance:
+  // 'field_collection_item-field_kmap_annotation-field_annot_text_label'.
   $field_instances['field_collection_item-field_kmap_annotation-field_annot_text_label'] = array(
     'bundle' => 'field_kmap_annotation',
     'default_value' => NULL,
@@ -143,7 +147,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_kmap_annotation-field_tid'
+  // Exported field_instance:
+  // 'field_collection_item-field_kmap_annotation-field_tid'.
   $field_instances['field_collection_item-field_kmap_annotation-field_tid'] = array(
     'bundle' => 'field_kmap_annotation',
     'default_value' => NULL,
@@ -183,7 +188,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_kmap_annotation-kmap_id'
+  // Exported field_instance:
+  // 'field_collection_item-field_kmap_annotation-kmap_id'.
   $field_instances['field_collection_item-field_kmap_annotation-kmap_id'] = array(
     'bundle' => 'field_kmap_annotation',
     'default_value' => NULL,
@@ -223,7 +229,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_pbcore_contributor-field_contributor'
+  // Exported field_instance:
+  // 'field_collection_item-field_pbcore_contributor-field_contributor'.
   $field_instances['field_collection_item-field_pbcore_contributor-field_contributor'] = array(
     'bundle' => 'field_pbcore_contributor',
     'default_value' => NULL,
@@ -257,7 +264,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_pbcore_contributor-field_contributor_role'
+  // Exported field_instance:
+  // 'field_collection_item-field_pbcore_contributor-field_contributor_role'.
   $field_instances['field_collection_item-field_pbcore_contributor-field_contributor_role'] = array(
     'bundle' => 'field_pbcore_contributor',
     'default_value' => NULL,
@@ -287,7 +295,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_pbcore_coverage-field_time'
+  // Exported field_instance:
+  // 'field_collection_item-field_pbcore_coverage-field_time'.
   $field_instances['field_collection_item-field_pbcore_coverage-field_time'] = array(
     'bundle' => 'field_pbcore_coverage',
     'default_value' => NULL,
@@ -321,7 +330,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_pbcore_creator-field_creator'
+  // Exported field_instance:
+  // 'field_collection_item-field_pbcore_creator-field_creator'.
   $field_instances['field_collection_item-field_pbcore_creator-field_creator'] = array(
     'bundle' => 'field_pbcore_creator',
     'default_value' => NULL,
@@ -355,7 +365,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_pbcore_creator-field_creator_role'
+  // Exported field_instance:
+  // 'field_collection_item-field_pbcore_creator-field_creator_role'.
   $field_instances['field_collection_item-field_pbcore_creator-field_creator_role'] = array(
     'bundle' => 'field_pbcore_creator',
     'default_value' => NULL,
@@ -385,7 +396,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_pbcore_description-field_description'
+  // Exported field_instance:
+  // 'field_collection_item-field_pbcore_description-field_description'.
   $field_instances['field_collection_item-field_pbcore_description-field_description'] = array(
     'bundle' => 'field_pbcore_description',
     'default_value' => NULL,
@@ -419,7 +431,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_pbcore_description-field_description_type'
+  // Exported field_instance:
+  // 'field_collection_item-field_pbcore_description-field_description_type'.
   $field_instances['field_collection_item-field_pbcore_description-field_description_type'] = array(
     'bundle' => 'field_pbcore_description',
     'default_value' => NULL,
@@ -449,7 +462,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_pbcore_description-field_language'
+  // Exported field_instance:
+  // 'field_collection_item-field_pbcore_description-field_language'.
   $field_instances['field_collection_item-field_pbcore_description-field_language'] = array(
     'bundle' => 'field_pbcore_description',
     'default_value' => NULL,
@@ -479,7 +493,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_pbcore_extension-field_extension'
+  // Exported field_instance:
+  // 'field_collection_item-field_pbcore_extension-field_extension'.
   $field_instances['field_collection_item-field_pbcore_extension-field_extension'] = array(
     'bundle' => 'field_pbcore_extension',
     'default_value' => NULL,
@@ -513,7 +528,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_pbcore_extension-field_extension_authority'
+  // Exported field_instance:
+  // 'field_collection_item-field_pbcore_extension-field_extension_authority'.
   $field_instances['field_collection_item-field_pbcore_extension-field_extension_authority'] = array(
     'bundle' => 'field_pbcore_extension',
     'default_value' => NULL,
@@ -547,7 +563,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_pbcore_format_id-field_format_id'
+  // Exported field_instance:
+  // 'field_collection_item-field_pbcore_format_id-field_format_id'.
   $field_instances['field_collection_item-field_pbcore_format_id-field_format_id'] = array(
     'bundle' => 'field_pbcore_format_id',
     'default_value' => NULL,
@@ -581,7 +598,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_pbcore_format_id-field_format_id_source'
+  // Exported field_instance:
+  // 'field_collection_item-field_pbcore_format_id-field_format_id_source'.
   $field_instances['field_collection_item-field_pbcore_format_id-field_format_id_source'] = array(
     'bundle' => 'field_pbcore_format_id',
     'default_value' => NULL,
@@ -614,7 +632,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_pbcore_identifier-field_identifier'
+  // Exported field_instance:
+  // 'field_collection_item-field_pbcore_identifier-field_identifier'.
   $field_instances['field_collection_item-field_pbcore_identifier-field_identifier'] = array(
     'bundle' => 'field_pbcore_identifier',
     'default_value' => NULL,
@@ -648,7 +667,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_pbcore_identifier-field_identifier_source'
+  // Exported field_instance:
+  // 'field_collection_item-field_pbcore_identifier-field_identifier_source'.
   $field_instances['field_collection_item-field_pbcore_identifier-field_identifier_source'] = array(
     'bundle' => 'field_pbcore_identifier',
     'default_value' => NULL,
@@ -682,7 +702,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_pbcore_instantiation-field_alternate_modes'
+  // Exported field_instance:
+  // 'field_collection_item-field_pbcore_instantiation-field_alternate_modes'.
   $field_instances['field_collection_item-field_pbcore_instantiation-field_alternate_modes'] = array(
     'bundle' => 'field_pbcore_instantiation',
     'default_value' => NULL,
@@ -716,7 +737,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_pbcore_instantiation-field_aspect_ratio'
+  // Exported field_instance:
+  // 'field_collection_item-field_pbcore_instantiation-field_aspect_ratio'.
   $field_instances['field_collection_item-field_pbcore_instantiation-field_aspect_ratio'] = array(
     'bundle' => 'field_pbcore_instantiation',
     'default_value' => NULL,
@@ -747,7 +769,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_pbcore_instantiation-field_bit_depth'
+  // Exported field_instance:
+  // 'field_collection_item-field_pbcore_instantiation-field_bit_depth'.
   $field_instances['field_collection_item-field_pbcore_instantiation-field_bit_depth'] = array(
     'bundle' => 'field_pbcore_instantiation',
     'default_value' => NULL,
@@ -778,7 +801,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_pbcore_instantiation-field_channel_conf'
+  // Exported field_instance:
+  // 'field_collection_item-field_pbcore_instantiation-field_channel_conf'.
   $field_instances['field_collection_item-field_pbcore_instantiation-field_channel_conf'] = array(
     'bundle' => 'field_pbcore_instantiation',
     'default_value' => NULL,
@@ -812,7 +836,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_pbcore_instantiation-field_colors'
+  // Exported field_instance:
+  // 'field_collection_item-field_pbcore_instantiation-field_colors'.
   $field_instances['field_collection_item-field_pbcore_instantiation-field_colors'] = array(
     'bundle' => 'field_pbcore_instantiation',
     'default_value' => NULL,
@@ -843,7 +868,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_pbcore_instantiation-field_data_rate'
+  // Exported field_instance:
+  // 'field_collection_item-field_pbcore_instantiation-field_data_rate'.
   $field_instances['field_collection_item-field_pbcore_instantiation-field_data_rate'] = array(
     'bundle' => 'field_pbcore_instantiation',
     'default_value' => NULL,
@@ -877,7 +903,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_pbcore_instantiation-field_date_created'
+  // Exported field_instance:
+  // 'field_collection_item-field_pbcore_instantiation-field_date_created'.
   $field_instances['field_collection_item-field_pbcore_instantiation-field_date_created'] = array(
     'bundle' => 'field_pbcore_instantiation',
     'deleted' => 0,
@@ -892,6 +919,7 @@ function audio_video_field_default_field_instances() {
           'multiple_from' => '',
           'multiple_number' => '',
           'multiple_to' => '',
+          'show_remaining_days' => FALSE,
         ),
         'type' => 'date_default',
         'weight' => 0,
@@ -926,7 +954,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_pbcore_instantiation-field_date_issued'
+  // Exported field_instance:
+  // 'field_collection_item-field_pbcore_instantiation-field_date_issued'.
   $field_instances['field_collection_item-field_pbcore_instantiation-field_date_issued'] = array(
     'bundle' => 'field_pbcore_instantiation',
     'deleted' => 0,
@@ -941,6 +970,7 @@ function audio_video_field_default_field_instances() {
           'multiple_from' => '',
           'multiple_number' => '',
           'multiple_to' => '',
+          'show_remaining_days' => FALSE,
         ),
         'type' => 'date_default',
         'weight' => 1,
@@ -975,7 +1005,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_pbcore_instantiation-field_digital_format'
+  // Exported field_instance:
+  // 'field_collection_item-field_pbcore_instantiation-field_digital_format'.
   $field_instances['field_collection_item-field_pbcore_instantiation-field_digital_format'] = array(
     'bundle' => 'field_pbcore_instantiation',
     'default_value' => NULL,
@@ -1006,7 +1037,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_pbcore_instantiation-field_duration'
+  // Exported field_instance:
+  // 'field_collection_item-field_pbcore_instantiation-field_duration'.
   $field_instances['field_collection_item-field_pbcore_instantiation-field_duration'] = array(
     'bundle' => 'field_pbcore_instantiation',
     'default_value' => NULL,
@@ -1040,7 +1072,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_pbcore_instantiation-field_encoding_scheme'
+  // Exported field_instance:
+  // 'field_collection_item-field_pbcore_instantiation-field_encoding_scheme'.
   $field_instances['field_collection_item-field_pbcore_instantiation-field_encoding_scheme'] = array(
     'bundle' => 'field_pbcore_instantiation',
     'default_value' => NULL,
@@ -1074,7 +1107,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_pbcore_instantiation-field_file_size'
+  // Exported field_instance:
+  // 'field_collection_item-field_pbcore_instantiation-field_file_size'.
   $field_instances['field_collection_item-field_pbcore_instantiation-field_file_size'] = array(
     'bundle' => 'field_pbcore_instantiation',
     'default_value' => NULL,
@@ -1108,7 +1142,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_pbcore_instantiation-field_format_standard'
+  // Exported field_instance:
+  // 'field_collection_item-field_pbcore_instantiation-field_format_standard'.
   $field_instances['field_collection_item-field_pbcore_instantiation-field_format_standard'] = array(
     'bundle' => 'field_pbcore_instantiation',
     'default_value' => NULL,
@@ -1139,7 +1174,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_pbcore_instantiation-field_frame_rate'
+  // Exported field_instance:
+  // 'field_collection_item-field_pbcore_instantiation-field_frame_rate'.
   $field_instances['field_collection_item-field_pbcore_instantiation-field_frame_rate'] = array(
     'bundle' => 'field_pbcore_instantiation',
     'default_value' => NULL,
@@ -1170,7 +1206,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_pbcore_instantiation-field_frame_size'
+  // Exported field_instance:
+  // 'field_collection_item-field_pbcore_instantiation-field_frame_size'.
   $field_instances['field_collection_item-field_pbcore_instantiation-field_frame_size'] = array(
     'bundle' => 'field_pbcore_instantiation',
     'default_value' => NULL,
@@ -1204,7 +1241,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_pbcore_instantiation-field_generations'
+  // Exported field_instance:
+  // 'field_collection_item-field_pbcore_instantiation-field_generations'.
   $field_instances['field_collection_item-field_pbcore_instantiation-field_generations'] = array(
     'bundle' => 'field_pbcore_instantiation',
     'default_value' => NULL,
@@ -1235,7 +1273,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_pbcore_instantiation-field_language'
+  // Exported field_instance:
+  // 'field_collection_item-field_pbcore_instantiation-field_language'.
   $field_instances['field_collection_item-field_pbcore_instantiation-field_language'] = array(
     'bundle' => 'field_pbcore_instantiation',
     'default_value' => NULL,
@@ -1266,7 +1305,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_pbcore_instantiation-field_media_type'
+  // Exported field_instance:
+  // 'field_collection_item-field_pbcore_instantiation-field_media_type'.
   $field_instances['field_collection_item-field_pbcore_instantiation-field_media_type'] = array(
     'bundle' => 'field_pbcore_instantiation',
     'default_value' => NULL,
@@ -1297,7 +1337,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_pbcore_instantiation-field_pbcore_annotation'
+  // Exported field_instance:
+  // 'field_collection_item-field_pbcore_instantiation-field_pbcore_annotation'.
   $field_instances['field_collection_item-field_pbcore_instantiation-field_pbcore_annotation'] = array(
     'bundle' => 'field_pbcore_instantiation',
     'default_value' => NULL,
@@ -1331,7 +1372,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_pbcore_instantiation-field_pbcore_date_available'
+  // Exported field_instance:
+  // 'field_collection_item-field_pbcore_instantiation-field_pbcore_date_available'.
   $field_instances['field_collection_item-field_pbcore_instantiation-field_pbcore_date_available'] = array(
     'bundle' => 'field_pbcore_instantiation',
     'deleted' => 0,
@@ -1346,6 +1388,7 @@ function audio_video_field_default_field_instances() {
           'multiple_from' => '',
           'multiple_number' => '',
           'multiple_to' => '',
+          'show_remaining_days' => FALSE,
         ),
         'type' => 'date_default',
         'weight' => 25,
@@ -1380,7 +1423,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_pbcore_instantiation-field_pbcore_format_id'
+  // Exported field_instance:
+  // 'field_collection_item-field_pbcore_instantiation-field_pbcore_format_id'.
   $field_instances['field_collection_item-field_pbcore_instantiation-field_pbcore_format_id'] = array(
     'bundle' => 'field_pbcore_instantiation',
     'default_value' => NULL,
@@ -1413,7 +1457,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_pbcore_instantiation-field_physical_format'
+  // Exported field_instance:
+  // 'field_collection_item-field_pbcore_instantiation-field_physical_format'.
   $field_instances['field_collection_item-field_pbcore_instantiation-field_physical_format'] = array(
     'bundle' => 'field_pbcore_instantiation',
     'default_value' => NULL,
@@ -1444,7 +1489,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_pbcore_instantiation-field_sampling_rate'
+  // Exported field_instance:
+  // 'field_collection_item-field_pbcore_instantiation-field_sampling_rate'.
   $field_instances['field_collection_item-field_pbcore_instantiation-field_sampling_rate'] = array(
     'bundle' => 'field_pbcore_instantiation',
     'default_value' => NULL,
@@ -1475,7 +1521,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_pbcore_instantiation-field_start_time'
+  // Exported field_instance:
+  // 'field_collection_item-field_pbcore_instantiation-field_start_time'.
   $field_instances['field_collection_item-field_pbcore_instantiation-field_start_time'] = array(
     'bundle' => 'field_pbcore_instantiation',
     'default_value' => NULL,
@@ -1509,7 +1556,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_pbcore_instantiation-field_track_data'
+  // Exported field_instance:
+  // 'field_collection_item-field_pbcore_instantiation-field_track_data'.
   $field_instances['field_collection_item-field_pbcore_instantiation-field_track_data'] = array(
     'bundle' => 'field_pbcore_instantiation',
     'default_value' => NULL,
@@ -1543,7 +1591,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_pbcore_publisher-field_publisher'
+  // Exported field_instance:
+  // 'field_collection_item-field_pbcore_publisher-field_publisher'.
   $field_instances['field_collection_item-field_pbcore_publisher-field_publisher'] = array(
     'bundle' => 'field_pbcore_publisher',
     'default_value' => NULL,
@@ -1577,7 +1626,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_pbcore_publisher-field_publisher_rome'
+  // Exported field_instance:
+  // 'field_collection_item-field_pbcore_publisher-field_publisher_rome'.
   $field_instances['field_collection_item-field_pbcore_publisher-field_publisher_rome'] = array(
     'bundle' => 'field_pbcore_publisher',
     'default_value' => NULL,
@@ -1607,7 +1657,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_pbcore_relation-field_relation_identifier'
+  // Exported field_instance:
+  // 'field_collection_item-field_pbcore_relation-field_relation_identifier'.
   $field_instances['field_collection_item-field_pbcore_relation-field_relation_identifier'] = array(
     'bundle' => 'field_pbcore_relation',
     'default_value' => NULL,
@@ -1644,7 +1695,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_pbcore_relation-field_relation_type'
+  // Exported field_instance:
+  // 'field_collection_item-field_pbcore_relation-field_relation_type'.
   $field_instances['field_collection_item-field_pbcore_relation-field_relation_type'] = array(
     'bundle' => 'field_pbcore_relation',
     'default_value' => NULL,
@@ -1653,9 +1705,9 @@ function audio_video_field_default_field_instances() {
     'display' => array(
       'default' => array(
         'label' => 'hidden',
-        'module' => 'og_views',
+        'module' => 'list',
         'settings' => array(),
-        'type' => 'og_views_default',
+        'type' => 'list_default',
         'weight' => 1,
       ),
     ),
@@ -1675,7 +1727,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_pbcore_sponsor-field_sponser_role'
+  // Exported field_instance:
+  // 'field_collection_item-field_pbcore_sponsor-field_sponser_role'.
   $field_instances['field_collection_item-field_pbcore_sponsor-field_sponser_role'] = array(
     'bundle' => 'field_pbcore_sponsor',
     'default_value' => array(
@@ -1709,7 +1762,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_pbcore_sponsor-field_sponsor_name'
+  // Exported field_instance:
+  // 'field_collection_item-field_pbcore_sponsor-field_sponsor_name'.
   $field_instances['field_collection_item-field_pbcore_sponsor-field_sponsor_name'] = array(
     'bundle' => 'field_pbcore_sponsor',
     'default_value' => NULL,
@@ -1743,7 +1797,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_pbcore_title-field_language'
+  // Exported field_instance:
+  // 'field_collection_item-field_pbcore_title-field_language'.
   $field_instances['field_collection_item-field_pbcore_title-field_language'] = array(
     'bundle' => 'field_pbcore_title',
     'default_value' => NULL,
@@ -1774,7 +1829,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_pbcore_title-field_title'
+  // Exported field_instance:
+  // 'field_collection_item-field_pbcore_title-field_title'.
   $field_instances['field_collection_item-field_pbcore_title-field_title'] = array(
     'bundle' => 'field_pbcore_title',
     'default_value' => NULL,
@@ -1808,7 +1864,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_pbcore_title-field_title_type'
+  // Exported field_instance:
+  // 'field_collection_item-field_pbcore_title-field_title_type'.
   $field_instances['field_collection_item-field_pbcore_title-field_title_type'] = array(
     'bundle' => 'field_pbcore_title',
     'default_value' => NULL,
@@ -1838,7 +1895,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_workflow-field_audio_quality_acceptable'
+  // Exported field_instance:
+  // 'field_collection_item-field_workflow-field_audio_quality_acceptable'.
   $field_instances['field_collection_item-field_workflow-field_audio_quality_acceptable'] = array(
     'bundle' => 'field_workflow',
     'default_value' => array(
@@ -1873,7 +1931,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_workflow-field_basic_cataloging'
+  // Exported field_instance:
+  // 'field_collection_item-field_workflow-field_basic_cataloging'.
   $field_instances['field_collection_item-field_workflow-field_basic_cataloging'] = array(
     'bundle' => 'field_workflow',
     'default_value' => array(
@@ -1908,7 +1967,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_workflow-field_cataloging_proofed'
+  // Exported field_instance:
+  // 'field_collection_item-field_workflow-field_cataloging_proofed'.
   $field_instances['field_collection_item-field_workflow-field_cataloging_proofed'] = array(
     'bundle' => 'field_workflow',
     'default_value' => array(
@@ -1943,7 +2003,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_workflow-field_edls_archived'
+  // Exported field_instance:
+  // 'field_collection_item-field_workflow-field_edls_archived'.
   $field_instances['field_collection_item-field_workflow-field_edls_archived'] = array(
     'bundle' => 'field_workflow',
     'default_value' => array(
@@ -1978,7 +2039,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_workflow-field_masters_archived'
+  // Exported field_instance:
+  // 'field_collection_item-field_workflow-field_masters_archived'.
   $field_instances['field_collection_item-field_workflow-field_masters_archived'] = array(
     'bundle' => 'field_workflow',
     'default_value' => array(
@@ -2013,7 +2075,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_workflow-field_media_needs_re_editing'
+  // Exported field_instance:
+  // 'field_collection_item-field_workflow-field_media_needs_re_editing'.
   $field_instances['field_collection_item-field_workflow-field_media_needs_re_editing'] = array(
     'bundle' => 'field_workflow',
     'default_value' => array(
@@ -2048,7 +2111,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_workflow-field_media_needs_recompression'
+  // Exported field_instance:
+  // 'field_collection_item-field_workflow-field_media_needs_recompression'.
   $field_instances['field_collection_item-field_workflow-field_media_needs_recompression'] = array(
     'bundle' => 'field_workflow',
     'default_value' => array(
@@ -2083,7 +2147,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_workflow-field_media_problem_1'
+  // Exported field_instance:
+  // 'field_collection_item-field_workflow-field_media_problem_1'.
   $field_instances['field_collection_item-field_workflow-field_media_problem_1'] = array(
     'bundle' => 'field_workflow',
     'default_value' => array(
@@ -2118,7 +2183,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_workflow-field_media_problem_2'
+  // Exported field_instance:
+  // 'field_collection_item-field_workflow-field_media_problem_2'.
   $field_instances['field_collection_item-field_workflow-field_media_problem_2'] = array(
     'bundle' => 'field_workflow',
     'default_value' => array(
@@ -2153,7 +2219,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_workflow-field_media_problem_3'
+  // Exported field_instance:
+  // 'field_collection_item-field_workflow-field_media_problem_3'.
   $field_instances['field_collection_item-field_workflow-field_media_problem_3'] = array(
     'bundle' => 'field_workflow',
     'default_value' => array(
@@ -2188,7 +2255,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_workflow-field_place_data_present'
+  // Exported field_instance:
+  // 'field_collection_item-field_workflow-field_place_data_present'.
   $field_instances['field_collection_item-field_workflow-field_place_data_present'] = array(
     'bundle' => 'field_workflow',
     'default_value' => array(
@@ -2223,7 +2291,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_workflow-field_timecode_too_infrequent'
+  // Exported field_instance:
+  // 'field_collection_item-field_workflow-field_timecode_too_infrequent'.
   $field_instances['field_collection_item-field_workflow-field_timecode_too_infrequent'] = array(
     'bundle' => 'field_workflow',
     'default_value' => array(
@@ -2258,7 +2327,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_workflow-field_timecoding_problem_1'
+  // Exported field_instance:
+  // 'field_collection_item-field_workflow-field_timecoding_problem_1'.
   $field_instances['field_collection_item-field_workflow-field_timecoding_problem_1'] = array(
     'bundle' => 'field_workflow',
     'default_value' => array(
@@ -2293,7 +2363,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_workflow-field_timecoding_problem_2'
+  // Exported field_instance:
+  // 'field_collection_item-field_workflow-field_timecoding_problem_2'.
   $field_instances['field_collection_item-field_workflow-field_timecoding_problem_2'] = array(
     'bundle' => 'field_workflow',
     'default_value' => array(
@@ -2328,7 +2399,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_workflow-field_trans_proofed_lang_1'
+  // Exported field_instance:
+  // 'field_collection_item-field_workflow-field_trans_proofed_lang_1'.
   $field_instances['field_collection_item-field_workflow-field_trans_proofed_lang_1'] = array(
     'bundle' => 'field_workflow',
     'default_value' => array(
@@ -2363,7 +2435,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_workflow-field_trans_proofed_lang_2'
+  // Exported field_instance:
+  // 'field_collection_item-field_workflow-field_trans_proofed_lang_2'.
   $field_instances['field_collection_item-field_workflow-field_trans_proofed_lang_2'] = array(
     'bundle' => 'field_workflow',
     'default_value' => array(
@@ -2398,7 +2471,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_workflow-field_trans_proofed_lang_3'
+  // Exported field_instance:
+  // 'field_collection_item-field_workflow-field_trans_proofed_lang_3'.
   $field_instances['field_collection_item-field_workflow-field_trans_proofed_lang_3'] = array(
     'bundle' => 'field_workflow',
     'default_value' => array(
@@ -2433,7 +2507,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_workflow-field_translation_lang_3'
+  // Exported field_instance:
+  // 'field_collection_item-field_workflow-field_translation_lang_3'.
   $field_instances['field_collection_item-field_workflow-field_translation_lang_3'] = array(
     'bundle' => 'field_workflow',
     'default_value' => array(
@@ -2468,7 +2543,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_workflow-field_translation_language_1'
+  // Exported field_instance:
+  // 'field_collection_item-field_workflow-field_translation_language_1'.
   $field_instances['field_collection_item-field_workflow-field_translation_language_1'] = array(
     'bundle' => 'field_workflow',
     'default_value' => array(
@@ -2503,7 +2579,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_workflow-field_translation_language_2'
+  // Exported field_instance:
+  // 'field_collection_item-field_workflow-field_translation_language_2'.
   $field_instances['field_collection_item-field_workflow-field_translation_language_2'] = array(
     'bundle' => 'field_workflow',
     'default_value' => array(
@@ -2538,7 +2615,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_workflow-field_video_quality_acceptable'
+  // Exported field_instance:
+  // 'field_collection_item-field_workflow-field_video_quality_acceptable'.
   $field_instances['field_collection_item-field_workflow-field_video_quality_acceptable'] = array(
     'bundle' => 'field_workflow',
     'default_value' => array(
@@ -2573,7 +2651,7 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-audio-field_audio'
+  // Exported field_instance: 'node-audio-field_audio'.
   $field_instances['node-audio-field_audio'] = array(
     'bundle' => 'audio',
     'deleted' => 0,
@@ -2630,7 +2708,7 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-audio-field_available_from'
+  // Exported field_instance: 'node-audio-field_available_from'.
   $field_instances['node-audio-field_available_from'] = array(
     'bundle' => 'audio',
     'deleted' => 0,
@@ -2645,6 +2723,7 @@ function audio_video_field_default_field_instances() {
           'multiple_from' => '',
           'multiple_number' => '',
           'multiple_to' => '',
+          'show_remaining_days' => FALSE,
         ),
         'type' => 'date_default',
         'weight' => 15,
@@ -2685,7 +2764,7 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-audio-field_copyright_owner'
+  // Exported field_instance: 'node-audio-field_copyright_owner'.
   $field_instances['node-audio-field_copyright_owner'] = array(
     'bundle' => 'audio',
     'default_value' => NULL,
@@ -2725,7 +2804,7 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-audio-field_kmap_annotation'
+  // Exported field_instance: 'node-audio-field_kmap_annotation'.
   $field_instances['node-audio-field_kmap_annotation'] = array(
     'bundle' => 'audio',
     'deleted' => 0,
@@ -2756,11 +2835,11 @@ function audio_video_field_default_field_instances() {
       'module' => 'field_collection',
       'settings' => array(),
       'type' => 'field_collection_hidden',
-      'weight' => 15,
+      'weight' => 34,
     ),
   );
 
-  // Exported field_instance: 'node-audio-field_license'
+  // Exported field_instance: 'node-audio-field_license'.
   $field_instances['node-audio-field_license'] = array(
     'bundle' => 'audio',
     'default_value' => NULL,
@@ -2800,7 +2879,7 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-audio-field_location'
+  // Exported field_instance: 'node-audio-field_location'.
   $field_instances['node-audio-field_location'] = array(
     'bundle' => 'audio',
     'default_value' => NULL,
@@ -2812,7 +2891,7 @@ function audio_video_field_default_field_instances() {
         'module' => 'shanti_kmaps_fields',
         'settings' => array(),
         'type' => 'kmap_popover_formatter',
-        'weight' => 8,
+        'weight' => 6,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -2827,6 +2906,8 @@ function audio_video_field_default_field_instances() {
     'required' => 0,
     'settings' => array(
       'kmap_term_limit' => 100,
+      'search_filters' => array(),
+      'search_root_kmap_path' => NULL,
       'search_root_kmapid' => NULL,
       'search_view' => '',
       'user_register_form' => FALSE,
@@ -2836,11 +2917,64 @@ function audio_video_field_default_field_instances() {
       'module' => 'shanti_kmaps_fields',
       'settings' => array(),
       'type' => 'kmap_tree_picker',
-      'weight' => 16,
+      'weight' => 35,
     ),
   );
 
-  // Exported field_instance: 'node-audio-field_pbcore_contributor'
+  // Exported field_instance: 'node-audio-field_og_collection_ref'.
+  $field_instances['node-audio-field_og_collection_ref'] = array(
+    'bundle' => 'audio',
+    'default_value' => NULL,
+    'default_value_function' => 'entityreference_prepopulate_field_default_value',
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'inline',
+        'module' => 'entityreference',
+        'settings' => array(
+          'link' => 1,
+        ),
+        'type' => 'entityreference_label',
+        'weight' => 3,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_og_collection_ref',
+    'label' => 'Collection',
+    'required' => 0,
+    'settings' => array(
+      'behaviors' => array(
+        'prepopulate' => array(
+          'action' => 'none',
+          'action_on_edit' => 0,
+          'fallback' => 'none',
+          'providers' => array(
+            'og_context' => 0,
+            'url' => 1,
+          ),
+          'skip_perm' => 0,
+          'status' => 1,
+        ),
+      ),
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_select',
+      'weight' => 30,
+    ),
+  );
+
+  // Exported field_instance: 'node-audio-field_pbcore_contributor'.
   $field_instances['node-audio-field_pbcore_contributor'] = array(
     'bundle' => 'audio',
     'default_value' => NULL,
@@ -2879,7 +3013,7 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-audio-field_pbcore_coverage'
+  // Exported field_instance: 'node-audio-field_pbcore_coverage'.
   $field_instances['node-audio-field_pbcore_coverage'] = array(
     'bundle' => 'audio',
     'default_value' => NULL,
@@ -2893,7 +3027,7 @@ function audio_video_field_default_field_instances() {
           'view_mode' => 'full',
         ),
         'type' => 'field_collection_fields',
-        'weight' => 10,
+        'weight' => 7,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -2914,11 +3048,11 @@ function audio_video_field_default_field_instances() {
       'module' => 'field_collection',
       'settings' => array(),
       'type' => 'field_collection_embed',
-      'weight' => 18,
+      'weight' => 36,
     ),
   );
 
-  // Exported field_instance: 'node-audio-field_pbcore_creator'
+  // Exported field_instance: 'node-audio-field_pbcore_creator'.
   $field_instances['node-audio-field_pbcore_creator'] = array(
     'bundle' => 'audio',
     'default_value' => NULL,
@@ -2957,7 +3091,7 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-audio-field_pbcore_description'
+  // Exported field_instance: 'node-audio-field_pbcore_description'.
   $field_instances['node-audio-field_pbcore_description'] = array(
     'bundle' => 'audio',
     'default_value' => NULL,
@@ -2996,7 +3130,7 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-audio-field_pbcore_extension'
+  // Exported field_instance: 'node-audio-field_pbcore_extension'.
   $field_instances['node-audio-field_pbcore_extension'] = array(
     'bundle' => 'audio',
     'default_value' => NULL,
@@ -3032,7 +3166,7 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-audio-field_pbcore_identifier'
+  // Exported field_instance: 'node-audio-field_pbcore_identifier'.
   $field_instances['node-audio-field_pbcore_identifier'] = array(
     'bundle' => 'audio',
     'default_value' => NULL,
@@ -3071,7 +3205,7 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-audio-field_pbcore_instantiation'
+  // Exported field_instance: 'node-audio-field_pbcore_instantiation'.
   $field_instances['node-audio-field_pbcore_instantiation'] = array(
     'bundle' => 'audio',
     'default_value' => NULL,
@@ -3109,7 +3243,7 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-audio-field_pbcore_publisher'
+  // Exported field_instance: 'node-audio-field_pbcore_publisher'.
   $field_instances['node-audio-field_pbcore_publisher'] = array(
     'bundle' => 'audio',
     'default_value' => NULL,
@@ -3117,7 +3251,7 @@ function audio_video_field_default_field_instances() {
     'description' => '',
     'display' => array(
       'default' => array(
-        'label' => 'above',
+        'label' => 'hidden',
         'module' => 'field_collection',
         'settings' => array(
           'view_mode' => 'full',
@@ -3148,7 +3282,7 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-audio-field_pbcore_relation'
+  // Exported field_instance: 'node-audio-field_pbcore_relation'.
   $field_instances['node-audio-field_pbcore_relation'] = array(
     'bundle' => 'audio',
     'default_value' => NULL,
@@ -3162,7 +3296,7 @@ function audio_video_field_default_field_instances() {
           'view_mode' => 'full',
         ),
         'type' => 'field_collection_fields',
-        'weight' => 11,
+        'weight' => 8,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -3187,7 +3321,7 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-audio-field_pbcore_rights_summary'
+  // Exported field_instance: 'node-audio-field_pbcore_rights_summary'.
   $field_instances['node-audio-field_pbcore_rights_summary'] = array(
     'bundle' => 'audio',
     'default_value' => NULL,
@@ -3227,23 +3361,19 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-audio-field_pbcore_sponsor'
+  // Exported field_instance: 'node-audio-field_pbcore_sponsor'.
   $field_instances['node-audio-field_pbcore_sponsor'] = array(
     'bundle' => 'audio',
     'deleted' => 0,
     'description' => '',
     'display' => array(
       'default' => array(
-        'label' => 'above',
+        'label' => 'hidden',
         'module' => 'field_collection',
         'settings' => array(
-          'add' => 'Add',
-          'delete' => 'Delete',
-          'description' => TRUE,
-          'edit' => 'Edit',
           'view_mode' => 'full',
         ),
-        'type' => 'field_collection_view',
+        'type' => 'field_collection_fields',
         'weight' => 14,
       ),
       'teaser' => array(
@@ -3268,7 +3398,7 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-audio-field_pbcore_title'
+  // Exported field_instance: 'node-audio-field_pbcore_title'.
   $field_instances['node-audio-field_pbcore_title'] = array(
     'bundle' => 'audio',
     'default_value' => NULL,
@@ -3307,7 +3437,7 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-audio-field_rating'
+  // Exported field_instance: 'node-audio-field_rating'.
   $field_instances['node-audio-field_rating'] = array(
     'bundle' => 'audio',
     'default_value' => NULL,
@@ -3354,7 +3484,7 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-audio-field_recording_location_new'
+  // Exported field_instance: 'node-audio-field_recording_location_new'.
   $field_instances['node-audio-field_recording_location_new'] = array(
     'bundle' => 'audio',
     'default_value' => NULL,
@@ -3381,6 +3511,8 @@ function audio_video_field_default_field_instances() {
     'required' => FALSE,
     'settings' => array(
       'kmap_term_limit' => 100,
+      'search_filters' => array(),
+      'search_root_kmap_path' => NULL,
       'search_root_kmapid' => NULL,
       'search_view' => NULL,
       'user_register_form' => FALSE,
@@ -3393,7 +3525,7 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-audio-field_subcollection_new'
+  // Exported field_instance: 'node-audio-field_subcollection_new'.
   $field_instances['node-audio-field_subcollection_new'] = array(
     'bundle' => 'audio',
     'default_value' => NULL,
@@ -3420,6 +3552,8 @@ function audio_video_field_default_field_instances() {
     'required' => 0,
     'settings' => array(
       'kmap_term_limit' => 100,
+      'search_filters' => array(),
+      'search_root_kmap_path' => NULL,
       'search_root_kmapid' => NULL,
       'search_view' => '',
       'user_register_form' => FALSE,
@@ -3429,11 +3563,11 @@ function audio_video_field_default_field_instances() {
       'module' => 'shanti_kmaps_fields',
       'settings' => array(),
       'type' => 'kmap_tree_picker',
-      'weight' => 11,
+      'weight' => 32,
     ),
   );
 
-  // Exported field_instance: 'node-audio-field_subject'
+  // Exported field_instance: 'node-audio-field_subject'.
   $field_instances['node-audio-field_subject'] = array(
     'bundle' => 'audio',
     'default_value' => NULL,
@@ -3445,7 +3579,7 @@ function audio_video_field_default_field_instances() {
         'module' => 'shanti_kmaps_fields',
         'settings' => array(),
         'type' => 'kmap_popover_formatter',
-        'weight' => 6,
+        'weight' => 5,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -3460,6 +3594,8 @@ function audio_video_field_default_field_instances() {
     'required' => 0,
     'settings' => array(
       'kmap_term_limit' => 100,
+      'search_filters' => array(),
+      'search_root_kmap_path' => NULL,
       'search_root_kmapid' => NULL,
       'search_view' => '',
       'user_register_form' => FALSE,
@@ -3469,11 +3605,11 @@ function audio_video_field_default_field_instances() {
       'module' => 'shanti_kmaps_fields',
       'settings' => array(),
       'type' => 'kmap_tree_picker',
-      'weight' => 13,
+      'weight' => 33,
     ),
   );
 
-  // Exported field_instance: 'node-audio-field_tags'
+  // Exported field_instance: 'node-audio-field_tags'.
   $field_instances['node-audio-field_tags'] = array(
     'bundle' => 'audio',
     'default_value' => NULL,
@@ -3509,11 +3645,11 @@ function audio_video_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'taxonomy_autocomplete',
-      'weight' => 19,
+      'weight' => 37,
     ),
   );
 
-  // Exported field_instance: 'node-audio-field_thumbnail_image'
+  // Exported field_instance: 'node-audio-field_thumbnail_image'.
   $field_instances['node-audio-field_thumbnail_image'] = array(
     'bundle' => 'audio',
     'deleted' => 0,
@@ -3578,7 +3714,7 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-audio-field_transcript'
+  // Exported field_instance: 'node-audio-field_transcript'.
   $field_instances['node-audio-field_transcript'] = array(
     'bundle' => 'audio',
     'deleted' => 0,
@@ -3641,7 +3777,7 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-audio-field_workflow'
+  // Exported field_instance: 'node-audio-field_workflow'.
   $field_instances['node-audio-field_workflow'] = array(
     'bundle' => 'audio',
     'default_value' => NULL,
@@ -3680,7 +3816,7 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-audio-field_year_published'
+  // Exported field_instance: 'node-audio-field_year_published'.
   $field_instances['node-audio-field_year_published'] = array(
     'bundle' => 'audio',
     'default_value' => NULL,
@@ -3720,7 +3856,59 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-video-field_available_from'
+  // Exported field_instance: 'node-audio-group_content_access'.
+  $field_instances['node-audio-group_content_access'] = array(
+    'bundle' => 'audio',
+    'default_value' => array(
+      0 => array(
+        'value' => 0,
+      ),
+    ),
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'inline',
+        'module' => 'list',
+        'settings' => array(),
+        'type' => 'list_default',
+        'weight' => 14,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'group_content_access',
+    'label' => 'Visibility',
+    'required' => 1,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'view modes' => array(
+      'full' => array(
+        'label' => 'above',
+        'type' => 'list_default',
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'type' => 'list_default',
+      ),
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_select',
+      'weight' => 9,
+    ),
+    'widget_type' => 'options_select',
+  );
+
+  // Exported field_instance: 'node-video-field_available_from'.
   $field_instances['node-video-field_available_from'] = array(
     'bundle' => 'video',
     'deleted' => 0,
@@ -3735,6 +3923,7 @@ function audio_video_field_default_field_instances() {
           'multiple_from' => '',
           'multiple_number' => '',
           'multiple_to' => '',
+          'show_remaining_days' => FALSE,
         ),
         'type' => 'date_default',
         'weight' => 12,
@@ -3775,7 +3964,7 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-video-field_copyright_owner'
+  // Exported field_instance: 'node-video-field_copyright_owner'.
   $field_instances['node-video-field_copyright_owner'] = array(
     'bundle' => 'video',
     'default_value' => NULL,
@@ -3815,7 +4004,7 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-video-field_kmap_annotation'
+  // Exported field_instance: 'node-video-field_kmap_annotation'.
   $field_instances['node-video-field_kmap_annotation'] = array(
     'bundle' => 'video',
     'deleted' => 0,
@@ -3846,11 +4035,11 @@ function audio_video_field_default_field_instances() {
       'module' => 'field_collection',
       'settings' => array(),
       'type' => 'field_collection_hidden',
-      'weight' => 15,
+      'weight' => 56,
     ),
   );
 
-  // Exported field_instance: 'node-video-field_license'
+  // Exported field_instance: 'node-video-field_license'.
   $field_instances['node-video-field_license'] = array(
     'bundle' => 'video',
     'default_value' => NULL,
@@ -3890,7 +4079,7 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-video-field_location'
+  // Exported field_instance: 'node-video-field_location'.
   $field_instances['node-video-field_location'] = array(
     'bundle' => 'video',
     'default_value' => NULL,
@@ -3917,6 +4106,8 @@ function audio_video_field_default_field_instances() {
     'required' => 0,
     'settings' => array(
       'kmap_term_limit' => 100,
+      'search_filters' => array(),
+      'search_root_kmap_path' => NULL,
       'search_root_kmapid' => NULL,
       'search_view' => '',
       'user_register_form' => FALSE,
@@ -3926,11 +4117,64 @@ function audio_video_field_default_field_instances() {
       'module' => 'shanti_kmaps_fields',
       'settings' => array(),
       'type' => 'kmap_typeahead_picker',
-      'weight' => 16,
+      'weight' => 57,
     ),
   );
 
-  // Exported field_instance: 'node-video-field_pbcore_contributor'
+  // Exported field_instance: 'node-video-field_og_collection_ref'.
+  $field_instances['node-video-field_og_collection_ref'] = array(
+    'bundle' => 'video',
+    'default_value' => NULL,
+    'default_value_function' => 'entityreference_prepopulate_field_default_value',
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'inline',
+        'module' => 'entityreference',
+        'settings' => array(
+          'link' => 1,
+        ),
+        'type' => 'entityreference_label',
+        'weight' => 4,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_og_collection_ref',
+    'label' => 'Collection',
+    'required' => 0,
+    'settings' => array(
+      'behaviors' => array(
+        'prepopulate' => array(
+          'action' => 'none',
+          'action_on_edit' => 0,
+          'fallback' => 'none',
+          'providers' => array(
+            'og_context' => 0,
+            'url' => 1,
+          ),
+          'skip_perm' => 0,
+          'status' => 1,
+        ),
+      ),
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_select',
+      'weight' => 52,
+    ),
+  );
+
+  // Exported field_instance: 'node-video-field_pbcore_contributor'.
   $field_instances['node-video-field_pbcore_contributor'] = array(
     'bundle' => 'video',
     'default_value' => NULL,
@@ -3969,7 +4213,7 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-video-field_pbcore_coverage'
+  // Exported field_instance: 'node-video-field_pbcore_coverage'.
   $field_instances['node-video-field_pbcore_coverage'] = array(
     'bundle' => 'video',
     'default_value' => NULL,
@@ -3983,7 +4227,7 @@ function audio_video_field_default_field_instances() {
           'view_mode' => 'full',
         ),
         'type' => 'field_collection_fields',
-        'weight' => 10,
+        'weight' => 9,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -4004,11 +4248,11 @@ function audio_video_field_default_field_instances() {
       'module' => 'field_collection',
       'settings' => array(),
       'type' => 'field_collection_embed',
-      'weight' => 18,
+      'weight' => 58,
     ),
   );
 
-  // Exported field_instance: 'node-video-field_pbcore_creator'
+  // Exported field_instance: 'node-video-field_pbcore_creator'.
   $field_instances['node-video-field_pbcore_creator'] = array(
     'bundle' => 'video',
     'default_value' => NULL,
@@ -4047,7 +4291,7 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-video-field_pbcore_description'
+  // Exported field_instance: 'node-video-field_pbcore_description'.
   $field_instances['node-video-field_pbcore_description'] = array(
     'bundle' => 'video',
     'default_value' => NULL,
@@ -4086,7 +4330,7 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-video-field_pbcore_extension'
+  // Exported field_instance: 'node-video-field_pbcore_extension'.
   $field_instances['node-video-field_pbcore_extension'] = array(
     'bundle' => 'video',
     'default_value' => NULL,
@@ -4122,7 +4366,7 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-video-field_pbcore_identifier'
+  // Exported field_instance: 'node-video-field_pbcore_identifier'.
   $field_instances['node-video-field_pbcore_identifier'] = array(
     'bundle' => 'video',
     'default_value' => NULL,
@@ -4161,7 +4405,7 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-video-field_pbcore_instantiation'
+  // Exported field_instance: 'node-video-field_pbcore_instantiation'.
   $field_instances['node-video-field_pbcore_instantiation'] = array(
     'bundle' => 'video',
     'default_value' => NULL,
@@ -4199,7 +4443,7 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-video-field_pbcore_publisher'
+  // Exported field_instance: 'node-video-field_pbcore_publisher'.
   $field_instances['node-video-field_pbcore_publisher'] = array(
     'bundle' => 'video',
     'default_value' => NULL,
@@ -4238,7 +4482,7 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-video-field_pbcore_relation'
+  // Exported field_instance: 'node-video-field_pbcore_relation'.
   $field_instances['node-video-field_pbcore_relation'] = array(
     'bundle' => 'video',
     'default_value' => NULL,
@@ -4252,7 +4496,7 @@ function audio_video_field_default_field_instances() {
           'view_mode' => 'full',
         ),
         'type' => 'field_collection_fields',
-        'weight' => 11,
+        'weight' => 10,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -4277,7 +4521,7 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-video-field_pbcore_rights_summary'
+  // Exported field_instance: 'node-video-field_pbcore_rights_summary'.
   $field_instances['node-video-field_pbcore_rights_summary'] = array(
     'bundle' => 'video',
     'default_value' => NULL,
@@ -4317,7 +4561,7 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-video-field_pbcore_sponsor'
+  // Exported field_instance: 'node-video-field_pbcore_sponsor'.
   $field_instances['node-video-field_pbcore_sponsor'] = array(
     'bundle' => 'video',
     'default_value' => NULL,
@@ -4325,16 +4569,12 @@ function audio_video_field_default_field_instances() {
     'description' => 'A person or organization who sponsored this AV item',
     'display' => array(
       'default' => array(
-        'label' => 'above',
+        'label' => 'hidden',
         'module' => 'field_collection',
         'settings' => array(
-          'add' => 'Add',
-          'delete' => 'Delete',
-          'description' => TRUE,
-          'edit' => 'Edit',
           'view_mode' => 'full',
         ),
-        'type' => 'field_collection_view',
+        'type' => 'field_collection_fields',
         'weight' => 14,
       ),
       'teaser' => array(
@@ -4360,7 +4600,7 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-video-field_pbcore_title'
+  // Exported field_instance: 'node-video-field_pbcore_title'.
   $field_instances['node-video-field_pbcore_title'] = array(
     'bundle' => 'video',
     'default_value' => NULL,
@@ -4399,7 +4639,7 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-video-field_rating'
+  // Exported field_instance: 'node-video-field_rating'.
   $field_instances['node-video-field_rating'] = array(
     'bundle' => 'video',
     'default_value' => NULL,
@@ -4446,7 +4686,7 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-video-field_recording_location_new'
+  // Exported field_instance: 'node-video-field_recording_location_new'.
   $field_instances['node-video-field_recording_location_new'] = array(
     'bundle' => 'video',
     'default_value' => NULL,
@@ -4473,6 +4713,8 @@ function audio_video_field_default_field_instances() {
     'required' => 0,
     'settings' => array(
       'kmap_term_limit' => 100,
+      'search_filters' => array(),
+      'search_root_kmap_path' => NULL,
       'search_root_kmapid' => NULL,
       'search_view' => '',
       'user_register_form' => FALSE,
@@ -4486,48 +4728,8 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-video-field_subcollection_new'
+  // Exported field_instance: 'node-video-field_subcollection_new'.
   $field_instances['node-video-field_subcollection_new'] = array(
-    'bundle' => 'video',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'shanti_kmaps_fields',
-        'settings' => array(),
-        'type' => 'kmap_popover_formatter',
-        'weight' => 4,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'field_subcollection_new',
-    'label' => 'Subcollection',
-    'required' => 0,
-    'settings' => array(
-      'kmap_term_limit' => 100,
-      'search_root_kmapid' => NULL,
-      'search_view' => '',
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 0,
-      'module' => 'shanti_kmaps_fields',
-      'settings' => array(),
-      'type' => 'kmap_typeahead_picker',
-      'weight' => 11,
-    ),
-  );
-
-  // Exported field_instance: 'node-video-field_subject'
-  $field_instances['node-video-field_subject'] = array(
     'bundle' => 'video',
     'default_value' => NULL,
     'deleted' => 0,
@@ -4548,11 +4750,13 @@ function audio_video_field_default_field_instances() {
       ),
     ),
     'entity_type' => 'node',
-    'field_name' => 'field_subject',
-    'label' => 'Subject',
+    'field_name' => 'field_subcollection_new',
+    'label' => 'Subcollection',
     'required' => 0,
     'settings' => array(
       'kmap_term_limit' => 100,
+      'search_filters' => array(),
+      'search_root_kmap_path' => NULL,
       'search_root_kmapid' => NULL,
       'search_view' => '',
       'user_register_form' => FALSE,
@@ -4562,11 +4766,53 @@ function audio_video_field_default_field_instances() {
       'module' => 'shanti_kmaps_fields',
       'settings' => array(),
       'type' => 'kmap_typeahead_picker',
-      'weight' => 13,
+      'weight' => 54,
     ),
   );
 
-  // Exported field_instance: 'node-video-field_tags'
+  // Exported field_instance: 'node-video-field_subject'.
+  $field_instances['node-video-field_subject'] = array(
+    'bundle' => 'video',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'shanti_kmaps_fields',
+        'settings' => array(),
+        'type' => 'kmap_popover_formatter',
+        'weight' => 7,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_subject',
+    'label' => 'Subject',
+    'required' => 0,
+    'settings' => array(
+      'kmap_term_limit' => 100,
+      'search_filters' => array(),
+      'search_root_kmap_path' => NULL,
+      'search_root_kmapid' => NULL,
+      'search_view' => '',
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'shanti_kmaps_fields',
+      'settings' => array(),
+      'type' => 'kmap_typeahead_picker',
+      'weight' => 55,
+    ),
+  );
+
+  // Exported field_instance: 'node-video-field_tags'.
   $field_instances['node-video-field_tags'] = array(
     'bundle' => 'video',
     'default_value' => NULL,
@@ -4578,7 +4824,7 @@ function audio_video_field_default_field_instances() {
         'module' => 'taxonomy',
         'settings' => array(),
         'type' => 'taxonomy_term_reference_link',
-        'weight' => 7,
+        'weight' => 13,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -4602,11 +4848,11 @@ function audio_video_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'taxonomy_autocomplete',
-      'weight' => 19,
+      'weight' => 59,
     ),
   );
 
-  // Exported field_instance: 'node-video-field_transcript'
+  // Exported field_instance: 'node-video-field_transcript'.
   $field_instances['node-video-field_transcript'] = array(
     'bundle' => 'video',
     'deleted' => 0,
@@ -4669,7 +4915,7 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-video-field_video'
+  // Exported field_instance: 'node-video-field_video'.
   $field_instances['node-video-field_video'] = array(
     'bundle' => 'video',
     'deleted' => 0,
@@ -4726,7 +4972,7 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-video-field_workflow'
+  // Exported field_instance: 'node-video-field_workflow'.
   $field_instances['node-video-field_workflow'] = array(
     'bundle' => 'video',
     'default_value' => NULL,
@@ -4765,7 +5011,7 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-video-field_year_published'
+  // Exported field_instance: 'node-video-field_year_published'.
   $field_instances['node-video-field_year_published'] = array(
     'bundle' => 'video',
     'default_value' => NULL,
@@ -4805,110 +5051,56 @@ function audio_video_field_default_field_instances() {
     ),
   );
 
-
-  // Exported field_instance: 'taxonomy_term-kmap_taxonomy-kmap_id'
-  $field_instances['taxonomy_term-kmap_taxonomy-kmap_id'] = array(
-    'bundle' => 'kmap_taxonomy',
-    'default_value' => NULL,
+  // Exported field_instance: 'node-video-group_content_access'.
+  $field_instances['node-video-group_content_access'] = array(
+    'bundle' => 'video',
+    'default_value' => array(
+      0 => array(
+        'value' => 0,
+      ),
+    ),
     'deleted' => 0,
     'description' => '',
     'display' => array(
       'default' => array(
+        'label' => 'above',
+        'module' => 'list',
+        'settings' => array(),
+        'type' => 'list_default',
+        'weight' => 11,
+      ),
+      'teaser' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 3,
       ),
     ),
-    'entity_type' => 'taxonomy_term',
-    'field_name' => 'kmap_id',
-    'label' => 'Kmap Id',
-    'required' => TRUE,
+    'entity_type' => 'node',
+    'field_name' => 'group_content_access',
+    'label' => 'Visibility',
+    'required' => 1,
     'settings' => array(
-      'max' => '',
-      'min' => '',
-      'prefix' => '',
-      'suffix' => '',
       'user_register_form' => FALSE,
     ),
-    'widget' => array(
-      'module' => 'number',
-      'settings' => array(),
-      'type' => 'number',
-      'weight' => 1,
-    ),
-  );
-
-  // Exported field_instance: 'taxonomy_term-kmap_taxonomy-kmap_parent_id'
-  $field_instances['taxonomy_term-kmap_taxonomy-kmap_parent_id'] = array(
-    'bundle' => 'kmap_taxonomy',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
+    'view modes' => array(
+      'full' => array(
         'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 1,
+        'type' => 'list_default',
       ),
-    ),
-    'entity_type' => 'taxonomy_term',
-    'field_name' => 'kmap_parent_id',
-    'label' => 'Kmap Parent Id',
-    'required' => TRUE,
-    'settings' => array(
-      'max' => '',
-      'min' => '',
-      'prefix' => '',
-      'suffix' => '',
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'module' => 'number',
-      'settings' => array(),
-      'type' => 'number',
-      'weight' => 2,
-    ),
-  );
-
-  // Exported field_instance: 'taxonomy_term-mb_location-place_dictionary_id'
-  $field_instances['taxonomy_term-mb_location-place_dictionary_id'] = array(
-    'bundle' => 'mb_location',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
+      'teaser' => array(
         'label' => 'above',
-        'module' => 'number',
-        'settings' => array(
-          'decimal_separator' => '.',
-          'prefix_suffix' => TRUE,
-          'scale' => 0,
-          'thousand_separator' => ' ',
-        ),
-        'type' => 'number_integer',
-        'weight' => 0,
+        'type' => 'list_default',
       ),
     ),
-    'entity_type' => 'taxonomy_term',
-    'field_name' => 'place_dictionary_id',
-    'label' => 'Place Dictionary Id',
-    'required' => TRUE,
-    'settings' => array(
-      'max' => '',
-      'min' => '',
-      'prefix' => '',
-      'suffix' => '',
-      'user_register_form' => FALSE,
-    ),
     'widget' => array(
-      'module' => 'number',
+      'active' => 1,
+      'module' => 'options',
       'settings' => array(),
-      'type' => 'number',
-      'weight' => 31,
+      'type' => 'options_select',
+      'weight' => 21,
     ),
+    'widget_type' => 'options_select',
   );
 
   // Translatables
@@ -4959,7 +5151,6 @@ function audio_video_field_default_field_instances() {
   t('Identifiers');
   t('Kmap Annotation');
   t('Kmap Id');
-  t('Kmap Parent Id');
   t('Language');
   t('Location');
   t('Logging files/EDLs archived');
@@ -4974,7 +5165,6 @@ function audio_video_field_default_field_instances() {
   t('Numeric Label');
   t('Physical Format');
   t('Place Data Present');
-  t('Place Dictionary Id');
   t('Publisher');
   t('Publisher Role');
   t('Rating');

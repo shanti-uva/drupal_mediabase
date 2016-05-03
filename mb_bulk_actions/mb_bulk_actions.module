@@ -12,6 +12,17 @@
 function mb_bulk_actions_action_info() {
   $info = array(
     
+    // Update Old Collection Nodes
+    'mb_bulk_actions_update_old_collections' =>  array(
+          'aggregate' => FALSE,
+          'type' => 'node',
+          'label' => t('Update old collection nodes'),
+          'behavior' => array('changes_property'),
+          'configurable' => FALSE,
+          'vbo_configurable' => FALSE,
+          'triggers' => array('any'),
+        ),
+    
 	// Change Collection for Multiple nodes
 	'mb_bulk_actions_change_collection' =>  array(
           'aggregate' => FALSE,
@@ -25,6 +36,64 @@ function mb_bulk_actions_action_info() {
       );
 
 	return $info;
+}
+
+/**** Update Old Collection Nodes ****/
+
+function mb_bulk_actions_update_old_collections(&$node, $context) {
+    module_load_include('inc', 'mb_bulk_actions', 'mb_bulk_actions');
+    
+    /*
+     * Action to update old collection nodes to match new Shanti Collection content type
+     */
+    if ($node->type == 'collection') {
+         // Update the collection image
+         mb_bulk_update_image($node);  // in mb_bulk_actions.inc
+         
+         // Add default value for new field user inheritance
+         if (empty($node->og_user_inheritance)) {
+             $node->og_user_inheritance = array('und'=>array(array('value'=>1)));
+         }
+         
+         // Add default value for new field user permission inheritance
+         if (empty($node->og_user_permission_inheritance)) {
+             $node->og_user_permission_inheritance = array('und'=>array(array('value'=>0)));
+         }
+
+         // save the node
+         node_save($node);
+         
+    }
+         
+    // Update Teams
+    if ($node->type == 'team') {
+        // Change type to subcollection
+        $node->type = "subcollection";
+
+        // Update image
+        mb_bulk_update_image($node);
+       
+        // Save the node
+        node_save($node);
+        
+        // Move value of parent ref to new field
+         $res = db_update('og_membership')
+                    ->fields(array(
+                            'field_name' => 'field_og_parent_collection_ref'
+                         ))
+                    ->condition('etid', $node->nid, '=')
+                    ->execute();
+         
+        if ($res <> 1) { 
+             drupal_set_message($res . ' records changed in db for ' . $node->title . ' ('. $node->nid . ')');
+        }
+    }
+    
+    // update path alias with pathauto
+    if (module_exists('pathauto')) {
+        pathauto_node_update_alias($node, 'update');
+    }
+    
 }
 
 /**** Change Collection for Multiple Nodes ****/

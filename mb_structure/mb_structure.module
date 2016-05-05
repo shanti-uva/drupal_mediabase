@@ -909,14 +909,16 @@ function get_subcollection_node($node) {
      if(!$node) { return null; }
    }
    $subcoll_node = FALSE;
-   if ( $gids = og_get_entity_groups('node', $node) ) {
-      while($gid = array_pop( $gids )) {
-	      if ($group_node = node_load($gid)) {
-              if ( $group_node->type == 'subcollection' ) {
-                 $subcoll_node = $group_node;
+   foreach ( og_get_entity_groups('node', $node) as $type => $gids) {
+      if ($type == "node") {
+          foreach ($gids as $ogmid => $gid) {
+    	         if ($group_node = node_load($gid)) {
+                  if ( $group_node->type == 'subcollection' ) {
+                     $subcoll_node = $group_node;
+                  }
               }
           }
-	   }
+    	   }
    }
    return $subcoll_node;
 }
@@ -1029,8 +1031,7 @@ function mb_structure_already_started_validate(&$form_state, $form) {
 }
 
 /**
- * Implements hook_breadcrumb_alter
- */
+ * Implements hook_breadcrumb_alter (Taken over by shanti_sarvaka theme)
 function mb_structure_menu_breadcrumb_alter(&$active_trail, $item) {
     //dpm($active_trail, 'active trail');
    $new_items=array();
@@ -1060,9 +1061,10 @@ function mb_structure_menu_breadcrumb_alter(&$active_trail, $item) {
    array_splice( $active_trail, 1, $repnum, $new_items ); // splice in at position 1 (Keeps the node title on?)
 }
 
-/**
- * Created an array of breadcrumbs for a collection or subcollection
  */
+/**
+ * Created an array of breadcrumbs for a collection or subcollection  (Taken over by shanti_sarvaka theme)
+ 
 function mb_structure_breadcrumb_items_collection($coll) {
     if (is_numeric($coll)) { $coll = node_load($coll); } // convert nid to node
     // Set up crumbs array with collections as the first item
@@ -1099,10 +1101,10 @@ function mb_structure_breadcrumb_items_collection($coll) {
    }
    return $crumbs;
 }
-
+*/
 /**
- * Creates an array of breadcrumbs for an av item
- */
+ * Creates an array of breadcrumbs for an av item (taken over by shanti sarvaka theme)
+ 
 function mb_structure_breadcrumb_items_audio_video($node) {
     $coll_crumb = array();
    if (!empty($node->og_group_ref)) {
@@ -1111,6 +1113,7 @@ function mb_structure_breadcrumb_items_audio_video($node) {
    }
    return $coll_crumb;
 }
+*/
 
 /**
  * Creates a Bootstrap carousel for all collections

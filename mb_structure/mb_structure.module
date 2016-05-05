@@ -993,22 +993,24 @@ function mb_structure_get_groups_for_user( $add_optgroup = TRUE ) {
     $gps = og_get_groups_by_user($user, 'node');
     $colls = array();
     $subcolls = array();
-    foreach ($gps as $gid) {
-        $gp = node_load($gid);
-        if($gp->type == "collection") {
-            $colls[$gid] = $gp->title;
-        } else if ($gp->type == "subcollection") {
-            $subcolls[$gid] = $gp->title;
+    if (!empty($gps)) {
+        foreach ($gps as $gid) {
+            $gp = node_load($gid);
+            if($gp->type == "collection") {
+                $colls[$gid] = $gp->title;
+            } else if ($gp->type == "subcollection") {
+                $subcolls[$gid] = $gp->title;
+            }
         }
-    }
-    if ($add_optgroup) {
-        asort($colls);
-        asort($subcolls);
-        $gids_with_labels[$coll_key] = $colls;
-        $gids_with_labels[$subcoll_key] = $subcolls;
-    } else {
-        $gids_with_labels = $colls + $subcolls;
-        asort($gids_with_labels);
+        if ($add_optgroup) {
+            asort($colls);
+            asort($subcolls);
+            $gids_with_labels[$coll_key] = $colls;
+            $gids_with_labels[$subcoll_key] = $subcolls;
+        } else {
+            $gids_with_labels = $colls + $subcolls;
+            asort($gids_with_labels);
+        }
     }
     return $gids_with_labels;
 }

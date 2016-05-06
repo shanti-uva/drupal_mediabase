@@ -8,7 +8,7 @@
 /**
 * The group_audience field.
 */
-define('OG_GROUP_AUDIENCE_FIELD', 'group_audience');
+define('OG_GROUP_AUDIENCE_FIELD', 'field_og_collection_ref');
 
 /**
 * The access realm of a UVa community member.
@@ -53,15 +53,13 @@ function mb_access_node_grants($account, $op) {
       $query = new EntityFieldQuery();
       $collections = $query
       ->entityCondition('entity_type', 'node')
-      ->propertyCondition('type', 'collection', '=')
+      ->propertyCondition('type', array('collection', 'subcollection'), 'IN') //TODO: Test that this includes subcollections
       ->execute();
       
       foreach ($collections['node'] as $node) {
-         // get the collection group object from the nid
-         $group = og_get_group('node', $node->nid);
-         if (og_user_access($group->gid, 'administer group') ) {
-               $grants[MB_COLLECTION_ADMIN_REALM][] = $group->gid;
-         }
+         if (og_user_access('node', $node->nid, 'administer group') ) {
+               $grants[MB_COLLECTION_ADMIN_REALM][] = $node->nid;
+         }  
       }
    }
    // dd($grants['mb_collection_admin'][0], "mb_collection_admin  grants for $account->uid");
@@ -74,13 +72,13 @@ function mb_access_node_grants($account, $op) {
 */
 function mb_access_node_access_records($node) {
    $uva_grants = add_node_access_records($node);
-   $subgroup_grants = add_mb_collection_admin_node_access_records($node);
+   /*$subgroup_grants = add_mb_collection_admin_node_access_records($node);
    $grants = array_merge($uva_grants, $subgroup_grants);
-   if ( og_get_group('node',$node->nid ) ) { //
+   if ( !empty($node->{OG_GROUP_AUDIENCE_FIELD}[LANGUAGE_NONE][0]['target_id'] ) ) { //
          add_mb_collection_admin_node_access_records_for_audio_video( $node );
-   }
+   }*/
    //dd($grants, "node access records");
-   return $grants;
+   return $uva_grants;
 }
 
 /**
@@ -107,9 +105,8 @@ function add_node_access_records($node) {
       $content_access = $node->{OG_CONTENT_ACCESS_FIELD}[LANGUAGE_NONE][0]['value'];
       // If group content is set to use group defaults, then go to the group to get the visibility
       if ($content_access == OG_CONTENT_ACCESS_DEFAULT) {
-         $gid = $node->{OG_GROUP_AUDIENCE_FIELD}[LANGUAGE_NONE][0]['gid'];
-         $group = og_get_group('group',$gid);
-         $node = node_load( $group->etid);
+         $gid = $node->{OG_GROUP_AUDIENCE_FIELD}[LANGUAGE_NONE][0]['target_id'];
+         $node = node_load($gid);
          // increment group_access value by 1 to get the relevant value for group_content_access
          $content_access = $node->{OG_ACCESS_FIELD}[LANGUAGE_NONE][0]['value'] + 1;
       }
@@ -151,23 +148,23 @@ function add_node_access_records($node) {
 /**
 * Here we're adding grants for propagating permissions from a collection down into team objects
 * @todo fix the hardcoded 'team' node type hack
+ * 
+ * TAKEN OUT TO Work with new Collection feature in OG 2.x (2015-05-06)
 **/
 function add_mb_collection_admin_node_access_records($node) {
    $grants = array();                    
-   $field_language = field_language('node', $node, 'group_audience');
+   $field_language = field_language('node', $node, OG_GROUP_AUDIENCE_FIELD);
    $collection_gid = NULL;
    // COLLECTION GRANTS
    if ( $node->type == 'team' && isset($node->{OG_GROUP_AUDIENCE_FIELD}[$field_language][0])) { // team has a collection
-      $collection_gid = $node->{OG_GROUP_AUDIENCE_FIELD}[$field_language][0]['gid'];
+      $collection_gid = $node->{OG_GROUP_AUDIENCE_FIELD}[$field_language][0]['target_id'];
    }
    // AUDIO VIDEO GRANTS
    elseif ( in_array($node->type, array('video', 'audio')) && isset($node->{OG_GROUP_AUDIENCE_FIELD}[$field_language]) ) {  // media item belongs to a team or collection
-      $gid = $node->{OG_GROUP_AUDIENCE_FIELD}[$field_language][0]['gid'];      
-      $group = og_get_group('group', $gid);
-      $node = node_load($group->etid);
-      $lang = field_language('node', $node, 'group_audience');
-      if ( isset($node->{OG_GROUP_AUDIENCE_FIELD}[$lang]) ) { // team has a collection
-         $collection_gid = $node->{OG_GROUP_AUDIENCE_FIELD}[$lang][0]['gid'];
+      $gid = $node->{OG_GROUP_AUDIENCE_FIELD}[$field_language][0]['target_id'];      
+      $group = node_load($gid);
+      if ( isset($node->{OG_GROUP_AUDIENCE_FIELD}[$field_language]) ) { // team has a collection
+         $collection_gid = $node->{OG_GROUP_AUDIENCE_FIELD}[$lang][0]['target_id'];
       }
    }
    if ( is_numeric($collection_gid) ) {
@@ -183,15 +180,18 @@ function add_mb_collection_admin_node_access_records($node) {
    return $grants;
 }
 
+/**
+ * TAKEN OUT TO Work with new Collection feature in OG 2.x (2015-05-06)
+ */
 function add_mb_collection_admin_node_access_records_for_audio_video( $node ) {
-   $group = og_get_group('node', $node->nid);
+   $gid = $node->{OG_GROUP_AUDIENCE_FIELD}[LANGUAGE_NONE][0]['target_id'];
    // Select group members that don't yet have the proper grant records
    $sql = "SELECT DISTINCT nid FROM {node}, {field_data_group_audience} 
    WHERE nid = entity_id
    AND group_audience_gid = :gid
    AND nid NOT IN
    ( SELECT nid FROM {node_access} WHERE nid = :nid AND realm = :realm)";
-   $res = db_query($sql, array(':nid' => $node->nid, ':gid' => $group->gid, ':realm' => MB_COLLECTION_ADMIN_REALM ) );
+   $res = db_query($sql, array(':nid' => $node->nid, ':gid' => $gid, ':realm' => MB_COLLECTION_ADMIN_REALM ) );
    
    // Save the group members to add the grant records
    $nids = $res->fetchCol();

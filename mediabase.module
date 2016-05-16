@@ -260,12 +260,6 @@ function mediabase_form_alter(&$form, &$form_state, $form_id) {
          '#submit' => array('mediabase_node_form_cancel'),
          );
    }
-	 // Alter the video edit form (add audio_node_form?)
-	 if($form_id == 'video_node_form') {
-	 	 //dpm($form, 'form: ' . $form_id);
-		 //works: $form['#groups']['group_transcript']->label = "Howdy Doody Show";
-		 //dpm(render($form['field_transcript']), 'field transript');
-	 }
 }
 
 function mediabase_node_form_cancel(&$form, &$form_state) {
@@ -355,9 +349,9 @@ function mediabase_preprocess_node(&$variables) {
 	  if($coll) { $coll->url = $base_path . drupal_get_path_alias('node/' . $coll->nid); }
 		$variables['coll'] = $coll;
 		
-		// Team
-		if($team = get_team_node($node)) {
-			$variables['team'] = $team;
+		// Subcollection
+		if($subcoll = get_subcollection_node($node)) {
+			$variables['subcollection'] = $subcoll;
 		}
 		
 		// Use create date when available for display (See mb_solr.module mb_solr_apachesolr_index_document_build() ln 83)
@@ -462,27 +456,26 @@ function mediabase_node_load($nodes, $types) {
       }
     }
   // If collection or team, add an array of all children media node ids
-  } else if(in_array('collection', $types) || in_array('team', $types)) {
-		if(current_path() != 'node/add/collection' && current_path() != 'node/add/team') {
+  } else if(in_array('collection', $types) || in_array('subcollection', $types)) {
+		if(current_path() != 'node/add/collection' && current_path() != 'node/add/subcollection') {
 	    foreach($nodes as $node) {
-	  		$g = og_get_group('node', $node->nid);
-	      if($g && in_array($node->type, array('collection', 'team'))) {
-	        $query = new EntityFieldQuery();
-			    $result = $query
-			      ->entityCondition('entity_type', 'og_membership')
-			      // Type can be "node" or "user"
-			      ->propertyCondition('entity_type', 'node', '=')
-			      // This is the group ID
-			      ->propertyCondition('gid', $g->gid, '=')
-			      // Get only the active members
-			      ->propertyCondition('state', OG_STATE_ACTIVE, '=')
-			      ->count()
-			      ->execute();
-	        $node->child_count = $result;
-	      }
-	    }
+        	      if(in_array($node->type, array('collection', 'subcollection'))) {
+        	        $query = new EntityFieldQuery();
+        			    $result = $query
+        			      ->entityCondition('entity_type', 'og_membership')
+        			      // Type can be "node" or "user"
+        			      ->propertyCondition('entity_type', 'node', '=')
+        			      // This is the group ID
+        			      ->propertyCondition('gid', $node->nid, '=')
+        			      // Get only the active members
+        			      ->propertyCondition('state', OG_STATE_ACTIVE, '=')
+        			      ->count()
+        			      ->execute();
+        	        $node->child_count = $result;
+        	      }
+        	    }
 		}
-  }
+    }
 } 
 
 /**

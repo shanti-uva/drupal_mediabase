@@ -1,7 +1,0 @@
-<?php
-/**
- * @file
- * Code for the Media Services feature.
- */
-
-include_once 'media_services.features.inc';

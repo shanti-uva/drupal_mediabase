@@ -1128,9 +1128,7 @@ function create_node_mediabase($entry_id, $title = NULL, $collection_nid = NULL,
       'mediatype' => $entry->mediaType
       );
    
-   $group = og_get_group('node', $collection_nid);
-   $gid = $group->gid;
-   $node['group_audience']['und'][0]['gid'] = $gid;
+   $node['field_og_collection_ref']['und'][0]['target_id'] = $collection_nid;
    $node['mb_kaltura_import'] = true; //Set this flag to prevent title getting overwritten in mediabase.module
    
    $node = (object)$node;
@@ -1341,7 +1339,7 @@ function mb_kaltura_autocomplete_collection( $string ) {
          FROM {node} 
          WHERE LOWER(title) 
          LIKE LOWER(:term)
-         AND type IN ('team', 'collection')", 0,20, array(':term' => "%$string%"));
+         AND type IN ('subcollection', 'collection')", 0,20, array(':term' => "%$string%"));
       foreach ( $result as $row ) {
          $value=sprintf('%s [nid:%d]', $row->title, $row->nid); 
          $matches[$value] = check_plain($row->title);

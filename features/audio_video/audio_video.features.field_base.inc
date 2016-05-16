@@ -10,21 +10,13 @@
 function audio_video_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'field_alternate_modes'
+  // Exported field_base: 'field_alternate_modes'.
   $field_bases['field_alternate_modes'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_alternate_modes',
-    'foreign keys' => array(
-      'format' => array(
-        'columns' => array(
-          'format' => 'format',
-        ),
-        'table' => 'filter_format',
-      ),
-    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -39,14 +31,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_annot_format'
+  // Exported field_base: 'field_annot_format'.
   $field_bases['field_annot_format'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_annot_format',
-    'foreign keys' => array(),
     'indexes' => array(
       'value' => array(
         0 => 'value',
@@ -67,21 +58,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'list_text',
   );
 
-  // Exported field_base: 'field_annot_note'
+  // Exported field_base: 'field_annot_note'.
   $field_bases['field_annot_note'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_annot_note',
-    'foreign keys' => array(
-      'format' => array(
-        'columns' => array(
-          'format' => 'format',
-        ),
-        'table' => 'filter_format',
-      ),
-    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -94,21 +77,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'text_long',
   );
 
-  // Exported field_base: 'field_annot_numeric_label'
+  // Exported field_base: 'field_annot_numeric_label'.
   $field_bases['field_annot_numeric_label'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_annot_numeric_label',
-    'foreign keys' => array(
-      'format' => array(
-        'columns' => array(
-          'format' => 'format',
-        ),
-        'table' => 'filter_format',
-      ),
-    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -123,21 +98,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_annot_text_label'
+  // Exported field_base: 'field_annot_text_label'.
   $field_bases['field_annot_text_label'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_annot_text_label',
-    'foreign keys' => array(
-      'format' => array(
-        'columns' => array(
-          'format' => 'format',
-        ),
-        'table' => 'filter_format',
-      ),
-    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -152,14 +119,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_aspect_ratio'
+  // Exported field_base: 'field_aspect_ratio'.
   $field_bases['field_aspect_ratio'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_aspect_ratio',
-    'foreign keys' => array(),
     'indexes' => array(
       'value' => array(
         0 => 'value',
@@ -185,21 +151,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'list_text',
   );
 
-  // Exported field_base: 'field_audio'
+  // Exported field_base: 'field_audio'.
   $field_bases['field_audio'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_audio',
-    'foreign keys' => array(
-      'entryid' => array(
-        'columns' => array(
-          'entryid' => 'kaltura_entryid',
-        ),
-        'table' => 'node_kaltura',
-      ),
-    ),
     'indexes' => array(),
     'locked' => 0,
     'module' => 'field_kaltura',
@@ -237,14 +195,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'field_kaltura_entryid',
   );
 
-  // Exported field_base: 'field_audio_quality_acceptable'
+  // Exported field_base: 'field_audio_quality_acceptable'.
   $field_bases['field_audio_quality_acceptable'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_audio_quality_acceptable',
-    'foreign keys' => array(),
     'indexes' => array(
       'value' => array(
         0 => 'value',
@@ -264,14 +221,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'list_text',
   );
 
-  // Exported field_base: 'field_available_from'
+  // Exported field_base: 'field_available_from'.
   $field_bases['field_available_from'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_available_from',
-    'foreign keys' => array(),
     'indexes' => array(),
     'locked' => 0,
     'module' => 'date',
@@ -293,14 +249,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'datetime',
   );
 
-  // Exported field_base: 'field_basic_cataloging'
+  // Exported field_base: 'field_basic_cataloging'.
   $field_bases['field_basic_cataloging'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_basic_cataloging',
-    'foreign keys' => array(),
     'indexes' => array(
       'value' => array(
         0 => 'value',
@@ -321,14 +276,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'list_text',
   );
 
-  // Exported field_base: 'field_bit_depth'
+  // Exported field_base: 'field_bit_depth'.
   $field_bases['field_bit_depth'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_bit_depth',
-    'foreign keys' => array(),
     'indexes' => array(
       'value' => array(
         0 => 'value',
@@ -352,14 +306,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'list_text',
   );
 
-  // Exported field_base: 'field_cataloging_proofed'
+  // Exported field_base: 'field_cataloging_proofed'.
   $field_bases['field_cataloging_proofed'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_cataloging_proofed',
-    'foreign keys' => array(),
     'indexes' => array(
       'value' => array(
         0 => 'value',
@@ -380,21 +333,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'list_text',
   );
 
-  // Exported field_base: 'field_channel_conf'
+  // Exported field_base: 'field_channel_conf'.
   $field_bases['field_channel_conf'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_channel_conf',
-    'foreign keys' => array(
-      'format' => array(
-        'columns' => array(
-          'format' => 'format',
-        ),
-        'table' => 'filter_format',
-      ),
-    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -409,14 +354,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_colors'
+  // Exported field_base: 'field_colors'.
   $field_bases['field_colors'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_colors',
-    'foreign keys' => array(),
     'indexes' => array(
       'value' => array(
         0 => 'value',
@@ -443,21 +387,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'list_text',
   );
 
-  // Exported field_base: 'field_contributor'
+  // Exported field_base: 'field_contributor'.
   $field_bases['field_contributor'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_contributor',
-    'foreign keys' => array(
-      'format' => array(
-        'columns' => array(
-          'format' => 'format',
-        ),
-        'table' => 'filter_format',
-      ),
-    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -472,14 +408,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_contributor_role'
+  // Exported field_base: 'field_contributor_role'.
   $field_bases['field_contributor_role'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_contributor_role',
-    'foreign keys' => array(),
     'indexes' => array(
       'value' => array(
         0 => 'value',
@@ -629,21 +564,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'list_text',
   );
 
-  // Exported field_base: 'field_copyright_owner'
+  // Exported field_base: 'field_copyright_owner'.
   $field_bases['field_copyright_owner'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_copyright_owner',
-    'foreign keys' => array(
-      'format' => array(
-        'columns' => array(
-          'format' => 'format',
-        ),
-        'table' => 'filter_format',
-      ),
-    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -658,21 +585,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_creator'
+  // Exported field_base: 'field_creator'.
   $field_bases['field_creator'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_creator',
-    'foreign keys' => array(
-      'format' => array(
-        'columns' => array(
-          'format' => 'format',
-        ),
-        'table' => 'filter_format',
-      ),
-    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -687,14 +606,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_creator_role'
+  // Exported field_base: 'field_creator_role'.
   $field_bases['field_creator_role'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_creator_role',
-    'foreign keys' => array(),
     'indexes' => array(
       'value' => array(
         0 => 'value',
@@ -731,21 +649,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'list_text',
   );
 
-  // Exported field_base: 'field_data_rate'
+  // Exported field_base: 'field_data_rate'.
   $field_bases['field_data_rate'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_data_rate',
-    'foreign keys' => array(
-      'format' => array(
-        'columns' => array(
-          'format' => 'format',
-        ),
-        'table' => 'filter_format',
-      ),
-    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -760,14 +670,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_date_created'
+  // Exported field_base: 'field_date_created'.
   $field_bases['field_date_created'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_date_created',
-    'foreign keys' => array(),
     'indexes' => array(),
     'locked' => 0,
     'module' => 'date',
@@ -791,14 +700,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'datetime',
   );
 
-  // Exported field_base: 'field_date_issued'
+  // Exported field_base: 'field_date_issued'.
   $field_bases['field_date_issued'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_date_issued',
-    'foreign keys' => array(),
     'indexes' => array(),
     'locked' => 0,
     'module' => 'date',
@@ -820,21 +728,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'datetime',
   );
 
-  // Exported field_base: 'field_description'
+  // Exported field_base: 'field_description'.
   $field_bases['field_description'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_description',
-    'foreign keys' => array(
-      'format' => array(
-        'columns' => array(
-          'format' => 'format',
-        ),
-        'table' => 'filter_format',
-      ),
-    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -847,14 +747,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'text_long',
   );
 
-  // Exported field_base: 'field_description_type'
+  // Exported field_base: 'field_description_type'.
   $field_bases['field_description_type'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_description_type',
-    'foreign keys' => array(),
     'indexes' => array(
       'value' => array(
         0 => 'value',
@@ -946,14 +845,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'list_text',
   );
 
-  // Exported field_base: 'field_digital_format'
+  // Exported field_base: 'field_digital_format'.
   $field_bases['field_digital_format'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_digital_format',
-    'foreign keys' => array(),
     'indexes' => array(
       'value' => array(
         0 => 'value',
@@ -1260,21 +1158,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'list_text',
   );
 
-  // Exported field_base: 'field_duration'
+  // Exported field_base: 'field_duration'.
   $field_bases['field_duration'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_duration',
-    'foreign keys' => array(
-      'format' => array(
-        'columns' => array(
-          'format' => 'format',
-        ),
-        'table' => 'filter_format',
-      ),
-    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -1289,14 +1179,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_edls_archived'
+  // Exported field_base: 'field_edls_archived'.
   $field_bases['field_edls_archived'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_edls_archived',
-    'foreign keys' => array(),
     'indexes' => array(
       'value' => array(
         0 => 'value',
@@ -1316,21 +1205,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'list_text',
   );
 
-  // Exported field_base: 'field_encoding_scheme'
+  // Exported field_base: 'field_encoding_scheme'.
   $field_bases['field_encoding_scheme'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_encoding_scheme',
-    'foreign keys' => array(
-      'format' => array(
-        'columns' => array(
-          'format' => 'format',
-        ),
-        'table' => 'filter_format',
-      ),
-    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -1345,21 +1226,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_extension'
+  // Exported field_base: 'field_extension'.
   $field_bases['field_extension'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_extension',
-    'foreign keys' => array(
-      'format' => array(
-        'columns' => array(
-          'format' => 'format',
-        ),
-        'table' => 'filter_format',
-      ),
-    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -1372,21 +1245,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'text_long',
   );
 
-  // Exported field_base: 'field_extension_authority'
+  // Exported field_base: 'field_extension_authority'.
   $field_bases['field_extension_authority'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_extension_authority',
-    'foreign keys' => array(
-      'format' => array(
-        'columns' => array(
-          'format' => 'format',
-        ),
-        'table' => 'filter_format',
-      ),
-    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -1401,21 +1266,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_file_size'
+  // Exported field_base: 'field_file_size'.
   $field_bases['field_file_size'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_file_size',
-    'foreign keys' => array(
-      'format' => array(
-        'columns' => array(
-          'format' => 'format',
-        ),
-        'table' => 'filter_format',
-      ),
-    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -1430,21 +1287,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_format_id'
+  // Exported field_base: 'field_format_id'.
   $field_bases['field_format_id'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_format_id',
-    'foreign keys' => array(
-      'format' => array(
-        'columns' => array(
-          'format' => 'format',
-        ),
-        'table' => 'filter_format',
-      ),
-    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -1459,21 +1308,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_format_id_source'
+  // Exported field_base: 'field_format_id_source'.
   $field_bases['field_format_id_source'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_format_id_source',
-    'foreign keys' => array(
-      'format' => array(
-        'columns' => array(
-          'format' => 'format',
-        ),
-        'table' => 'filter_format',
-      ),
-    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -1488,14 +1329,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_format_standard'
+  // Exported field_base: 'field_format_standard'.
   $field_bases['field_format_standard'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_format_standard',
-    'foreign keys' => array(),
     'indexes' => array(
       'value' => array(
         0 => 'value',
@@ -1529,14 +1369,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'list_text',
   );
 
-  // Exported field_base: 'field_frame_rate'
+  // Exported field_base: 'field_frame_rate'.
   $field_bases['field_frame_rate'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_frame_rate',
-    'foreign keys' => array(),
     'indexes' => array(
       'value' => array(
         0 => 'value',
@@ -1576,21 +1415,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'list_text',
   );
 
-  // Exported field_base: 'field_frame_size'
+  // Exported field_base: 'field_frame_size'.
   $field_bases['field_frame_size'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_frame_size',
-    'foreign keys' => array(
-      'format' => array(
-        'columns' => array(
-          'format' => 'format',
-        ),
-        'table' => 'filter_format',
-      ),
-    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -1605,14 +1436,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_generations'
+  // Exported field_base: 'field_generations'.
   $field_bases['field_generations'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_generations',
-    'foreign keys' => array(),
     'indexes' => array(
       'value' => array(
         0 => 'value',
@@ -1755,21 +1585,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'list_text',
   );
 
-  // Exported field_base: 'field_identifier'
+  // Exported field_base: 'field_identifier'.
   $field_bases['field_identifier'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_identifier',
-    'foreign keys' => array(
-      'format' => array(
-        'columns' => array(
-          'format' => 'format',
-        ),
-        'table' => 'filter_format',
-      ),
-    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -1784,21 +1606,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_identifier_source'
+  // Exported field_base: 'field_identifier_source'.
   $field_bases['field_identifier_source'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_identifier_source',
-    'foreign keys' => array(
-      'format' => array(
-        'columns' => array(
-          'format' => 'format',
-        ),
-        'table' => 'filter_format',
-      ),
-    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -1813,14 +1627,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_kmap_annotation'
+  // Exported field_base: 'field_kmap_annotation'.
   $field_bases['field_kmap_annotation'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_kmap_annotation',
-    'foreign keys' => array(),
     'indexes' => array(),
     'locked' => 0,
     'module' => 'field_collection',
@@ -1832,14 +1645,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'field_collection',
   );
 
-  // Exported field_base: 'field_language'
+  // Exported field_base: 'field_language'.
   $field_bases['field_language'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_language',
-    'foreign keys' => array(),
     'indexes' => array(
       'value' => array(
         0 => 'value',
@@ -2041,21 +1853,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'list_text',
   );
 
-  // Exported field_base: 'field_license'
+  // Exported field_base: 'field_license'.
   $field_bases['field_license'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_license',
-    'foreign keys' => array(
-      'format' => array(
-        'columns' => array(
-          'format' => 'format',
-        ),
-        'table' => 'filter_format',
-      ),
-    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -2070,14 +1874,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_location'
+  // Exported field_base: 'field_location'.
   $field_bases['field_location'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_location',
-    'foreign keys' => array(),
     'indexes' => array(
       'id' => array(
         0 => 'id',
@@ -2092,14 +1895,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'shanti_kmaps_fields_default',
   );
 
-  // Exported field_base: 'field_masters_archived'
+  // Exported field_base: 'field_masters_archived'.
   $field_bases['field_masters_archived'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_masters_archived',
-    'foreign keys' => array(),
     'indexes' => array(
       'value' => array(
         0 => 'value',
@@ -2119,14 +1921,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'list_text',
   );
 
-  // Exported field_base: 'field_media_needs_re_editing'
+  // Exported field_base: 'field_media_needs_re_editing'.
   $field_bases['field_media_needs_re_editing'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_media_needs_re_editing',
-    'foreign keys' => array(),
     'indexes' => array(
       'value' => array(
         0 => 'value',
@@ -2146,14 +1947,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'list_text',
   );
 
-  // Exported field_base: 'field_media_needs_recompression'
+  // Exported field_base: 'field_media_needs_recompression'.
   $field_bases['field_media_needs_recompression'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_media_needs_recompression',
-    'foreign keys' => array(),
     'indexes' => array(
       'value' => array(
         0 => 'value',
@@ -2173,14 +1973,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'list_text',
   );
 
-  // Exported field_base: 'field_media_problem_1'
+  // Exported field_base: 'field_media_problem_1'.
   $field_bases['field_media_problem_1'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_media_problem_1',
-    'foreign keys' => array(),
     'indexes' => array(
       'value' => array(
         0 => 'value',
@@ -2200,14 +1999,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'list_text',
   );
 
-  // Exported field_base: 'field_media_problem_2'
+  // Exported field_base: 'field_media_problem_2'.
   $field_bases['field_media_problem_2'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_media_problem_2',
-    'foreign keys' => array(),
     'indexes' => array(
       'value' => array(
         0 => 'value',
@@ -2227,14 +2025,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'list_text',
   );
 
-  // Exported field_base: 'field_media_problem_3'
+  // Exported field_base: 'field_media_problem_3'.
   $field_bases['field_media_problem_3'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_media_problem_3',
-    'foreign keys' => array(),
     'indexes' => array(
       'value' => array(
         0 => 'value',
@@ -2254,14 +2051,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'list_text',
   );
 
-  // Exported field_base: 'field_media_type'
+  // Exported field_base: 'field_media_type'.
   $field_bases['field_media_type'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_media_type',
-    'foreign keys' => array(),
     'indexes' => array(
       'value' => array(
         0 => 'value',
@@ -2292,21 +2088,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'list_text',
   );
 
-  // Exported field_base: 'field_pbcore_annotation'
+  // Exported field_base: 'field_pbcore_annotation'.
   $field_bases['field_pbcore_annotation'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_pbcore_annotation',
-    'foreign keys' => array(
-      'format' => array(
-        'columns' => array(
-          'format' => 'format',
-        ),
-        'table' => 'filter_format',
-      ),
-    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -2319,14 +2107,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'text_long',
   );
 
-  // Exported field_base: 'field_pbcore_contributor'
+  // Exported field_base: 'field_pbcore_contributor'.
   $field_bases['field_pbcore_contributor'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_pbcore_contributor',
-    'foreign keys' => array(),
     'indexes' => array(),
     'locked' => 0,
     'module' => 'field_collection',
@@ -2338,14 +2125,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'field_collection',
   );
 
-  // Exported field_base: 'field_pbcore_coverage'
+  // Exported field_base: 'field_pbcore_coverage'.
   $field_bases['field_pbcore_coverage'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_pbcore_coverage',
-    'foreign keys' => array(),
     'indexes' => array(),
     'locked' => 0,
     'module' => 'field_collection',
@@ -2357,14 +2143,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'field_collection',
   );
 
-  // Exported field_base: 'field_pbcore_creator'
+  // Exported field_base: 'field_pbcore_creator'.
   $field_bases['field_pbcore_creator'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_pbcore_creator',
-    'foreign keys' => array(),
     'indexes' => array(),
     'locked' => 0,
     'module' => 'field_collection',
@@ -2376,14 +2161,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'field_collection',
   );
 
-  // Exported field_base: 'field_pbcore_date_available'
+  // Exported field_base: 'field_pbcore_date_available'.
   $field_bases['field_pbcore_date_available'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_pbcore_date_available',
-    'foreign keys' => array(),
     'indexes' => array(),
     'locked' => 0,
     'module' => 'date',
@@ -2405,14 +2189,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'datetime',
   );
 
-  // Exported field_base: 'field_pbcore_description'
+  // Exported field_base: 'field_pbcore_description'.
   $field_bases['field_pbcore_description'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_pbcore_description',
-    'foreign keys' => array(),
     'indexes' => array(),
     'locked' => 0,
     'module' => 'field_collection',
@@ -2424,14 +2207,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'field_collection',
   );
 
-  // Exported field_base: 'field_pbcore_extension'
+  // Exported field_base: 'field_pbcore_extension'.
   $field_bases['field_pbcore_extension'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_pbcore_extension',
-    'foreign keys' => array(),
     'indexes' => array(),
     'locked' => 0,
     'module' => 'field_collection',
@@ -2443,14 +2225,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'field_collection',
   );
 
-  // Exported field_base: 'field_pbcore_format_id'
+  // Exported field_base: 'field_pbcore_format_id'.
   $field_bases['field_pbcore_format_id'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_pbcore_format_id',
-    'foreign keys' => array(),
     'indexes' => array(),
     'locked' => 0,
     'module' => 'field_collection',
@@ -2462,14 +2243,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'field_collection',
   );
 
-  // Exported field_base: 'field_pbcore_identifier'
+  // Exported field_base: 'field_pbcore_identifier'.
   $field_bases['field_pbcore_identifier'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_pbcore_identifier',
-    'foreign keys' => array(),
     'indexes' => array(),
     'locked' => 0,
     'module' => 'field_collection',
@@ -2481,14 +2261,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'field_collection',
   );
 
-  // Exported field_base: 'field_pbcore_instantiation'
+  // Exported field_base: 'field_pbcore_instantiation'.
   $field_bases['field_pbcore_instantiation'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_pbcore_instantiation',
-    'foreign keys' => array(),
     'indexes' => array(),
     'locked' => 0,
     'module' => 'field_collection',
@@ -2500,14 +2279,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'field_collection',
   );
 
-  // Exported field_base: 'field_pbcore_publisher'
+  // Exported field_base: 'field_pbcore_publisher'.
   $field_bases['field_pbcore_publisher'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_pbcore_publisher',
-    'foreign keys' => array(),
     'indexes' => array(),
     'locked' => 0,
     'module' => 'field_collection',
@@ -2519,14 +2297,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'field_collection',
   );
 
-  // Exported field_base: 'field_pbcore_relation'
+  // Exported field_base: 'field_pbcore_relation'.
   $field_bases['field_pbcore_relation'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_pbcore_relation',
-    'foreign keys' => array(),
     'indexes' => array(),
     'locked' => 0,
     'module' => 'field_collection',
@@ -2538,21 +2315,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'field_collection',
   );
 
-  // Exported field_base: 'field_pbcore_rights_summary'
+  // Exported field_base: 'field_pbcore_rights_summary'.
   $field_bases['field_pbcore_rights_summary'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_pbcore_rights_summary',
-    'foreign keys' => array(
-      'format' => array(
-        'columns' => array(
-          'format' => 'format',
-        ),
-        'table' => 'filter_format',
-      ),
-    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -2565,14 +2334,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'text_long',
   );
 
-  // Exported field_base: 'field_pbcore_sponsor'
+  // Exported field_base: 'field_pbcore_sponsor'.
   $field_bases['field_pbcore_sponsor'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_pbcore_sponsor',
-    'foreign keys' => array(),
     'indexes' => array(),
     'locked' => 0,
     'module' => 'field_collection',
@@ -2584,14 +2352,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'field_collection',
   );
 
-  // Exported field_base: 'field_pbcore_title'
+  // Exported field_base: 'field_pbcore_title'.
   $field_bases['field_pbcore_title'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_pbcore_title',
-    'foreign keys' => array(),
     'indexes' => array(),
     'locked' => 0,
     'module' => 'field_collection',
@@ -2603,14 +2370,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'field_collection',
   );
 
-  // Exported field_base: 'field_physical_format'
+  // Exported field_base: 'field_physical_format'.
   $field_bases['field_physical_format'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_physical_format',
-    'foreign keys' => array(),
     'indexes' => array(
       'value' => array(
         0 => 'value',
@@ -2757,14 +2523,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'list_text',
   );
 
-  // Exported field_base: 'field_place_data_present'
+  // Exported field_base: 'field_place_data_present'.
   $field_bases['field_place_data_present'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_place_data_present',
-    'foreign keys' => array(),
     'indexes' => array(
       'value' => array(
         0 => 'value',
@@ -2784,21 +2549,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'list_text',
   );
 
-  // Exported field_base: 'field_publisher'
+  // Exported field_base: 'field_publisher'.
   $field_bases['field_publisher'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_publisher',
-    'foreign keys' => array(
-      'format' => array(
-        'columns' => array(
-          'format' => 'format',
-        ),
-        'table' => 'filter_format',
-      ),
-    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -2813,14 +2570,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_publisher_rome'
+  // Exported field_base: 'field_publisher_rome'.
   $field_bases['field_publisher_rome'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_publisher_rome',
-    'foreign keys' => array(),
     'indexes' => array(
       'value' => array(
         0 => 'value',
@@ -2842,14 +2598,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'list_text',
   );
 
-  // Exported field_base: 'field_rating'
+  // Exported field_base: 'field_rating'.
   $field_bases['field_rating'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_rating',
-    'foreign keys' => array(),
     'indexes' => array(),
     'locked' => 0,
     'module' => 'fivestar',
@@ -2860,14 +2615,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'fivestar',
   );
 
-  // Exported field_base: 'field_recording_location_new'
+  // Exported field_base: 'field_recording_location_new'.
   $field_bases['field_recording_location_new'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_recording_location_new',
-    'foreign keys' => array(),
     'indexes' => array(
       'id' => array(
         0 => 'id',
@@ -2882,21 +2636,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'shanti_kmaps_fields_default',
   );
 
-  // Exported field_base: 'field_relation_identifier'
+  // Exported field_base: 'field_relation_identifier'.
   $field_bases['field_relation_identifier'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_relation_identifier',
-    'foreign keys' => array(
-      'node' => array(
-        'columns' => array(
-          'target_id' => 'nid',
-        ),
-        'table' => 'node',
-      ),
-    ),
     'indexes' => array(
       'target_id' => array(
         0 => 'target_id',
@@ -2919,14 +2665,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'entityreference',
   );
 
-  // Exported field_base: 'field_relation_type'
+  // Exported field_base: 'field_relation_type'.
   $field_bases['field_relation_type'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_relation_type',
-    'foreign keys' => array(),
     'indexes' => array(
       'value' => array(
         0 => 'value',
@@ -2955,14 +2700,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'list_text',
   );
 
-  // Exported field_base: 'field_sampling_rate'
+  // Exported field_base: 'field_sampling_rate'.
   $field_bases['field_sampling_rate'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_sampling_rate',
-    'foreign keys' => array(),
     'indexes' => array(
       'value' => array(
         0 => 'value',
@@ -2986,14 +2730,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'list_text',
   );
 
-  // Exported field_base: 'field_sponser_role'
+  // Exported field_base: 'field_sponser_role'.
   $field_bases['field_sponser_role'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_sponser_role',
-    'foreign keys' => array(),
     'indexes' => array(
       'value' => array(
         0 => 'value',
@@ -3015,21 +2758,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'list_text',
   );
 
-  // Exported field_base: 'field_sponsor_name'
+  // Exported field_base: 'field_sponsor_name'.
   $field_bases['field_sponsor_name'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_sponsor_name',
-    'foreign keys' => array(
-      'format' => array(
-        'columns' => array(
-          'format' => 'format',
-        ),
-        'table' => 'filter_format',
-      ),
-    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -3044,21 +2779,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_start_time'
+  // Exported field_base: 'field_start_time'.
   $field_bases['field_start_time'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_start_time',
-    'foreign keys' => array(
-      'format' => array(
-        'columns' => array(
-          'format' => 'format',
-        ),
-        'table' => 'filter_format',
-      ),
-    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -3073,14 +2800,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_subcollection_new'
+  // Exported field_base: 'field_subcollection_new'.
   $field_bases['field_subcollection_new'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_subcollection_new',
-    'foreign keys' => array(),
     'indexes' => array(
       'id' => array(
         0 => 'id',
@@ -3095,14 +2821,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'shanti_kmaps_fields_default',
   );
 
-  // Exported field_base: 'field_subject'
+  // Exported field_base: 'field_subject'.
   $field_bases['field_subject'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_subject',
-    'foreign keys' => array(),
     'indexes' => array(
       'id' => array(
         0 => 'id',
@@ -3117,21 +2842,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'shanti_kmaps_fields_default',
   );
 
-  // Exported field_base: 'field_tags'
+  // Exported field_base: 'field_tags'.
   $field_bases['field_tags'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_tags',
-    'foreign keys' => array(
-      'tid' => array(
-        'columns' => array(
-          'tid' => 'tid',
-        ),
-        'table' => 'taxonomy_term_data',
-      ),
-    ),
     'indexes' => array(
       'tid' => array(
         0 => 'tid',
@@ -3152,21 +2869,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'taxonomy_term_reference',
   );
 
-  // Exported field_base: 'field_thumbnail_image'
+  // Exported field_base: 'field_thumbnail_image'.
   $field_bases['field_thumbnail_image'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_thumbnail_image',
-    'foreign keys' => array(
-      'fid' => array(
-        'columns' => array(
-          'fid' => 'fid',
-        ),
-        'table' => 'file_managed',
-      ),
-    ),
     'indexes' => array(
       'fid' => array(
         0 => 'fid',
@@ -3182,14 +2891,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'image',
   );
 
-  // Exported field_base: 'field_tid'
+  // Exported field_base: 'field_tid'.
   $field_bases['field_tid'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_tid',
-    'foreign keys' => array(),
     'indexes' => array(),
     'locked' => 0,
     'module' => 'number',
@@ -3198,21 +2906,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'number_integer',
   );
 
-  // Exported field_base: 'field_time'
+  // Exported field_base: 'field_time'.
   $field_bases['field_time'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_time',
-    'foreign keys' => array(
-      'format' => array(
-        'columns' => array(
-          'format' => 'format',
-        ),
-        'table' => 'filter_format',
-      ),
-    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -3227,14 +2927,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_timecode_too_infrequent'
+  // Exported field_base: 'field_timecode_too_infrequent'.
   $field_bases['field_timecode_too_infrequent'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_timecode_too_infrequent',
-    'foreign keys' => array(),
     'indexes' => array(
       'value' => array(
         0 => 'value',
@@ -3254,14 +2953,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'list_text',
   );
 
-  // Exported field_base: 'field_timecoding_problem_1'
+  // Exported field_base: 'field_timecoding_problem_1'.
   $field_bases['field_timecoding_problem_1'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_timecoding_problem_1',
-    'foreign keys' => array(),
     'indexes' => array(
       'value' => array(
         0 => 'value',
@@ -3281,14 +2979,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'list_text',
   );
 
-  // Exported field_base: 'field_timecoding_problem_2'
+  // Exported field_base: 'field_timecoding_problem_2'.
   $field_bases['field_timecoding_problem_2'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_timecoding_problem_2',
-    'foreign keys' => array(),
     'indexes' => array(
       'value' => array(
         0 => 'value',
@@ -3308,21 +3005,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'list_text',
   );
 
-  // Exported field_base: 'field_title'
+  // Exported field_base: 'field_title'.
   $field_bases['field_title'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_title',
-    'foreign keys' => array(
-      'format' => array(
-        'columns' => array(
-          'format' => 'format',
-        ),
-        'table' => 'filter_format',
-      ),
-    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -3337,14 +3026,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_title_type'
+  // Exported field_base: 'field_title_type'.
   $field_bases['field_title_type'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_title_type',
-    'foreign keys' => array(),
     'indexes' => array(
       'value' => array(
         0 => 'value',
@@ -3434,21 +3122,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'list_text',
   );
 
-  // Exported field_base: 'field_track_data'
+  // Exported field_base: 'field_track_data'.
   $field_bases['field_track_data'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_track_data',
-    'foreign keys' => array(
-      'format' => array(
-        'columns' => array(
-          'format' => 'format',
-        ),
-        'table' => 'filter_format',
-      ),
-    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -3463,14 +3143,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_trans_proofed_lang_1'
+  // Exported field_base: 'field_trans_proofed_lang_1'.
   $field_bases['field_trans_proofed_lang_1'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_trans_proofed_lang_1',
-    'foreign keys' => array(),
     'indexes' => array(
       'value' => array(
         0 => 'value',
@@ -3490,14 +3169,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'list_text',
   );
 
-  // Exported field_base: 'field_trans_proofed_lang_2'
+  // Exported field_base: 'field_trans_proofed_lang_2'.
   $field_bases['field_trans_proofed_lang_2'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_trans_proofed_lang_2',
-    'foreign keys' => array(),
     'indexes' => array(
       'value' => array(
         0 => 'value',
@@ -3517,14 +3195,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'list_text',
   );
 
-  // Exported field_base: 'field_trans_proofed_lang_3'
+  // Exported field_base: 'field_trans_proofed_lang_3'.
   $field_bases['field_trans_proofed_lang_3'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_trans_proofed_lang_3',
-    'foreign keys' => array(),
     'indexes' => array(
       'value' => array(
         0 => 'value',
@@ -3544,21 +3221,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'list_text',
   );
 
-  // Exported field_base: 'field_transcript'
+  // Exported field_base: 'field_transcript'.
   $field_bases['field_transcript'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_transcript',
-    'foreign keys' => array(
-      'fid' => array(
-        'columns' => array(
-          'fid' => 'fid',
-        ),
-        'table' => 'file_managed',
-      ),
-    ),
     'indexes' => array(
       'fid' => array(
         0 => 'fid',
@@ -3575,14 +3244,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'file',
   );
 
-  // Exported field_base: 'field_translation_lang_3'
+  // Exported field_base: 'field_translation_lang_3'.
   $field_bases['field_translation_lang_3'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_translation_lang_3',
-    'foreign keys' => array(),
     'indexes' => array(
       'value' => array(
         0 => 'value',
@@ -3602,14 +3270,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'list_text',
   );
 
-  // Exported field_base: 'field_translation_language_1'
+  // Exported field_base: 'field_translation_language_1'.
   $field_bases['field_translation_language_1'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_translation_language_1',
-    'foreign keys' => array(),
     'indexes' => array(
       'value' => array(
         0 => 'value',
@@ -3630,14 +3297,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'list_text',
   );
 
-  // Exported field_base: 'field_translation_language_2'
+  // Exported field_base: 'field_translation_language_2'.
   $field_bases['field_translation_language_2'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_translation_language_2',
-    'foreign keys' => array(),
     'indexes' => array(
       'value' => array(
         0 => 'value',
@@ -3658,21 +3324,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'list_text',
   );
 
-  // Exported field_base: 'field_video'
+  // Exported field_base: 'field_video'.
   $field_bases['field_video'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_video',
-    'foreign keys' => array(
-      'entryid' => array(
-        'columns' => array(
-          'entryid' => 'kaltura_entryid',
-        ),
-        'table' => 'node_kaltura',
-      ),
-    ),
     'indexes' => array(),
     'locked' => 0,
     'module' => 'field_kaltura',
@@ -3715,14 +3373,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'field_kaltura_entryid',
   );
 
-  // Exported field_base: 'field_video_quality_acceptable'
+  // Exported field_base: 'field_video_quality_acceptable'.
   $field_bases['field_video_quality_acceptable'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_video_quality_acceptable',
-    'foreign keys' => array(),
     'indexes' => array(
       'value' => array(
         0 => 'value',
@@ -3742,14 +3399,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'list_text',
   );
 
-  // Exported field_base: 'field_workflow'
+  // Exported field_base: 'field_workflow'.
   $field_bases['field_workflow'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_workflow',
-    'foreign keys' => array(),
     'indexes' => array(),
     'locked' => 0,
     'module' => 'field_collection',
@@ -3761,21 +3417,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'field_collection',
   );
 
-  // Exported field_base: 'field_year_published'
+  // Exported field_base: 'field_year_published'.
   $field_bases['field_year_published'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_year_published',
-    'foreign keys' => array(
-      'format' => array(
-        'columns' => array(
-          'format' => 'format',
-        ),
-        'table' => 'filter_format',
-      ),
-    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -3790,43 +3438,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'group_content_access'
-  $field_bases['group_content_access'] = array(
-    'active' => 1,
-    'cardinality' => 1,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'group_content_access',
-    'foreign keys' => array(),
-    'indexes' => array(
-      'value' => array(
-        0 => 'value',
-      ),
-    ),
-    'locked' => 0,
-    'module' => 'list',
-    'no_ui' => TRUE,
-    'settings' => array(
-      'allowed_values' => array(
-        0 => 'Use group defaults',
-        1 => 'Public - accessible to all site users',
-        2 => 'Private - accessible only to group members',
-        3 => 'UVa - accessible only to the UVa community',
-      ),
-      'allowed_values_function' => '',
-    ),
-    'translatable' => 0,
-    'type' => 'list_integer',
-  );
-
-  // Exported field_base: 'kmap_id'
+  // Exported field_base: 'kmap_id'.
   $field_bases['kmap_id'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'kmap_id',
-    'foreign keys' => array(),
     'indexes' => array(),
     'locked' => 0,
     'module' => 'number',
@@ -3842,14 +3460,13 @@ function audio_video_field_default_field_bases() {
     'type' => 'number_integer',
   );
 
-  // Exported field_base: 'kmap_parent_id'
+  // Exported field_base: 'kmap_parent_id'.
   $field_bases['kmap_parent_id'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'kmap_parent_id',
-    'foreign keys' => array(),
     'indexes' => array(),
     'locked' => 0,
     'module' => 'number',
@@ -3865,14 +3482,55 @@ function audio_video_field_default_field_bases() {
     'type' => 'number_integer',
   );
 
-  // Exported field_base: 'place_dictionary_id'
+  // Exported field_base: 'og_group_ref'.
+  $field_bases['og_group_ref'] = array(
+    'active' => 1,
+    'cardinality' => -1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'og_group_ref',
+    'indexes' => array(
+      'target_id' => array(
+        0 => 'target_id',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'entityreference',
+    'settings' => array(
+      'handler' => 'og',
+      'handler_settings' => array(
+        'behaviors' => array(
+          'og_behavior' => array(
+            'status' => TRUE,
+          ),
+          'views-select-list' => array(
+            'status' => 0,
+          ),
+        ),
+        'membership_type' => 'og_membership_type_default',
+        'sort' => array(
+          'type' => 'none',
+        ),
+        'target_bundles' => array(
+          'collection' => 'collection',
+          'subcollection' => 'subcollection',
+          'team' => 'team',
+        ),
+      ),
+      'handler_submit' => 'Change handler',
+      'target_type' => 'node',
+    ),
+    'translatable' => 0,
+    'type' => 'entityreference',
+  );
+
+  // Exported field_base: 'place_dictionary_id'.
   $field_bases['place_dictionary_id'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'place_dictionary_id',
-    'foreign keys' => array(),
     'indexes' => array(),
     'locked' => 0,
     'module' => 'number',

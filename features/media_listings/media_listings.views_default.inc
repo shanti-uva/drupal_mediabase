@@ -1628,7 +1628,7 @@ function media_listings_views_default_views() {
   $handler->display->display_options['arguments']['etid']['ui_name'] = 'We pass the user ID as the Entity ID.';
   $handler->display->display_options['arguments']['etid']['default_action'] = 'default';
   $handler->display->display_options['arguments']['etid']['title_enable'] = TRUE;
-  $handler->display->display_options['arguments']['etid']['title'] = '%1’s Collections';
+  $handler->display->display_options['arguments']['etid']['title'] = 'My Collection Memberships';
   $handler->display->display_options['arguments']['etid']['default_argument_type'] = 'current_user';
   $handler->display->display_options['arguments']['etid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['etid']['summary']['format'] = 'default_summary';
@@ -1683,7 +1683,7 @@ function media_listings_views_default_views() {
   /* Display: My Memberships */
   $handler = $view->new_display('page', 'My Memberships', 'page_1');
   $handler->display->display_options['defaults']['title'] = FALSE;
-  $handler->display->display_options['title'] = 'My Memberships';
+  $handler->display->display_options['title'] = 'My Collection Memberships';
   $handler->display->display_options['path'] = 'mycontent/memberships';
   $export['my_memberships'] = $view;
 
@@ -3362,7 +3362,7 @@ function media_listings_views_default_views() {
   /* Display: All Workflow */
   $handler = $view->new_display('page', 'All Workflow', 'workflow_all');
   $handler->display->display_options['defaults']['title'] = FALSE;
-  $handler->display->display_options['title'] = 'Workflow (All Items)';
+  $handler->display->display_options['title'] = 'My Workflow';
   $handler->display->display_options['display_description'] = 'Workflow view showing all videos';
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;

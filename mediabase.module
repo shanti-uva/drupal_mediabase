@@ -60,6 +60,17 @@ function mediabase_menu() {
    return $items;
 }
 
+function mediabase_menu_local_tasks_alter(&$data, $router_item, $root_path) {
+    // Replace title of tab "Group" with "Members"
+    if (!empty($data['tabs'][0]['output'])) {
+        foreach ($data['tabs'][0]['output'] as $n => &$tab) {
+            if ($tab['#link']['path'] == 'node/%/group') {
+                $tab['#link']['title'] = t("Members");
+            }
+        }
+    }
+}
+
 function mediabase_settings_form($form_id, $form_state) {
 
    $form['partner_data'] = array(

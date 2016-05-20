@@ -1593,7 +1593,7 @@ function media_listings_views_default_views() {
   $handler->display->display_options['fields']['title']['table'] = 'node';
   $handler->display->display_options['fields']['title']['field'] = 'title';
   $handler->display->display_options['fields']['title']['relationship'] = 'og_membership_related_node_group';
-  $handler->display->display_options['fields']['title']['label'] = 'Group';
+  $handler->display->display_options['fields']['title']['label'] = 'Collection';
   $handler->display->display_options['fields']['title']['hide_alter_empty'] = FALSE;
   /* Field: OG membership: Created */
   $handler->display->display_options['fields']['created']['id'] = 'created';

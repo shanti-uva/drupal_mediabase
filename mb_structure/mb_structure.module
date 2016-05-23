@@ -743,6 +743,17 @@ function mb_structure_preprocess_node(&$vars) {
 		  } elseif (function_exists('transcripts_node_has_transcript')) {
 				$vars['has_transcript'] =  transcripts_node_has_transcript($vars['node']);
 		  }
+	 } else if ($vars['view_mode'] == 'teaser' && in_array($vars['type'], array('collection', 'subcollection'))) {
+	     switch ($vars['group_access']['und'][0]['value']) {
+            case OG_ACCESS_UVA:
+                $vars['access'] = t('UVa Only');
+                break;
+            case OG_ACCESS_PUBLIC:
+                $vars['access'] = t('Public');
+                break;
+            default:
+                $vars['access'] = t('Private');
+	     }
 	 }
 }
 

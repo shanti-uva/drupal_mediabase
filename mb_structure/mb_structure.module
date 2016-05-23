@@ -499,27 +499,18 @@ function mb_structure_form_video_node_form_alter(&$form, &$form_state, $form_id)
    }  **/
 }
 
-
 function mb_structure_form_alter(&$form, &$form_state, $form_id) {
-    /*if ($form_id == 'kaltura_uploader_form') {
-        watchdog('mb_structure kaltura upload form', serialize($form));
-        dpm(array('form'=>$form, 'form_state'=>$form_state), $form_id);
-    }*/
-    if ($form_id == 'video_node_form') {
-        // In video edit form, make kmap fields not collapsible since #collapsed=FALSE is not working.
-        // Ed doesn't like this so removing. 2016-03-29
-       /* $form['field_subcollection_new']['und']['#collapsible'] = FALSE;
-        $form['field_subject']['und']['#collapsible'] = FALSE;
-        $form['field_location']['und']['#collapsible'] = FALSE;
-        $form['field_recording_location_new']['und']['#collapsible'] = FALSE;*/
-        
-        // Set Title field to just "Search"
-	// commenting out below as it doesn't interact well with autocomplete widgets
-        //$form['field_subcollection_new']['und']['field_subcollection_new_search_term']['#title'] = t("Search for Subcollection");
-        //$form['field_subject']['und']['field_subject_search_term']['#title'] = t("Search for Subject");
-        //$form['field_location']['und']['field_location_search_term']['#title'] = t("Search for Location");
-        //$form['field_recording_location_new']['und']['field_recording_location_new_search_term']['#title'] = t("Search for Recording Location");
+    if ($form_id == 'og_ui_add_users') {
+        $form['og_user']['#title'] = str_replace('group', '',$form['og_user']['#title']);
+        $node = node_load($form['gid']['#value']);
+        $form['membership_fields']['og_membership_request']['#attributes']['class'][] = 'hidden';
+        drupal_set_title(t('Add people to collection: @nodetitle', array('@nodetitle' => $node->title)));
+    }  else if ($form_id == 'views_form_og_members_admin_default') {
+        $obj = menu_get_item();
+        $new_title = str_replace('in group', 'in collection:', $obj['title']);
+        drupal_set_title($new_title);
     }
+    
 	if ($form_id == 'og_ui_user_admin_account') {
 		/* The drop down on page group/node/{NID}/admin/people does not close because of an unknown glitch
 		 * This code closes it upon load and adds a click event to the button to toggle it when clicked
@@ -534,6 +525,13 @@ function mb_structure_form_alter(&$form, &$form_state, $form_id) {
 			'}); } (jQuery))';
 		drupal_add_js($jscode, 'inline');
 	}
+}
+
+function mb_structure_page_alter($page) {
+    if (strpos($page['content']['system_main']['#action'],'group/node') > -1) {
+        $title = drupal_get_title();
+        drupal_set_title(str_replace("group ", "collection: ", $title));
+    }
 }
 
 /**
@@ -1040,91 +1038,6 @@ function mb_structure_already_started_validate(&$form_state, $form) {
    $path = $fobj['clicked_button']['#id'] == 'edit-submit-video' ? sprintf($path_format, 'video') : sprintf($path_format, 'audio');
    drupal_goto($path, array('query' => array('gids_node[]' => $gid)));
 }
-
-/**
- * Implements hook_breadcrumb_alter (Taken over by shanti_sarvaka theme)
-function mb_structure_menu_breadcrumb_alter(&$active_trail, $item) {
-    //dpm($active_trail, 'active trail');
-   $new_items=array();
-   $node = menu_get_object();
-   $repnum = 0;
-   if ($node && !empty($node->type) && in_array($node->type, array('audio', 'video', 'collection', 'subcollection'))) {
-       switch ( $node->type ) {
-           case 'collection':
-           case 'subcollection': 
-              $new_items = mb_structure_breadcrumb_items_collection($node);
-               array_pop($new_items);
-              break;
-          case 'audio':
-           case 'video':
-              $new_items=  mb_structure_breadcrumb_items_audio_video($node);
-      }
-   } else if (current_path() == 'mycontent/collections') {
-       $new_items = array(array(
-                'title' => t('Collections'),
-                'href' => 'collections/all',
-                'link_path' => '',
-                 'localized_options' => array(),
-              ' type' => 0,
-        )); 
-        $repnum = 1;
-   }
-   array_splice( $active_trail, 1, $repnum, $new_items ); // splice in at position 1 (Keeps the node title on?)
-}
-
- */
-/**
- * Created an array of breadcrumbs for a collection or subcollection  (Taken over by shanti_sarvaka theme)
- 
-function mb_structure_breadcrumb_items_collection($coll) {
-    if (is_numeric($coll)) { $coll = node_load($coll); } // convert nid to node
-    // Set up crumbs array with collections as the first item
-    $crumbs = array(array(
-            'title' => t('Collections'),
-            'href' => 'collections/all',
-            'link_path' => '',
-             'localized_options' => array(),
-          ' type' => 0,
-    )); 
-    // Is this a subcollection
-    $subcoll = FALSE;
-    if ($coll->type == "subcollection") {
-        $subcoll = $coll;
-        $coll = mb_structure_get_group($subcoll);
-    }
-    // Make the collection crumb
-    $crumbs[] = array( 
-          'title' => $coll->title,
-          'href' => 'node/' . $coll->nid,
-          'link_path' => '',
-          'localized_options' => array(),
-          'type' => 0,
-    );
-    // Make the subcollection crumb
-   if ($subcoll) {
-       $crumbs[] = array( 
-          'title' => $subcoll->title,
-          'href' => 'node/' . $subcoll->nid,
-          'link_path' => '',
-          'localized_options' => array(),
-          'type' => 0,
-        );
-   }
-   return $crumbs;
-}
-*/
-/**
- * Creates an array of breadcrumbs for an av item (taken over by shanti sarvaka theme)
- 
-function mb_structure_breadcrumb_items_audio_video($node) {
-    $coll_crumb = array();
-   if (!empty($node->og_group_ref)) {
-       $group = mb_structure_get_group($node);
-       $coll_crumb = mb_structure_breadcrumb_items_collection($group);
-   }
-   return $coll_crumb;
-}
-*/
 
 /**
  * Creates a Bootstrap carousel for all collections

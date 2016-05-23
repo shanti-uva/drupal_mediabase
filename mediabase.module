@@ -417,7 +417,10 @@ function mediabase_preprocess_node(&$variables) {
  */
 function mediabase_admin_paths_alter(&$paths) {
 	$paths['node/*/group'] = FALSE;
-	$paths['group/*/*/admin/*'] = FALSE;
+	//$paths['group/*/*/admin/*'] = FALSE;
+    //group/node/3665/admin/permissions
+    $paths['group/node/*/admin/people'] = FALSE;
+    $paths['group/node/*/admin/people/*'] = FALSE;
 }
 
 function convert_lang_name_to_code($lname) {

@@ -497,6 +497,30 @@ function mb_structure_form_video_node_form_alter(&$form, &$form_state, $form_id)
       drupal_add_js(array('mb_structure' => array( 'subcollection_root_kmap_id' => $kmap_id) ), 'setting');
     
    }  **/
+   $form['#validate'][] = 'mb_structure_form_av_node_form_validate';
+}
+
+/**
+ * Add node validation for summary and caption types of descriptions
+ */
+function  mb_structure_form_av_node_form_validate($form, &$form_state) {
+    $lang = $form_state['complete form']['language']['#value'];
+    foreach ($form_state['values']['field_pbcore_description'][$lang] as $delta => $desc) {
+        if ($delta == 'add_more') { continue; }
+        $dstr = $delta + 1;
+        $desc_type = $desc['field_description_type']['und'][0]['value'];
+        $desc_text = $desc['field_description']['und'][0]['value'];
+        $dlen = strlen(strip_tags($desc_text));
+        if ($desc_type == 'Caption') {
+            if ($dlen > 140) {
+                form_set_error('field_pbcore_description', "The caption description (#$dstr) is $dlen characters. It can only be a maximum of 140 characters long!");
+            }
+        } else if ($desc_type == 'Summary') {
+            if ($dlen > 750) {
+                form_set_error('field_pbcore_description', "The summary description (#$dstr) is $dlen characters. It can only be a maximum of 750 characters long!");
+            }
+        } 
+    }
 }
 
 function mb_structure_form_alter(&$form, &$form_state, $form_id) {

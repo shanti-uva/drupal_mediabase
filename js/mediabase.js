@@ -205,6 +205,17 @@
         attach: function(context){
             // Disable submit forms once something is submitted
            $('#video-node-form, #audio-node-form').submit(function()  { $('#edit-submit').prop('disabled',true);});
+           
+           $('.field-name-field-pbcore-description .field-name-field-description-type .selectpicker').change(function() {
+               var dtype = $(this).val(); 
+               var par = $(this).parent('div').parent('div');
+               par.find(".lenlim").remove();
+               if (dtype == 'Caption') {
+                           par.append('<p class="lenlim small">A caption can be a maximum of 140 characters long.</p>');
+                 } else if (dtype == 'Summary') {
+                           par.append('<p class="lenlim small">A caption can be a maximum of 750 characters long.</p>');
+                 }
+            });
         }
      };
 

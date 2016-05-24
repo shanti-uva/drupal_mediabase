@@ -1,6 +1,0 @@
-PBCore Help
-
-How to use Relation Types:
-http://www.pbcore.utah.edu/PBCore/relationType.html
-
-

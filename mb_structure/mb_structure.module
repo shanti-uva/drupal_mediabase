@@ -552,9 +552,11 @@ function mb_structure_form_alter(&$form, &$form_state, $form_id) {
 }
 
 function mb_structure_page_alter($page) {
-    if (strpos($page['content']['system_main']['#action'],'group/node') > -1) {
-        $title = drupal_get_title();
-        drupal_set_title(str_replace("group ", "collection: ", $title));
+    if (!empty($page['content']['system_main']['#action'])) {
+        if (strpos($page['content']['system_main']['#action'],'group/node') > -1) {
+            $title = drupal_get_title();
+            drupal_set_title(str_replace("group ", "collection: ", $title));
+        }
     }
 }
 

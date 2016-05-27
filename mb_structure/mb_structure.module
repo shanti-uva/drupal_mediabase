@@ -504,6 +504,7 @@ function mb_structure_form_video_node_form_alter(&$form, &$form_state, $form_id)
  * Add node validation for summary and caption types of descriptions
  */
 function  mb_structure_form_av_node_form_validate($form, &$form_state) {
+    // Check if captions and summaries are within character limits
     $lang = $form_state['complete form']['language']['#value'];
     foreach ($form_state['values']['field_pbcore_description'][$lang] as $delta => $desc) {
         if ($delta == 'add_more') { continue; }
@@ -802,7 +803,6 @@ function mb_structure_node_presave($node) {
    /* if (empty($node->field_video)) {
         dpm($node, 'node with no video');
     }*/
-   
     if (in_array($node->type, array('audio', 'video')) && empty($node->field_pbcore_title)) {
         $fc_item = entity_create('field_collection_item', array('field_name' => 'field_pbcore_title'));
         $fc_item->setHostEntity('node', $node);

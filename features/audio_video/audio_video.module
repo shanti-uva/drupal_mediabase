@@ -29,8 +29,9 @@ function audio_video_render_kmap_view($kmap_id, $display = 'default') {
 * @TODO Test this
 **/
 function audio_video_node_presave($node) {
-/*    dpm($node, "node");
-   $has_media = !empty($node->field_video) || !empty($node->field_audio);
+    
+ /*dpm($node, "node");
+      $has_media = !empty($node->field_video) || !empty($node->field_audio);
    $has_transcript = !empty($node->field_transcript);
    $entity_id = $node->field_workflow['und'][0]['value'];
    if ( empty($entity_id) ) {

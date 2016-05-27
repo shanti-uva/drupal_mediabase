@@ -84,19 +84,38 @@ function mb_kaltura_menu_alter(&$items) {
 
 
 function mb_kaltura_node_presave($node) {
-   module_load_include('inc', 'mb_kaltura', 'mb_kaltura');
-   $kaltura_node_types = array('video', 'audio');
-	 
-	 if($node->type == 'audio') {
-	 		// For audio files test for thumbnail or assign default
-			_mb_kaltura_add_audio_thumb($node);
-	 }
-   if ( in_array( $node->type , $kaltura_node_types) )  {
-      // _write_to_node_kaltura($node); // No longer needed after upgrade to Kaltura Module version 3.1 (ndg, 2015-10-27)
-      //autopopulate_pbcore_identifier($node);
-      //autopopulate_pbcore_title($node);
-      //autopopulate_pbcore_instantiation($node);
-   }
+    module_load_include('inc', 'mb_kaltura', 'mb_kaltura');
+    $kaltura_node_types = array('video', 'audio');
+    $ntype = $node->type;
+    if ( in_array( $ntype , $kaltura_node_types) )  {
+        
+        // For audio files test for thumbnail or assign default
+        if($ntype == 'audio') {  _mb_kaltura_add_audio_thumb($node);  }
+    
+        // Test it Kaltura item exists, if not remove field_audio or field_video
+        $fn = "field_" . $ntype;
+        $fi = field_get_items('node', $node, $fn);
+        if (!empty($fi[0])) {
+            $kalturaHelpers = new KalturaHelpers();
+            $client=$kalturaHelpers->getKalturaClient($isAdmin=true);
+            $filter = new KalturaMediaEntryFilter();
+            $filter->idEqual = $fi[0]['entryid'];
+            $pager = new KalturaFilterPager();
+            $pager->pageSize = 10;
+            $pager->pageIndex = 1;
+            $res = $client->media->listAction($filter, $pager);
+            if (count($res->objects) == 0 || $res->objects['status'] == 3) {
+                watchdog("mb_kaltura", "Removing kaltura entryid ({$fi[0]['entryid']}) from node ({$node->nid}) because entry does not exist or has been deleted in Kaltura.");
+                $node->field_audio = array();
+            } else {
+                watchdog("mb_kaltura", "Node {$node->nid} has kaltura entry {$fi[0]['entryid']}");
+            }
+        }
+        // _write_to_node_kaltura($node); // No longer needed after upgrade to Kaltura Module version 3.1 (ndg, 2015-10-27)
+        //autopopulate_pbcore_identifier($node);
+        //autopopulate_pbcore_title($node);
+        //autopopulate_pbcore_instantiation($node);
+    }
 }
 
 /**

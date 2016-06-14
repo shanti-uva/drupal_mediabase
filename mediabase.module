@@ -356,6 +356,7 @@ function mediabase_preprocess_node(&$variables) {
 		  $variables['transcript_url'] = $base_path . 'node/' . $node->nid . '/transcript';
 		}
 		// Add $coll object to variables for template
+
 		$variables['parentcoll'] = FALSE;
         $variables['coll'] = FALSE;
 	     if($coll = get_collection_ancestor_node($node)) {
@@ -370,6 +371,7 @@ function mediabase_preprocess_node(&$variables) {
                  $variables['coll'] = $subcoll;
              }
          }
+
 		// Use create date when available for display (See mb_solr.module mb_solr_apachesolr_index_document_build() ln 83)
 		$field_inst = $emw->field_pbcore_instantiation->value();
 		$flang = field_language('node',$node, 'field_pbcore_instantiation');

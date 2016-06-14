@@ -346,11 +346,12 @@ function mediabase_preprocess_node(&$variables) {
 		}
 		// Add $coll object to variables for template
 		$coll = get_collection_ancestor_node($node);
-	  if($coll) { $coll->url = $base_path . drupal_get_path_alias('node/' . $coll->nid); }
+	    if($coll) { $coll->url = $base_path . drupal_get_path_alias('node/' . $coll->nid); }
 		$variables['coll'] = $coll;
 		
 		// Subcollection
 		if($subcoll = get_subcollection_node($node)) {
+		    $subcoll->url = $base_path . drupal_get_path_alias('node/' . $subcoll->nid);
 			$variables['subcollection'] = $subcoll;
 		}
 		

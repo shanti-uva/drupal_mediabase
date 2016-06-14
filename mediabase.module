@@ -365,6 +365,7 @@ function mediabase_preprocess_node(&$variables) {
                 
                 // Subcollection
              if($subcoll = get_subcollection_node($node)) {
+                  $subcoll->url = $base_path . drupal_get_path_alias('node/' . $subcoll->nid);
                  $variables['parentcoll'] = $coll;
                  $variables['coll'] = $subcoll;
              }

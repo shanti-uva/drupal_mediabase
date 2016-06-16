@@ -1066,7 +1066,7 @@ function mb_structure_already_started_validate(&$form_state, $form) {
    $nid = $group->etid;*/
    $path_format = 'node/add/%s';
    $path = $fobj['clicked_button']['#id'] == 'edit-submit-video' ? sprintf($path_format, 'video') : sprintf($path_format, 'audio');
-   drupal_goto($path, array('query' => array('gids_node[]' => $gid)));
+   drupal_goto($path, array('query' => array('field_og_collection_ref' => $gid)));
 }
 
 /**

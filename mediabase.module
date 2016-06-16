@@ -360,13 +360,13 @@ function mediabase_preprocess_node(&$variables) {
 		$variables['parentcoll'] = FALSE;
         $variables['coll'] = FALSE;
 	     if($coll = get_collection_ancestor_node($node)) {
-	         $coll->url = $base_path . drupal_get_path_alias('node/' . $coll->nid);
+	         #$coll->url = $base_path . drupal_get_path_alias('node/' . $coll->nid); # Done above in get_collection function in mb_structure
              $variables['parentcoll'] = FALSE;
              $variables['coll'] = $coll;
                 
                 // Subcollection
              if($subcoll = get_subcollection_node($node)) {
-                  $subcoll->url = $base_path . drupal_get_path_alias('node/' . $subcoll->nid);
+                  #$subcoll->url = $base_path . drupal_get_path_alias('node/' . $subcoll->nid); # Done above in get_subcollection function in mb_strucutrue
                  $variables['parentcoll'] = $coll;
                  $variables['coll'] = $subcoll;
              }

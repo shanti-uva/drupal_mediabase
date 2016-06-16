@@ -921,6 +921,7 @@ function mb_structure_update_node_kaltura_data($node) {
 }
 
 function get_collection_ancestor_node($node) {
+    global $base_path;
    if(is_integer($node)) {
      $node = node_load($node);
      if(!$node) { return null; }
@@ -933,12 +934,14 @@ function get_collection_ancestor_node($node) {
           } else if ( $gnode->type == 'subcollection' ){  //  recurse to get to the collection of a subcollection node
               $collection_node = get_collection_ancestor_node($gnode); 
           }
+          $collection_node->url = $base_path . drupal_get_path_alias('node/' . $collection_node->nid);
       }
    }
    return $collection_node;
 }
 
 function get_subcollection_node($node) {
+   global $base_path;
    if(is_integer($node)) {
      $node = node_load($node);
      if(!$node) { return null; }
@@ -950,6 +953,7 @@ function get_subcollection_node($node) {
     	         if ($group_node = node_load($gid)) {
                   if ( $group_node->type == 'subcollection' ) {
                      $subcoll_node = $group_node;
+                    $subcoll_node->url = $base_path . drupal_get_path_alias('node/' . $subcoll_node->nid);
                   }
               }
           }

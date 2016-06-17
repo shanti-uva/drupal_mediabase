@@ -213,7 +213,7 @@
                if (dtype == 'Caption') {
                            par.append('<p class="lenlim small">A caption can be a maximum of 140 characters long.</p>');
                  } else if (dtype == 'Summary') {
-                           par.append('<p class="lenlim small">A caption can be a maximum of 750 characters long.</p>');
+                           par.append('<p class="lenlim small">A summary can be a maximum of 750 characters long.</p>');
                  }
             });
         }

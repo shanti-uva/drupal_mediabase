@@ -511,7 +511,7 @@ function  mb_structure_form_av_node_form_validate($form, &$form_state) {
         $dstr = $delta + 1;
         $desc_type = $desc['field_description_type']['und'][0]['value'];
         $desc_text = $desc['field_description']['und'][0]['value'];
-        $dlen = strlen(strip_tags($desc_text));
+        $dlen = mb_strlen(strip_tags($desc_text), 'utf8');
         if ($desc_type == 'Caption') {
             if ($dlen > 140) {
                 form_set_error('field_pbcore_description', "The caption description (#$dstr) is $dlen characters. It can only be a maximum of 140 characters long!");

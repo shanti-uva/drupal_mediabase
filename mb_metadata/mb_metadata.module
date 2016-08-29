@@ -107,8 +107,8 @@ function mb_metadata_node_view($node) {
 * Add a mediabase id (i.e. nid) display to every audio/video node view. 
 **/
 function add_mediabase_id($node) {
-	$markup = '<div class="mb-identifier field field-label-span"><div class="field-label field-label-span">' . t('Shanti AV Id') . ": </div> ";
-	$markup .= '<div class="field-items field-label-span"><div class="field-item field-label-span even"> ' . $node->nid . '</div></div></div>';
+	$markup = '<div class="mb-identifier field field-label-inline clearfix"><div class="field-label">' . t('Shanti AV Id') . ": </div> ";
+	$markup .= '<div class="field-items"><div class="field-item even"> ' . $node->nid . '</div></div></div>';
   $node->content['mb_identifier'] = array(
       '#markup' => $markup,
       '#weight' => 0,

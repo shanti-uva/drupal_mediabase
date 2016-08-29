@@ -193,9 +193,10 @@ function mb_solr_apachesolr_search_page_alter(&$build, $search_page) {
 	//$build['search_results']['#theme'] = 'mediabase_thumbnail';
   // add js for js tree on all pages so sub collection hierarchy can appear on non-search pages.
   $jsscripts = drupal_add_js(NULL, NULL, NULL);
-  if (!array_key_exists('sites/all/modules/mediabase/mb_solr/js/mb_solr.js', $jsscripts)) { 
-    drupal_add_js('sites/all/modules/mediabase/mb_solr/js/mb_solr.js', array('cache' => FALSE));
-    //drupal_add_js('sites/all/modules/mediabase/mb_solr/js/jquery.jstree.js', array('cache' => FALSE));
+  $mbhome = drupal_get_path('module', 'mediabase');
+  if (!array_key_exists($mbhome . '/mb_solr/js/mb_solr.js', $jsscripts)) { 
+    drupal_add_js($mbhome . '/mb_solr/js/mb_solr.js', array('cache' => FALSE));
+    //drupal_add_js($mbhome . '/mb_solr/js/jquery.jstree.js', array('cache' => FALSE));
   } 
   // Remove title from homepage
   if($search_page['page_id'] == 'homepage') {

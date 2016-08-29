@@ -505,7 +505,7 @@ function mb_structure_form_video_node_form_alter(&$form, &$form_state, $form_id)
  */
 function  mb_structure_form_av_node_form_validate($form, &$form_state) {
     // Check if captions and summaries are within character limits
-    $lang = $form_state['complete form']['language']['#value'];
+    $lang = key($form_state['values']['field_pbcore_description']);
     foreach ($form_state['values']['field_pbcore_description'][$lang] as $delta => $desc) {
         if ($delta === "add_more") { continue; }
         $dstr = $delta + 1;

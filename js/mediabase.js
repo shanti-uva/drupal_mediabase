@@ -18,15 +18,23 @@
 		   
 		   // On image error in thumbnail div, use the default blank thumbnail image
 		   function replaceBrokenImages() {
-		     jQuery('.kaltura-thumb img').error(function() {
-		       var mysrc = jQuery(this).attr('src');
-		       var url = window.location.protocol + "//" + window.location.host;
-		       url += Drupal.settings.basePath + Drupal.settings.mediabase.path;
-		       url += '/images/generic-video-thumb.jpg';
-		       if(url != mysrc) { 
-		         jQuery(this).attr('src', url);
-		       }
+		      jQuery('.kaltura-thumb img, .shanti-thumbnail.video .shanti-thumbnail-image img').error(function() {
+        		       var mysrc = jQuery(this).attr('src');
+        		       var url = window.location.protocol + "//" + window.location.host;
+        		       url += Drupal.settings.basePath + Drupal.settings.mediabase.path;
+        		       url += '/images/generic-video-thumb.jpg';
+        		       if(url != mysrc) { 
+        		          jQuery(this).attr('src', url);
+        		       }
 		     });
+		     jQuery('.shanti-thumbnail.audio .shanti-thumbnail-image img').error(function() {               var mysrc = jQuery(this).attr('src');
+                var url = window.location.protocol + "//" + window.location.host;
+                url += Drupal.settings.basePath + Drupal.settings.mediabase.path;
+                url += '/images/generic-audio-thumb.jpg';
+                if(url != mysrc) { 
+                    jQuery(this).attr('src', url);
+                }
+              });
 		   }
 		}
 	};

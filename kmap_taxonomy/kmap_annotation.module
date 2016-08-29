@@ -1,0 +1,244 @@
+<?php
+
+
+/**
+* Check the form_state for the textarea field named kmap_annotation_json and add those items to the node
+**/
+function kmap_annotation_widget_validate($element, &$form_state, $form) {
+}
+
+function kmap_annotation_submit(&$form, &$form_state) {
+   if ( isset($form_state['input']['kmap_annotation_json']) ) {
+      $node = $form_state['node'];
+      $node->kmap_annotations = json_decode($form_state['input']['kmap_annotation_json']);
+      // TO DO: Cannot insert annotations on new nodes from here. 
+      // Need to figure out way to add annotations to new nodes or not provide the option.
+      if(isset($node->nid)) { 
+        delete_kmap_annotations($node);
+        insert_kmap_annotations($node);
+      }
+   }
+}
+
+function insert_kmap_annotations(&$node) {
+   if(!$node->kmap_annotations || !is_array($node->kmap_annotations)) { return; }
+   module_load_include('inc', 'kmap_taxonomy', 'includes/kmap');
+   foreach ($node->kmap_annotations as $field_name => $items) {
+     if(isset($items)) {
+      foreach ($items as $kmap_id => $item) {
+         $k = new Kmap($kmap_id);
+         $tid = $k->get_term()->tid;
+         $fc_values = array();
+         $fc_values['field_name'] = 'field_kmap_annotation'; // HACK: hardcoded field names are bad
+         $fc_values['is_new'] = 1;
+         $fc_values['field_tid'][$node->language][]['value'] = $tid;                                                                             
+         $fc_values['kmap_id'][$node->language][]['value'] = $kmap_id;                                                                             
+         $fc_values['field_annot_text_label'][$node->language][]['value'] = isset($item->textLabel) ? $item->textLabel : '';
+         $fc_values['field_annot_numeric_label'][$node->language][]['value'] = isset($item->numLabel) ? $item->numLabel : '';
+         $fc_values['field_annot_note'][$node->language][]['value'] = isset($item->note) ? $item->note : '';
+         $fc_values['field_annot_format'][$node->language][]['value'] = isset($item->selectedFormat) ? $item->selectedFormat :  Kmap::KMAP_LINEAGE_FULL;
+         $fc = new FieldCollectionItemEntity($fc_values);
+         $fc->setHostEntity('node', $node);
+         if (empty($node->path['alias'])) {
+            $node->path['alias'] = ''; // this is needed to stop: "Undefined index: alias in path_node_update()" notices. 
+         }
+         $fc->save();
+      }
+     }
+   }
+}
+
+/**
+* Each time we save a node, we delete and rewrite its kmap annotations,
+* just like drupal does with with taxonomy terms
+**/
+function delete_kmap_annotations(&$node) {
+   if ( !isset($node->field_kmap_annotation[LANGUAGE_NONE])) {
+      return;
+   }
+   // First look for existing annotation field collection entities
+   foreach ($node->field_kmap_annotation[LANGUAGE_NONE] as $entity_id) {
+      $fc = new FieldCollectionItemEntity(array($entity_id['value']));
+      $fc->delete();
+   } 
+   unset( $node->field_kmap_annotation[LANGUAGE_NONE]);
+}
+
+/**
+*  When loading the kmap widget, we need to add annotations to items 
+*  that will be sent to the slector widget via Drupal.settings js object
+*  properties are named and structured as expected by the js widget.
+**/
+function get_node_annotations_by_kmap_id($kmap_id, $node) {
+   if ( !isset($node->field_kmap_annotation[LANGUAGE_NONE])) {
+      return;
+   }
+   foreach ($node->field_kmap_annotation[LANGUAGE_NONE] as $annot_item) {
+      $entity_id = $annot_item['value'];
+      $entities = entity_load('field_collection_item', array($entity_id));
+      $entity=$entities[$entity_id];
+      if ($entity->kmap_id[LANGUAGE_NONE][0]['value'] == $kmap_id) {
+         return array(
+            'textLabel' => $entity->field_annot_text_label[LANGUAGE_NONE][0]['value'],
+            'numLabel' => $entity->field_annot_numeric_label[LANGUAGE_NONE][0]['value'],
+            'note' => $entity->field_annot_note[LANGUAGE_NONE][0]['value'],
+            'selectedFormat' => $entity->field_annot_format[LANGUAGE_NONE][0]['value'],
+            );                                                                                          
+      }
+   }
+}
+
+/* DISPLAY FORMATTERS */
+
+/**
+* Implements hook_field_formatter_info().
+*/
+function kmap_annotation_field_formatter_info() {
+   return array(
+      'kmap_taxonomy_annotated' => array(
+         'label' => 'Kmap Taxonomy Annotated',
+         'field types' => array('taxonomy_term_reference'),
+         ),
+      );
+}
+
+/**
+* Implements hook_field_formatter_view().
+* @todo un-hardcode entity_id as nid;
+* @todo get $entity->field_kmap_annotation field name from a field setting
+*/
+function kmap_annotation_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+	 global $base_theme_info, $theme;
+   module_load_include('inc', 'kmap_taxonomy', 'includes/kmap');
+   $elements = array();
+   switch ($display['type']) {
+   	case 'kmap_taxonomy_annotated':
+	 
+      foreach ($items as $delta => $item) {
+         $tid = $item['tid'];
+         // find our item tid among annotation field_collection items  in the node(aka, $entity)
+         if ( isset($entity->field_kmap_annotation[LANGUAGE_NONE]) ) {
+            $annot_items = $entity->field_kmap_annotation[LANGUAGE_NONE];
+            foreach ($annot_items as $annot_item) {
+               $entity_id = $annot_item['value'];
+               $entities = entity_load('field_collection_item', array($entity_id));
+               $annot_entity=$entities[$entity_id];
+               if ( $tid == $annot_entity->field_tid[LANGUAGE_NONE][0]['value'] ) {
+                  $kmap_id = $annot_entity->kmap_id[LANGUAGE_NONE][0]['value'];
+                  $format = $annot_entity->field_annot_format[LANGUAGE_NONE][0]['value'];
+                  $kmap = new Kmap($kmap_id);
+               }
+            }
+         }
+         else {
+            $format = Kmap::KMAP_LINEAGE_FULL;
+            $kmap = Kmap::createKmapByTid($item['tid']);
+            $annot_entity = new stdClass();
+            $annot_entity->field_annot_text_label =array();
+            $annot_entity->field_annot_numeric_label =array();
+            $annot_entity->field_annot_note =array();
+         }
+         $view_path = isset($instance['widget']['settings']['kmap_selector_settings']) ? $instance['widget']['settings']['kmap_selector_settings']['view_path'] : $instance['widget']['settings']['view_path'];
+         if (!empty($kmap)) {
+         		$kmap->field_name = $field['field_name'];
+				 		$elements[$delta] = array(
+               '#markup' => _kmap_subject_popover($kmap),
+            );
+						/*
+				 		} else {
+            	$elements[$delta] = array(
+               '#markup' => theme('kmap_annotation_formatter_'. $display['type'], array(
+                  'element' => $item, 
+                  'entity' => $annot_entity, 
+                  'field' => $instance,
+                  'raw_lineage' => $kmap->get_kmap_lineage(),
+                  'formatted_lineage' => $kmap->render_kmap_lineage($format, FALSE, $view_path),
+                  'rendered_formatted_lineage' => $kmap->render_kmap_lineage($format, TRUE, $view_path),   
+                  )
+                  ),
+               );
+						}*/
+         }
+      }
+      break;
+   }
+   return $elements;
+}
+
+
+/**
+* Implements hook_theme().
+*/
+function kmap_annotation_theme() {
+   return array(
+      'kmap_annotation_formatter_kmap_taxonomy_annotated' => array(
+         'variables' => array('element' => NULL),
+         ),
+      );
+}
+
+/**
+* Theme function for 'kmap_taxonomy_annotated' link field formatter.
+*/
+function theme_kmap_annotation_formatter_kmap_taxonomy_annotated($element) {
+   $output = $element['rendered_formatted_lineage'];
+   $labels = array();
+   $annot = $element['entity'];
+   if ( isset($annot->field_annot_text_label[LANGUAGE_NONE]) && ! empty($annot->field_annot_text_label[LANGUAGE_NONE][0]['safe_value'])) {
+      $labels[] = $annot->field_annot_text_label[LANGUAGE_NONE][0]['safe_value'];
+   }
+   if ( isset($annot->field_annot_numeric_label[LANGUAGE_NONE] ) && ! empty($annot->field_annot_numeric_label[LANGUAGE_NONE][0]['safe_value'])) {
+      $labels[] = $annot->field_annot_numeric_label[LANGUAGE_NONE][0]['safe_value'];
+   }
+   if ( sizeof($labels) ) {
+      $output .= " <span class='kmap-labels'>(" . implode(",",$labels) . ")</span>";
+   }
+   if ( isset($annot->field_annot_note[LANGUAGE_NONE] ) && ! empty($annot->field_annot_note[LANGUAGE_NONE][0]['safe_value'])) {
+      $output .= "<br/><span class='kmap-note'>". t('Note') .": " . $annot->field_annot_note[LANGUAGE_NONE][0]['safe_value'] . '</span>';
+   }
+   return $output;
+}
+
+function _kmap_subject_popover($kmap) {
+	$kid = $kmap->get_kmap_id();
+	$urlstr = variable_get('kmap_server', 'http://subjects.kmaps.virginia.edu') . '/features/%d.json';
+	$uri = sprintf($urlstr, $kid);
+  $json = file_get_contents($uri);
+  $data = json_decode($json);
+	$name = $data->feature->header;
+	$desc = (!empty($data->feature->summaries)) ? $data->feature->summaries[0]->content : '';
+	if(empty($desc) && !empty($data->feature->captions)) { $desc = $data->feature->captions[0]->content; }
+	if(empty($desc)) { $desc = t('<p>Currently no description available.</p>'); }
+	$ancestors = $kmap->get_kmap_lineage();
+	$subject_url = variable_get('kmaps_site_subjects', 'http://badger.drupal-dev.shanti.virginia.edu/subjects');
+	$path_format = variable_get('kmaps_site_path_format', '/%d/overview/nojs');
+	$parents = array();
+	foreach($ancestors as $n => $subject) {
+		$parents[] = l($subject['name'], $subject_url . sprintf($path_format, $subject['kmap_id']), 
+										array('attributes' => array('target' => '_blank')));
+	}
+	$list_type = 'subjects';
+	if(isset($kmap->field_name) && $kmap->field_name == 'field_subcollection') { $list_type = 'subcollections'; }
+	$links = array(
+		'Full Entry' => array('icon' => 'link-external', 'href' => $subject_url . sprintf($path_format, $kid), 'external' => TRUE),
+		'Related Audio-Video' => array('icon' => 'audio-video', 'href' =>  sprintf("list/{$list_type}/%d", $kid)), // old url: http://aardvark.drupal-dev.shanti.virginia.edu/subjects#id={$kid}&que=tab-audio-video
+		//'Related Images' => array('icon' => 'photos', 'href' => variable_get('kmap_server', 'http://subjects.kmaps.virginia.edu') . '/features/' . $kid),
+	);
+	// Uses custom theme function "info_popover" defined in shanti_sarvaka theme
+	// Once finalized that theme function needs to be duplicated in MB .module file to allow it to work with other themes.
+	// In a way not dependent on Bootstrap
+	$label = ($list_type == 'subcollections') ? t('Subcollections'):t('Subjects');
+	$output = "<div class=\"popover\"><div class=\"name\">$name</div><div class=\"description\">$desc</div></div>";
+	if(function_exists('shanti_sarvaka_info_popover')) {
+	 	$output = theme('info_popover', array(
+			 									'label' => $name, 
+			 									'desc' => $desc, 
+			 									'tree' => array(
+			 											'label' => $label, 
+			 											'items' => $parents,
+												 ), 
+												 'links' => $links)
+										);
+	 }
+	 return $output;
+}

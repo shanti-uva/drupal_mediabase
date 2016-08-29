@@ -1,0 +1,111 @@
+.kmap-selector {
+   padding: 5px;
+   margin: 5px 0;
+   background-color: #f0f0f0;
+   -webkit-border-top-left-radius: 6px;
+   -webkit-border-top-right-radius: 6px;
+   -moz-border-radius-topleft: 6px;
+   -moz-border-radius-topright: 6px;
+   border-top-left-radius: 6px;
+   border-top-right-radius: 6px;
+}
+.kmap-selector>div {
+   margin: 5px;
+}
+.kmap-selector-item {
+   line-height: 19px;
+   white-space: nowrap;
+   padding: 2px 3px 2px 2px;
+   color: #404040;
+   background-color: #fdfdfd;
+   border: 1px #b1b1b1 solid;
+   margin-right: 3px;
+   padding-right: 6px;
+   font-size: 80%;
+   display:block;
+   float: left;
+   margin-bottom: 3px;
+}
+
+.kmap-selector-item img {
+   position: relative;
+   top: 4px;
+}
+
+.ui-state-hover {
+   background-color:#F9F9F9;
+}
+
+.tree-selector {
+   overflow: auto;
+   display:none;
+}
+.ui-dialog { /* keep the tree selector in one spot */
+   position: fixed;
+}
+
+.branch-filter{
+   float: left;
+}
+.browse-link a {
+   font-size: 80%;
+   line-height: 175%;
+}
+.autocomplete-input {
+   clear: left;
+}
+.kmap-selector label:after {
+   content: ': ';
+}
+
+/* Annotations */
+.annot-results {
+   display:none;
+}
+.hide-annot
+{
+   display:none;
+}
+.show-annot, .hide-annot {
+   font-size: 80%;
+   line-height: 175%;
+}
+.kmap-annot-block {
+   padding: 10px;
+   margin: 0 auto;
+   border: solid 1px silver;
+   border-bottom: none;
+}
+.kmap-annot-block label,
+.kmap-annot-block select,
+.kmap-annot-block input {
+   display:inline-block;
+   margin-right: 10px;
+}
+.kmap-annot-block input {
+   margin-bottom: 4px;
+   width: 16em;
+}
+.kmap-annot-block .note-label
+{
+   clear: left;
+}
+.kmap-annot-block:nth-child(odd) {
+   background-color: white;
+}            
+.kmap-annot-block:last-child {
+   border-bottom: solid 1px silver;
+}
+.kmap-annot-block p {
+   margin: 8px auto;
+}
+.kmap-annot-block .clear {
+   clear: left;
+   margin-bottom: 10px;
+}
+#kmap_annotation_json {
+   display:none;
+   position: absolute;
+   left:-10000px;
+}
+

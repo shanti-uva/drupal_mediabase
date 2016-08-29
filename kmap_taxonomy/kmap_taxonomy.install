@@ -1,0 +1,102 @@
+<?php 
+
+/**
+* Create a Kmaps Vocab and attach two fields to it
+**/
+function kmap_taxonomy_install() {
+   if (! taxonomy_vocabulary_machine_name_load('kmap_taxonomy')) {
+      $vocab = new stdClass();
+      $vocab->machine_name = 'kmap_taxonomy';
+      $vocab->module = 'kmap_taxonomy';
+      $vocab->name = t('Knowledge Map Taxonomy');
+      $vocab->description = t('A taxonomy vocabulary for knowledge maps.');
+      taxonomy_vocabulary_save($vocab);
+      $km_vocab = taxonomy_vocabulary_machine_name_load('kmap_taxonomy');
+      variable_set('kmap_taxonomy_vid', $km_vocab->vid);
+      drupal_set_message('Created new Kmap Taxonomy Vocabulary with id of: ' . $km_vocab->vid);
+   }
+   
+   // Create a field for kmap id'
+   $field_name = 'kmap_id';
+   $field = field_info_field($field_name);
+   if (empty($field)) {
+      $field = array(
+         'field_name' => $field_name,
+         'type' => 'number_integer',
+         'cardinality' => FIELD_CARDINALITY_UNLIMITED,
+         'settings' => array(
+            'allowed_values' => array(
+               0 => array(
+                  'vocabulary' => 'kmap_taxonomy',
+                  'parent' => 0, // FIXME & TODO
+                  ),
+               ),
+            ),
+         );
+      field_create_field($field);
+   }
+   
+   // Attach the field to user entity
+   $instance = array(
+      'field_name' => $field['field_name'],
+      'entity_type' => 'taxonomy_term',
+      'bundle' => 'kmap_taxonomy', //the vocab machine name
+      'label' => t('Kmap Id'),
+      'required' => TRUE,
+      'widget' => array(
+         'type' => 'textfield',
+         ),
+      'settings' => array(
+        // 'user_register_form' => TRUE,
+         ),
+      'display' => array(
+         'default' => array(
+           // 'type' => 'taxonomy_term_reference_plain',
+            ),
+         ),
+      );
+   field_create_instance($instance);
+   
+   
+   
+   // Create a field for kmap parent id'
+   $field_name = 'kmap_parent_id';
+   $field = field_info_field($field_name);
+   if (empty($field)) {
+      $field = array(
+         'field_name' => $field_name,
+         'type' => 'number_integer',
+         'cardinality' => FIELD_CARDINALITY_UNLIMITED,
+         'settings' => array(
+            'allowed_values' => array(
+               0 => array(
+                  'vocabulary' => 'kmap_taxonomy',
+                  'parent' => 0, // FIXME & TODO
+                  ),
+               ),
+            ),
+         );
+      field_create_field($field);
+   }
+   
+   // Attach the field to user entity
+   $instance = array(
+      'field_name' => $field['field_name'],
+      'entity_type' => 'taxonomy_term',
+      'bundle' => 'kmap_taxonomy', //the vocab machine name
+      'label' => t('Kmap Parent Id'),
+      'required' => TRUE,
+      'widget' => array(
+         'type' => 'textfield',
+         ),
+      'settings' => array(
+        // 'user_register_form' => TRUE,
+         ),
+      'display' => array(
+         'default' => array(
+           // 'type' => 'taxonomy_term_reference_plain',
+            ),
+         ),
+      );
+   field_create_instance($instance);
+}
